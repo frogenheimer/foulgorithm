@@ -1,8 +1,13 @@
 # Site
 
-Next.js front end. Not scaffolded yet, this is milestone M5.
+Next.js front end. Static, no backend: Python writes JSON into `public/data/`
+and the pages read it at build time.
 
-See [docs/08-site.md](../docs/08-site.md) for scope and interaction design.
+Pages: this round's predictions, the five characters and one page each,
+26 seasons of history, and methodology.
+
+See [docs/08-site.md](../docs/08-site.md) for scope and interaction design, and
+[docs/ui-styleguide.md](../docs/ui-styleguide.md) before any UI change.
 
 ## Deploying
 

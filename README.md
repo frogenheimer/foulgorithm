@@ -6,7 +6,11 @@ The model publishes calibrated probability distributions and fair odds for every
 
 ## Status
 
-**Pre-alpha.** Foundations only. No data pipeline, no model, no site yet. See [docs/11-roadmap.md](docs/11-roadmap.md) for what happens next and in what order.
+**Pre-alpha, but live.** Match-total predictions are running against 9,880 matches
+of history, five character algorithms are frozen and competing, and the site is
+deployed. Player markets are next: the data is downloaded but not yet modelled.
+
+See [docs/11-roadmap.md](docs/11-roadmap.md) for what happens next and in what order.
 
 ## What this is
 
