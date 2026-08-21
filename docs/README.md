@@ -20,6 +20,7 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [11-roadmap.md](11-roadmap.md) | Build order and milestones |
 | [12-risks-and-open-questions.md](12-risks-and-open-questions.md) | What could sink this, and what we have not decided yet |
 | [13-legal-and-ethics.md](13-legal-and-ethics.md) | Licensing, terms of service, gambling regulation, responsible gambling |
+| [15-next-phase.md](15-next-phase.md) | **The plan to turn this from machinery into a product** |
 | [14-extending.md](14-extending.md) | How to add a market, source, model or league without touching shared logic |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
 | [ideas.md](ideas.md) | Ideas not committed to. Nothing here is being built |
