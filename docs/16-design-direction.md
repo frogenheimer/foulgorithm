@@ -120,12 +120,73 @@ Target new client-side JavaScript: **0 to 20kb**.
 
 Adapted from the UK Government Analysis Function guidance on communicating uncertainty, which specifies exactly this layering:
 
-- **Level 0, the answer.** One sentence, reference class explicit, complement stated. Nothing else.
-- **Level 1, the shape.** A 20-dot quantile dotplot, a whole-number percentage, a pinned band word. Three encodings of one fact, which is the redundancy the trust research rewards.
-- **Level 2, the field.** The ranked table, collapsed beyond the top few.
-- **Level 3, the machinery.** Method, sample size, run date, calibration. In a `<details>`, always present, never in the way.
+**Two levels, not four.** An earlier draft of this doc proposed four. Nielsen is
+explicit that "designs that go beyond 2 disclosure levels typically have low
+usability because users often get lost when moving between the levels", so the
+four collapse into two:
 
-**The current site is Level 2 only.** That is the whole problem, stated precisely.
+- **Level 1, visible.** The answer sentence, a 20-dot quantile dotplot, a
+  whole-number percentage and a pinned band word, then the ranked table. Three
+  encodings of one fact, which is the redundancy the trust research rewards.
+- **Level 2, on demand.** Method, sample size, run date, calibration, full line
+  grid. In a `<details>`, always present, never in the way.
+
+**Never a full-screen hero with one sentence and nothing else.** NN/g found six
+of eight users did not realise they could scroll on such a page. Always leave the
+top edge of the next block visible, so the page cannot manufacture a false floor.
+
+**The current site is Level 2 content shown as Level 1.** That is the problem,
+stated precisely.
+
+### Frequencies beat probabilities, and it is not close
+
+Westwood, Messing and Lelkes (*Journal of Politics*, 2020) found probabilistic
+forecasts **increase certainty and confuse people**, and that win probabilities
+convey substantially more confidence than an equivalent rate-based statement of
+the same model output.
+
+Applied: "65% chance of a foul" is read as near-certainty by a meaningful share
+of readers. "In 13 of his last 20 matches" is not. Lead with the frequency.
+
+Budescu et al (*Nature Climate Change*, 2014, 25 samples across 24 countries)
+found pairing a word with a number lifted correct interpretation from 27% to
+40%. Note what that means: **even with both, most readers still misplace the
+range.** A band word alone is not close to sufficient.
+
+**Never use "1 in X".** Galesic and Garcia-Retamero asked which is the biggest
+risk out of 1 in 100, 1 in 1,000 and 1 in 10. Only about three quarters of
+respondents got it right. A quarter of the public cannot order those fractions.
+
+### Two corrections to earlier decisions
+
+**`<details>` is findable now.** The old "collapsed content is invisible to
+Ctrl+F and bad for SEO" objection is out of date for the native element: all
+three engines find and reveal it as of early 2026, and Google's mobile-first
+guidance now actively recommends moving content into accordions rather than
+removing it. A hand-rolled `display: none` accordion is still invisible, which
+makes it a self-inflicted wound rather than a platform limit.
+
+**Instrument Serif has no tabular figures at all.** Neither does Fraunces. Fine
+for headlines, disqualifying for anything numeric. Use **Newsreader**, which is
+tabular by default, or keep the serif strictly to headlines.
+
+**Inter is the right numeral font** because its tabular and slashed-zero variants
+compose. Note that Geist implements slashed zero as `ss09` rather than `zero`, so
+the standard CSS silently does nothing there, and IBM Plex is *always* tabular
+with no proportional option, which makes prose read gappy.
+
+Use `font-variant-numeric`, not `font-feature-settings`: the former inherits and
+composes, the latter replaces the whole feature set on every declaration.
+
+### Accordion affordances, from the one study with numbers
+
+136 participants, first-click tasks: **a caret beats no icon and beats a nonsense
+icon**, both significant. A plus sign or a right-facing arrow is no better than
+nothing. 29% of taps land on the label even when a caret is present, so **label
+and icon must share one hit area**, never a split button.
+
+Labels must front-load meaning. "How we worked this out" and "His last 10
+matches", never "Details", "More info" or "Advanced".
 
 ## Do these before touching any CSS
 
