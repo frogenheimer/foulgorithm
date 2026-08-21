@@ -63,7 +63,7 @@ Every response gets written to `data/raw/{source}/{yyyy-mm-dd}/{hash}.{ext}` bef
 Maps source-specific team and player identifiers onto canonical ids. Nothing downstream ever joins on a name. Covered in [04-identity-resolution.md](04-identity-resolution.md).
 
 ### `store/`
-Thin repository layer over Postgres. Upserts on natural keys so every job is idempotent and safe to re-run. Chooses the dev or prod database from an environment variable, and refuses to write to prod unless explicitly told to.
+Thin repository layer over Postgres. Upserts on natural keys so every job is idempotent and safe to re-run.
 
 ### `features/`
 Turns stored facts into model-ready rows. Every function takes an `as_of` timestamp and may only use facts whose `known_at` is at or before it. This is the single most important rule in the codebase.
@@ -103,12 +103,13 @@ The matchday job runs as one long-lived process per match window rather than man
 
 ## Environments
 
-Two Supabase projects, selected by `FOULGORITHM_ENV`:
+**One Supabase project.** See [ADR-010](decisions/ADR-010-single-database.md).
 
-- `dev` for all local work. Wipeable, reseedable, never trusted.
-- `prod` for what the public site reads. Only GitHub Actions writes to it.
+Day-to-day model work does not touch it, because experiments read frozen parquet snapshots from disk. The database holds ingested facts, which are rebuildable from the raw response cache, and published predictions, which are not.
 
-Local development never touches prod. The store layer raises an error if it detects a write to prod outside a CI context unless `ALLOW_PROD_WRITE=1` is set explicitly.
+`predictions` is therefore append-only at the database level, enforced by a trigger rather than by row level security so it binds the service role too, and mirrored to a git-committed JSONL log so the track record survives independently of the database.
+
+Splitting into separate dev and prod projects gets revisited at M5, when a public site gives the isolation something to protect.
 
 ## Why not a single Python web app
 

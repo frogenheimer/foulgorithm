@@ -27,6 +27,6 @@ Every workflow sets a `timeout-minutes` so a hung job cannot drain the budget.
 ## Rules
 
 - Secrets come from GitHub Actions secrets. Never inline, never echoed to logs.
-- Production writes happen only from here. Workflows set `ALLOW_PROD_WRITE=1`, which local runs do not have. See [ADR-008](../../docs/decisions/ADR-008-two-supabase-projects.md).
+- Scheduled writes to the database happen from here. There is one database, and `predictions` is append-only at the database level, so a re-run cannot damage the track record. See [ADR-010](../../docs/decisions/ADR-010-single-database.md).
 - Jobs are idempotent. Re-running one is always safe.
 - A failing scheduled job alerts via Telegram. A silent failure is the thing we are most trying to avoid.

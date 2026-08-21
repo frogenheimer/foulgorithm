@@ -1,7 +1,9 @@
 # ADR-008 — Two Supabase projects for dev and prod
 
-**Status**: Accepted
+**Status**: Superseded by [ADR-010](ADR-010-single-database.md)
 **Date**: 2026-08-21
+
+> This decision was reversed the same day. Two projects meant applying every migration by hand twice, for isolation that protects nothing until a public site exists at M5. Re-examining what needed protecting showed the risk was one table, not one database. See [ADR-010](ADR-010-single-database.md).
 
 ## Decision
 

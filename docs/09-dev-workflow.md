@@ -37,14 +37,16 @@ Hot reload locally. Zero Vercel builds while iterating. Vercel only builds on pu
 
 ## Environments
 
-| | dev | prod |
-|---|---|---|
-| Supabase project | `foulgorithm-dev` | `foulgorithm-prod` |
-| Written by | You, locally | GitHub Actions only |
-| Read by | `next dev` | The live site |
-| Data | Wipeable, reseedable | Trusted |
+**One database.** See [ADR-010](decisions/ADR-010-single-database.md). Migrations get applied once, there is one set of keys, and one free-tier project slot stays spare.
 
-`FOULGORITHM_ENV` selects the project. The store layer refuses to write to prod unless it detects a CI context or `ALLOW_PROD_WRITE=1` is set explicitly, so an absent-minded local run cannot corrupt the live site.
+Isolation is not needed yet because there is no public site until M5, and almost everything in the database is derived and rebuildable from the raw response cache. The one genuinely irreplaceable table is `predictions`, and that is protected directly:
+
+- A trigger raises on `UPDATE` and `DELETE`, which binds the service role too, since triggers are not row level security.
+- Every published prediction is also written to a git-committed JSONL log, so the track record survives independently of the database.
+
+Local experiments read frozen parquet snapshots rather than the database, so day-to-day model work does not touch it at all.
+
+Splitting into dev and prod gets revisited at M5. It is a two-minute project creation plus one replay of the migration history, and nothing in the current design makes it harder.
 
 ## Cost budget
 
@@ -53,7 +55,7 @@ Every line here is a free tier, with allowances verified on 21 August 2026. If a
 | Service | Free allowance | Expected use | Headroom |
 |---|---|---|---|
 | GitHub Actions, **private** repo | **2,000 min/month** | Roughly 200 to 300 min/month | Comfortable. Note a **public** repo gets unlimited minutes |
-| Supabase | **2 active projects**, 500 MB database, 5 GB egress | Tens of MB | Storage fine. The project limit is exactly our dev and prod, with nothing spare |
+| Supabase | **2 active projects**, 500 MB database, 5 GB egress | Tens of MB, **1 project** | Comfortable, with a spare slot kept free |
 | Vercel Hobby | 100 GB transfer, 45 min per build, 100 deploys/day | Low, mostly static | Comfortable. **No monthly build-minute quota exists** |
 | API-Football | **100 requests/day, 10/min** | Roughly 25/week live | Fine live, tight for backfill |
 | The Odds API | 500 credits/month | Occasional snapshots | Barely used, see [ADR-009](decisions/ADR-009-fair-odds-only.md) |
@@ -66,8 +68,8 @@ If 2,000 minutes ever binds, **making the repository public is the cheapest leve
 
 **Supabase constraints, both sharper than assumed**
 
-- The **2-project limit applies across every organisation** where you are an owner or administrator. It is not per organisation, so it cannot be multiplied by making more orgs. Dev and prod use both slots exactly. Paused projects do not count.
-- Free projects **pause after 1 week of inactivity**. The daily ingestion job keeps prod warm during the season. An off-season gap will pause it, so plan for a keep-alive or accept a manual restore each August. Dev pausing is harmless because experiments run against local snapshots.
+- The **2-project limit applies across every organisation** where you are an owner or administrator. It is not per organisation, so it cannot be multiplied by making more orgs. Using one project keeps a slot spare. Paused projects do not count.
+- Free projects **pause after 1 week of inactivity**. The daily ingestion job keeps the database warm during the season. An off-season gap will pause it, so plan for a keep-alive or accept a manual restore each August.
 
 **API-Football budget**
 

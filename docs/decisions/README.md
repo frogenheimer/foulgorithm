@@ -36,5 +36,6 @@ What this makes easy, what it makes hard, what we accept.
 | [005](ADR-005-distributions-not-estimates.md) | Models return distributions, not point estimates | Accepted |
 | [006](ADR-006-free-until-proven.md) | Free access until the track record justifies charging | Accepted |
 | [007](ADR-007-identity-halts-pipeline.md) | Unresolved identities halt ingestion | Accepted |
-| [008](ADR-008-two-supabase-projects.md) | Two Supabase projects for dev and prod | Accepted |
+| [008](ADR-008-two-supabase-projects.md) | Two Supabase projects for dev and prod | **Superseded by 010** |
 | [009](ADR-009-fair-odds-only.md) | Publish fair odds only, capture market prices manually | Accepted |
+| [010](ADR-010-single-database.md) | One database, with predictions made append-only | Accepted |
