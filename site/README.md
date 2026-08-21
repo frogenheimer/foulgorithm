@@ -4,6 +4,24 @@ Next.js front end. Not scaffolded yet, this is milestone M5.
 
 See [docs/08-site.md](../docs/08-site.md) for scope and interaction design.
 
+## Deploying
+
+**Vercel Root Directory must be set to `site`.**
+
+This repository is a Python package at the root with the Next.js app in a
+subdirectory. Vercel auto-detects from the root, finds `pyproject.toml`, decides
+this is a Python project and fails with:
+
+```
+Error: No python entrypoint found. Set "tool.vercel.entrypoint" in pyproject.toml
+```
+
+That error means Root Directory is unset, not that anything is wrong with the
+site. Set it under Settings, General, Root Directory, then redeploy.
+
+Everything the site needs lives inside `site/`, including the JSON in
+`site/public/data/`, so nothing outside the root directory is required.
+
 ## Portability rule
 
 This app runs on Vercel Hobby today and must be able to move to Cloudflare Pages without a rewrite, because Vercel Hobby forbids commercial use and this project intends to charge eventually. See [ADR-004](../docs/decisions/ADR-004-hosting-portability.md).

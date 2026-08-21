@@ -52,6 +52,12 @@ make backtest       # walk-forward evaluation against local snapshot
 make site           # next dev against the dev Supabase project
 ```
 
+## Deploying
+
+The site deploys to Vercel from `main`. **Root Directory must be set to `site`**,
+otherwise Vercel detects the Python package at the repo root and fails. See
+[site/README.md](site/README.md).
+
 ## Documentation
 
 Start at [docs/README.md](docs/README.md). The docs are the source of truth for design decisions, not this file and not chat history.
