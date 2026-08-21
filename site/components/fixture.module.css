@@ -1,0 +1,114 @@
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  /* Grid and flex children default to min-width:auto, so they refuse to shrink
+     below their content. The table inside is wider than a phone, which pushes
+     the whole page sideways. This is the fix. */
+  min-width: 0;
+}
+
+@media (max-width: 520px) {
+  .card {
+    padding: var(--space-4);
+  }
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.teams {
+  font-size: var(--text-lg);
+  font-weight: 620;
+  letter-spacing: -0.012em;
+  line-height: 1.25;
+}
+
+.v {
+  color: var(--text-muted);
+  font-weight: 400;
+  padding: 0 var(--space-1);
+}
+
+.meta {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+.expected {
+  text-align: right;
+}
+
+.expectedLabel {
+  display: block;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.expectedValue {
+  font-size: var(--text-xl);
+  font-weight: 640;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.warnRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3);
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+}
+
+.warnText {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.tableWrap {
+  overflow-x: auto;
+  margin-top: var(--space-4);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.table th {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.num {
+  text-align: right;
+}

@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./charts.module.css";
+
 import { useState } from "react";
 
 type Bin = { fouls: number; matches: number; share: number };
@@ -32,8 +34,8 @@ export default function DistributionChart({ bins }: { bins: Bin[] }) {
       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Distribution of total fouls per match">
         {ticks.map((t) => (
           <g key={t}>
-            <line className="gridline" x1={M.left} x2={W - M.right} y1={y(t)} y2={y(t)} />
-            <text className="tick" x={M.left - 8} y={y(t) + 4} textAnchor="end">
+            <line className={styles.grid} x1={M.left} x2={W - M.right} y1={y(t)} y2={y(t)} />
+            <text className={styles.tick} x={M.left - 8} y={y(t) + 4} textAnchor="end">
               {(t * 100).toFixed(0)}%
             </text>
           </g>
@@ -57,11 +59,11 @@ export default function DistributionChart({ bins }: { bins: Bin[] }) {
           );
         })}
 
-        <line className="axisline" x1={M.left} x2={W - M.right} y1={M.top + ih} y2={M.top + ih} />
+        <line className={styles.axis} x1={M.left} x2={W - M.right} y1={M.top + ih} y2={M.top + ih} />
 
         {bins.map((b, i) =>
           b.fouls % 5 === 0 ? (
-            <text key={b.fouls} className="tick" x={M.left + i * bw + bw / 2} y={H - 12} textAnchor="middle">
+            <text key={b.fouls} className={styles.tick} x={M.left + i * bw + bw / 2} y={H - 12} textAnchor="middle">
               {b.fouls}
             </text>
           ) : null
@@ -69,7 +71,7 @@ export default function DistributionChart({ bins }: { bins: Bin[] }) {
 
         {(() => {
           const mx = M.left + (mean - bins[0].fouls) * bw + bw / 2;
-          return <line className="axisline" x1={mx} x2={mx} y1={M.top} y2={M.top + ih} strokeDasharray="3 3" />;
+          return <line className={styles.axis} x1={mx} x2={mx} y1={M.top} y2={M.top + ih} strokeDasharray="3 3" />;
         })()}
       </svg>
 

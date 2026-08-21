@@ -16,9 +16,18 @@ class TestMarketSpecs:
         assert keys == {
             "match_total_fouls",
             "player_fouls_committed",
+            "player_fouls_drawn",
             "player_tackles",
             "player_cards",
         }
+
+    def test_committed_and_drawn_are_separate_markets(self):
+        # The 2025 version summed them into "foul involvements", which no
+        # bookmaker prices and which mixes two different player types.
+        committed = markets.get("player_fouls_committed")
+        drawn = markets.get("player_fouls_drawn")
+        assert committed.stat_column != drawn.stat_column
+        assert committed.key != drawn.key
 
     def test_match_market_is_a_count_on_the_match(self):
         spec = markets.get("match_total_fouls")

@@ -1,0 +1,122 @@
+.card,
+.cardFlush {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.card {
+  padding: var(--space-5);
+}
+
+.cardFlush {
+  overflow: hidden;
+}
+
+.cardHead {
+  margin-bottom: var(--space-4);
+}
+
+.cardTitle {
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.cardSub {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+.sectionHead {
+  margin-bottom: var(--space-4);
+}
+
+.sectionTitle {
+  font-size: var(--text-lg);
+  font-weight: 620;
+  letter-spacing: -0.012em;
+}
+
+.sectionBody {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+  max-width: 70ch;
+}
+
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-3);
+}
+
+.tile {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+}
+
+.tileLabel {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.tileValue {
+  font-size: var(--text-hero);
+  font-weight: 640;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-top: var(--space-1);
+}
+
+.neutral {
+  color: var(--text-primary);
+}
+.series1 {
+  color: var(--series-1);
+}
+.series2 {
+  color: var(--series-2);
+}
+
+.tileNote {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px var(--space-2);
+  white-space: nowrap;
+}
+
+.badgeWarn {
+  color: var(--series-2);
+  border-color: var(--series-2);
+}
+
+.note {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+}
+
+.callout {
+  border-left: 3px solid var(--series-1);
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+  color: var(--text-secondary);
+  font-size: 14px;
+  max-width: 74ch;
+}

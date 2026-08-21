@@ -1,7 +1,9 @@
 "use client";
 
+import styles from "./charts.module.css";
+
 import { useState } from "react";
-import type { SeasonRow } from "../lib/data";
+import type { SeasonRow } from "@/lib/data";
 
 /**
  * Fouls and cards indexed to 100 at the first season.
@@ -44,31 +46,31 @@ export default function TrendChart({ seasons }: { seasons: SeasonRow[] }) {
 
   return (
     <div>
-      <div className="legend">
+      <div className={styles.legend}>
         <span>
-          <i className="swatch" style={{ background: "var(--series-1)" }} /> Fouls per match
+          <i className={styles.swatch} style={{ background: "var(--series-1)" }} /> Fouls per match
         </span>
         <span>
-          <i className="swatch" style={{ background: "var(--series-2)" }} /> Cards per match
+          <i className={styles.swatch} style={{ background: "var(--series-2)" }} /> Cards per match
         </span>
       </div>
 
       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Fouls and cards per match by season, indexed to 100 at 2000-01">
         {ticks.map((t) => (
           <g key={t}>
-            <line className="gridline" x1={M.left} x2={W - M.right} y1={y(t)} y2={y(t)} />
-            <text className="tick" x={M.left - 8} y={y(t) + 4} textAnchor="end">
+            <line className={styles.grid} x1={M.left} x2={W - M.right} y1={y(t)} y2={y(t)} />
+            <text className={styles.tick} x={M.left - 8} y={y(t) + 4} textAnchor="end">
               {t}
             </text>
           </g>
         ))}
 
         {/* The index baseline: everything is relative to this */}
-        <line className="axisline" x1={M.left} x2={W - M.right} y1={y(100)} y2={y(100)} strokeDasharray="3 3" />
+        <line className={styles.axis} x1={M.left} x2={W - M.right} y1={y(100)} y2={y(100)} strokeDasharray="3 3" />
 
         {pts.map((p, i) =>
           i % 5 === 0 || i === pts.length - 1 ? (
-            <text key={p.season} className="tick" x={x(p.i)} y={H - 12} textAnchor="middle">
+            <text key={p.season} className={styles.tick} x={x(p.i)} y={H - 12} textAnchor="middle">
               {p.season.slice(2)}
             </text>
           ) : null
@@ -79,7 +81,7 @@ export default function TrendChart({ seasons }: { seasons: SeasonRow[] }) {
 
         {active && (
           <>
-            <line className="axisline" x1={x(active.i)} x2={x(active.i)} y1={M.top} y2={M.top + ih} />
+            <line className={styles.axis} x1={x(active.i)} x2={x(active.i)} y1={M.top} y2={M.top + ih} />
             {(["fouls", "cards"] as const).map((k) => (
               <circle
                 key={k}

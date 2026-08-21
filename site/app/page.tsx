@@ -1,177 +1,91 @@
-import DistributionChart from "./components/DistributionChart";
-import DotPlot from "./components/DotPlot";
-import TrendChart from "./components/TrendChart";
-import { getOverview } from "./lib/data";
+import FixtureCard from "@/components/FixtureCard";
+import { Callout, SectionHead, StatTile, TileGrid } from "@/components/ui";
+import { getRound } from "@/lib/data";
+import { count, fouls, kickoffDay, shortDate } from "@/lib/format";
+import styles from "./round.module.css";
 
-export default function Home() {
-  const d = getOverview();
-  const h = d.headline;
-  const cardsThen = d.seasons[0].cardsPerMatch;
-  const cardsNow = d.seasons[d.seasons.length - 1].cardsPerMatch;
-  const cardsChange = ((cardsNow - cardsThen) / cardsThen) * 100;
-  const leagueMean = d.referees.reduce((a, r) => a + r.foulsPerMatch * r.matches, 0) /
-    d.referees.reduce((a, r) => a + r.matches, 0);
+export default function ThisRound() {
+  const round = getRound();
+  const fixtures = round.fixtures;
+
+  const byDay = fixtures.reduce<Record<string, typeof fixtures>>((acc, f) => {
+    const day = kickoffDay(f.kickoff);
+    (acc[day] ||= []).push(f);
+    return acc;
+  }, {});
+
+  const mean = fixtures.reduce((a, f) => a + f.expectedFouls, 0) / fixtures.length;
+  const busiest = [...fixtures].sort((a, b) => b.expectedFouls - a.expectedFouls)[0];
+  const quietest = [...fixtures].sort((a, b) => a.expectedFouls - b.expectedFouls)[0];
+  const thin = fixtures.filter((f) => f.thinEvidence.length).length;
 
   return (
-    <div className="wrap">
-      <header className="masthead">
-        <div className="brand">
-          <h1>Foulgorithm</h1>
-          <span className="pill">Pre-alpha</span>
-        </div>
-        <p className="lede">
-          Statistical models for Premier League fouls, cards and tackles. No model is running yet.
-          What follows is the historical picture the model will be built on, drawn from{" "}
-          {d.coverage.matches.toLocaleString()} matches across {d.coverage.seasons} seasons.
-        </p>
-      </header>
-
-      <section>
-        <div className="tiles">
-          <div className="tile">
-            <div className="label">Fouls per match now</div>
-            <div className="value">{h.foulsPerMatchNow}</div>
-            <div className="note">
-              <span className="delta-down">{h.changePct}%</span> since {d.coverage.firstSeason}
-            </div>
-          </div>
-          <div className="tile">
-            <div className="label">Cards per match now</div>
-            <div className="value">{cardsNow}</div>
-            <div className="note">
-              <span className="delta-up">+{cardsChange.toFixed(1)}%</span> since {d.coverage.firstSeason}
-            </div>
-          </div>
-          <div className="tile">
-            <div className="label">Matches analysed</div>
-            <div className="value">{d.coverage.matches.toLocaleString()}</div>
-            <div className="note">
-              {d.coverage.firstSeason} to {d.coverage.lastSeason}
-            </div>
-          </div>
-          <div className="tile">
-            <div className="label">Away yellow card penalty</div>
-            <div className="value">
-              +{(((d.homeAway.awayYellows - d.homeAway.homeYellows) / d.homeAway.homeYellows) * 100).toFixed(0)}%
-            </div>
-            <div className="note">
-              {d.homeAway.awayYellows} away vs {d.homeAway.homeYellows} home
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div className="section-head">
-          <h2>Fouls are falling. Cards are not.</h2>
-          <p>
-            Both measures indexed to 100 in {d.coverage.firstSeason}, because fouls run at around 22 a
-            match and cards at around 4. Putting them on one axis without indexing would flatten cards
-            into a line along the floor, and giving them separate axes would let the scales be chosen to
-            tell any story we liked.
-          </p>
-        </div>
-        <div className="card">
-          <TrendChart seasons={d.seasons} />
-        </div>
-        <p className="note-box" style={{ marginTop: 16 }}>
-          Referees are calling {Math.abs(h.changePct)}% fewer fouls than in {d.coverage.firstSeason},
-          while booking players {cardsChange.toFixed(0)}% more often. A foul in 2026 is more likely to be
-          punished than a foul in 2000. That gap matters: a model trained on old seasons as though they
-          were equal evidence would be wrong about both markets, which is why the model applies
-          exponential time decay.
+    <div className="stack">
+      <section className={styles.intro}>
+        <h1 className={styles.h1}>This round</h1>
+        <p className={styles.lede}>
+          Predicted total fouls for the next {fixtures.length} Premier League fixtures, from a model
+          trained on {count(round.trainedOn.matches)} matches between {round.trainedOn.firstSeason}{" "}
+          and {round.trainedOn.lastSeason}. Prices shown are <strong>fair odds</strong> derived from
+          our own probabilities, with no margin. They are not bookmaker prices.
         </p>
       </section>
 
       <section>
-        <div className="section-head">
-          <h2>What a match actually looks like</h2>
-          <p>
-            Total fouls per match across all {d.coverage.matches.toLocaleString()} matches. Discrete,
-            right-skewed and bounded at zero, which is why the model fits count distributions rather
-            than a normal curve.
-          </p>
-        </div>
-        <div className="card">
-          <DistributionChart bins={d.distribution} />
-        </div>
-      </section>
-
-      <section>
-        <div className="section-head">
-          <h2>Referees, {d.recentWindow}</h2>
-          <p>
-            Raw fouls per match, minimum 20 appearances. Treat this as an observation, not as a rating:
-            these numbers are confounded by which teams each referee was assigned. Separating the
-            referee from the fixture needs a model that estimates both at once, which is exactly what
-            the 2025 version got wrong by dividing one average by another.
-          </p>
-        </div>
-        <div className="card">
-          <div className="chart-title">Fouls per match by referee</div>
-          <div className="chart-sub">
-            All {d.referees.length} referees with 20 or more appearances, against the league mean
-          </div>
-          <DotPlot
-            unit="fouls per match"
-            reference={leagueMean}
-            referenceLabel="league mean"
-            rows={d.referees.map((r) => ({
-              label: r.referee,
-              value: r.foulsPerMatch,
-              sub: `${r.matches} matches · ${r.cardsPerMatch} yellows per match · ${
-                r.vsLeague >= 1 ? "+" : ""
-              }${((r.vsLeague - 1) * 100).toFixed(1)}% vs league mean`,
-            }))}
+        <TileGrid>
+          <StatTile label="Fixtures" value={String(fixtures.length)} note={`Generated ${shortDate(round.generatedAt)}`} />
+          <StatTile label="Average expected fouls" value={fouls(mean)} note="Across the round" />
+          <StatTile
+            label="Busiest"
+            value={fouls(busiest.expectedFouls)}
+            note={`${busiest.home} v ${busiest.away}`}
           />
-        </div>
+          <StatTile
+            label="Quietest"
+            value={fouls(quietest.expectedFouls)}
+            note={`${quietest.home} v ${quietest.away}`}
+          />
+        </TileGrid>
       </section>
 
       <section>
-        <div className="section-head">
-          <h2>Teams, {d.recentWindow}</h2>
-          <p>Fouls committed and fouls drawn per match, minimum 20 matches in the window.</p>
-        </div>
-        <div className="card scroll-x">
-          <table>
-            <thead>
-              <tr>
-                <th>Team</th>
-                <th className="num">Matches</th>
-                <th className="num">Fouls committed</th>
-                <th className="num">Fouls drawn</th>
-                <th className="num">Net</th>
-              </tr>
-            </thead>
-            <tbody>
-              {d.teams.map((t) => (
-                <tr key={t.team}>
-                  <td>{t.team}</td>
-                  <td className="num">{t.matches}</td>
-                  <td className="num">{t.committedPerMatch.toFixed(2)}</td>
-                  <td className="num">{t.drawnPerMatch.toFixed(2)}</td>
-                  <td className="num">
-                    {(t.committedPerMatch - t.drawnPerMatch > 0 ? "+" : "") +
-                      (t.committedPerMatch - t.drawnPerMatch).toFixed(2)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Callout>
+          The model predicts <strong>match totals only</strong>. Player markets, meaning fouls
+          committed and fouls drawn per player, need player-level match data that our only viable
+          free source cannot currently supply. Those markets are defined and waiting, not forgotten.
+          {thin > 0 && (
+            <>
+              {" "}
+              {thin} of {fixtures.length} fixtures this round carry a thin-evidence flag and are
+              marked as such.
+            </>
+          )}
+        </Callout>
       </section>
 
-      <footer>
-        <p>
-          Data from football-data.co.uk, generated {d.generatedAt.slice(0, 10)}. No model predictions are
-          published yet. When they are, every one will be published before kickoff and graded afterwards,
-          including the wrong ones.
-        </p>
-        <p>
-          For entertainment and research. Not betting advice, and no outcome is guaranteed. 18+. Support
-          is available from the National Gambling Helpline on 0808 8020 133.
-        </p>
-      </footer>
+      {Object.entries(byDay).map(([day, dayFixtures]) => (
+        <section key={day}>
+          <SectionHead title={day} />
+          <div className={styles.grid}>
+            {dayFixtures.map((f) => (
+              <FixtureCard key={`${f.home}-${f.away}`} fixture={f} />
+            ))}
+          </div>
+        </section>
+      ))}
+
+      <section>
+        <SectionHead title="What these numbers are worth">
+          Over 6,080 walk-forward predictions this model beats a league-average baseline by 4.64% on
+          log loss, with mean absolute error of 3.93 fouls against the baseline&apos;s 4.14. That is a
+          real but modest edge, which is what match totals should look like: they are the most
+          efficiently priced market we touch. Read the{" "}
+          <a href="/methodology" className={styles.link}>
+            methodology
+          </a>{" "}
+          before treating any of this as useful.
+        </SectionHead>
+      </section>
     </div>
   );
 }

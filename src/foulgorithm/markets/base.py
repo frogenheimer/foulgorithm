@@ -78,6 +78,26 @@ PLAYER_FOULS_COMMITTED = register(
     )
 )
 
+PLAYER_FOULS_DRAWN = register(
+    MarketSpec(
+        key="player_fouls_drawn",
+        label="Player fouls drawn",
+        entity="player",
+        family="count",
+        stat_column="fouls_drawn",
+        lines=(0.5, 1.5, 2.5, 3.5),
+        settlement_note=(
+            "Fouls committed AGAINST the player, often listed as 'fouled' or "
+            "'fouls won'. A separate market from fouls committed and driven by "
+            "different traits: dribblers and forwards draw fouls, defenders and "
+            "holding midfielders commit them. Never combine the two into a "
+            "'foul involvements' figure, which the 2025 version did. No "
+            "bookmaker prices that, so it cannot be bet."
+        ),
+        min_minutes=15,
+    )
+)
+
 PLAYER_TACKLES = register(
     MarketSpec(
         key="player_tackles",

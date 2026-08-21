@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./charts.module.css";
+
 import { useState } from "react";
 
 export type Row = { label: string; value: number; sub: string };
@@ -47,8 +49,8 @@ export default function DotPlot({
       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Ranked by ${unit} against the ${referenceLabel}`}>
         {ticks.map((t) => (
           <g key={t}>
-            <line className="gridline" x1={x(t)} x2={x(t)} y1={14} y2={rows.length * rowH + 18} />
-            <text className="tick" x={x(t)} y={H - 8} textAnchor="middle">
+            <line className={styles.grid} x1={x(t)} x2={x(t)} y1={14} y2={rows.length * rowH + 18} />
+            <text className={styles.tick} x={x(t)} y={H - 8} textAnchor="middle">
               {t}
             </text>
           </g>
@@ -113,7 +115,7 @@ export default function DotPlot({
               <text
                 x={W - valueW + 4}
                 y={cy + 4}
-                className="tick"
+                className={styles.tick}
                 style={{ fontSize: 12, fill: on ? "var(--text-primary)" : "var(--text-secondary)" }}
               >
                 {r.value.toFixed(2)}

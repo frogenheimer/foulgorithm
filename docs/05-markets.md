@@ -27,6 +27,14 @@ The original market and the best understood. Counts are low (most players commit
 
 Settlement note: bookmakers settle on the official data provider's "fouls committed" figure. Handballs, offsides and advantage situations are treated inconsistently across providers. **This needs verifying against a specific provider before any value claim is made.** Tracked as an open question in [12-risks-and-open-questions.md](12-risks-and-open-questions.md).
 
+### `player_fouls_drawn` (count)
+
+Fouls committed **against** the player, listed by providers as "fouled" or "fouls won". A genuinely separate market from fouls committed, and driven by different traits: dribblers and forwards draw fouls, while defenders and holding midfielders commit them. A player can rank highly in one and near the bottom of the other.
+
+**Never combine the two.** The 2025 version summed them into "foul involvements" and ranked players on it. No bookmaker prices that, so the ranking could not be bet even when it was right.
+
+Settlement note: providers differ on whether a foul that leads to an advantage being played counts, and on penalties won. Verify against the settling provider.
+
 ### `player_tackles` (count)
 
 Shares almost every feature with fouls and is closely related mechanically: tackles attempted is the strongest single predictor of fouls committed. Modelling both jointly is likely to help each.

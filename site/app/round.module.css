@@ -1,0 +1,40 @@
+.intro {
+  padding-top: var(--space-9);
+}
+
+.h1 {
+  font-size: var(--text-hero);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.lede {
+  color: var(--text-secondary);
+  max-width: 66ch;
+  margin-top: var(--space-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: var(--space-4);
+  /* Cards size to their content. Stretching them to a shared height leaves a
+     block of dead space under the shorter one, which reads as a rendering bug. */
+  align-items: start;
+}
+
+.grid > * {
+  min-width: 0;
+}
+
+@media (max-width: 520px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.link {
+  color: var(--series-1);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
