@@ -114,6 +114,62 @@ Motion clarifies change. It does not decorate.
 
 All of it respects `prefers-reduced-motion`.
 
+## What we actually give people
+
+A fair price alone is weak. It tells a user their odds are 1.75 and leaves them
+to find the market, compare, work out whether the difference is enough, and
+decide. We have done none of the deciding, which is the part that is hard.
+
+Five things turn this from a reference into a product.
+
+### 1. A price floor, not a fair price
+
+Instead of "fair odds 1.75", publish **"back at 1.90 or better"**.
+
+This matters more than it looks. **Fair odds are break-even**: betting at exactly
+1.75 on a 57% shot returns nothing in expectation and loses to variance in
+practice. A floor bakes in a required edge, so the user does not have to compute
+anything and cannot accidentally take a price that only looks generous.
+
+Proposed margin: 10% above fair. A 57% pick has fair odds 1.75 and a published
+floor of 1.93. The margin is a single configurable number, published openly, and
+justified by our own calibration error rather than picked to look good.
+
+**This is the most actionable thing we can publish without holding odds data.**
+
+### 2. A definite call
+
+Rank the picks and name the shortlist. The five characters each give an
+opinionated set, and a house call sits alongside them. "Here are today's five"
+is a product. "Here are 200 probabilities" is a spreadsheet.
+
+### 3. An odds checker
+
+The user pastes the price they can actually see. We tell them immediately
+whether it clears the floor and by how much. Entirely client-side, no data
+needed, no cost, and it closes the loop we otherwise leave open.
+
+### 4. The full board, per fixture
+
+Every player on both teams, ranked, with their chance of 0 fouls, 1 or more,
+2 or more and 3 or more, each with a fair price and a floor. Collapsed by
+default, one per team, expandable.
+
+Dense on purpose, and a different kind of dense from the current problem: a
+reference table has structure and the reader opens it deliberately. The current
+round page has no structure and opens itself.
+
+**Note on the columns.** Bookmakers price cumulative lines, "1+ fouls", not exact
+counts, so the cumulative columns are the bettable ones. P(exactly 0) is worth
+showing alongside because it is the clearest read on a player who may not be
+involved at all.
+
+### 5. The negative call
+
+"Do not back this at anything under 2.40" is genuinely useful and almost nobody
+publishes it. It also demonstrates that the model is willing to say no, which is
+worth more for trust than another selection.
+
 ## Phase 4: character picks
 
 Once players exist, the Equal Risk Slip becomes buildable: five picks per character per matchday, each slip constrained to a combined probability band so every character faces equal difficulty and the comparison is fair. Personality shows in composition, not in cherry-picking easy bets.
