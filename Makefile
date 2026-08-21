@@ -39,8 +39,11 @@ predict: ## Generate and publish predictions for upcoming fixtures
 review: ## Grade settled predictions and write the weekly review
 	$(PY) -m foulgorithm.cli review
 
-site: ## Run the Next.js dev server against the dev database
+site: ## Run the Next.js dev server
 	cd site && npm run dev
 
 clean: ## Remove caches and build artifacts. Leaves data/raw alone.
 	rm -rf .pytest_cache .ruff_cache **/__pycache__ site/.next
+
+site-data: ## Regenerate the JSON the site reads
+	$(PY) -m foulgorithm.publish.site_export

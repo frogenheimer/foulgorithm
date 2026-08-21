@@ -1,0 +1,726 @@
+{
+  "generatedAt": "2026-08-21T20:23:14+00:00",
+  "coverage": {
+    "seasons": 26,
+    "matches": 9880,
+    "firstSeason": "2000-01",
+    "lastSeason": "2025-26"
+  },
+  "headline": {
+    "foulsPerMatchNow": 21.64,
+    "foulsPerMatchThen": 26.92,
+    "changePct": -19.6,
+    "meanAllTime": 23.0,
+    "spanYears": 26
+  },
+  "seasons": [
+    {
+      "season": "2000-01",
+      "matches": 380,
+      "foulsPerMatch": 26.92,
+      "cardsPerMatch": 3.31,
+      "stdev": 7.1
+    },
+    {
+      "season": "2001-02",
+      "matches": 380,
+      "foulsPerMatch": 26.61,
+      "cardsPerMatch": 3.26,
+      "stdev": 7.56
+    },
+    {
+      "season": "2002-03",
+      "matches": 380,
+      "foulsPerMatch": 25.44,
+      "cardsPerMatch": 3.2,
+      "stdev": 5.6
+    },
+    {
+      "season": "2003-04",
+      "matches": 380,
+      "foulsPerMatch": 25.77,
+      "cardsPerMatch": 3.0,
+      "stdev": 6.04
+    },
+    {
+      "season": "2004-05",
+      "matches": 380,
+      "foulsPerMatch": 26.09,
+      "cardsPerMatch": 2.87,
+      "stdev": 5.96
+    },
+    {
+      "season": "2005-06",
+      "matches": 380,
+      "foulsPerMatch": 26.31,
+      "cardsPerMatch": 3.29,
+      "stdev": 6.09
+    },
+    {
+      "season": "2006-07",
+      "matches": 380,
+      "foulsPerMatch": 25.05,
+      "cardsPerMatch": 3.36,
+      "stdev": 5.93
+    },
+    {
+      "season": "2007-08",
+      "matches": 380,
+      "foulsPerMatch": 24.38,
+      "cardsPerMatch": 3.36,
+      "stdev": 6.02
+    },
+    {
+      "season": "2008-09",
+      "matches": 380,
+      "foulsPerMatch": 23.22,
+      "cardsPerMatch": 3.32,
+      "stdev": 5.76
+    },
+    {
+      "season": "2009-10",
+      "matches": 380,
+      "foulsPerMatch": 24.19,
+      "cardsPerMatch": 3.43,
+      "stdev": 5.6
+    },
+    {
+      "season": "2010-11",
+      "matches": 380,
+      "foulsPerMatch": 22.42,
+      "cardsPerMatch": 3.42,
+      "stdev": 5.34
+    },
+    {
+      "season": "2011-12",
+      "matches": 380,
+      "foulsPerMatch": 20.36,
+      "cardsPerMatch": 3.27,
+      "stdev": 4.85
+    },
+    {
+      "season": "2012-13",
+      "matches": 380,
+      "foulsPerMatch": 20.93,
+      "cardsPerMatch": 3.26,
+      "stdev": 4.76
+    },
+    {
+      "season": "2013-14",
+      "matches": 380,
+      "foulsPerMatch": 21.53,
+      "cardsPerMatch": 3.33,
+      "stdev": 5.0
+    },
+    {
+      "season": "2014-15",
+      "matches": 380,
+      "foulsPerMatch": 22.69,
+      "cardsPerMatch": 3.78,
+      "stdev": 4.88
+    },
+    {
+      "season": "2015-16",
+      "matches": 380,
+      "foulsPerMatch": 21.52,
+      "cardsPerMatch": 3.26,
+      "stdev": 4.92
+    },
+    {
+      "season": "2016-17",
+      "matches": 380,
+      "foulsPerMatch": 22.72,
+      "cardsPerMatch": 3.74,
+      "stdev": 5.17
+    },
+    {
+      "season": "2017-18",
+      "matches": 380,
+      "foulsPerMatch": 20.7,
+      "cardsPerMatch": 3.15,
+      "stdev": 4.84
+    },
+    {
+      "season": "2018-19",
+      "matches": 380,
+      "foulsPerMatch": 20.46,
+      "cardsPerMatch": 3.33,
+      "stdev": 5.04
+    },
+    {
+      "season": "2019-20",
+      "matches": 380,
+      "foulsPerMatch": 21.47,
+      "cardsPerMatch": 3.47,
+      "stdev": 5.56
+    },
+    {
+      "season": "2020-21",
+      "matches": 380,
+      "foulsPerMatch": 21.77,
+      "cardsPerMatch": 2.99,
+      "stdev": 5.11
+    },
+    {
+      "season": "2021-22",
+      "matches": 380,
+      "foulsPerMatch": 20.21,
+      "cardsPerMatch": 3.51,
+      "stdev": 5.42
+    },
+    {
+      "season": "2022-23",
+      "matches": 380,
+      "foulsPerMatch": 21.53,
+      "cardsPerMatch": 3.66,
+      "stdev": 5.21
+    },
+    {
+      "season": "2023-24",
+      "matches": 380,
+      "foulsPerMatch": 22.09,
+      "cardsPerMatch": 4.32,
+      "stdev": 5.06
+    },
+    {
+      "season": "2024-25",
+      "matches": 380,
+      "foulsPerMatch": 22.07,
+      "cardsPerMatch": 4.19,
+      "stdev": 5.26
+    },
+    {
+      "season": "2025-26",
+      "matches": 380,
+      "foulsPerMatch": 21.64,
+      "cardsPerMatch": 3.85,
+      "stdev": 5.0
+    }
+  ],
+  "distribution": [
+    {
+      "fouls": 4,
+      "matches": 1,
+      "share": 0.0001
+    },
+    {
+      "fouls": 5,
+      "matches": 2,
+      "share": 0.0002
+    },
+    {
+      "fouls": 6,
+      "matches": 4,
+      "share": 0.0004
+    },
+    {
+      "fouls": 7,
+      "matches": 4,
+      "share": 0.0004
+    },
+    {
+      "fouls": 8,
+      "matches": 13,
+      "share": 0.00132
+    },
+    {
+      "fouls": 9,
+      "matches": 20,
+      "share": 0.00202
+    },
+    {
+      "fouls": 10,
+      "matches": 41,
+      "share": 0.00415
+    },
+    {
+      "fouls": 11,
+      "matches": 68,
+      "share": 0.00688
+    },
+    {
+      "fouls": 12,
+      "matches": 100,
+      "share": 0.01012
+    },
+    {
+      "fouls": 13,
+      "matches": 149,
+      "share": 0.01508
+    },
+    {
+      "fouls": 14,
+      "matches": 197,
+      "share": 0.01994
+    },
+    {
+      "fouls": 15,
+      "matches": 285,
+      "share": 0.02885
+    },
+    {
+      "fouls": 16,
+      "matches": 346,
+      "share": 0.03502
+    },
+    {
+      "fouls": 17,
+      "matches": 475,
+      "share": 0.04808
+    },
+    {
+      "fouls": 18,
+      "matches": 546,
+      "share": 0.05526
+    },
+    {
+      "fouls": 19,
+      "matches": 627,
+      "share": 0.06346
+    },
+    {
+      "fouls": 20,
+      "matches": 641,
+      "share": 0.06488
+    },
+    {
+      "fouls": 21,
+      "matches": 674,
+      "share": 0.06822
+    },
+    {
+      "fouls": 22,
+      "matches": 664,
+      "share": 0.06721
+    },
+    {
+      "fouls": 23,
+      "matches": 652,
+      "share": 0.06599
+    },
+    {
+      "fouls": 24,
+      "matches": 643,
+      "share": 0.06508
+    },
+    {
+      "fouls": 25,
+      "matches": 603,
+      "share": 0.06103
+    },
+    {
+      "fouls": 26,
+      "matches": 556,
+      "share": 0.05628
+    },
+    {
+      "fouls": 27,
+      "matches": 462,
+      "share": 0.04676
+    },
+    {
+      "fouls": 28,
+      "matches": 413,
+      "share": 0.0418
+    },
+    {
+      "fouls": 29,
+      "matches": 367,
+      "share": 0.03715
+    },
+    {
+      "fouls": 30,
+      "matches": 280,
+      "share": 0.02834
+    },
+    {
+      "fouls": 31,
+      "matches": 251,
+      "share": 0.0254
+    },
+    {
+      "fouls": 32,
+      "matches": 181,
+      "share": 0.01832
+    },
+    {
+      "fouls": 33,
+      "matches": 144,
+      "share": 0.01457
+    },
+    {
+      "fouls": 34,
+      "matches": 118,
+      "share": 0.01194
+    },
+    {
+      "fouls": 35,
+      "matches": 87,
+      "share": 0.00881
+    },
+    {
+      "fouls": 36,
+      "matches": 75,
+      "share": 0.00759
+    },
+    {
+      "fouls": 37,
+      "matches": 46,
+      "share": 0.00466
+    },
+    {
+      "fouls": 38,
+      "matches": 40,
+      "share": 0.00405
+    },
+    {
+      "fouls": 39,
+      "matches": 26,
+      "share": 0.00263
+    },
+    {
+      "fouls": 40,
+      "matches": 20,
+      "share": 0.00202
+    },
+    {
+      "fouls": 41,
+      "matches": 20,
+      "share": 0.00202
+    },
+    {
+      "fouls": 42,
+      "matches": 11,
+      "share": 0.00111
+    },
+    {
+      "fouls": 43,
+      "matches": 7,
+      "share": 0.00071
+    },
+    {
+      "fouls": 44,
+      "matches": 5,
+      "share": 0.00051
+    },
+    {
+      "fouls": 45,
+      "matches": 4,
+      "share": 0.0004
+    },
+    {
+      "fouls": 46,
+      "matches": 4,
+      "share": 0.0004
+    },
+    {
+      "fouls": 47,
+      "matches": 3,
+      "share": 0.0003
+    },
+    {
+      "fouls": 48,
+      "matches": 1,
+      "share": 0.0001
+    },
+    {
+      "fouls": 50,
+      "matches": 2,
+      "share": 0.0002
+    }
+  ],
+  "referees": [
+    {
+      "referee": "D Coote",
+      "matches": 22,
+      "foulsPerMatch": 24.5,
+      "cardsPerMatch": 5.09,
+      "vsLeague": 1.117
+    },
+    {
+      "referee": "R Jones",
+      "matches": 62,
+      "foulsPerMatch": 23.11,
+      "cardsPerMatch": 4.23,
+      "vsLeague": 1.054
+    },
+    {
+      "referee": "A Madley",
+      "matches": 64,
+      "foulsPerMatch": 22.94,
+      "cardsPerMatch": 3.77,
+      "vsLeague": 1.046
+    },
+    {
+      "referee": "T Robinson",
+      "matches": 46,
+      "foulsPerMatch": 22.91,
+      "cardsPerMatch": 4.2,
+      "vsLeague": 1.045
+    },
+    {
+      "referee": "M Salisbury",
+      "matches": 43,
+      "foulsPerMatch": 22.49,
+      "cardsPerMatch": 3.67,
+      "vsLeague": 1.025
+    },
+    {
+      "referee": "D England",
+      "matches": 54,
+      "foulsPerMatch": 22.41,
+      "cardsPerMatch": 4.35,
+      "vsLeague": 1.022
+    },
+    {
+      "referee": "M Oliver",
+      "matches": 78,
+      "foulsPerMatch": 22.37,
+      "cardsPerMatch": 3.77,
+      "vsLeague": 1.02
+    },
+    {
+      "referee": "C Pawson",
+      "matches": 62,
+      "foulsPerMatch": 22.08,
+      "cardsPerMatch": 3.74,
+      "vsLeague": 1.007
+    },
+    {
+      "referee": "T Bramall",
+      "matches": 44,
+      "foulsPerMatch": 22.02,
+      "cardsPerMatch": 4.07,
+      "vsLeague": 1.004
+    },
+    {
+      "referee": "C Kavanagh",
+      "matches": 74,
+      "foulsPerMatch": 21.78,
+      "cardsPerMatch": 3.96,
+      "vsLeague": 0.993
+    },
+    {
+      "referee": "J Brooks",
+      "matches": 51,
+      "foulsPerMatch": 21.76,
+      "cardsPerMatch": 4.27,
+      "vsLeague": 0.992
+    },
+    {
+      "referee": "T Harrington",
+      "matches": 39,
+      "foulsPerMatch": 21.64,
+      "cardsPerMatch": 3.64,
+      "vsLeague": 0.987
+    },
+    {
+      "referee": "S Hooper",
+      "matches": 63,
+      "foulsPerMatch": 21.6,
+      "cardsPerMatch": 4.41,
+      "vsLeague": 0.985
+    },
+    {
+      "referee": "P Bankes",
+      "matches": 55,
+      "foulsPerMatch": 21.25,
+      "cardsPerMatch": 3.96,
+      "vsLeague": 0.969
+    },
+    {
+      "referee": "P Tierney",
+      "matches": 37,
+      "foulsPerMatch": 21.24,
+      "cardsPerMatch": 3.41,
+      "vsLeague": 0.969
+    },
+    {
+      "referee": "S Attwell",
+      "matches": 61,
+      "foulsPerMatch": 21.05,
+      "cardsPerMatch": 4.26,
+      "vsLeague": 0.96
+    },
+    {
+      "referee": "A Taylor",
+      "matches": 88,
+      "foulsPerMatch": 21,
+      "cardsPerMatch": 3.83,
+      "vsLeague": 0.957
+    },
+    {
+      "referee": "J Gillett",
+      "matches": 59,
+      "foulsPerMatch": 20.75,
+      "cardsPerMatch": 4.07,
+      "vsLeague": 0.946
+    },
+    {
+      "referee": "S Barrott",
+      "matches": 62,
+      "foulsPerMatch": 20.19,
+      "cardsPerMatch": 3.9,
+      "vsLeague": 0.921
+    }
+  ],
+  "teams": [
+    {
+      "team": "Bournemouth",
+      "matches": 114,
+      "committedPerMatch": 12.96,
+      "drawnPerMatch": 10.56
+    },
+    {
+      "team": "Wolves",
+      "matches": 114,
+      "committedPerMatch": 12.73,
+      "drawnPerMatch": 11.17
+    },
+    {
+      "team": "Southampton",
+      "matches": 38,
+      "committedPerMatch": 12.08,
+      "drawnPerMatch": 11.45
+    },
+    {
+      "team": "Tottenham",
+      "matches": 114,
+      "committedPerMatch": 11.7,
+      "drawnPerMatch": 12.37
+    },
+    {
+      "team": "Luton",
+      "matches": 38,
+      "committedPerMatch": 11.66,
+      "drawnPerMatch": 12.34
+    },
+    {
+      "team": "Chelsea",
+      "matches": 114,
+      "committedPerMatch": 11.46,
+      "drawnPerMatch": 12.15
+    },
+    {
+      "team": "Brighton",
+      "matches": 114,
+      "committedPerMatch": 11.45,
+      "drawnPerMatch": 11.15
+    },
+    {
+      "team": "Everton",
+      "matches": 114,
+      "committedPerMatch": 11.33,
+      "drawnPerMatch": 10.34
+    },
+    {
+      "team": "Ipswich",
+      "matches": 38,
+      "committedPerMatch": 11.32,
+      "drawnPerMatch": 10.89
+    },
+    {
+      "team": "Liverpool",
+      "matches": 114,
+      "committedPerMatch": 11.18,
+      "drawnPerMatch": 10.24
+    },
+    {
+      "team": "Crystal Palace",
+      "matches": 114,
+      "committedPerMatch": 11.15,
+      "drawnPerMatch": 10.78
+    },
+    {
+      "team": "Sheffield United",
+      "matches": 38,
+      "committedPerMatch": 11.13,
+      "drawnPerMatch": 8.66
+    },
+    {
+      "team": "Leicester",
+      "matches": 38,
+      "committedPerMatch": 11.05,
+      "drawnPerMatch": 10.61
+    },
+    {
+      "team": "West Ham",
+      "matches": 114,
+      "committedPerMatch": 11,
+      "drawnPerMatch": 10.72
+    },
+    {
+      "team": "Burnley",
+      "matches": 76,
+      "committedPerMatch": 10.8,
+      "drawnPerMatch": 9.42
+    },
+    {
+      "team": "Fulham",
+      "matches": 114,
+      "committedPerMatch": 10.79,
+      "drawnPerMatch": 9.92
+    },
+    {
+      "team": "Nott'm Forest",
+      "matches": 114,
+      "committedPerMatch": 10.75,
+      "drawnPerMatch": 10.98
+    },
+    {
+      "team": "Sunderland",
+      "matches": 38,
+      "committedPerMatch": 10.71,
+      "drawnPerMatch": 11.37
+    },
+    {
+      "team": "Man United",
+      "matches": 114,
+      "committedPerMatch": 10.54,
+      "drawnPerMatch": 10.1
+    },
+    {
+      "team": "Aston Villa",
+      "matches": 114,
+      "committedPerMatch": 10.51,
+      "drawnPerMatch": 13.04
+    },
+    {
+      "team": "Leeds",
+      "matches": 38,
+      "committedPerMatch": 10.47,
+      "drawnPerMatch": 11.21
+    },
+    {
+      "team": "Arsenal",
+      "matches": 114,
+      "committedPerMatch": 10.37,
+      "drawnPerMatch": 10.81
+    },
+    {
+      "team": "Newcastle",
+      "matches": 114,
+      "committedPerMatch": 10.22,
+      "drawnPerMatch": 12.27
+    },
+    {
+      "team": "Brentford",
+      "matches": 114,
+      "committedPerMatch": 9.59,
+      "drawnPerMatch": 10.11
+    },
+    {
+      "team": "Man City",
+      "matches": 114,
+      "committedPerMatch": 8.25,
+      "drawnPerMatch": 10.83
+    }
+  ],
+  "homeAway": {
+    "homeFouls": 10.73,
+    "awayFouls": 11.2,
+    "homeYellows": 1.83,
+    "awayYellows": 2.16
+  },
+  "recentWindow": "2023-24 to 2025-26"
+}

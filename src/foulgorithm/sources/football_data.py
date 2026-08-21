@@ -18,9 +18,13 @@ from __future__ import annotations
 import csv
 import io
 import re
+import time
+import urllib.error
+import urllib.request
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
-from foulgorithm.sources.base import RawResponse, SourceError
+from foulgorithm.sources.base import RawResponse, SourceError, utcnow
 
 BASE_URL = "https://www.football-data.co.uk/mmz4281"
 SOURCE = "football_data"
@@ -82,6 +86,54 @@ def season_code(label: str) -> str:
 def url_for(season: str, division: str = "E0") -> str:
     """Division is a parameter, not a constant. Nothing here is Premier League only."""
     return f"{BASE_URL}/{season_code(season)}/{division}.csv"
+
+
+def fetch(season: str, division: str = "E0", cache_root: Path | None = None) -> RawResponse:
+    """Fetch a season file, serving from the local cache when present.
+
+    A settled season never changes, so it is fetched once and read from disk
+    forever after. That keeps development offline and keeps us off the site.
+    """
+    url = url_for(season, division)
+    cache_root = cache_root or Path("data/raw")
+    cached = cache_root / SOURCE / f"{season_code(season)}_{division}.csv"
+
+    if cached.exists():
+        return RawResponse(
+            source=SOURCE,
+            url=url,
+            content=cached.read_bytes(),
+            content_type="text/csv",
+            status_code=200,
+            fetched_at=datetime.fromtimestamp(cached.stat().st_mtime, tz=timezone.utc),
+        )
+
+    request = urllib.request.Request(url, headers={"User-Agent": _user_agent()})
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            raw = RawResponse(
+                source=SOURCE,
+                url=url,
+                content=response.read(),
+                content_type=response.headers.get("Content-Type", ""),
+                status_code=response.status,
+                fetched_at=utcnow(),
+            )
+    except urllib.error.HTTPError as exc:
+        raise SourceError(f"{url} returned HTTP {exc.code}") from exc
+
+    validate(raw)
+    cached.parent.mkdir(parents=True, exist_ok=True)
+    cached.write_bytes(raw.content)
+    time.sleep(1)  # be polite, this is a free service run by one person
+    return raw
+
+
+def _user_agent() -> str:
+    import os
+
+    contact = os.environ.get("SCRAPER_CONTACT_EMAIL", "").strip()
+    return f"foulgorithm/0.1 (+{contact})" if contact else "foulgorithm/0.1"
 
 
 def validate(raw: RawResponse) -> None:
