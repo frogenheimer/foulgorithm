@@ -24,16 +24,30 @@ Error: No python entrypoint found. Set "tool.vercel.entrypoint" in pyproject.tom
 That error means Root Directory is unset, not that anything is wrong with the
 site. Set it under Settings, Build and Deployment, Root Directory, then redeploy.
 
-**Resolved by static export instead.** `next.config.mjs` sets
+**The reliable fix is the dashboard setting.** Set Root Directory to `site`
+under Settings, Build and Deployment. Everything below is what was tried to
+avoid needing it, and why each attempt failed, so nobody repeats the loop.
+
+**Attempted: static export plus vercel.json.** `next.config.mjs` sets
 `output: "export"`, so the build produces plain HTML in `site/out/`, and the
 root `vercel.json` points install, build and output there. No framework
 detection is involved, so no Root Directory setting is needed.
 
-An earlier attempt set `"framework": "nextjs"` in `vercel.json`. That failed
-with "No Next.js version detected", because the Next.js preset looks for
-`package.json` in the directory it builds from and the repository root has
-none. Pointing at a static output directory sidesteps framework detection
-altogether.
+Three attempts, in order:
+
+1. `"framework": "nextjs"` in `vercel.json`. Got further, running the install,
+   then failed with "No Next.js version detected", because the Next.js preset
+   looks for `package.json` in the directory it builds from and the repository
+   root has none.
+2. Dropping the `framework` key entirely and pointing at the static output.
+   Worse: Vercel fell back to auto-detection, found `pyproject.toml` and the
+   Python builder exited before `buildCommand` ran at all.
+3. `"framework": null`, which is the documented way to disable detection
+   without selecting a preset.
+
+The lesson from 1 and 2 is that the `framework` key is what suppresses
+auto-detection. Omitting it is not neutral, it re-enables the thing we are
+trying to avoid.
 
 Every page was already prerendered, so the export costs nothing. It also
 delivers the portability [ADR-004](../docs/decisions/ADR-004-hosting-portability.md)
