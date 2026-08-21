@@ -13,7 +13,17 @@ from foulgorithm.models.base import BinaryDistribution, CountDistribution
 class TestMarketSpecs:
     def test_launch_markets_are_registered(self):
         keys = set(markets.all_markets())
-        assert keys == {"player_fouls_committed", "player_tackles", "player_cards"}
+        assert keys == {
+            "match_total_fouls",
+            "player_fouls_committed",
+            "player_tackles",
+            "player_cards",
+        }
+
+    def test_match_market_is_a_count_on_the_match(self):
+        spec = markets.get("match_total_fouls")
+        assert spec.entity == "match"
+        assert spec.family == "count"
 
     def test_cards_is_binary_not_count(self):
         # Cards look like a count and are not one. See docs/05-markets.md.

@@ -47,3 +47,6 @@ clean: ## Remove caches and build artifacts. Leaves data/raw alone.
 
 site-data: ## Regenerate the JSON the site reads
 	$(PY) -m foulgorithm.publish.site_export
+
+predict: ## Predict the next round of fixtures
+	$(PY) -m foulgorithm.publish.predict_round

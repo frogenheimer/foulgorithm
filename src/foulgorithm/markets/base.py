@@ -94,6 +94,22 @@ PLAYER_TACKLES = register(
     )
 )
 
+MATCH_TOTAL_FOULS = register(
+    MarketSpec(
+        key="match_total_fouls",
+        label="Match total fouls",
+        entity="match",
+        family="count",
+        stat_column="total_fouls",
+        lines=(20.5, 22.5, 24.5, 26.5),
+        settlement_note=(
+            "Both teams' fouls committed, combined. Priced more efficiently than "
+            "player markets, so the edge here is smaller. Built first because it "
+            "needs no player-level data and validates the whole pipeline."
+        ),
+    )
+)
+
 PLAYER_CARDS = register(
     MarketSpec(
         key="player_cards",

@@ -129,6 +129,63 @@ def fetch(season: str, division: str = "E0", cache_root: Path | None = None) -> 
     return raw
 
 
+FIXTURES_URL = "https://www.football-data.co.uk/fixtures.csv"
+
+
+def fetch_fixtures(division: str = "E0") -> list[dict]:
+    """Upcoming fixtures, with referee appointments and closing-ish odds.
+
+    Never cached: this file changes constantly and a stale copy would mean
+    predicting the wrong fixtures. `known_at` is the fetch time, because that is
+    genuinely when we learned the appointment.
+    """
+    request = urllib.request.Request(FIXTURES_URL, headers={"User-Agent": _user_agent()})
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            raw = RawResponse(
+                source=SOURCE,
+                url=FIXTURES_URL,
+                content=response.read(),
+                content_type=response.headers.get("Content-Type", ""),
+                status_code=response.status,
+                fetched_at=utcnow(),
+            )
+    except urllib.error.HTTPError as exc:
+        raise SourceError(f"{FIXTURES_URL} returned HTTP {exc.code}") from exc
+
+    validate(raw)
+    reader = csv.DictReader(io.StringIO(raw.text()))
+    rows = []
+    for record in reader:
+        if (record.get("Div") or "").strip() != division:
+            continue
+        kickoff = _kickoff(record, FIXTURES_URL, 0)
+        rows.append(
+            {
+                "source": SOURCE,
+                "kickoff_utc": kickoff,
+                "known_at": raw.fetched_at,
+                "home_team_raw": _required_text(record, "HomeTeam", FIXTURES_URL, 0),
+                "away_team_raw": _required_text(record, "AwayTeam", FIXTURES_URL, 0),
+                "referee_raw": (record.get("Referee") or "").strip() or None,
+                "odds_home": _optional_float(record.get("AvgH") or record.get("B365H")),
+                "odds_draw": _optional_float(record.get("AvgD") or record.get("B365D")),
+                "odds_away": _optional_float(record.get("AvgA") or record.get("B365A")),
+            }
+        )
+    if not rows:
+        raise SourceError(f"no {division} fixtures found. The season may be between rounds.")
+    return sorted(rows, key=lambda r: r["kickoff_utc"])
+
+
+def _optional_float(value: str | None) -> float | None:
+    text = (value or "").strip()
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
 def _user_agent() -> str:
     import os
 

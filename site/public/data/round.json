@@ -1,0 +1,835 @@
+{
+  "generatedAt": "2026-08-21T20:58:36+00:00",
+  "model": {
+    "id": "team_rates_referee",
+    "version": "1.0.0",
+    "config": {
+      "half_life_days": 400.0,
+      "dispersion_scale": 0.65
+    }
+  },
+  "market": "match_total_fouls",
+  "trainedOn": {
+    "matches": 9880,
+    "firstSeason": "2000-01",
+    "lastSeason": "2025-26"
+  },
+  "fixtures": [
+    {
+      "kickoff": "2026-08-21T20:00:00+00:00",
+      "home": "Arsenal",
+      "away": "Coventry",
+      "referee": "T Bramall",
+      "expectedFouls": 21.47,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.5683,
+          "fairOddsOver": 1.76,
+          "fairOddsUnder": 2.32
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.3995,
+          "fairOddsOver": 2.5,
+          "fairOddsUnder": 1.67
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.2519,
+          "fairOddsOver": 3.97,
+          "fairOddsUnder": 1.34
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.1421,
+          "fairOddsOver": 7.04,
+          "fairOddsUnder": 1.17
+        }
+      ],
+      "pmf": [
+        7e-05,
+        0.00022,
+        0.00057,
+        0.00135,
+        0.00287,
+        0.00554,
+        0.00982,
+        0.01608,
+        0.02448,
+        0.0348,
+        0.04643,
+        0.05835,
+        0.06933,
+        0.0781,
+        0.08366,
+        0.08543,
+        0.08335,
+        0.07786,
+        0.06976,
+        0.06005,
+        0.04976,
+        0.03974,
+        0.03063,
+        0.02281,
+        0.01644,
+        0.01148,
+        0.00777,
+        0.0051,
+        0.00326,
+        0.00202,
+        0.00122,
+        0.00072,
+        0.00041,
+        0.00023,
+        0.00013,
+        7e-05,
+        3e-05,
+        2e-05,
+        1e-05
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [
+        "Coventry (0.0 effective matches)"
+      ],
+      "effectiveMatches": {
+        "home": 55.2,
+        "away": 0.0,
+        "referee": 22.3
+      }
+    },
+    {
+      "kickoff": "2026-08-22T12:30:00+00:00",
+      "home": "Hull",
+      "away": "Man United",
+      "referee": "D England",
+      "expectedFouls": 21.58,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.5776,
+          "fairOddsOver": 1.73,
+          "fairOddsUnder": 2.37
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.4088,
+          "fairOddsOver": 2.45,
+          "fairOddsUnder": 1.69
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.2597,
+          "fairOddsOver": 3.85,
+          "fairOddsUnder": 1.35
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.1477,
+          "fairOddsOver": 6.77,
+          "fairOddsUnder": 1.17
+        }
+      ],
+      "pmf": [
+        7e-05,
+        0.0002,
+        0.00054,
+        0.00127,
+        0.00271,
+        0.00525,
+        0.00936,
+        0.0154,
+        0.02356,
+        0.03367,
+        0.04514,
+        0.05703,
+        0.0681,
+        0.07711,
+        0.08302,
+        0.08521,
+        0.08356,
+        0.07844,
+        0.07064,
+        0.06112,
+        0.0509,
+        0.04085,
+        0.03165,
+        0.02369,
+        0.01716,
+        0.01204,
+        0.00819,
+        0.00541,
+        0.00347,
+        0.00216,
+        0.00131,
+        0.00078,
+        0.00045,
+        0.00025,
+        0.00014,
+        7e-05,
+        4e-05,
+        2e-05,
+        1e-05
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [
+        "Hull (0.1 effective matches)"
+      ],
+      "effectiveMatches": {
+        "home": 0.1,
+        "away": 55.2,
+        "referee": 28.1
+      }
+    },
+    {
+      "kickoff": "2026-08-22T15:00:00+00:00",
+      "home": "Everton",
+      "away": "Crystal Palace",
+      "referee": "P Tierney",
+      "expectedFouls": 21.28,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.5522,
+          "fairOddsOver": 1.81,
+          "fairOddsUnder": 2.23
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.3836,
+          "fairOddsOver": 2.61,
+          "fairOddsUnder": 1.62
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.2387,
+          "fairOddsOver": 4.19,
+          "fairOddsUnder": 1.31
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.1327,
+          "fairOddsOver": 7.54,
+          "fairOddsUnder": 1.15
+        }
+      ],
+      "pmf": [
+        8e-05,
+        0.00025,
+        0.00065,
+        0.00151,
+        0.00317,
+        0.00607,
+        0.01067,
+        0.01732,
+        0.02612,
+        0.03681,
+        0.04868,
+        0.06064,
+        0.07141,
+        0.07975,
+        0.08468,
+        0.08571,
+        0.08289,
+        0.07675,
+        0.06816,
+        0.05817,
+        0.04777,
+        0.03782,
+        0.0289,
+        0.02134,
+        0.01524,
+        0.01055,
+        0.00708,
+        0.00461,
+        0.00292,
+        0.00179,
+        0.00107,
+        0.00063,
+        0.00036,
+        0.0002,
+        0.00011,
+        6e-05,
+        3e-05,
+        1e-05,
+        1e-05
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [],
+      "effectiveMatches": {
+        "home": 55.2,
+        "away": 55.3,
+        "referee": 19.8
+      }
+    },
+    {
+      "kickoff": "2026-08-22T15:00:00+00:00",
+      "home": "Ipswich",
+      "away": "Sunderland",
+      "referee": "F Hallam",
+      "expectedFouls": 22.07,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.6169,
+          "fairOddsOver": 1.62,
+          "fairOddsUnder": 2.61
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.4492,
+          "fairOddsOver": 2.23,
+          "fairOddsUnder": 1.82
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.2947,
+          "fairOddsOver": 3.39,
+          "fairOddsUnder": 1.42
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.1735,
+          "fairOddsOver": 5.76,
+          "fairOddsUnder": 1.21
+        }
+      ],
+      "pmf": [
+        5e-05,
+        0.00015,
+        0.0004,
+        0.00096,
+        0.00209,
+        0.00415,
+        0.00756,
+        0.01271,
+        0.01987,
+        0.02903,
+        0.03978,
+        0.05136,
+        0.06268,
+        0.07254,
+        0.07982,
+        0.08372,
+        0.08389,
+        0.08048,
+        0.07406,
+        0.06549,
+        0.05573,
+        0.0457,
+        0.03618,
+        0.02767,
+        0.02048,
+        0.01468,
+        0.0102,
+        0.00688,
+        0.00451,
+        0.00287,
+        0.00178,
+        0.00108,
+        0.00063,
+        0.00036,
+        0.0002,
+        0.00011,
+        6e-05,
+        3e-05,
+        2e-05
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [
+        "F Hallam, referee (3.9 effective)"
+      ],
+      "effectiveMatches": {
+        "home": 13.8,
+        "away": 26.0,
+        "referee": 3.9
+      }
+    },
+    {
+      "kickoff": "2026-08-22T15:00:00+00:00",
+      "home": "Nott'm Forest",
+      "away": "Leeds",
+      "referee": "R Jones",
+      "expectedFouls": 22.45,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.6471,
+          "fairOddsOver": 1.55,
+          "fairOddsUnder": 2.83
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.4816,
+          "fairOddsOver": 2.08,
+          "fairOddsUnder": 1.93
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.3238,
+          "fairOddsOver": 3.09,
+          "fairOddsUnder": 1.48
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.1958,
+          "fairOddsOver": 5.11,
+          "fairOddsUnder": 1.24
+        }
+      ],
+      "pmf": [
+        4e-05,
+        0.00011,
+        0.00031,
+        0.00076,
+        0.0017,
+        0.00342,
+        0.00634,
+        0.01085,
+        0.01726,
+        0.02565,
+        0.03576,
+        0.04696,
+        0.0583,
+        0.06863,
+        0.07681,
+        0.08195,
+        0.08354,
+        0.08152,
+        0.0763,
+        0.06862,
+        0.05939,
+        0.04954,
+        0.03989,
+        0.03103,
+        0.02336,
+        0.01703,
+        0.01204,
+        0.00826,
+        0.0055,
+        0.00357,
+        0.00225,
+        0.00138,
+        0.00083,
+        0.00048,
+        0.00027,
+        0.00015,
+        8e-05,
+        4e-05,
+        2e-05
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [],
+      "effectiveMatches": {
+        "home": 50.7,
+        "away": 32.9,
+        "referee": 27.4
+      }
+    },
+    {
+      "kickoff": "2026-08-22T17:30:00+00:00",
+      "home": "Brentford",
+      "away": "Tottenham",
+      "referee": "M Oliver",
+      "expectedFouls": 21.92,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.6053,
+          "fairOddsOver": 1.65,
+          "fairOddsUnder": 2.53
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.4371,
+          "fairOddsOver": 2.29,
+          "fairOddsUnder": 1.78
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.2841,
+          "fairOddsOver": 3.52,
+          "fairOddsUnder": 1.4
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.1655,
+          "fairOddsOver": 6.04,
+          "fairOddsUnder": 1.2
+        }
+      ],
+      "pmf": [
+        5e-05,
+        0.00016,
+        0.00043,
+        0.00104,
+        0.00226,
+        0.00446,
+        0.00806,
+        0.01347,
+        0.02093,
+        0.03037,
+        0.04135,
+        0.05304,
+        0.06432,
+        0.07395,
+        0.08084,
+        0.08425,
+        0.08388,
+        0.07996,
+        0.07311,
+        0.06423,
+        0.0543,
+        0.04425,
+        0.0348,
+        0.02645,
+        0.01945,
+        0.01386,
+        0.00957,
+        0.00641,
+        0.00418,
+        0.00264,
+        0.00163,
+        0.00098,
+        0.00057,
+        0.00033,
+        0.00018,
+        0.0001,
+        5e-05,
+        3e-05,
+        1e-05
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [],
+      "effectiveMatches": {
+        "home": 52.8,
+        "away": 55.2,
+        "referee": 39.2
+      }
+    },
+    {
+      "kickoff": "2026-08-23T14:00:00+00:00",
+      "home": "Brighton",
+      "away": "Aston Villa",
+      "referee": "P Bankes",
+      "expectedFouls": 22.56,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.655,
+          "fairOddsOver": 1.53,
+          "fairOddsUnder": 2.9
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.4903,
+          "fairOddsOver": 2.04,
+          "fairOddsUnder": 1.96
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.3317,
+          "fairOddsOver": 3.01,
+          "fairOddsUnder": 1.5
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.202,
+          "fairOddsOver": 4.95,
+          "fairOddsUnder": 1.25
+        }
+      ],
+      "pmf": [
+        3e-05,
+        0.0001,
+        0.00029,
+        0.00072,
+        0.0016,
+        0.00325,
+        0.00604,
+        0.01039,
+        0.01661,
+        0.02479,
+        0.03472,
+        0.0458,
+        0.05712,
+        0.06755,
+        0.07595,
+        0.0814,
+        0.08335,
+        0.08171,
+        0.07682,
+        0.0694,
+        0.06034,
+        0.05056,
+        0.04089,
+        0.03196,
+        0.02416,
+        0.0177,
+        0.01257,
+        0.00866,
+        0.0058,
+        0.00377,
+        0.00239,
+        0.00147,
+        0.00089,
+        0.00052,
+        0.0003,
+        0.00017,
+        9e-05,
+        5e-05,
+        3e-05
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [],
+      "effectiveMatches": {
+        "home": 54.9,
+        "away": 54.5,
+        "referee": 27.6
+      }
+    },
+    {
+      "kickoff": "2026-08-23T14:00:00+00:00",
+      "home": "Man City",
+      "away": "Bournemouth",
+      "referee": "J Gillett",
+      "expectedFouls": 20.29,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.4668,
+          "fairOddsOver": 2.14,
+          "fairOddsUnder": 1.88
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.3037,
+          "fairOddsOver": 3.29,
+          "fairOddsUnder": 1.44
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.1758,
+          "fairOddsOver": 5.69,
+          "fairOddsUnder": 1.21
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.0906,
+          "fairOddsOver": 11.04,
+          "fairOddsUnder": 1.1
+        }
+      ],
+      "pmf": [
+        0.00016,
+        0.00047,
+        0.00117,
+        0.00262,
+        0.00525,
+        0.0096,
+        0.01608,
+        0.0249,
+        0.03585,
+        0.0482,
+        0.06083,
+        0.07232,
+        0.08128,
+        0.08662,
+        0.08779,
+        0.08481,
+        0.07829,
+        0.0692,
+        0.05867,
+        0.04779,
+        0.03748,
+        0.02832,
+        0.02066,
+        0.01457,
+        0.00994,
+        0.00657,
+        0.00421,
+        0.00262,
+        0.00158,
+        0.00093,
+        0.00053,
+        0.0003,
+        0.00016,
+        8e-05,
+        4e-05,
+        2e-05,
+        1e-05,
+        1e-05,
+        0.0
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [],
+      "effectiveMatches": {
+        "home": 55.2,
+        "away": 51.8,
+        "referee": 27.3
+      }
+    },
+    {
+      "kickoff": "2026-08-23T16:30:00+00:00",
+      "home": "Newcastle",
+      "away": "Liverpool",
+      "referee": "S Attwell",
+      "expectedFouls": 21.14,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.5404,
+          "fairOddsOver": 1.85,
+          "fairOddsUnder": 2.18
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.3721,
+          "fairOddsOver": 2.69,
+          "fairOddsUnder": 1.59
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.2293,
+          "fairOddsOver": 4.36,
+          "fairOddsUnder": 1.3
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.1262,
+          "fairOddsOver": 7.93,
+          "fairOddsUnder": 1.14
+        }
+      ],
+      "pmf": [
+        9e-05,
+        0.00027,
+        0.0007,
+        0.00163,
+        0.00341,
+        0.00649,
+        0.01132,
+        0.01825,
+        0.02736,
+        0.03831,
+        0.05033,
+        0.0623,
+        0.0729,
+        0.08088,
+        0.08533,
+        0.08582,
+        0.08247,
+        0.07587,
+        0.06695,
+        0.05677,
+        0.04633,
+        0.03644,
+        0.02767,
+        0.0203,
+        0.01441,
+        0.00991,
+        0.00661,
+        0.00428,
+        0.00269,
+        0.00164,
+        0.00098,
+        0.00057,
+        0.00032,
+        0.00018,
+        9e-05,
+        5e-05,
+        3e-05,
+        1e-05,
+        1e-05
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [],
+      "effectiveMatches": {
+        "home": 55.0,
+        "away": 55.1,
+        "referee": 31.9
+      }
+    },
+    {
+      "kickoff": "2026-08-24T20:00:00+00:00",
+      "home": "Fulham",
+      "away": "Chelsea",
+      "referee": "J Brooks",
+      "expectedFouls": 21.82,
+      "lines": [
+        {
+          "line": 20.5,
+          "probOver": 0.5965,
+          "fairOddsOver": 1.68,
+          "fairOddsUnder": 2.48
+        },
+        {
+          "line": 22.5,
+          "probOver": 0.4281,
+          "fairOddsOver": 2.34,
+          "fairOddsUnder": 1.75
+        },
+        {
+          "line": 24.5,
+          "probOver": 0.2762,
+          "fairOddsOver": 3.62,
+          "fairOddsUnder": 1.38
+        },
+        {
+          "line": 26.5,
+          "probOver": 0.1597,
+          "fairOddsOver": 6.26,
+          "fairOddsUnder": 1.19
+        }
+      ],
+      "pmf": [
+        6e-05,
+        0.00017,
+        0.00046,
+        0.00111,
+        0.00239,
+        0.0047,
+        0.00845,
+        0.01406,
+        0.02174,
+        0.03139,
+        0.04254,
+        0.0543,
+        0.06552,
+        0.07497,
+        0.08157,
+        0.0846,
+        0.08383,
+        0.07952,
+        0.07236,
+        0.06327,
+        0.05324,
+        0.04317,
+        0.03379,
+        0.02556,
+        0.01871,
+        0.01326,
+        0.00912,
+        0.00608,
+        0.00394,
+        0.00248,
+        0.00152,
+        0.00091,
+        0.00053,
+        0.0003,
+        0.00017,
+        9e-05,
+        5e-05,
+        2e-05,
+        1e-05
+      ],
+      "pmfFrom": 6,
+      "thinEvidence": [],
+      "effectiveMatches": {
+        "home": 51.9,
+        "away": 55.0,
+        "referee": 20.7
+      }
+    }
+  ]
+}
