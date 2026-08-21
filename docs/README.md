@@ -22,6 +22,7 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [13-legal-and-ethics.md](13-legal-and-ethics.md) | Licensing, terms of service, gambling regulation, responsible gambling |
 | [14-extending.md](14-extending.md) | How to add a market, source, model or league without touching shared logic |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
+| [ideas.md](ideas.md) | Ideas not committed to. Nothing here is being built |
 | [modelling-log.md](modelling-log.md) | **Append-only record of every modelling decision, experiment and result** |
 
 ## Decision records

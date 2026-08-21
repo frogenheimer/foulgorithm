@@ -15,6 +15,7 @@ The global rules file at `~/.claude/CLAUDE.md` loads in every session on this ma
 - No `Co-Authored-By` lines in commits, ever.
 - Never `git push` without explicit approval.
 - Prefer specific paths over `git add .`.
+- **Work directly on `main`.** No feature branches for now, by Oliver's request, for simplicity. Keep `main` deployable, since it is what Vercel builds.
 - Writing style: no em dashes, no oxford commas, active voice, plain English, specific over vague.
 - Write tests before implementations. Run tests before committing.
 - Share SQL in chat so it can be applied by hand.
@@ -57,6 +58,8 @@ These exist because the previous version of this project (`~/Documents/Foulgorit
 | Design decisions | `docs/decisions/` (markdown ADRs, numbered) |
 | Architecture and methodology | `docs/` (numbered, see `docs/README.md`) |
 | Open questions and known risks | `docs/12-risks-and-open-questions.md` |
+| Ideas not committed to | `docs/ideas.md` |
+| Modelling reasoning, append-only | `docs/modelling-log.md` |
 | Roadmap | `docs/11-roadmap.md` |
 | Database schema | `supabase/migrations/` |
 
