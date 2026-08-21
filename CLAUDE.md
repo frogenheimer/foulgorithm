@@ -46,6 +46,7 @@ These exist because the previous version of this project (`~/Documents/Foulgorit
 5. **A new model never overwrites an old one.** Predictions are keyed by model id and version. Challengers run alongside the champion.
 6. **£0.** Do not introduce a dependency, service or tier that costs money without flagging it first. See [docs/09-dev-workflow.md](docs/09-dev-workflow.md).
 7. **Notebooks contain no logic.** They import from `foulgorithm` and display things. Anything worth keeping moves into the package with a test.
+8. **Extensions are registrations, never edits to shared logic.** Shared code must contain no list of markets, models, sources, leagues or seasons. Adding one of those means adding a file, not editing the harness, the store, the publisher or the site. See [docs/14-extending.md](docs/14-extending.md).
 
 ## Where things live
 
