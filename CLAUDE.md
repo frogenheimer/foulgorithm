@@ -31,9 +31,11 @@ If a rule from the global file seems to conflict with this file, this file wins 
 
 ## Working style here
 
-- Keep responses short and plain. No jargon where a normal word works.
+- **Keep chat replies very short and plain.** A few lines. No jargon, no walls of text.
+- **Detail goes in the repo, not in chat.** Reasoning, trade-offs and context belong in `docs/` and `docs/decisions/`. Write it down there, then say the one-line version in chat.
 - Oliver runs things from VSCode. Prefer a runnable file or a `make` target over a long shell incantation.
 - Disagree by default. Stress-test ideas before agreeing with them.
+- This is a side project. Bias to shipping something that works over designing something perfect.
 
 ## Non-negotiable engineering rules
 
