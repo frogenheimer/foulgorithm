@@ -56,3 +56,9 @@ audit: ## Report exactly what data we hold and whether it is enough
 
 characters: ## Publish every character's view of the upcoming round
 	$(PY) -m foulgorithm.publish.character_round
+
+players: ## Publish player predictions and character picks
+	$(PY) -m foulgorithm.publish.player_round
+
+serve: ## Serve the built static site locally (next start does not work with output: export)
+	cd site && npm run build && cd out && python3 -m http.server 4319

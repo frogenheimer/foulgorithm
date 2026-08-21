@@ -1,0 +1,178 @@
+"""Player foul models, one per character.
+
+Structure of every model here:
+
+    expected fouls = player rate per 90
+                   x expected minutes / 90
+                   x opponent factor
+                   x referee factor
+
+The four parts are shared. What differs per character is how much each is
+trusted: how far back they look, how hard they shrink a thin sample, how much
+weight they give the opponent, and how confident the resulting distribution is.
+
+Minutes matter more than anything else here. A 0.9-per-90 fouler who plays 25
+minutes is a completely different proposition from one who plays 90, and the
+2025 version had no concept of minutes at all.
+"""
+
+from __future__ import annotations
+
+import numpy as np
+import pandas as pd
+
+from foulgorithm.models.base import CountDistribution, register
+from foulgorithm.models.match_models import negbin_pmf
+
+LEAGUE_PRIOR_MATCHES = 12.0
+
+
+def _weights(known_at: pd.Series, as_of, half_life_days: float) -> np.ndarray:
+    age = (pd.Timestamp(as_of) - known_at).dt.total_seconds().to_numpy() / 86400.0
+    return np.power(0.5, np.maximum(age, 0.0) / half_life_days)
+
+
+class PlayerFoulModel:
+    """Shared machinery. Character differences live in the constructor."""
+
+    market = "player_fouls_committed"
+    stat = "fouls_committed"
+
+    def __init__(
+        self,
+        character_id: str,
+        half_life_days: float,
+        prior_matches: float,
+        opponent_weight: float,
+        dispersion: float,
+        amplify: float = 1.0,
+        label: str | None = None,
+    ):
+        self.character_id = character_id
+        self.half_life_days = half_life_days
+        self.prior_matches = prior_matches
+        self.opponent_weight = opponent_weight
+        self.dispersion = dispersion
+        self.amplify = amplify
+        self.label = label or character_id
+        self._history: pd.DataFrame | None = None
+        self._league_rate = 1.0
+
+    def config(self) -> dict:
+        return {
+            "half_life_days": self.half_life_days,
+            "prior_matches": self.prior_matches,
+            "opponent_weight": self.opponent_weight,
+            "dispersion": self.dispersion,
+            "amplify": self.amplify,
+        }
+
+    def fit(self, history: pd.DataFrame) -> None:
+        self._history = history
+        minutes = history["minutes"].sum()
+        self._league_rate = float(history[self.stat].sum() / (minutes / 90.0))
+
+    def _visible(self, as_of) -> pd.DataFrame:
+        return self._history[self._history["known_at"] <= as_of]
+
+    def player_rate(self, player: str, as_of) -> tuple[float, float]:
+        """Shrunk, time-decayed rate per 90. Returns (rate, effective matches)."""
+        past = self._visible(as_of)
+        rows = past[past["player"] == player]
+        if rows.empty:
+            return self._league_rate, 0.0
+
+        w = _weights(rows["known_at"], as_of, self.half_life_days)
+        nineties = (rows["minutes"].to_numpy() / 90.0) * w
+        events = rows[self.stat].to_numpy() * w
+        prior90 = self.prior_matches
+        rate = (events.sum() + prior90 * self._league_rate) / (nineties.sum() + prior90)
+        return float(rate), float(w.sum())
+
+    def expected_minutes(self, player: str, as_of) -> float:
+        """Recent minutes, time-decayed. A blunt but honest stand-in.
+
+        A proper model would separate probability of starting from minutes given
+        a start. This is the version that ships today; it is listed as the next
+        real improvement in docs/15-next-phase.md.
+        """
+        past = self._visible(as_of)
+        rows = past[past["player"] == player].tail(10)
+        if rows.empty:
+            return 0.0
+        w = _weights(rows["known_at"], as_of, self.half_life_days)
+        return float(np.average(rows["minutes"].to_numpy(), weights=w))
+
+    def opponent_factor(self, opponent: str, as_of) -> float:
+        """How many fouls this opponent draws out of teams, relative to league."""
+        past = self._visible(as_of)
+        rows = past[past["opponent"] == opponent]
+        if len(rows) < 200:
+            return 1.0
+        w = _weights(rows["known_at"], as_of, self.half_life_days)
+        nineties = (rows["minutes"].to_numpy() / 90.0) * w
+        rate = float((rows[self.stat].to_numpy() * w).sum() / max(nineties.sum(), 1e-6))
+        raw = rate / max(self._league_rate, 1e-6)
+        # Pull toward 1 by the character's willingness to trust the matchup.
+        return 1.0 + (raw - 1.0) * self.opponent_weight
+
+    def predict_one(
+        self, player: str, opponent: str, as_of, referee_factor: float = 1.0
+    ) -> tuple[CountDistribution, dict]:
+        rate, effective = self.player_rate(player, as_of)
+        minutes = self.expected_minutes(player, as_of)
+        opp = self.opponent_factor(opponent, as_of)
+
+        mean = rate * (minutes / 90.0) * opp * referee_factor
+        if self.amplify != 1.0:
+            mean = self._league_rate * (minutes / 90.0) + (
+                mean - self._league_rate * (minutes / 90.0)
+            ) * self.amplify
+        mean = max(mean, 0.02)
+
+        dist = negbin_pmf(mean, mean * max(self.dispersion, 1.02))
+        return dist, {
+            "ratePer90": round(rate, 3),
+            "expectedMinutes": round(minutes, 1),
+            "opponentFactor": round(opp, 3),
+            "refereeFactor": round(referee_factor, 3),
+            "effectiveMatches": round(effective, 1),
+        }
+
+
+class PlayerFouledModel(PlayerFoulModel):
+    """Same machinery, opposite market: fouls the player draws."""
+
+    market = "player_fouls_drawn"
+    stat = "fouls_drawn"
+
+
+# Each character's temperament, expressed as four numbers.
+#
+#   half_life        how far back they look
+#   prior_matches    how hard they shrink a thin sample toward the league
+#   opponent_weight  how much they trust the matchup
+#   dispersion       how confident the published distribution is
+#   amplify          how far they push a deviation from average
+CHARACTER_SETTINGS: dict[str, dict] = {
+    # Anger: only the recent past exists, barely shrinks, exaggerates, overconfident.
+    "alan": dict(half_life_days=70, prior_matches=3, opponent_weight=1.3, dispersion=1.05, amplify=1.3),
+    # Lust: long memory for reputation, trusts the name over the matchup.
+    "lily": dict(half_life_days=1200, prior_matches=8, opponent_weight=0.5, dispersion=1.25, amplify=1.1),
+    # Violence: reads the matchup hardest, medium memory.
+    "valentina": dict(half_life_days=400, prior_matches=6, opponent_weight=1.6, dispersion=1.15, amplify=1.15),
+    # Terror: long memory, heavy shrinkage, wide distribution, never exaggerates.
+    "tayler": dict(half_life_days=1000, prior_matches=30, opponent_weight=0.4, dispersion=1.6, amplify=1.0),
+    # Bravery: short-to-medium memory, trusts thin evidence others shrink away.
+    "bdog": dict(half_life_days=300, prior_matches=2, opponent_weight=1.1, dispersion=1.1, amplify=1.2),
+}
+
+
+def build(character_id: str, market: str = "player_fouls_committed") -> PlayerFoulModel:
+    settings = CHARACTER_SETTINGS[character_id]
+    cls = PlayerFoulModel if market == "player_fouls_committed" else PlayerFouledModel
+    return cls(character_id=character_id, **settings)
+
+
+def build_all(market: str = "player_fouls_committed") -> list[PlayerFoulModel]:
+    return [build(cid, market) for cid in CHARACTER_SETTINGS]

@@ -145,3 +145,57 @@ export type CharactersData = {
 };
 
 export const getCharacters = () => read<CharactersData>("characters.json");
+
+/* ---------- players ---------- */
+
+export type MarketBlock = {
+  why: {
+    ratePer90: number;
+    expectedMinutes: number;
+    opponentFactor: number;
+    refereeFactor: number;
+    effectiveMatches: number;
+  };
+  exact0: number;
+  p1plus: number; p2plus: number; p3plus: number;
+  fair1: number | null; fair2: number | null; fair3: number | null;
+  floor1: number | null; floor2: number | null; floor3: number | null;
+  band1: string; band2: string; band3: string;
+  outOf100: number;
+};
+
+export type PlayerRow = {
+  player: string; team: string; opponent: string; fixture: string; kickoff: string;
+  expectedMinutes: number; effectiveMatches: number; thin: boolean;
+  committed: MarketBlock; drawn: MarketBlock;
+};
+
+export type Pick = {
+  player: string; team: string; fixture: string; kickoff: string;
+  market: "committed" | "drawn"; line: number; prob: number; band: string;
+  outOf100: number; fair: number; floor: number; thin: boolean;
+  why: MarketBlock["why"];
+};
+
+export type CharacterPicks = {
+  id: string; name: string; emotion: string; tagline: string;
+  settings: Record<string, number>;
+  picks: Pick[];
+  combinedProb: number; combinedFair: number | null; averageProb: number;
+};
+
+export type FixtureBoard = {
+  key: string; home: string; away: string; kickoff: string; referee: string | null;
+  teams: Record<string, PlayerRow[]>;
+};
+
+export type PlayersData = {
+  generatedAt: string;
+  trainedOn: { playerMatches: number; players: number; from: string; to: string };
+  edgeMargin: number;
+  topFoulers: PlayerRow[];
+  board: FixtureBoard[];
+  picks: CharacterPicks[];
+};
+
+export const getPlayers = () => read<PlayersData>("players.json");
