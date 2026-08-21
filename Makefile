@@ -53,3 +53,6 @@ predict: ## Predict the next round of fixtures
 
 audit: ## Report exactly what data we hold and whether it is enough
 	$(PY) -m foulgorithm.store.audit
+
+characters: ## Publish every character's view of the upcoming round
+	$(PY) -m foulgorithm.publish.character_round

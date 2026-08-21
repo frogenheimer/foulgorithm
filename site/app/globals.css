@@ -27,6 +27,15 @@
   --seq-450: #2a78d6;
   --seq-600: #184f95;
 
+  /* Character identity colours. Validated for colour-vision deficiency as a
+     five-slot categorical set in both modes. Three sit below 3:1 on the light
+     surface, so a name label always accompanies the colour. */
+  --char-alan: #2a78d6;
+  --char-lily: #eb6834;
+  --char-valentina: #1baf7a;
+  --char-tayler: #eda100;
+  --char-bdog: #e87ba4;
+
   /* Spacing, 4px base */
   --space-1: 4px;
   --space-2: 8px;
@@ -78,6 +87,11 @@
     --seq-250: #256abf;
     --seq-450: #3987e5;
     --seq-600: #86b6ef;
+  --char-alan: #3987e5;
+  --char-lily: #d95926;
+  --char-valentina: #199e70;
+  --char-tayler: #c98500;
+  --char-bdog: #d55181;
   }
 }
 
@@ -99,6 +113,11 @@
   --seq-250: #256abf;
   --seq-450: #3987e5;
   --seq-600: #86b6ef;
+  --char-alan: #3987e5;
+  --char-lily: #d95926;
+  --char-valentina: #199e70;
+  --char-tayler: #c98500;
+  --char-bdog: #d55181;
 }
 
 /* ---------- reset ---------- */

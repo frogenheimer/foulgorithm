@@ -88,3 +88,60 @@ function read<T>(file: string): T {
 
 export const getOverview = () => read<Overview>("overview.json");
 export const getRound = () => read<Round>("round.json");
+
+/* ---------- the five characters ---------- */
+
+export type CharacterLine = {
+  line: number;
+  probOver: number;
+  fairOddsOver: number;
+};
+
+export type CharacterFixture = {
+  key: string;
+  home: string;
+  away: string;
+  kickoff: string;
+  referee: string | null;
+  expectedFouls: number;
+  lines: CharacterLine[];
+  pmf: number[];
+  pmfFrom: number;
+};
+
+export type CharacterBlock = {
+  id: string;
+  name: string;
+  emotion: string;
+  tagline: string;
+  philosophy: string;
+  onLosing: string;
+  weakness: string;
+  edge: string;
+  model: { id: string; version: string; config: Record<string, number> };
+  fixtures: CharacterFixture[];
+};
+
+export type Disagreement = {
+  key: string;
+  home: string;
+  away: string;
+  kickoff: string;
+  referee: string | null;
+  means: Record<string, number>;
+  consensus: number;
+  spread: number;
+  highest: string;
+  lowest: string;
+  boldest: string;
+};
+
+export type CharactersData = {
+  generatedAt: string;
+  market: string;
+  trainedOn: { matches: number; firstSeason: string; lastSeason: string };
+  characters: CharacterBlock[];
+  disagreement: Disagreement[];
+};
+
+export const getCharacters = () => read<CharactersData>("characters.json");

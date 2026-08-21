@@ -13,6 +13,7 @@ export const SUPPORT = {
 
 const NAV = [
   { href: "/", label: "This round" },
+  { href: "/characters", label: "The five" },
   { href: "/history", label: "History" },
   { href: "/methodology", label: "Methodology" },
 ];
