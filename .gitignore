@@ -1,0 +1,37 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.mypy_cache/
+
+# Data. Raw caches and snapshots are large and reproducible, so they stay out of git.
+# data/reference/ IS committed: crosswalks are decisions, not derived data.
+data/raw/
+data/snapshots/
+data/scratch/
+!data/reference/
+!data/reference/**
+
+# Backtest artifacts
+runs/
+
+# Node
+node_modules/
+.next/
+out/
+.vercel/
+
+# OS
+.DS_Store
+Icon?
+Thumbs.db

@@ -1,0 +1,30 @@
+# Canonical player identities.
+#
+# Only needed where deterministic source ids are absent or where two sources disagree.
+# Most players resolve on source id alone and never appear here.
+#
+# Structure:
+#
+# players:
+#   - id: gabriel-magalhaes-1997        # canonical, includes birth year to disambiguate
+#     full_name: Gabriel dos Santos Magalhães
+#     display_name: Gabriel
+#     birth_date: 1997-12-19
+#     sources:
+#       fbref: bc7dc64d
+#       api_football: 22219
+#     aliases:
+#       - Gabriel Magalhães
+#       - Gabriel dos Santos Magalhães
+#       - Gabriel
+#
+# Rules:
+#   - A name match alone NEVER resolves an identity. Confirm with birth date, club,
+#     position and nationality. Two players with similar names at one club is not
+#     hypothetical, and getting it wrong silently transfers one player's history to
+#     another. See docs/decisions/ADR-007-identity-halts-pipeline.md
+#   - Canonical ids are permanent. A transfer changes nothing here, because club
+#     membership is a fact about an appearance, not about the player.
+#   - Fuzzy matching proposes candidates into crosswalk_pending.yaml. A human confirms.
+
+players: []

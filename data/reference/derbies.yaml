@@ -1,0 +1,24 @@
+# Fixtures treated as high-stakes.
+#
+# Maintained by hand, deliberately.
+#
+# The 2025 version inferred a "big game multiplier" from head-to-head foul history,
+# using samples of 1 or 2 matches per season. The resulting multiplier was almost
+# entirely noise, and it was applied on top of three other noisy multipliers.
+#
+# A short list of genuine rivalries is more honest, more stable and easier to defend.
+#
+# Structure:
+#
+# derbies:
+#   - teams: [liverpool, everton]
+#     name: Merseyside derby
+#     intensity: high        # high | medium. Feeds a single flag, not a multiplier
+#
+# Rules:
+#   - Order within `teams` does not matter. Matching is unordered.
+#   - `intensity` is a coarse label. Resist inventing finer gradations without
+#     evidence they improve the backtest.
+#   - Add a rivalry because it is a rivalry, not because one fixture had lots of fouls.
+
+derbies: []
