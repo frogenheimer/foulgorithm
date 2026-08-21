@@ -18,6 +18,65 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-21 — Player data found. The blocker is gone
+
+**Question.** Is there any free route to per-player, per-match fouls committed and drawn, given FBref is Cloudflare-blocked, FotMob objected to scraping and API-Football is suspended?
+
+**Method.** Exhaustive source sweep, verifying by download rather than trusting dataset descriptions.
+
+**Result.** Two sources, both plain file downloads with no scraping and no key.
+
+| Source | Coverage | Rows | Fouls committed | Fouls drawn |
+|---|---|---|---|---|
+| `JaseZiv/worldfootballR_data` | Aug 2017 to Sep 2025 | 81,328 | `Fls`, 100% filled | `Fld`, 100% filled |
+| `olbauday/FPL-Core-Insights` | 2024/25, 2025/26, live | ~24,000 | `fouls_committed` | `was_fouled` |
+
+The first also carries minutes, position, tackles won, interceptions, cards and aerial duels: 2,857 matches, 1,671 players, 32 teams. The second updates three times daily via GitHub Actions, so it covers the current season as it happens.
+
+Face validity is strong. Top fouls drawn per 90 across the sample: Grealish 3.89, Hazard 3.13, Bruno Guimarães 3.07, Zaha 3.04, Maddison 2.77. Those are the right names, which is the cheapest sanity check available and it passes.
+
+**Conclusion.** Every player market is now buildable. This was the single biggest risk in the project and it is resolved without spending anything.
+
+Also resolved: **FBref did NOT lose per-player fouls** in the January 2026 Opta termination. The columns moved from the Miscellaneous table into the match-report summary table. The obstacle there is Cloudflare, not missing data, which means FBref returns as a possible future source rather than being permanently dead.
+
+**Caveats, and they are real.** Neither source declares a licence. `worldfootballR_data` was archived in September 2025 and is frozen. Both redistribute Opta-derived data. For private modelling this is fine; redistributing the raw data is not, and a future commercial phase needs this revisited properly. Recorded in [12-risks-and-open-questions.md](12-risks-and-open-questions.md).
+
+The only permissively licensed option found, `khalidald/football-stack` under MIT, covers less. If licensing ever becomes the binding constraint, that is the fallback.
+
+---
+
+## 2026-08-21 — The five characters, and Valentina's first version failing
+
+**Question.** Do five genuinely different models, each built around a temperament, actually diverge, and can any of them beat the champion?
+
+**Method.** Five models sharing the same data and harness, differing in memory, shrinkage, confidence and features. Walk-forward from 2015-16, 4,180 predictions each.
+
+**Result, first run.**
+
+| model | MAE | log loss | ECE |
+|---|---|---|---|
+| bdog_bravery | 3.893 | 0.5690 | 0.0223 |
+| champion | 3.916 | 0.5695 | 0.0062 |
+| alan_anger | 3.912 | 0.5727 | 0.0199 |
+| lily_lust | 4.077 | 0.5866 | 0.0548 |
+| tayler_terror | 4.055 | 0.5906 | 0.0371 |
+| league_mean | 4.133 | 0.5993 | 0.0141 |
+| **valentina_violence v1** | **4.569** | **0.6505** | **0.1383** |
+
+**Valentina v1 lost to the league average**, badly. She modelled cards alone and converted to fouls with a fitted ratio. Cards are a noisy proxy that has been drifting away from fouls for two decades, so the approach refutes itself.
+
+**Conclusion.** The finding is real and worth keeping: **pure card-based foul modelling is worse than predicting the mean.** But shipping her that way breaks the rule that every character gets equal effort and none may be deliberately bad. Rebuilt as v2, where the aggression reading bends a foul-rate estimate rather than replacing it, which is what a competent analyst with her temperament would actually do.
+
+**Result, v2.** Valentina moves from last to third, 0.5707, ahead of Alan.
+
+**Bdog wins**, 5.33% better log loss than baseline and ahead of the champion. The contrarian construction genuinely adds something: fading the consensus of the other four is not just a gimmick.
+
+**Tayler is second worst and perfectly in character.** Enormous shrinkage means he barely deviates from the average, which is exactly what terror produces. He will rarely be badly wrong and rarely be useful.
+
+**Caveats.** Bdog beats the champion on log loss but the champion remains better calibrated at 0.0062 against 0.0091, so under the promotion rule the champion keeps the match-totals crown for now. Bdog costs four extra model fits per refit, since he must know what the others think.
+
+---
+
 ## 2026-08-21 — Champion promoted, and the first published round
 
 **Question.** Does scaling dispersion fix the calibration failure, and does the model then clear the promotion bar?

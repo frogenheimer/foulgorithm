@@ -40,6 +40,14 @@ def synthetic(n: int = 900, seed: int = 3) -> pd.DataFrame:
                 "referee_raw": f"Ref{rng.integers(0, 8)}",
                 "home_fouls": int(rng.poisson(11)),
                 "away_fouls": int(rng.poisson(11)),
+                # Cards are here because Valentina models them rather than
+                # fouls. Also pure noise, so the canary still has no signal.
+                "home_yellows": int(rng.poisson(1.9)),
+                "away_yellows": int(rng.poisson(2.1)),
+                "home_reds": int(rng.poisson(0.06)),
+                "away_reds": int(rng.poisson(0.07)),
+                "home_shots": int(rng.poisson(12)),
+                "away_shots": int(rng.poisson(11)),
                 "odds_home": None,
                 "odds_draw": None,
                 "odds_away": None,
