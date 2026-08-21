@@ -24,11 +24,21 @@ Error: No python entrypoint found. Set "tool.vercel.entrypoint" in pyproject.tom
 That error means Root Directory is unset, not that anything is wrong with the
 site. Set it under Settings, Build and Deployment, Root Directory, then redeploy.
 
-A `vercel.json` at the repository root is committed as a fallback, pointing the
-install, build and output at `site/` explicitly so a deploy succeeds even with
-Root Directory unset. Setting Root Directory is still the better fix: with it
-set, Vercel reads `site/vercel.json` instead and the root file is ignored, so
-the two never conflict.
+**Resolved by static export instead.** `next.config.mjs` sets
+`output: "export"`, so the build produces plain HTML in `site/out/`, and the
+root `vercel.json` points install, build and output there. No framework
+detection is involved, so no Root Directory setting is needed.
+
+An earlier attempt set `"framework": "nextjs"` in `vercel.json`. That failed
+with "No Next.js version detected", because the Next.js preset looks for
+`package.json` in the directory it builds from and the repository root has
+none. Pointing at a static output directory sidesteps framework detection
+altogether.
+
+Every page was already prerendered, so the export costs nothing. It also
+delivers the portability [ADR-004](../docs/decisions/ADR-004-hosting-portability.md)
+asks for: the output is plain files that any host can serve, so moving off
+Vercel is a copy rather than a rebuild.
 
 Everything the site needs lives inside `site/`, including the JSON in
 `site/public/data/`, so nothing outside the root directory is required.
