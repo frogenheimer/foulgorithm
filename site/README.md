@@ -22,7 +22,13 @@ Error: No python entrypoint found. Set "tool.vercel.entrypoint" in pyproject.tom
 ```
 
 That error means Root Directory is unset, not that anything is wrong with the
-site. Set it under Settings, General, Root Directory, then redeploy.
+site. Set it under Settings, Build and Deployment, Root Directory, then redeploy.
+
+A `vercel.json` at the repository root is committed as a fallback, pointing the
+install, build and output at `site/` explicitly so a deploy succeeds even with
+Root Directory unset. Setting Root Directory is still the better fix: with it
+set, Vercel reads `site/vercel.json` instead and the root file is ignored, so
+the two never conflict.
 
 Everything the site needs lives inside `site/`, including the JSON in
 `site/public/data/`, so nothing outside the root directory is required.
