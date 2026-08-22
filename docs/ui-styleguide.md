@@ -124,3 +124,53 @@ See [13-legal-and-ethics.md](13-legal-and-ethics.md).
 - No language implying certainty.
 - Rendered and eyeballed at 375px, 768px and 1280px.
 - Wide content scrolls inside its own container. The page body never scrolls sideways.
+
+---
+
+## Visual reference, 2026-08-22
+
+Reference: `slaten.domenicogriffo.com`. A product marketing site, so not everything
+transfers, but the shell is right for a data product.
+
+### What we take
+
+**A narrow icon rail, not a top nav.** Roughly 64px, icons with labels on hover.
+It frees the full width for content, which matters when the content is tables,
+and it scales as sections are added without the horizontal-overflow problem the
+top nav already hit once.
+
+**Monospace for display type.** Unusual and correct here. A monospace headline
+signals "instrument" rather than "publication", it sets our numbers and our
+headings in the same voice, and it sidesteps the earlier problem where the
+serif chosen for editorial weight had no tabular figures at all.
+
+**One accent, used sparingly.** Their whole interface is neutral with a single
+bright colour carrying every call to action. Ours is blue and should behave the
+same: neutral surfaces, accent reserved for the thing that matters on each
+screen.
+
+**Dashboard card grid.** Distinct cards, generous internal padding, a hairline
+border, no shadows. This maps directly onto the three-region home in
+[19-page-structure.md](19-page-structure.md).
+
+**Inline mini-charts inside cards.** Small bars sitting next to a number rather
+than a chart section of their own. Our pack already has the pieces.
+
+### What we do not take
+
+**Their accent colour.** A chartreuse that sits near 1.8:1 on white. Fine for a
+marketing button with a dark label, disqualifying for anything encoding data,
+and it would fail the palette validator immediately.
+
+**Avatars and photography.** They lean on faces throughout. We have no player
+images and no licence for any, and identity comes from initials and club
+accents instead.
+
+**Marketing rhythm.** Alternating full-bleed persuasion sections suit a pricing
+page. We are a tool: one shell, dense content, no scroll narrative.
+
+### The rule that does not bend
+
+Their layout is a template for *structure*, never for *claims*. Every number on
+our version still carries its uncertainty, its sample size and its band word.
+A prettier shell must not quietly turn an estimate into a promise.
