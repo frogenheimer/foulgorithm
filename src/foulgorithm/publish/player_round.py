@@ -288,7 +288,7 @@ def _record(board: list[dict], picks: list[dict], as_of) -> dict:
                                 published_at=published,
                                 kickoff=fixture["kickoff"],
                                 fixture=f"{fixture['home']} v {fixture['away']}",
-                                entity=p["player"],
+                                entity=p.get("fullName") or p["player"],
                                 market=market_key,
                                 line=n - 0.5,
                                 probability=block[f"p{n}plus"],
@@ -309,7 +309,7 @@ def _record(board: list[dict], picks: list[dict], as_of) -> dict:
                         published_at=published,
                         kickoff=leg["kickoff"] if "kickoff" in leg else as_of.isoformat(),
                         fixture=leg["fixture"],
-                        entity=leg["player"],
+                        entity=leg.get("fullName") or leg["player"],
                         market=(
                             "player_fouls_committed"
                             if leg["market"] == "committed"
@@ -493,6 +493,7 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                         rows.append(
                             {
                                 "player": sel.display,
+                                "fullName": sel.full,
                                 "position": sel.position,
                                 "hasHistory": sel.history is not None,
                                 "team": team,
@@ -662,6 +663,9 @@ def _leg(row: dict, cid: str) -> dict:
     why = row["whys"][cid]
     return {
         "player": row["player"],
+        # Settlement joins on the full name. "Havertz" cannot be matched
+        # against "Kai Havertz", and a half-matching join is worse than none.
+        "fullName": row.get("fullName") or row["player"],
         "team": row["team"],
         "fixture": row["fixture"],
         "kickoff": row["kickoff"],

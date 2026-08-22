@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T13:34:00+00:00",
+  "generatedAt": "2026-08-22T13:42:58+00:00",
   "trainedOn": {
     "playerMatches": 81327,
     "players": 1671,
@@ -5779,7 +5779,7 @@
               "band2": "Remote chance",
               "p3plus": 0.0015,
               "fair3": 688.03,
-              "floor3": 756.83,
+              "floor3": 756.84,
               "band3": "Remote chance",
               "outOf100": 14
             }
@@ -9304,7 +9304,7 @@
               "floor1": 4.39,
               "band1": "Unlikely",
               "p2plus": 0.0947,
-              "fair2": 10.57,
+              "fair2": 10.56,
               "floor2": 11.62,
               "band2": "Remote chance",
               "p3plus": 0.0361,
@@ -10895,7 +10895,7 @@
               "floor2": 47.44,
               "band2": "Remote chance",
               "p3plus": 0.0016,
-              "fair3": 625.43,
+              "fair3": 625.44,
               "floor3": 687.98,
               "band3": "Remote chance",
               "outOf100": 14
@@ -13312,7 +13312,7 @@
               "band2": "Remote chance",
               "p3plus": 0.0081,
               "fair3": 123.31,
-              "floor3": 135.65,
+              "floor3": 135.64,
               "band3": "Remote chance",
               "outOf100": 18
             }
@@ -15911,7 +15911,7 @@
               "band1": "Remote chance",
               "p2plus": 0.0112,
               "fair2": 89.59,
-              "floor2": 98.55,
+              "floor2": 98.54,
               "band2": "Remote chance",
               "p3plus": 0.001,
               "fair3": null,
@@ -20649,7 +20649,7 @@
               "exact0": 0.6744,
               "p1plus": 0.3359,
               "fair1": 2.98,
-              "floor1": 3.28,
+              "floor1": 3.27,
               "band1": "Unlikely",
               "p2plus": 0.108,
               "fair2": 9.26,
@@ -25205,6 +25205,7 @@
           "legs": [
             {
               "player": "Rice",
+              "fullName": "Declan Rice",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -25220,6 +25221,7 @@
             },
             {
               "player": "Mbeumo",
+              "fullName": "Bryan Mbeumo",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -25243,6 +25245,7 @@
           "legs": [
             {
               "player": "Rice",
+              "fullName": "Declan Rice",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -25258,6 +25261,7 @@
             },
             {
               "player": "L.Miley",
+              "fullName": "Lewis Miley",
               "team": "Newcastle",
               "fixture": "Newcastle v Liverpool",
               "kickoff": "2026-08-23T16:30:00+00:00",
@@ -25281,6 +25285,7 @@
           "legs": [
             {
               "player": "Rice",
+              "fullName": "Declan Rice",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -25296,6 +25301,7 @@
             },
             {
               "player": "L.Miley",
+              "fullName": "Lewis Miley",
               "team": "Newcastle",
               "fixture": "Newcastle v Liverpool",
               "kickoff": "2026-08-23T16:30:00+00:00",
@@ -25311,6 +25317,7 @@
             },
             {
               "player": "Mbeumo",
+              "fullName": "Bryan Mbeumo",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -25334,6 +25341,7 @@
           "legs": [
             {
               "player": "Rice",
+              "fullName": "Declan Rice",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -25349,6 +25357,7 @@
             },
             {
               "player": "L.Miley",
+              "fullName": "Lewis Miley",
               "team": "Newcastle",
               "fixture": "Newcastle v Liverpool",
               "kickoff": "2026-08-23T16:30:00+00:00",
@@ -25364,6 +25373,7 @@
             },
             {
               "player": "Iwobi",
+              "fullName": "Alex Iwobi",
               "team": "Fulham",
               "fixture": "Fulham v Chelsea",
               "kickoff": "2026-08-24T20:00:00+00:00",
@@ -25379,6 +25389,7 @@
             },
             {
               "player": "Mbeumo",
+              "fullName": "Bryan Mbeumo",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -25559,6 +25570,7 @@
           "legs": [
             {
               "player": "Grealish",
+              "fullName": "Jack Grealish",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25574,6 +25586,7 @@
             },
             {
               "player": "Luki\u0107",
+              "fullName": "Sa\u0161a Luki\u0107",
               "team": "Ipswich",
               "fixture": "Ipswich v Sunderland",
               "kickoff": "2026-08-22T15:00:00+00:00",
@@ -25589,6 +25602,7 @@
             },
             {
               "player": "McGinn",
+              "fullName": "John McGinn",
               "team": "Aston Villa",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25612,6 +25626,7 @@
           "legs": [
             {
               "player": "Grealish",
+              "fullName": "Jack Grealish",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25627,6 +25642,7 @@
             },
             {
               "player": "Luki\u0107",
+              "fullName": "Sa\u0161a Luki\u0107",
               "team": "Ipswich",
               "fixture": "Ipswich v Sunderland",
               "kickoff": "2026-08-22T15:00:00+00:00",
@@ -25642,6 +25658,7 @@
             },
             {
               "player": "McGinn",
+              "fullName": "John McGinn",
               "team": "Aston Villa",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25657,6 +25674,7 @@
             },
             {
               "player": "Costinha",
+              "fullName": "Jo\u00e3o Pedro Loureiro da Costa",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25680,6 +25698,7 @@
           "legs": [
             {
               "player": "Grealish",
+              "fullName": "Jack Grealish",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25695,6 +25714,7 @@
             },
             {
               "player": "Luki\u0107",
+              "fullName": "Sa\u0161a Luki\u0107",
               "team": "Ipswich",
               "fixture": "Ipswich v Sunderland",
               "kickoff": "2026-08-22T15:00:00+00:00",
@@ -25710,6 +25730,7 @@
             },
             {
               "player": "McGinn",
+              "fullName": "John McGinn",
               "team": "Aston Villa",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25725,6 +25746,7 @@
             },
             {
               "player": "Scott",
+              "fullName": "Alex Scott",
               "team": "Bournemouth",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25740,6 +25762,7 @@
             },
             {
               "player": "Costinha",
+              "fullName": "Jo\u00e3o Pedro Loureiro da Costa",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25763,6 +25786,7 @@
           "legs": [
             {
               "player": "Grealish",
+              "fullName": "Jack Grealish",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25778,6 +25802,7 @@
             },
             {
               "player": "Luki\u0107",
+              "fullName": "Sa\u0161a Luki\u0107",
               "team": "Ipswich",
               "fixture": "Ipswich v Sunderland",
               "kickoff": "2026-08-22T15:00:00+00:00",
@@ -25793,6 +25818,7 @@
             },
             {
               "player": "McGinn",
+              "fullName": "John McGinn",
               "team": "Aston Villa",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25808,6 +25834,7 @@
             },
             {
               "player": "Scott",
+              "fullName": "Alex Scott",
               "team": "Bournemouth",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25823,6 +25850,7 @@
             },
             {
               "player": "Costinha",
+              "fullName": "Jo\u00e3o Pedro Loureiro da Costa",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -25838,6 +25866,7 @@
             },
             {
               "player": "Wilson",
+              "fullName": "Harry Wilson",
               "team": "Leeds",
               "fixture": "Nott'm Forest v Leeds",
               "kickoff": "2026-08-22T15:00:00+00:00",
@@ -26018,6 +26047,7 @@
           "legs": [
             {
               "player": "Igor",
+              "fullName": "Igor Julio dos Santos de Paulo",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26033,6 +26063,7 @@
             },
             {
               "player": "Foden",
+              "fullName": "Phil Foden",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26056,6 +26087,7 @@
           "legs": [
             {
               "player": "Igor",
+              "fullName": "Igor Julio dos Santos de Paulo",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26071,6 +26103,7 @@
             },
             {
               "player": "Georginio",
+              "fullName": "Georginio Rutter",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26086,6 +26119,7 @@
             },
             {
               "player": "Foden",
+              "fullName": "Phil Foden",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26109,6 +26143,7 @@
           "legs": [
             {
               "player": "Igor",
+              "fullName": "Igor Julio dos Santos de Paulo",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26124,6 +26159,7 @@
             },
             {
               "player": "Georginio",
+              "fullName": "Georginio Rutter",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26139,6 +26175,7 @@
             },
             {
               "player": "Costinha",
+              "fullName": "Jo\u00e3o Pedro Loureiro da Costa",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26154,6 +26191,7 @@
             },
             {
               "player": "Foden",
+              "fullName": "Phil Foden",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26177,6 +26215,7 @@
           "legs": [
             {
               "player": "Igor",
+              "fullName": "Igor Julio dos Santos de Paulo",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26192,6 +26231,7 @@
             },
             {
               "player": "Georginio",
+              "fullName": "Georginio Rutter",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26207,6 +26247,7 @@
             },
             {
               "player": "Costinha",
+              "fullName": "Jo\u00e3o Pedro Loureiro da Costa",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26222,6 +26263,7 @@
             },
             {
               "player": "De Cuyper",
+              "fullName": "Maxim De Cuyper",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26237,6 +26279,7 @@
             },
             {
               "player": "Hinshelwood",
+              "fullName": "Jack Hinshelwood",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26417,6 +26460,7 @@
           "legs": [
             {
               "player": "Costinha",
+              "fullName": "Jo\u00e3o Pedro Loureiro da Costa",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26432,6 +26476,7 @@
             },
             {
               "player": "Saka",
+              "fullName": "Bukayo Saka",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26447,6 +26492,7 @@
             },
             {
               "player": "Cunha",
+              "fullName": "Matheus Cunha",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -26470,6 +26516,7 @@
           "legs": [
             {
               "player": "Costinha",
+              "fullName": "Jo\u00e3o Pedro Loureiro da Costa",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26485,6 +26532,7 @@
             },
             {
               "player": "Saka",
+              "fullName": "Bukayo Saka",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26500,6 +26548,7 @@
             },
             {
               "player": "Cunha",
+              "fullName": "Matheus Cunha",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -26515,6 +26564,7 @@
             },
             {
               "player": "Semenyo",
+              "fullName": "Antoine Semenyo",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26538,6 +26588,7 @@
           "legs": [
             {
               "player": "Costinha",
+              "fullName": "Jo\u00e3o Pedro Loureiro da Costa",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26553,6 +26604,7 @@
             },
             {
               "player": "Saka",
+              "fullName": "Bukayo Saka",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26568,6 +26620,7 @@
             },
             {
               "player": "Cunha",
+              "fullName": "Matheus Cunha",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -26583,6 +26636,7 @@
             },
             {
               "player": "Semenyo",
+              "fullName": "Antoine Semenyo",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26598,6 +26652,7 @@
             },
             {
               "player": "Havertz",
+              "fullName": "Kai Havertz",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26613,6 +26668,7 @@
             },
             {
               "player": "Santos",
+              "fullName": "Andrey Santos",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -26636,6 +26692,7 @@
           "legs": [
             {
               "player": "Costinha",
+              "fullName": "Jo\u00e3o Pedro Loureiro da Costa",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26651,6 +26708,7 @@
             },
             {
               "player": "Saka",
+              "fullName": "Bukayo Saka",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26666,6 +26724,7 @@
             },
             {
               "player": "Cunha",
+              "fullName": "Matheus Cunha",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -26681,6 +26740,7 @@
             },
             {
               "player": "Semenyo",
+              "fullName": "Antoine Semenyo",
               "team": "Man City",
               "fixture": "Man City v Bournemouth",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26696,6 +26756,7 @@
             },
             {
               "player": "Havertz",
+              "fullName": "Kai Havertz",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26711,6 +26772,7 @@
             },
             {
               "player": "McGinn",
+              "fullName": "John McGinn",
               "team": "Aston Villa",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",
@@ -26777,7 +26839,7 @@
           "line": 1.5,
           "prob": 0.564,
           "packProb": 0.3332,
-          "edge": 0.2309,
+          "edge": 0.2308,
           "band": "Likely",
           "outOf100": 56,
           "fair": 1.77,
@@ -26891,6 +26953,7 @@
           "legs": [
             {
               "player": "Dorgu",
+              "fullName": "Patrick Dorgu",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -26906,6 +26969,7 @@
             },
             {
               "player": "Lewis-Skelly",
+              "fullName": "Myles Lewis-Skelly",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26921,6 +26985,7 @@
             },
             {
               "player": "Onyeka",
+              "fullName": "Frank Onyeka",
               "team": "Coventry",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26944,6 +27009,7 @@
           "legs": [
             {
               "player": "Dorgu",
+              "fullName": "Patrick Dorgu",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -26959,6 +27025,7 @@
             },
             {
               "player": "Lewis-Skelly",
+              "fullName": "Myles Lewis-Skelly",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26968,12 +27035,13 @@
               "prob": 0.564,
               "outOf100": 56,
               "packProb": 0.3332,
-              "edge": 0.2309,
+              "edge": 0.2308,
               "band": "Likely",
               "thin": true
             },
             {
               "player": "Onyeka",
+              "fullName": "Frank Onyeka",
               "team": "Coventry",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -26997,6 +27065,7 @@
           "legs": [
             {
               "player": "Dorgu",
+              "fullName": "Patrick Dorgu",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -27012,6 +27081,7 @@
             },
             {
               "player": "Lewis-Skelly",
+              "fullName": "Myles Lewis-Skelly",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -27021,12 +27091,13 @@
               "prob": 0.564,
               "outOf100": 56,
               "packProb": 0.3332,
-              "edge": 0.2309,
+              "edge": 0.2308,
               "band": "Likely",
               "thin": true
             },
             {
               "player": "Onyeka",
+              "fullName": "Frank Onyeka",
               "team": "Coventry",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -27050,6 +27121,7 @@
           "legs": [
             {
               "player": "Dorgu",
+              "fullName": "Patrick Dorgu",
               "team": "Man United",
               "fixture": "Hull v Man United",
               "kickoff": "2026-08-22T12:30:00+00:00",
@@ -27065,6 +27137,7 @@
             },
             {
               "player": "Lewis-Skelly",
+              "fullName": "Myles Lewis-Skelly",
               "team": "Arsenal",
               "fixture": "Arsenal v Coventry",
               "kickoff": "2026-08-21T20:00:00+00:00",
@@ -27074,12 +27147,13 @@
               "prob": 0.564,
               "outOf100": 56,
               "packProb": 0.3332,
-              "edge": 0.2309,
+              "edge": 0.2308,
               "band": "Likely",
               "thin": true
             },
             {
               "player": "Reinildo",
+              "fullName": "Reinildo Mandava",
               "team": "Sunderland",
               "fixture": "Ipswich v Sunderland",
               "kickoff": "2026-08-22T15:00:00+00:00",
@@ -27095,6 +27169,7 @@
             },
             {
               "player": "Georginio",
+              "fullName": "Georginio Rutter",
               "team": "Brighton",
               "fixture": "Brighton v Aston Villa",
               "kickoff": "2026-08-23T14:00:00+00:00",

@@ -18,6 +18,56 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-22 — The loop closes, and two bugs that would have faked it
+
+**What was missing.** The grading job has existed since the start. Nothing ever
+built the outcomes it needs, so nothing had ever actually been graded. The
+weekly review was a document describing a job that did not run.
+
+**Why settlement works by subtraction.** The league's API publishes per-fixture
+stats at TEAM level and per-player stats only as SEASON TOTALS. A player's fouls
+in one match are the difference between two weekly snapshots and are not
+available any other way: the worldfootballR archive stops in September 2025 and
+FBref lost its Opta feed in January 2026. A bulk ranked endpoint makes it cheap,
+two calls rather than one per player.
+
+The subtraction is only valid when a player made exactly ONE appearance between
+snapshots. In a midweek round he may have made two, and then the difference is a
+sum whose parts are unknowable. Those are skipped and counted.
+
+**Two bugs, caught because the first result was impossible.** The first run
+reported 24 claims graded, 0 of them winning, against a claimed 26.6%. That is
+roughly a 1 in 1,400 event, so it was not variance.
+
+1. **The join was on the wrong name.** Predictions recorded "Havertz" and the
+   outcomes carry "Kai Havertz". Only 24 of 1,913 claims joined, and those were
+   the players whose display name happens to equal their full name. Predictions
+   now record the full name.
+
+2. **Nothing checked the fixture had finished.** Outcomes are keyed by player and
+   market with no fixture in the key, so a Saturday appearance would settle a
+   claim about a Tuesday match. This would never have failed loudly. It would
+   have quietly produced a track record that looked real. Settlement now grades
+   only fixtures the league reports as complete.
+
+The first is the name-keyed join failure again, in a second place, on the same
+day it was found in `opponent_factor`. Twice in one session is a pattern worth
+naming rather than fixing twice.
+
+**First honest numbers**, 293 claims over two completed fixtures:
+
+| model | n | claimed | actual | gap |
+|---|---|---|---|---|
+| house | 264 | 29.5% | 28.0% | -1.5% |
+| tayler | 11 | 76.1% | 100.0% | +23.9% |
+| bdog | 11 | 64.8% | 54.5% | -10.2% |
+| alan | 7 | 65.2% | 0.0% | -65.2% |
+
+The house model is well calibrated at -1.5% over 264 claims. **Every character
+number here is noise.** Seven to eleven claims says nothing at all, and Alan's
+0% no more than Tayler's 100%. They are shown because hiding the early sample
+would be the start of exactly the selective reporting this is meant to avoid.
+
 ## 2026-08-22 — Half the league had no opponent adjustment at all
 
 **Found while doing something else**, which is the usual way. Building priors

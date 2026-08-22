@@ -18,6 +18,7 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Live squads | **Built** | FPL API, catches transfers and injuries |
 | Confirmed lineups | **Built** | League API, polled on a schedule, and a confirmed starter now collapses the minutes mixture rather than only changing a label |
 | Results ingestion | **Built** | Same source, minutes after full time |
+| Player settlement | **Built** | Season totals diffed weekly. Two appearances between snapshots cannot be split, so they are skipped |
 | Current-season league leaders | **Built** | The context rail |
 | Referee appointments | **Built** | Carried on the fixture list |
 | Championship data for promoted clubs | **Built** | Team priors only, shrunk at beta 0.373. Player-level data does not exist for the second tier at any price |

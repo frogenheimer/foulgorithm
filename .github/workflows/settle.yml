@@ -1,0 +1,58 @@
+name: settle
+
+# Grades what we published. Runs Monday morning, after the weekend settles, and
+# again Thursday to catch midweek rounds.
+#
+# This is the whole credibility of the project. Publishing predictions without
+# grading them is what a tipster account does, and the bad weeks are the point.
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+    - cron: "0 9 * * 4"
+  workflow_dispatch:
+
+concurrency:
+  group: settle
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  settle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Settle
+        id: settle
+        # Exit 1 means there was nothing new to grade, which is normal midweek.
+        # Exit 2 means the source is dead, and that must fail loudly.
+        run: |
+          set +e
+          python -m foulgorithm.jobs.settle
+          code=$?
+          set -e
+          if [ $code -eq 2 ]; then exit 1; fi
+          echo "graded=$([ $code -eq 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit
+        if: steps.settle.outputs.graded == 'true'
+        run: |
+          git config user.name "foulgorithm-bot"
+          git config user.email "foulgorithm@users.noreply.github.com"
+          git add site/public/data data/raw/player_season_totals.json data/graded
+          git diff --cached --quiet && exit 0
+          git commit -m "Grade the round"
+          git push
