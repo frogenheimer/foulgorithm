@@ -89,6 +89,41 @@ function read<T>(file: string): T {
 export const getOverview = () => read<Overview>("overview.json");
 export const getRound = () => read<Round>("round.json");
 
+/* ---------- the explorer ---------- */
+
+/**
+ * One player, every market, every line, every model.
+ *
+ * Probabilities are held as `[line][model]` arrays rather than nested objects.
+ * The whole table ships to the browser so filtering is instant, and the array
+ * form is roughly a third of the bytes of the readable equivalent.
+ */
+export type ExplorerRow = {
+  player: string;
+  fullName: string;
+  position: string;
+  team: string;
+  opponent: string;
+  fixture: string;
+  kickoff: string;
+  minutes: number;
+  startProbability: number | null;
+  confirmed: boolean;
+  thin: boolean;
+  expected: { committed: number; drawn: number; involvements: number };
+  committed: number[][];
+  drawn: number[][];
+  involvements: number[][];
+};
+
+export type Explorer = {
+  models: string[];
+  lines: number[];
+  markets: ("committed" | "drawn" | "involvements")[];
+  house: string;
+  rows: ExplorerRow[];
+};
+
 /* ---------- graded record ---------- */
 
 export type ModelRecord = {
@@ -273,6 +308,8 @@ export type PlayersData = {
   topFoulers: PlayerRow[];
   board: FixtureBoard[];
   picks: CharacterPicks[];
+  explorer: Explorer;
 };
 
 export const getPlayers = () => read<PlayersData>("players.json");
+export const getExplorer = (): Explorer => getPlayers().explorer;

@@ -1,0 +1,391 @@
+.wrap {
+  display: grid;
+  gap: var(--space-5);
+}
+
+/* ---------- market tabs ---------- */
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-2);
+}
+
+.tab,
+.tabOn {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease),
+    background var(--duration-fast) var(--ease);
+}
+
+.tab:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.tabOn {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.tabLabel {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tabHint {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ---------- controls ---------- */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.input,
+.select {
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  background: var(--plane);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  min-width: 140px;
+  max-width: 240px;
+}
+
+.input:focus-visible,
+.select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.segment {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.seg,
+.segOn {
+  font: inherit;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-right: 1px solid var(--border);
+  background: var(--plane);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.seg:last-child,
+.segOn:last-child {
+  border-right: 0;
+}
+
+.segOn {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.toggles {
+  display: flex;
+  gap: var(--space-4);
+  margin-left: auto;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.count {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ---------- table ---------- */
+
+/* Wide content scrolls inside its own box. The page never scrolls sideways. */
+.scroller {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  text-align: right;
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Beats the shared rule above on specificity rather than on source order, which
+   is the kind of thing that silently reverses when a file gets reordered. */
+.table th.left,
+.table td.left {
+  text-align: left;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.wide {
+  min-width: 190px;
+}
+
+.table th {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  background: var(--surface-1);
+  z-index: 1;
+}
+
+.sortable {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+
+.sortable:hover {
+  color: var(--text-primary);
+}
+
+.name {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.fixture {
+  color: var(--text-secondary);
+}
+
+.num {
+  color: var(--text-secondary);
+}
+
+/* A confirmed lineup is worth marking on every row, because pre-lineup and
+   post-lineup predictions are graded separately. A pill on all 250 rows was
+   noise, so it is a dot and a word. */
+.confirmed {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.dotMark {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Thin evidence keeps the pill. It is a caveat, and caveats should interrupt. */
+.thinTag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1px var(--space-2);
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+/* Thin evidence is dimmed AND labelled. Colour never carries meaning alone. */
+.thinRow .name {
+  color: var(--text-secondary);
+}
+
+.empty {
+  padding: var(--space-7) var(--space-4);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+/* ---------- the hundred-square frequency ---------- */
+
+.bars {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(25, 3px);
+  grid-auto-rows: 3px;
+  gap: 1px;
+}
+
+.cell,
+.cellOn {
+  border-radius: 1px;
+}
+
+.cell {
+  background: var(--grid);
+}
+
+.cellOn {
+  background: var(--seq-450);
+}
+
+.barsValue {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.barsValue strong {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.barsUnit {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/* ---------- model spread ---------- */
+
+.spread {
+  position: relative;
+  display: block;
+  height: 20px;
+  min-width: 150px;
+}
+
+.spreadTrack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 7px;
+  height: 1px;
+  background: var(--grid);
+}
+
+.dot,
+.dotOn {
+  position: absolute;
+  top: 3px;
+  width: 9px;
+  height: 9px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: var(--char);
+}
+
+.dot {
+  opacity: 0.45;
+}
+
+.dotOn {
+  opacity: 1;
+  box-shadow: 0 0 0 2px var(--surface-1);
+}
+
+.spreadRange {
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+@media (max-width: 720px) {
+  .toggles {
+    margin-left: 0;
+  }
+
+  .input,
+  .select {
+    max-width: none;
+    width: 100%;
+  }
+}

@@ -38,3 +38,21 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* Standing caveats under a table. Quiet, but never hidden behind a toggle. */
+.footNote {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 72ch;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.footNote p {
+  margin: 0;
+}
+
+.footNote strong {
+  color: var(--text-secondary);
+}

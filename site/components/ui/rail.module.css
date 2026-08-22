@@ -83,3 +83,30 @@
   .tip { display: none; }
   .content, .footer { padding-left: var(--space-4); padding-right: var(--space-4); }
 }
+
+/* Sits at the foot of the rail, away from navigation. Changing how the page
+   looks is not the same kind of action as going somewhere. */
+.theme {
+  margin-top: auto;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease),
+    border-color var(--duration-fast) var(--ease);
+}
+
+.theme:hover {
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.theme:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}

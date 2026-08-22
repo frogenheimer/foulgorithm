@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
 import type { ReactNode } from "react";
 import s from "./rail.module.css";
 
@@ -23,6 +24,7 @@ export const SUPPORT = {
 
 const NAV = [
   { href: "/", label: "This round", icon: Grid },
+  { href: "/players", label: "Players", icon: Grid },
   { href: "/characters", label: "The five", icon: Users },
   { href: "/record", label: "Track record", icon: Chart },
   { href: "/history", label: "History", icon: Chart },
@@ -47,6 +49,7 @@ export function Rail({ children }: { children: ReactNode }) {
             </li>
           ))}
         </ul>
+        <ThemeToggle />
       </nav>
 
       <div className={s.main}>
