@@ -8,14 +8,17 @@ Two outputs in one file:
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
 
 from foulgorithm.characters import base as characters
+from foulgorithm.identity import players as identity
+from foulgorithm.identity.teams import to_fpl
 from foulgorithm.models import player_models as pm
-from foulgorithm.sources import football_data
+from foulgorithm.sources import football_data, fpl
 from foulgorithm.store.players import load_player_matches
 
 OUTPUT = Path("site/public/data/players.json")
@@ -47,26 +50,55 @@ def band(p: float) -> str:
     return "Remote chance"
 
 
-def squad(history: pd.DataFrame, team: str, as_of, limit: int = 16) -> list[str]:
-    """Who is likely to feature: recent appearances, most minutes first.
+@dataclass(frozen=True)
+class Selection:
+    """A player we expect to feature, and the history we can attach to him."""
 
-    A stand-in for a real predicted lineup, which is a separate modelling job.
+    display: str          # what to show, e.g. "Saka"
+    full: str             # the squad-list name, e.g. "Bukayo Saka"
+    history: str | None   # the name his foul record is filed under, if resolved
+    position: str
+    available: bool
+    news: str
+
+    @property
+    def lookup(self) -> str:
+        """The name to ask the model about. Unresolved players get a position prior."""
+        return self.history or self.full
+
+
+def squad(squads, resolution, team: str, limit: int = 16) -> list[Selection]:
+    """Who is likely to feature, from the CURRENT squad list.
+
+    Previously derived from foul history ending September 2025, which named
+    players who had since transferred and missed every summer signing. Now the
+    squad comes from the league's own live data and only the RATES come from
+    history.
     """
-    recent = history[(history["team"] == team) & (history["known_at"] <= as_of)]
-    if recent.empty:
-        return []
-    cutoff = recent["kickoff_utc"].max() - pd.Timedelta(days=200)
-    recent = recent[recent["kickoff_utc"] >= cutoff]
-    ranked = (
-        recent.groupby("player")["minutes"].agg(["sum", "size"]).sort_values("sum", ascending=False)
-    )
-    return [p for p, r in ranked.iterrows() if r["size"] >= 2][:limit]
+    players = squads.get(to_fpl(team), [])
+    out = []
+    for p in fpl.likely_eleven(players, limit):
+        out.append(
+            Selection(
+                display=p.web_name,
+                full=p.name,
+                history=resolution.matched.get(p.name),
+                position=p.position,
+                available=p.available,
+                news=p.news,
+            )
+        )
+    return out
 
 
 def publish(output: Path = OUTPUT) -> dict:
     history = load_player_matches()
     fixtures = pd.DataFrame(football_data.fetch_fixtures())
     as_of = datetime.now(timezone.utc)
+
+    squads = fpl.current_squads()
+    everyone = [p for club in squads.values() for p in club]
+    resolution = identity.resolve(everyone, history["player"].unique())
 
     committed = {c: pm.build(c, "player_fouls_committed") for c in pm.CHARACTER_SETTINGS}
     drawn = {c: pm.build(c, "player_fouls_drawn") for c in pm.CHARACTER_SETTINGS}
@@ -89,18 +121,21 @@ def publish(output: Path = OUTPUT) -> dict:
         }
         for team, opponent in ((fx.home_team_raw, fx.away_team_raw), (fx.away_team_raw, fx.home_team_raw)):
             players = []
-            for player in squad(history, team, as_of):
-                dist_c, why_c = house_c.predict_one(player, opponent, as_of)
-                dist_d, why_d = house_d.predict_one(player, opponent, as_of)
+            for sel in squad(squads, resolution, team):
+                dist_c, why_c = house_c.predict_one(sel.lookup, opponent, as_of)
+                dist_d, why_d = house_d.predict_one(sel.lookup, opponent, as_of)
                 row = {
-                    "player": player,
+                    "player": sel.display,
+                    "fullName": sel.full,
+                    "position": sel.position,
+                    "hasHistory": sel.history is not None,
                     "team": team,
                     "opponent": opponent,
                     "fixture": f"{fx.home_team_raw} v {fx.away_team_raw}",
                     "kickoff": fx.kickoff_utc.isoformat(),
                     "expectedMinutes": why_c["expectedMinutes"],
                     "effectiveMatches": why_c["effectiveMatches"],
-                    "thin": why_c["effectiveMatches"] < THIN_EVIDENCE,
+                    "thin": why_c["effectiveMatches"] < THIN_EVIDENCE or sel.history is None,
                     "committed": _market_block(dist_c, why_c),
                     "drawn": _market_block(dist_d, why_d),
                 }
@@ -111,7 +146,7 @@ def publish(output: Path = OUTPUT) -> dict:
             )
         board.append(fixture_block)
 
-    candidates = _candidate_table(history, fixtures, committed, drawn, as_of)
+    candidates = _candidate_table(squads, resolution, fixtures, committed, drawn, as_of)
     picks = [_character_picks(cid, candidates) for cid in pm.CHARACTER_SETTINGS]
 
     top = sorted(all_rows, key=lambda r: -r["committed"]["p1plus"])[:12]
@@ -125,6 +160,12 @@ def publish(output: Path = OUTPUT) -> dict:
             "to": history["kickoff_utc"].max().strftime("%b %Y"),
         },
         "edgeMargin": EDGE_MARGIN,
+        "squads": {
+            "source": "Fantasy Premier League API",
+            "players": len(everyone),
+            "resolved": len(resolution.matched),
+            "unresolved": len(resolution.unmatched),
+        },
         "topFoulers": top,
         "board": board,
         "picks": picks,
@@ -146,7 +187,7 @@ def _market_block(dist, why: dict) -> dict:
     return out
 
 
-def _candidate_table(history, fixtures, committed, drawn, as_of) -> list[dict]:
+def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of) -> list[dict]:
     """Every candidate bet, with EVERY character's probability attached.
 
     Computed once. Selection then reads from it, which is what makes
@@ -158,19 +199,21 @@ def _candidate_table(history, fixtures, committed, drawn, as_of) -> list[dict]:
             (fx.home_team_raw, fx.away_team_raw),
             (fx.away_team_raw, fx.home_team_raw),
         ):
-            for player in squad(history, team, as_of, limit=14):
+            for sel in squad(squads, resolution, team, limit=14):
                 for market, models in (("committed", committed), ("drawn", drawn)):
                     dists = {}
                     whys = {}
                     for cid, model in models.items():
-                        dists[cid], whys[cid] = model.predict_one(player, opponent, as_of)
+                        dists[cid], whys[cid] = model.predict_one(sel.lookup, opponent, as_of)
                     for line in (0.5, 1.5, 2.5):
                         probs = {cid: d.prob_over(line) for cid, d in dists.items()}
                         if max(probs.values()) < 0.12 or min(probs.values()) > 0.97:
                             continue
                         rows.append(
                             {
-                                "player": player,
+                                "player": sel.display,
+                                "position": sel.position,
+                                "hasHistory": sel.history is not None,
                                 "team": team,
                                 "fixture": f"{fx.home_team_raw} v {fx.away_team_raw}",
                                 "kickoff": fx.kickoff_utc.isoformat(),
@@ -315,7 +358,8 @@ def _character_picks(cid, candidates) -> dict:
                 "fair": round(1 / p, 2),
                 "floor": round((1 / p) * (1 + EDGE_MARGIN), 2),
                 "why": why,
-                "thin": why["effectiveMatches"] < THIN_EVIDENCE,
+                "thin": why["effectiveMatches"] < THIN_EVIDENCE or not row.get("hasHistory", True),
+                "position": row.get("position"),
             }
         )
 

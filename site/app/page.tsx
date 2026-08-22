@@ -21,9 +21,10 @@ export default function Today() {
           least one foul. In the other {100 - lead.committed.outOf100}, he does not.
         </p>
         <p className={s.sub}>
-          Built from {count(t.playerMatches)} player-matches across {count(t.players)} players,{" "}
-          {t.from} to {t.to}. Every price below is what the bet would need to pay to be worth
-          taking, not a price anyone is offering.
+          Squads are today&apos;s, taken live from the league&apos;s own data, so transfers and
+          injuries are already accounted for. Foul rates come from{" "}
+          {count(t.playerMatches)} player-matches, {t.from} to {t.to}. Every price is what a bet
+          would need to pay to be worth taking, not a price anyone is offering.
         </p>
       </section>
 
@@ -37,7 +38,8 @@ export default function Today() {
               <span className={s.who}>
                 <span className={s.name}>{r.player}</span>
                 <span className={s.meta}>
-                  {r.team} · {r.fixture} · {Math.round(r.expectedMinutes)} min expected
+                  {r.position && `${r.position} · `}{r.team} · {r.fixture} ·{" "}
+                  {Math.round(r.expectedMinutes)} min expected
                 </span>
               </span>
               <span className={s.freq}>
@@ -144,6 +146,7 @@ export default function Today() {
                       <thead>
                         <tr>
                           <th>Player</th>
+                          <th>Pos</th>
                           <th className={s.num}>Min</th>
                           <th className={s.num}>1+</th>
                           <th className={s.num}>2+</th>
@@ -155,6 +158,7 @@ export default function Today() {
                         {players.map((p) => (
                           <tr key={p.player} className={p.thin ? s.thinRow : undefined}>
                             <td>{p.player}</td>
+                            <td className="muted">{p.position ?? ""}</td>
                             <td className={s.num}>{Math.round(p.expectedMinutes)}</td>
                             <td className={s.num}>{Math.round(p.committed.p1plus * 100)}</td>
                             <td className={s.num}>{Math.round(p.committed.p2plus * 100)}</td>
@@ -197,6 +201,13 @@ export default function Today() {
             Each character&apos;s five picks are constrained to a similar combined return, so a
             cautious character cannot win by picking near-certainties. A star next to the return
             means that character could not reach the band with picks it actually believed in.
+          </p>
+          <p>
+            Squads come from the {d.squads.source}: {d.squads.players} players across all 20 clubs,
+            updated continuously, so a player who has transferred or is injured never reaches a
+            prediction. Of those, {d.squads.resolved} are matched to a foul record. The rest are new
+            enough to the league that we fall back to their position&apos;s average and mark them
+            thin, rather than guessing from a similar name.
           </p>
           <p className={s.muted}>
             Generated {d.generatedAt.slice(0, 10)}. No prediction here has settled yet, so there is

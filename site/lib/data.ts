@@ -165,7 +165,8 @@ export type MarketBlock = {
 };
 
 export type PlayerRow = {
-  player: string; team: string; opponent: string; fixture: string; kickoff: string;
+  player: string; fullName?: string; position?: string; hasHistory?: boolean;
+  team: string; opponent: string; fixture: string; kickoff: string;
   expectedMinutes: number; effectiveMatches: number; thin: boolean;
   committed: MarketBlock; drawn: MarketBlock;
 };
@@ -174,7 +175,7 @@ export type Pick = {
   player: string; team: string; fixture: string; kickoff: string;
   market: "committed" | "drawn"; line: number; prob: number; band: string;
   outOf100: number; fair: number; floor: number; thin: boolean;
-  packProb: number; edge: number;
+  packProb: number; edge: number; position?: string;
   why: MarketBlock["why"];
 };
 
@@ -195,6 +196,7 @@ export type PlayersData = {
   generatedAt: string;
   trainedOn: { playerMatches: number; players: number; from: string; to: string };
   edgeMargin: number;
+  squads: { source: string; players: number; resolved: number; unresolved: number };
   topFoulers: PlayerRow[];
   board: FixtureBoard[];
   picks: CharacterPicks[];
