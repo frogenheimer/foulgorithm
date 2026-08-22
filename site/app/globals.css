@@ -50,6 +50,11 @@
 
   /* Type */
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Monospace for display type. Reads as instrument rather than publication,
+     puts headings and numbers in one voice, and unlike the serif considered
+     earlier it has tabular figures by construction. */
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono",
+    Menlo, Consolas, monospace;
   --text-xs: 11.5px;
   --text-sm: 12.5px;
   --text-base: 15px;

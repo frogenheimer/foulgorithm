@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Shell } from "@/components/ui/Shell";
+import { Rail } from "@/components/ui/Rail";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-GB">
       <body>
-        <Shell>{children}</Shell>
+        <Rail>{children}</Rail>
       </body>
     </html>
   );
