@@ -30,3 +30,22 @@ Every workflow sets a `timeout-minutes` so a hung job cannot drain the budget.
 - Scheduled writes to the database happen from here. There is one database, and `predictions` is append-only at the database level, so a re-run cannot damage the track record. See [ADR-010](../../docs/decisions/ADR-010-single-database.md).
 - Jobs are idempotent. Re-running one is always safe.
 - A failing scheduled job alerts via Telegram. A silent failure is the thing we are most trying to avoid.
+
+## lineups
+
+Polls for confirmed lineups through the windows when Premier League matches kick
+off, and republishes when they land. Confirmed elevens appear roughly an hour
+before kickoff, so most runs find nothing changed, exit 1 and cost seconds.
+
+**This lives here rather than on the site on purpose.** The site is a static
+export with no backend, so there is no server for a button to call. Adding one
+would mean paying for serverless invocations, or exposing a public endpoint that
+anyone could use to hammer the Premier League API on our behalf. Neither works at
+a budget of zero.
+
+Exit codes matter: 0 published, 1 nothing changed, 2 the source is dead. Only 2
+fails the run, because a dead source must be loud. Publishing predicted elevens
+while labelling them confirmed would be the worst failure available to us.
+
+Run it by hand from the Actions tab with `workflow_dispatch`, or locally with
+`python -m foulgorithm.jobs.lineup_watch`.

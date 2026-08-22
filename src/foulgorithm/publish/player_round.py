@@ -175,8 +175,11 @@ def publish(output: Path = OUTPUT) -> dict:
             players = []
             label = f"{fx.home_team_raw} v {fx.away_team_raw}"
             for sel in squad(squads, resolution, team, lineup=lineups.get(f"{team}|{label}")):
-                dist_c, why_c = house_c.predict_one(sel.lookup, opponent, as_of)
-                dist_d, why_d = house_d.predict_one(sel.lookup, opponent, as_of)
+                # A confirmed starter is a certainty, not a probability. Say so,
+                # and the minutes mixture drops its unused branch entirely.
+                state = "start" if sel.confirmed else None
+                dist_c, why_c = house_c.predict_one(sel.lookup, opponent, as_of, confirmed=state)
+                dist_d, why_d = house_d.predict_one(sel.lookup, opponent, as_of, confirmed=state)
                 row = {
                     "player": sel.display,
                     "fullName": sel.full,
@@ -473,7 +476,10 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                     dists = {}
                     whys = {}
                     for cid, model in models.items():
-                        dists[cid], whys[cid] = model.predict_one(sel.lookup, opponent, as_of)
+                        dists[cid], whys[cid] = model.predict_one(
+                            sel.lookup, opponent, as_of,
+                            confirmed="start" if sel.confirmed else None,
+                        )
                     market_key = (
                         "player_fouls_committed" if market == "committed" else "player_fouls_drawn"
                     )
