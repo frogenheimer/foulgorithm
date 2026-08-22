@@ -7,7 +7,9 @@
 
 .hero {
   padding-top: var(--space-7);
-  max-width: 62ch;
+  /* Cap the MEASURE, not the page. Prose past ~70 characters is hard to track
+     back to the next line however wide the screen is. */
+  max-width: 66ch;
 }
 
 .eyebrow {
@@ -68,7 +70,9 @@
 
 .leader {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto auto auto;
+  /* Fixed trailing columns so the dots, band and price stay put as the row
+     widens, instead of drifting apart across a wide screen. */
+  grid-template-columns: 28px minmax(0, 1fr) 186px 112px 96px;
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-3) 0;
@@ -129,6 +133,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  justify-content: flex-end;
 }
 
 .dots {
@@ -169,7 +174,7 @@
   font-size: 14px;
   color: var(--text-secondary);
   white-space: nowrap;
-  min-width: 11ch;
+  text-align: right;
 }
 
 .floorCol {
@@ -511,7 +516,9 @@ details[open] > summary .chev {
    are context and sit beside them rather than below, where nobody scrolls. */
 .split {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 290px;
+  /* The rail grows a little on very wide screens rather than leaving the extra
+     space to the main column alone, which made the leaderboard rows stretch. */
+  grid-template-columns: minmax(0, 1fr) clamp(290px, 22vw, 380px);
   gap: var(--space-7);
   align-items: start;
   margin-top: var(--space-8);
