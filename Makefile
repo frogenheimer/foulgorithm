@@ -65,3 +65,6 @@ serve: ## Serve the built static site locally (next start does not work with out
 
 player-backtest: ## Compare the five characters on player markets
 	$(PY) -c "from foulgorithm.store.players import load_player_matches; from foulgorithm.backtest import player_harness as ph; h=load_player_matches(); [print(ph.report(ph.walk_forward(h,m,start='2024-01-01')),'\n') for m in ('player_fouls_committed','player_fouls_drawn')]"
+
+season: ## Replay a season, gameweek by gameweek, five characters competing
+	$(PY) -c "from foulgorithm.store.players import load_player_matches; from foulgorithm.backtest import season_competition as sc; print(sc.table(sc.run(load_player_matches())))"

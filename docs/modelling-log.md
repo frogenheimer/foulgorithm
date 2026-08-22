@@ -18,6 +18,69 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-22 — Contrarian selection amplifies the model's own errors
+
+**Question.** If the five had competed across a whole season, publishing five
+picks each gameweek, who would have won?
+
+**Method.** Replay 2024-25 gameweek by gameweek. Each week every model refits on
+what was knowable before the first kickoff, picks five in temperament, and the
+week is graded against what actually happened. 22 gameweeks, 110 legs each.
+
+**Result, the league table.**
+
+| character | leg rate | slips won |
+|---|---|---|
+| bdog | 48.2% | 0 |
+| alan | 38.2% | 0 |
+| lily | 34.5% | 0 |
+| valentina | 30.9% | 0 |
+| tayler | 28.2% | 0 |
+
+**Nobody won a single five-fold in 22 attempts**, which prompted the real
+question: were the picks as likely as the models claimed?
+
+**Result, the diagnosis. This is the finding.**
+
+| | model said | actually happened | gap |
+|---|---|---|---|
+| **All legs on offer** (n=18,267) | 25.0% | 26.7% | **+1.7%** |
+| Alan's picks | 47.6% | 38.2% | **-9.5%** |
+| Bdog's picks | 51.6% | 48.2% | -3.4% |
+| Valentina's picks | 34.0% | 30.9% | -3.1% |
+| Tayler's picks | 27.9% | 28.2% | +0.3% |
+| Lily's picks | 26.8% | 34.5% | +7.8% |
+
+**Conclusion.** The model is well calibrated across everything it offers, very
+slightly conservative. **The damage is done by the selection rule, not the
+model.**
+
+Alan and Bdog choose legs by how far they deviate from the pack. That reliably
+selects the cases where their own model is most wrong, because the biggest
+disagreement is usually the biggest error rather than the biggest insight. Alan
+overstates his own picks by 9.5 points while being honest about the field.
+
+Tayler explicitly avoids standing out, and is almost perfectly calibrated on
+what he picks, at +0.3.
+
+**This generalises well beyond these five.** Any selection rule that maximises
+edge-versus-consensus is a machine for finding your own overconfidence. It is
+the same reason a bettor who only backs prices they think are wrong needs to be
+better calibrated than one who bets at random, not merely as good.
+
+**A bug found alongside it, and worth separating from the finding.** The
+competition's pick function enforced only the ceiling of the target band, not
+the floor, so slips drifted far below 10%. Alan's five legs at a claimed 47.6%
+combine to 2.4%, not the 10 to 20% the band was meant to guarantee. That
+explains the zero slips independently of the calibration problem, and it is now
+fixed. The calibration finding stands regardless, because it is measured
+leg-by-leg rather than on the slips.
+
+**Caveats.** 110 legs per character is a small sample and the gaps have wide
+intervals. 22 gameweeks rather than 38, because the underlying data thins out.
+Returns are settled at our own fair odds, which is self-referential: we set the
+price we are paid.
+
 ## 2026-08-22 — We were overconfident exactly where it costs money
 
 **Question.** Our published price floors sat above what bookmakers actually
