@@ -18,6 +18,52 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-22 — Cards are close to unpredictable, and fouls do not help
+
+**Question.** Cards are the only market where real bookmaker odds exist to check
+against, so a model for them is disproportionately valuable. Can we build one?
+
+**Method.** Three variants over 11,789 walk-forward predictions from 2024:
+the player's own booking record, expected fouls converted through the league
+fouls-per-card ratio, and a blend. Scored against a league base rate.
+
+**Result.**
+
+| variant | says | happens | log loss | ECE |
+|---|---|---|---|---|
+| own record only | 0.127 | 0.156 | **0.4314** | 0.0327 |
+| *league base rate* | 0.138 | 0.156 | *0.4336* | |
+| blend | 0.122 | 0.156 | 0.4347 | 0.0341 |
+| expected fouls only | 0.116 | 0.156 | 0.4556 | 0.0392 |
+
+**Conclusion, and it is not the one I expected.**
+
+**Cards are close to unpredictable at player level with what we hold.** The best
+version beats a model knowing only the league average by **0.5%**. Player fouls,
+which beat their own baseline by 4%, look strong by comparison.
+
+**Using expected fouls to predict cards makes it worse.** The mechanism seemed
+obvious: a booking usually IS one of the player's fouls. But a foul-heavy player
+is not proportionally more bookable. The most plausible reading is that referees
+book for the KIND of foul, tactical, reckless, dissent, rather than for the
+count, and our data has no notion of kind at all. `foul_weight` now defaults to
+zero.
+
+Position priors are real and large, which is the one encouraging part:
+defensive midfielders are booked in 21.5% of appearances against 13.9% league
+wide. But knowing a player's position is most of what we know.
+
+**This matters beyond cards.** It was the market where we could finally have
+measured ourselves against real prices. A model 0.5% better than the base rate
+will not survive a bookmaker's margin, so that validation route is effectively
+closed too.
+
+**Caveats.** Every variant understates, saying about 12% where 15.6% happens,
+consistent with cards having risen 16.3% since 2000 while fouls fell. A shorter
+half-life might recover some of that and has not been tried. And "was he booked"
+may simply be the wrong question: a model of DISCIPLINARY RISK combining fouls,
+tackles and match context could do better than one predicting the card directly.
+
 ## 2026-08-22 — The dispersion was wrong, but not for the reason I thought
 
 **Question.** The model overstates the 3+ line. The stated hypothesis was that a
