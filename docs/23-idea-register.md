@@ -16,11 +16,11 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Match history, 26 seasons | **Built** | 9,880 matches, football-data.co.uk |
 | Player-match history | **Built** | 81,327 rows, fouls committed and won |
 | Live squads | **Built** | FPL API, catches transfers and injuries |
-| Confirmed lineups | **Built** | League API, about an hour pre-kickoff |
+| Confirmed lineups | **Built** | League API, polled on a schedule, and a confirmed starter now collapses the minutes mixture rather than only changing a label |
 | Results ingestion | **Built** | Same source, minutes after full time |
 | Current-season league leaders | **Built** | The context rail |
 | Referee appointments | **Built** | Carried on the fixture list |
-| Championship data for promoted clubs | **Deferred** | Raw data is likely one download; the discount factor is the real work |
+| Championship data for promoted clubs | **Next** | No longer theoretical: Coventry and Hull are up for 2026/27, and 9 of 11 of their players are flagged thin |
 | Possession, take-ons, progressive carries | **Dropped** | Lived on FBref, deleted in the January 2026 Opta termination |
 | Pitch location of fouls | **Dropped** | Needs event data, free only for 2015/16 |
 | Bookmaker odds | **Deferred** | No archive exists for fouls or tackles at any price |
@@ -32,7 +32,7 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Match total fouls | **Built**, backtested, champion promoted |
 | Player fouls committed | **Built**, backtested, calibration-corrected |
 | Player fouls won | **Built**, backtested, calibration-corrected |
-| Player cards | **Next.** Registered, data in hand, no model. The only market with real bookmaker odds to check against |
+| Player cards | **Built, and it barely works.** Beats a league base rate by 0.5%. Expected fouls made it WORSE, so `foul_weight` is zero. See the modelling log |
 | Player tackles | **Planned.** Registered, data in hand, no model |
 | Combination tickets, 4/5/6 fouls | **Built**, with the independence caveat stated |
 | Compound fouls-and-cards | **Deferred.** Needs a joint model: multiplying marginals overstates it, which is the expensive direction |
@@ -46,8 +46,8 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Position-aware priors | **Built** | Fixed Alan backing four goalkeepers |
 | Time decay | **Built** | 400-day half-life, tuned |
 | Referee factor | **Built** | Shrunk, still a confounded ratio |
-| Calibration correction | **Built** | Needs re-fitting on held-out seasons |
-| Count-specific dispersion | **Next** | Fixes the diagnosed cause rather than the symptom |
+| Calibration correction | **Built** | Refitted on held-out seasons, 2022-2024 fit, 2024+ test |
+| Count-specific dispersion | **Dropped** | Fitted, measured, moved the bias by 0.0004. The code was deleted rather than left looking useful |
 | Two-stage minutes | **Built** | 1.0% better log loss, and it takes confirmed lineups |
 | Hierarchical Bayesian | **Planned** | Replaces guessed shrinkage constants with derived ones |
 | Joint match model | **Planned** | Makes combination tickets honest |
