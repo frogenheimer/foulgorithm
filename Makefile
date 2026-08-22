@@ -71,3 +71,6 @@ season: ## Replay a season, gameweek by gameweek, five characters competing
 
 record: ## Show what is in the append-only prediction store
 	$(PY) -c "from foulgorithm.store import predictions as p; import collections; r=p.load_all(); print(f'{len(r)} claims on file'); print(dict(collections.Counter(x['model_id'] for x in r)))"
+
+grade: ## Settle published predictions against results
+	$(PY) -m foulgorithm.review.grade
