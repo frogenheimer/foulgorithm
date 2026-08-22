@@ -18,6 +18,69 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-22 — The five, finally compared on player markets
+
+**Question.** The characters had never been backtested on player predictions.
+They were built, eyeballed, patched twice and shipped. Do they actually differ,
+and does any of it beat a naive model?
+
+**Method.** Walk-forward by week from January 2024, refitting on rows knowable
+before each week's earliest kickoff. 13,993 predictions per character per
+market, scored at the 0.5, 1.5 and 2.5 lines. Predictions use each player's
+ACTUAL minutes, so this measures the foul model alone rather than tangling it
+with the minutes model.
+
+**Result, fouls committed.**
+
+| character | MAE | log loss | ECE |
+|---|---|---|---|
+| lily | 0.647 | **0.3972** | 0.0089 |
+| bdog | 0.654 | 0.3974 | 0.0078 |
+| valentina | 0.653 | 0.3975 | **0.0051** |
+| alan | 0.662 | 0.4018 | 0.0130 |
+| tayler | 0.647 | 0.4046 | 0.0249 |
+| *position-prior baseline* | | *0.4133* | |
+
+**Result, fouls drawn.**
+
+| character | MAE | log loss | ECE |
+|---|---|---|---|
+| bdog | 0.631 | **0.3749** | 0.0076 |
+| valentina | 0.631 | 0.3751 | 0.0069 |
+| lily | 0.628 | 0.3765 | 0.0103 |
+| alan | 0.643 | 0.3805 | 0.0125 |
+| tayler | 0.633 | 0.3846 | 0.0270 |
+
+**Conclusions, in order of how much they matter.**
+
+**1. Player history genuinely adds signal.** Every character beats a model that
+knows only the player's position and minutes, by around 4%. That is the result
+that justifies the whole player-level exercise.
+
+**2. The characters are barely distinguishable here.** Best to worst spans 1.9%
+on committed and 2.6% on drawn. On match totals the spread was wider and the
+ordering stable. Temperament matters much less once you are predicting one
+player's count, because there is far less for a personality to disagree about:
+a player's own rate dominates, and everything the characters vary is a second
+order adjustment on top of it.
+
+**This has a product consequence.** Presenting five characters as five sharply
+different opinions overstates the case at player level. They are five slightly
+different readings, and the site should not imply more.
+
+**3. Different markets have different winners.** Lily takes committed, Bdog
+takes drawn. With gaps this small, treating either as "the best" would be
+reading noise.
+
+**4. Tayler is worst on both, and worst calibrated.** His enormous shrinkage
+helps on match totals, where noise dominates, and hurts here, where a player's
+own record is the signal. Exactly in character, and a real cost.
+
+**Caveats.** No confidence intervals on these yet, and with 1.9% separating
+first from last that omission matters more than usual. The evaluation starts in
+2024 to keep runtime sane, so it covers roughly a season and a half rather than
+the full history.
+
 ## 2026-08-21 — Player data found. The blocker is gone
 
 **Question.** Is there any free route to per-player, per-match fouls committed and drawn, given FBref is Cloudflare-blocked, FotMob objected to scraping and API-Football is suspended?

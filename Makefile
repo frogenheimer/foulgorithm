@@ -62,3 +62,6 @@ players: ## Publish player predictions and character picks
 
 serve: ## Serve the built static site locally (next start does not work with output: export)
 	cd site && npm run build && cd out && python3 -m http.server 4319
+
+player-backtest: ## Compare the five characters on player markets
+	$(PY) -c "from foulgorithm.store.players import load_player_matches; from foulgorithm.backtest import player_harness as ph; h=load_player_matches(); [print(ph.report(ph.walk_forward(h,m,start='2024-01-01')),'\n') for m in ('player_fouls_committed','player_fouls_drawn')]"
