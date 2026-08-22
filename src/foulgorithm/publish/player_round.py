@@ -21,6 +21,7 @@ from foulgorithm.identity.teams import history_name, to_fpl
 from foulgorithm.models import calibration, player_models as pm
 from foulgorithm.sources import football_data, fpl, league_stats
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
+from foulgorithm.store import predictions as pred_store
 from foulgorithm.store.players import load_player_matches
 
 OUTPUT = Path("site/public/data/players.json")
@@ -257,7 +258,71 @@ def publish(output: Path = OUTPUT) -> dict:
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2))
+
+    # Persist the claims themselves, separately from the page they render on.
+    # The JSON above is a view and gets overwritten every run; this is the
+    # record, and it is append-only.
+    payload["recorded"] = _record(board, picks, as_of)
     return payload
+
+
+def _record(board: list[dict], picks: list[dict], as_of) -> dict:
+    """Write every published claim to the append-only store."""
+    published = pred_store.now_iso()
+    rows: list[pred_store.Prediction] = []
+
+    for fixture in board:
+        confirmed = bool(fixture.get("lineupConfirmed"))
+        for players in fixture["teams"].values():
+            for p in players:
+                for market_key, block in (
+                    ("player_fouls_committed", p["committed"]),
+                    ("player_fouls_drawn", p["drawn"]),
+                ):
+                    for n in (1, 2, 3):
+                        rows.append(
+                            pred_store.Prediction(
+                                published_at=published,
+                                kickoff=fixture["kickoff"],
+                                fixture=f"{fixture['home']} v {fixture['away']}",
+                                entity=p["player"],
+                                market=market_key,
+                                line=n - 0.5,
+                                probability=block[f"p{n}plus"],
+                                model_id="house",
+                                model_version="1.0.0",
+                                lineup_confirmed=confirmed,
+                                thin=bool(p.get("thin")),
+                                extra={"expectedMinutes": p["expectedMinutes"]},
+                            )
+                        )
+
+    # Each character's tiered slips, so their record is gradeable too.
+    for block in picks:
+        for tier in block.get("tiers", []):
+            for leg in tier["legs"]:
+                rows.append(
+                    pred_store.Prediction(
+                        published_at=published,
+                        kickoff=leg["kickoff"] if "kickoff" in leg else as_of.isoformat(),
+                        fixture=leg["fixture"],
+                        entity=leg["player"],
+                        market=(
+                            "player_fouls_committed"
+                            if leg["market"] == "committed"
+                            else "player_fouls_drawn"
+                        ),
+                        line=leg["line"],
+                        probability=leg["prob"],
+                        model_id=block["id"],
+                        model_version="1.0.0",
+                        lineup_confirmed=False,
+                        thin=bool(leg.get("thin")),
+                        extra={"tier": tier["target"]},
+                    )
+                )
+
+    return pred_store.append(rows)
 
 
 def _league_leaders() -> dict:
@@ -593,6 +658,7 @@ def _leg(row: dict, cid: str) -> dict:
         "player": row["player"],
         "team": row["team"],
         "fixture": row["fixture"],
+        "kickoff": row["kickoff"],
         "market": row["market"],
         "line": row["line"],
         "fouls": int(row["line"] + 0.5),
