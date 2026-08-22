@@ -227,6 +227,11 @@ export type FixtureBoard = {
   };
 };
 
+export type LeagueLeaders = Record<
+  string,
+  { label: string; leaders: { player: string; team: string; value: number; rank: number }[] }
+>;
+
 export type PlayersData = {
   generatedAt: string;
   trainedOn: { playerMatches: number; players: number; from: string; to: string };
@@ -234,6 +239,7 @@ export type PlayersData = {
   squads: { source: string; players: number; resolved: number; unresolved: number };
   lineups: { source: string; confirmed: number; note: string };
   oddsTiers: number[];
+  leagueLeaders: LeagueLeaders;
   topFoulers: PlayerRow[];
   board: FixtureBoard[];
   picks: CharacterPicks[];

@@ -1,4 +1,5 @@
 import FixtureGrid from "@/components/FixtureGrid";
+import LeagueRail from "@/components/LeagueRail";
 import { DotArray } from "@/components/charts/pack";
 import Portrait, { CHARACTER_COLOUR } from "@/components/characters/Portrait";
 import Disagreement from "@/components/charts/Disagreement";
@@ -32,6 +33,8 @@ export default function Today() {
         </p>
       </section>
 
+      <div className={s.split}>
+        <div className={s.mainCol}>
       <section>
         <h2 className={s.h2}>Most likely to commit a foul</h2>
         <p className={s.note}>Ranked across every fixture in the round.</p>
@@ -73,6 +76,10 @@ export default function Today() {
           characters={chars.characters.map((c) => ({ id: c.id, name: c.name }))}
         />
       </section>
+
+        </div>
+        <LeagueRail data={d.leagueLeaders} />
+      </div>
 
       <section>
         <h2 className={s.h2}>Five readings of the same evidence</h2>

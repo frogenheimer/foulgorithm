@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T11:31:26+00:00",
+  "generatedAt": "2026-08-22T11:37:58+00:00",
   "trainedOn": {
     "playerMatches": 81327,
     "players": 1671,
@@ -13,6 +13,184 @@
     5.0,
     10.0
   ],
+  "leagueLeaders": {
+    "fouls": {
+      "label": "Fouls committed",
+      "leaders": [
+        {
+          "player": "Frank Onyeka",
+          "team": "Coventry City",
+          "value": 3.0,
+          "rank": 1
+        },
+        {
+          "player": "Patrick Dorgu",
+          "team": "Manchester United",
+          "value": 2.0,
+          "rank": 2
+        },
+        {
+          "player": "Gabriel Magalh\u00e3es",
+          "team": "Arsenal",
+          "value": 2.0,
+          "rank": 3
+        },
+        {
+          "player": "Kai Havertz",
+          "team": "Arsenal",
+          "value": 2.0,
+          "rank": 4
+        },
+        {
+          "player": "Declan Rice",
+          "team": "Arsenal",
+          "value": 2.0,
+          "rank": 5
+        },
+        {
+          "player": "Ellis Simms",
+          "team": "Coventry City",
+          "value": 2.0,
+          "rank": 6
+        },
+        {
+          "player": "Bobby Thomas",
+          "team": "Coventry City",
+          "value": 2.0,
+          "rank": 7
+        },
+        {
+          "player": "Milan van Ewijk",
+          "team": "Coventry City",
+          "value": 2.0,
+          "rank": 8
+        }
+      ]
+    },
+    "was_fouled": {
+      "label": "Fouls won",
+      "leaders": [
+        {
+          "player": "Myles Lewis-Skelly",
+          "team": "Arsenal",
+          "value": 3.0,
+          "rank": 1
+        },
+        {
+          "player": "Lewie Coyle",
+          "team": "Hull City",
+          "value": 2.0,
+          "rank": 2
+        },
+        {
+          "player": "Gabriel Magalh\u00e3es",
+          "team": "Arsenal",
+          "value": 2.0,
+          "rank": 3
+        },
+        {
+          "player": "Eberechi Eze",
+          "team": "Arsenal",
+          "value": 2.0,
+          "rank": 4
+        },
+        {
+          "player": "Matt Grimes",
+          "team": "Coventry City",
+          "value": 2.0,
+          "rank": 5
+        },
+        {
+          "player": "Kai Havertz",
+          "team": "Arsenal",
+          "value": 2.0,
+          "rank": 6
+        },
+        {
+          "player": "Loum Tchaouna",
+          "team": "Coventry City",
+          "value": 2.0,
+          "rank": 7
+        },
+        {
+          "player": "Brandon Thomas-Asante",
+          "team": "Coventry City",
+          "value": 2.0,
+          "rank": 8
+        }
+      ]
+    },
+    "yellow_card": {
+      "label": "Yellow cards",
+      "leaders": [
+        {
+          "player": "Gabriel Magalh\u00e3es",
+          "team": "Arsenal",
+          "value": 1.0,
+          "rank": 1
+        },
+        {
+          "player": "Caleb Yirenkyi",
+          "team": "Coventry City",
+          "value": 1.0,
+          "rank": 2
+        }
+      ]
+    },
+    "total_tackle": {
+      "label": "Tackles",
+      "leaders": [
+        {
+          "player": "Martin \u00d8degaard",
+          "team": "Arsenal",
+          "value": 3.0,
+          "rank": 1
+        },
+        {
+          "player": "Riccardo Calafiori",
+          "team": "Arsenal",
+          "value": 1.0,
+          "rank": 2
+        },
+        {
+          "player": "Ryan Giles",
+          "team": "Hull City",
+          "value": 1.0,
+          "rank": 3
+        },
+        {
+          "player": "Ayden Heaven",
+          "team": "Manchester United",
+          "value": 1.0,
+          "rank": 4
+        },
+        {
+          "player": "Myles Lewis-Skelly",
+          "team": "Arsenal",
+          "value": 1.0,
+          "rank": 5
+        },
+        {
+          "player": "Frank Onyeka",
+          "team": "Coventry City",
+          "value": 1.0,
+          "rank": 6
+        },
+        {
+          "player": "Jack Rudoni",
+          "team": "Coventry City",
+          "value": 1.0,
+          "rank": 7
+        },
+        {
+          "player": "Bukayo Saka",
+          "team": "Arsenal",
+          "value": 1.0,
+          "rank": 8
+        }
+      ]
+    }
+  },
   "calibration": {
     "committed3plus": 0.7762,
     "drawn3plus": 0.8832,

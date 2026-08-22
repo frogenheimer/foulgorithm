@@ -19,7 +19,7 @@ from foulgorithm.publish import combinations as combos
 from foulgorithm.identity import players as identity
 from foulgorithm.identity.teams import history_name, to_fpl
 from foulgorithm.models import calibration, player_models as pm
-from foulgorithm.sources import football_data, fpl
+from foulgorithm.sources import football_data, fpl, league_stats
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
 from foulgorithm.store.players import load_player_matches
 
@@ -231,6 +231,7 @@ def publish(output: Path = OUTPUT) -> dict:
         },
         "edgeMargin": EDGE_MARGIN,
         "oddsTiers": list(ODDS_TIERS),
+        "leagueLeaders": _league_leaders(),
         "calibration": {
             "committed3plus": calibration.factor("player_fouls_committed", 2.5),
             "drawn3plus": calibration.factor("player_fouls_drawn", 2.5),
@@ -257,6 +258,15 @@ def publish(output: Path = OUTPUT) -> dict:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2))
     return payload
+
+
+def _league_leaders() -> dict:
+    """Current-season leaders. Context, not product, so a failure is survivable."""
+    try:
+        return league_stats.all_leaders(8)
+    except Exception as exc:  # noqa: BLE001 - reported, never silently empty
+        print(f"  league leaders unavailable: {exc}")
+        return {}
 
 
 def _summary(fixture: dict) -> dict:
