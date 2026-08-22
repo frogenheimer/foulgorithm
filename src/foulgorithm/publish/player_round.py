@@ -186,6 +186,18 @@ def publish(output: Path = OUTPUT) -> dict:
             fixture_block["teams"][team] = sorted(
                 players, key=lambda r: -r["committed"]["p1plus"]
             )
+        fixture_block["stats"] = {
+            market: {
+                team: [
+                    {"player": r["player"], "value": round(r[market]["why"]["ratePer90"], 2)}
+                    for r in sorted(
+                        rows, key=lambda x: -x[market]["why"]["ratePer90"]
+                    )[:8]
+                ]
+                for team, rows in fixture_block["teams"].items()
+            }
+            for market in ("committed", "drawn")
+        }
         fixture_block["tickets"] = {
             market: [combos.serialise(t) for t in combos.best_tickets(fixture_block, market)]
             for market in ("committed", "drawn")

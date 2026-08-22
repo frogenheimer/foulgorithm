@@ -3,9 +3,11 @@
 import { useMemo, useState } from "react";
 import type { FixtureBoard as Board, PlayerRow } from "@/lib/data";
 import { odds } from "@/lib/format";
+import { Bars, DotArray } from "@/components/charts/pack";
 import s from "./board.module.css";
 
 type Market = "committed" | "drawn";
+type View = "table" | "chart";
 type SortKey = "p1plus" | "p2plus" | "p3plus" | "expectedMinutes" | "player";
 
 const MARKETS: { key: Market; label: string }[] = [
@@ -17,6 +19,7 @@ export default function FixtureBoard({ fixture }: { fixture: Board }) {
   const [market, setMarket] = useState<Market>("committed");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortKey>("p1plus");
+  const [view, setView] = useState<View>("table");
 
   const teams = Object.entries(fixture.teams);
   const tickets = fixture.tickets?.[market] ?? [];
@@ -36,6 +39,16 @@ export default function FixtureBoard({ fixture }: { fixture: Board }) {
               {m.label}
             </button>
           ))}
+        </div>
+        <div className={s.tabs} role="tablist" aria-label="View">
+          <button role="tab" aria-selected={view === "table"}
+            className={view === "table" ? s.tabOn : s.tab} onClick={() => setView("table")}>
+            Table
+          </button>
+          <button role="tab" aria-selected={view === "chart"}
+            className={view === "chart" ? s.tabOn : s.tab} onClick={() => setView("chart")}>
+            Chart
+          </button>
         </div>
         <input
           className={s.search}
@@ -81,6 +94,23 @@ export default function FixtureBoard({ fixture }: { fixture: Board }) {
         </div>
       )}
 
+      {view === "chart" ? (
+        <div className={s.teams}>
+          {teams.map(([team]) => {
+            const rows = fixture.stats?.[market]?.[team] ?? [];
+            const max = Math.max(0.1, ...Object.values(fixture.stats?.[market] ?? {}).flat().map((r) => r.value));
+            return (
+              <div key={team} className={s.teamCol}>
+                <h5 className={s.teamName}>{team}</h5>
+                <p className={s.chartCaption}>
+                  {market === "committed" ? "Fouls committed" : "Fouls won"} per 90, career to date
+                </p>
+                <Bars rows={rows.map((r) => ({ label: r.player, value: r.value }))} max={max} />
+              </div>
+            );
+          })}
+        </div>
+      ) : (
       <div className={s.teams}>
         {teams.map(([team, players]) => (
           <TeamTable
@@ -94,6 +124,7 @@ export default function FixtureBoard({ fixture }: { fixture: Board }) {
           />
         ))}
       </div>
+      )}
     </div>
   );
 }

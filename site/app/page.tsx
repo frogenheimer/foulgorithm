@@ -1,4 +1,5 @@
 import FixtureBoard from "@/components/FixtureBoard";
+import { DotArray } from "@/components/charts/pack";
 import Portrait, { CHARACTER_COLOUR } from "@/components/characters/Portrait";
 import { getPlayers } from "@/lib/data";
 import { count, kickoff, odds } from "@/lib/format";
@@ -44,7 +45,7 @@ export default function Today() {
                 </span>
               </span>
               <span className={s.freq}>
-                <Dots p={r.committed.p1plus} />
+                <DotArray p={r.committed.p1plus} label={`${r.player} commits a foul`} />
                 <span className={s.freqText}>
                   <strong>{r.committed.outOf100}</strong> of 100
                 </span>
@@ -199,17 +200,5 @@ export default function Today() {
         </div>
       </details>
     </div>
-  );
-}
-
-/** 20 dots. Counting beats judging an area, which is why this is not a bar. */
-function Dots({ p }: { p: number }) {
-  const filled = Math.round(p * 20);
-  return (
-    <span className={s.dots} aria-hidden="true">
-      {Array.from({ length: 20 }, (_, i) => (
-        <i key={i} className={i < filled ? s.dotOn : s.dotOff} />
-      ))}
-    </span>
   );
 }

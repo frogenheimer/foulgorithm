@@ -1,0 +1,15 @@
+.chart { display: block; width: 100%; height: auto; overflow: visible; }
+/* The global `svg { width: 100% }` reset would stretch this and collide with
+   the label beside it. Fixed-size charts opt out explicitly. */
+.dots {
+  display: block;
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
+  max-width: none;
+}
+.tick { font-size: 10.5px; fill: var(--text-muted); }
+.value {
+  font-size: 10.5px; fill: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}

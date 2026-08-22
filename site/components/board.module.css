@@ -91,3 +91,7 @@
   display: inline-block; width: 5px; height: 5px; border-radius: 50%;
   background: var(--series-1); margin-left: var(--space-2); vertical-align: middle;
 }
+
+.chartCaption {
+  font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--space-3);
+}

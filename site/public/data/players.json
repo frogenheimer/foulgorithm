@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T06:18:30+00:00",
+  "generatedAt": "2026-08-22T06:22:39+00:00",
   "trainedOn": {
     "playerMatches": 81327,
     "players": 1671,
@@ -2044,6 +2044,148 @@
             }
           }
         ]
+      },
+      "stats": {
+        "committed": {
+          "Arsenal": [
+            {
+              "player": "Havertz",
+              "value": 1.58
+            },
+            {
+              "player": "Saka",
+              "value": 1.08
+            },
+            {
+              "player": "Calafiori",
+              "value": 1.07
+            },
+            {
+              "player": "Tzolis",
+              "value": 0.99
+            },
+            {
+              "player": "Rice",
+              "value": 0.98
+            },
+            {
+              "player": "Lewis-Skelly",
+              "value": 0.95
+            },
+            {
+              "player": "\u00d8degaard",
+              "value": 0.92
+            },
+            {
+              "player": "Magalh\u00e3es",
+              "value": 0.83
+            }
+          ],
+          "Coventry": [
+            {
+              "player": "Onyeka",
+              "value": 1.57
+            },
+            {
+              "player": "Simms",
+              "value": 1.23
+            },
+            {
+              "player": "Tchaouna",
+              "value": 1.12
+            },
+            {
+              "player": "Dasilva",
+              "value": 0.97
+            },
+            {
+              "player": "Thomas",
+              "value": 0.97
+            },
+            {
+              "player": "van Ewijk",
+              "value": 0.97
+            },
+            {
+              "player": "Amenda",
+              "value": 0.97
+            },
+            {
+              "player": "Grimes",
+              "value": 0.97
+            }
+          ]
+        },
+        "drawn": {
+          "Arsenal": [
+            {
+              "player": "Saka",
+              "value": 1.8
+            },
+            {
+              "player": "Tzolis",
+              "value": 1.5
+            },
+            {
+              "player": "Havertz",
+              "value": 1.24
+            },
+            {
+              "player": "Lewis-Skelly",
+              "value": 1.08
+            },
+            {
+              "player": "\u00d8degaard",
+              "value": 1.04
+            },
+            {
+              "player": "Calafiori",
+              "value": 0.77
+            },
+            {
+              "player": "Magalh\u00e3es",
+              "value": 0.68
+            },
+            {
+              "player": "White",
+              "value": 0.64
+            }
+          ],
+          "Coventry": [
+            {
+              "player": "Onyeka",
+              "value": 1.51
+            },
+            {
+              "player": "Simms",
+              "value": 1.28
+            },
+            {
+              "player": "Tchaouna",
+              "value": 1.26
+            },
+            {
+              "player": "Dasilva",
+              "value": 0.93
+            },
+            {
+              "player": "Thomas",
+              "value": 0.93
+            },
+            {
+              "player": "van Ewijk",
+              "value": 0.93
+            },
+            {
+              "player": "Amenda",
+              "value": 0.93
+            },
+            {
+              "player": "Grimes",
+              "value": 0.93
+            }
+          ]
+        }
       },
       "tickets": {
         "committed": [
@@ -4142,6 +4284,148 @@
             }
           }
         ]
+      },
+      "stats": {
+        "committed": {
+          "Hull": [
+            {
+              "player": "Dowell",
+              "value": 1.07
+            },
+            {
+              "player": "Drameh",
+              "value": 0.98
+            },
+            {
+              "player": "Phillips",
+              "value": 0.97
+            },
+            {
+              "player": "Coyle",
+              "value": 0.97
+            },
+            {
+              "player": "Giles",
+              "value": 0.97
+            },
+            {
+              "player": "McCarthy",
+              "value": 0.97
+            },
+            {
+              "player": "McNair",
+              "value": 0.97
+            },
+            {
+              "player": "Belloumi",
+              "value": 0.97
+            }
+          ],
+          "Man United": [
+            {
+              "player": "Cunha",
+              "value": 1.35
+            },
+            {
+              "player": "Tielemans",
+              "value": 1.23
+            },
+            {
+              "player": "Shaw",
+              "value": 1.23
+            },
+            {
+              "player": "Andrey Santos",
+              "value": 1.19
+            },
+            {
+              "player": "Mazraoui",
+              "value": 1.12
+            },
+            {
+              "player": "B.Fernandes",
+              "value": 1.11
+            },
+            {
+              "player": "Dalot",
+              "value": 1.1
+            },
+            {
+              "player": "Dorgu",
+              "value": 1.05
+            }
+          ]
+        },
+        "drawn": {
+          "Hull": [
+            {
+              "player": "Dowell",
+              "value": 1.43
+            },
+            {
+              "player": "Phillips",
+              "value": 0.93
+            },
+            {
+              "player": "Coyle",
+              "value": 0.93
+            },
+            {
+              "player": "Giles",
+              "value": 0.93
+            },
+            {
+              "player": "McCarthy",
+              "value": 0.93
+            },
+            {
+              "player": "McNair",
+              "value": 0.93
+            },
+            {
+              "player": "Belloumi",
+              "value": 0.93
+            },
+            {
+              "player": "Millar",
+              "value": 0.93
+            }
+          ],
+          "Man United": [
+            {
+              "player": "Cunha",
+              "value": 1.69
+            },
+            {
+              "player": "Andrey Santos",
+              "value": 1.44
+            },
+            {
+              "player": "Tielemans",
+              "value": 1.3
+            },
+            {
+              "player": "Mbeumo",
+              "value": 1.26
+            },
+            {
+              "player": "B.Fernandes",
+              "value": 1.25
+            },
+            {
+              "player": "Rashford",
+              "value": 1.21
+            },
+            {
+              "player": "Dorgu",
+              "value": 1.13
+            },
+            {
+              "player": "Lammens",
+              "value": 0.93
+            }
+          ]
+        }
       },
       "tickets": {
         "committed": [
@@ -6297,6 +6581,148 @@
           }
         ]
       },
+      "stats": {
+        "committed": {
+          "Everton": [
+            {
+              "player": "Armstrong",
+              "value": 1.46
+            },
+            {
+              "player": "Dewsbury-Hall",
+              "value": 1.46
+            },
+            {
+              "player": "Alcaraz",
+              "value": 1.18
+            },
+            {
+              "player": "Patterson",
+              "value": 1.05
+            },
+            {
+              "player": "George",
+              "value": 1.04
+            },
+            {
+              "player": "Tarkowski",
+              "value": 0.98
+            },
+            {
+              "player": "Ndiaye",
+              "value": 0.98
+            },
+            {
+              "player": "King",
+              "value": 0.97
+            }
+          ],
+          "Crystal Palace": [
+            {
+              "player": "Hughes",
+              "value": 1.76
+            },
+            {
+              "player": "Kamada",
+              "value": 1.39
+            },
+            {
+              "player": "Lerma",
+              "value": 1.35
+            },
+            {
+              "player": "Mu\u00f1oz",
+              "value": 1.3
+            },
+            {
+              "player": "Guessand",
+              "value": 1.2
+            },
+            {
+              "player": "Wharton",
+              "value": 1.18
+            },
+            {
+              "player": "Devenny",
+              "value": 1.17
+            },
+            {
+              "player": "Benitez",
+              "value": 0.97
+            }
+          ]
+        },
+        "drawn": {
+          "Everton": [
+            {
+              "player": "Ndiaye",
+              "value": 1.65
+            },
+            {
+              "player": "Alcaraz",
+              "value": 1.45
+            },
+            {
+              "player": "George",
+              "value": 1.43
+            },
+            {
+              "player": "Dewsbury-Hall",
+              "value": 1.21
+            },
+            {
+              "player": "Johnson",
+              "value": 1.2
+            },
+            {
+              "player": "Armstrong",
+              "value": 1.13
+            },
+            {
+              "player": "King",
+              "value": 0.93
+            },
+            {
+              "player": "Mykolenko",
+              "value": 0.93
+            }
+          ],
+          "Crystal Palace": [
+            {
+              "player": "Sarr",
+              "value": 1.66
+            },
+            {
+              "player": "Guessand",
+              "value": 1.45
+            },
+            {
+              "player": "Devenny",
+              "value": 1.34
+            },
+            {
+              "player": "Hughes",
+              "value": 1.28
+            },
+            {
+              "player": "Wharton",
+              "value": 1.15
+            },
+            {
+              "player": "Lerma",
+              "value": 1.13
+            },
+            {
+              "player": "Kamada",
+              "value": 1.09
+            },
+            {
+              "player": "Benitez",
+              "value": 0.93
+            }
+          ]
+        }
+      },
       "tickets": {
         "committed": [
           {
@@ -6885,7 +7311,7 @@
                 "refereeFactor": 1.0,
                 "effectiveMatches": 18.3
               },
-              "exact0": 0.6222,
+              "exact0": 0.6221,
               "p1plus": 0.3862,
               "fair1": 2.59,
               "floor1": 2.85,
@@ -8402,6 +8828,148 @@
             }
           }
         ]
+      },
+      "stats": {
+        "committed": {
+          "Ipswich": [
+            {
+              "player": "Luki\u0107",
+              "value": 1.94
+            },
+            {
+              "player": "Clarke",
+              "value": 1.11
+            },
+            {
+              "player": "Furlong",
+              "value": 0.99
+            },
+            {
+              "player": "Palmer",
+              "value": 0.97
+            },
+            {
+              "player": "Kipr\u00e9",
+              "value": 0.97
+            },
+            {
+              "player": "N\u00fa\u00f1ez",
+              "value": 0.97
+            },
+            {
+              "player": "Fatawu",
+              "value": 0.97
+            },
+            {
+              "player": "Emersonn",
+              "value": 0.97
+            }
+          ],
+          "Sunderland": [
+            {
+              "player": "Xhaka",
+              "value": 1.34
+            },
+            {
+              "player": "Diarra",
+              "value": 1.13
+            },
+            {
+              "player": "Sadiki",
+              "value": 1.08
+            },
+            {
+              "player": "E.Le F\u00e9e",
+              "value": 1.05
+            },
+            {
+              "player": "Rigg",
+              "value": 0.99
+            },
+            {
+              "player": "Ellborg",
+              "value": 0.97
+            },
+            {
+              "player": "O'Nien",
+              "value": 0.97
+            },
+            {
+              "player": "Meunier",
+              "value": 0.97
+            }
+          ]
+        },
+        "drawn": {
+          "Ipswich": [
+            {
+              "player": "Ogbene",
+              "value": 1.7
+            },
+            {
+              "player": "Clarke",
+              "value": 1.61
+            },
+            {
+              "player": "Luki\u0107",
+              "value": 1.15
+            },
+            {
+              "player": "Palmer",
+              "value": 0.93
+            },
+            {
+              "player": "Kipr\u00e9",
+              "value": 0.93
+            },
+            {
+              "player": "N\u00fa\u00f1ez",
+              "value": 0.93
+            },
+            {
+              "player": "Fatawu",
+              "value": 0.93
+            },
+            {
+              "player": "Emersonn",
+              "value": 0.93
+            }
+          ],
+          "Sunderland": [
+            {
+              "player": "E.Le F\u00e9e",
+              "value": 1.54
+            },
+            {
+              "player": "Rigg",
+              "value": 1.45
+            },
+            {
+              "player": "Sadiki",
+              "value": 1.23
+            },
+            {
+              "player": "Diarra",
+              "value": 1.16
+            },
+            {
+              "player": "Xhaka",
+              "value": 1.14
+            },
+            {
+              "player": "Ellborg",
+              "value": 0.93
+            },
+            {
+              "player": "O'Nien",
+              "value": 0.93
+            },
+            {
+              "player": "Meunier",
+              "value": 0.93
+            }
+          ]
+        }
       },
       "tickets": {
         "committed": [
@@ -10548,6 +11116,148 @@
             }
           }
         ]
+      },
+      "stats": {
+        "committed": {
+          "Nott'm Forest": [
+            {
+              "player": "Gibbs-White",
+              "value": 1.14
+            },
+            {
+              "player": "Hutchinson",
+              "value": 1.13
+            },
+            {
+              "player": "N.Williams",
+              "value": 1.11
+            },
+            {
+              "player": "John",
+              "value": 0.97
+            },
+            {
+              "player": "Morato",
+              "value": 0.97
+            },
+            {
+              "player": "Murillo",
+              "value": 0.97
+            },
+            {
+              "player": "Jair Cunha",
+              "value": 0.97
+            },
+            {
+              "player": "O.Richards",
+              "value": 0.97
+            }
+          ],
+          "Leeds": [
+            {
+              "player": "Calvert-Lewin",
+              "value": 1.4
+            },
+            {
+              "player": "Nmecha",
+              "value": 1.33
+            },
+            {
+              "player": "Stach",
+              "value": 1.2
+            },
+            {
+              "player": "Bogle",
+              "value": 1.14
+            },
+            {
+              "player": "Tanaka",
+              "value": 1.11
+            },
+            {
+              "player": "Longstaff",
+              "value": 1.04
+            },
+            {
+              "player": "Okafor",
+              "value": 1.04
+            },
+            {
+              "player": "Aaronson",
+              "value": 1.02
+            }
+          ]
+        },
+        "drawn": {
+          "Nott'm Forest": [
+            {
+              "player": "Hutchinson",
+              "value": 1.42
+            },
+            {
+              "player": "Gibbs-White",
+              "value": 1.39
+            },
+            {
+              "player": "Ndoye",
+              "value": 1.38
+            },
+            {
+              "player": "Hudson-Odoi",
+              "value": 1.31
+            },
+            {
+              "player": "N.Williams",
+              "value": 1.19
+            },
+            {
+              "player": "Aina",
+              "value": 0.96
+            },
+            {
+              "player": "John",
+              "value": 0.93
+            },
+            {
+              "player": "Morato",
+              "value": 0.93
+            }
+          ],
+          "Leeds": [
+            {
+              "player": "Wilson",
+              "value": 1.8
+            },
+            {
+              "player": "Aaronson",
+              "value": 1.62
+            },
+            {
+              "player": "James",
+              "value": 1.53
+            },
+            {
+              "player": "Okafor",
+              "value": 1.5
+            },
+            {
+              "player": "Nmecha",
+              "value": 1.37
+            },
+            {
+              "player": "Calvert-Lewin",
+              "value": 1.33
+            },
+            {
+              "player": "Stach",
+              "value": 1.3
+            },
+            {
+              "player": "Tanaka",
+              "value": 1.25
+            }
+          ]
+        }
       },
       "tickets": {
         "committed": [
@@ -12703,6 +13413,148 @@
           }
         ]
       },
+      "stats": {
+        "committed": {
+          "Brentford": [
+            {
+              "player": "Schade",
+              "value": 1.14
+            },
+            {
+              "player": "Jensen",
+              "value": 1.13
+            },
+            {
+              "player": "Janelt",
+              "value": 1.08
+            },
+            {
+              "player": "Damsgaard",
+              "value": 1.08
+            },
+            {
+              "player": "Hickey",
+              "value": 1.01
+            },
+            {
+              "player": "Kayode",
+              "value": 1.0
+            },
+            {
+              "player": "Schuster",
+              "value": 0.97
+            },
+            {
+              "player": "O.Dango",
+              "value": 0.94
+            }
+          ],
+          "Tottenham": [
+            {
+              "player": "Bentancur",
+              "value": 1.41
+            },
+            {
+              "player": "Tel",
+              "value": 1.29
+            },
+            {
+              "player": "Udogie",
+              "value": 1.27
+            },
+            {
+              "player": "Tonali",
+              "value": 1.23
+            },
+            {
+              "player": "Senesi",
+              "value": 1.09
+            },
+            {
+              "player": "Maddison",
+              "value": 1.05
+            },
+            {
+              "player": "Davies",
+              "value": 1.01
+            },
+            {
+              "player": "Byfield",
+              "value": 0.97
+            }
+          ]
+        },
+        "drawn": {
+          "Brentford": [
+            {
+              "player": "Schade",
+              "value": 1.41
+            },
+            {
+              "player": "O.Dango",
+              "value": 1.25
+            },
+            {
+              "player": "Lewis-Potter",
+              "value": 1.24
+            },
+            {
+              "player": "Hickey",
+              "value": 1.11
+            },
+            {
+              "player": "Damsgaard",
+              "value": 1.02
+            },
+            {
+              "player": "Schuster",
+              "value": 0.93
+            },
+            {
+              "player": "Henry",
+              "value": 0.9
+            },
+            {
+              "player": "Janelt",
+              "value": 0.9
+            }
+          ],
+          "Tottenham": [
+            {
+              "player": "Maddison",
+              "value": 2.35
+            },
+            {
+              "player": "Tonali",
+              "value": 1.47
+            },
+            {
+              "player": "Tel",
+              "value": 1.31
+            },
+            {
+              "player": "Udogie",
+              "value": 1.18
+            },
+            {
+              "player": "Byfield",
+              "value": 0.93
+            },
+            {
+              "player": "Rowswell",
+              "value": 0.93
+            },
+            {
+              "player": "Souza",
+              "value": 0.93
+            },
+            {
+              "player": "Bentancur",
+              "value": 0.92
+            }
+          ]
+        }
+      },
       "tickets": {
         "committed": [
           {
@@ -14841,6 +15693,148 @@
           }
         ]
       },
+      "stats": {
+        "committed": {
+          "Brighton": [
+            {
+              "player": "Ayari",
+              "value": 1.49
+            },
+            {
+              "player": "Georginio",
+              "value": 1.44
+            },
+            {
+              "player": "Hinshelwood",
+              "value": 1.35
+            },
+            {
+              "player": "Gomez",
+              "value": 1.35
+            },
+            {
+              "player": "O'Riley",
+              "value": 1.25
+            },
+            {
+              "player": "Gro\u00df",
+              "value": 1.02
+            },
+            {
+              "player": "De Cuyper",
+              "value": 1.0
+            },
+            {
+              "player": "Costinha",
+              "value": 0.99
+            }
+          ],
+          "Aston Villa": [
+            {
+              "player": "Bogarde",
+              "value": 1.47
+            },
+            {
+              "player": "Kamara",
+              "value": 1.46
+            },
+            {
+              "player": "McGinn",
+              "value": 1.31
+            },
+            {
+              "player": "Cash",
+              "value": 1.13
+            },
+            {
+              "player": "Barkley",
+              "value": 1.11
+            },
+            {
+              "player": "Bailey",
+              "value": 1.06
+            },
+            {
+              "player": "Buend\u00eda",
+              "value": 0.97
+            },
+            {
+              "player": "Burrowes",
+              "value": 0.97
+            }
+          ]
+        },
+        "drawn": {
+          "Brighton": [
+            {
+              "player": "Costinha",
+              "value": 1.84
+            },
+            {
+              "player": "Georginio",
+              "value": 1.68
+            },
+            {
+              "player": "Ayari",
+              "value": 1.24
+            },
+            {
+              "player": "Gomez",
+              "value": 1.04
+            },
+            {
+              "player": "O'Riley",
+              "value": 0.98
+            },
+            {
+              "player": "F.Kad\u0131o\u011flu",
+              "value": 0.93
+            },
+            {
+              "player": "Boscagli",
+              "value": 0.93
+            },
+            {
+              "player": "Svoboda",
+              "value": 0.93
+            }
+          ],
+          "Aston Villa": [
+            {
+              "player": "McGinn",
+              "value": 1.91
+            },
+            {
+              "player": "Bailey",
+              "value": 1.35
+            },
+            {
+              "player": "Kamara",
+              "value": 1.31
+            },
+            {
+              "player": "Bogarde",
+              "value": 1.26
+            },
+            {
+              "player": "Barkley",
+              "value": 1.13
+            },
+            {
+              "player": "Buend\u00eda",
+              "value": 0.93
+            },
+            {
+              "player": "Burrowes",
+              "value": 0.93
+            },
+            {
+              "player": "George Hemmings",
+              "value": 0.93
+            }
+          ]
+        }
+      },
       "tickets": {
         "committed": [
           {
@@ -16970,6 +17964,148 @@
             }
           }
         ]
+      },
+      "stats": {
+        "committed": {
+          "Man City": [
+            {
+              "player": "Semenyo",
+              "value": 1.47
+            },
+            {
+              "player": "Matheus N.",
+              "value": 1.41
+            },
+            {
+              "player": "Cherki",
+              "value": 1.28
+            },
+            {
+              "player": "O'Reilly",
+              "value": 1.07
+            },
+            {
+              "player": "A\u00eft-Nouri",
+              "value": 1.02
+            },
+            {
+              "player": "Grealish",
+              "value": 0.98
+            },
+            {
+              "player": "Vitor Reis",
+              "value": 0.97
+            },
+            {
+              "player": "Marmoush",
+              "value": 0.96
+            }
+          ],
+          "Bournemouth": [
+            {
+              "player": "Kluivert",
+              "value": 1.55
+            },
+            {
+              "player": "Scott",
+              "value": 1.49
+            },
+            {
+              "player": "Cook",
+              "value": 1.36
+            },
+            {
+              "player": "Hill",
+              "value": 1.07
+            },
+            {
+              "player": "Truffert",
+              "value": 1.01
+            },
+            {
+              "player": "Smith",
+              "value": 0.99
+            },
+            {
+              "player": "Tavernier",
+              "value": 0.98
+            },
+            {
+              "player": "Dennis",
+              "value": 0.97
+            }
+          ]
+        },
+        "drawn": {
+          "Man City": [
+            {
+              "player": "Grealish",
+              "value": 2.75
+            },
+            {
+              "player": "Marmoush",
+              "value": 1.59
+            },
+            {
+              "player": "Foden",
+              "value": 1.57
+            },
+            {
+              "player": "Matheus N.",
+              "value": 1.35
+            },
+            {
+              "player": "Cherki",
+              "value": 1.29
+            },
+            {
+              "player": "Semenyo",
+              "value": 1.27
+            },
+            {
+              "player": "O'Reilly",
+              "value": 1.2
+            },
+            {
+              "player": "Lewis",
+              "value": 1.19
+            }
+          ],
+          "Bournemouth": [
+            {
+              "player": "Scott",
+              "value": 1.53
+            },
+            {
+              "player": "Kluivert",
+              "value": 1.31
+            },
+            {
+              "player": "Tavernier",
+              "value": 1.28
+            },
+            {
+              "player": "Smith",
+              "value": 0.97
+            },
+            {
+              "player": "Dennis",
+              "value": 0.93
+            },
+            {
+              "player": "Rayan",
+              "value": 0.93
+            },
+            {
+              "player": "Gannon-Doak",
+              "value": 0.93
+            },
+            {
+              "player": "T\u00f3th.A",
+              "value": 0.93
+            }
+          ]
+        }
       },
       "tickets": {
         "committed": [
@@ -19109,6 +20245,148 @@
           }
         ]
       },
+      "stats": {
+        "committed": {
+          "Newcastle": [
+            {
+              "player": "Willock",
+              "value": 1.21
+            },
+            {
+              "player": "J.Ramsey",
+              "value": 1.05
+            },
+            {
+              "player": "Burn",
+              "value": 1.01
+            },
+            {
+              "player": "Gillespie",
+              "value": 0.97
+            },
+            {
+              "player": "Jaouen",
+              "value": 0.97
+            },
+            {
+              "player": "Tour\u00e9",
+              "value": 0.97
+            },
+            {
+              "player": "Steur",
+              "value": 0.97
+            },
+            {
+              "player": "Sch\u00e4r",
+              "value": 0.94
+            }
+          ],
+          "Liverpool": [
+            {
+              "player": "Gakpo",
+              "value": 1.3
+            },
+            {
+              "player": "Chiesa",
+              "value": 1.3
+            },
+            {
+              "player": "Szoboszlai",
+              "value": 1.26
+            },
+            {
+              "player": "Tsimikas",
+              "value": 1.13
+            },
+            {
+              "player": "Wirtz",
+              "value": 1.13
+            },
+            {
+              "player": "Ngumoha",
+              "value": 1.01
+            },
+            {
+              "player": "A.Becker",
+              "value": 0.97
+            },
+            {
+              "player": "Mamardashvili",
+              "value": 0.97
+            }
+          ]
+        },
+        "drawn": {
+          "Newcastle": [
+            {
+              "player": "Barnes",
+              "value": 1.42
+            },
+            {
+              "player": "J.Ramsey",
+              "value": 1.36
+            },
+            {
+              "player": "Elanga",
+              "value": 1.36
+            },
+            {
+              "player": "Willock",
+              "value": 1.16
+            },
+            {
+              "player": "J.Murphy",
+              "value": 1.14
+            },
+            {
+              "player": "L.Miley",
+              "value": 1.07
+            },
+            {
+              "player": "Gillespie",
+              "value": 0.93
+            },
+            {
+              "player": "Jaouen",
+              "value": 0.93
+            }
+          ],
+          "Liverpool": [
+            {
+              "player": "Gakpo",
+              "value": 1.59
+            },
+            {
+              "player": "Ngumoha",
+              "value": 1.51
+            },
+            {
+              "player": "Wirtz",
+              "value": 1.41
+            },
+            {
+              "player": "Chiesa",
+              "value": 1.36
+            },
+            {
+              "player": "Szoboszlai",
+              "value": 1.12
+            },
+            {
+              "player": "Kerkez",
+              "value": 0.94
+            },
+            {
+              "player": "A.Becker",
+              "value": 0.93
+            },
+            {
+              "player": "Mamardashvili",
+              "value": 0.93
+            }
+          ]
+        }
+      },
       "tickets": {
         "committed": [
           {
@@ -21247,6 +22525,148 @@
           }
         ]
       },
+      "stats": {
+        "committed": {
+          "Fulham": [
+            {
+              "player": "Reed",
+              "value": 1.51
+            },
+            {
+              "player": "Berge",
+              "value": 1.3
+            },
+            {
+              "player": "Tete",
+              "value": 1.25
+            },
+            {
+              "player": "Sessegnon",
+              "value": 1.19
+            },
+            {
+              "player": "Bobb",
+              "value": 0.97
+            },
+            {
+              "player": "Lecomte",
+              "value": 0.97
+            },
+            {
+              "player": "McNally",
+              "value": 0.97
+            },
+            {
+              "player": "Kevin",
+              "value": 0.97
+            }
+          ],
+          "Chelsea": [
+            {
+              "player": "Enzo",
+              "value": 1.33
+            },
+            {
+              "player": "Rogers",
+              "value": 1.32
+            },
+            {
+              "player": "James",
+              "value": 1.01
+            },
+            {
+              "player": "Gusto",
+              "value": 0.97
+            },
+            {
+              "player": "M.Sarr",
+              "value": 0.97
+            },
+            {
+              "player": "Acheampong",
+              "value": 0.97
+            },
+            {
+              "player": "Palestra",
+              "value": 0.97
+            },
+            {
+              "player": "Est\u00eav\u00e3o",
+              "value": 0.97
+            }
+          ]
+        },
+        "drawn": {
+          "Fulham": [
+            {
+              "player": "Bobb",
+              "value": 1.51
+            },
+            {
+              "player": "Sessegnon",
+              "value": 1.28
+            },
+            {
+              "player": "Smith Rowe",
+              "value": 1.19
+            },
+            {
+              "player": "Tete",
+              "value": 1.16
+            },
+            {
+              "player": "Reed",
+              "value": 0.96
+            },
+            {
+              "player": "Lecomte",
+              "value": 0.93
+            },
+            {
+              "player": "McNally",
+              "value": 0.93
+            },
+            {
+              "player": "Kevin",
+              "value": 0.93
+            }
+          ],
+          "Chelsea": [
+            {
+              "player": "Palmer",
+              "value": 1.43
+            },
+            {
+              "player": "Neto",
+              "value": 1.43
+            },
+            {
+              "player": "Rogers",
+              "value": 1.41
+            },
+            {
+              "player": "Enzo",
+              "value": 1.2
+            },
+            {
+              "player": "Gusto",
+              "value": 1.0
+            },
+            {
+              "player": "James",
+              "value": 0.99
+            },
+            {
+              "player": "M.Sarr",
+              "value": 0.93
+            },
+            {
+              "player": "Acheampong",
+              "value": 0.93
+            }
+          ]
+        }
+      },
       "tickets": {
         "committed": [
           {
@@ -21548,7 +22968,7 @@
           "line": 1.5,
           "prob": 0.5712,
           "packProb": 0.3017,
-          "edge": 0.2695,
+          "edge": 0.2694,
           "band": "Likely",
           "outOf100": 57,
           "fair": 1.75,
@@ -21639,7 +23059,7 @@
       "combinedProb": 0.1057,
       "combinedFair": 9.5,
       "averageProb": 0.643,
-      "averageEdge": 0.2778,
+      "averageEdge": 0.2777,
       "inBand": true
     },
     {
