@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Football, spinning. SVG favicons animate in Firefox and Safari; Chrome
+       renders the first frame, which is a clean static ball, so it degrades to
+       exactly what a non-animated favicon would have been. -->
+  <rect width="32" height="32" rx="7" fill="#0b0b0b"/>
+  <g transform="translate(16 16)">
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+        from="0" to="360" dur="8s" repeatCount="indefinite"/>
+      <circle r="10" fill="#ffffff"/>
+      <!-- Central pentagon plus the panel seams radiating from it -->
+      <path d="M0 -5.2 L4.9 -1.6 L3 4.2 L-3 4.2 L-4.9 -1.6 Z" fill="#0b0b0b"/>
+      <g stroke="#0b0b0b" stroke-width="1.5" stroke-linecap="round">
+        <path d="M0 -5.2 L0 -10"/>
+        <path d="M4.9 -1.6 L9.5 -3.1"/>
+        <path d="M3 4.2 L5.9 8.1"/>
+        <path d="M-3 4.2 L-5.9 8.1"/>
+        <path d="M-4.9 -1.6 L-9.5 -3.1"/>
+      </g>
+    </g>
+  </g>
+</svg>

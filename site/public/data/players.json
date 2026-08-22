@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T10:39:40+00:00",
+  "generatedAt": "2026-08-22T10:58:34+00:00",
   "trainedOn": {
     "playerMatches": 81327,
     "players": 1671,
@@ -82,7 +82,7 @@
         "fair2": 3.41,
         "floor2": 3.75,
         "band2": "Unlikely",
-        "p3plus": 0.1284,
+        "p3plus": 0.1283,
         "fair3": 7.79,
         "floor3": 8.57,
         "band3": "Highly unlikely",
@@ -132,7 +132,7 @@
           "refereeFactor": 1.0,
           "effectiveMatches": 58.5
         },
-        "exact0": 0.414,
+        "exact0": 0.4141,
         "p1plus": 0.5803,
         "fair1": 1.72,
         "floor1": 1.9,
@@ -2050,6 +2050,26 @@
             }
           }
         ]
+      },
+      "compare": {
+        "rows": [
+          {
+            "label": "Expected fouls, XI",
+            "home": 7.32,
+            "away": 0.95,
+            "higher": "home"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 7.03,
+            "away": 1.0,
+            "higher": "home"
+          }
+        ],
+        "matches": {
+          "home": 28,
+          "away": 0
+        }
       },
       "stats": {
         "committed": {
@@ -4291,6 +4311,26 @@
           }
         ]
       },
+      "compare": {
+        "rows": [
+          {
+            "label": "Expected fouls, XI",
+            "home": 2.31,
+            "away": 10.2,
+            "higher": "away"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 1.69,
+            "away": 9.05,
+            "higher": "away"
+          }
+        ],
+        "matches": {
+          "home": 0,
+          "away": 0
+        }
+      },
       "stats": {
         "committed": {
           "Hull": [
@@ -5684,7 +5724,7 @@
                 "refereeFactor": 1.0,
                 "effectiveMatches": 58.5
               },
-              "exact0": 0.414,
+              "exact0": 0.4141,
               "p1plus": 0.5803,
               "fair1": 1.72,
               "floor1": 1.9,
@@ -6587,6 +6627,50 @@
           }
         ]
       },
+      "compare": {
+        "rows": [
+          {
+            "label": "Fouls committed per match",
+            "home": 11.48,
+            "away": 10.96,
+            "higher": "home"
+          },
+          {
+            "label": "Fouls won per match",
+            "home": 10.41,
+            "away": 10.79,
+            "higher": "away"
+          },
+          {
+            "label": "Yellow cards per match",
+            "home": 2.15,
+            "away": 2.07,
+            "higher": "home"
+          },
+          {
+            "label": "Tackles won per match",
+            "home": 11.74,
+            "away": 12.39,
+            "higher": "away"
+          },
+          {
+            "label": "Expected fouls, XI",
+            "home": 7.05,
+            "away": 9.03,
+            "higher": "away"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 7.01,
+            "away": 8.01,
+            "higher": "away"
+          }
+        ],
+        "matches": {
+          "home": 27,
+          "away": 28
+        }
+      },
       "stats": {
         "committed": {
           "Everton": [
@@ -6995,7 +7079,7 @@
               "fair2": 3.41,
               "floor2": 3.75,
               "band2": "Unlikely",
-              "p3plus": 0.1284,
+              "p3plus": 0.1283,
               "fair3": 7.79,
               "floor3": 8.57,
               "band3": "Highly unlikely",
@@ -8834,6 +8918,26 @@
             }
           }
         ]
+      },
+      "compare": {
+        "rows": [
+          {
+            "label": "Expected fouls, XI",
+            "home": 7.44,
+            "away": 8.11,
+            "higher": "away"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 6.4,
+            "away": 7.69,
+            "higher": "away"
+          }
+        ],
+        "matches": {
+          "home": 0,
+          "away": 4
+        }
       },
       "stats": {
         "committed": {
@@ -11123,6 +11227,26 @@
           }
         ]
       },
+      "compare": {
+        "rows": [
+          {
+            "label": "Expected fouls, XI",
+            "home": 5.97,
+            "away": 8.41,
+            "higher": "away"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 7.16,
+            "away": 9.4,
+            "higher": "away"
+          }
+        ],
+        "matches": {
+          "home": 0,
+          "away": 0
+        }
+      },
       "stats": {
         "committed": {
           "Nott'm Forest": [
@@ -12729,7 +12853,7 @@
                 "refereeFactor": 1.0,
                 "effectiveMatches": 47.5
               },
-              "exact0": 0.5255,
+              "exact0": 0.5256,
               "p1plus": 0.4735,
               "fair1": 2.11,
               "floor1": 2.32,
@@ -13418,6 +13542,26 @@
             }
           }
         ]
+      },
+      "compare": {
+        "rows": [
+          {
+            "label": "Expected fouls, XI",
+            "home": 7.76,
+            "away": 7.58,
+            "higher": "home"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 8.04,
+            "away": 7.26,
+            "higher": "home"
+          }
+        ],
+        "matches": {
+          "home": 28,
+          "away": 0
+        }
       },
       "stats": {
         "committed": {
@@ -15393,7 +15537,7 @@
               "band1": "Highly unlikely",
               "p2plus": 0.0303,
               "fair2": 33.04,
-              "floor2": 36.35,
+              "floor2": 36.34,
               "band2": "Remote chance",
               "p3plus": 0.0145,
               "fair3": 68.91,
@@ -15698,6 +15842,26 @@
             }
           }
         ]
+      },
+      "compare": {
+        "rows": [
+          {
+            "label": "Expected fouls, XI",
+            "home": 7.96,
+            "away": 7.68,
+            "higher": "home"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 7.36,
+            "away": 7.17,
+            "higher": "home"
+          }
+        ],
+        "matches": {
+          "home": 0,
+          "away": 28
+        }
       },
       "stats": {
         "committed": {
@@ -17423,7 +17587,7 @@
                 "effectiveMatches": 2.3
               },
               "exact0": 0.6711,
-              "p1plus": 0.3334,
+              "p1plus": 0.3335,
               "fair1": 3.0,
               "floor1": 3.3,
               "band1": "Unlikely",
@@ -17970,6 +18134,26 @@
             }
           }
         ]
+      },
+      "compare": {
+        "rows": [
+          {
+            "label": "Expected fouls, XI",
+            "home": 8.51,
+            "away": 6.66,
+            "higher": "home"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 10.49,
+            "away": 5.83,
+            "higher": "home"
+          }
+        ],
+        "matches": {
+          "home": 0,
+          "away": 28
+        }
       },
       "stats": {
         "committed": {
@@ -20251,6 +20435,26 @@
           }
         ]
       },
+      "compare": {
+        "rows": [
+          {
+            "label": "Expected fouls, XI",
+            "home": 5.68,
+            "away": 5.71,
+            "higher": "away"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 6.1,
+            "away": 5.89,
+            "higher": "home"
+          }
+        ],
+        "matches": {
+          "home": 0,
+          "away": 27
+        }
+      },
       "stats": {
         "committed": {
           "Newcastle": [
@@ -22531,6 +22735,50 @@
           }
         ]
       },
+      "compare": {
+        "rows": [
+          {
+            "label": "Fouls committed per match",
+            "home": 11.68,
+            "away": 11.43,
+            "higher": "home"
+          },
+          {
+            "label": "Fouls won per match",
+            "home": 10.71,
+            "away": 11.86,
+            "higher": "away"
+          },
+          {
+            "label": "Yellow cards per match",
+            "home": 2.21,
+            "away": 2.79,
+            "higher": "away"
+          },
+          {
+            "label": "Tackles won per match",
+            "home": 10.32,
+            "away": 9.89,
+            "higher": "home"
+          },
+          {
+            "label": "Expected fouls, XI",
+            "home": 7.14,
+            "away": 8.2,
+            "higher": "away"
+          },
+          {
+            "label": "Expected fouls won, XI",
+            "home": 6.35,
+            "away": 7.91,
+            "higher": "away"
+          }
+        ],
+        "matches": {
+          "home": 28,
+          "away": 28
+        }
+      },
       "stats": {
         "committed": {
           "Fulham": [
@@ -23020,7 +23268,7 @@
           "kickoff": "2026-08-24T20:00:00+00:00",
           "market": "drawn",
           "line": 0.5,
-          "prob": 0.5416,
+          "prob": 0.5417,
           "packProb": 0.2222,
           "edge": 0.3195,
           "band": "Realistic possibility",
@@ -23273,7 +23521,7 @@
               "market": "drawn",
               "line": 0.5,
               "fouls": 1,
-              "prob": 0.5416,
+              "prob": 0.5417,
               "outOf100": 54,
               "packProb": 0.2222,
               "edge": 0.3195,
@@ -24488,7 +24736,7 @@
           "fair": 2.62,
           "floor": 2.88,
           "why": {
-            "ratePer90": 0.438,
+            "ratePer90": 0.437,
             "expectedMinutes": 90.0,
             "opponentFactor": 1.0,
             "refereeFactor": 1.0,
