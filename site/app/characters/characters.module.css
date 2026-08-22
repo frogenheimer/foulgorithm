@@ -70,7 +70,7 @@
 }
 
 .spec dd {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-secondary);
   margin-top: 2px;
 }
@@ -84,7 +84,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13.5px;
+  font-size: 14px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -198,7 +198,7 @@
 }
 
 .traitBody {
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--text-secondary);
   margin-top: var(--space-2);
   line-height: 1.5;
@@ -206,7 +206,7 @@
 
 .back {
   display: inline-block;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-secondary);
   margin-bottom: var(--space-4);
 }

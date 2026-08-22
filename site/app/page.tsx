@@ -45,8 +45,8 @@ export default function Today() {
               <span className={s.who}>
                 <span className={s.name}>{r.player}</span>
                 <span className={s.meta}>
-                  {r.position && `${r.position} · `}{r.team} · {r.fixture} ·{" "}
-                  {Math.round(r.expectedMinutes)} min expected
+                  {r.position && `${r.position} · `}{r.fixture} ·{" "}
+                  {Math.round(r.expectedMinutes)}&apos;
                 </span>
               </span>
               <span className={s.freq}>

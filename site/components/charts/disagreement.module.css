@@ -22,7 +22,7 @@
 }
 
 .fixture {
-  font-size: 12.5px; color: var(--text-secondary);
+  font-size: 13.5px; color: var(--text-secondary);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .v { color: var(--text-muted); }
@@ -42,7 +42,7 @@
 }
 
 .spread {
-  font-size: 12.5px; text-align: right;
+  font-size: 13.5px; text-align: right;
   font-variant-numeric: tabular-nums; color: var(--text-primary);
 }
 

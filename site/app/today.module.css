@@ -118,6 +118,11 @@
   font-size: var(--text-sm);
   color: var(--text-muted);
   margin-top: 2px;
+  /* One line, always. Larger type made two rows wrap, which broke the vertical
+     rhythm and made the list look misaligned rather than spacious. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .freq {
@@ -149,7 +154,7 @@
 }
 
 .freqText {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -161,7 +166,7 @@
 }
 
 .bandCol {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-secondary);
   white-space: nowrap;
   min-width: 11ch;
@@ -391,7 +396,7 @@ details[open] > summary .chev {
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 14px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -486,7 +491,7 @@ details[open] > summary .chev {
 }
 .tierLegs { font-size: var(--text-sm); color: var(--text-muted); }
 .tierProb {
-  font-size: 13px; color: var(--text-secondary);
+  font-size: 14px; color: var(--text-secondary);
   font-variant-numeric: tabular-nums; text-align: right;
 }
 
@@ -494,7 +499,7 @@ details[open] > summary .chev {
 .tierBody li {
   display: grid; grid-template-columns: 1fr auto auto;
   gap: var(--space-3); align-items: baseline;
-  padding: 3px 0; font-size: 13px;
+  padding: 3px 0; font-size: 14px;
 }
 .legName { display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
 .legMarket { font-size: var(--text-sm); color: var(--text-muted); white-space: nowrap; }

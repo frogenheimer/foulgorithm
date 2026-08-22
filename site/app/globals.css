@@ -11,7 +11,7 @@
   --surface-2: #f2f1ed;
   --text-primary: #0b0b0b;
   --text-secondary: #52514e;
-  --text-muted: #898781;
+  --text-muted: #6e6d68;
   --border: rgba(11, 11, 11, 0.1);
   --border-strong: rgba(11, 11, 11, 0.18);
   --grid: #e1e0d9;
@@ -25,7 +25,7 @@
   /* Sequential ramp, one hue, light to dark */
   --seq-100: #cde2fb;
   --seq-250: #86b6ef;
-  --seq-450: #2a78d6;
+  --seq-450: #2470c9;
   --seq-600: #184f95;
 
   /* Character identity colours. Validated for colour-vision deficiency as a
@@ -35,7 +35,7 @@
      NEVER a chart series. The palette fails the data checks and green is the
      worst hue to encode with, since red-green deficiency affects ~8% of men.
      Data uses the validated blue ramp. See docs/20-visual-language.md */
-  --accent: #3a9e45;
+  --accent: #2b7734;
   --accent-bright: #4DBE55;
   --accent-soft: rgba(77, 190, 85, 0.12);
   --accent-ink: #0b0b0b;
@@ -65,12 +65,12 @@
      earlier it has tabular figures by construction. */
   --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono",
     Menlo, Consolas, monospace;
-  --text-xs: 11.5px;
-  --text-sm: 12.5px;
-  --text-base: 15px;
-  --text-lg: 18px;
-  --text-xl: 22px;
-  --text-hero: 30px;
+  --text-xs: 12px;
+  --text-sm: 13.5px;
+  --text-base: 16px;
+  --text-lg: 19px;
+  --text-xl: 23px;
+  --text-hero: 32px;
 
   /* Radius */
   --radius-sm: 6px;
@@ -160,7 +160,7 @@ body {
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: var(--text-base);
-  line-height: 1.55;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 

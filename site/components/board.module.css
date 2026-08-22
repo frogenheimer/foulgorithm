@@ -8,7 +8,7 @@
 .tabs { display: flex; gap: 2px; background: var(--surface-2); border-radius: var(--radius-md); padding: 3px; }
 
 .tab, .tabOn {
-  font-size: 13px; padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm);
+  font-size: 14px; padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm);
   color: var(--text-secondary); transition: background var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
   min-height: 34px;
 }
@@ -16,7 +16,7 @@
 .tabOn { background: var(--surface-1); color: var(--text-primary); font-weight: 560; }
 
 .search {
-  font: inherit; font-size: 13px; padding: var(--space-2) var(--space-3);
+  font: inherit; font-size: 14px; padding: var(--space-2) var(--space-3);
   background: var(--surface-2); color: var(--text-primary);
   border: 1px solid var(--border); border-radius: var(--radius-sm);
   min-width: 180px; min-height: 34px;
@@ -41,7 +41,7 @@
 .ticketTarget { font-size: var(--text-xl); font-weight: 640; letter-spacing: -0.02em; }
 .ticketShape { font-size: var(--text-sm); color: var(--text-muted); font-variant-numeric: tabular-nums; }
 
-.ticketLegs { list-style: none; margin: var(--space-3) 0; font-size: 13px; }
+.ticketLegs { list-style: none; margin: var(--space-3) 0; font-size: 14px; }
 .ticketLegs li {
   display: flex; justify-content: space-between; gap: var(--space-2);
   padding: 2px 0; color: var(--text-secondary);
@@ -68,7 +68,7 @@
 }
 .count { color: var(--text-muted); font-weight: 400; }
 
-.table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+.table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
 .table th, .table td {
   text-align: left; padding: 5px var(--space-2);
   border-bottom: 1px solid var(--border); white-space: nowrap;
