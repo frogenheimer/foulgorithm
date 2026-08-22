@@ -1,6 +1,14 @@
 # Data model
 
-**Status: Proposed**
+**Status: Superseded, 2026-08-22.**
+
+> ⚠️ **This describes a Supabase schema that was never built and now will not be.**
+> [ADR-010](decisions/ADR-010-single-database.md) chose one database; in practice
+> we chose none. Predictions live in append-only JSONL committed to git, which at
+> a few hundred rows a week gives better provenance than Postgres would: the
+> timestamps are not ours to write. See `src/foulgorithm/store/predictions.py`.
+>
+> Kept for the point-in-time reasoning below, which still governs everything.
 
 The schema exists to make one class of bug impossible: using information that did not exist yet. Everything else is secondary.
 

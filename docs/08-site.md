@@ -1,6 +1,11 @@
 # Site
 
-**Status: Proposed**
+**Status: Superseded, 2026-08-22.**
+
+> ⚠️ **Describes a site that no longer resembles what is built.** Current design
+> direction is [16-design-direction.md](16-design-direction.md), the layout is
+> [22-design-rebuild.md](22-design-rebuild.md), and the rules are
+> [ui-styleguide.md](ui-styleguide.md).
 
 ## Stack
 

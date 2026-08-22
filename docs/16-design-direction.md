@@ -1,6 +1,6 @@
 # Design direction
 
-**Status: Proposed, 2026-08-22. Based on research verified the same day.**
+**Status: Decided and shipped, 2026-08-22.** (applied)
 
 ## The reframe
 

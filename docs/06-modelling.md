@@ -1,6 +1,6 @@
 # Modelling
 
-**Status: Proposed**
+**Status: Decided and shipped, 2026-08-22.** (ladder built, champion promoted)
 
 ## The contract
 

@@ -1,6 +1,6 @@
 # Weekly review
 
-**Status: Proposed**
+**Status: Decided and shipped, 2026-08-22.** (grading job built; the cron is still outstanding)
 
 The weekly review is a pipeline stage, not a good intention. If it depends on remembering to look, it will not happen.
 

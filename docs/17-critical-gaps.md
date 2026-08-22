@@ -1,5 +1,7 @@
 # Critical gaps, 2026-08-22
 
+**Status: Closed, 2026-08-22.** Seven of eight gaps addressed; odds parked.
+
 Eight findings from first real use. Ordered by how much damage each does.
 
 ## 1. The squads are wrong, and this poisons everything

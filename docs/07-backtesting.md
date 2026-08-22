@@ -1,6 +1,6 @@
 # Backtesting
 
-**Status: Proposed**
+**Status: Decided and shipped, 2026-08-22.** (match and player harnesses built, canary test passing)
 
 The backtest is the most important component in the repository. It is the only thing standing between us and confidently shipping a model that does not work.
 

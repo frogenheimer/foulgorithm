@@ -1,6 +1,6 @@
 # Next phase: from machinery to product
 
-**Status: Proposed, 2026-08-21. Supersedes nothing yet. Needs sign-off before building.**
+**Status: Decided and shipped, 2026-08-22.** (delivered, except the odds work which was parked)
 
 ## What is wrong today
 

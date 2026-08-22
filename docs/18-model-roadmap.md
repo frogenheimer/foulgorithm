@@ -1,6 +1,6 @@
 # Model roadmap
 
-**Status: Proposed, 2026-08-22.**
+**Status: Decided and shipped, 2026-08-22.** (the answer stands; items 3 and 5 are next)
 
 ## Are the current models machine learning?
 

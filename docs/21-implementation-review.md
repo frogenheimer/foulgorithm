@@ -1,5 +1,7 @@
 # Implementation review, 2026-08-22
 
+**Status: Actioned, 2026-08-22.** See [22-design-rebuild.md](22-design-rebuild.md).
+
 An honest look at what is actually on screen, measured rather than felt.
 
 ## What this site is for

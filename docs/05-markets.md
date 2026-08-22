@@ -1,6 +1,6 @@
 # Markets
 
-**Status: Proposed**
+**Status: Decided and shipped, 2026-08-22.** (five markets registered, three modelled)
 
 A market is the thing we predict. The point of this module is that adding a new one means adding a definition, not editing the model or the backtest.
 

@@ -1,6 +1,6 @@
 # Identity resolution
 
-**Status: Proposed**
+**Status: Decided and shipped, 2026-08-22.** (four crosswalks built, halt-on-unresolved enforced)
 
 ## Why this gets its own module
 

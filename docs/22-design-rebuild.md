@@ -1,6 +1,6 @@
 # Design rebuild plan
 
-**Status: Proposed, 2026-08-22. Supersedes the layout parts of 15, 16 and 19.**
+**Status: Decided and shipped, 2026-08-22.** (built)
 
 ## Two blockers first
 

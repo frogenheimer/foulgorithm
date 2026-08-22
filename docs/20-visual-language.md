@@ -1,6 +1,6 @@
 # Visual language
 
-**Status: Proposed, 2026-08-22.**
+**Status: Decided and shipped, 2026-08-22.** (applied)
 
 Drawn from two references: the Slate palette, and `nerochain.io` for motion.
 

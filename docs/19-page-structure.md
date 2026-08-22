@@ -1,6 +1,6 @@
 # Page structure
 
-**Status: Proposed, 2026-08-22.**
+**Status: Decided and shipped, 2026-08-22.** (built, except the month calendar)
 
 ## Home, three regions
 
