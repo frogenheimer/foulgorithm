@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T20:23:14+00:00",
+  "generatedAt": "2026-08-22T16:03:53+00:00",
   "coverage": {
     "seasons": 26,
     "matches": 9880,
@@ -435,6 +435,9 @@
       "matches": 22,
       "foulsPerMatch": 24.5,
       "cardsPerMatch": 5.09,
+      "redsPerMatch": 0.14,
+      "cardsPerFoul": 0.2078,
+      "cardedMatches": 22,
       "vsLeague": 1.117
     },
     {
@@ -442,6 +445,9 @@
       "matches": 62,
       "foulsPerMatch": 23.11,
       "cardsPerMatch": 4.23,
+      "redsPerMatch": 0.15,
+      "cardsPerFoul": 0.1828,
+      "cardedMatches": 62,
       "vsLeague": 1.054
     },
     {
@@ -449,6 +455,9 @@
       "matches": 64,
       "foulsPerMatch": 22.94,
       "cardsPerMatch": 3.77,
+      "redsPerMatch": 0.11,
+      "cardsPerFoul": 0.1642,
+      "cardedMatches": 64,
       "vsLeague": 1.046
     },
     {
@@ -456,6 +465,9 @@
       "matches": 46,
       "foulsPerMatch": 22.91,
       "cardsPerMatch": 4.2,
+      "redsPerMatch": 0.07,
+      "cardsPerFoul": 0.1831,
+      "cardedMatches": 46,
       "vsLeague": 1.045
     },
     {
@@ -463,6 +475,9 @@
       "matches": 43,
       "foulsPerMatch": 22.49,
       "cardsPerMatch": 3.67,
+      "redsPerMatch": 0.14,
+      "cardsPerFoul": 0.1634,
+      "cardedMatches": 43,
       "vsLeague": 1.025
     },
     {
@@ -470,6 +485,9 @@
       "matches": 54,
       "foulsPerMatch": 22.41,
       "cardsPerMatch": 4.35,
+      "redsPerMatch": 0.15,
+      "cardsPerFoul": 0.1942,
+      "cardedMatches": 54,
       "vsLeague": 1.022
     },
     {
@@ -477,6 +495,9 @@
       "matches": 78,
       "foulsPerMatch": 22.37,
       "cardsPerMatch": 3.77,
+      "redsPerMatch": 0.15,
+      "cardsPerFoul": 0.1685,
+      "cardedMatches": 78,
       "vsLeague": 1.02
     },
     {
@@ -484,6 +505,9 @@
       "matches": 62,
       "foulsPerMatch": 22.08,
       "cardsPerMatch": 3.74,
+      "redsPerMatch": 0.13,
+      "cardsPerFoul": 0.1695,
+      "cardedMatches": 62,
       "vsLeague": 1.007
     },
     {
@@ -491,6 +515,9 @@
       "matches": 44,
       "foulsPerMatch": 22.02,
       "cardsPerMatch": 4.07,
+      "redsPerMatch": 0.2,
+      "cardsPerFoul": 0.1847,
+      "cardedMatches": 44,
       "vsLeague": 1.004
     },
     {
@@ -498,6 +525,9 @@
       "matches": 74,
       "foulsPerMatch": 21.78,
       "cardsPerMatch": 3.96,
+      "redsPerMatch": 0.16,
+      "cardsPerFoul": 0.1818,
+      "cardedMatches": 74,
       "vsLeague": 0.993
     },
     {
@@ -505,6 +535,9 @@
       "matches": 51,
       "foulsPerMatch": 21.76,
       "cardsPerMatch": 4.27,
+      "redsPerMatch": 0.16,
+      "cardsPerFoul": 0.1964,
+      "cardedMatches": 51,
       "vsLeague": 0.992
     },
     {
@@ -512,6 +545,9 @@
       "matches": 39,
       "foulsPerMatch": 21.64,
       "cardsPerMatch": 3.64,
+      "redsPerMatch": 0.13,
+      "cardsPerFoul": 0.1682,
+      "cardedMatches": 39,
       "vsLeague": 0.987
     },
     {
@@ -519,6 +555,9 @@
       "matches": 63,
       "foulsPerMatch": 21.6,
       "cardsPerMatch": 4.41,
+      "redsPerMatch": 0.11,
+      "cardsPerFoul": 0.2043,
+      "cardedMatches": 63,
       "vsLeague": 0.985
     },
     {
@@ -526,6 +565,9 @@
       "matches": 55,
       "foulsPerMatch": 21.25,
       "cardsPerMatch": 3.96,
+      "redsPerMatch": 0.15,
+      "cardsPerFoul": 0.1865,
+      "cardedMatches": 55,
       "vsLeague": 0.969
     },
     {
@@ -533,6 +575,9 @@
       "matches": 37,
       "foulsPerMatch": 21.24,
       "cardsPerMatch": 3.41,
+      "redsPerMatch": 0.14,
+      "cardsPerFoul": 0.1603,
+      "cardedMatches": 37,
       "vsLeague": 0.969
     },
     {
@@ -540,6 +585,9 @@
       "matches": 61,
       "foulsPerMatch": 21.05,
       "cardsPerMatch": 4.26,
+      "redsPerMatch": 0.15,
+      "cardsPerFoul": 0.2025,
+      "cardedMatches": 61,
       "vsLeague": 0.96
     },
     {
@@ -547,6 +595,9 @@
       "matches": 88,
       "foulsPerMatch": 21,
       "cardsPerMatch": 3.83,
+      "redsPerMatch": 0.14,
+      "cardsPerFoul": 0.1824,
+      "cardedMatches": 88,
       "vsLeague": 0.957
     },
     {
@@ -554,6 +605,9 @@
       "matches": 59,
       "foulsPerMatch": 20.75,
       "cardsPerMatch": 4.07,
+      "redsPerMatch": 0.03,
+      "cardsPerFoul": 0.1961,
+      "cardedMatches": 59,
       "vsLeague": 0.946
     },
     {
@@ -561,7 +615,62 @@
       "matches": 62,
       "foulsPerMatch": 20.19,
       "cardsPerMatch": 3.9,
+      "redsPerMatch": 0.05,
+      "cardsPerFoul": 0.1933,
+      "cardedMatches": 62,
       "vsLeague": 0.921
+    }
+  ],
+  "appointments": [
+    {
+      "referee": "T Bramall",
+      "fixture": "Arsenal v Coventry",
+      "kickoff": "2026-08-21T20:00:00+00:00"
+    },
+    {
+      "referee": "D England",
+      "fixture": "Hull v Man United",
+      "kickoff": "2026-08-22T12:30:00+00:00"
+    },
+    {
+      "referee": "P Tierney",
+      "fixture": "Everton v Crystal Palace",
+      "kickoff": "2026-08-22T15:00:00+00:00"
+    },
+    {
+      "referee": "F Hallam",
+      "fixture": "Ipswich v Sunderland",
+      "kickoff": "2026-08-22T15:00:00+00:00"
+    },
+    {
+      "referee": "R Jones",
+      "fixture": "Nott'm Forest v Leeds",
+      "kickoff": "2026-08-22T15:00:00+00:00"
+    },
+    {
+      "referee": "M Oliver",
+      "fixture": "Brentford v Tottenham",
+      "kickoff": "2026-08-22T17:30:00+00:00"
+    },
+    {
+      "referee": "P Bankes",
+      "fixture": "Brighton v Aston Villa",
+      "kickoff": "2026-08-23T14:00:00+00:00"
+    },
+    {
+      "referee": "J Gillett",
+      "fixture": "Man City v Bournemouth",
+      "kickoff": "2026-08-23T14:00:00+00:00"
+    },
+    {
+      "referee": "S Attwell",
+      "fixture": "Newcastle v Liverpool",
+      "kickoff": "2026-08-23T16:30:00+00:00"
+    },
+    {
+      "referee": "J Brooks",
+      "fixture": "Fulham v Chelsea",
+      "kickoff": "2026-08-24T20:00:00+00:00"
     }
   ],
   "teams": [

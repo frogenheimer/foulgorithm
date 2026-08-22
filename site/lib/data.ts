@@ -21,9 +21,16 @@ export type RefereeRow = {
   referee: string;
   matches: number;
   foulsPerMatch: number;
-  cardsPerMatch: number;
+  /** Null where the season files carried results without cards. */
+  cardsPerMatch: number | null;
+  redsPerMatch: number | null;
+  /** How often a given foul becomes a booking. Less confounded than per match. */
+  cardsPerFoul: number | null;
+  cardedMatches: number;
   vsLeague: number;
 };
+
+export type Appointment = { referee: string; fixture: string; kickoff: string };
 
 export type TeamRow = {
   team: string;
@@ -45,6 +52,7 @@ export type Overview = {
   seasons: SeasonRow[];
   distribution: { fouls: number; matches: number; share: number }[];
   referees: RefereeRow[];
+  appointments: Appointment[];
   teams: TeamRow[];
   homeAway: { homeFouls: number; awayFouls: number; homeYellows: number; awayYellows: number };
   recentWindow: string;

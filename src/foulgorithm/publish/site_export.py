@@ -94,6 +94,7 @@ def build(matches: list[dict]) -> dict:
         "seasons": season_series,
         "distribution": _distribution(matches),
         "referees": _referees(recent),
+        "appointments": _appointments(),
         "teams": _teams(recent),
         "homeAway": _home_away(recent),
         "recentWindow": f"{_shift(latest, -2)} to {latest}",
@@ -125,7 +126,37 @@ def _distribution(matches: list[dict]) -> list[dict]:
     ]
 
 
+def _appointments() -> list[dict]:
+    """Who has which fixture this round.
+
+    Without it the referee table is trivia. With it, a reader can see that the
+    man 12% above the league on fouls has the game they were looking at.
+    """
+    try:
+        from foulgorithm.sources import football_data as fd
+
+        return [
+            {
+                "referee": row["referee_raw"],
+                "fixture": f"{row['home_team_raw']} v {row['away_team_raw']}",
+                "kickoff": row["kickoff_utc"].isoformat(),
+            }
+            for row in fd.fetch_fixtures()
+            if row.get("referee_raw")
+        ]
+    except Exception:
+        # A missing appointment list makes the page thinner, not wrong.
+        return []
+
+
 def _referees(matches: list[dict], minimum: int = 20) -> list[dict]:
+    """Per-referee observations. Not a referee effect, and the site says so.
+
+    `cardsPerFoul` is the column worth reading. Cards per match rises with how
+    physical a game was, so it partly measures the fixtures a referee drew.
+    Cards per foul asks how likely he is to book an offence he has already
+    given, which is much closer to what people mean by strict.
+    """
     grouped: dict[str, list[dict]] = defaultdict(list)
     for m in matches:
         if m["referee_raw"]:
@@ -137,14 +168,29 @@ def _referees(matches: list[dict], minimum: int = 20) -> list[dict]:
         if len(rows) < minimum:
             continue
         fouls = [r["home_fouls"] + r["away_fouls"] for r in rows]
-        cards = [(r["home_yellows"] or 0) + (r["away_yellows"] or 0) for r in rows]
         mean = statistics.mean(fouls)
+
+        # Older season files carry results without cards. Counting a missing
+        # card column as zero would read as "never books anyone", so those
+        # matches are excluded from the card figures rather than folded in.
+        carded = [
+            r for r in rows
+            if r.get("home_yellows") is not None and r.get("away_yellows") is not None
+        ]
+        cards = [(r["home_yellows"] or 0) + (r["away_yellows"] or 0) for r in carded]
+        reds = [(r.get("home_reds") or 0) + (r.get("away_reds") or 0) for r in carded]
+        card_fouls = [r["home_fouls"] + r["away_fouls"] for r in carded]
+        total_fouls = sum(card_fouls)
+
         out.append(
             {
                 "referee": name,
                 "matches": len(rows),
                 "foulsPerMatch": round(mean, 2),
-                "cardsPerMatch": round(statistics.mean(cards), 2),
+                "cardsPerMatch": round(statistics.mean(cards), 2) if cards else None,
+                "redsPerMatch": round(statistics.mean(reds), 2) if reds else None,
+                "cardsPerFoul": round(sum(cards) / total_fouls, 4) if total_fouls else None,
+                "cardedMatches": len(carded),
                 # Raw ratio only. It is confounded by which teams a referee was
                 # assigned, and the model must not use it. Shown here as an
                 # observation, not as a multiplier. See docs/06-modelling.md.

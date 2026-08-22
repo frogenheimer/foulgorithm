@@ -155,6 +155,7 @@ reconciliation pass.
 | Head-to-head stats sheet | **Built** | Mirrored around a shared centre column. No model output, and a test enforces it |
 | Hit-rate dots | **Built** | Did the line land in each of the last five. A reader can check it; a probability they can only trust |
 | Referee panel | **Built** | Own numbers, with the confounding stated rather than dressed up as an effect |
+| Referees page | **Built** | Sortable, with this round's appointments attached. Fouls booked as a share, which is less confounded than cards per match |
 | Likely opponent column | **Partly built** | The other side's top foul-winners. A real positional matchup needs formation data we do not hold |
 | Month calendar | **Deferred** | |
 | Leaderboard and user accounts | **Deferred** | The real trigger for a database. Nothing else needs one yet |
