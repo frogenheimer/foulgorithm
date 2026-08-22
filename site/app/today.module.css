@@ -20,7 +20,6 @@
 }
 
 .h1 {
-  font-family: var(--font-mono);
   font-size: clamp(26px, 4.4vw, 40px);
   font-weight: 660;
   letter-spacing: -0.03em;
@@ -43,7 +42,6 @@
 }
 
 .h2 {
-  font-family: var(--font-mono);
   font-size: var(--text-xl);
   font-weight: 640;
   letter-spacing: -0.02em;
@@ -529,4 +527,59 @@ details[open] > summary .chev {
 
 @media (max-width: 1080px) {
   .split { grid-template-columns: 1fr; gap: var(--space-6); }
+}
+
+/* ---------- three ways in ---------- */
+
+/* A reader arriving cold cannot tell from a nav icon whether they want facts,
+   forecasts or our results. These name the question each page answers. */
+.routes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.route {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease),
+    background var(--duration-fast) var(--ease);
+}
+
+.route:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.routeLabel {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.routeBody {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.routeGo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.routeGo::after {
+  content: "→";
 }

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import FixtureGrid from "@/components/FixtureGrid";
 import LeagueRail from "@/components/LeagueRail";
 import { DotArray } from "@/components/charts/pack";
@@ -18,26 +19,55 @@ export default function Today() {
       <section className={s.hero}>
         <p className={s.eyebrow}>The next matchday</p>
         <h1 className={s.h1}>Who gives away fouls</h1>
-        {/* Lead with a frequency and its complement, not a bare probability.
-            "In 68 of 100" is read correctly far more often than "68% chance". */}
         <p className={s.answer}>
-          The model&apos;s strongest read is <strong>{lead.player}</strong>. In{" "}
-          <strong>{lead.committed.outOf100} of 100</strong> matches like this one he commits at
-          least one foul. In the other {100 - lead.committed.outOf100}, he does not.
+          Calibrated probabilities for Premier League fouls, published before kickoff and
+          graded afterwards. Nothing is hidden when it goes wrong, which is most of what
+          separates this from a tipster account.
         </p>
         <p className={s.sub}>
           Squads are today&apos;s, taken live from the league&apos;s own data, so transfers and
-          injuries are already accounted for. Foul rates come from{" "}
-          {count(t.playerMatches)} player-matches, {t.from} to {t.to}. Every price is what a bet
-          would need to pay to be worth taking, not a price anyone is offering.
+          injuries are already accounted for. Foul rates come from {count(t.playerMatches)}{" "}
+          player-matches, {t.from} to {t.to}. Every price is what a bet would need to pay to be
+          worth taking, not a price anyone is offering.
         </p>
       </section>
+
+      {/* Three ways in, because they answer different questions and a reader
+          arriving cold cannot tell which one they want from a nav icon. */}
+      <nav className={s.routes} aria-label="Where to start">
+        <Link href="/stats" className={s.route}>
+          <span className={s.routeLabel}>Just the numbers</span>
+          <span className={s.routeBody}>
+            Both clubs side by side, fouls, cards, shots, referee. No model anywhere near it.
+          </span>
+          <span className={s.routeGo}>The stats sheet</span>
+        </Link>
+        <Link href="/players" className={s.route}>
+          <span className={s.routeLabel}>What we think will happen</span>
+          <span className={s.routeBody}>
+            Every player, fouls conceded, won and both together. Filter it however you like.
+          </span>
+          <span className={s.routeGo}>Players</span>
+        </Link>
+        <Link href="/record" className={s.route}>
+          <span className={s.routeLabel}>Whether we have been right</span>
+          <span className={s.routeBody}>
+            Every published call, graded. Including the ones that lost.
+          </span>
+          <span className={s.routeGo}>Track record</span>
+        </Link>
+      </nav>
 
       <div className={s.split}>
         <div className={s.mainCol}>
       <section>
         <h2 className={s.h2}>Most likely to commit a foul</h2>
-        <p className={s.note}>Ranked across every fixture in the round.</p>
+        <p className={s.note}>
+          Ranked across every fixture in the round. The strongest read is{" "}
+          <strong>{lead.player}</strong>: in {lead.committed.outOf100} of 100 matches like this
+          one he commits at least one foul, and in the other {100 - lead.committed.outOf100} he
+          does not.
+        </p>
         <ol className={s.leaders}>
           {d.topFoulers.slice(0, 8).map((r, i) => (
             <li key={r.player + r.fixture} className={s.leader} style={{ "--i": i } as React.CSSProperties}>
@@ -217,8 +247,9 @@ export default function Today() {
             and is marked as such.
           </p>
           <p className={s.muted}>
-            Generated {d.generatedAt.slice(0, 10)}. No prediction here has settled yet, so there is
-            no accuracy record to show. There will be.
+            Generated {d.generatedAt.slice(0, 10)}. Every call published here is graded once the
+            match settles, and the results are on the <Link href="/record">track record</Link>,
+            good weeks and bad.
           </p>
         </div>
       </details>
