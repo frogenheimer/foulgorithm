@@ -18,7 +18,7 @@ from foulgorithm.characters import base as characters
 from foulgorithm.publish import combinations as combos
 from foulgorithm.identity import players as identity
 from foulgorithm.identity.teams import history_name, to_fpl
-from foulgorithm.models import calibration, player_models as pm
+from foulgorithm.models import calibration, involvement, player_models as pm
 from foulgorithm.sources import football_data, fpl, league_stats
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
 from foulgorithm.store import predictions as pred_store
@@ -153,7 +153,7 @@ def publish(output: Path = OUTPUT) -> dict:
     for model in list(committed.values()) + list(drawn.values()):
         model.fit(history)
 
-    house_c, house_d = committed["tayler"], drawn["tayler"]
+    house_c, house_d = committed[HOUSE_MODEL], drawn[HOUSE_MODEL]
 
     board = []
     all_rows: list[dict] = []
@@ -220,7 +220,9 @@ def publish(output: Path = OUTPUT) -> dict:
         }
         board.append(fixture_block)
 
-    candidates = _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, lineups)
+    candidates, explorer = _candidate_table(
+        squads, resolution, fixtures, committed, drawn, as_of, lineups
+    )
     picks = [_character_picks(cid, candidates) for cid in pm.CHARACTER_SETTINGS]
 
     top = sorted(all_rows, key=lambda r: -r["committed"]["p1plus"])[:12]
@@ -258,9 +260,19 @@ def publish(output: Path = OUTPUT) -> dict:
         "topFoulers": top,
         "board": board,
         "picks": picks,
+        "explorer": {
+            "models": list(pm.CHARACTER_SETTINGS),
+            "lines": list(EXPLORER_LINES),
+            "markets": list(EXPLORER_MARKETS),
+            "house": HOUSE_MODEL,
+            "rows": explorer,
+        },
     }
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(payload, indent=2))
+    # Compact, not pretty. The scheduled jobs commit this file twice a week, so
+    # indentation costs about half the repository's growth for no benefit that
+    # a JSON viewer does not already give.
+    output.write_text(json.dumps(payload, separators=(",", ":")))
 
     # Persist the claims themselves, separately from the page they render on.
     # The JSON above is a view and gets overwritten every run; this is the
@@ -458,13 +470,25 @@ def _market_block(dist, why: dict, market: str = "player_fouls_committed") -> di
     return out
 
 
-def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, lineups) -> list[dict]:
+# Tayler is the house model: longest memory, heaviest shrinkage, never
+# exaggerates. The one to quote when a single number is wanted.
+HOUSE_MODEL = "tayler"
+
+EXPLORER_LINES = (0.5, 1.5, 2.5, 3.5)
+EXPLORER_MARKETS = ("committed", "drawn", "involvements")
+
+
+def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, lineups):
     """Every candidate bet, with EVERY character's probability attached.
 
-    Computed once. Selection then reads from it, which is what makes
-    "how far is this character from the pack" cheap to ask.
+    Computed once, and returned alongside the explorer table so the predictions
+    are made once rather than twice. Selection reads the candidates; the site's
+    filterable view reads the explorer.
+
+    Returns (candidates, explorer).
     """
     rows = []
+    explorer: list[dict] = []
     for fx in fixtures.itertuples():
         for team, opponent in (
             (fx.home_team_raw, fx.away_team_raw),
@@ -472,6 +496,7 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
         ):
             label = f"{fx.home_team_raw} v {fx.away_team_raw}"
             for sel in squad(squads, resolution, team, 14, lineups.get(f"{team}|{label}")):
+                by_market = {}
                 for market, models in (("committed", committed), ("drawn", drawn)):
                     dists = {}
                     whys = {}
@@ -480,6 +505,7 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                             sel.lookup, opponent, as_of,
                             confirmed="start" if sel.confirmed else None,
                         )
+                    by_market[market] = (dists, whys)
                     market_key = (
                         "player_fouls_committed" if market == "committed" else "player_fouls_drawn"
                     )
@@ -505,7 +531,69 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                                 "whys": whys,
                             }
                         )
-    return rows
+
+                explorer.append(
+                    _explorer_row(sel, team, opponent, fx, by_market)
+                )
+    return rows, explorer
+
+
+def _explorer_row(sel, team: str, opponent: str, fx, by_market: dict) -> dict:
+    """One player, every market, every line, every model, in one compact row.
+
+    Held as arrays rather than nested objects because the site filters this on
+    every keystroke and the file is downloaded once. Model order is fixed by the
+    `models` key on the payload.
+    """
+    committed_d, committed_w = by_market["committed"]
+    drawn_d, _ = by_market["drawn"]
+    ids = list(committed_d)
+
+    # Involvements: committed plus won, as one number. Convolved under
+    # independence, which was measured to beat the correlation-corrected
+    # version. See foulgorithm.models.involvement.
+    involved = {cid: involvement.combine(committed_d[cid], drawn_d[cid]) for cid in ids}
+
+    def grid(dists: dict, market_key: str | None) -> list[list[float]]:
+        return [
+            [
+                round(
+                    calibration.correct(dists[cid].prob_over(line), market_key, line)
+                    if market_key
+                    else dists[cid].prob_over(line),
+                    4,
+                )
+                for cid in ids
+            ]
+            for line in EXPLORER_LINES
+        ]
+
+    # The house model's view, not whichever character happens to sort first.
+    # Expected minutes differ per character because their memories differ.
+    why = committed_w[HOUSE_MODEL]
+    return {
+        "player": sel.display,
+        "fullName": sel.full,
+        "position": sel.position,
+        "team": team,
+        "opponent": opponent,
+        "fixture": f"{fx.home_team_raw} v {fx.away_team_raw}",
+        "kickoff": fx.kickoff_utc.isoformat(),
+        "minutes": round(why["expectedMinutes"], 1),
+        "startProbability": why.get("startProbability"),
+        "confirmed": bool(sel.confirmed),
+        "thin": why["effectiveMatches"] < THIN_EVIDENCE or sel.history is None,
+        "expected": {
+            "committed": round(committed_d[HOUSE_MODEL].mean(), 2),
+            "drawn": round(drawn_d[HOUSE_MODEL].mean(), 2),
+            "involvements": round(involved[HOUSE_MODEL].mean(), 2),
+        },
+        # Involvements are not calibration-corrected: the correction was fitted
+        # on the two component markets and does not transfer to their sum.
+        "committed": grid(committed_d, "player_fouls_committed"),
+        "drawn": grid(drawn_d, "player_fouls_drawn"),
+        "involvements": grid(involved, None),
+    }
 
 
 def _preference(cid: str, row: dict) -> float:
