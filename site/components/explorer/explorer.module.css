@@ -389,3 +389,25 @@
     width: 100%;
   }
 }
+
+/* Rows open into the distribution behind their headline number. */
+.table tbody tr[aria-expanded] {
+  cursor: pointer;
+}
+
+.openRow {
+  background: var(--surface-2);
+}
+
+.openRow td {
+  border-bottom-color: transparent;
+}
+
+.shapeRow td {
+  padding: 0;
+  background: var(--surface-2);
+}
+
+.shapeRow:hover td {
+  background: var(--surface-2);
+}

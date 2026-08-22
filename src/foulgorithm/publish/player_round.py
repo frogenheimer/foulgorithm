@@ -593,7 +593,27 @@ def _explorer_row(sel, team: str, opponent: str, fx, by_market: dict) -> dict:
         "committed": grid(committed_d, "player_fouls_committed"),
         "drawn": grid(drawn_d, "player_fouls_drawn"),
         "involvements": grid(involved, None),
+        # The full shape, house model only, so a row can be expanded into the
+        # distribution behind its headline number. Truncated where the tail
+        # stops mattering, which keeps the payload honest rather than long.
+        "pmf": {
+            "committed": _pmf(committed_d[HOUSE_MODEL]),
+            "drawn": _pmf(drawn_d[HOUSE_MODEL]),
+            "involvements": _pmf(involved[HOUSE_MODEL]),
+        },
     }
+
+
+def _pmf(dist, cutoff: float = 0.995, cap: int = 9) -> list[float]:
+    """The distribution as a short list, cut where the remaining tail is noise."""
+    out, run = [], 0.0
+    for k in range(cap + 1):
+        p = dist.pmf(k)
+        out.append(round(p, 4))
+        run += p
+        if run >= cutoff:
+            break
+    return out
 
 
 def _preference(cid: str, row: dict) -> float:

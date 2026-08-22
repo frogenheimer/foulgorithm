@@ -114,6 +114,7 @@ export type ExplorerRow = {
   committed: number[][];
   drawn: number[][];
   involvements: number[][];
+  pmf: { committed: number[]; drawn: number[]; involvements: number[] };
 };
 
 export type Explorer = {

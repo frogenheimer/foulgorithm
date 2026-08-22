@@ -13,9 +13,10 @@
  * cannot be answered by reading two tables side by side.
  */
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import type { Explorer as Data, ExplorerRow } from "@/lib/data";
 import Bars from "./Bars";
+import Shape from "./Shape";
 import s from "./explorer.module.css";
 
 type Market = "committed" | "drawn" | "involvements";
@@ -33,6 +34,12 @@ const MARKET_HINT: Record<Market, string> = {
   involvements: "Both together, how often he is in the middle of one",
 };
 
+const MARKET_NOUN: Record<Market, string> = {
+  committed: "fouls",
+  drawn: "fouls won",
+  involvements: "involvements",
+};
+
 const POSITIONS = ["GK", "DF", "MF", "FW"];
 
 export default function Explorer({ data }: { data: Data }) {
@@ -45,6 +52,7 @@ export default function Explorer({ data }: { data: Data }) {
   const [hideThin, setHideThin] = useState(false);
   const [sort, setSort] = useState<Sort>("prob");
   const [simple, setSimple] = useState(true);
+  const [open, setOpen] = useState<string | null>(null);
 
   const modelIndex = Math.max(0, data.models.indexOf(simple ? data.house : model));
   const fixtures = useMemo(
@@ -183,7 +191,7 @@ export default function Explorer({ data }: { data: Data }) {
       </div>
 
       <p className={s.count}>
-        {rows.length} of {data.rows.length} players.{" "}
+        {rows.length} of {data.rows.length} players. Click a row for the whole shape.{" "}
         {simple
           ? "One model, the cautious one. Turn off Simple to see all five and how far apart they are."
           : `Showing ${model}, with every model plotted in the spread column.`}
@@ -222,8 +230,16 @@ export default function Explorer({ data }: { data: Data }) {
             {rows.map((r) => {
               const probs = r[market][line];
               const p = probs[modelIndex];
+              const id = r.fullName + r.fixture;
+              const expanded = open === id;
+              const columns = simple ? 6 : 7;
               return (
-                <tr key={r.fullName + r.fixture} className={r.thin ? s.thinRow : undefined}>
+                <Fragment key={id}>
+                <tr
+                  className={`${r.thin ? s.thinRow : ""} ${expanded ? s.openRow : ""}`}
+                  onClick={() => setOpen(expanded ? null : id)}
+                  aria-expanded={expanded}
+                >
                   <td className={s.left}>
                     <span className={s.name}>{r.player}</span>
                     <span className={s.meta}>
@@ -262,6 +278,20 @@ export default function Explorer({ data }: { data: Data }) {
                   )}
                   <td className={s.num}>{p > 0 ? (1 / p).toFixed(2) : "—"}</td>
                 </tr>
+                {expanded && (
+                  <tr className={s.shapeRow}>
+                    <td colSpan={columns}>
+                      <Shape
+                        pmf={r.pmf[market]}
+                        lines={data.lines}
+                        published={r[market].map((probs) => probs[modelIndex])}
+                        selected={line}
+                        noun={MARKET_NOUN[market]}
+                      />
+                    </td>
+                  </tr>
+                )}
+                </Fragment>
               );
             })}
           </tbody>
