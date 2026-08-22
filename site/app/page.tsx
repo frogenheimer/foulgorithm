@@ -1,4 +1,4 @@
-import FixtureBoard from "@/components/FixtureBoard";
+import FixtureGrid from "@/components/FixtureGrid";
 import { DotArray } from "@/components/charts/pack";
 import Portrait, { CHARACTER_COLOUR } from "@/components/characters/Portrait";
 import Disagreement from "@/components/charts/Disagreement";
@@ -162,26 +162,10 @@ export default function Today() {
       <section>
         <h2 className={s.h2}>Every player, every fixture</h2>
         <p className={s.note}>
-          Both squads side by side. Switch between fouls committed and fouls won, search for a
-          player, sort any column, and see the likeliest combination reaching 4, 5 or 6 in the
-          match.
+          Pick a day, then a fixture. Each opens a head-to-head comparison, the full squads with
+          search and sorting, and the likeliest combination reaching 4, 5 or 6 fouls.
         </p>
-        {d.board.map((fx) => (
-          <details key={fx.key} name="board" className={s.fixture}>
-            <summary className={s.summary}>
-              <span className={s.chev} aria-hidden="true">›</span>
-              <span className={s.fxName}>
-                {fx.home} v {fx.away}
-              </span>
-              <span className={s.fxMeta}>
-                {fx.lineupConfirmed && <span className={s.confirmed}>XI confirmed</span>}
-                {kickoff(fx.kickoff)}
-                {fx.referee && ` · ${fx.referee}`}
-              </span>
-            </summary>
-            <FixtureBoard fixture={fx} />
-          </details>
-        ))}
+        <FixtureGrid fixtures={d.board} />
       </section>
 
       <details className={s.machinery}>

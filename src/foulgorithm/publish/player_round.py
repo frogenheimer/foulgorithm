@@ -197,6 +197,7 @@ def publish(output: Path = OUTPUT) -> dict:
                 players, key=lambda r: -r["committed"]["p1plus"]
             )
         fixture_block["compare"] = _compare(history, fixture_block, as_of)
+        fixture_block["summary"] = _summary(fixture_block)
         fixture_block["stats"] = {
             market: {
                 team: [
@@ -256,6 +257,37 @@ def publish(output: Path = OUTPUT) -> dict:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2))
     return payload
+
+
+def _summary(fixture: dict) -> dict:
+    """What a compact fixture card needs, precomputed.
+
+    The card should not have to scan every player to find its own headline.
+    """
+    everyone = [p for rows in fixture["teams"].values() for p in rows]
+    if not everyone:
+        return {}
+    by_foul = sorted(everyone, key=lambda r: -r["committed"]["p1plus"])
+    by_won = sorted(everyone, key=lambda r: -r["drawn"]["p1plus"])
+    expected = sum(
+        r["committed"]["why"]["ratePer90"] * r["expectedMinutes"] / 90.0
+        for rows in fixture["teams"].values()
+        for r in rows[:11]
+    )
+    return {
+        "expectedFouls": round(expected, 1),
+        "topFouler": {
+            "player": by_foul[0]["player"],
+            "team": by_foul[0]["team"],
+            "outOf100": by_foul[0]["committed"]["outOf100"],
+        },
+        "topWinner": {
+            "player": by_won[0]["player"],
+            "team": by_won[0]["team"],
+            "outOf100": by_won[0]["drawn"]["outOf100"],
+        },
+        "players": len(everyone),
+    }
 
 
 def _team_form(history: pd.DataFrame, team: str, as_of, days: int = 400) -> dict:

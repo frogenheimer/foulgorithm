@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T11:12:11+00:00",
+  "generatedAt": "2026-08-22T11:31:26+00:00",
   "trainedOn": {
     "playerMatches": 81327,
     "players": 1671,
@@ -26,7 +26,7 @@
   },
   "lineups": {
     "source": "Premier League API",
-    "confirmed": 2,
+    "confirmed": 4,
     "note": "Confirmed elevens appear about an hour before kickoff. Until then these are predicted from current squads."
   },
   "topFoulers": [
@@ -2095,6 +2095,20 @@
           "away": 0
         }
       },
+      "summary": {
+        "expectedFouls": 16.0,
+        "topFouler": {
+          "player": "Havertz",
+          "team": "Arsenal",
+          "outOf100": 64
+        },
+        "topWinner": {
+          "player": "Saka",
+          "team": "Arsenal",
+          "outOf100": 69
+        },
+        "players": 22
+      },
       "stats": {
         "committed": {
           "Arsenal": [
@@ -2480,367 +2494,13 @@
       "away": "Man United",
       "kickoff": "2026-08-22T12:30:00+00:00",
       "referee": "D England",
-      "lineupConfirmed": false,
+      "lineupConfirmed": true,
       "teams": {
         "Hull": [
           {
-            "player": "Phillips",
-            "fullName": "Dillon Phillips",
+            "player": "Tzolakis",
+            "fullName": "Konstantinos Tzolakis",
             "position": "GK",
-            "hasHistory": false,
-            "team": "Hull",
-            "opponent": "Man United",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4669,
-              "p1plus": 0.5265,
-              "fair1": 1.9,
-              "floor1": 2.09,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2431,
-              "fair2": 4.11,
-              "floor2": 4.52,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0986,
-              "fair3": 10.14,
-              "floor3": 11.15,
-              "band3": "Remote chance",
-              "outOf100": 53
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4812,
-              "p1plus": 0.5158,
-              "fair1": 1.94,
-              "floor1": 2.13,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2374,
-              "fair2": 4.21,
-              "floor2": 4.63,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0984,
-              "fair3": 10.16,
-              "floor3": 11.18,
-              "band3": "Remote chance",
-              "outOf100": 52
-            }
-          },
-          {
-            "player": "Coyle",
-            "fullName": "Lewie Coyle",
-            "position": "DF",
-            "hasHistory": false,
-            "team": "Hull",
-            "opponent": "Man United",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4669,
-              "p1plus": 0.5265,
-              "fair1": 1.9,
-              "floor1": 2.09,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2431,
-              "fair2": 4.11,
-              "floor2": 4.52,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0986,
-              "fair3": 10.14,
-              "floor3": 11.15,
-              "band3": "Remote chance",
-              "outOf100": 53
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4812,
-              "p1plus": 0.5158,
-              "fair1": 1.94,
-              "floor1": 2.13,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2374,
-              "fair2": 4.21,
-              "floor2": 4.63,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0984,
-              "fair3": 10.16,
-              "floor3": 11.18,
-              "band3": "Remote chance",
-              "outOf100": 52
-            }
-          },
-          {
-            "player": "Giles",
-            "fullName": "Ryan Giles",
-            "position": "DF",
-            "hasHistory": false,
-            "team": "Hull",
-            "opponent": "Man United",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4669,
-              "p1plus": 0.5265,
-              "fair1": 1.9,
-              "floor1": 2.09,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2431,
-              "fair2": 4.11,
-              "floor2": 4.52,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0986,
-              "fair3": 10.14,
-              "floor3": 11.15,
-              "band3": "Remote chance",
-              "outOf100": 53
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4812,
-              "p1plus": 0.5158,
-              "fair1": 1.94,
-              "floor1": 2.13,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2374,
-              "fair2": 4.21,
-              "floor2": 4.63,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0984,
-              "fair3": 10.16,
-              "floor3": 11.18,
-              "band3": "Remote chance",
-              "outOf100": 52
-            }
-          },
-          {
-            "player": "McCarthy",
-            "fullName": "Cathal McCarthy",
-            "position": "DF",
-            "hasHistory": false,
-            "team": "Hull",
-            "opponent": "Man United",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4669,
-              "p1plus": 0.5265,
-              "fair1": 1.9,
-              "floor1": 2.09,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2431,
-              "fair2": 4.11,
-              "floor2": 4.52,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0986,
-              "fair3": 10.14,
-              "floor3": 11.15,
-              "band3": "Remote chance",
-              "outOf100": 53
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4812,
-              "p1plus": 0.5158,
-              "fair1": 1.94,
-              "floor1": 2.13,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2374,
-              "fair2": 4.21,
-              "floor2": 4.63,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0984,
-              "fair3": 10.16,
-              "floor3": 11.18,
-              "band3": "Remote chance",
-              "outOf100": 52
-            }
-          },
-          {
-            "player": "McNair",
-            "fullName": "Paddy McNair",
-            "position": "DF",
-            "hasHistory": false,
-            "team": "Hull",
-            "opponent": "Man United",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4669,
-              "p1plus": 0.5265,
-              "fair1": 1.9,
-              "floor1": 2.09,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2431,
-              "fair2": 4.11,
-              "floor2": 4.52,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0986,
-              "fair3": 10.14,
-              "floor3": 11.15,
-              "band3": "Remote chance",
-              "outOf100": 53
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4812,
-              "p1plus": 0.5158,
-              "fair1": 1.94,
-              "floor1": 2.13,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2374,
-              "fair2": 4.21,
-              "floor2": 4.63,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0984,
-              "fair3": 10.16,
-              "floor3": 11.18,
-              "band3": "Remote chance",
-              "outOf100": 52
-            }
-          },
-          {
-            "player": "Belloumi",
-            "fullName": "Mohamed Belloumi",
-            "position": "MF",
-            "hasHistory": false,
-            "team": "Hull",
-            "opponent": "Man United",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4669,
-              "p1plus": 0.5265,
-              "fair1": 1.9,
-              "floor1": 2.09,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2431,
-              "fair2": 4.11,
-              "floor2": 4.52,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0986,
-              "fair3": 10.14,
-              "floor3": 11.15,
-              "band3": "Remote chance",
-              "outOf100": 53
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4812,
-              "p1plus": 0.5158,
-              "fair1": 1.94,
-              "floor1": 2.13,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2374,
-              "fair2": 4.21,
-              "floor2": 4.63,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0984,
-              "fair3": 10.16,
-              "floor3": 11.18,
-              "band3": "Remote chance",
-              "outOf100": 52
-            }
-          },
-          {
-            "player": "Millar",
-            "fullName": "Liam Millar",
-            "position": "MF",
             "hasHistory": false,
             "team": "Hull",
             "opponent": "Man United",
@@ -3015,9 +2675,245 @@
             }
           },
           {
-            "player": "\u00d6m\u00fcr",
-            "fullName": "Abd\u00fclkadir \u00d6m\u00fcr",
+            "player": "Mendy",
+            "fullName": "Nobel Mendy",
+            "position": "DF",
+            "hasHistory": false,
+            "team": "Hull",
+            "opponent": "Man United",
+            "fixture": "Hull v Man United",
+            "kickoff": "2026-08-22T12:30:00+00:00",
+            "expectedMinutes": 90.0,
+            "effectiveMatches": 0.0,
+            "thin": true,
+            "committed": {
+              "why": {
+                "ratePer90": 0.972,
+                "expectedMinutes": 90.0,
+                "opponentFactor": 1.0,
+                "refereeFactor": 1.0,
+                "effectiveMatches": 0.0
+              },
+              "exact0": 0.4669,
+              "p1plus": 0.5265,
+              "fair1": 1.9,
+              "floor1": 2.09,
+              "band1": "Realistic possibility",
+              "p2plus": 0.2431,
+              "fair2": 4.11,
+              "floor2": 4.52,
+              "band2": "Highly unlikely",
+              "p3plus": 0.0986,
+              "fair3": 10.14,
+              "floor3": 11.15,
+              "band3": "Remote chance",
+              "outOf100": 53
+            },
+            "drawn": {
+              "why": {
+                "ratePer90": 0.934,
+                "expectedMinutes": 90.0,
+                "opponentFactor": 1.0,
+                "refereeFactor": 1.0,
+                "effectiveMatches": 0.0
+              },
+              "exact0": 0.4812,
+              "p1plus": 0.5158,
+              "fair1": 1.94,
+              "floor1": 2.13,
+              "band1": "Realistic possibility",
+              "p2plus": 0.2374,
+              "fair2": 4.21,
+              "floor2": 4.63,
+              "band2": "Highly unlikely",
+              "p3plus": 0.0984,
+              "fair3": 10.16,
+              "floor3": 11.18,
+              "band3": "Remote chance",
+              "outOf100": 52
+            }
+          },
+          {
+            "player": "Belloumi",
+            "fullName": "Mohamed Belloumi",
             "position": "MF",
+            "hasHistory": false,
+            "team": "Hull",
+            "opponent": "Man United",
+            "fixture": "Hull v Man United",
+            "kickoff": "2026-08-22T12:30:00+00:00",
+            "expectedMinutes": 90.0,
+            "effectiveMatches": 0.0,
+            "thin": true,
+            "committed": {
+              "why": {
+                "ratePer90": 0.972,
+                "expectedMinutes": 90.0,
+                "opponentFactor": 1.0,
+                "refereeFactor": 1.0,
+                "effectiveMatches": 0.0
+              },
+              "exact0": 0.4669,
+              "p1plus": 0.5265,
+              "fair1": 1.9,
+              "floor1": 2.09,
+              "band1": "Realistic possibility",
+              "p2plus": 0.2431,
+              "fair2": 4.11,
+              "floor2": 4.52,
+              "band2": "Highly unlikely",
+              "p3plus": 0.0986,
+              "fair3": 10.14,
+              "floor3": 11.15,
+              "band3": "Remote chance",
+              "outOf100": 53
+            },
+            "drawn": {
+              "why": {
+                "ratePer90": 0.934,
+                "expectedMinutes": 90.0,
+                "opponentFactor": 1.0,
+                "refereeFactor": 1.0,
+                "effectiveMatches": 0.0
+              },
+              "exact0": 0.4812,
+              "p1plus": 0.5158,
+              "fair1": 1.94,
+              "floor1": 2.13,
+              "band1": "Realistic possibility",
+              "p2plus": 0.2374,
+              "fair2": 4.21,
+              "floor2": 4.63,
+              "band2": "Highly unlikely",
+              "p3plus": 0.0984,
+              "fair3": 10.16,
+              "floor3": 11.18,
+              "band3": "Remote chance",
+              "outOf100": 52
+            }
+          },
+          {
+            "player": "Stroud",
+            "fullName": "Elliot Stroud",
+            "position": "MF",
+            "hasHistory": false,
+            "team": "Hull",
+            "opponent": "Man United",
+            "fixture": "Hull v Man United",
+            "kickoff": "2026-08-22T12:30:00+00:00",
+            "expectedMinutes": 90.0,
+            "effectiveMatches": 0.0,
+            "thin": true,
+            "committed": {
+              "why": {
+                "ratePer90": 0.972,
+                "expectedMinutes": 90.0,
+                "opponentFactor": 1.0,
+                "refereeFactor": 1.0,
+                "effectiveMatches": 0.0
+              },
+              "exact0": 0.4669,
+              "p1plus": 0.5265,
+              "fair1": 1.9,
+              "floor1": 2.09,
+              "band1": "Realistic possibility",
+              "p2plus": 0.2431,
+              "fair2": 4.11,
+              "floor2": 4.52,
+              "band2": "Highly unlikely",
+              "p3plus": 0.0986,
+              "fair3": 10.14,
+              "floor3": 11.15,
+              "band3": "Remote chance",
+              "outOf100": 53
+            },
+            "drawn": {
+              "why": {
+                "ratePer90": 0.934,
+                "expectedMinutes": 90.0,
+                "opponentFactor": 1.0,
+                "refereeFactor": 1.0,
+                "effectiveMatches": 0.0
+              },
+              "exact0": 0.4812,
+              "p1plus": 0.5158,
+              "fair1": 1.94,
+              "floor1": 2.13,
+              "band1": "Realistic possibility",
+              "p2plus": 0.2374,
+              "fair2": 4.21,
+              "floor2": 4.63,
+              "band2": "Highly unlikely",
+              "p3plus": 0.0984,
+              "fair3": 10.16,
+              "floor3": 11.18,
+              "band3": "Remote chance",
+              "outOf100": 52
+            }
+          },
+          {
+            "player": "Giles",
+            "fullName": "Ryan Giles",
+            "position": "DF",
+            "hasHistory": false,
+            "team": "Hull",
+            "opponent": "Man United",
+            "fixture": "Hull v Man United",
+            "kickoff": "2026-08-22T12:30:00+00:00",
+            "expectedMinutes": 90.0,
+            "effectiveMatches": 0.0,
+            "thin": true,
+            "committed": {
+              "why": {
+                "ratePer90": 0.972,
+                "expectedMinutes": 90.0,
+                "opponentFactor": 1.0,
+                "refereeFactor": 1.0,
+                "effectiveMatches": 0.0
+              },
+              "exact0": 0.4669,
+              "p1plus": 0.5265,
+              "fair1": 1.9,
+              "floor1": 2.09,
+              "band1": "Realistic possibility",
+              "p2plus": 0.2431,
+              "fair2": 4.11,
+              "floor2": 4.52,
+              "band2": "Highly unlikely",
+              "p3plus": 0.0986,
+              "fair3": 10.14,
+              "floor3": 11.15,
+              "band3": "Remote chance",
+              "outOf100": 53
+            },
+            "drawn": {
+              "why": {
+                "ratePer90": 0.934,
+                "expectedMinutes": 90.0,
+                "opponentFactor": 1.0,
+                "refereeFactor": 1.0,
+                "effectiveMatches": 0.0
+              },
+              "exact0": 0.4812,
+              "p1plus": 0.5158,
+              "fair1": 1.94,
+              "floor1": 2.13,
+              "band1": "Realistic possibility",
+              "p2plus": 0.2374,
+              "fair2": 4.21,
+              "floor2": 4.63,
+              "band2": "Highly unlikely",
+              "p3plus": 0.0984,
+              "fair3": 10.16,
+              "floor3": 11.18,
+              "band3": "Remote chance",
+              "outOf100": 52
+            }
+          },
+          {
+            "player": "Coyle",
+            "fullName": "Lewie Coyle",
+            "position": "DF",
             "hasHistory": false,
             "team": "Hull",
             "opponent": "Man United",
@@ -3075,120 +2971,61 @@
           },
           {
             "player": "McBurnie",
-            "fullName": "Oli McBurnie",
-            "position": "FW",
+            "fullName": "Oliver McBurnie",
+            "position": "?",
             "hasHistory": false,
             "team": "Hull",
             "opponent": "Man United",
             "fixture": "Hull v Man United",
             "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 0.0,
+            "expectedMinutes": 60.7,
+            "effectiveMatches": 24.3,
             "thin": true,
             "committed": {
               "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 90.0,
+                "ratePer90": 1.307,
+                "expectedMinutes": 60.7,
                 "opponentFactor": 1.0,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
+                "effectiveMatches": 24.3
               },
-              "exact0": 0.4669,
-              "p1plus": 0.5265,
-              "fair1": 1.9,
-              "floor1": 2.09,
+              "exact0": 0.5016,
+              "p1plus": 0.4951,
+              "fair1": 2.02,
+              "floor1": 2.22,
               "band1": "Realistic possibility",
-              "p2plus": 0.2431,
-              "fair2": 4.11,
-              "floor2": 4.52,
+              "p2plus": 0.2186,
+              "fair2": 4.57,
+              "floor2": 5.03,
               "band2": "Highly unlikely",
-              "p3plus": 0.0986,
-              "fair3": 10.14,
-              "floor3": 11.15,
+              "p3plus": 0.0866,
+              "fair3": 11.54,
+              "floor3": 12.7,
               "band3": "Remote chance",
-              "outOf100": 53
+              "outOf100": 50
             },
             "drawn": {
               "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 90.0,
+                "ratePer90": 1.437,
+                "expectedMinutes": 60.7,
                 "opponentFactor": 1.0,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
+                "effectiveMatches": 24.3
               },
-              "exact0": 0.4812,
-              "p1plus": 0.5158,
-              "fair1": 1.94,
-              "floor1": 2.13,
+              "exact0": 0.4682,
+              "p1plus": 0.5283,
+              "fair1": 1.89,
+              "floor1": 2.08,
               "band1": "Realistic possibility",
-              "p2plus": 0.2374,
-              "fair2": 4.21,
-              "floor2": 4.63,
+              "p2plus": 0.2476,
+              "fair2": 4.04,
+              "floor2": 4.44,
               "band2": "Highly unlikely",
-              "p3plus": 0.0984,
-              "fair3": 10.16,
-              "floor3": 11.18,
-              "band3": "Remote chance",
-              "outOf100": 52
-            }
-          },
-          {
-            "player": "Akintola",
-            "fullName": "David Akintola",
-            "position": "MF",
-            "hasHistory": false,
-            "team": "Hull",
-            "opponent": "Man United",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4669,
-              "p1plus": 0.5265,
-              "fair1": 1.9,
-              "floor1": 2.09,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2431,
-              "fair2": 4.11,
-              "floor2": 4.52,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0986,
-              "fair3": 10.14,
-              "floor3": 11.15,
-              "band3": "Remote chance",
+              "p3plus": 0.1037,
+              "fair3": 9.65,
+              "floor3": 10.61,
+              "band3": "Highly unlikely",
               "outOf100": 53
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4812,
-              "p1plus": 0.5158,
-              "fair1": 1.94,
-              "floor1": 2.13,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2374,
-              "fair2": 4.21,
-              "floor2": 4.63,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0984,
-              "fair3": 10.16,
-              "floor3": 11.18,
-              "band3": "Remote chance",
-              "outOf100": 52
             }
           },
           {
@@ -3308,124 +3145,6 @@
               "band3": "Remote chance",
               "outOf100": 25
             }
-          },
-          {
-            "player": "Drameh",
-            "fullName": "Cody Drameh",
-            "position": "DF",
-            "hasHistory": true,
-            "team": "Hull",
-            "opponent": "Man United",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 50.4,
-            "effectiveMatches": 1.3,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.983,
-                "expectedMinutes": 50.4,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 1.3
-              },
-              "exact0": 0.6496,
-              "p1plus": 0.3613,
-              "fair1": 2.77,
-              "floor1": 3.04,
-              "band1": "Unlikely",
-              "p2plus": 0.1323,
-              "fair2": 7.56,
-              "floor2": 8.32,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0493,
-              "fair3": 20.28,
-              "floor3": 22.31,
-              "band3": "Remote chance",
-              "outOf100": 36
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.79,
-                "expectedMinutes": 50.4,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 1.3
-              },
-              "exact0": 0.7069,
-              "p1plus": 0.2991,
-              "fair1": 3.34,
-              "floor1": 3.68,
-              "band1": "Unlikely",
-              "p2plus": 0.0982,
-              "fair2": 10.18,
-              "floor2": 11.2,
-              "band2": "Remote chance",
-              "p3plus": 0.0369,
-              "fair3": 27.12,
-              "floor3": 29.83,
-              "band3": "Remote chance",
-              "outOf100": 30
-            }
-          },
-          {
-            "player": "Dowell",
-            "fullName": "Kieran Dowell",
-            "position": "MF",
-            "hasHistory": true,
-            "team": "Hull",
-            "opponent": "Man United",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 28.5,
-            "effectiveMatches": 3.7,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 1.071,
-                "expectedMinutes": 28.5,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 3.7
-              },
-              "exact0": 0.7667,
-              "p1plus": 0.2555,
-              "fair1": 3.91,
-              "floor1": 4.31,
-              "band1": "Unlikely",
-              "p2plus": 0.0816,
-              "fair2": 12.26,
-              "floor2": 13.48,
-              "band2": "Remote chance",
-              "p3plus": 0.0312,
-              "fair3": 32.04,
-              "floor3": 35.24,
-              "band3": "Remote chance",
-              "outOf100": 26
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 1.425,
-                "expectedMinutes": 28.5,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 3.7
-              },
-              "exact0": 0.7022,
-              "p1plus": 0.3035,
-              "fair1": 3.29,
-              "floor1": 3.62,
-              "band1": "Unlikely",
-              "p2plus": 0.1004,
-              "fair2": 9.96,
-              "floor2": 10.95,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0377,
-              "fair3": 26.53,
-              "floor3": 29.19,
-              "band3": "Remote chance",
-              "outOf100": 30
-            }
           }
         ],
         "Man United": [
@@ -3490,16 +3209,16 @@
           },
           {
             "player": "Cunha",
-            "fullName": "Matheus Santos Carneiro da Cunha",
-            "position": "MF",
-            "hasHistory": true,
+            "fullName": "Matheus Cunha",
+            "position": "?",
+            "hasHistory": false,
             "team": "Man United",
             "opponent": "Hull",
             "fixture": "Hull v Man United",
             "kickoff": "2026-08-22T12:30:00+00:00",
             "expectedMinutes": 74.8,
             "effectiveMatches": 40.5,
-            "thin": false,
+            "thin": true,
             "committed": {
               "why": {
                 "ratePer90": 1.348,
@@ -3548,17 +3267,17 @@
             }
           },
           {
-            "player": "B.Fernandes",
-            "fullName": "Bruno Borges Fernandes",
-            "position": "MF",
-            "hasHistory": true,
+            "player": "Fernandes",
+            "fullName": "Bruno Fernandes",
+            "position": "?",
+            "hasHistory": false,
             "team": "Man United",
             "opponent": "Hull",
             "fixture": "Hull v Man United",
             "kickoff": "2026-08-22T12:30:00+00:00",
             "expectedMinutes": 85.9,
             "effectiveMatches": 71.4,
-            "thin": false,
+            "thin": true,
             "committed": {
               "why": {
                 "ratePer90": 1.111,
@@ -3666,127 +3385,9 @@
             }
           },
           {
-            "player": "Dalot",
-            "fullName": "Diogo Dalot Teixeira",
-            "position": "DF",
-            "hasHistory": true,
-            "team": "Man United",
-            "opponent": "Hull",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 80.3,
-            "effectiveMatches": 54.4,
-            "thin": false,
-            "committed": {
-              "why": {
-                "ratePer90": 1.098,
-                "expectedMinutes": 80.3,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 54.4
-              },
-              "exact0": 0.4641,
-              "p1plus": 0.5291,
-              "fair1": 1.89,
-              "floor1": 2.08,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2453,
-              "fair2": 4.08,
-              "floor2": 4.49,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0997,
-              "fair3": 10.03,
-              "floor3": 11.03,
-              "band3": "Remote chance",
-              "outOf100": 53
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.488,
-                "expectedMinutes": 80.3,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 54.4
-              },
-              "exact0": 0.7108,
-              "p1plus": 0.2953,
-              "fair1": 3.39,
-              "floor1": 3.72,
-              "band1": "Unlikely",
-              "p2plus": 0.0964,
-              "fair2": 10.38,
-              "floor2": 11.41,
-              "band2": "Remote chance",
-              "p3plus": 0.0362,
-              "fair3": 27.63,
-              "floor3": 30.39,
-              "band3": "Remote chance",
-              "outOf100": 30
-            }
-          },
-          {
             "player": "Lammens",
             "fullName": "Senne Lammens",
             "position": "GK",
-            "hasHistory": false,
-            "team": "Man United",
-            "opponent": "Hull",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4669,
-              "p1plus": 0.5265,
-              "fair1": 1.9,
-              "floor1": 2.09,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2431,
-              "fair2": 4.11,
-              "floor2": 4.52,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0986,
-              "fair3": 10.14,
-              "floor3": 11.15,
-              "band3": "Remote chance",
-              "outOf100": 53
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.4812,
-              "p1plus": 0.5158,
-              "fair1": 1.94,
-              "floor1": 2.13,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2374,
-              "fair2": 4.21,
-              "floor2": 4.63,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0984,
-              "fair3": 10.16,
-              "floor3": 11.18,
-              "band3": "Remote chance",
-              "outOf100": 52
-            }
-          },
-          {
-            "player": "Amass",
-            "fullName": "Harry Amass",
-            "position": "DF",
             "hasHistory": false,
             "team": "Man United",
             "opponent": "Hull",
@@ -4020,124 +3621,6 @@
             }
           },
           {
-            "player": "Martinez",
-            "fullName": "Lisandro Mart\u00ednez",
-            "position": "DF",
-            "hasHistory": true,
-            "team": "Man United",
-            "opponent": "Hull",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 86.5,
-            "effectiveMatches": 29.0,
-            "thin": false,
-            "committed": {
-              "why": {
-                "ratePer90": 0.884,
-                "expectedMinutes": 86.5,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 29.0
-              },
-              "exact0": 0.514,
-              "p1plus": 0.4839,
-              "fair1": 2.07,
-              "floor1": 2.27,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2103,
-              "fair2": 4.75,
-              "floor2": 5.23,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0827,
-              "fair3": 12.09,
-              "floor3": 13.3,
-              "band3": "Remote chance",
-              "outOf100": 48
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.463,
-                "expectedMinutes": 86.5,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 29.0
-              },
-              "exact0": 0.7056,
-              "p1plus": 0.3003,
-              "fair1": 3.33,
-              "floor1": 3.66,
-              "band1": "Unlikely",
-              "p2plus": 0.0988,
-              "fair2": 10.12,
-              "floor2": 11.13,
-              "band2": "Remote chance",
-              "p3plus": 0.0371,
-              "fair3": 26.97,
-              "floor3": 29.66,
-              "band3": "Remote chance",
-              "outOf100": 30
-            }
-          },
-          {
-            "player": "Yoro",
-            "fullName": "Leny Yoro",
-            "position": "DF",
-            "hasHistory": true,
-            "team": "Man United",
-            "opponent": "Hull",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 66.0,
-            "effectiveMatches": 10.4,
-            "thin": false,
-            "committed": {
-              "why": {
-                "ratePer90": 0.791,
-                "expectedMinutes": 66.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 10.4
-              },
-              "exact0": 0.6349,
-              "p1plus": 0.3747,
-              "fair1": 2.67,
-              "floor1": 2.94,
-              "band1": "Unlikely",
-              "p2plus": 0.1397,
-              "fair2": 7.16,
-              "floor2": 7.88,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0522,
-              "fair3": 19.16,
-              "floor3": 21.07,
-              "band3": "Remote chance",
-              "outOf100": 37
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.445,
-                "expectedMinutes": 66.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 10.4
-              },
-              "exact0": 0.7745,
-              "p1plus": 0.2341,
-              "fair1": 4.27,
-              "floor1": 4.7,
-              "band1": "Highly unlikely",
-              "p2plus": 0.0686,
-              "fair2": 14.58,
-              "floor2": 16.04,
-              "band2": "Remote chance",
-              "p3plus": 0.0264,
-              "fair3": 37.86,
-              "floor3": 41.65,
-              "band3": "Remote chance",
-              "outOf100": 23
-            }
-          },
-          {
             "player": "Maguire",
             "fullName": "Harry Maguire",
             "position": "DF",
@@ -4197,10 +3680,10 @@
             }
           },
           {
-            "player": "Andrey Santos",
-            "fullName": "Andrey Nascimento dos Santos",
-            "position": "MF",
-            "hasHistory": true,
+            "player": "Santos",
+            "fullName": "Andrey Santos",
+            "position": "?",
+            "hasHistory": false,
             "team": "Man United",
             "opponent": "Hull",
             "fixture": "Hull v Man United",
@@ -4253,65 +3736,6 @@
               "floor3": 54.04,
               "band3": "Remote chance",
               "outOf100": 19
-            }
-          },
-          {
-            "player": "Darlow",
-            "fullName": "Karl Darlow",
-            "position": "GK",
-            "hasHistory": true,
-            "team": "Man United",
-            "opponent": "Hull",
-            "fixture": "Hull v Man United",
-            "kickoff": "2026-08-22T12:30:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 10.2,
-            "thin": false,
-            "committed": {
-              "why": {
-                "ratePer90": 0.022,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 10.2
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.1306,
-              "fair1": 7.66,
-              "floor1": 8.42,
-              "band1": "Highly unlikely",
-              "p2plus": 0.0218,
-              "fair2": 45.89,
-              "floor2": 50.48,
-              "band2": "Remote chance",
-              "p3plus": 0.0134,
-              "fair3": 74.55,
-              "floor3": 82.0,
-              "band3": "Remote chance",
-              "outOf100": 13
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.174,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 10.2
-              },
-              "exact0": 0.8726,
-              "p1plus": 0.1399,
-              "fair1": 7.15,
-              "floor1": 7.86,
-              "band1": "Highly unlikely",
-              "p2plus": 0.0339,
-              "fair2": 29.52,
-              "floor2": 32.47,
-              "band2": "Remote chance",
-              "p3plus": 0.0155,
-              "fair3": 64.33,
-              "floor3": 70.76,
-              "band3": "Remote chance",
-              "outOf100": 14
             }
           },
           {
@@ -4403,14 +3827,14 @@
           },
           {
             "label": "Expected fouls, XI",
-            "home": 10.69,
-            "away": 10.99,
-            "higher": "away"
+            "home": 10.08,
+            "away": 9.0,
+            "higher": "home"
           },
           {
             "label": "Expected fouls won, XI",
-            "home": 10.27,
-            "away": 10.23,
+            "home": 9.24,
+            "away": 9.05,
             "higher": "home"
           }
         ],
@@ -4419,39 +3843,53 @@
           "away": 28
         }
       },
+      "summary": {
+        "expectedFouls": 19.1,
+        "topFouler": {
+          "player": "Tielemans",
+          "team": "Man United",
+          "outOf100": 58
+        },
+        "topWinner": {
+          "player": "Cunha",
+          "team": "Man United",
+          "outOf100": 66
+        },
+        "players": 22
+      },
       "stats": {
         "committed": {
           "Hull": [
             {
-              "player": "Dowell",
-              "value": 1.07
+              "player": "McBurnie",
+              "value": 1.31
             },
             {
-              "player": "Drameh",
-              "value": 0.98
-            },
-            {
-              "player": "Phillips",
+              "player": "Tzolakis",
               "value": 0.97
             },
             {
-              "player": "Coyle",
+              "player": "Crooks",
               "value": 0.97
             },
             {
-              "player": "Giles",
+              "player": "Slater",
               "value": 0.97
             },
             {
-              "player": "McCarthy",
-              "value": 0.97
-            },
-            {
-              "player": "McNair",
+              "player": "Mendy",
               "value": 0.97
             },
             {
               "player": "Belloumi",
+              "value": 0.97
+            },
+            {
+              "player": "Stroud",
+              "value": 0.97
+            },
+            {
+              "player": "Giles",
               "value": 0.97
             }
           ],
@@ -4469,7 +3907,7 @@
               "value": 1.23
             },
             {
-              "player": "Andrey Santos",
+              "player": "Santos",
               "value": 1.19
             },
             {
@@ -4477,43 +3915,39 @@
               "value": 1.12
             },
             {
-              "player": "B.Fernandes",
+              "player": "Fernandes",
               "value": 1.11
-            },
-            {
-              "player": "Dalot",
-              "value": 1.1
             },
             {
               "player": "Dorgu",
               "value": 1.05
+            },
+            {
+              "player": "Lammens",
+              "value": 0.97
             }
           ]
         },
         "drawn": {
           "Hull": [
             {
-              "player": "Dowell",
-              "value": 1.43
+              "player": "McBurnie",
+              "value": 1.44
             },
             {
-              "player": "Phillips",
+              "player": "Tzolakis",
               "value": 0.93
             },
             {
-              "player": "Coyle",
+              "player": "Crooks",
               "value": 0.93
             },
             {
-              "player": "Giles",
+              "player": "Slater",
               "value": 0.93
             },
             {
-              "player": "McCarthy",
-              "value": 0.93
-            },
-            {
-              "player": "McNair",
+              "player": "Mendy",
               "value": 0.93
             },
             {
@@ -4521,7 +3955,11 @@
               "value": 0.93
             },
             {
-              "player": "Millar",
+              "player": "Stroud",
+              "value": 0.93
+            },
+            {
+              "player": "Giles",
               "value": 0.93
             }
           ],
@@ -4531,7 +3969,7 @@
               "value": 1.69
             },
             {
-              "player": "Andrey Santos",
+              "player": "Santos",
               "value": 1.44
             },
             {
@@ -4543,7 +3981,7 @@
               "value": 1.26
             },
             {
-              "player": "B.Fernandes",
+              "player": "Fernandes",
               "value": 1.25
             },
             {
@@ -4555,8 +3993,8 @@
               "value": 0.93
             },
             {
-              "player": "Amass",
-              "value": 0.93
+              "player": "Mazraoui",
+              "value": 0.88
             }
           ]
         }
@@ -4587,7 +4025,7 @@
                 "market": "committed"
               },
               {
-                "player": "B.Fernandes",
+                "player": "Fernandes",
                 "team": "Man United",
                 "line": 0.5,
                 "fouls": 1,
@@ -4628,7 +4066,7 @@
                 "market": "committed"
               },
               {
-                "player": "B.Fernandes",
+                "player": "Fernandes",
                 "team": "Man United",
                 "line": 0.5,
                 "fouls": 1,
@@ -4669,7 +4107,7 @@
                 "market": "committed"
               },
               {
-                "player": "B.Fernandes",
+                "player": "Fernandes",
                 "team": "Man United",
                 "line": 0.5,
                 "fouls": 1,
@@ -4712,7 +4150,7 @@
                 "market": "drawn"
               },
               {
-                "player": "B.Fernandes",
+                "player": "Fernandes",
                 "team": "Man United",
                 "line": 0.5,
                 "fouls": 1,
@@ -4753,7 +4191,7 @@
                 "market": "drawn"
               },
               {
-                "player": "B.Fernandes",
+                "player": "Fernandes",
                 "team": "Man United",
                 "line": 0.5,
                 "fouls": 1,
@@ -4802,7 +4240,7 @@
                 "market": "drawn"
               },
               {
-                "player": "B.Fernandes",
+                "player": "Fernandes",
                 "team": "Man United",
                 "line": 0.5,
                 "fouls": 1,
@@ -6759,6 +6197,20 @@
           "away": 28
         }
       },
+      "summary": {
+        "expectedFouls": 20.1,
+        "topFouler": {
+          "player": "Hughes",
+          "team": "Crystal Palace",
+          "outOf100": 67
+        },
+        "topWinner": {
+          "player": "Sarr",
+          "team": "Crystal Palace",
+          "outOf100": 71
+        },
+        "players": 32
+      },
       "stats": {
         "committed": {
           "Everton": [
@@ -8603,7 +8055,7 @@
               "band2": "Highly unlikely",
               "p3plus": 0.095,
               "fair3": 10.52,
-              "floor3": 11.57,
+              "floor3": 11.58,
               "band3": "Remote chance",
               "outOf100": 51
             }
@@ -9066,6 +8518,20 @@
           "home": 24,
           "away": 4
         }
+      },
+      "summary": {
+        "expectedFouls": 21.3,
+        "topFouler": {
+          "player": "Luki\u0107",
+          "team": "Ipswich",
+          "outOf100": 74
+        },
+        "topWinner": {
+          "player": "Sadiki",
+          "team": "Sunderland",
+          "outOf100": 60
+        },
+        "players": 32
       },
       "stats": {
         "committed": {
@@ -10063,7 +9529,7 @@
             "fixture": "Nott'm Forest v Leeds",
             "kickoff": "2026-08-22T15:00:00+00:00",
             "expectedMinutes": 88.8,
-            "effectiveMatches": 36.6,
+            "effectiveMatches": 36.5,
             "thin": false,
             "committed": {
               "why": {
@@ -10071,7 +9537,7 @@
                 "expectedMinutes": 88.8,
                 "opponentFactor": 1.0,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 36.6
+                "effectiveMatches": 36.5
               },
               "exact0": 0.4901,
               "p1plus": 0.5055,
@@ -10094,7 +9560,7 @@
                 "expectedMinutes": 88.8,
                 "opponentFactor": 1.0,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 36.6
+                "effectiveMatches": 36.5
               },
               "exact0": 0.475,
               "p1plus": 0.5217,
@@ -11399,6 +10865,20 @@
           "away": 4
         }
       },
+      "summary": {
+        "expectedFouls": 20.2,
+        "topFouler": {
+          "player": "Stach",
+          "team": "Leeds",
+          "outOf100": 60
+        },
+        "topWinner": {
+          "player": "Stach",
+          "team": "Leeds",
+          "outOf100": 63
+        },
+        "players": 32
+      },
       "stats": {
         "committed": {
           "Nott'm Forest": [
@@ -12538,7 +12018,7 @@
               "band1": "Unlikely",
               "p2plus": 0.1056,
               "fair2": 9.47,
-              "floor2": 10.42,
+              "floor2": 10.41,
               "band2": "Highly unlikely",
               "p3plus": 0.0394,
               "fair3": 25.37,
@@ -13738,6 +13218,20 @@
           "home": 28,
           "away": 28
         }
+      },
+      "summary": {
+        "expectedFouls": 18.0,
+        "topFouler": {
+          "player": "Tonali",
+          "team": "Tottenham",
+          "outOf100": 59
+        },
+        "topWinner": {
+          "player": "Tonali",
+          "team": "Tottenham",
+          "outOf100": 65
+        },
+        "players": 32
       },
       "stats": {
         "committed": {
@@ -16063,6 +15557,20 @@
           "away": 28
         }
       },
+      "summary": {
+        "expectedFouls": 19.3,
+        "topFouler": {
+          "player": "Ayari",
+          "team": "Brighton",
+          "outOf100": 62
+        },
+        "topWinner": {
+          "player": "Costinha",
+          "team": "Brighton",
+          "outOf100": 72
+        },
+        "players": 32
+      },
       "stats": {
         "committed": {
           "Brighton": [
@@ -17973,7 +17481,7 @@
               "floor2": 5.81,
               "band2": "Highly unlikely",
               "p3plus": 0.0749,
-              "fair3": 13.35,
+              "fair3": 13.36,
               "floor3": 14.69,
               "band3": "Remote chance",
               "outOf100": 45
@@ -18378,6 +17886,20 @@
           "home": 28,
           "away": 28
         }
+      },
+      "summary": {
+        "expectedFouls": 19.5,
+        "topFouler": {
+          "player": "Semenyo",
+          "team": "Man City",
+          "outOf100": 66
+        },
+        "topWinner": {
+          "player": "Grealish",
+          "team": "Man City",
+          "outOf100": 72
+        },
+        "players": 32
       },
       "stats": {
         "committed": {
@@ -19565,7 +19087,7 @@
               "band2": "Remote chance",
               "p3plus": 0.0194,
               "fair3": 51.47,
-              "floor3": 56.62,
+              "floor3": 56.61,
               "band3": "Remote chance",
               "outOf100": 14
             },
@@ -20702,6 +20224,20 @@
           "home": 28,
           "away": 27
         }
+      },
+      "summary": {
+        "expectedFouls": 19.3,
+        "topFouler": {
+          "player": "Gakpo",
+          "team": "Liverpool",
+          "outOf100": 59
+        },
+        "topWinner": {
+          "player": "Gakpo",
+          "team": "Liverpool",
+          "outOf100": 67
+        },
+        "players": 32
       },
       "stats": {
         "committed": {
@@ -22434,7 +21970,7 @@
                 "refereeFactor": 1.0,
                 "effectiveMatches": 32.5
               },
-              "exact0": 0.6079,
+              "exact0": 0.608,
               "p1plus": 0.3941,
               "fair1": 2.54,
               "floor1": 2.79,
@@ -23026,6 +22562,20 @@
           "home": 28,
           "away": 28
         }
+      },
+      "summary": {
+        "expectedFouls": 19.7,
+        "topFouler": {
+          "player": "Enzo",
+          "team": "Chelsea",
+          "outOf100": 62
+        },
+        "topWinner": {
+          "player": "Rogers",
+          "team": "Chelsea",
+          "outOf100": 65
+        },
+        "players": 32
       },
       "stats": {
         "committed": {
@@ -24970,30 +24520,6 @@
           "position": "MF"
         },
         {
-          "player": "Darlow",
-          "team": "Man United",
-          "fixture": "Hull v Man United",
-          "kickoff": "2026-08-22T12:30:00+00:00",
-          "market": "drawn",
-          "line": 0.5,
-          "prob": 0.3816,
-          "packProb": 0.1843,
-          "edge": 0.1973,
-          "band": "Unlikely",
-          "outOf100": 38,
-          "fair": 2.62,
-          "floor": 2.88,
-          "why": {
-            "ratePer90": 0.437,
-            "expectedMinutes": 90.0,
-            "opponentFactor": 1.0,
-            "refereeFactor": 1.0,
-            "effectiveMatches": 0.8
-          },
-          "thin": true,
-          "position": "GK"
-        },
-        {
           "player": "Lewis-Skelly",
           "team": "Arsenal",
           "fixture": "Arsenal v Coventry",
@@ -25042,6 +24568,30 @@
           "position": "DF"
         },
         {
+          "player": "Rodon",
+          "team": "Leeds",
+          "fixture": "Nott'm Forest v Leeds",
+          "kickoff": "2026-08-22T15:00:00+00:00",
+          "market": "drawn",
+          "line": 0.5,
+          "prob": 0.6295,
+          "packProb": 0.4619,
+          "edge": 0.1677,
+          "band": "Likely",
+          "outOf100": 63,
+          "fair": 1.59,
+          "floor": 1.75,
+          "why": {
+            "ratePer90": 0.981,
+            "expectedMinutes": 89.3,
+            "opponentFactor": 1.0,
+            "refereeFactor": 1.0,
+            "effectiveMatches": 1.9
+          },
+          "thin": true,
+          "position": "DF"
+        },
+        {
           "player": "Grealish",
           "team": "Man City",
           "fixture": "Man City v Bournemouth",
@@ -25066,11 +24616,11 @@
           "position": "MF"
         }
       ],
-      "combinedProb": 0.0615,
-      "combinedFair": 16.3,
-      "averageProb": 0.597,
-      "averageEdge": 0.1767,
-      "inBand": false,
+      "combinedProb": 0.1014,
+      "combinedFair": 9.9,
+      "averageProb": 0.647,
+      "averageEdge": 0.1707,
+      "inBand": true,
       "tiers": [
         {
           "target": 2.0,
@@ -25160,9 +24710,9 @@
         },
         {
           "target": 5.0,
-          "actualOdds": 6.03,
-          "probability": 0.1658,
-          "outOf100": 17,
+          "actualOdds": 5.56,
+          "probability": 0.1799,
+          "outOf100": 18,
           "legs": [
             {
               "player": "Dorgu",
@@ -25176,70 +24726,6 @@
               "packProb": 0.363,
               "edge": 0.2371,
               "band": "Likely",
-              "thin": true
-            },
-            {
-              "player": "Darlow",
-              "team": "Man United",
-              "fixture": "Hull v Man United",
-              "market": "drawn",
-              "line": 0.5,
-              "fouls": 1,
-              "prob": 0.3816,
-              "outOf100": 38,
-              "packProb": 0.1843,
-              "edge": 0.1973,
-              "band": "Unlikely",
-              "thin": true
-            },
-            {
-              "player": "Scott",
-              "team": "Bournemouth",
-              "fixture": "Man City v Bournemouth",
-              "market": "drawn",
-              "line": 0.5,
-              "fouls": 1,
-              "prob": 0.7242,
-              "outOf100": 72,
-              "packProb": 0.5669,
-              "edge": 0.1572,
-              "band": "Likely",
-              "thin": true
-            }
-          ]
-        },
-        {
-          "target": 10.0,
-          "actualOdds": 10.86,
-          "probability": 0.0921,
-          "outOf100": 9,
-          "legs": [
-            {
-              "player": "Dorgu",
-              "team": "Man United",
-              "fixture": "Hull v Man United",
-              "market": "drawn",
-              "line": 1.5,
-              "fouls": 2,
-              "prob": 0.6001,
-              "outOf100": 60,
-              "packProb": 0.363,
-              "edge": 0.2371,
-              "band": "Likely",
-              "thin": true
-            },
-            {
-              "player": "Darlow",
-              "team": "Man United",
-              "fixture": "Hull v Man United",
-              "market": "drawn",
-              "line": 0.5,
-              "fouls": 1,
-              "prob": 0.3816,
-              "outOf100": 38,
-              "packProb": 0.1843,
-              "edge": 0.1973,
-              "band": "Unlikely",
               "thin": true
             },
             {
@@ -25257,6 +24743,70 @@
               "thin": true
             },
             {
+              "player": "Ballard",
+              "team": "Sunderland",
+              "fixture": "Ipswich v Sunderland",
+              "market": "drawn",
+              "line": 0.5,
+              "fouls": 1,
+              "prob": 0.4692,
+              "outOf100": 47,
+              "packProb": 0.2979,
+              "edge": 0.1713,
+              "band": "Realistic possibility",
+              "thin": true
+            }
+          ]
+        },
+        {
+          "target": 10.0,
+          "actualOdds": 12.2,
+          "probability": 0.082,
+          "outOf100": 8,
+          "legs": [
+            {
+              "player": "Dorgu",
+              "team": "Man United",
+              "fixture": "Hull v Man United",
+              "market": "drawn",
+              "line": 1.5,
+              "fouls": 2,
+              "prob": 0.6001,
+              "outOf100": 60,
+              "packProb": 0.363,
+              "edge": 0.2371,
+              "band": "Likely",
+              "thin": true
+            },
+            {
+              "player": "Lewis-Skelly",
+              "team": "Arsenal",
+              "fixture": "Arsenal v Coventry",
+              "market": "drawn",
+              "line": 0.5,
+              "fouls": 1,
+              "prob": 0.6389,
+              "outOf100": 64,
+              "packProb": 0.442,
+              "edge": 0.1969,
+              "band": "Likely",
+              "thin": true
+            },
+            {
+              "player": "Ballard",
+              "team": "Sunderland",
+              "fixture": "Ipswich v Sunderland",
+              "market": "drawn",
+              "line": 0.5,
+              "fouls": 1,
+              "prob": 0.4692,
+              "outOf100": 47,
+              "packProb": 0.2979,
+              "edge": 0.1713,
+              "band": "Realistic possibility",
+              "thin": true
+            },
+            {
               "player": "Rodon",
               "team": "Leeds",
               "fixture": "Nott'm Forest v Leeds",
@@ -25267,6 +24817,20 @@
               "outOf100": 63,
               "packProb": 0.4619,
               "edge": 0.1677,
+              "band": "Likely",
+              "thin": true
+            },
+            {
+              "player": "Scott",
+              "team": "Bournemouth",
+              "fixture": "Man City v Bournemouth",
+              "market": "drawn",
+              "line": 0.5,
+              "fouls": 1,
+              "prob": 0.7242,
+              "outOf100": 72,
+              "packProb": 0.5669,
+              "edge": 0.1572,
               "band": "Likely",
               "thin": true
             }

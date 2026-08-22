@@ -26,3 +26,32 @@ Append new ideas at the top with a date. When an idea gets picked up it moves to
 **What it would need.** Supabase Auth already ships, so accounts exist. It would need a predictions table for users, a scoring job that runs alongside the existing weekly grading, and the leaderboard itself. The scoring should use a proper scoring rule rather than raw hit rate, for the same reason the characters are normalised: rewarding raw hit rate rewards timid predictions and teaches users the wrong thing.
 
 **Status.** Idea only. Revisit once the characters have a real track record, because a leaderboard with nothing to compare against is an empty room.
+
+---
+
+## 2026-08-22 — Championship data for promoted clubs
+
+**The idea.** Ingest EFL Championship player-match data so newly promoted clubs
+arrive with a record rather than a positional prior.
+
+**Why it matters more than it sounds.** Three clubs are promoted every August
+and currently all of their players fall back to their position's average. That
+is honest but blunt: it says a Championship-winning defensive midfielder and his
+third-choice understudy foul identically, which is obviously false. This season
+it affects Coventry, Hull and one other, so roughly 15% of every gameweek.
+
+**Why it is not free.** Championship fouls are the same problem as Premier
+League fouls were: the sources that carry them are the ones already surveyed.
+`worldfootballR_data` covers `ENG_M_2nd` on the same release pattern as the
+top flight, so the raw data is very likely a single extra download.
+
+**The modelling question is the interesting part**, and it is not solved by
+having the data. Championship fouls are not Premier League fouls: refereeing
+standards, tempo and quality all differ, so a raw rate would transfer a number
+that does not mean the same thing. It needs a fitted discount, estimated from
+players who appear in both divisions across a promotion, which is a real
+piece of work rather than a column rename.
+
+**Status.** Idea only, deliberately deferred. The current fallback is defensible
+and clearly labelled thin, which is a reasonable place to sit while more
+valuable work is outstanding.
