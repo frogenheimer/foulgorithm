@@ -89,6 +89,36 @@ function read<T>(file: string): T {
 export const getOverview = () => read<Overview>("overview.json");
 export const getRound = () => read<Round>("round.json");
 
+/* ---------- graded record ---------- */
+
+export type ModelRecord = {
+  n: number;
+  claimed: number;
+  actual: number;
+  gap: number;
+  logLoss: number;
+  brier: number;
+  ece: number;
+  calibration: { from: number; to: number; n: number; predicted: number; observed: number }[];
+};
+
+export type TrackRecord = {
+  generatedAt: string;
+  settledPlayers: number;
+  gradedClaims: number;
+  withoutOutcome: number;
+  models: Record<string, ModelRecord>;
+};
+
+/** Null until the first round has been graded, so the page can say so. */
+export function getTrackRecord(): TrackRecord | null {
+  try {
+    return read<TrackRecord>("track-record.json");
+  } catch {
+    return null;
+  }
+}
+
 /* ---------- the five characters ---------- */
 
 export type CharacterLine = {

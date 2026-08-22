@@ -24,6 +24,7 @@ export const SUPPORT = {
 const NAV = [
   { href: "/", label: "This round", icon: Grid },
   { href: "/characters", label: "The five", icon: Users },
+  { href: "/record", label: "Track record", icon: Chart },
   { href: "/history", label: "History", icon: Chart },
   { href: "/methodology", label: "Methodology", icon: Book },
 ];

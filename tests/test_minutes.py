@@ -9,7 +9,6 @@ The mean is unaffected, which is why this never showed up in a bias check. The
 shape is badly wrong, and the shape is what a bet settles on.
 """
 
-import numpy as np
 import pandas as pd
 import pytest
 
