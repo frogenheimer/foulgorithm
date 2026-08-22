@@ -314,3 +314,72 @@ export type PlayersData = {
 
 export const getPlayers = () => read<PlayersData>("players.json");
 export const getExplorer = (): Explorer => getPlayers().explorer;
+
+/* ---------- the stats sheet ---------- */
+
+/**
+ * Pure history. No model output appears in this file, and a Python test
+ * enforces that, because the value of the page is that every number can be
+ * checked against a scoreboard.
+ */
+export type HitRate = {
+  line: number;
+  /** Most recent first. Shorter than the window when the history is shorter. */
+  hits: boolean[];
+  n: number;
+  rate: number | null;
+};
+
+export type TeamAverage = { label: string; value: number | null; matches: number };
+
+export type DefensiveRow = {
+  player: string;
+  matches: number;
+  minutes: number;
+  foulsPer90: number;
+  tacklesPer90: number;
+  yellows: number;
+  form: HitRate;
+  watch: string[];
+};
+
+export type OffensiveRow = {
+  player: string;
+  matches: number;
+  minutes: number;
+  wonPer90: number;
+  form: HitRate;
+  formTwo: HitRate;
+  watch: string[];
+};
+
+export type TeamSheet = {
+  averages: Record<string, TeamAverage>;
+  form: Record<string, HitRate | null>;
+  division: string;
+  players: { defensive: DefensiveRow[]; offensive: OffensiveRow[] };
+};
+
+export type MatchdayFixture = {
+  home: string;
+  away: string;
+  kickoff: string;
+  referee: {
+    name: string | null;
+    matches: number;
+    foulsPerMatch: number | null;
+    yellowsPerMatch: number | null;
+    redsPerMatch: number | null;
+  };
+  teams: Record<string, TeamSheet>;
+};
+
+export type Matchday = {
+  generatedAt: string;
+  window: number;
+  seasons: string[];
+  note: string;
+  fixtures: MatchdayFixture[];
+};
+
+export const getMatchday = () => read<Matchday>("matchday.json");

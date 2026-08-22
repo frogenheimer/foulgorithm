@@ -126,6 +126,14 @@ def run(dry_run: bool = False) -> int:
     if dry_run:
         return 0
 
+    # Results have just landed, which is exactly when the stats sheet changes.
+    try:
+        from foulgorithm.publish import matchday
+
+        matchday.publish()
+    except Exception as exc:
+        print(f"stats sheet not refreshed: {exc}", file=sys.stderr)
+
     TRACK_RECORD.parent.mkdir(parents=True, exist_ok=True)
     TRACK_RECORD.write_text(
         json.dumps(

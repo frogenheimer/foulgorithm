@@ -54,9 +54,16 @@ def run(force: bool = False) -> int:
         print(f"no change, {len(current)} confirmed")
         return 1
 
-    from foulgorithm.publish import player_round
+    from foulgorithm.publish import matchday, player_round
 
     result = player_round.publish()
+    # The stats sheet moves when results land, not when lineups do, but it is
+    # cheap and republishing both together keeps the two pages from disagreeing
+    # about which round it is.
+    try:
+        matchday.publish()
+    except Exception as exc:
+        print(f"stats sheet not refreshed: {exc}", file=sys.stderr)
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(
         json.dumps(
