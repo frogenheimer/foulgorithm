@@ -151,7 +151,7 @@ reconciliation pass.
 | Track record page | **Built** | Calls its own numbers noise under 100 claims |
 | Position pairings | **Next** | Two midfielders both high on involvements. The data now supports asking it |
 | Light theme | **Built** | Both themes were already defined; what was missing was a way to choose |
-| Game state from closing odds | **Next** | Odds are in the match files back to 2000. A better proxy for territory than possession, which we do not hold |
+| Game state from closing odds | **Tested, not shipped** | Effect is real and monotonic: favourites foul 15% under their own rate. Three attempts to use it all scored worse. See the modelling log |
 | Head-to-head stats sheet | **Built** | Mirrored around a shared centre column. No model output, and a test enforces it |
 | Hit-rate dots | **Built** | Did the line land in each of the last five. A reader can check it; a probability they can only trust |
 | Referee panel | **Built** | Own numbers, with the confounding stated rather than dressed up as an effect |

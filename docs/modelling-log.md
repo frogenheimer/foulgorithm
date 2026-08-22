@@ -18,6 +18,69 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-22 — Game state from closing odds: real signal, worse model
+
+**Question.** Fouls should depend on who has the ball. Possession would say it
+directly and we do not hold it: it is not in the 26 seasons of match files and
+the feed that carried it was deleted in January 2026. Closing match odds ARE in
+those files, back to 2000, and they measure the same thing more directly, since
+possession is itself a proxy for expected game state.
+
+The match-level version was already tested and failed. This is the asymmetric
+version, which is different: a heavy underdog defends deeper and chases, the
+favourite has the ball, so the same mismatch pushes the two sides in OPPOSITE
+directions and a match total, which sums them, cancels it out.
+
+**The effect is real and it is not the one I predicted.** Over 23,893 scored
+player-matches, residuals against the model run cleanly with the market's view
+of the fixture:
+
+| team's win probability | residual |
+|---|---|
+| under 20% | -0.024 |
+| 20 to 35% | -0.034 |
+| 35 to 50% | -0.035 |
+| 50 to 65% | -0.074 |
+| 65 to 80% | -0.081 |
+| over 80% | **-0.164** |
+
+Monotonic across six buckets. But the story is **favourites foul less than
+their own rate predicts**, by about 0.14 on a base near 0.9, roughly 15%. The
+underdog end is nearly flat. I had expected the opposite.
+
+**Three attempts to use it, all worse than not using it:**
+
+| attempt | log loss | ECE | bias |
+|---|---|---|---|
+| current model | **0.4285** | **0.0139** | +0.0505 |
+| slope fitted on 2022-24, centred at 0.5 | 0.4297 | 0.0213 | +0.0779 |
+| slope fitted on all history, centred at 0.5 | 0.4292 | 0.0195 | +0.0713 |
+| slope fitted on all history, mean-centred | 0.4289 | 0.0167 | +0.0616 |
+
+Each fix addressed a real fault and each left it still losing.
+
+**Two faults were mine, and worth keeping visible.** Centring the correction at
+a win probability of 0.5 scales UP every underdog and DOWN every favourite, and
+there are far more of the former, so it raised the average prediction of a model
+that already over-predicts. And fitting the slope on 2022-24 picked the strongest
+window there has been: successive two-year slopes run -0.105, -0.150, **-0.261**,
+-0.130, so that fit over-corrected by a factor of two.
+
+**I guessed wrong about why, and checked.** The first explanation was
+collinearity with the opponent factor, which is what killed the match-level
+version. Measured, the correlation between win probability and opponent factor
+is **-0.044**. Not collinear. The explanation was plausible and false, and it
+would have gone into this log unchallenged if I had not measured it.
+
+**What is left.** The effect is real, consistent in direction across eight
+years, and too small and too unstable to beat the noise a correction adds. A
+6 to 9% adjustment sits far below per-observation variance while the slope
+itself moves by a factor of 2.5 between periods. Not shipped.
+
+The study is kept at `backtest/game_state_study.py` and the stability check at
+`backtest/game_state_stability.py`, so the next person tempted by this can see
+it was tried rather than assume it was missed.
+
 ## 2026-08-22 — The loop closes, and two bugs that would have faked it
 
 **What was missing.** The grading job has existed since the start. Nothing ever
