@@ -28,3 +28,25 @@
 #   - Fuzzy matching proposes candidates into crosswalk_pending.yaml. A human confirms.
 
 players: []
+
+# Human-confirmed matches between the current squad list (legal names) and our
+# foul history (common names).
+#
+# Everything here was refused by the automatic rules for being ambiguous, which
+# is the correct behaviour: "David Raya Martín" matches both "David Martin" and
+# "David Raya" on tokens alone, and guessing would transplant one player's foul
+# rate onto another. A person settles it once, here, and it is reviewable in a
+# diff forever after.
+#
+# Key is the FPL name, value is the name as it appears in the foul history.
+aliases:
+  David Raya Martín: David Raya
+  Gabriel dos Santos Magalhães: Gabriel Magalhães
+  Benjamin White: Ben White
+  Emiliano Buendía Stati: Emiliano Buendía
+  Rodrigo Hernandez: Rodri
+  Bernardo Veiga de Carvalho e Silva: Bernardo Silva
+  João Pedro Cavaco Cancelo: João Cancelo
+  Matheus Santos Carneiro Da Cunha: Matheus Cunha
+  Bruno Guimarães Rodriguez Moura: Bruno Guimarães
+  Igor Julio dos Santos de Paulo: Igor
