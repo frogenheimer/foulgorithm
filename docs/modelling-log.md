@@ -18,6 +18,73 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-22 — The dispersion was wrong, but not for the reason I thought
+
+**Question.** The model overstates the 3+ line. The stated hypothesis was that a
+single global dispersion applied the same relative spread to a player expected
+to commit 0.3 fouls and one expected 2.5, making the tail too fat for the
+former. Is that right?
+
+**Method.** Three steps, in order.
+
+1. Fitted a count-dependent dispersion, slope estimated from quintiles of player
+   rate, and measured the effect on bias.
+2. Checked whether the negative binomial family fits the observed tail at all.
+3. Swept the dispersion VALUE across 8,464 walk-forward predictions.
+
+**Result 1: the hypothesis was wrong.** The fitted slope came out at 0.014, and
+bias at the 3+ line moved from -0.0149 to -0.0145. That is noise. Count-dependent
+dispersion does essentially nothing here, and the code has been deleted rather
+than left in place looking like it works.
+
+**Result 2: the family is right.** Fitted to 59,649 player-matches of 60+
+minutes:
+
+| k | actual | negative binomial | Poisson |
+|---|---|---|---|
+| 0 | 0.4562 | 0.4490 | 0.4138 |
+| 3+ | **0.0782** | **0.0760** | 0.0600 |
+
+The negative binomial reproduces the observed 3+ rate to within 3%. A Poisson
+understates it by 23%. So the shape was never the problem.
+
+**Result 3: the VALUE was the problem.** Swept against held-out predictions:
+
+| dispersion | bias 0.5 | bias 1.5 | bias 2.5 | total |
+|---|---|---|---|---|
+| 1.00 | -0.0087 | -0.0087 | -0.0075 | 0.0249 |
+| **1.05** | **-0.0021** | **-0.0091** | **-0.0101** | **0.0214** |
+| 1.15 | +0.0103 | -0.0095 | -0.0148 | 0.0346 |
+| 1.21 | +0.0173 | -0.0095 | -0.0173 | 0.0441 |
+
+**Conclusion.** We were using something close to the population's
+variance-to-mean ratio of 1.21. That is the wrong quantity: **the population
+ratio includes the spread BETWEEN players, which the model already explains
+through each player's own rate.** What is left over, the residual, is far
+tighter, and the sweep puts it at about 1.05.
+
+This is the same error as the match-total dispersion bug in a different costume.
+Both times the marginal variance was mistaken for the residual variance, and
+both times it made the model hedge.
+
+**Also re-fitted the calibration correction on held-out seasons.** It was
+previously fitted on the same data it was judged against, which flattered it.
+Fitted on 2022-2024, tested on 2024 onward:
+
+| line | raw bias | corrected |
+|---|---|---|
+| 0.5 | -0.0021 | -0.0025 |
+| 1.5 | -0.0077 | -0.0065 |
+| 2.5 | **-0.0101** | **-0.0079** |
+
+Fouls drawn came back with a shrink of 1.039 at the 3+ line, slightly above one,
+meaning that market was mildly UNDER-confident. The fit is finding real
+structure rather than shrinking everything toward the mean by reflex.
+
+**Caveats.** A residual bias of -0.008 at the 3+ line survives both fixes and is
+unexplained. It is small, and it is in the direction that overstates, which is
+the direction that costs money, so it is worth returning to.
+
 ## 2026-08-22 — Contrarian selection amplifies the model's own errors
 
 **Question.** If the five had competed across a whole season, publishing five

@@ -1,30 +1,30 @@
 {
   "player_fouls_committed": {
     "0.5": {
-      "base": 0.4646,
-      "shrink": 0.904
+      "base": 0.4732,
+      "shrink": 0.9305
     },
     "1.5": {
-      "base": 0.1842,
-      "shrink": 0.9047
+      "base": 0.1821,
+      "shrink": 0.882
     },
     "2.5": {
-      "base": 0.0594,
-      "shrink": 0.7762
+      "base": 0.0588,
+      "shrink": 0.7948
     }
   },
   "player_fouls_drawn": {
     "0.5": {
-      "base": 0.4428,
-      "shrink": 0.9603
+      "base": 0.4415,
+      "shrink": 0.977
     },
     "1.5": {
-      "base": 0.1764,
-      "shrink": 0.9906
+      "base": 0.1698,
+      "shrink": 0.9922
     },
     "2.5": {
-      "base": 0.0607,
-      "shrink": 0.8832
+      "base": 0.0632,
+      "shrink": 1.0394
     }
   }
 }

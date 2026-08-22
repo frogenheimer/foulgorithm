@@ -97,11 +97,25 @@ class PlayerFoulModel:
         if len(featured):
             self._default_minutes = float(featured.median())
 
+
         self._player_position = (
             history.assign(_pos=pos).groupby("player")["_pos"].agg(
                 lambda x: x.value_counts().index[0]
             ).to_dict()
         )
+
+    def dispersion_at(self, mean: float) -> float:
+        """Residual dispersion. Deliberately a constant.
+
+        A count-dependent version was fitted and measured: the slope came out at
+        0.014 and changed the 3+ bias from -0.0149 to -0.0145, which is noise.
+        The hypothesis that a fat tail on low-mean players caused the
+        overconfidence was simply wrong, and the code is gone rather than left
+        in place looking like it does something.
+
+        What was actually wrong is the VALUE. See the class docstring.
+        """
+        return max(self.dispersion, 1.0001)
 
     def prior_rate(self, player: str) -> float:
         """The rate we assume before seeing this player's own record."""
@@ -174,7 +188,7 @@ class PlayerFoulModel:
             mean = base + (mean - base) * self.amplify
         mean = max(mean, 0.02)
 
-        dist = negbin_pmf(mean, mean * max(self.dispersion, 1.02))
+        dist = negbin_pmf(mean, mean * self.dispersion_at(mean))
         return dist, {
             "ratePer90": round(rate, 3),
             "expectedMinutes": round(minutes, 1),
@@ -200,15 +214,15 @@ class PlayerFouledModel(PlayerFoulModel):
 #   amplify          how far they push a deviation from average
 CHARACTER_SETTINGS: dict[str, dict] = {
     # Anger: only the recent past exists, barely shrinks, exaggerates, overconfident.
-    "alan": dict(half_life_days=70, prior_matches=3, opponent_weight=1.3, dispersion=1.05, amplify=1.3),
+    "alan": dict(half_life_days=70, prior_matches=3, opponent_weight=1.3, dispersion=1.00, amplify=1.3),
     # Lust: long memory for reputation, trusts the name over the matchup.
-    "lily": dict(half_life_days=1200, prior_matches=8, opponent_weight=0.5, dispersion=1.25, amplify=1.1),
+    "lily": dict(half_life_days=1200, prior_matches=8, opponent_weight=0.5, dispersion=1.10, amplify=1.1),
     # Violence: reads the matchup hardest, medium memory.
-    "valentina": dict(half_life_days=400, prior_matches=6, opponent_weight=1.6, dispersion=1.15, amplify=1.15),
+    "valentina": dict(half_life_days=400, prior_matches=6, opponent_weight=1.6, dispersion=1.05, amplify=1.15),
     # Terror: long memory, heavy shrinkage, wide distribution, never exaggerates.
-    "tayler": dict(half_life_days=1000, prior_matches=30, opponent_weight=0.4, dispersion=1.6, amplify=1.0),
+    "tayler": dict(half_life_days=1000, prior_matches=30, opponent_weight=0.4, dispersion=1.25, amplify=1.0),
     # Bravery: short-to-medium memory, trusts thin evidence others shrink away.
-    "bdog": dict(half_life_days=300, prior_matches=2, opponent_weight=1.1, dispersion=1.1, amplify=1.2),
+    "bdog": dict(half_life_days=300, prior_matches=2, opponent_weight=1.1, dispersion=1.02, amplify=1.2),
 }
 
 
