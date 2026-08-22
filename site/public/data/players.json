@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T06:05:45+00:00",
+  "generatedAt": "2026-08-22T06:09:20+00:00",
   "trainedOn": {
     "playerMatches": 81327,
     "players": 1671,
@@ -2039,6 +2039,186 @@
             }
           }
         ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "3+1",
+            "probability": 0.0951,
+            "outOf100": 10,
+            "fair": 10.52,
+            "legs": [
+              {
+                "player": "Havertz",
+                "team": "Arsenal",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.1864,
+                "market": "committed"
+              },
+              {
+                "player": "Saka",
+                "team": "Arsenal",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5102,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "3+1+1",
+            "probability": 0.0456,
+            "outOf100": 5,
+            "fair": 21.92,
+            "legs": [
+              {
+                "player": "Havertz",
+                "team": "Arsenal",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.1864,
+                "market": "committed"
+              },
+              {
+                "player": "Saka",
+                "team": "Arsenal",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5102,
+                "market": "committed"
+              },
+              {
+                "player": "Magalh\u00e3es",
+                "team": "Arsenal",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.4797,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "3+1+1+1",
+            "probability": 0.0214,
+            "outOf100": 2,
+            "fair": 46.84,
+            "legs": [
+              {
+                "player": "Havertz",
+                "team": "Arsenal",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.1864,
+                "market": "committed"
+              },
+              {
+                "player": "Saka",
+                "team": "Arsenal",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5102,
+                "market": "committed"
+              },
+              {
+                "player": "Magalh\u00e3es",
+                "team": "Arsenal",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.4797,
+                "market": "committed"
+              },
+              {
+                "player": "Rice",
+                "team": "Arsenal",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.468,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "3+1",
+            "probability": 0.1224,
+            "outOf100": 12,
+            "fair": 8.17,
+            "legs": [
+              {
+                "player": "Saka",
+                "team": "Arsenal",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.2152,
+                "market": "drawn"
+              },
+              {
+                "player": "Havertz",
+                "team": "Arsenal",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5689,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "3+2",
+            "probability": 0.0601,
+            "outOf100": 6,
+            "fair": 16.63,
+            "legs": [
+              {
+                "player": "Saka",
+                "team": "Arsenal",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.2152,
+                "market": "drawn"
+              },
+              {
+                "player": "Havertz",
+                "team": "Arsenal",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.2795,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "3+3",
+            "probability": 0.0276,
+            "outOf100": 3,
+            "fair": 36.28,
+            "legs": [
+              {
+                "player": "Havertz",
+                "team": "Arsenal",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.1281,
+                "market": "drawn"
+              },
+              {
+                "player": "Saka",
+                "team": "Arsenal",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.2152,
+                "market": "drawn"
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -3939,6 +4119,258 @@
               "band3": "Remote chance",
               "outOf100": 10
             }
+          }
+        ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1102,
+            "outOf100": 11,
+            "fair": 9.07,
+            "legs": [
+              {
+                "player": "Tielemans",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5955,
+                "market": "committed"
+              },
+              {
+                "player": "Cunha",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.584,
+                "market": "committed"
+              },
+              {
+                "player": "B.Fernandes",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5643,
+                "market": "committed"
+              },
+              {
+                "player": "Dorgu",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5617,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0562,
+            "outOf100": 6,
+            "fair": 17.81,
+            "legs": [
+              {
+                "player": "Tielemans",
+                "team": "Man United",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3034,
+                "market": "committed"
+              },
+              {
+                "player": "Cunha",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.584,
+                "market": "committed"
+              },
+              {
+                "player": "B.Fernandes",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5643,
+                "market": "committed"
+              },
+              {
+                "player": "Dorgu",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5617,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0282,
+            "outOf100": 3,
+            "fair": 35.5,
+            "legs": [
+              {
+                "player": "Tielemans",
+                "team": "Man United",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3034,
+                "market": "committed"
+              },
+              {
+                "player": "Cunha",
+                "team": "Man United",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.2929,
+                "market": "committed"
+              },
+              {
+                "player": "B.Fernandes",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5643,
+                "market": "committed"
+              },
+              {
+                "player": "Dorgu",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5617,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1559,
+            "outOf100": 16,
+            "fair": 6.42,
+            "legs": [
+              {
+                "player": "Tielemans",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6153,
+                "market": "drawn"
+              },
+              {
+                "player": "Cunha",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6658,
+                "market": "drawn"
+              },
+              {
+                "player": "B.Fernandes",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6066,
+                "market": "drawn"
+              },
+              {
+                "player": "Mbeumo",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6272,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0875,
+            "outOf100": 9,
+            "fair": 11.43,
+            "legs": [
+              {
+                "player": "Cunha",
+                "team": "Man United",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3736,
+                "market": "drawn"
+              },
+              {
+                "player": "Tielemans",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6153,
+                "market": "drawn"
+              },
+              {
+                "player": "B.Fernandes",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6066,
+                "market": "drawn"
+              },
+              {
+                "player": "Mbeumo",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6272,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0465,
+            "outOf100": 5,
+            "fair": 21.49,
+            "legs": [
+              {
+                "player": "Cunha",
+                "team": "Man United",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3736,
+                "market": "drawn"
+              },
+              {
+                "player": "Mbeumo",
+                "team": "Man United",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3337,
+                "market": "drawn"
+              },
+              {
+                "player": "Tielemans",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6153,
+                "market": "drawn"
+              },
+              {
+                "player": "B.Fernandes",
+                "team": "Man United",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6066,
+                "market": "drawn"
+              }
+            ]
           }
         ]
       }
@@ -5843,6 +6275,210 @@
             }
           }
         ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "2+1+1",
+            "probability": 0.1422,
+            "outOf100": 14,
+            "fair": 7.03,
+            "legs": [
+              {
+                "player": "Hughes",
+                "team": "Crystal Palace",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4048,
+                "market": "committed"
+              },
+              {
+                "player": "Tarkowski",
+                "team": "Everton",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5531,
+                "market": "committed"
+              },
+              {
+                "player": "Mu\u00f1oz",
+                "team": "Crystal Palace",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6353,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+2+1",
+            "probability": 0.0765,
+            "outOf100": 8,
+            "fair": 13.07,
+            "legs": [
+              {
+                "player": "Hughes",
+                "team": "Crystal Palace",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4048,
+                "market": "committed"
+              },
+              {
+                "player": "Mu\u00f1oz",
+                "team": "Crystal Palace",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3418,
+                "market": "committed"
+              },
+              {
+                "player": "Tarkowski",
+                "team": "Everton",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5531,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0406,
+            "outOf100": 4,
+            "fair": 24.62,
+            "legs": [
+              {
+                "player": "Hughes",
+                "team": "Crystal Palace",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4048,
+                "market": "committed"
+              },
+              {
+                "player": "Mu\u00f1oz",
+                "team": "Crystal Palace",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3418,
+                "market": "committed"
+              },
+              {
+                "player": "Tarkowski",
+                "team": "Everton",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5531,
+                "market": "committed"
+              },
+              {
+                "player": "Ndiaye",
+                "team": "Everton",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5308,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "2+2",
+            "probability": 0.1841,
+            "outOf100": 18,
+            "fair": 5.43,
+            "legs": [
+              {
+                "player": "Ndiaye",
+                "team": "Everton",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4242,
+                "market": "drawn"
+              },
+              {
+                "player": "Sarr",
+                "team": "Crystal Palace",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.434,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+2+1",
+            "probability": 0.1079,
+            "outOf100": 11,
+            "fair": 9.27,
+            "legs": [
+              {
+                "player": "Ndiaye",
+                "team": "Everton",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4242,
+                "market": "drawn"
+              },
+              {
+                "player": "Sarr",
+                "team": "Crystal Palace",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.434,
+                "market": "drawn"
+              },
+              {
+                "player": "Hughes",
+                "team": "Crystal Palace",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.586,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "3+2+1",
+            "probability": 0.0588,
+            "outOf100": 6,
+            "fair": 17.0,
+            "legs": [
+              {
+                "player": "Sarr",
+                "team": "Crystal Palace",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.2366,
+                "market": "drawn"
+              },
+              {
+                "player": "Ndiaye",
+                "team": "Everton",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4242,
+                "market": "drawn"
+              },
+              {
+                "player": "Hughes",
+                "team": "Crystal Palace",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.586,
+                "market": "drawn"
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -7743,6 +8379,234 @@
               "band3": "Remote chance",
               "outOf100": 10
             }
+          }
+        ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "3+1",
+            "probability": 0.182,
+            "outOf100": 18,
+            "fair": 5.49,
+            "legs": [
+              {
+                "player": "Luki\u0107",
+                "team": "Ipswich",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.2955,
+                "market": "committed"
+              },
+              {
+                "player": "Xhaka",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6159,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "3+1+1",
+            "probability": 0.104,
+            "outOf100": 10,
+            "fair": 9.62,
+            "legs": [
+              {
+                "player": "Luki\u0107",
+                "team": "Ipswich",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.2955,
+                "market": "committed"
+              },
+              {
+                "player": "Xhaka",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6159,
+                "market": "committed"
+              },
+              {
+                "player": "Diarra",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5712,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "3+1+1+1",
+            "probability": 0.0588,
+            "outOf100": 6,
+            "fair": 17.01,
+            "legs": [
+              {
+                "player": "Luki\u0107",
+                "team": "Ipswich",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.2955,
+                "market": "committed"
+              },
+              {
+                "player": "Xhaka",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6159,
+                "market": "committed"
+              },
+              {
+                "player": "Diarra",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5712,
+                "market": "committed"
+              },
+              {
+                "player": "Sadiki",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5654,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1202,
+            "outOf100": 12,
+            "fair": 8.32,
+            "legs": [
+              {
+                "player": "Luki\u0107",
+                "team": "Ipswich",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5855,
+                "market": "drawn"
+              },
+              {
+                "player": "Ogbene",
+                "team": "Ipswich",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5781,
+                "market": "drawn"
+              },
+              {
+                "player": "Diarra",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5812,
+                "market": "drawn"
+              },
+              {
+                "player": "Sadiki",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.611,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0626,
+            "outOf100": 6,
+            "fair": 15.99,
+            "legs": [
+              {
+                "player": "Sadiki",
+                "team": "Sunderland",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.318,
+                "market": "drawn"
+              },
+              {
+                "player": "Luki\u0107",
+                "team": "Ipswich",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5855,
+                "market": "drawn"
+              },
+              {
+                "player": "Ogbene",
+                "team": "Ipswich",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5781,
+                "market": "drawn"
+              },
+              {
+                "player": "Diarra",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5812,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0314,
+            "outOf100": 3,
+            "fair": 31.81,
+            "legs": [
+              {
+                "player": "Luki\u0107",
+                "team": "Ipswich",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.2942,
+                "market": "drawn"
+              },
+              {
+                "player": "Sadiki",
+                "team": "Sunderland",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.318,
+                "market": "drawn"
+              },
+              {
+                "player": "Ogbene",
+                "team": "Ipswich",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5781,
+                "market": "drawn"
+              },
+              {
+                "player": "Diarra",
+                "team": "Sunderland",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5812,
+                "market": "drawn"
+              }
+            ]
           }
         ]
       }
@@ -9647,6 +10511,258 @@
             }
           }
         ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1116,
+            "outOf100": 11,
+            "fair": 8.96,
+            "legs": [
+              {
+                "player": "N.Williams",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5695,
+                "market": "committed"
+              },
+              {
+                "player": "Gibbs-White",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.551,
+                "market": "committed"
+              },
+              {
+                "player": "Stach",
+                "team": "Leeds",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6099,
+                "market": "committed"
+              },
+              {
+                "player": "Bogle",
+                "team": "Leeds",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.583,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.058,
+            "outOf100": 6,
+            "fair": 17.25,
+            "legs": [
+              {
+                "player": "Stach",
+                "team": "Leeds",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3169,
+                "market": "committed"
+              },
+              {
+                "player": "N.Williams",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5695,
+                "market": "committed"
+              },
+              {
+                "player": "Gibbs-White",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.551,
+                "market": "committed"
+              },
+              {
+                "player": "Bogle",
+                "team": "Leeds",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.583,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.029,
+            "outOf100": 3,
+            "fair": 34.44,
+            "legs": [
+              {
+                "player": "Stach",
+                "team": "Leeds",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3169,
+                "market": "committed"
+              },
+              {
+                "player": "Bogle",
+                "team": "Leeds",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.292,
+                "market": "committed"
+              },
+              {
+                "player": "N.Williams",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5695,
+                "market": "committed"
+              },
+              {
+                "player": "Gibbs-White",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.551,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1465,
+            "outOf100": 15,
+            "fair": 6.83,
+            "legs": [
+              {
+                "player": "N.Williams",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.592,
+                "market": "drawn"
+              },
+              {
+                "player": "Gibbs-White",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6241,
+                "market": "drawn"
+              },
+              {
+                "player": "Stach",
+                "team": "Leeds",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.638,
+                "market": "drawn"
+              },
+              {
+                "player": "Wilson",
+                "team": "Leeds",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6214,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0791,
+            "outOf100": 8,
+            "fair": 12.64,
+            "legs": [
+              {
+                "player": "Stach",
+                "team": "Leeds",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3446,
+                "market": "drawn"
+              },
+              {
+                "player": "N.Williams",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.592,
+                "market": "drawn"
+              },
+              {
+                "player": "Gibbs-White",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6241,
+                "market": "drawn"
+              },
+              {
+                "player": "Wilson",
+                "team": "Leeds",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6214,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0419,
+            "outOf100": 4,
+            "fair": 23.86,
+            "legs": [
+              {
+                "player": "Gibbs-White",
+                "team": "Nott'm Forest",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3306,
+                "market": "drawn"
+              },
+              {
+                "player": "Stach",
+                "team": "Leeds",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3446,
+                "market": "drawn"
+              },
+              {
+                "player": "N.Williams",
+                "team": "Nott'm Forest",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.592,
+                "market": "drawn"
+              },
+              {
+                "player": "Wilson",
+                "team": "Leeds",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6214,
+                "market": "drawn"
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -11547,6 +12663,250 @@
               "band3": "Remote chance",
               "outOf100": 10
             }
+          }
+        ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1049,
+            "outOf100": 10,
+            "fair": 9.53,
+            "legs": [
+              {
+                "player": "Damsgaard",
+                "team": "Brentford",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5605,
+                "market": "committed"
+              },
+              {
+                "player": "Tonali",
+                "team": "Tottenham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6044,
+                "market": "committed"
+              },
+              {
+                "player": "Bentancur",
+                "team": "Tottenham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5625,
+                "market": "committed"
+              },
+              {
+                "player": "Senesi",
+                "team": "Tottenham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5504,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0541,
+            "outOf100": 5,
+            "fair": 18.49,
+            "legs": [
+              {
+                "player": "Tonali",
+                "team": "Tottenham",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3117,
+                "market": "committed"
+              },
+              {
+                "player": "Damsgaard",
+                "team": "Brentford",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5605,
+                "market": "committed"
+              },
+              {
+                "player": "Bentancur",
+                "team": "Tottenham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5625,
+                "market": "committed"
+              },
+              {
+                "player": "Senesi",
+                "team": "Tottenham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5504,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0263,
+            "outOf100": 3,
+            "fair": 37.95,
+            "legs": [
+              {
+                "player": "Tonali",
+                "team": "Tottenham",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3117,
+                "market": "committed"
+              },
+              {
+                "player": "Bentancur",
+                "team": "Tottenham",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.274,
+                "market": "committed"
+              },
+              {
+                "player": "Damsgaard",
+                "team": "Brentford",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5605,
+                "market": "committed"
+              },
+              {
+                "player": "Senesi",
+                "team": "Tottenham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5504,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "2+1+1",
+            "probability": 0.1405,
+            "outOf100": 14,
+            "fair": 7.12,
+            "legs": [
+              {
+                "player": "Tonali",
+                "team": "Tottenham",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3633,
+                "market": "drawn"
+              },
+              {
+                "player": "Lewis-Potter",
+                "team": "Brentford",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6017,
+                "market": "drawn"
+              },
+              {
+                "player": "Maddison",
+                "team": "Tottenham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6428,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0767,
+            "outOf100": 8,
+            "fair": 13.04,
+            "legs": [
+              {
+                "player": "Tonali",
+                "team": "Tottenham",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3633,
+                "market": "drawn"
+              },
+              {
+                "player": "O.Dango",
+                "team": "Brentford",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5456,
+                "market": "drawn"
+              },
+              {
+                "player": "Lewis-Potter",
+                "team": "Brentford",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6017,
+                "market": "drawn"
+              },
+              {
+                "player": "Maddison",
+                "team": "Tottenham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6428,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0417,
+            "outOf100": 4,
+            "fair": 24.0,
+            "legs": [
+              {
+                "player": "Tonali",
+                "team": "Tottenham",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3633,
+                "market": "drawn"
+              },
+              {
+                "player": "Maddison",
+                "team": "Tottenham",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3494,
+                "market": "drawn"
+              },
+              {
+                "player": "O.Dango",
+                "team": "Brentford",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5456,
+                "market": "drawn"
+              },
+              {
+                "player": "Lewis-Potter",
+                "team": "Brentford",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6017,
+                "market": "drawn"
+              }
+            ]
           }
         ]
       }
@@ -13451,6 +14811,234 @@
             }
           }
         ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1357,
+            "outOf100": 14,
+            "fair": 7.37,
+            "legs": [
+              {
+                "player": "Ayari",
+                "team": "Brighton",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6389,
+                "market": "committed"
+              },
+              {
+                "player": "Gro\u00df",
+                "team": "Brighton",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5892,
+                "market": "committed"
+              },
+              {
+                "player": "Kamara",
+                "team": "Aston Villa",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6327,
+                "market": "committed"
+              },
+              {
+                "player": "Cash",
+                "team": "Aston Villa",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5698,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0734,
+            "outOf100": 7,
+            "fair": 13.63,
+            "legs": [
+              {
+                "player": "Ayari",
+                "team": "Brighton",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3455,
+                "market": "committed"
+              },
+              {
+                "player": "Gro\u00df",
+                "team": "Brighton",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5892,
+                "market": "committed"
+              },
+              {
+                "player": "Kamara",
+                "team": "Aston Villa",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6327,
+                "market": "committed"
+              },
+              {
+                "player": "Cash",
+                "team": "Aston Villa",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5698,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0393,
+            "outOf100": 4,
+            "fair": 25.42,
+            "legs": [
+              {
+                "player": "Ayari",
+                "team": "Brighton",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3455,
+                "market": "committed"
+              },
+              {
+                "player": "Kamara",
+                "team": "Aston Villa",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3392,
+                "market": "committed"
+              },
+              {
+                "player": "Gro\u00df",
+                "team": "Brighton",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5892,
+                "market": "committed"
+              },
+              {
+                "player": "Cash",
+                "team": "Aston Villa",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5698,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "2+1+1",
+            "probability": 0.1853,
+            "outOf100": 19,
+            "fair": 5.4,
+            "legs": [
+              {
+                "player": "Costinha",
+                "team": "Brighton",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4527,
+                "market": "drawn"
+              },
+              {
+                "player": "Kamara",
+                "team": "Aston Villa",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5909,
+                "market": "drawn"
+              },
+              {
+                "player": "McGinn",
+                "team": "Aston Villa",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6928,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+2+1",
+            "probability": 0.1079,
+            "outOf100": 11,
+            "fair": 9.26,
+            "legs": [
+              {
+                "player": "Costinha",
+                "team": "Brighton",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4527,
+                "market": "drawn"
+              },
+              {
+                "player": "McGinn",
+                "team": "Aston Villa",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4035,
+                "market": "drawn"
+              },
+              {
+                "player": "Kamara",
+                "team": "Aston Villa",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5909,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "3+2+1",
+            "probability": 0.06,
+            "outOf100": 6,
+            "fair": 16.67,
+            "legs": [
+              {
+                "player": "Costinha",
+                "team": "Brighton",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.2516,
+                "market": "drawn"
+              },
+              {
+                "player": "McGinn",
+                "team": "Aston Villa",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4035,
+                "market": "drawn"
+              },
+              {
+                "player": "Kamara",
+                "team": "Aston Villa",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5909,
+                "market": "drawn"
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -15353,6 +16941,242 @@
             }
           }
         ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "2+1+1",
+            "probability": 0.1342,
+            "outOf100": 13,
+            "fair": 7.45,
+            "legs": [
+              {
+                "player": "Semenyo",
+                "team": "Man City",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3931,
+                "market": "committed"
+              },
+              {
+                "player": "Matheus N.",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5761,
+                "market": "committed"
+              },
+              {
+                "player": "Cook",
+                "team": "Bournemouth",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5928,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0732,
+            "outOf100": 7,
+            "fair": 13.67,
+            "legs": [
+              {
+                "player": "Semenyo",
+                "team": "Man City",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3931,
+                "market": "committed"
+              },
+              {
+                "player": "Matheus N.",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5761,
+                "market": "committed"
+              },
+              {
+                "player": "Cook",
+                "team": "Bournemouth",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5928,
+                "market": "committed"
+              },
+              {
+                "player": "Truffert",
+                "team": "Bournemouth",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5451,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "3+1+1+1",
+            "probability": 0.0382,
+            "outOf100": 4,
+            "fair": 26.18,
+            "legs": [
+              {
+                "player": "Semenyo",
+                "team": "Man City",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.2052,
+                "market": "committed"
+              },
+              {
+                "player": "Matheus N.",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5761,
+                "market": "committed"
+              },
+              {
+                "player": "Cook",
+                "team": "Bournemouth",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5928,
+                "market": "committed"
+              },
+              {
+                "player": "Truffert",
+                "team": "Bournemouth",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5451,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "2+1+1",
+            "probability": 0.1904,
+            "outOf100": 19,
+            "fair": 5.25,
+            "legs": [
+              {
+                "player": "Grealish",
+                "team": "Man City",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4532,
+                "market": "drawn"
+              },
+              {
+                "player": "Semenyo",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6445,
+                "market": "drawn"
+              },
+              {
+                "player": "Foden",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6518,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.1096,
+            "outOf100": 11,
+            "fair": 9.12,
+            "legs": [
+              {
+                "player": "Grealish",
+                "team": "Man City",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.4532,
+                "market": "drawn"
+              },
+              {
+                "player": "Semenyo",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6445,
+                "market": "drawn"
+              },
+              {
+                "player": "Matheus N.",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5758,
+                "market": "drawn"
+              },
+              {
+                "player": "Foden",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6518,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "3+1+1+1",
+            "probability": 0.061,
+            "outOf100": 6,
+            "fair": 16.41,
+            "legs": [
+              {
+                "player": "Grealish",
+                "team": "Man City",
+                "line": 2.5,
+                "fouls": 3,
+                "prob": 0.252,
+                "market": "drawn"
+              },
+              {
+                "player": "Semenyo",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6445,
+                "market": "drawn"
+              },
+              {
+                "player": "Matheus N.",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5758,
+                "market": "drawn"
+              },
+              {
+                "player": "Foden",
+                "team": "Man City",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6518,
+                "market": "drawn"
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -16953,7 +18777,7 @@
               "floor2": 51.02,
               "band2": "Remote chance",
               "p3plus": 0.0061,
-              "fair3": 163.38,
+              "fair3": 163.37,
               "floor3": 179.71,
               "band3": "Remote chance",
               "outOf100": 9
@@ -17253,6 +19077,242 @@
               "band3": "Remote chance",
               "outOf100": 10
             }
+          }
+        ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1046,
+            "outOf100": 10,
+            "fair": 9.56,
+            "legs": [
+              {
+                "player": "Burn",
+                "team": "Newcastle",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5288,
+                "market": "committed"
+              },
+              {
+                "player": "Gakpo",
+                "team": "Liverpool",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6042,
+                "market": "committed"
+              },
+              {
+                "player": "Szoboszlai",
+                "team": "Liverpool",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5843,
+                "market": "committed"
+              },
+              {
+                "player": "Wirtz",
+                "team": "Liverpool",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5602,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0539,
+            "outOf100": 5,
+            "fair": 18.55,
+            "legs": [
+              {
+                "player": "Gakpo",
+                "team": "Liverpool",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3115,
+                "market": "committed"
+              },
+              {
+                "player": "Burn",
+                "team": "Newcastle",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5288,
+                "market": "committed"
+              },
+              {
+                "player": "Szoboszlai",
+                "team": "Liverpool",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5843,
+                "market": "committed"
+              },
+              {
+                "player": "Wirtz",
+                "team": "Liverpool",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5602,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.027,
+            "outOf100": 3,
+            "fair": 36.97,
+            "legs": [
+              {
+                "player": "Gakpo",
+                "team": "Liverpool",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3115,
+                "market": "committed"
+              },
+              {
+                "player": "Szoboszlai",
+                "team": "Liverpool",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.2931,
+                "market": "committed"
+              },
+              {
+                "player": "Burn",
+                "team": "Newcastle",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5288,
+                "market": "committed"
+              },
+              {
+                "player": "Wirtz",
+                "team": "Liverpool",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5602,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "2+1+1",
+            "probability": 0.139,
+            "outOf100": 14,
+            "fair": 7.2,
+            "legs": [
+              {
+                "player": "Gakpo",
+                "team": "Liverpool",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3863,
+                "market": "drawn"
+              },
+              {
+                "player": "Elanga",
+                "team": "Newcastle",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.562,
+                "market": "drawn"
+              },
+              {
+                "player": "Wirtz",
+                "team": "Liverpool",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6401,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+2+1",
+            "probability": 0.0752,
+            "outOf100": 8,
+            "fair": 13.29,
+            "legs": [
+              {
+                "player": "Gakpo",
+                "team": "Liverpool",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3863,
+                "market": "drawn"
+              },
+              {
+                "player": "Wirtz",
+                "team": "Liverpool",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3466,
+                "market": "drawn"
+              },
+              {
+                "player": "Elanga",
+                "team": "Newcastle",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.562,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0406,
+            "outOf100": 4,
+            "fair": 24.62,
+            "legs": [
+              {
+                "player": "Gakpo",
+                "team": "Liverpool",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3863,
+                "market": "drawn"
+              },
+              {
+                "player": "Wirtz",
+                "team": "Liverpool",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3466,
+                "market": "drawn"
+              },
+              {
+                "player": "Elanga",
+                "team": "Newcastle",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.562,
+                "market": "drawn"
+              },
+              {
+                "player": "Szoboszlai",
+                "team": "Liverpool",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.5398,
+                "market": "drawn"
+              }
+            ]
           }
         ]
       }
@@ -19155,6 +21215,258 @@
               "band3": "Remote chance",
               "outOf100": 10
             }
+          }
+        ]
+      },
+      "tickets": {
+        "committed": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1547,
+            "outOf100": 15,
+            "fair": 6.46,
+            "legs": [
+              {
+                "player": "Berge",
+                "team": "Fulham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6306,
+                "market": "committed"
+              },
+              {
+                "player": "Tete",
+                "team": "Fulham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6089,
+                "market": "committed"
+              },
+              {
+                "player": "Enzo",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6416,
+                "market": "committed"
+              },
+              {
+                "player": "Rogers",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6281,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.084,
+            "outOf100": 8,
+            "fair": 11.91,
+            "legs": [
+              {
+                "player": "Enzo",
+                "team": "Chelsea",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3482,
+                "market": "committed"
+              },
+              {
+                "player": "Berge",
+                "team": "Fulham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6306,
+                "market": "committed"
+              },
+              {
+                "player": "Tete",
+                "team": "Fulham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6089,
+                "market": "committed"
+              },
+              {
+                "player": "Rogers",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6281,
+                "market": "committed"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0449,
+            "outOf100": 4,
+            "fair": 22.28,
+            "legs": [
+              {
+                "player": "Berge",
+                "team": "Fulham",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3371,
+                "market": "committed"
+              },
+              {
+                "player": "Enzo",
+                "team": "Chelsea",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3482,
+                "market": "committed"
+              },
+              {
+                "player": "Tete",
+                "team": "Fulham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6089,
+                "market": "committed"
+              },
+              {
+                "player": "Rogers",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6281,
+                "market": "committed"
+              }
+            ]
+          }
+        ],
+        "drawn": [
+          {
+            "target": 4,
+            "shape": "1+1+1+1",
+            "probability": 0.1512,
+            "outOf100": 15,
+            "fair": 6.61,
+            "legs": [
+              {
+                "player": "Tete",
+                "team": "Fulham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.572,
+                "market": "drawn"
+              },
+              {
+                "player": "Enzo",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6132,
+                "market": "drawn"
+              },
+              {
+                "player": "Rogers",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6603,
+                "market": "drawn"
+              },
+              {
+                "player": "Palmer",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6529,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 5,
+            "shape": "2+1+1+1",
+            "probability": 0.0842,
+            "outOf100": 8,
+            "fair": 11.88,
+            "legs": [
+              {
+                "player": "Rogers",
+                "team": "Chelsea",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3677,
+                "market": "drawn"
+              },
+              {
+                "player": "Tete",
+                "team": "Fulham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.572,
+                "market": "drawn"
+              },
+              {
+                "player": "Enzo",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6132,
+                "market": "drawn"
+              },
+              {
+                "player": "Palmer",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6529,
+                "market": "drawn"
+              }
+            ]
+          },
+          {
+            "target": 6,
+            "shape": "2+2+1+1",
+            "probability": 0.0464,
+            "outOf100": 5,
+            "fair": 21.54,
+            "legs": [
+              {
+                "player": "Rogers",
+                "team": "Chelsea",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3677,
+                "market": "drawn"
+              },
+              {
+                "player": "Palmer",
+                "team": "Chelsea",
+                "line": 1.5,
+                "fouls": 2,
+                "prob": 0.3599,
+                "market": "drawn"
+              },
+              {
+                "player": "Tete",
+                "team": "Fulham",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.572,
+                "market": "drawn"
+              },
+              {
+                "player": "Enzo",
+                "team": "Chelsea",
+                "line": 0.5,
+                "fouls": 1,
+                "prob": 0.6132,
+                "market": "drawn"
+              }
+            ]
           }
         ]
       }

@@ -15,6 +15,7 @@ from pathlib import Path
 import pandas as pd
 
 from foulgorithm.characters import base as characters
+from foulgorithm.publish import combinations as combos
 from foulgorithm.identity import players as identity
 from foulgorithm.identity.teams import to_fpl
 from foulgorithm.models import player_models as pm
@@ -185,6 +186,10 @@ def publish(output: Path = OUTPUT) -> dict:
             fixture_block["teams"][team] = sorted(
                 players, key=lambda r: -r["committed"]["p1plus"]
             )
+        fixture_block["tickets"] = {
+            market: [combos.serialise(t) for t in combos.best_tickets(fixture_block, market)]
+            for market in ("committed", "drawn")
+        }
         board.append(fixture_block)
 
     candidates = _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, lineups)

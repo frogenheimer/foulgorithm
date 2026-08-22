@@ -188,10 +188,20 @@ export type CharacterPicks = {
   averageEdge: number; inBand: boolean;
 };
 
+export type TicketLeg = {
+  player: string; team: string; line: number; fouls: number; prob: number; market: string;
+};
+
+export type Ticket = {
+  target: number; shape: string; probability: number; outOf100: number; fair: number;
+  legs: TicketLeg[];
+};
+
 export type FixtureBoard = {
   key: string; home: string; away: string; kickoff: string; referee: string | null;
   lineupConfirmed?: boolean;
   teams: Record<string, PlayerRow[]>;
+  tickets?: Record<string, Ticket[]>;
 };
 
 export type PlayersData = {

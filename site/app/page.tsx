@@ -1,3 +1,4 @@
+import FixtureBoard from "@/components/FixtureBoard";
 import Portrait, { CHARACTER_COLOUR } from "@/components/characters/Portrait";
 import { getPlayers } from "@/lib/data";
 import { count, kickoff, odds } from "@/lib/format";
@@ -128,8 +129,9 @@ export default function Today() {
       <section>
         <h2 className={s.h2}>Every player, every fixture</h2>
         <p className={s.note}>
-          Both squads side by side. Chance of committing at least 1, 2 or 3 fouls, and the price
-          each would need to pay to be worth backing.
+          Both squads side by side. Switch between fouls committed and fouls won, search for a
+          player, sort any column, and see the likeliest combination reaching 4, 5 or 6 in the
+          match.
         </p>
         {d.board.map((fx) => (
           <details key={fx.key} name="board" className={s.fixture}>
@@ -144,41 +146,7 @@ export default function Today() {
                 {fx.referee && ` · ${fx.referee}`}
               </span>
             </summary>
-            <div className={s.teams}>
-              {Object.entries(fx.teams).map(([team, players]) => (
-                <div key={team} className={s.teamCol}>
-                  <h4 className={s.teamName}>{team}</h4>
-                  <div className="scroll-x">
-                    <table className={s.table}>
-                      <thead>
-                        <tr>
-                          <th>Player</th>
-                          <th>Pos</th>
-                          <th className={s.num}>Min</th>
-                          <th className={s.num}>1+</th>
-                          <th className={s.num}>2+</th>
-                          <th className={s.num}>3+</th>
-                          <th className={s.num}>Take 1+ at</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {players.map((p) => (
-                          <tr key={p.player} className={p.thin ? s.thinRow : undefined}>
-                            <td>{p.player}</td>
-                            <td className="muted">{p.position ?? ""}</td>
-                            <td className={s.num}>{Math.round(p.expectedMinutes)}</td>
-                            <td className={s.num}>{Math.round(p.committed.p1plus * 100)}</td>
-                            <td className={s.num}>{Math.round(p.committed.p2plus * 100)}</td>
-                            <td className={s.num}>{Math.round(p.committed.p3plus * 100)}</td>
-                            <td className={s.num}>{odds(p.committed.floor1 ?? 0)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <FixtureBoard fixture={fx} />
           </details>
         ))}
       </section>
