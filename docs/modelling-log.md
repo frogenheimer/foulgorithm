@@ -18,6 +18,49 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-22 — Averaging minutes hid a bimodal truth
+
+**Question.** Expected minutes was a time-decayed average of a player's last ten
+matches. A rotation player alternating 90 minutes and 0 came out at 45. He has
+never once played 45 minutes. Does describing that honestly help?
+
+**Why it never showed up.** The mean is unaffected. E[fouls] = rate x E[minutes]
+either way, so every bias check we ran came back clean. Only the SHAPE is wrong,
+and the shape is what a bet settles on.
+
+**Method.** Split minutes into whether he plays and how long: P(start), P(bench),
+P(unused), with separate minutes for starting and substitute appearances. The
+prediction becomes a mixture over those branches, with the unused branch a point
+mass at zero rather than a small number.
+
+Testing it needed a new harness. The existing one scores with the minutes a
+player ACTUALLY played, deliberately, so it measures the foul model alone and is
+blind to this. The source data holds only appearances, so non-appearances were
+reconstructed: anyone who played for a team in the previous 30 days but not in
+this match counts as 0 minutes and 0 fouls. That over-counts, sweeping in the
+injured, suspended and sold, but it is the population we publish on.
+
+**Result**, 55,167 scored predictions from 2024:
+
+| variant | log loss | ECE | says P(0 fouls) |
+|---|---|---|---|
+| average minutes | 0.3868 | 0.0522 | 0.531 |
+| **two-stage mixture** | **0.3831** | **0.0491** | 0.560 |
+| *actually zero* | | | *0.646* |
+
+**Conclusion.** A 1.0% log loss improvement, twice what the cards model managed
+against its baseline, and calibration improves alongside it. Kept.
+
+The remaining gap on zeros is partly an artefact: the reconstruction counts an
+injured player as an available one who did not play, which inflates the observed
+0.646. How much is artefact and how much is real is not yet separated, and it
+needs actual squad lists rather than a 30-day proxy to settle.
+
+**The useful part is the interface, not the number.** `minutes_profile` takes a
+`confirmed` argument, so when an official lineup lands an hour before kickoff,
+P(start) collapses to 1 or 0 and the mixture rebuilds itself. Averaging had
+nowhere to put that information.
+
 ## 2026-08-22 — Cards are close to unpredictable, and fouls do not help
 
 **Question.** Cards are the only market where real bookmaker odds exist to check

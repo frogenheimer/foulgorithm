@@ -75,6 +75,10 @@ class CountDistribution(_BaseDistribution):
             raise ValueError("probabilities must sum to a positive finite value")
         self._p = p / total
 
+    def probabilities(self) -> np.ndarray:
+        """The pmf as an array. Lets distributions be mixed without re-deriving."""
+        return self._p.copy()
+
     def pmf(self, k: int) -> float:
         if k < 0 or k >= len(self._p):
             return 0.0

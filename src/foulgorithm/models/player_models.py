@@ -21,10 +21,45 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from dataclasses import dataclass
+
 from foulgorithm.models.base import CountDistribution, register
 from foulgorithm.models.match_models import negbin_pmf
 
 LEAGUE_PRIOR_MATCHES = 12.0
+
+# Below this, a player is treated as having come off the bench rather than
+# started. Substitute appearances cluster well under it and starts well over.
+STARTER_MINUTES = 60.0
+
+
+@dataclass(frozen=True)
+class MinutesProfile:
+    """How a player's minutes are actually distributed, not their average.
+
+    Averaging is the problem this exists to fix. A rotation player alternating
+    90 minutes and 0 averages 45, and he has never once played 45 minutes.
+    Pricing him as a steady half-match player understates both his quiet games
+    and his busy ones.
+    """
+
+    p_start: float
+    p_sub: float
+    p_unused: float
+    minutes_if_start: float
+    minutes_if_sub: float
+    appearances: float
+
+    def mean_minutes(self) -> float:
+        return self.p_start * self.minutes_if_start + self.p_sub * self.minutes_if_sub
+
+    def branches(self) -> list[tuple[float, float]]:
+        """(probability, minutes) per branch, unused first. Weights sum to one."""
+        return [
+            (self.p_unused, 0.0),
+            (self.p_start, self.minutes_if_start),
+            (self.p_sub, self.minutes_if_sub),
+        ]
 
 
 def _weights(known_at: pd.Series, as_of, half_life_days: float) -> np.ndarray:
@@ -40,11 +75,11 @@ class PlayerFoulModel:
 
     def __init__(
         self,
-        character_id: str,
-        half_life_days: float,
-        prior_matches: float,
-        opponent_weight: float,
-        dispersion: float,
+        character_id: str = "house",
+        half_life_days: float = 400.0,
+        prior_matches: float = 6.0,
+        opponent_weight: float = 1.0,
+        dispersion: float = 1.05,
         amplify: float = 1.0,
         label: str | None = None,
     ):
@@ -162,6 +197,61 @@ class PlayerFoulModel:
         w = _weights(rows["known_at"], as_of, self.half_life_days)
         return float(np.average(rows["minutes"].to_numpy(), weights=w))
 
+    def minutes_profile(self, player: str, as_of, confirmed: str | None = None) -> MinutesProfile:
+        """Split minutes into whether he plays and how long, rather than averaging.
+
+        `confirmed` collapses the first stage once an official lineup is known:
+        "start", "bench" or "out". Before that it is estimated from how often he
+        has recently started, benched and gone unused.
+        """
+        past = self._visible(as_of)
+        rows = past[past["player"] == player].tail(12)
+
+        if rows.empty:
+            # An unseen player who is expected to feature. Returning nothing for
+            # him is how a promoted club came to show a quarter of Manchester
+            # United's fouls, so the honest prior is a typical starter with the
+            # uncertainty carried as thin evidence rather than as a low number.
+            profile = MinutesProfile(0.70, 0.20, 0.10, self._default_minutes, 22.0, 0.0)
+        else:
+            w = _weights(rows["known_at"], as_of, self.half_life_days)
+            mins = rows["minutes"].to_numpy(dtype=float)
+            started = mins >= STARTER_MINUTES
+            benched = (mins > 0) & ~started
+            unused = mins <= 0
+
+            total = w.sum()
+            # A weak prior toward a squad player, so one appearance does not
+            # imply certainty in either direction.
+            k = 2.0
+            p_start = float((w[started].sum() + k * 0.55) / (total + k))
+            p_sub = float((w[benched].sum() + k * 0.20) / (total + k))
+            p_unused = max(0.0, 1.0 - p_start - p_sub)
+
+            def _avg(mask, fallback):
+                if not mask.any():
+                    return fallback
+                return float(np.average(mins[mask], weights=w[mask]))
+
+            profile = MinutesProfile(
+                p_start=p_start,
+                p_sub=p_sub,
+                p_unused=p_unused,
+                minutes_if_start=_avg(started, self._default_minutes),
+                minutes_if_sub=_avg(benched, 22.0),
+                appearances=float(total),
+            )
+
+        if confirmed == "start":
+            return MinutesProfile(1.0, 0.0, 0.0, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances)
+        if confirmed == "bench":
+            # Named on the bench is not the same as playing. Roughly half of
+            # named substitutes come on at all.
+            return MinutesProfile(0.0, 0.5, 0.5, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances)
+        if confirmed == "out":
+            return MinutesProfile(0.0, 0.0, 1.0, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances)
+        return profile
+
     def opponent_factor(self, opponent: str, as_of) -> float:
         """How many fouls this opponent draws out of teams, relative to league."""
         past = self._visible(as_of)
@@ -175,26 +265,63 @@ class PlayerFoulModel:
         # Pull toward 1 by the character's willingness to trust the matchup.
         return 1.0 + (raw - 1.0) * self.opponent_weight
 
-    def predict_one(
-        self, player: str, opponent: str, as_of, referee_factor: float = 1.0
-    ) -> tuple[CountDistribution, dict]:
-        rate, effective = self.player_rate(player, as_of)
-        minutes = self.expected_minutes(player, as_of)
-        opp = self.opponent_factor(opponent, as_of)
+    def _single_distribution(self, mean: float) -> CountDistribution:
+        """One negative binomial at the given mean. The old behaviour."""
+        mean = max(mean, 0.02)
+        return negbin_pmf(mean, mean * self.dispersion_at(mean))
 
+    def _mean_for(self, rate: float, minutes: float, opp: float, referee_factor: float, player: str) -> float:
         mean = rate * (minutes / 90.0) * opp * referee_factor
         if self.amplify != 1.0:
             base = self.prior_rate(player) * (minutes / 90.0)
             mean = base + (mean - base) * self.amplify
-        mean = max(mean, 0.02)
+        return max(mean, 0.0)
 
-        dist = negbin_pmf(mean, mean * self.dispersion_at(mean))
+    def predict_one(
+        self,
+        player: str,
+        opponent: str,
+        as_of,
+        referee_factor: float = 1.0,
+        confirmed: str | None = None,
+    ) -> tuple[CountDistribution, dict]:
+        rate, effective = self.player_rate(player, as_of)
+        profile = self.minutes_profile(player, as_of, confirmed=confirmed)
+        opp = self.opponent_factor(opponent, as_of)
+
+        # A mixture over whether he plays, not one distribution at his average
+        # minutes. The mean is identical either way, which is why averaging
+        # never showed up as a bias. The shape is not, and the shape is what a
+        # bet settles on: a rotation risk has a real spike at zero that a single
+        # distribution smooths away.
+        pmfs, weights = [], []
+        for weight, minutes in profile.branches():
+            if weight <= 1e-9:
+                continue
+            weights.append(weight)
+            if minutes <= 0.0:
+                # He did not play, so he committed nothing. Not a small number.
+                pmfs.append(np.array([1.0]))
+            else:
+                mean = self._mean_for(rate, minutes, opp, referee_factor, player)
+                pmfs.append(self._single_distribution(mean).probabilities())
+
+        width = max(len(x) for x in pmfs)
+        stacked = np.zeros(width)
+        for weight, pmf in zip(weights, pmfs):
+            stacked[: len(pmf)] += weight * pmf
+        dist = CountDistribution(stacked)
+
+        minutes = profile.mean_minutes()
         return dist, {
             "ratePer90": round(rate, 3),
             "expectedMinutes": round(minutes, 1),
+            "expected_fouls": round(dist.mean(), 3),
             "opponentFactor": round(opp, 3),
             "refereeFactor": round(referee_factor, 3),
             "effectiveMatches": round(effective, 1),
+            "startProbability": round(profile.p_start, 3),
+            "minutesIfStarting": round(profile.minutes_if_start, 1),
         }
 
 

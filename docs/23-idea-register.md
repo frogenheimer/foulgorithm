@@ -48,7 +48,7 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Referee factor | **Built** | Shrunk, still a confounded ratio |
 | Calibration correction | **Built** | Needs re-fitting on held-out seasons |
 | Count-specific dispersion | **Next** | Fixes the diagnosed cause rather than the symptom |
-| Two-stage minutes | **Next** | Biggest driver, still the crudest part |
+| Two-stage minutes | **Built** | 1.0% better log loss, and it takes confirmed lineups |
 | Hierarchical Bayesian | **Planned** | Replaces guessed shrinkage constants with derived ones |
 | Joint match model | **Planned** | Makes combination tickets honest |
 | Gradient boosting | **Planned** | Challenger, to test whether the hand-specified structure leaves anything |
