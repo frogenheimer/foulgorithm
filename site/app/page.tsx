@@ -60,7 +60,10 @@ export default function Today() {
         <h2 className={s.h2}>The five, and what each would back</h2>
         <p className={s.note}>
           Five algorithms built around five temperaments, all seeing the same players and the same
-          history. Average confidence and combined return show how differently they bet.
+          history. Each builds a five-pick slip constrained to a similar combined return, so nobody
+          wins simply by picking easier bets. <strong>vs pack</strong> is the gap between what this
+          character makes it and what the other four do, which is where it backs its temperament
+          against the room.
         </p>
         <div className={s.picksGrid}>
           {d.picks.map((c) => (
@@ -80,7 +83,14 @@ export default function Today() {
                   </div>
                   <div>
                     <dt>All five land</dt>
-                    <dd>{c.combinedFair ? `${c.combinedFair}/1` : "—"}</dd>
+                    <dd>
+                      {c.combinedFair ? `${c.combinedFair}/1` : "—"}
+                      {!c.inBand && <span className={s.outBand} title="Could not reach the target band">*</span>}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>vs pack</dt>
+                    <dd>{c.averageEdge >= 0 ? "+" : ""}{Math.round(c.averageEdge * 100)}</dd>
                   </div>
                 </dl>
               </header>
@@ -92,9 +102,12 @@ export default function Today() {
                       {p.thin && <span className={s.thin} title="Thin evidence">thin</span>}
                     </span>
                     <span className={s.pickMarket}>
-                      {p.line + 0.5} or more {p.market === "committed" ? "fouls" : "fouls drawn"}
+                      {p.line + 0.5}+ {p.market === "committed" ? "fouls" : "fouls drawn"}
                     </span>
-                    <span className={s.pickProb}>{p.outOf100}/100</span>
+                    <span className={s.pickProb}>
+                      {p.outOf100}
+                      <span className={s.pack}> vs {Math.round(p.packProb * 100)}</span>
+                    </span>
                     <span className={s.pickFloor}>{odds(p.floor)}+</span>
                   </li>
                 ))}
@@ -176,8 +189,14 @@ export default function Today() {
           </p>
           <p>
             Band words are pinned: &ldquo;likely&rdquo; always means 55 to 75%, and never anything
-            else. Players marked <em>thin</em> have too little recent history to be more than the
-            league average wearing a name.
+            else. Players marked <em>thin</em> have too little recent history to be more than a
+            positional average wearing a name. Rates are shrunk toward the player&apos;s position,
+            not the league, so a goalkeeper is never assumed to foul like a midfielder.
+          </p>
+          <p>
+            Each character&apos;s five picks are constrained to a similar combined return, so a
+            cautious character cannot win by picking near-certainties. A star next to the return
+            means that character could not reach the band with picks it actually believed in.
           </p>
           <p className={s.muted}>
             Generated {d.generatedAt.slice(0, 10)}. No prediction here has settled yet, so there is

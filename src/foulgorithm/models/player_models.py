@@ -57,6 +57,8 @@ class PlayerFoulModel:
         self.label = label or character_id
         self._history: pd.DataFrame | None = None
         self._league_rate = 1.0
+        self._position_rate: dict[str, float] = {}
+        self._player_position: dict[str, str] = {}
 
     def config(self) -> dict:
         return {
@@ -72,6 +74,35 @@ class PlayerFoulModel:
         minutes = history["minutes"].sum()
         self._league_rate = float(history[self.stat].sum() / (minutes / 90.0))
 
+        # Shrink toward the player's POSITION, not the league.
+        #
+        # Shrinking a goalkeeper toward the league average implies he fouls like
+        # a midfielder, and with a short memory and a weak prior one recent foul
+        # then explodes his rate. That is how Alan ended up backing four
+        # goalkeepers. Position priors make the same short memory behave.
+        pos = history["position"].fillna("").astype(str).str.split(",").str[0].str.strip()
+        grouped = history.assign(_pos=pos).groupby("_pos")
+        rates = grouped.apply(
+            lambda g: g[self.stat].sum() / max(g["minutes"].sum() / 90.0, 1e-6),
+            include_groups=False,
+        )
+        counts = grouped["minutes"].sum() / 90.0
+        self._position_rate = {
+            str(k): float(v) for k, v in rates.items() if counts.get(k, 0) >= 200
+        }
+        self._player_position = (
+            history.assign(_pos=pos).groupby("player")["_pos"].agg(
+                lambda x: x.value_counts().index[0]
+            ).to_dict()
+        )
+
+    def prior_rate(self, player: str) -> float:
+        """The rate we assume before seeing this player's own record."""
+        pos = self._player_position.get(player)
+        if pos and pos in self._position_rate:
+            return self._position_rate[pos]
+        return self._league_rate
+
     def _visible(self, as_of) -> pd.DataFrame:
         return self._history[self._history["known_at"] <= as_of]
 
@@ -79,14 +110,15 @@ class PlayerFoulModel:
         """Shrunk, time-decayed rate per 90. Returns (rate, effective matches)."""
         past = self._visible(as_of)
         rows = past[past["player"] == player]
+        prior = self.prior_rate(player)
         if rows.empty:
-            return self._league_rate, 0.0
+            return prior, 0.0
 
         w = _weights(rows["known_at"], as_of, self.half_life_days)
         nineties = (rows["minutes"].to_numpy() / 90.0) * w
         events = rows[self.stat].to_numpy() * w
         prior90 = self.prior_matches
-        rate = (events.sum() + prior90 * self._league_rate) / (nineties.sum() + prior90)
+        rate = (events.sum() + prior90 * prior) / (nineties.sum() + prior90)
         return float(rate), float(w.sum())
 
     def expected_minutes(self, player: str, as_of) -> float:
@@ -125,9 +157,8 @@ class PlayerFoulModel:
 
         mean = rate * (minutes / 90.0) * opp * referee_factor
         if self.amplify != 1.0:
-            mean = self._league_rate * (minutes / 90.0) + (
-                mean - self._league_rate * (minutes / 90.0)
-            ) * self.amplify
+            base = self.prior_rate(player) * (minutes / 90.0)
+            mean = base + (mean - base) * self.amplify
         mean = max(mean, 0.02)
 
         dist = negbin_pmf(mean, mean * max(self.dispersion, 1.02))

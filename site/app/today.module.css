@@ -437,3 +437,14 @@ details[open] > summary .chev {
 .machineryBody p + p {
   margin-top: var(--space-3);
 }
+
+.pack {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 400;
+}
+
+.outBand {
+  color: var(--text-muted);
+  margin-left: 2px;
+}

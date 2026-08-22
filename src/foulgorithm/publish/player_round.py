@@ -111,10 +111,8 @@ def publish(output: Path = OUTPUT) -> dict:
             )
         board.append(fixture_block)
 
-    picks = [
-        _character_picks(cid, history, fixtures, committed[cid], drawn[cid], as_of)
-        for cid in pm.CHARACTER_SETTINGS
-    ]
+    candidates = _candidate_table(history, fixtures, committed, drawn, as_of)
+    picks = [_character_picks(cid, candidates) for cid in pm.CHARACTER_SETTINGS]
 
     top = sorted(all_rows, key=lambda r: -r["committed"]["p1plus"])[:12]
 
@@ -148,25 +146,29 @@ def _market_block(dist, why: dict) -> dict:
     return out
 
 
-def _character_picks(cid, history, fixtures, model_c, model_d, as_of) -> dict:
-    """Five picks, chosen the way this character would choose them."""
-    c = characters.get(cid)
-    settings = pm.CHARACTER_SETTINGS[cid]
-    candidates = []
+def _candidate_table(history, fixtures, committed, drawn, as_of) -> list[dict]:
+    """Every candidate bet, with EVERY character's probability attached.
 
+    Computed once. Selection then reads from it, which is what makes
+    "how far is this character from the pack" cheap to ask.
+    """
+    rows = []
     for fx in fixtures.itertuples():
         for team, opponent in (
             (fx.home_team_raw, fx.away_team_raw),
             (fx.away_team_raw, fx.home_team_raw),
         ):
             for player in squad(history, team, as_of, limit=14):
-                for market, model in (("committed", model_c), ("drawn", model_d)):
-                    dist, why = model.predict_one(player, opponent, as_of)
-                    for line in (0.5, 1.5):
-                        p = dist.prob_over(line)
-                        if p < 0.15 or p > 0.95:
+                for market, models in (("committed", committed), ("drawn", drawn)):
+                    dists = {}
+                    whys = {}
+                    for cid, model in models.items():
+                        dists[cid], whys[cid] = model.predict_one(player, opponent, as_of)
+                    for line in (0.5, 1.5, 2.5):
+                        probs = {cid: d.prob_over(line) for cid, d in dists.items()}
+                        if max(probs.values()) < 0.12 or min(probs.values()) > 0.97:
                             continue
-                        candidates.append(
+                        rows.append(
                             {
                                 "player": player,
                                 "team": team,
@@ -174,53 +176,162 @@ def _character_picks(cid, history, fixtures, model_c, model_d, as_of) -> dict:
                                 "kickoff": fx.kickoff_utc.isoformat(),
                                 "market": market,
                                 "line": line,
-                                "prob": round(p, 4),
-                                "band": band(p),
-                                "outOf100": round(p * 100),
-                                "fair": round(1 / p, 2),
-                                "floor": round((1 / p) * (1 + EDGE_MARGIN), 2),
-                                "why": why,
-                                "thin": why["effectiveMatches"] < THIN_EVIDENCE,
+                                "probs": probs,
+                                "whys": whys,
                             }
                         )
+    return rows
 
-    # Temperament decides the shortlist. Terror wants the safest available;
-    # anger wants the boldest it still believes in; the rest sit between.
+
+def _preference(cid: str, row: dict) -> float:
+    """How much this character wants this bet. Higher is keener.
+
+    Boldness is deviation from the pack, NOT low probability. A character
+    backing a 70% shot the others price at 55% is being bold; one backing a
+    45% shot everybody agrees on is just accepting a longer price.
+    """
+    own = row["probs"][cid]
+    others = [p for c, p in row["probs"].items() if c != cid]
+    pack = sum(others) / len(others)
+    edge = own - pack
+    why = row["whys"][cid]
+
     if cid == "tayler":
-        candidates = [x for x in candidates if not x["thin"]]
-        chosen = sorted(candidates, key=lambda x: -x["prob"])
-    elif cid == "alan":
-        chosen = sorted(candidates, key=lambda x: (abs(x["prob"] - 0.45), -x["prob"]))
-    elif cid == "bdog":
-        chosen = sorted(candidates, key=lambda x: (-x["thin"], abs(x["prob"] - 0.5)))
-    elif cid == "valentina":
-        chosen = sorted(candidates, key=lambda x: -x["why"]["opponentFactor"] * x["prob"])
-    else:  # lily, drawn to the biggest names and the biggest numbers
-        chosen = sorted(candidates, key=lambda x: -x["why"]["ratePer90"] * x["prob"])
+        # Terror wants agreement and evidence, and dislikes standing out.
+        return own - abs(edge) * 2.0 + min(why["effectiveMatches"], 40) / 200
+    if cid == "alan":
+        # Anger backs whatever it has most recently seen, hardest.
+        return edge * 3.0 + why["ratePer90"] * 0.2
+    if cid == "bdog":
+        # Bravery goes where the pack is not, and tolerates thin evidence.
+        return edge * 4.0 - min(why["effectiveMatches"], 40) / 400
+    if cid == "valentina":
+        # Violence reads the matchup above all else.
+        return (why["opponentFactor"] - 1.0) * 4.0 + edge * 1.5
+    # Lust chases the biggest raw numbers and the biggest names.
+    return why["ratePer90"] * 1.5 + edge
 
-    picks, seen = [], set()
-    for cand in chosen:
-        if cand["player"] in seen:
-            continue
-        seen.add(cand["player"])
-        picks.append(cand)
-        if len(picks) == PICKS_PER_CHARACTER:
-            break
 
+def _equal_risk_slip(cid: str, candidates: list[dict], target=(0.10, 0.20)) -> list[dict]:
+    """Five picks whose combined probability lands in a fixed band.
+
+    Every character therefore risks the same and stands to win the same, so
+    comparing them is finally apples to apples. Temperament shows in WHICH five
+    get there, not in picking easier bets. See docs/15-next-phase.md.
+    """
+    ranked = sorted(candidates, key=lambda r: -_preference(cid, r))
+
+    chosen: list[dict] = []
+    seen: set[str] = set()
     combined = 1.0
-    for p in picks:
-        combined *= p["prob"]
 
+    for row in ranked:
+        if len(chosen) == PICKS_PER_CHARACTER:
+            break
+        if row["player"] in seen:
+            continue
+        p = row["probs"][cid]
+        remaining = PICKS_PER_CHARACTER - len(chosen) - 1
+        after = combined * p
+        # Keep the slip reachable: with `remaining` legs still to add, the best
+        # and worst it could still end up must straddle the target band.
+        if after * (0.97**remaining) > target[1]:
+            continue
+        if after * (0.30**remaining) < target[0] and remaining > 0:
+            continue
+        chosen.append(row)
+        seen.add(row["player"])
+        combined = after
+
+    if len(chosen) < PICKS_PER_CHARACTER:
+        for row in ranked:
+            if len(chosen) == PICKS_PER_CHARACTER:
+                break
+            if row["player"] in seen:
+                continue
+            chosen.append(row)
+            seen.add(row["player"])
+        combined = 1.0
+        for row in chosen:
+            combined *= row["probs"][cid]
+
+    # Repair pass: swap the least-wanted leg for one that moves the slip toward
+    # the band, keeping the character's preference order otherwise intact.
+    for _ in range(60):
+        if target[0] <= combined <= target[1]:
+            break
+        need_higher = combined < target[0]
+        worst = min(range(len(chosen)), key=lambda i: _preference(cid, chosen[i]))
+        current = chosen[worst]
+        best_swap = None
+        for row in ranked:
+            if row["player"] in seen and row["player"] != current["player"]:
+                continue
+            candidate = combined / current["probs"][cid] * row["probs"][cid]
+            if need_higher and candidate <= combined:
+                continue
+            if not need_higher and candidate >= combined:
+                continue
+            distance = min(abs(candidate - target[0]), abs(candidate - target[1]))
+            if target[0] <= candidate <= target[1]:
+                distance = -1.0
+            if best_swap is None or distance < best_swap[0]:
+                best_swap = (distance, row, candidate)
+        if best_swap is None:
+            break
+        _, row, combined = best_swap
+        seen.discard(current["player"])
+        seen.add(row["player"])
+        chosen[worst] = row
+
+    return chosen
+
+
+def _character_picks(cid, candidates) -> dict:
+    c = characters.get(cid)
+    chosen = _equal_risk_slip(cid, candidates)
+
+    picks = []
+    combined = 1.0
+    for row in chosen:
+        p = row["probs"][cid]
+        why = row["whys"][cid]
+        others = [q for k, q in row["probs"].items() if k != cid]
+        pack = sum(others) / len(others)
+        combined *= p
+        picks.append(
+            {
+                "player": row["player"],
+                "team": row["team"],
+                "fixture": row["fixture"],
+                "kickoff": row["kickoff"],
+                "market": row["market"],
+                "line": row["line"],
+                "prob": round(p, 4),
+                "packProb": round(pack, 4),
+                "edge": round(p - pack, 4),
+                "band": band(p),
+                "outOf100": round(p * 100),
+                "fair": round(1 / p, 2),
+                "floor": round((1 / p) * (1 + EDGE_MARGIN), 2),
+                "why": why,
+                "thin": why["effectiveMatches"] < THIN_EVIDENCE,
+            }
+        )
+
+    in_band = 0.10 <= combined <= 0.20
     return {
         "id": c.id,
         "name": c.name,
         "emotion": c.emotion,
         "tagline": c.tagline,
-        "settings": settings,
+        "settings": pm.CHARACTER_SETTINGS[cid],
         "picks": picks,
         "combinedProb": round(combined, 4),
         "combinedFair": round(1 / combined, 1) if combined > 0 else None,
         "averageProb": round(sum(p["prob"] for p in picks) / len(picks), 3) if picks else 0,
+        "averageEdge": round(sum(p["edge"] for p in picks) / len(picks), 4) if picks else 0,
+        "inBand": in_band,
     }
 
 
@@ -237,9 +348,10 @@ if __name__ == "__main__":
               f"{c['p1plus']:>7.0%}{c['p2plus']:>7.0%}  {c['band1']}")
     print("\nCHARACTER PICKS")
     for block in result["picks"]:
-        print(f"\n  {block['name']} ({block['emotion']}) — "
-              f"avg {block['averageProb']:.0%}, combined {block['combinedFair']}/1")
+        flag = "" if block["inBand"] else "  [OUT OF BAND]"
+        print(f"\n  {block['name']} ({block['emotion']}) — avg {block['averageProb']:.0%}, "
+              f"combined {block['combinedFair']}/1, edge {block['averageEdge']:+.1%}{flag}")
         for p in block["picks"]:
             verb = "commits" if p["market"] == "committed" else "draws"
-            print(f"    {p['player']:<22} {verb} {p['line']:+.1f}".replace("+", "")
-                  + f" {int(p['line']+0.5)}+  {p['prob']:>5.0%}  floor {p['floor']}")
+            print(f"    {p['player']:<22} {int(p['line']+0.5)}+ {verb:<7} "
+                  f"{p['prob']:>5.0%} (pack {p['packProb']:>4.0%}) floor {p['floor']}")

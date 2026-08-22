@@ -174,6 +174,7 @@ export type Pick = {
   player: string; team: string; fixture: string; kickoff: string;
   market: "committed" | "drawn"; line: number; prob: number; band: string;
   outOf100: number; fair: number; floor: number; thin: boolean;
+  packProb: number; edge: number;
   why: MarketBlock["why"];
 };
 
@@ -182,6 +183,7 @@ export type CharacterPicks = {
   settings: Record<string, number>;
   picks: Pick[];
   combinedProb: number; combinedFair: number | null; averageProb: number;
+  averageEdge: number; inBand: boolean;
 };
 
 export type FixtureBoard = {
