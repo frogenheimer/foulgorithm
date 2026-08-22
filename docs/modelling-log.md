@@ -18,6 +18,64 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-22 — We were overconfident exactly where it costs money
+
+**Question.** Our published price floors sat above what bookmakers actually
+offer, so the site said no bet on everything. Is the market right, or are we
+overconfident?
+
+**Method.** Calibration by line, from the walk-forward backtest, 13,993
+predictions per market.
+
+**Result.** Both, and the split matters.
+
+| line | we say | happens | bias |
+|---|---|---|---|
+| 1+ fouls | 0.454 | 0.465 | +0.010 |
+| 2+ fouls | 0.192 | 0.184 | -0.008 |
+| 3+ fouls | 0.074 | 0.059 | **-0.015** |
+
+The aggregate hides the problem. Broken out at the 3+ line, in the buckets that
+would actually be bet:
+
+| we say | happens | gap | n |
+|---|---|---|---|
+| 0.140 | 0.116 | -0.024 | 2,794 |
+| 0.240 | 0.184 | **-0.056** | 837 |
+| 0.340 | 0.298 | -0.042 | 255 |
+| 0.444 | 0.312 | **-0.132** | 64 |
+
+**Conclusion.** We are honest at the 1+ line and overconfident at 3+, which is
+precisely where any value would live. This is the worst possible place to be
+wrong, and the error runs in the direction that loses money: an overstated
+probability produces fair odds that are too short, so a bet that looks like
+value is not.
+
+The likely mechanism is the negative binomial's tail. Dispersion is fitted
+globally, so the same relative spread is applied to a player expected to commit
+0.3 fouls and one expected to commit 2.5, and the tail is too fat for the
+former.
+
+Fitted a shrink-toward-base-rate correction per market and line by least
+squares, and applied it before anything is published:
+
+| market | 1+ | 2+ | 3+ |
+|---|---|---|---|
+| fouls committed | 0.904 | 0.905 | **0.776** |
+| fouls drawn | 0.960 | 0.991 | 0.883 |
+
+A factor of 1.0 would mean the raw number was already honest. Fouls drawn is
+close to that. Fouls committed at 3+ sits at 0.776, so roughly a quarter of its
+distance from the base rate was noise.
+
+**Caveats.** This corrects the symptom, not the cause. The real fix is a
+dispersion that varies with the expected count, which is a modelling change
+rather than a post-hoc adjustment. The top bucket has only 64 observations, so
+the correction there is fitted on very little and a richer per-bucket method
+would be fitting noise with more noise. And the correction is fitted on the
+same data it is evaluated on, which flatters it: it needs re-fitting on held-out
+seasons before anyone trusts the number.
+
 ## 2026-08-22 — The five, finally compared on player markets
 
 **Question.** The characters had never been backtested on player predictions.

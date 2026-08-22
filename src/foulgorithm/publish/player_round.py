@@ -18,7 +18,7 @@ from foulgorithm.characters import base as characters
 from foulgorithm.publish import combinations as combos
 from foulgorithm.identity import players as identity
 from foulgorithm.identity.teams import to_fpl
-from foulgorithm.models import player_models as pm
+from foulgorithm.models import calibration, player_models as pm
 from foulgorithm.sources import football_data, fpl
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
 from foulgorithm.store.players import load_player_matches
@@ -178,8 +178,8 @@ def publish(output: Path = OUTPUT) -> dict:
                     "expectedMinutes": why_c["expectedMinutes"],
                     "effectiveMatches": why_c["effectiveMatches"],
                     "thin": why_c["effectiveMatches"] < THIN_EVIDENCE or sel.history is None,
-                    "committed": _market_block(dist_c, why_c),
-                    "drawn": _market_block(dist_d, why_d),
+                    "committed": _market_block(dist_c, why_c, "player_fouls_committed"),
+                    "drawn": _market_block(dist_d, why_d, "player_fouls_drawn"),
                 }
                 players.append(row)
                 all_rows.append(row)
@@ -206,6 +206,13 @@ def publish(output: Path = OUTPUT) -> dict:
             "to": history["kickoff_utc"].max().strftime("%b %Y"),
         },
         "edgeMargin": EDGE_MARGIN,
+        "calibration": {
+            "committed3plus": calibration.factor("player_fouls_committed", 2.5),
+            "drawn3plus": calibration.factor("player_fouls_drawn", 2.5),
+            "note": "Probabilities are corrected for measured overconfidence "
+                    "before publication. A factor of 1.0 would mean no correction "
+                    "was needed.",
+        },
         "squads": {
             "source": "Fantasy Premier League API",
             "players": len(everyone),
@@ -227,15 +234,18 @@ def publish(output: Path = OUTPUT) -> dict:
     return payload
 
 
-def _market_block(dist, why: dict) -> dict:
+def _market_block(dist, why: dict, market: str = "player_fouls_committed") -> dict:
     out = {"why": why, "exact0": round(dist.pmf(0), 4)}
     for n in (1, 2, 3):
-        p = dist.prob_over(n - 0.5)
+        # Correct known overconfidence before anything is published. The raw
+        # number overstates the high lines, and it does so in the direction
+        # that makes a bad bet look good.
+        p = calibration.correct(dist.prob_over(n - 0.5), market, n - 0.5)
         out[f"p{n}plus"] = round(p, 4)
         out[f"fair{n}"] = round(1 / p, 2) if p > 0.001 else None
         out[f"floor{n}"] = round((1 / p) * (1 + EDGE_MARGIN), 2) if p > 0.001 else None
         out[f"band{n}"] = band(p)
-    out["outOf100"] = round(dist.prob_over(0.5) * 100)
+    out["outOf100"] = round(out["p1plus"] * 100)
     return out
 
 
@@ -258,8 +268,14 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                     whys = {}
                     for cid, model in models.items():
                         dists[cid], whys[cid] = model.predict_one(sel.lookup, opponent, as_of)
+                    market_key = (
+                        "player_fouls_committed" if market == "committed" else "player_fouls_drawn"
+                    )
                     for line in (0.5, 1.5, 2.5):
-                        probs = {cid: d.prob_over(line) for cid, d in dists.items()}
+                        probs = {
+                            cid: calibration.correct(d.prob_over(line), market_key, line)
+                            for cid, d in dists.items()
+                        }
                         if max(probs.values()) < 0.12 or min(probs.values()) > 0.97:
                             continue
                         rows.append(
