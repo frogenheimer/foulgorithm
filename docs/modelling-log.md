@@ -18,6 +18,74 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-22 — Half the league had no opponent adjustment at all
+
+**Found while doing something else**, which is the usual way. Building priors
+for promoted clubs meant reading `opponent_factor`, and it returns 1.0 whenever
+it finds fewer than 200 rows for an opponent.
+
+Fixtures spell a club "Man United". The player history spells it "Manchester
+United". The lookup found nothing, fell through the thin-evidence branch and
+returned 1.0, which reads as "this opponent is perfectly average" rather than
+"I could not find this opponent".
+
+**It was not a small effect.** Roughly half the clubs were affected, and the
+discarded adjustments were large:
+
+| club | factor being used | factor available |
+|---|---|---|
+| Manchester United | 1.000 | 0.844 |
+| Tottenham | 1.000 | 1.247 |
+| Newcastle | 1.000 | 1.261 |
+| Brighton | 1.000 | 1.119 |
+
+This is exactly the failure the no-name-keyed-joins rule exists to prevent, and
+it reached published output anyway. The name is now resolved through the
+crosswalk before the lookup, and both spellings are asserted equal in a test.
+
+**The deeper fault is the silent default.** Returning 1.0 for "not found" and
+for "genuinely average" makes the two indistinguishable, so nothing could ever
+have alerted us. Thin evidence now routes somewhere that can say it has nothing.
+
+---
+
+## 2026-08-22 — Promoted clubs, and the version of the fix that loses
+
+**Question.** Coventry, Hull and Ipswich came up for 2026/27 with no Premier
+League history, so they took the league average. Can second-tier data do better?
+
+**What is not available.** Championship PLAYER data does not exist at any price.
+FBref's advanced stats cover the top five European leagues only, so there is no
+second-tier fouls-per-player table to download. Individual rates for a promoted
+club's squad stay unknown, and this fixes the TEAM prior only.
+
+**The obvious version makes it worse.** Every promotion since 2001 gives a final
+Championship season and a first Premier League season, 66 pairs. The mean ratio
+between them is **0.990**, which says fouls transfer untouched and invites using
+the Championship rate directly. Doing that scores **16% worse** than the plain
+league average.
+
+The ratio is a trap. Championship foul rates are spread far wider than Premier
+League ones, so a club 3 fouls above its division average does not arrive 3
+fouls above the Premier League average. Regressing deviation on deviation gives
+a slope of **0.373**: only about 37% of a club's distinctiveness survives
+promotion, despite the two correlating at +0.63.
+
+**Result**, leave-one-out so the slope never sees the club it predicts:
+
+| predictor | fouls committed | fouls drawn |
+|---|---|---|
+| league mean, what we did | 0.907 | 1.173 |
+| Championship rate, raw | 1.051 (**-15.8%**) | 1.164 (+0.7%) |
+| **Championship deviation, shrunk** | **0.838 (+7.7%)** | **1.081 (+7.8%)** |
+
+Both directions improve by about 8%. Both raw versions do not.
+
+**Worth keeping in view.** A correlation of +0.63 looked like permission to use
+the number. It was permission to use 37% of it. The same trap is waiting in any
+feature imported from a different population, and the check is cheap: score it
+against the baseline it claims to beat.
+
 ## 2026-08-22 — Averaging minutes hid a bimodal truth
 
 **Question.** Expected minutes was a time-decayed average of a player's last ten

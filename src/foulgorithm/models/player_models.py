@@ -252,18 +252,54 @@ class PlayerFoulModel:
             return MinutesProfile(0.0, 0.0, 1.0, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances)
         return profile
 
+    MIN_OPPONENT_ROWS = 200
+
     def opponent_factor(self, opponent: str, as_of) -> float:
-        """How many fouls this opponent draws out of teams, relative to league."""
+        """How many fouls this opponent draws out of teams, relative to league.
+
+        The name is resolved before the lookup, because it was not. Fixtures say
+        "Man United" and the history says "Manchester United", so the lookup
+        found nothing and returned 1.0, which reads as "this opponent is
+        perfectly average" rather than "I could not find this opponent". Around
+        half the league was affected in published output, and the discarded
+        adjustments were not small: United 0.84, Tottenham 1.25.
+        """
+        from foulgorithm.identity.teams import history_name
+
         past = self._visible(as_of)
-        rows = past[past["opponent"] == opponent]
-        if len(rows) < 200:
-            return 1.0
+        resolved = history_name(opponent)
+        rows = past[past["opponent"] == resolved]
+
+        if len(rows) < self.MIN_OPPONENT_ROWS:
+            # A promoted club has no top-flight history at all, and shrugging at
+            # 1.0 is the failure this project is meant not to make. Its second
+            # tier record is thin evidence but it is evidence.
+            return self._promoted_opponent_factor(opponent)
+
         w = _weights(rows["known_at"], as_of, self.half_life_days)
         nineties = (rows["minutes"].to_numpy() / 90.0) * w
         rate = float((rows[self.stat].to_numpy() * w).sum() / max(nineties.sum(), 1e-6))
         raw = rate / max(self._league_rate, 1e-6)
         # Pull toward 1 by the character's willingness to trust the matchup.
         return 1.0 + (raw - 1.0) * self.opponent_weight
+
+    def _promoted_opponent_factor(self, opponent: str) -> float:
+        """Second-tier evidence for a club with no first-tier record, or 1.0.
+
+        Only the fouls-committed market uses it. The drawn market asks the
+        mirrored question and the same number would point the wrong way.
+        """
+        if self.stat != "fouls_committed":
+            return 1.0
+        try:
+            from foulgorithm.features import promotion
+
+            factor = promotion.opponent_factor(opponent, promotion.current_season())
+        except Exception:
+            return 1.0
+        if factor is None:
+            return 1.0
+        return 1.0 + (factor - 1.0) * self.opponent_weight
 
     def _single_distribution(self, mean: float) -> CountDistribution:
         """One negative binomial at the given mean. The old behaviour."""

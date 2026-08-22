@@ -20,7 +20,7 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Results ingestion | **Built** | Same source, minutes after full time |
 | Current-season league leaders | **Built** | The context rail |
 | Referee appointments | **Built** | Carried on the fixture list |
-| Championship data for promoted clubs | **Next** | No longer theoretical: Coventry and Hull are up for 2026/27, and 9 of 11 of their players are flagged thin |
+| Championship data for promoted clubs | **Built** | Team priors only, shrunk at beta 0.373. Player-level data does not exist for the second tier at any price |
 | Possession, take-ons, progressive carries | **Dropped** | Lived on FBref, deleted in the January 2026 Opta termination |
 | Pitch location of fouls | **Dropped** | Needs event data, free only for 2015/16 |
 | Bookmaker odds | **Deferred** | No archive exists for fouls or tackles at any price |
@@ -46,6 +46,7 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Position-aware priors | **Built** | Fixed Alan backing four goalkeepers |
 | Time decay | **Built** | 400-day half-life, tuned |
 | Referee factor | **Built** | Shrunk, still a confounded ratio |
+| Opponent factor | **Fixed** | Was silently 1.0 for half the league on a name mismatch |
 | Calibration correction | **Built** | Refitted on held-out seasons, 2022-2024 fit, 2024+ test |
 | Count-specific dispersion | **Dropped** | Fitted, measured, moved the bias by 0.0004. The code was deleted rather than left looking useful |
 | Two-stage minutes | **Built** | 1.0% better log loss, and it takes confirmed lineups |
