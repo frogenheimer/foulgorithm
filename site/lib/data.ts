@@ -180,12 +180,24 @@ export type Pick = {
   why: MarketBlock["why"];
 };
 
+export type TierLeg = {
+  player: string; team: string; fixture: string; market: string;
+  line: number; fouls: number; prob: number; outOf100: number;
+  packProb: number; edge: number; band: string; thin: boolean;
+};
+
+export type OddsTier = {
+  target: number; actualOdds: number; probability: number; outOf100: number;
+  legs: TierLeg[];
+};
+
 export type CharacterPicks = {
   id: string; name: string; emotion: string; tagline: string;
   settings: Record<string, number>;
   picks: Pick[];
   combinedProb: number; combinedFair: number | null; averageProb: number;
   averageEdge: number; inBand: boolean;
+  tiers: OddsTier[];
 };
 
 export type TicketLeg = {
@@ -211,6 +223,7 @@ export type PlayersData = {
   edgeMargin: number;
   squads: { source: string; players: number; resolved: number; unresolved: number };
   lineups: { source: string; confirmed: number; note: string };
+  oddsTiers: number[];
   topFoulers: PlayerRow[];
   board: FixtureBoard[];
   picks: CharacterPicks[];

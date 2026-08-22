@@ -64,9 +64,16 @@ export default function Today() {
         <h2 className={s.h2}>Five readings of the same evidence</h2>
         <p className={s.note}>
           Five algorithms with five temperaments, seeing the same players and the same history.
-          Each builds a five-pick slip constrained to a similar combined return, so nobody wins by
-          picking easier bets. <strong>vs pack</strong> is the gap between this one and the other
-          four.
+          Each builds a slip at <strong>2/1, 3/1, 5/1 and 10/1</strong>, so they are compared at
+          matched risk rather than at whatever risk their temperament happened to produce. A
+          cautious one cannot look better by picking near-certainties, and a bold one cannot look
+          better by reaching. <strong>vs pack</strong> is the gap between this character and the
+          other four.
+          <br />
+          <br />
+          Those prices are <strong>our own</strong>, not a bookmaker&apos;s. No archive of real odds
+          for these markets exists to buy, so we cannot compare against the market and do not
+          pretend to.
           <br />
           <br />
           Worth being straight about the size of that gap. Backtested over 13,993 predictions, the
@@ -104,24 +111,35 @@ export default function Today() {
                   </div>
                 </dl>
               </header>
-              <ul className={s.pickList}>
-                {c.picks.map((p) => (
-                  <li key={p.player} className={s.pick}>
-                    <span className={s.pickPlayer}>
-                      {p.player}
-                      {p.thin && <span className={s.thin} title="Thin evidence">thin</span>}
-                    </span>
-                    <span className={s.pickMarket}>
-                      {p.line + 0.5}+ {p.market === "committed" ? "fouls" : "fouls drawn"}
-                    </span>
-                    <span className={s.pickProb}>
-                      {p.outOf100}
-                      <span className={s.pack}> vs {Math.round(p.packProb * 100)}</span>
-                    </span>
-                    <span className={s.pickFloor}>{odds(p.floor)}+</span>
-                  </li>
+              <div className={s.tierList}>
+                {c.tiers.map((t) => (
+                  <details key={t.target} className={s.tier}>
+                    <summary className={s.tierSummary}>
+                      <span className={s.chev} aria-hidden="true">›</span>
+                      <span className={s.tierTarget}>{t.target.toFixed(0)}/1</span>
+                      <span className={s.tierLegs}>{t.legs.length} legs</span>
+                      <span className={s.tierProb}>{t.outOf100}/100</span>
+                    </summary>
+                    <ul className={s.tierBody}>
+                      {t.legs.map((l) => (
+                        <li key={l.player}>
+                          <span className={s.legName}>
+                            {l.player}
+                            {l.thin && <span className={s.thin}>thin</span>}
+                          </span>
+                          <span className={s.legMarket}>
+                            {l.fouls}+ {l.market === "committed" ? "fouls" : "won"}
+                          </span>
+                          <span className={s.legProb}>
+                            {l.outOf100}
+                            <span className={s.pack}> vs {Math.round(l.packProb * 100)}</span>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
                 ))}
-              </ul>
+              </div>
             </article>
           ))}
         </div>

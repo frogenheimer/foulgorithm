@@ -33,6 +33,16 @@ EDGE_MARGIN = 0.10
 # Each character publishes this many picks per matchday.
 PICKS_PER_CHARACTER = 5
 
+# Odds tiers. Every character builds a slip at EACH target, so the five are
+# compared at matched risk rather than at whatever risk their temperament
+# happened to produce. A cautious character can no longer look better simply
+# by picking near-certainties, and a bold one cannot look better by reaching.
+#
+# The targets are OUR fair odds, not anyone's price. We hold no bookmaker odds
+# for these markets and, per the research, no archive of them exists to buy.
+ODDS_TIERS = (2.0, 3.0, 5.0, 10.0)
+MAX_LEGS_PER_TIER = 6
+
 # Pinned bands, UK PHIA yardstick. If we write a word it always means this range.
 BANDS = [
     (0.90, "Almost certain"),
@@ -218,6 +228,7 @@ def publish(output: Path = OUTPUT) -> dict:
             "to": history["kickoff_utc"].max().strftime("%b %Y"),
         },
         "edgeMargin": EDGE_MARGIN,
+        "oddsTiers": list(ODDS_TIERS),
         "calibration": {
             "committed3plus": calibration.factor("player_fouls_committed", 2.5),
             "drawn3plus": calibration.factor("player_fouls_drawn", 2.5),
@@ -411,6 +422,71 @@ def _equal_risk_slip(cid: str, candidates: list[dict], target=(0.10, 0.20)) -> l
     return chosen
 
 
+def _slip_at_odds(cid: str, candidates: list[dict], target: float) -> dict | None:
+    """Build this character's best slip landing near a target price.
+
+    Legs are added in the character's own preference order until the combined
+    probability reaches 1/target. The NUMBER of legs is free, which is what
+    makes the tiers comparable: reaching 10.0 takes more legs or bolder ones,
+    and each character gets there its own way.
+    """
+    wanted = 1.0 / target
+    ranked = sorted(candidates, key=lambda r: -_preference(cid, r))
+
+    chosen: list[dict] = []
+    seen: set[str] = set()
+    combined = 1.0
+
+    for row in ranked:
+        if len(chosen) >= MAX_LEGS_PER_TIER:
+            break
+        if row["player"] in seen:
+            continue
+        p = row["probs"][cid]
+        after = combined * p
+        # Stop before overshooting: a slip priced longer than asked for is not
+        # the tier it claims to be.
+        if after < wanted * 0.75 and chosen:
+            continue
+        chosen.append(row)
+        seen.add(row["player"])
+        combined = after
+        if combined <= wanted:
+            break
+
+    if not chosen or combined > wanted * 1.6:
+        return None
+
+    return {
+        "target": target,
+        "actualOdds": round(1 / combined, 2),
+        "probability": round(combined, 4),
+        "outOf100": round(combined * 100),
+        "legs": [_leg(row, cid) for row in chosen],
+    }
+
+
+def _leg(row: dict, cid: str) -> dict:
+    p = row["probs"][cid]
+    others = [q for k, q in row["probs"].items() if k != cid]
+    pack = sum(others) / len(others)
+    why = row["whys"][cid]
+    return {
+        "player": row["player"],
+        "team": row["team"],
+        "fixture": row["fixture"],
+        "market": row["market"],
+        "line": row["line"],
+        "fouls": int(row["line"] + 0.5),
+        "prob": round(p, 4),
+        "outOf100": round(p * 100),
+        "packProb": round(pack, 4),
+        "edge": round(p - pack, 4),
+        "band": band(p),
+        "thin": why["effectiveMatches"] < THIN_EVIDENCE,
+    }
+
+
 def _character_picks(cid, candidates) -> dict:
     c = characters.get(cid)
     chosen = _equal_risk_slip(cid, candidates)
@@ -457,6 +533,10 @@ def _character_picks(cid, candidates) -> dict:
         "averageProb": round(sum(p["prob"] for p in picks) / len(picks), 3) if picks else 0,
         "averageEdge": round(sum(p["edge"] for p in picks) / len(picks), 4) if picks else 0,
         "inBand": in_band,
+        "tiers": [
+            t for t in (_slip_at_odds(cid, candidates, target) for target in ODDS_TIERS)
+            if t
+        ],
     }
 
 
@@ -476,6 +556,10 @@ if __name__ == "__main__":
         flag = "" if block["inBand"] else "  [OUT OF BAND]"
         print(f"\n  {block['name']} ({block['emotion']}) — avg {block['averageProb']:.0%}, "
               f"combined {block['combinedFair']}/1, edge {block['averageEdge']:+.1%}{flag}")
+        for t in block["tiers"]:
+            legs = " + ".join(f"{l['player']} {l['fouls']}+" for l in t["legs"])
+            print(f"    @{t['target']:>5.1f}  actual {t['actualOdds']:>6.2f}  "
+                  f"{t['outOf100']:>3}/100  {legs[:74]}")
         for p in block["picks"]:
             verb = "commits" if p["market"] == "committed" else "draws"
             print(f"    {p['player']:<22} {int(p['line']+0.5)}+ {verb:<7} "

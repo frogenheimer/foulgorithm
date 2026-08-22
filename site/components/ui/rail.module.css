@@ -12,8 +12,10 @@
 .mark {
   display: grid; place-items: center;
   width: 34px; height: 34px; border-radius: var(--radius-sm);
-  background: var(--text-primary); color: var(--plane);
+  background: var(--accent); color: var(--accent-ink);
   font-family: var(--font-mono); font-weight: 700; font-size: 17px;
+  /* One glow, rationed to the single most important mark on screen. */
+  box-shadow: 0 0 0 5px var(--accent-soft);
 }
 .markGlyph { line-height: 1; }
 
@@ -25,7 +27,7 @@
   color: var(--text-muted);
   transition: color var(--duration-fast) var(--ease), background var(--duration-fast) var(--ease);
 }
-.item:hover { color: var(--text-primary); background: var(--surface-2); }
+.item:hover { color: var(--accent); background: var(--accent-soft); }
 
 /* Label on hover. The icon alone is mystery meat, and a rail with no labels
    fails the same test a chevron-only accordion does. */
