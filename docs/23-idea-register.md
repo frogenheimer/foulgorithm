@@ -36,6 +36,7 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Player cards | **Built, and it barely works.** Beats a league base rate by 0.5%. Expected fouls made it WORSE, so `foul_weight` is zero. See the modelling log |
 | Player tackles | **Planned.** Registered, data in hand, no model |
 | Combination tickets, 4/5/6 fouls | **Built**, with the independence caveat stated |
+| Foul involvements, conceded plus won | **Built**. Convolved under independence, which was measured to beat the correlation-corrected version |
 | Compound fouls-and-cards | **Deferred.** Needs a joint model: multiplying marginals overstates it, which is the expensive direction |
 | Team fouls, shots, offsides, corners | **Planned.** Nearly free once the harness exists |
 
@@ -137,3 +138,29 @@ Sixteen documents still carry "Proposed" for work that shipped weeks ago.
 `08-site.md` describes a site that no longer resembles what is built. That is
 exactly the doc rot the repository's own rules warn about, and it needs a
 reconciliation pass.
+
+## The site
+
+| Idea | Status | Note |
+|---|---|---|
+| One filterable table for all three markets | **Built** | Filter by game, position, line, player; sort on every column |
+| Simple mode | **Built** | Default. One model, one question. Five competing numbers is not a first impression |
+| Character shout per game, mixed markets | **Built** | Picked by distance from the other four, not raw probability |
+| Row opens into the distribution | **Built** | Ladder reads published numbers, not the raw shape, so it cannot contradict the table |
+| Theme toggle | **Built** | Three states. Following the system is a real preference |
+| Track record page | **Built** | Calls its own numbers noise under 100 claims |
+| Position pairings | **Next** | Two midfielders both high on involvements. The data now supports asking it |
+| Game state from closing odds | **Next** | Odds are in the match files back to 2000. A better proxy for territory than possession, which we do not hold |
+| Head-to-head team comparison | **Partly built** | Team block exists; not yet in the new layout |
+| Month calendar | **Deferred** | |
+| Leaderboard and user accounts | **Deferred** | The real trigger for a database. Nothing else needs one yet |
+
+## Storage
+
+Predictions are append-only JSONL in git, which is tamper-evident and diffable,
+and better provenance for a public track record than a database row anyone can
+quietly update. A full season is roughly 76,000 rows, which git handles.
+
+Supabase is **not needed yet**. The trigger is user accounts for the leaderboard,
+not data volume. Adding it earlier would buy nothing and cost the property that
+makes the record credible.
