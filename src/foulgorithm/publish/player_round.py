@@ -17,7 +17,7 @@ import pandas as pd
 from foulgorithm.characters import base as characters
 from foulgorithm.publish import combinations as combos
 from foulgorithm.identity import players as identity
-from foulgorithm.identity.teams import to_fpl
+from foulgorithm.identity.teams import history_name, to_fpl
 from foulgorithm.models import calibration, player_models as pm
 from foulgorithm.sources import football_data, fpl
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
@@ -196,6 +196,7 @@ def publish(output: Path = OUTPUT) -> dict:
             fixture_block["teams"][team] = sorted(
                 players, key=lambda r: -r["committed"]["p1plus"]
             )
+        fixture_block["compare"] = _compare(history, fixture_block, as_of)
         fixture_block["stats"] = {
             market: {
                 team: [
@@ -255,6 +256,81 @@ def publish(output: Path = OUTPUT) -> dict:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2))
     return payload
+
+
+def _team_form(history: pd.DataFrame, team: str, as_of, days: int = 400) -> dict:
+    """Recent team-level rates, for the head-to-head comparison."""
+    past = history[(history["team"] == history_name(team)) & (history["known_at"] <= as_of)]
+    if past.empty:
+        return {}
+    cutoff = past["kickoff_utc"].max() - pd.Timedelta(days=days)
+    past = past[past["kickoff_utc"] >= cutoff]
+    matches = past["kickoff_utc"].nunique()
+    if not matches:
+        return {}
+    nineties = past["minutes"].sum() / 90.0
+    return {
+        "matches": int(matches),
+        "foulsPerMatch": round(past["fouls_committed"].sum() / matches, 2),
+        "foulsWonPerMatch": round(past["fouls_drawn"].sum() / matches, 2),
+        "yellowsPerMatch": round(past["yellows"].fillna(0).sum() / matches, 2),
+        "tacklesPerMatch": round(past["tackles_won"].fillna(0).sum() / matches, 2),
+        "foulsPer90": round(past["fouls_committed"].sum() / max(nineties, 1e-6), 2),
+    }
+
+
+def _compare(history: pd.DataFrame, fixture: dict, as_of) -> dict:
+    """Everything needed to render the two sides against each other.
+
+    A mirrored table beats two separate ones: the reader compares by looking
+    across a single row rather than by holding a number in their head while
+    they find its opposite number in another table.
+    """
+    home, away = fixture["home"], fixture["away"]
+    rows = []
+    hf, af = _team_form(history, home, as_of), _team_form(history, away, as_of)
+
+    for key, label, better in (
+        ("foulsPerMatch", "Fouls committed per match", "high"),
+        ("foulsWonPerMatch", "Fouls won per match", "high"),
+        ("yellowsPerMatch", "Yellow cards per match", "high"),
+        ("tacklesPerMatch", "Tackles won per match", "high"),
+    ):
+        h, a = hf.get(key), af.get(key)
+        if h is None and a is None:
+            continue
+        # A promoted club has no top-flight history, which is a real fact rather
+        # than a missing value. Show the side we know and mark the other, rather
+        # than dropping the row and hiding that we know anything at all.
+        rows.append(
+            {
+                "label": label,
+                "home": h,
+                "away": a,
+                "higher": None if h is None or a is None else ("home" if h > a else "away"),
+            }
+        )
+
+    # Model output for this fixture, on the same mirrored footing.
+    players = fixture["teams"]
+    for market, label in (("committed", "Expected fouls, XI"), ("drawn", "Expected fouls won, XI")):
+        vals = {}
+        for team, rowset in players.items():
+            vals[team] = round(
+                sum(r[market]["why"]["ratePer90"] * r["expectedMinutes"] / 90.0 for r in rowset[:11]),
+                2,
+            )
+        if home in vals and away in vals:
+            rows.append(
+                {
+                    "label": label,
+                    "home": vals[home],
+                    "away": vals[away],
+                    "higher": "home" if vals[home] > vals[away] else "away",
+                }
+            )
+
+    return {"rows": rows, "matches": {"home": hf.get("matches", 0), "away": af.get("matches", 0)}}
 
 
 def _market_block(dist, why: dict, market: str = "player_fouls_committed") -> dict:

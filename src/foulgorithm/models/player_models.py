@@ -59,6 +59,7 @@ class PlayerFoulModel:
         self._league_rate = 1.0
         self._position_rate: dict[str, float] = {}
         self._player_position: dict[str, str] = {}
+        self._default_minutes = 70.0
 
     def config(self) -> dict:
         return {
@@ -90,6 +91,12 @@ class PlayerFoulModel:
         self._position_rate = {
             str(k): float(v) for k, v in rates.items() if counts.get(k, 0) >= 200
         }
+        # What a player who features actually plays, so an unseen player has a
+        # defensible prior rather than a zero.
+        featured = history[history["minutes"] >= 20]["minutes"]
+        if len(featured):
+            self._default_minutes = float(featured.median())
+
         self._player_position = (
             history.assign(_pos=pos).groupby("player")["_pos"].agg(
                 lambda x: x.value_counts().index[0]
@@ -121,17 +128,23 @@ class PlayerFoulModel:
         rate = (events.sum() + prior90 * prior) / (nineties.sum() + prior90)
         return float(rate), float(w.sum())
 
-    def expected_minutes(self, player: str, as_of) -> float:
-        """Recent minutes, time-decayed. A blunt but honest stand-in.
+    def expected_minutes(self, player: str, as_of, starter: bool = True) -> float:
+        """Recent minutes, time-decayed, with a fallback for unseen players.
 
-        A proper model would separate probability of starting from minutes given
-        a start. This is the version that ships today; it is listed as the next
-        real improvement in docs/15-next-phase.md.
+        Returning 0.0 for a player with no history was a hole, not a
+        conservative estimate: his expected fouls then collapsed to nothing.
+        Promoted clubs are mostly such players, which is how Hull came to show
+        2.31 expected fouls against Manchester United's 10.2.
+
+        A player we have never seen but who is expected to feature gets the
+        league's typical starter minutes, which is the honest prior. The
+        uncertainty is expressed by marking his evidence thin, not by pretending
+        he will not play.
         """
         past = self._visible(as_of)
         rows = past[past["player"] == player].tail(10)
         if rows.empty:
-            return 0.0
+            return self._default_minutes if starter else self._default_minutes * 0.35
         w = _weights(rows["known_at"], as_of, self.half_life_days)
         return float(np.average(rows["minutes"].to_numpy(), weights=w))
 

@@ -215,6 +215,10 @@ export type FixtureBoard = {
   teams: Record<string, PlayerRow[]>;
   tickets?: Record<string, Ticket[]>;
   stats?: Record<string, Record<string, { player: string; value: number }[]>>;
+  compare?: {
+    rows: { label: string; home: number | null; away: number | null; higher: string | null }[];
+    matches: { home: number; away: number };
+  };
 };
 
 export type PlayersData = {

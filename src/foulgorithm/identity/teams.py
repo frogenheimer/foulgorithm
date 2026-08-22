@@ -73,6 +73,41 @@ def from_pulselive(name: str) -> str:
     return PULSELIVE_TO_FIXTURE[name]
 
 
+# Foul-history club name -> football-data club name. A fourth spelling of the
+# same clubs. History says "Brighton & Hove Albion", fixtures say "Brighton",
+# and the join silently found nothing, which is how team comparison rows came
+# back empty without complaint.
+HISTORY_TO_FIXTURE = {
+    "Brighton & Hove Albion": "Brighton",
+    "Manchester City": "Man City",
+    "Manchester United": "Man United",
+    "Newcastle United": "Newcastle",
+    "Nottingham Forest": "Nott'm Forest",
+    "Tottenham Hotspur": "Tottenham",
+    "West Ham United": "West Ham",
+    "Leeds United": "Leeds",
+    "Leicester City": "Leicester",
+    "Norwich City": "Norwich",
+    "Ipswich Town": "Ipswich",
+    "Hull City": "Hull",
+    "Coventry City": "Coventry",
+    "Cardiff City": "Cardiff",
+    "Stoke City": "Stoke",
+    "Swansea City": "Swansea",
+    "Wolverhampton Wanderers": "Wolves",
+    "Sheffield United": "Sheffield United",
+    "Luton Town": "Luton",
+    "Huddersfield Town": "Huddersfield",
+}
+
+FIXTURE_TO_HISTORY = {v: k for k, v in HISTORY_TO_FIXTURE.items()}
+
+
+def history_name(fixture_team: str) -> str:
+    """The club as the foul history spells it. Identity when they agree."""
+    return FIXTURE_TO_HISTORY.get(fixture_team, fixture_team)
+
+
 def to_fpl(fixture_team: str) -> str:
     if fixture_team not in FIXTURE_TO_FPL:
         raise SourceError(

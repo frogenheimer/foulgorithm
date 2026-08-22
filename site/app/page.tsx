@@ -1,7 +1,8 @@
 import FixtureBoard from "@/components/FixtureBoard";
 import { DotArray } from "@/components/charts/pack";
 import Portrait, { CHARACTER_COLOUR } from "@/components/characters/Portrait";
-import { getPlayers } from "@/lib/data";
+import Disagreement from "@/components/charts/Disagreement";
+import { getCharacters, getPlayers } from "@/lib/data";
 import { count, kickoff, odds } from "@/lib/format";
 import s from "./today.module.css";
 
@@ -9,6 +10,7 @@ export default function Today() {
   const d = getPlayers();
   const t = d.trainedOn;
   const lead = d.topFoulers[0];
+  const chars = getCharacters();
 
   return (
     <div className={s.page}>
@@ -58,6 +60,18 @@ export default function Today() {
             </li>
           ))}
         </ol>
+      </section>
+
+      <section>
+        <h2 className={s.h2}>Where the models disagree</h2>
+        <p className={s.note}>
+          All five see identical evidence. Agreement tells you nothing; the gaps are the
+          interesting part, and by Tuesday one of them will have been closer.
+        </p>
+        <Disagreement
+          rows={chars.disagreement}
+          characters={chars.characters.map((c) => ({ id: c.id, name: c.name }))}
+        />
       </section>
 
       <section>

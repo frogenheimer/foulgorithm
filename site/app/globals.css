@@ -16,6 +16,7 @@
   --border-strong: rgba(11, 11, 11, 0.18);
   --grid: #e1e0d9;
   --axis: #c3c2b7;
+  --dot: rgba(11, 11, 11, 0.035);
 
   /* Categorical series. Fixed order, validated for colour-vision deficiency. */
   --series-1: #2a78d6;
@@ -95,6 +96,7 @@
     --border-strong: rgba(255, 255, 255, 0.18);
     --grid: #2c2c2a;
     --axis: #383835;
+    --dot: rgba(255, 255, 255, 0.05);
     --series-1: #3987e5;
     --series-2: #d95926;
     --seq-100: #184f95;
@@ -125,6 +127,7 @@
   --border-strong: rgba(255, 255, 255, 0.18);
   --grid: #2c2c2a;
   --axis: #383835;
+  --dot: rgba(255, 255, 255, 0.05);
   --series-1: #3987e5;
   --series-2: #d95926;
   --seq-100: #184f95;
@@ -234,9 +237,11 @@ svg {
 
 /* A dot field at very low opacity. Depth without imagery, which matters
    because we hold no licence for any photography. */
+/* Near-invisible in light, where it previously read as competing texture
+   rather than as depth. Decoration must never be louder than data. */
 body {
-  background-image: radial-gradient(var(--grid) 1px, transparent 1px);
-  background-size: 22px 22px;
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 26px 26px;
   background-attachment: fixed;
 }
 
