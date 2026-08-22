@@ -38,6 +38,41 @@ FIXTURE_TO_FPL = {
 }
 
 
+# Premier League API name -> football-data.co.uk name. A third spelling of the
+# same twenty clubs, because every source names them differently.
+PULSELIVE_TO_FIXTURE = {
+    "Arsenal": "Arsenal",
+    "Aston Villa": "Aston Villa",
+    "Bournemouth": "Bournemouth",
+    "Brentford": "Brentford",
+    "Brighton & Hove Albion": "Brighton",
+    "Chelsea": "Chelsea",
+    "Coventry City": "Coventry",
+    "Crystal Palace": "Crystal Palace",
+    "Everton": "Everton",
+    "Fulham": "Fulham",
+    "Hull City": "Hull",
+    "Ipswich Town": "Ipswich",
+    "Leeds United": "Leeds",
+    "Liverpool": "Liverpool",
+    "Manchester City": "Man City",
+    "Manchester United": "Man United",
+    "Newcastle United": "Newcastle",
+    "Nottingham Forest": "Nott'm Forest",
+    "Sunderland": "Sunderland",
+    "Tottenham Hotspur": "Tottenham",
+}
+
+
+def from_pulselive(name: str) -> str:
+    if name not in PULSELIVE_TO_FIXTURE:
+        raise SourceError(
+            f"no fixture club mapped for Premier League API name {name!r}. Add it "
+            "to src/foulgorithm/identity/teams.py."
+        )
+    return PULSELIVE_TO_FIXTURE[name]
+
+
 def to_fpl(fixture_team: str) -> str:
     if fixture_team not in FIXTURE_TO_FPL:
         raise SourceError(

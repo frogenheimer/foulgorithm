@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T05:39:17+00:00",
+  "generatedAt": "2026-08-22T06:05:45+00:00",
   "trainedOn": {
     "playerMatches": 81327,
     "players": 1671,
@@ -12,6 +12,11 @@
     "players": 600,
     "resolved": 395,
     "unresolved": 205
+  },
+  "lineups": {
+    "source": "Premier League API",
+    "confirmed": 2,
+    "note": "Confirmed elevens appear about an hour before kickoff. Until then these are predicted from current squads."
   },
   "topFoulers": [
     {
@@ -248,124 +253,6 @@
         "floor3": 8.59,
         "band3": "Highly unlikely",
         "outOf100": 57
-      }
-    },
-    {
-      "player": "Zubimendi",
-      "fullName": "Mart\u00edn Zubimendi Ib\u00e1\u00f1ez",
-      "position": "MF",
-      "hasHistory": true,
-      "team": "Arsenal",
-      "opponent": "Coventry",
-      "fixture": "Arsenal v Coventry",
-      "kickoff": "2026-08-21T20:00:00+00:00",
-      "expectedMinutes": 90.0,
-      "effectiveMatches": 3.1,
-      "thin": true,
-      "committed": {
-        "why": {
-          "ratePer90": 1.366,
-          "expectedMinutes": 90.0,
-          "opponentFactor": 1.0,
-          "refereeFactor": 1.0,
-          "effectiveMatches": 3.1
-        },
-        "exact0": 0.3431,
-        "p1plus": 0.6569,
-        "fair1": 1.52,
-        "floor1": 1.67,
-        "band1": "Likely",
-        "p2plus": 0.364,
-        "fair2": 2.75,
-        "floor2": 3.02,
-        "band2": "Unlikely",
-        "p3plus": 0.1842,
-        "fair3": 5.43,
-        "floor3": 5.97,
-        "band3": "Highly unlikely",
-        "outOf100": 66
-      },
-      "drawn": {
-        "why": {
-          "ratePer90": 0.962,
-          "expectedMinutes": 90.0,
-          "opponentFactor": 1.0,
-          "refereeFactor": 1.0,
-          "effectiveMatches": 3.1
-        },
-        "exact0": 0.4706,
-        "p1plus": 0.5294,
-        "fair1": 1.89,
-        "floor1": 2.08,
-        "band1": "Realistic possibility",
-        "p2plus": 0.2464,
-        "fair2": 4.06,
-        "floor2": 4.46,
-        "band2": "Highly unlikely",
-        "p3plus": 0.1082,
-        "fair3": 9.24,
-        "floor3": 10.16,
-        "band3": "Highly unlikely",
-        "outOf100": 53
-      }
-    },
-    {
-      "player": "Hamer",
-      "fullName": "Gustavo Hamer",
-      "position": "MF",
-      "hasHistory": true,
-      "team": "Coventry",
-      "opponent": "Arsenal",
-      "fixture": "Arsenal v Coventry",
-      "kickoff": "2026-08-21T20:00:00+00:00",
-      "expectedMinutes": 84.7,
-      "effectiveMatches": 18.6,
-      "thin": false,
-      "committed": {
-        "why": {
-          "ratePer90": 1.391,
-          "expectedMinutes": 84.7,
-          "opponentFactor": 1.015,
-          "refereeFactor": 1.0,
-          "effectiveMatches": 18.6
-        },
-        "exact0": 0.3532,
-        "p1plus": 0.6468,
-        "fair1": 1.55,
-        "floor1": 1.7,
-        "band1": "Likely",
-        "p2plus": 0.3536,
-        "fair2": 2.83,
-        "floor2": 3.11,
-        "band2": "Unlikely",
-        "p3plus": 0.1768,
-        "fair3": 5.66,
-        "floor3": 6.22,
-        "band3": "Highly unlikely",
-        "outOf100": 65
-      },
-      "drawn": {
-        "why": {
-          "ratePer90": 0.854,
-          "expectedMinutes": 84.7,
-          "opponentFactor": 0.985,
-          "refereeFactor": 1.0,
-          "effectiveMatches": 18.6
-        },
-        "exact0": 0.538,
-        "p1plus": 0.462,
-        "fair1": 2.16,
-        "floor1": 2.38,
-        "band1": "Realistic possibility",
-        "p2plus": 0.1959,
-        "fair2": 5.1,
-        "floor2": 5.62,
-        "band2": "Highly unlikely",
-        "p3plus": 0.0802,
-        "fair3": 12.47,
-        "floor3": 13.72,
-        "band3": "Remote chance",
-        "outOf100": 46
       }
     },
     {
@@ -721,6 +608,124 @@
         "band3": "Highly unlikely",
         "outOf100": 66
       }
+    },
+    {
+      "player": "Xhaka",
+      "fullName": "Granit Xhaka",
+      "position": "MF",
+      "hasHistory": true,
+      "team": "Sunderland",
+      "opponent": "Ipswich",
+      "fixture": "Ipswich v Sunderland",
+      "kickoff": "2026-08-22T15:00:00+00:00",
+      "expectedMinutes": 81.9,
+      "effectiveMatches": 45.3,
+      "thin": false,
+      "committed": {
+        "why": {
+          "ratePer90": 1.342,
+          "expectedMinutes": 81.9,
+          "opponentFactor": 1.0,
+          "refereeFactor": 1.0,
+          "effectiveMatches": 45.3
+        },
+        "exact0": 0.3841,
+        "p1plus": 0.6159,
+        "fair1": 1.62,
+        "floor1": 1.79,
+        "band1": "Likely",
+        "p2plus": 0.3226,
+        "fair2": 3.1,
+        "floor2": 3.41,
+        "band2": "Unlikely",
+        "p3plus": 0.1557,
+        "fair3": 6.42,
+        "floor3": 7.06,
+        "band3": "Highly unlikely",
+        "outOf100": 62
+      },
+      "drawn": {
+        "why": {
+          "ratePer90": 1.137,
+          "expectedMinutes": 81.9,
+          "opponentFactor": 1.0,
+          "refereeFactor": 1.0,
+          "effectiveMatches": 45.3
+        },
+        "exact0": 0.4443,
+        "p1plus": 0.5557,
+        "fair1": 1.8,
+        "floor1": 1.98,
+        "band1": "Likely",
+        "p2plus": 0.2681,
+        "fair2": 3.73,
+        "floor2": 4.1,
+        "band2": "Unlikely",
+        "p3plus": 0.1211,
+        "fair3": 8.26,
+        "floor3": 9.08,
+        "band3": "Highly unlikely",
+        "outOf100": 56
+      }
+    },
+    {
+      "player": "Stach",
+      "fullName": "Anton Stach",
+      "position": "MF",
+      "hasHistory": true,
+      "team": "Leeds",
+      "opponent": "Nott'm Forest",
+      "fixture": "Nott'm Forest v Leeds",
+      "kickoff": "2026-08-22T15:00:00+00:00",
+      "expectedMinutes": 90.0,
+      "effectiveMatches": 3.1,
+      "thin": true,
+      "committed": {
+        "why": {
+          "ratePer90": 1.202,
+          "expectedMinutes": 90.0,
+          "opponentFactor": 1.0,
+          "refereeFactor": 1.0,
+          "effectiveMatches": 3.1
+        },
+        "exact0": 0.3901,
+        "p1plus": 0.6099,
+        "fair1": 1.64,
+        "floor1": 1.8,
+        "band1": "Likely",
+        "p2plus": 0.3169,
+        "fair2": 3.16,
+        "floor2": 3.47,
+        "band2": "Unlikely",
+        "p3plus": 0.152,
+        "fair3": 6.58,
+        "floor3": 7.24,
+        "band3": "Highly unlikely",
+        "outOf100": 61
+      },
+      "drawn": {
+        "why": {
+          "ratePer90": 1.297,
+          "expectedMinutes": 90.0,
+          "opponentFactor": 1.0,
+          "refereeFactor": 1.0,
+          "effectiveMatches": 3.1
+        },
+        "exact0": 0.362,
+        "p1plus": 0.638,
+        "fair1": 1.57,
+        "floor1": 1.72,
+        "band1": "Likely",
+        "p2plus": 0.3446,
+        "fair2": 2.9,
+        "floor2": 3.19,
+        "band2": "Unlikely",
+        "p3plus": 0.1706,
+        "fair3": 5.86,
+        "floor3": 6.45,
+        "band3": "Highly unlikely",
+        "outOf100": 64
+      }
     }
   ],
   "board": [
@@ -730,6 +735,7 @@
       "away": "Coventry",
       "kickoff": "2026-08-21T20:00:00+00:00",
       "referee": "T Bramall",
+      "lineupConfirmed": true,
       "teams": {
         "Arsenal": [
           {
@@ -792,65 +798,6 @@
             }
           },
           {
-            "player": "Zubimendi",
-            "fullName": "Mart\u00edn Zubimendi Ib\u00e1\u00f1ez",
-            "position": "MF",
-            "hasHistory": true,
-            "team": "Arsenal",
-            "opponent": "Coventry",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 90.0,
-            "effectiveMatches": 3.1,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 1.366,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 3.1
-              },
-              "exact0": 0.3431,
-              "p1plus": 0.6569,
-              "fair1": 1.52,
-              "floor1": 1.67,
-              "band1": "Likely",
-              "p2plus": 0.364,
-              "fair2": 2.75,
-              "floor2": 3.02,
-              "band2": "Unlikely",
-              "p3plus": 0.1842,
-              "fair3": 5.43,
-              "floor3": 5.97,
-              "band3": "Highly unlikely",
-              "outOf100": 66
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.962,
-                "expectedMinutes": 90.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 3.1
-              },
-              "exact0": 0.4706,
-              "p1plus": 0.5294,
-              "fair1": 1.89,
-              "floor1": 2.08,
-              "band1": "Realistic possibility",
-              "p2plus": 0.2464,
-              "fair2": 4.06,
-              "floor2": 4.46,
-              "band2": "Highly unlikely",
-              "p3plus": 0.1082,
-              "fair3": 9.24,
-              "floor3": 10.16,
-              "band3": "Highly unlikely",
-              "outOf100": 53
-            }
-          },
-          {
             "player": "Saka",
             "fullName": "Bukayo Saka",
             "position": "MF",
@@ -910,17 +857,17 @@
             }
           },
           {
-            "player": "Gabriel",
-            "fullName": "Gabriel dos Santos Magalh\u00e3es",
-            "position": "DF",
-            "hasHistory": true,
+            "player": "Magalh\u00e3es",
+            "fullName": "Gabriel Magalh\u00e3es",
+            "position": "?",
+            "hasHistory": false,
             "team": "Arsenal",
             "opponent": "Coventry",
             "fixture": "Arsenal v Coventry",
             "kickoff": "2026-08-21T20:00:00+00:00",
             "expectedMinutes": 90.0,
             "effectiveMatches": 25.4,
-            "thin": false,
+            "thin": true,
             "committed": {
               "why": {
                 "ratePer90": 0.834,
@@ -1028,124 +975,6 @@
             }
           },
           {
-            "player": "Merino",
-            "fullName": "Mikel Merino Zaz\u00f3n",
-            "position": "MF",
-            "hasHistory": true,
-            "team": "Arsenal",
-            "opponent": "Coventry",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 46.5,
-            "effectiveMatches": 15.4,
-            "thin": false,
-            "committed": {
-              "why": {
-                "ratePer90": 1.491,
-                "expectedMinutes": 46.5,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 15.4
-              },
-              "exact0": 0.5472,
-              "p1plus": 0.4528,
-              "fair1": 2.21,
-              "floor1": 2.43,
-              "band1": "Realistic possibility",
-              "p2plus": 0.1896,
-              "fair2": 5.27,
-              "floor2": 5.8,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0769,
-              "fair3": 13.0,
-              "floor3": 14.3,
-              "band3": "Remote chance",
-              "outOf100": 45
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 1.131,
-                "expectedMinutes": 46.5,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 15.4
-              },
-              "exact0": 0.6329,
-              "p1plus": 0.3671,
-              "fair1": 2.72,
-              "floor1": 3.0,
-              "band1": "Unlikely",
-              "p2plus": 0.1361,
-              "fair2": 7.35,
-              "floor2": 8.08,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0506,
-              "fair3": 19.75,
-              "floor3": 21.72,
-              "band3": "Remote chance",
-              "outOf100": 37
-            }
-          },
-          {
-            "player": "Eze",
-            "fullName": "Eberechi Eze",
-            "position": "MF",
-            "hasHistory": true,
-            "team": "Arsenal",
-            "opponent": "Coventry",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 70.9,
-            "effectiveMatches": 54.1,
-            "thin": false,
-            "committed": {
-              "why": {
-                "ratePer90": 0.965,
-                "expectedMinutes": 70.9,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 54.1
-              },
-              "exact0": 0.5514,
-              "p1plus": 0.4486,
-              "fair1": 2.23,
-              "floor1": 2.45,
-              "band1": "Realistic possibility",
-              "p2plus": 0.1867,
-              "fair2": 5.36,
-              "floor2": 5.89,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0754,
-              "fair3": 13.26,
-              "floor3": 14.59,
-              "band3": "Remote chance",
-              "outOf100": 45
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 1.792,
-                "expectedMinutes": 70.9,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 54.1
-              },
-              "exact0": 0.3311,
-              "p1plus": 0.6689,
-              "fair1": 1.5,
-              "floor1": 1.64,
-              "band1": "Likely",
-              "p2plus": 0.3769,
-              "fair2": 2.65,
-              "floor2": 2.92,
-              "band2": "Unlikely",
-              "p3plus": 0.1934,
-              "fair3": 5.17,
-              "floor3": 5.69,
-              "band3": "Highly unlikely",
-              "outOf100": 67
-            }
-          },
-          {
             "player": "Calafiori",
             "fullName": "Riccardo Calafiori",
             "position": "DF",
@@ -1205,76 +1034,17 @@
             }
           },
           {
-            "player": "Madueke",
-            "fullName": "Noni Madueke",
-            "position": "MF",
-            "hasHistory": true,
-            "team": "Arsenal",
-            "opponent": "Coventry",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 65.4,
-            "effectiveMatches": 34.5,
-            "thin": false,
-            "committed": {
-              "why": {
-                "ratePer90": 0.973,
-                "expectedMinutes": 65.4,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 34.5
-              },
-              "exact0": 0.5748,
-              "p1plus": 0.4252,
-              "fair1": 2.35,
-              "floor1": 2.59,
-              "band1": "Realistic possibility",
-              "p2plus": 0.1713,
-              "fair2": 5.84,
-              "floor2": 6.42,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0675,
-              "fair3": 14.81,
-              "floor3": 16.29,
-              "band3": "Remote chance",
-              "outOf100": 43
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 1.429,
-                "expectedMinutes": 65.4,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 34.5
-              },
-              "exact0": 0.4436,
-              "p1plus": 0.5564,
-              "fair1": 1.8,
-              "floor1": 1.98,
-              "band1": "Likely",
-              "p2plus": 0.2687,
-              "fair2": 3.72,
-              "floor2": 4.09,
-              "band2": "Unlikely",
-              "p3plus": 0.1215,
-              "fair3": 8.23,
-              "floor3": 9.05,
-              "band3": "Highly unlikely",
-              "outOf100": 56
-            }
-          },
-          {
             "player": "White",
-            "fullName": "Benjamin White",
-            "position": "DF",
-            "hasHistory": true,
+            "fullName": "Ben White",
+            "position": "?",
+            "hasHistory": false,
             "team": "Arsenal",
             "opponent": "Coventry",
             "fixture": "Arsenal v Coventry",
             "kickoff": "2026-08-21T20:00:00+00:00",
             "expectedMinutes": 76.2,
             "effectiveMatches": 57.7,
-            "thin": false,
+            "thin": true,
             "committed": {
               "why": {
                 "ratePer90": 0.809,
@@ -1560,16 +1330,16 @@
           },
           {
             "player": "Raya",
-            "fullName": "David Raya Mart\u00edn",
-            "position": "GK",
-            "hasHistory": true,
+            "fullName": "David Raya",
+            "position": "?",
+            "hasHistory": false,
             "team": "Arsenal",
             "opponent": "Coventry",
             "fixture": "Arsenal v Coventry",
             "kickoff": "2026-08-21T20:00:00+00:00",
             "expectedMinutes": 90.0,
             "effectiveMatches": 55.6,
-            "thin": false,
+            "thin": true,
             "committed": {
               "why": {
                 "ratePer90": 0.014,
@@ -1616,127 +1386,9 @@
               "band3": "Remote chance",
               "outOf100": 11
             }
-          },
-          {
-            "player": "Hincapie",
-            "fullName": "Piero Hincapi\u00e9",
-            "position": "DF",
-            "hasHistory": false,
-            "team": "Arsenal",
-            "opponent": "Coventry",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 0.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 1.0,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            }
           }
         ],
         "Coventry": [
-          {
-            "player": "Hamer",
-            "fullName": "Gustavo Hamer",
-            "position": "MF",
-            "hasHistory": true,
-            "team": "Coventry",
-            "opponent": "Arsenal",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 84.7,
-            "effectiveMatches": 18.6,
-            "thin": false,
-            "committed": {
-              "why": {
-                "ratePer90": 1.391,
-                "expectedMinutes": 84.7,
-                "opponentFactor": 1.015,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 18.6
-              },
-              "exact0": 0.3532,
-              "p1plus": 0.6468,
-              "fair1": 1.55,
-              "floor1": 1.7,
-              "band1": "Likely",
-              "p2plus": 0.3536,
-              "fair2": 2.83,
-              "floor2": 3.11,
-              "band2": "Unlikely",
-              "p3plus": 0.1768,
-              "fair3": 5.66,
-              "floor3": 6.22,
-              "band3": "Highly unlikely",
-              "outOf100": 65
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.854,
-                "expectedMinutes": 84.7,
-                "opponentFactor": 0.985,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 18.6
-              },
-              "exact0": 0.538,
-              "p1plus": 0.462,
-              "fair1": 2.16,
-              "floor1": 2.38,
-              "band1": "Realistic possibility",
-              "p2plus": 0.1959,
-              "fair2": 5.1,
-              "floor2": 5.62,
-              "band2": "Highly unlikely",
-              "p3plus": 0.0802,
-              "fair3": 12.47,
-              "floor3": 13.72,
-              "band3": "Remote chance",
-              "outOf100": 46
-            }
-          },
           {
             "player": "Tchaouna",
             "fullName": "Loum Tchaouna",
@@ -1915,9 +1567,9 @@
             }
           },
           {
-            "player": "Rushworth",
-            "fullName": "Carl Rushworth",
-            "position": "GK",
+            "player": "Dasilva",
+            "fullName": "Jay Dasilva",
+            "position": "DF",
             "hasHistory": false,
             "team": "Coventry",
             "opponent": "Arsenal",
@@ -2035,65 +1687,6 @@
           {
             "player": "van Ewijk",
             "fullName": "Milan van Ewijk",
-            "position": "DF",
-            "hasHistory": false,
-            "team": "Coventry",
-            "opponent": "Arsenal",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 0.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 1.015,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 0.985,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            }
-          },
-          {
-            "player": "Dasilva",
-            "fullName": "Jay Dasilva",
             "position": "DF",
             "hasHistory": false,
             "team": "Coventry",
@@ -2269,9 +1862,9 @@
             }
           },
           {
-            "player": "Thomas-Asante",
-            "fullName": "Brandon Thomas-Asante",
-            "position": "FW",
+            "player": "Rushworth",
+            "fullName": "Carl Rushworth",
+            "position": "GK",
             "hasHistory": false,
             "team": "Coventry",
             "opponent": "Arsenal",
@@ -2387,239 +1980,62 @@
             }
           },
           {
-            "player": "Torp",
-            "fullName": "Victor Torp",
-            "position": "MF",
-            "hasHistory": false,
-            "team": "Coventry",
-            "opponent": "Arsenal",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 0.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 1.015,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 0.985,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            }
-          },
-          {
-            "player": "Rudoni",
-            "fullName": "Jack Rudoni",
-            "position": "MF",
-            "hasHistory": false,
-            "team": "Coventry",
-            "opponent": "Arsenal",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 0.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 1.015,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 0.985,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            }
-          },
-          {
-            "player": "Dovin",
-            "fullName": "Oliver Dovin",
-            "position": "GK",
-            "hasHistory": false,
-            "team": "Coventry",
-            "opponent": "Arsenal",
-            "fixture": "Arsenal v Coventry",
-            "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 0.0,
-            "effectiveMatches": 0.0,
-            "thin": true,
-            "committed": {
-              "why": {
-                "ratePer90": 0.972,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 1.015,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            },
-            "drawn": {
-              "why": {
-                "ratePer90": 0.934,
-                "expectedMinutes": 0.0,
-                "opponentFactor": 0.985,
-                "refereeFactor": 1.0,
-                "effectiveMatches": 0.0
-              },
-              "exact0": 0.9048,
-              "p1plus": 0.0952,
-              "fair1": 10.51,
-              "floor1": 11.56,
-              "band1": "Remote chance",
-              "p2plus": 0.0047,
-              "fair2": 213.54,
-              "floor2": 234.9,
-              "band2": "Remote chance",
-              "p3plus": 0.0002,
-              "fair3": null,
-              "floor3": null,
-              "band3": "Remote chance",
-              "outOf100": 10
-            }
-          },
-          {
-            "player": "Awoniyi",
-            "fullName": "Taiwo Awoniyi",
+            "player": "Thomas-Asante",
+            "fullName": "Brandon Thomas-Asante",
             "position": "FW",
-            "hasHistory": true,
+            "hasHistory": false,
             "team": "Coventry",
             "opponent": "Arsenal",
             "fixture": "Arsenal v Coventry",
             "kickoff": "2026-08-21T20:00:00+00:00",
-            "expectedMinutes": 8.3,
-            "effectiveMatches": 32.8,
-            "thin": false,
+            "expectedMinutes": 0.0,
+            "effectiveMatches": 0.0,
+            "thin": true,
             "committed": {
               "why": {
-                "ratePer90": 1.295,
-                "expectedMinutes": 8.3,
+                "ratePer90": 0.972,
+                "expectedMinutes": 0.0,
                 "opponentFactor": 1.015,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 32.8
+                "effectiveMatches": 0.0
               },
-              "exact0": 0.9097,
-              "p1plus": 0.0903,
-              "fair1": 11.07,
-              "floor1": 12.18,
+              "exact0": 0.9048,
+              "p1plus": 0.0952,
+              "fair1": 10.51,
+              "floor1": 11.56,
               "band1": "Remote chance",
-              "p2plus": 0.0216,
-              "fair2": 46.27,
-              "floor2": 50.89,
+              "p2plus": 0.0047,
+              "fair2": 213.54,
+              "floor2": 234.9,
               "band2": "Remote chance",
-              "p3plus": 0.0061,
-              "fair3": 162.96,
-              "floor3": 179.25,
+              "p3plus": 0.0002,
+              "fair3": null,
+              "floor3": null,
               "band3": "Remote chance",
-              "outOf100": 9
+              "outOf100": 10
             },
             "drawn": {
               "why": {
-                "ratePer90": 1.367,
-                "expectedMinutes": 8.3,
+                "ratePer90": 0.934,
+                "expectedMinutes": 0.0,
                 "opponentFactor": 0.985,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 32.8
+                "effectiveMatches": 0.0
               },
-              "exact0": 0.9076,
-              "p1plus": 0.0924,
-              "fair1": 10.82,
-              "floor1": 11.9,
+              "exact0": 0.9048,
+              "p1plus": 0.0952,
+              "fair1": 10.51,
+              "floor1": 11.56,
               "band1": "Remote chance",
-              "p2plus": 0.0222,
-              "fair2": 45.04,
-              "floor2": 49.55,
+              "p2plus": 0.0047,
+              "fair2": 213.54,
+              "floor2": 234.9,
               "band2": "Remote chance",
-              "p3plus": 0.0063,
-              "fair3": 158.32,
-              "floor3": 174.15,
+              "p3plus": 0.0002,
+              "fair3": null,
+              "floor3": null,
               "band3": "Remote chance",
-              "outOf100": 9
+              "outOf100": 10
             }
           }
         ]
@@ -2631,6 +2047,7 @@
       "away": "Man United",
       "kickoff": "2026-08-22T12:30:00+00:00",
       "referee": "D England",
+      "lineupConfirmed": false,
       "teams": {
         "Hull": [
           {
@@ -4532,6 +3949,7 @@
       "away": "Crystal Palace",
       "kickoff": "2026-08-22T15:00:00+00:00",
       "referee": "P Tierney",
+      "lineupConfirmed": false,
       "teams": {
         "Everton": [
           {
@@ -6433,6 +5851,7 @@
       "away": "Sunderland",
       "kickoff": "2026-08-22T15:00:00+00:00",
       "referee": "F Hallam",
+      "lineupConfirmed": false,
       "teams": {
         "Ipswich": [
           {
@@ -6902,7 +6321,7 @@
               "band2": "Remote chance",
               "p3plus": 0.021,
               "fair3": 47.65,
-              "floor3": 52.42,
+              "floor3": 52.41,
               "band3": "Remote chance",
               "outOf100": 22
             }
@@ -6937,7 +6356,7 @@
               "floor2": 17.57,
               "band2": "Remote chance",
               "p3plus": 0.02,
-              "fair3": 49.93,
+              "fair3": 49.94,
               "floor3": 54.93,
               "band3": "Remote chance",
               "outOf100": 21
@@ -7955,8 +7374,8 @@
                 "refereeFactor": 1.0,
                 "effectiveMatches": 1.6
               },
-              "exact0": 0.7716,
-              "p1plus": 0.2284,
+              "exact0": 0.7717,
+              "p1plus": 0.2283,
               "fair1": 4.38,
               "floor1": 4.82,
               "band1": "Highly unlikely",
@@ -8334,6 +7753,7 @@
       "away": "Leeds",
       "kickoff": "2026-08-22T15:00:00+00:00",
       "referee": "R Jones",
+      "lineupConfirmed": false,
       "teams": {
         "Nott'm Forest": [
           {
@@ -9689,7 +9109,7 @@
               "floor2": 4.65,
               "band2": "Highly unlikely",
               "p3plus": 0.1025,
-              "fair3": 9.75,
+              "fair3": 9.76,
               "floor3": 10.73,
               "band3": "Highly unlikely",
               "outOf100": 52
@@ -10235,6 +9655,7 @@
       "away": "Tottenham",
       "kickoff": "2026-08-22T17:30:00+00:00",
       "referee": "M Oliver",
+      "lineupConfirmed": false,
       "teams": {
         "Brentford": [
           {
@@ -11374,7 +10795,7 @@
             "thin": false,
             "committed": {
               "why": {
-                "ratePer90": 1.268,
+                "ratePer90": 1.267,
                 "expectedMinutes": 62.6,
                 "opponentFactor": 0.994,
                 "refereeFactor": 1.0,
@@ -12136,6 +11557,7 @@
       "away": "Aston Villa",
       "kickoff": "2026-08-23T14:00:00+00:00",
       "referee": "P Bankes",
+      "lineupConfirmed": false,
       "teams": {
         "Brighton": [
           {
@@ -12782,7 +12204,7 @@
               "band2": "Remote chance",
               "p3plus": 0.0042,
               "fair3": 235.35,
-              "floor3": 258.89,
+              "floor3": 258.88,
               "band3": "Remote chance",
               "outOf100": 8
             }
@@ -14037,6 +13459,7 @@
       "away": "Bournemouth",
       "kickoff": "2026-08-23T14:00:00+00:00",
       "referee": "J Gillett",
+      "lineupConfirmed": false,
       "teams": {
         "Man City": [
           {
@@ -14403,7 +13826,7 @@
             "fixture": "Man City v Bournemouth",
             "kickoff": "2026-08-23T14:00:00+00:00",
             "expectedMinutes": 63.4,
-            "effectiveMatches": 28.4,
+            "effectiveMatches": 28.3,
             "thin": false,
             "committed": {
               "why": {
@@ -14411,7 +13834,7 @@
                 "expectedMinutes": 63.4,
                 "opponentFactor": 0.996,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 28.4
+                "effectiveMatches": 28.3
               },
               "exact0": 0.6148,
               "p1plus": 0.3852,
@@ -14434,7 +13857,7 @@
                 "expectedMinutes": 63.4,
                 "opponentFactor": 1.038,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 28.4
+                "effectiveMatches": 28.3
               },
               "exact0": 0.5052,
               "p1plus": 0.4948,
@@ -15510,8 +14933,8 @@
               "floor2": 65.32,
               "band2": "Remote chance",
               "p3plus": 0.0044,
-              "fair3": 227.11,
-              "floor3": 249.82,
+              "fair3": 227.1,
+              "floor3": 249.81,
               "band3": "Remote chance",
               "outOf100": 8
             }
@@ -15938,6 +15361,7 @@
       "away": "Liverpool",
       "kickoff": "2026-08-23T16:30:00+00:00",
       "referee": "S Attwell",
+      "lineupConfirmed": false,
       "teams": {
         "Newcastle": [
           {
@@ -16203,7 +15627,7 @@
               "band1": "Unlikely",
               "p2plus": 0.1248,
               "fair2": 8.01,
-              "floor2": 8.82,
+              "floor2": 8.81,
               "band2": "Highly unlikely",
               "p3plus": 0.0455,
               "fair3": 21.98,
@@ -17153,7 +16577,7 @@
               "band2": "Highly unlikely",
               "p3plus": 0.0454,
               "fair3": 22.03,
-              "floor3": 24.24,
+              "floor3": 24.23,
               "band3": "Remote chance",
               "outOf100": 35
             },
@@ -17353,7 +16777,7 @@
               "band2": "Remote chance",
               "p3plus": 0.0094,
               "fair3": 105.92,
-              "floor3": 116.51,
+              "floor3": 116.52,
               "band3": "Remote chance",
               "outOf100": 13
             }
@@ -17839,6 +17263,7 @@
       "away": "Chelsea",
       "kickoff": "2026-08-24T20:00:00+00:00",
       "referee": "J Brooks",
+      "lineupConfirmed": false,
       "teams": {
         "Fulham": [
           {
@@ -17969,7 +17394,7 @@
             "fixture": "Fulham v Chelsea",
             "kickoff": "2026-08-24T20:00:00+00:00",
             "expectedMinutes": 75.6,
-            "effectiveMatches": 56.6,
+            "effectiveMatches": 56.5,
             "thin": false,
             "committed": {
               "why": {
@@ -17977,7 +17402,7 @@
                 "expectedMinutes": 75.6,
                 "opponentFactor": 1.036,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 56.6
+                "effectiveMatches": 56.5
               },
               "exact0": 0.5365,
               "p1plus": 0.4635,
@@ -18000,7 +17425,7 @@
                 "expectedMinutes": 75.6,
                 "opponentFactor": 1.007,
                 "refereeFactor": 1.0,
-                "effectiveMatches": 56.6
+                "effectiveMatches": 56.5
               },
               "exact0": 0.6433,
               "p1plus": 0.3567,
@@ -18049,7 +17474,7 @@
               "band2": "Highly unlikely",
               "p3plus": 0.0673,
               "fair3": 14.87,
-              "floor3": 16.36,
+              "floor3": 16.35,
               "band3": "Remote chance",
               "outOf100": 42
             },
@@ -20242,30 +19667,6 @@
           "position": "MF"
         },
         {
-          "player": "Eze",
-          "team": "Arsenal",
-          "fixture": "Arsenal v Coventry",
-          "kickoff": "2026-08-21T20:00:00+00:00",
-          "market": "drawn",
-          "line": 0.5,
-          "prob": 0.6689,
-          "packProb": 0.72,
-          "edge": -0.0511,
-          "band": "Likely",
-          "outOf100": 67,
-          "fair": 1.5,
-          "floor": 1.64,
-          "why": {
-            "ratePer90": 1.792,
-            "expectedMinutes": 70.9,
-            "opponentFactor": 1.0,
-            "refereeFactor": 1.0,
-            "effectiveMatches": 54.1
-          },
-          "thin": false,
-          "position": "MF"
-        },
-        {
           "player": "Cook",
           "team": "Bournemouth",
           "fixture": "Man City v Bournemouth",
@@ -20288,12 +19689,36 @@
           },
           "thin": false,
           "position": "MF"
+        },
+        {
+          "player": "Luki\u0107",
+          "team": "Ipswich",
+          "fixture": "Ipswich v Sunderland",
+          "kickoff": "2026-08-22T15:00:00+00:00",
+          "market": "committed",
+          "line": 0.5,
+          "prob": 0.7732,
+          "packProb": 0.8649,
+          "edge": -0.0917,
+          "band": "Likely",
+          "outOf100": 77,
+          "fair": 1.29,
+          "floor": 1.42,
+          "why": {
+            "ratePer90": 1.941,
+            "expectedMinutes": 87.8,
+            "opponentFactor": 1.0,
+            "refereeFactor": 1.0,
+            "effectiveMatches": 32.9
+          },
+          "thin": false,
+          "position": "MF"
         }
       ],
-      "combinedProb": 0.1095,
-      "combinedFair": 9.1,
-      "averageProb": 0.644,
-      "averageEdge": -0.0343,
+      "combinedProb": 0.1265,
+      "combinedFair": 7.9,
+      "averageProb": 0.665,
+      "averageEdge": -0.0424,
       "inBand": true
     },
     {

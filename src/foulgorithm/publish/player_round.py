@@ -19,6 +19,7 @@ from foulgorithm.identity import players as identity
 from foulgorithm.identity.teams import to_fpl
 from foulgorithm.models import player_models as pm
 from foulgorithm.sources import football_data, fpl
+from foulgorithm.sources.lineups import for_round as confirmed_lineups
 from foulgorithm.store.players import load_player_matches
 
 OUTPUT = Path("site/public/data/players.json")
@@ -60,6 +61,7 @@ class Selection:
     position: str
     available: bool
     news: str
+    confirmed: bool = False
 
     @property
     def lookup(self) -> str:
@@ -67,7 +69,13 @@ class Selection:
         return self.history or self.full
 
 
-def squad(squads, resolution, team: str, limit: int = 16) -> list[Selection]:
+def squad(
+    squads,
+    resolution,
+    team: str,
+    limit: int = 16,
+    lineup=None,
+) -> list[Selection]:
     """Who is likely to feature, from the CURRENT squad list.
 
     Previously derived from foul history ending September 2025, which named
@@ -76,6 +84,27 @@ def squad(squads, resolution, team: str, limit: int = 16) -> list[Selection]:
     history.
     """
     players = squads.get(to_fpl(team), [])
+
+    # A confirmed eleven beats any prediction of one. When it exists, use it and
+    # say so; the two are graded separately because they are different products.
+    if lineup and lineup.starters:
+        by_key = {fpl.normalise(p.name): p for p in players}
+        out = []
+        for name in lineup.starters:
+            match = by_key.get(fpl.normalise(name))
+            out.append(
+                Selection(
+                    display=match.web_name if match else name.split()[-1],
+                    full=match.name if match else name,
+                    history=resolution.matched.get(match.name) if match else None,
+                    position=match.position if match else "?",
+                    available=True,
+                    news="",
+                    confirmed=True,
+                )
+            )
+        return out
+
     out = []
     for p in fpl.likely_eleven(players, limit):
         out.append(
@@ -86,6 +115,7 @@ def squad(squads, resolution, team: str, limit: int = 16) -> list[Selection]:
                 position=p.position,
                 available=p.available,
                 news=p.news,
+                confirmed=False,
             )
         )
     return out
@@ -95,6 +125,12 @@ def publish(output: Path = OUTPUT) -> dict:
     history = load_player_matches()
     fixtures = pd.DataFrame(football_data.fetch_fixtures())
     as_of = datetime.now(timezone.utc)
+
+    try:
+        lineups = confirmed_lineups()
+    except Exception as exc:  # noqa: BLE001 - reported, never silently empty
+        print(f"  confirmed lineups unavailable: {exc}")
+        lineups = {}
 
     squads = fpl.current_squads()
     everyone = [p for club in squads.values() for p in club]
@@ -117,11 +153,16 @@ def publish(output: Path = OUTPUT) -> dict:
             "away": fx.away_team_raw,
             "kickoff": fx.kickoff_utc.isoformat(),
             "referee": fx.referee_raw,
+            "lineupConfirmed": any(
+                f"{t}|{fx.home_team_raw} v {fx.away_team_raw}" in lineups
+                for t in (fx.home_team_raw, fx.away_team_raw)
+            ),
             "teams": {},
         }
         for team, opponent in ((fx.home_team_raw, fx.away_team_raw), (fx.away_team_raw, fx.home_team_raw)):
             players = []
-            for sel in squad(squads, resolution, team):
+            label = f"{fx.home_team_raw} v {fx.away_team_raw}"
+            for sel in squad(squads, resolution, team, lineup=lineups.get(f"{team}|{label}")):
                 dist_c, why_c = house_c.predict_one(sel.lookup, opponent, as_of)
                 dist_d, why_d = house_d.predict_one(sel.lookup, opponent, as_of)
                 row = {
@@ -146,7 +187,7 @@ def publish(output: Path = OUTPUT) -> dict:
             )
         board.append(fixture_block)
 
-    candidates = _candidate_table(squads, resolution, fixtures, committed, drawn, as_of)
+    candidates = _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, lineups)
     picks = [_character_picks(cid, candidates) for cid in pm.CHARACTER_SETTINGS]
 
     top = sorted(all_rows, key=lambda r: -r["committed"]["p1plus"])[:12]
@@ -165,6 +206,12 @@ def publish(output: Path = OUTPUT) -> dict:
             "players": len(everyone),
             "resolved": len(resolution.matched),
             "unresolved": len(resolution.unmatched),
+        },
+        "lineups": {
+            "source": "Premier League API",
+            "confirmed": len(lineups),
+            "note": "Confirmed elevens appear about an hour before kickoff. "
+                    "Until then these are predicted from current squads.",
         },
         "topFoulers": top,
         "board": board,
@@ -187,7 +234,7 @@ def _market_block(dist, why: dict) -> dict:
     return out
 
 
-def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of) -> list[dict]:
+def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, lineups) -> list[dict]:
     """Every candidate bet, with EVERY character's probability attached.
 
     Computed once. Selection then reads from it, which is what makes
@@ -199,7 +246,8 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of) -> l
             (fx.home_team_raw, fx.away_team_raw),
             (fx.away_team_raw, fx.home_team_raw),
         ):
-            for sel in squad(squads, resolution, team, limit=14):
+            label = f"{fx.home_team_raw} v {fx.away_team_raw}"
+            for sel in squad(squads, resolution, team, 14, lineups.get(f"{team}|{label}")):
                 for market, models in (("committed", committed), ("drawn", drawn)):
                     dists = {}
                     whys = {}

@@ -448,3 +448,16 @@ details[open] > summary .chev {
   color: var(--text-muted);
   margin-left: 2px;
 }
+
+.confirmed {
+  display: inline-block;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--series-1);
+  border: 1px solid var(--series-1);
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-right: var(--space-3);
+  vertical-align: middle;
+}

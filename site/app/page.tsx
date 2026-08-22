@@ -59,13 +59,19 @@ export default function Today() {
       </section>
 
       <section>
-        <h2 className={s.h2}>The five, and what each would back</h2>
+        <h2 className={s.h2}>Five readings of the same evidence</h2>
         <p className={s.note}>
-          Five algorithms built around five temperaments, all seeing the same players and the same
-          history. Each builds a five-pick slip constrained to a similar combined return, so nobody
-          wins simply by picking easier bets. <strong>vs pack</strong> is the gap between what this
-          character makes it and what the other four do, which is where it backs its temperament
-          against the room.
+          Five algorithms with five temperaments, seeing the same players and the same history.
+          Each builds a five-pick slip constrained to a similar combined return, so nobody wins by
+          picking easier bets. <strong>vs pack</strong> is the gap between this one and the other
+          four.
+          <br />
+          <br />
+          Worth being straight about the size of that gap. Backtested over 13,993 predictions, the
+          five separate by only <strong>1.9%</strong> on fouls committed. They all beat a model
+          knowing nothing but position and minutes, by about 4%, so the history genuinely matters.
+          But they are five slightly different readings, not five sharply different opinions, and
+          we would rather say so than let the portraits imply otherwise.
         </p>
         <div className={s.picksGrid}>
           {d.picks.map((c) => (
@@ -133,6 +139,7 @@ export default function Today() {
                 {fx.home} v {fx.away}
               </span>
               <span className={s.fxMeta}>
+                {fx.lineupConfirmed && <span className={s.confirmed}>XI confirmed</span>}
                 {kickoff(fx.kickoff)}
                 {fx.referee && ` · ${fx.referee}`}
               </span>
@@ -208,6 +215,14 @@ export default function Today() {
             prediction. Of those, {d.squads.resolved} are matched to a foul record. The rest are new
             enough to the league that we fall back to their position&apos;s average and mark them
             thin, rather than guessing from a similar name.
+          </p>
+          <p>
+            {d.lineups.confirmed > 0
+              ? `${d.lineups.confirmed} confirmed team sheets are in, taken from the ${d.lineups.source}. `
+              : `No team sheets are confirmed yet. `}
+            {d.lineups.note} A fixture showing <em>XI confirmed</em> is predicted from the actual
+            eleven; every other fixture is predicted from the current squad, which is a weaker thing
+            and is marked as such.
           </p>
           <p className={s.muted}>
             Generated {d.generatedAt.slice(0, 10)}. No prediction here has settled yet, so there is
