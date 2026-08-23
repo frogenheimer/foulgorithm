@@ -63,6 +63,77 @@ BANDS = [
 ]
 
 
+def name_key(name: str) -> tuple[str, ...]:
+    """A player's identity, independent of the order his names arrive in.
+
+    Wataru Endo reached Liverpool's bench twice, once as "Wataru Endo" from FPL
+    and once as "Endo Wataru" from the team sheet. Ao Tanaka did the same at
+    Leeds. Family name first in one source, given name first in the other, which
+    docs/04-identity-resolution.md flags and the identity resolver already
+    handles by comparing unordered tokens. Squad assembly deduped on the
+    normalised string instead, so two orderings were two players.
+
+    Sorted tokens, so both orderings land on one key. Used ONLY to decide
+    whether a player is already in the list. It never picks which spelling is
+    displayed and never confirms a match against history on its own.
+    """
+    return tuple(sorted(fpl.normalise(name).split()))
+
+
+def find_squad_member(by_key: dict, name: str):
+    """The squad member a team sheet is referring to, or None.
+
+    Exact key first. Failing that, a subset match: every word of one name
+    appearing in the other, which is how "Ben White" reaches FPL's "Benjamin
+    White" and "Gabriel Magalhaes" reaches "Gabriel dos Santos Magalhaes".
+
+    Two guards, both borrowed from the identity resolver, which has had this
+    right all along:
+
+      - At least two words must overlap, so a lone surname never resolves. This
+        is the rule that stops Danny Ward the goalkeeper inheriting Danny Ward
+        the striker's foul rate.
+      - Exactly one candidate, or nothing. An ambiguous match is refused rather
+        than guessed, per ADR-007.
+    """
+    key = name_key(name)
+    if key in by_key:
+        return by_key[key]
+
+    tokens = set(key)
+    if len(tokens) < 2:
+        return None
+
+    candidates = [
+        member
+        for other, member in by_key.items()
+        if len(set(other) & tokens) >= 2 and (set(other) <= tokens or tokens <= set(other))
+    ]
+    if len(candidates) == 1:
+        return candidates[0]
+    if candidates:
+        return None  # ambiguous, refuse rather than guess
+
+    # Last resort: a surname unique within this ONE club's squad.
+    #
+    # Team sheets use the name the player goes by and FPL uses the formal one:
+    # "Andy Robertson" against "Andrew Robertson", "Ben White" against
+    # "Benjamin White". Those share only the surname, so the two-word rule above
+    # refuses them, and twelve players reached the site with no position.
+    #
+    # The reason the two-word rule exists is Danny Ward the goalkeeper
+    # inheriting Danny Ward the striker's rate. That is a collision between two
+    # players with one surname, so requiring the surname to be unique among the
+    # thirty-odd names at a single club addresses it directly. Across the league
+    # this would be reckless; inside one squad it is the same check a person
+    # reading the team sheet would make.
+    surname = key[-1] if key else ""
+    if not surname:
+        return None
+    shares = [member for other, member in by_key.items() if other and surname in other]
+    return shares[0] if len(shares) == 1 else None
+
+
 def band(p: float) -> str:
     for threshold, word in BANDS:
         if p >= threshold:
@@ -115,10 +186,13 @@ def squad(
     # A confirmed eleven beats any prediction of one. When it exists, use it and
     # say so; the two are graded separately because they are different products.
     if lineup and lineup.starters:
-        by_key = {fpl.normalise(p.name): p for p in players}
+        # Keyed the same way the dedupe is, so a team sheet writing a name in
+        # the other order still finds the squad member. Missing him here cost
+        # the position, which reached the bench as a dash.
+        by_key = {name_key(p.name): p for p in players}
 
         def selection_for(name: str, starting: bool) -> Selection:
-            match = by_key.get(fpl.normalise(name))
+            match = find_squad_member(by_key, name)
             return Selection(
                 display=match.web_name if match else name.split()[-1],
                 full=match.name if match else name,
@@ -133,17 +207,28 @@ def squad(
         # only offer players already on it, so "swap someone out" had nothing to
         # swap in: a confirmed eleven is eleven, and every other name had no
         # numbers attached.
-        out = [selection_for(n, True) for n in lineup.starters]
-        seen = {fpl.normalise(n) for n in lineup.starters}
+        # Both keys go into `seen`: the name the team sheet used AND the name it
+        # resolved to. A subset match means those differ ("Ben White" resolving
+        # to FPL's "Benjamin White"), and recording only the team sheet's meant
+        # the squad loop below did not recognise him and added him a second time.
+        out: list[Selection] = []
+        seen: set[tuple[str, ...]] = set()
+
+        def remember(sel: Selection, original: str) -> None:
+            seen.add(name_key(original))
+            seen.add(name_key(sel.full))
+            out.append(sel)
+
+        for n in lineup.starters:
+            remember(selection_for(n, True), n)
         for name in lineup.substitutes:
-            if fpl.normalise(name) not in seen:
-                out.append(selection_for(name, False))
-                seen.add(fpl.normalise(name))
+            if name_key(name) not in seen:
+                remember(selection_for(name, False), name)
 
         # Everyone else available. A named eleven and nine substitutes is the
         # match; the rest of the squad is who a reader might ask about.
         for p in players:
-            if fpl.normalise(p.name) in seen or not p.available:
+            if name_key(p.name) in seen or not p.available:
                 continue
             out.append(
                 Selection(
@@ -156,7 +241,7 @@ def squad(
                     confirmed=False,
                 )
             )
-            seen.add(fpl.normalise(p.name))
+            seen.add(name_key(p.name))
         return out
 
     ranked = fpl.likely_eleven(players, limit)

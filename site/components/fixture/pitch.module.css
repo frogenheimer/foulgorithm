@@ -60,6 +60,21 @@
   min-height: 420px;
   display: flex;
   align-items: stretch;
+  /* Keeps the keeper's name off the bench beside it. Without clipping to hide
+     it, an overhang is visible, and the answer is to not overhang. */
+  padding: 0 var(--s2);
+  /* NOT overflow: hidden. That clipped the open dropdown at the touchline and
+     cut the bottom row's number in half. The turf below is what gets clipped,
+     so the grass keeps its rounded corners and the players can overhang. */
+  overflow: visible;
+}
+
+/* The grass, the border and the markings: everything that should be clipped to
+   the shape of the pitch, and nothing that should not. */
+.turf {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
   border-radius: var(--r-md);
   border: 1px solid var(--line);
   background: repeating-linear-gradient(
@@ -67,12 +82,12 @@
     var(--turf-a) 0 5%,
     var(--turf-b) 5% 10%
   );
-  overflow: hidden;
 }
 
 .markings {
   position: absolute;
   inset: 0;
+  z-index: 0;
   pointer-events: none;
   opacity: 0.4;
   color: var(--pitch-paint);
@@ -94,7 +109,10 @@
   align-items: center;
   gap: var(--s2);
   position: relative;
-  z-index: 1;
+  /* Deliberately no z-index. With one, every line became its own stacking
+     context, so an open dropdown in the defenders' column painted UNDER the
+     midfielders and forwards drawn after it, however high its own z-index
+     went. That is the layering bug: the fix is to stop making the context. */
   min-width: 0;
 }
 
@@ -130,6 +148,17 @@
   color: var(--on-rail);
 }
 
+/* A player standing somewhere his position does not describe. Marked, and
+   deliberately NOT rearranged around: the shape used to reflow into position
+   columns on the first swap, which moved all eleven markers to report a fact
+   about one of them. */
+.misplaced .shirt {
+  /* A ring, not a dashed border. `border-style: dashed` on a circle renders as
+     a spiky starburst, which reads as a rendering fault rather than a note
+     about where someone is standing. */
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--warn, var(--ink-3));
+}
+
 .swapped .shirt {
   border-color: var(--accent);
   background: var(--accent-soft);
@@ -141,15 +170,11 @@
   max-width: 100%;
 }
 
-/* An open slot rises above every other marker. Without this the dropdown is
-   painted under any player drawn after it, which is most of them. */
+/* An open slot rises above every other marker. Works only because .line no
+   longer creates a stacking context to trap it in. */
 .slotOpen {
+  position: relative;
   z-index: 40;
-}
-
-.line,
-.half {
-  isolation: auto;
 }
 
 /* The name IS the control. Rendering it and a select underneath put the same
@@ -179,11 +204,16 @@
   color: var(--on-turf);
   line-height: 1.25;
   /* Two lines rather than an ellipsis. A truncated name is not a name, and a
-     pitch has the vertical room a table row does not. */
-  max-width: 13ch;
+     pitch has the vertical room a table row does not.
+     Wrapping is at word boundaries ONLY. `anywhere` split single names down
+     the middle, so the pitch read "Grave nberch" and "Ngum oha", which looks
+     like a rendering fault rather than a long name. */
+  max-width: 14ch;
   text-align: center;
   white-space: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
 }
 
 .rate {
@@ -224,6 +254,7 @@
     aspect-ratio: 68 / 105;
     flex-direction: column;
     min-height: 520px;
+    overflow: visible;
     background: repeating-linear-gradient(
       to bottom,
       var(--turf-a) 0 5%,
@@ -249,8 +280,11 @@
 
 .squad {
   display: grid;
-  grid-template-columns: minmax(150px, 200px) minmax(0, 1fr) minmax(150px, 200px);
-  gap: var(--s4);
+  /* The benches were 200px each and the pitch took what was left, which was not
+     enough for eleven names across four lines. The pitch is the thing people
+     came for, so it gets the room and the benches give it up. */
+  grid-template-columns: minmax(128px, 160px) minmax(0, 1fr) minmax(128px, 160px);
+  gap: var(--s3);
   align-items: start;
 }
 

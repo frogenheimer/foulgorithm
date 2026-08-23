@@ -21,6 +21,16 @@ import type { ExplorerRow, Spot, TeamShape } from "@/lib/data";
 import { Combobox, MicroLabel, Toggle } from "@/components/kit";
 import type { Option } from "@/components/kit";
 import { findPlayer, who } from "@/lib/who";
+import {
+  benchFrom,
+  lines as formationLines,
+  markerFor,
+  occupancy as occupancyOf,
+  outOfPosition,
+  placeInto,
+  samePosition,
+  shirtIndex,
+} from "@/lib/pitch";
 import s from "./pitch.module.css";
 
 export type Market = "committed" | "drawn" | "involvements";
@@ -110,7 +120,11 @@ export default function Pitch({
         />
 
         <div className={s.pitch}>
-          <Markings />
+          {/* The grass is a layer of its own so the pitch itself can let an
+              open dropdown overhang the touchline instead of clipping it. */}
+          <div className={s.turf} aria-hidden>
+            <Markings />
+          </div>
           <Half
             side={home}
             selected={selected}
@@ -147,21 +161,6 @@ export default function Pitch({
 
 /* ---------- who is where ---------- */
 
-/** Every slot on a side, with whoever is currently standing in it. */
-function occupancy(side: Side, selected: Selected) {
-  const out: { key: string; spot: Spot; row?: ExplorerRow; name: string }[] = [];
-  side.shape.lines.forEach((line, i) =>
-    line.forEach((spot, j) => {
-      const key = `${side.club}|${i}|${j}`;
-      const chosen = selected[key];
-      const row = chosen
-        ? side.squad.find((r) => who(r.fullName) === chosen)
-        : findPlayer(side.squad, spot.player);
-      out.push({ key, spot, row, name: row?.player ?? spot.player });
-    })
-  );
-  return out;
-}
 
 function Bench({
   side,
@@ -178,15 +177,12 @@ function Bench({
   onDragStart: (key: string) => void;
   onDragEnd: () => void;
 }) {
-  const onPitch = new Set(
-    occupancy(side, selected)
-      .map((o) => o.row && who(o.row.fullName))
-      .filter(Boolean) as string[]
-  );
-
   // Anyone in the squad who is not currently on the pitch. That is the bench
   // whether the league named them substitutes or a swap put them there.
-  const off = side.squad.filter((r) => !onPitch.has(who(r.fullName)));
+  const off = benchFrom(
+    side.squad,
+    occupancyOf(side.shape, side.squad, selected, findPlayer)
+  );
 
   return (
     <div className={s.bench}>
@@ -239,8 +235,9 @@ function Half({
   mirrored?: boolean;
 }) {
   const [open, setOpen] = useState<string | null>(null);
-  const here = occupancy(side, selected);
+  const here = occupancyOf(side.shape, side.squad, selected, findPlayer);
   const byKey = new Map(here.map((o) => [o.key, o]));
+  const shirts = useMemo(() => shirtIndex(side.shape), [side.shape]);
 
   const byName = useMemo(
     () => [...side.squad].sort((a, b) => a.player.localeCompare(b.player)),
@@ -254,19 +251,13 @@ function Half({
    * only be in one place and cloning him was the bug this replaced.
    */
   function place(targetKey: string, incoming: string) {
-    const next = { ...selected };
-    const displaced = byKey.get(targetKey);
-    const elsewhere = here.find((o) => o.row && who(o.row.fullName) === incoming);
-
-    next[targetKey] = incoming;
-    if (elsewhere && elsewhere.key !== targetKey) {
-      if (displaced?.row) next[elsewhere.key] = who(displaced.row.fullName);
-      else delete next[elsewhere.key];
-    }
-    onChange(next);
+    onChange(placeInto(selected, here, targetKey, incoming));
   }
 
-  const shape = useMemo(() => regroup(side, here, mirrored), [side, here, mirrored]);
+  const shape = useMemo(
+    () => formationLines(side.shape, here, mirrored),
+    [side.shape, here, mirrored]
+  );
 
   return (
     <div className={mirrored ? `${s.half} ${s.away}` : s.half}>
@@ -274,6 +265,7 @@ function Half({
         <div key={i} className={s.line}>
           {line.map((o) => {
             const swapped = Boolean(selected[o.key]);
+            const misplaced = outOfPosition(o.row, o.spot);
             const isOpen = open === o.key;
             const receiving = Boolean(dragging && dragging.club === side.club);
             return (
@@ -282,6 +274,7 @@ function Half({
                 className={[
                   s.slot,
                   swapped ? s.swapped : "",
+                  misplaced ? s.misplaced : "",
                   isOpen ? s.slotOpen : "",
                   receiving ? s.dropTarget : "",
                 ]
@@ -302,8 +295,13 @@ function Half({
                   className={s.shirt}
                   draggable
                   onDragStart={() => onDragStart(o.key)}
+                  title={
+                    misplaced
+                      ? `${o.name} is a ${shortPosition(o.row!.position)} standing ${positionName(o.spot.position)}`
+                      : o.name
+                  }
                 >
-                  {o.spot.shirt ?? o.spot.position}
+                  {markerFor(shirts, o.row, o.spot)}
                 </span>
                 <div className={s.picker}>
                   <Combobox
@@ -353,40 +351,6 @@ function optionsFor(rows: ExplorerRow[], spot: Spot, market: Market): Option[] {
   }));
 }
 
-/**
- * Rebuild the lines from whoever is on the pitch now.
- *
- * An untouched side keeps the league's published shape, which is a real
- * formation. Once a swap has happened it is a grouping by position, because
- * leaving a midfielder standing at left-back is not what the change meant.
- */
-function regroup(
-  side: Side,
-  here: ReturnType<typeof occupancy>,
-  mirrored: boolean
-): ReturnType<typeof occupancy>[] {
-  const touched = here.some((o) => o.key in {} || false);
-  const anySwap = here.some((o) => o.row && o.row.player !== o.spot.player);
-
-  let lines: ReturnType<typeof occupancy>[];
-  if (!anySwap) {
-    lines = [];
-    let i = 0;
-    for (const line of side.shape.lines) {
-      lines.push(here.slice(i, i + line.length));
-      i += line.length;
-    }
-  } else {
-    const buckets: Record<string, ReturnType<typeof occupancy>> = { G: [], D: [], M: [], F: [] };
-    for (const o of here) {
-      const code = (o.row?.position ?? o.spot.position ?? "M").charAt(0).toUpperCase();
-      buckets[code in buckets ? code : "M"].push(o);
-    }
-    lines = ["G", "D", "M", "F"].map((k) => buckets[k]).filter((l) => l.length > 0);
-  }
-  void touched;
-  return mirrored ? [...lines].reverse() : lines;
-}
 
 /** Both penalty areas, both six-yard boxes, halfway line, centre circle. */
 function Markings() {
@@ -414,10 +378,6 @@ function Chevron() {
   );
 }
 
-/** FPL codes a squad GKP/DEF/MID/FWD; the league codes a slot G/D/M/F. */
-function samePosition(a: string, b: string): boolean {
-  return (a || "").charAt(0).toUpperCase() === (b || "").charAt(0).toUpperCase();
-}
 
 function shortPosition(code: string): string {
   return { G: "GK", D: "DEF", M: "MID", F: "FWD" }[(code || "").charAt(0).toUpperCase()] ?? "—";
