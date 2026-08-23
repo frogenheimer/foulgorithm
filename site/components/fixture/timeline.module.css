@@ -1,0 +1,196 @@
+/* The round as a chronological run: past behind you, live now, ahead below. */
+
+.wrap {
+  position: relative;
+  display: grid;
+  gap: var(--s7);
+}
+
+/* The spine. A single line the whole round hangs off, so scrolling reads as
+   moving through time rather than through a list. */
+.wrap::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: var(--s2);
+  bottom: var(--s2);
+  width: 1px;
+  background: linear-gradient(var(--line), var(--line-strong), var(--line));
+}
+
+.day {
+  position: relative;
+  display: grid;
+  gap: var(--s3);
+  padding-left: var(--s7);
+}
+
+.dayLabel {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dayMeta {
+  font-size: var(--t-xs);
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+/* The marker on the spine, one per day. */
+.day::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 15px;
+  height: 15px;
+  border-radius: var(--r-pill);
+  border: 2px solid var(--line-strong);
+  background: var(--ground);
+}
+
+.today::before {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--s3);
+}
+
+.card {
+  display: grid;
+  gap: var(--s3);
+  align-content: start;
+  padding: var(--s4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--lift);
+  /* Transform and opacity only, both GPU composited. */
+  transition: border-color var(--d-fast) var(--ease), transform var(--d-fast) var(--ease);
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+}
+
+/* Played. Still readable, clearly behind you. */
+.past {
+  background: var(--surface-sunk);
+  box-shadow: none;
+}
+
+.past .teams,
+.past .expected {
+  color: var(--ink-3);
+}
+
+/* Under way. */
+.live {
+  border-color: var(--accent);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.teams {
+  display: grid;
+  gap: var(--s1);
+  font-size: var(--t-md);
+  color: var(--ink);
+}
+
+.score {
+  font-family: var(--font-mono);
+  color: var(--ink-3);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.expected {
+  font-family: var(--font-mono);
+  color: var(--ink-2);
+}
+
+/* State marker. A shape and a word, never colour alone. */
+.state {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: currentColor;
+}
+
+.liveState {
+  color: var(--accent);
+}
+
+/* The one animation on the page, and it earns it: a match in progress is the
+   only thing here that is changing while you look at it. */
+.liveState .dot {
+  animation: beat 1.8s var(--ease) infinite;
+}
+
+@keyframes beat {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.72); }
+}
+
+.confirmedState {
+  color: var(--accent);
+}
+
+/* Days arrive as you reach them. Transform and opacity, and nothing moves for
+   anyone who asked for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .day {
+    animation: arrive var(--d-slow) var(--ease) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+}
+
+@keyframes arrive {
+  from { opacity: 0; transform: translateY(var(--s4)); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 640px) {
+  .day {
+    padding-left: var(--s6);
+  }
+}

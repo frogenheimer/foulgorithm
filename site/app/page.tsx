@@ -1,5 +1,5 @@
 import Link from "next/link";
-import FixtureCards from "@/components/fixture/FixtureCards";
+import Timeline from "@/components/fixture/Timeline";
 import { Card, Metric, MetricRow, PageHeader, SectionHead } from "@/components/kit";
 import { getPlayers, getTrackRecord } from "@/lib/data";
 import { count } from "@/lib/format";
@@ -45,7 +45,7 @@ export default function Today() {
       />
 
       <section>
-        <FixtureCards fixtures={d.board} expected={expected} />
+        <Timeline fixtures={d.board} expected={expected} />
       </section>
 
       <section>
