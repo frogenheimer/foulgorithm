@@ -15,7 +15,7 @@
 
 import { useMemo, useState } from "react";
 import type { Explorer, ExplorerRow, Formations, Slip } from "@/lib/data";
-import { Callout, Toggle } from "@/components/kit";
+import { Callout } from "@/components/kit";
 import Pitch from "./Pitch";
 import SlipGrid from "./SlipGrid";
 import { candidatesFor, slipAtOdds } from "./rebuild";
@@ -43,7 +43,7 @@ export default function Lineups({
 }) {
   const [selected, setSelected] = useState<Record<string, string>>({});
   // Narrow screens show one side at a time; both fit side by side above 900px.
-  const [showing, setShowing] = useState<string>("");
+
   // Home first, away second, matching the fixture label rather than object order.
   const [homeClub, awayClub] = fixture.split(" v ");
   const clubs = [homeClub, awayClub].filter((c) => shapes[c]);
@@ -98,48 +98,29 @@ export default function Lineups({
   const findRow = (club: string, player: string) =>
     squads[club]?.find((r) => r.player === player || r.fullName === player);
 
-  const expectedOf = (club: string) => (player: string) => {
-    const row = findRow(club, player);
-    return row ? `${row.expected.committed.toFixed(2)} fouls` : "no record";
-  };
-
   return (
     <div style={{ display: "grid", gap: "var(--s6)" }}>
-      <Toggle
-        narrowOnly
-        label="Which side to show"
-        value={showing || clubs[0]}
-        options={clubs.map((c) => ({ value: c, label: c }))}
-        onChange={setShowing}
+      <Pitch
+        home={{ club: homeClub, shape: shapes[homeClub], squad: squads[homeClub] ?? [] }}
+        away={{ club: awayClub, shape: shapes[awayClub], squad: squads[awayClub] ?? [] }}
+        selected={selected}
+        onSwap={(key, player) =>
+          setSelected((prev) => {
+            const [club, li, si] = key.split("|");
+            const original = shapes[club]?.lines[Number(li)]?.[Number(si)]?.player;
+            const next = { ...prev };
+            // Choosing the published player again is not a change.
+            if (player === original) delete next[key];
+            else next[key] = player;
+            return next;
+          })
+        }
+        onReset={() => setSelected({})}
+        rateOf={(club, player) => {
+          const row = findRow(club, player);
+          return row ? row.expected.committed.toFixed(2) : "—";
+        }}
       />
-
-      <div className={s.sides} data-showing={showing || clubs[0]}>
-        {clubs.map((club, i) => (
-          <Pitch
-            key={club}
-            club={club}
-            away={i === 1}
-            hiddenWhenNarrow={(showing || clubs[0]) !== club}
-            shape={shapes[club]}
-            squad={squads[club] ?? []}
-            selected={selected}
-            onSwap={(key, player) =>
-              setSelected((prev) => {
-                const spot = key.split("|");
-                const original =
-                  shapes[club].lines[Number(spot[1])]?.[Number(spot[2])]?.player;
-                const next = { ...prev };
-                // Selecting the published player again is not a change.
-                if (player === original) delete next[key];
-                else next[key] = player;
-                return next;
-              })
-            }
-            onReset={() => setSelected({})}
-            rateOf={expectedOf(club)}
-          />
-        ))}
-      </div>
 
       {changed && (
         <Callout>

@@ -60,6 +60,17 @@ def run(poll_seconds: int = POLL_SECONDS, once: bool = False) -> int:
     from foulgorithm.jobs import lineup_watch
 
     started = _now()
+
+    # The fixture call is being made anyway, so notice if the round itself has
+    # moved: kickoff times shift for television and referees are appointed late.
+    try:
+        from foulgorithm.jobs import changes
+
+        for c in changes.run(quiet=True):
+            print(f"  round changed: {c['fixture']} {c['change']}")
+    except Exception as exc:
+        print(f"change check skipped: {exc}", file=sys.stderr)
+
     try:
         fixtures = upcoming()
     except Exception as exc:

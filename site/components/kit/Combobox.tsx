@@ -31,6 +31,7 @@ export function Combobox({
   label,
   placeholder = "Search",
   restLabel = "Everyone else",
+  trigger,
 }: {
   value: string;
   options: Option[];
@@ -38,6 +39,12 @@ export function Combobox({
   label: string;
   placeholder?: string;
   restLabel?: string;
+  /**
+   * Render the closed state yourself. Use this where the current value is
+   * already on screen, so the control is a chevron beside it rather than a
+   * second copy of the same name.
+   */
+  trigger?: (open: () => void) => React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -69,19 +76,25 @@ export function Combobox({
     setOpen(false);
   }
 
+  const openIt = () => {
+    setOpen(true);
+    setQuery("");
+  };
+
   return (
     <div className={s.combo} ref={box}>
+      {trigger && !open ? (
+        trigger(openIt)
+      ) : (
       <input
+        autoFocus={Boolean(trigger)}
         className={s.comboInput}
         value={open ? query : value}
         placeholder={open ? placeholder : undefined}
         aria-label={label}
         role="combobox"
         aria-expanded={open}
-        onFocus={() => {
-          setOpen(true);
-          setQuery("");
-        }}
+        onFocus={openIt}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Escape") setOpen(false);
@@ -91,6 +104,7 @@ export function Combobox({
           }
         }}
       />
+      )}
 
       {open && (
         <ul className={s.comboList} role="listbox" aria-label={label}>

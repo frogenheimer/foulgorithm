@@ -1,15 +1,19 @@
 "use client";
 
 /**
- * The confirmed eleven, on a pitch, with every slot swappable.
+ * Both elevens, on one pitch, in the shape the league published.
  *
- * The shape is the league's own: it publishes the formation as lines of player
- * ids, goalkeeper first, so this draws the real 4-2-3-1 rather than inferring a
- * shape from position codes. Codes cannot tell a back three from a back four.
+ * The formation arrives as lines of player ids, goalkeeper first, so this draws
+ * the real 4-2-3-1 rather than inferring one from position codes. Codes cannot
+ * tell a back three from a back four.
  *
- * Swapping a player is not decoration. The five characters' combinations are
- * rebuilt from whoever is on the pitch, so a reader can ask "what if he is
- * rested" and see the answer rather than being told to wait for team news.
+ * Home occupies the left half attacking right, away the right half attacking
+ * left, which is how a fixture is written and how a broadcast frames it. The
+ * pitch is 105 by 68 metres, held as an aspect ratio so the shape stays right at
+ * any width.
+ *
+ * Swapping a player is not decoration: the five characters' combinations rebuild
+ * from whoever is standing on it.
  */
 
 import { useMemo } from "react";
@@ -18,129 +22,191 @@ import { Combobox, MicroLabel } from "@/components/kit";
 import type { Option } from "@/components/kit";
 import s from "./pitch.module.css";
 
+export type Side = {
+  club: string;
+  shape: TeamShape;
+  squad: ExplorerRow[];
+};
+
 export default function Pitch({
-  club,
-  shape,
-  squad,
+  home,
+  away,
   selected,
   onSwap,
   onReset,
   rateOf,
-  away = false,
-  hiddenWhenNarrow = false,
 }: {
-  club: string;
-  shape: TeamShape;
-  /** Everyone available to this club in this fixture, for the dropdowns. */
-  squad: ExplorerRow[];
-  /** slot key -> player name, when swapped away from the published eleven */
+  home: Side;
+  away: Side;
+  /** slot key -> player, when swapped away from the published eleven */
   selected: Record<string, string>;
   onSwap: (slotKey: string, player: string) => void;
   onReset: () => void;
-  /** What to show under each name. Expected fouls, usually. */
-  rateOf: (player: string) => string;
-  /** The away side attacks left, so its formation is drawn goalkeeper-first. */
-  away?: boolean;
-  /** Hidden below 900px, where the two sides show one at a time. */
-  hiddenWhenNarrow?: boolean;
+  rateOf: (club: string, player: string) => string;
+}) {
+  const swaps = Object.keys(selected).length;
+
+  return (
+    <div className={s.wrap}>
+      <div className={s.head}>
+        <span className={s.club}>
+          {home.club} <span className={s.formation}>{home.shape.formation}</span>
+        </span>
+        <span className={s.versus}>
+          {swaps > 0 ? (
+            <button type="button" className={s.reset} onClick={onReset}>
+              Reset {swaps} change{swaps === 1 ? "" : "s"}
+            </button>
+          ) : (
+            "attacking direction shown"
+          )}
+        </span>
+        <span className={s.clubAway}>
+          <span className={s.formation}>{away.shape.formation}</span> {away.club}
+        </span>
+      </div>
+
+      <div className={s.pitch}>
+        <Markings />
+        {/* Home: goalkeeper at the left edge, attack running right. */}
+        <Half side={home} selected={selected} onSwap={onSwap} rateOf={rateOf} />
+        {/* Away: mirrored, so the two face each other. */}
+        <Half side={away} selected={selected} onSwap={onSwap} rateOf={rateOf} mirrored />
+      </div>
+
+      <div className={s.benches}>
+        {[home, away].map((side) => (
+          <div key={side.club}>
+            <MicroLabel>{side.club} bench</MicroLabel>
+            <p className={s.note}>
+              {side.shape.bench.map((b: Spot) => b.player).join(" · ") || "None named"}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Half({
+  side,
+  selected,
+  onSwap,
+  rateOf,
+  mirrored = false,
+}: {
+  side: Side;
+  selected: Record<string, string>;
+  onSwap: (key: string, player: string) => void;
+  rateOf: (club: string, player: string) => string;
+  mirrored?: boolean;
 }) {
   const byName = useMemo(
-    () => [...squad].sort((a, b) => a.player.localeCompare(b.player)),
-    [squad]
+    () => [...side.squad].sort((a, b) => a.player.localeCompare(b.player)),
+    [side.squad]
   );
 
   /**
-   * Options for one slot, with players who actually play that position offered
-   * first. Everyone else stays one keystroke away rather than hidden: a manager
-   * can field whoever he likes and the dropdown should not argue.
+   * Players who actually play the slot's position are offered first. Everyone
+   * else stays one keystroke away rather than hidden, because a manager can
+   * field whoever he likes and a dropdown should not argue.
    */
   const optionsFor = (spot: Spot): Option[] =>
     byName.map((row) => ({
       value: row.player,
       label: row.player,
-      meta: `${row.expected.committed.toFixed(2)}`,
-      group: samePosition(row.position, spot.position) ? `Plays ${positionName(spot.position)}` : undefined,
+      meta: row.expected.committed.toFixed(2),
+      group: samePosition(row.position, spot.position)
+        ? `Plays ${positionName(spot.position)}`
+        : undefined,
     }));
-  const swaps = Object.keys(selected).length;
+
+  const lines = mirrored ? [...side.shape.lines].reverse() : side.shape.lines;
 
   return (
-    <div className={hiddenWhenNarrow ? `${s.wrap} ${s.hideNarrow}` : s.wrap}>
-      <div className={s.head}>
-        <span className={s.club}>{club}</span>
-        <span className={s.formation}>{shape.formation ?? "shape unknown"}</span>
-        {swaps > 0 && (
-          <button type="button" className={s.reset} onClick={onReset}>
-            Reset {swaps} change{swaps === 1 ? "" : "s"}
-          </button>
-        )}
-      </div>
-
-      <div className={s.pitch}>
-        <Markings />
-        {/* Lines arrive goalkeeper-first. Home attacks right, so drawn in order
-            its keeper sits at the left edge; away attacks left and reverses.
-            The two pitches then face each other the way the fixture is written. */}
-        {(away ? [...shape.lines].reverse() : [...shape.lines]).map((line, i) => (
+    <div className={mirrored ? `${s.half} ${s.away}` : s.half}>
+      {lines.map((line, i) => {
+        const lineIndex = mirrored ? side.shape.lines.length - 1 - i : i;
+        return (
           <div key={i} className={s.line}>
             {line.map((spot, j) => {
-              const lineIndex = away ? shape.lines.length - 1 - i : i;
-              const key = `${club}|${lineIndex}|${j}`;
+              const key = `${side.club}|${lineIndex}|${j}`;
               const player = selected[key] ?? spot.player;
               const swapped = Boolean(selected[key]);
               return (
                 <div key={key} className={swapped ? `${s.slot} ${s.swapped}` : s.slot}>
                   <span className={s.shirt}>{spot.shirt ?? spot.position}</span>
-                  <span className={s.name} title={`${player} · ${spot.detail || spot.position}`}>
-                    {player}
-                  </span>
-                  <span className={s.rate}>{rateOf(player)}</span>
                   <div className={s.picker}>
                     <Combobox
                       value={player}
                       options={optionsFor(spot)}
                       onChange={(v) => onSwap(key, v)}
-                      label={`${spot.detail || spot.position} for ${club}`}
+                      label={`${spot.detail || spot.position} for ${side.club}`}
                       placeholder="Search squad"
+                      trigger={(open) => (
+                        <button
+                          type="button"
+                          className={s.nameButton}
+                          onClick={open}
+                          title={`${player} · ${spot.detail || spot.position}. Change.`}
+                        >
+                          <span className={s.name}>{player}</span>
+                          <Chevron />
+                        </button>
+                      )}
                     />
                   </div>
+                  <span className={s.rate}>{rateOf(side.club, player)}</span>
                 </div>
               );
             })}
           </div>
-        ))}
-      </div>
-
-      {shape.bench.length > 0 && (
-        <div>
-          <MicroLabel>Bench</MicroLabel>
-          <p className={s.note}>{shape.bench.map((b: Spot) => b.player).join(" · ")}</p>
-        </div>
-      )}
+        );
+      })}
     </div>
   );
 }
 
-/** FPL codes a squad by GKP/DEF/MID/FWD; the league codes a slot G/D/M/F. */
+/** Both penalty areas, both six-yard boxes, halfway line, centre circle. */
+function Markings() {
+  return (
+    <svg className={s.markings} viewBox="0 0 1050 680" preserveAspectRatio="none" aria-hidden>
+      <g fill="none" stroke="currentColor" strokeWidth="2" vectorEffect="non-scaling-stroke">
+        <rect x="6" y="6" width="1038" height="668" />
+        <line x1="525" y1="6" x2="525" y2="674" />
+        <circle cx="525" cy="340" r="91" />
+        <circle cx="525" cy="340" r="4" fill="currentColor" />
+        <rect x="6" y="139" width="165" height="402" />
+        <rect x="6" y="249" width="55" height="182" />
+        <rect x="879" y="139" width="165" height="402" />
+        <rect x="989" y="249" width="55" height="182" />
+      </g>
+    </svg>
+  );
+}
+
+function Chevron() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden>
+      <path
+        d="M3 4.5 6 7.5 9 4.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** FPL codes a squad GKP/DEF/MID/FWD; the league codes a slot G/D/M/F. */
 function samePosition(squadPosition: string, slotPosition: string): boolean {
-  const first = (squadPosition || "").trim().charAt(0).toUpperCase();
-  return first === (slotPosition || "").trim().charAt(0).toUpperCase();
+  const a = (squadPosition || "").trim().charAt(0).toUpperCase();
+  const b = (slotPosition || "").trim().charAt(0).toUpperCase();
+  return a === b;
 }
 
 function positionName(code: string): string {
   return { G: "in goal", D: "in defence", M: "in midfield", F: "up front" }[code] ?? "here";
-}
-
-/** Halfway line, centre circle, penalty box. Enough to read as a pitch. */
-function Markings() {
-  return (
-    <svg className={s.markings} viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden>
-      <g fill="none" stroke="currentColor" strokeWidth="0.4" vectorEffect="non-scaling-stroke">
-        <rect x="2" y="2" width="96" height="136" />
-        <line x1="2" y1="70" x2="98" y2="70" />
-        <circle cx="50" cy="70" r="12" />
-        <rect x="28" y="2" width="44" height="18" />
-        <rect x="28" y="120" width="44" height="18" />
-      </g>
-    </svg>
-  );
 }

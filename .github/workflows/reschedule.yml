@@ -1,0 +1,62 @@
+name: reschedule
+
+# Points the lineup cron at the actual kickoffs.
+#
+# GitHub cron is static in the workflow file, so it cannot know when matches
+# are. This reads the real fixture list weekly and rewrites the schedule: one
+# entry per distinct kickoff, bundled, because five Saturday three-o'clock
+# fixtures publish their elevens at the same moment.
+#
+# Weekly rather than once, because the list moves. Matches are rescheduled for
+# television, and a kickoff that changes after the schedule was written is a
+# fixture whose lineup would be missed.
+on:
+  schedule:
+    - cron: "0 4 * * 2"
+  workflow_dispatch:
+
+concurrency:
+  group: reschedule
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  reschedule:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Rewrite the lineup schedule
+        id: plan
+        # Exit 1 means nothing changed, which is the common case midweek.
+        run: |
+          set +e
+          python -m foulgorithm.jobs.schedule
+          code=$?
+          python -m foulgorithm.jobs.changes
+          set -e
+          if [ $code -eq 2 ]; then exit 1; fi
+          echo "changed=$([ $code -eq 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit
+        run: |
+          git config user.name "foulgorithm-bot"
+          git config user.email "foulgorithm@users.noreply.github.com"
+          git add .github/workflows/lineups.yml data/state/fixture_state.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Point the lineup cron at this fortnight's kickoffs"
+          git pull --rebase --autostash
+          git push

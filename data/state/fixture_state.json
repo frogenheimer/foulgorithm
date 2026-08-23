@@ -1,0 +1,606 @@
+{
+  "checkedAt": "2026-08-23T12:51:37.159181+00:00",
+  "fixtures": {
+    "128923": {
+      "fixture": "Arsenal v Coventry City",
+      "kickoff": "2026-08-21T19:00:00+00:00",
+      "referee": null,
+      "status": "C"
+    },
+    "128926": {
+      "fixture": "Hull City v Manchester United",
+      "kickoff": "2026-08-22T11:30:00+00:00",
+      "referee": null,
+      "status": "C"
+    },
+    "128925": {
+      "fixture": "Everton v Crystal Palace",
+      "kickoff": "2026-08-22T14:00:00+00:00",
+      "referee": null,
+      "status": "C"
+    },
+    "128927": {
+      "fixture": "Ipswich Town v Sunderland",
+      "kickoff": "2026-08-22T14:00:00+00:00",
+      "referee": null,
+      "status": "C"
+    },
+    "128928": {
+      "fixture": "Nottingham Forest v Leeds United",
+      "kickoff": "2026-08-22T14:00:00+00:00",
+      "referee": null,
+      "status": "C"
+    },
+    "128924": {
+      "fixture": "Brentford v Tottenham Hotspur",
+      "kickoff": "2026-08-22T16:30:00+00:00",
+      "referee": null,
+      "status": "C"
+    },
+    "128929": {
+      "fixture": "Brighton & Hove Albion v Aston Villa",
+      "kickoff": "2026-08-23T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128930": {
+      "fixture": "Manchester City v Bournemouth",
+      "kickoff": "2026-08-23T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128931": {
+      "fixture": "Newcastle United v Liverpool",
+      "kickoff": "2026-08-23T15:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128932": {
+      "fixture": "Fulham v Chelsea",
+      "kickoff": "2026-08-24T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128937": {
+      "fixture": "Crystal Palace v Manchester City",
+      "kickoff": "2026-08-28T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128939": {
+      "fixture": "Liverpool v Nottingham Forest",
+      "kickoff": "2026-08-29T11:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128934": {
+      "fixture": "Bournemouth v Everton",
+      "kickoff": "2026-08-29T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128936": {
+      "fixture": "Coventry City v Hull City",
+      "kickoff": "2026-08-29T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128942": {
+      "fixture": "Tottenham Hotspur v Newcastle United",
+      "kickoff": "2026-08-29T16:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128935": {
+      "fixture": "Chelsea v Brighton & Hove Albion",
+      "kickoff": "2026-08-30T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128938": {
+      "fixture": "Leeds United v Brentford",
+      "kickoff": "2026-08-30T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128941": {
+      "fixture": "Sunderland v Fulham",
+      "kickoff": "2026-08-30T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128940": {
+      "fixture": "Manchester United v Ipswich Town",
+      "kickoff": "2026-08-30T15:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128933": {
+      "fixture": "Aston Villa v Arsenal",
+      "kickoff": "2026-08-31T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128949": {
+      "fixture": "Ipswich Town v Liverpool",
+      "kickoff": "2026-09-04T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128951": {
+      "fixture": "Newcastle United v Bournemouth",
+      "kickoff": "2026-09-05T11:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128944": {
+      "fixture": "Brentford v Sunderland",
+      "kickoff": "2026-09-05T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128945": {
+      "fixture": "Brighton & Hove Albion v Leeds United",
+      "kickoff": "2026-09-05T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128947": {
+      "fixture": "Fulham v Crystal Palace",
+      "kickoff": "2026-09-05T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128950": {
+      "fixture": "Manchester City v Coventry City",
+      "kickoff": "2026-09-05T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128952": {
+      "fixture": "Nottingham Forest v Tottenham Hotspur",
+      "kickoff": "2026-09-05T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128948": {
+      "fixture": "Hull City v Aston Villa",
+      "kickoff": "2026-09-05T16:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128946": {
+      "fixture": "Everton v Manchester United",
+      "kickoff": "2026-09-06T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128943": {
+      "fixture": "Arsenal v Chelsea",
+      "kickoff": "2026-09-06T15:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128953": {
+      "fixture": "Aston Villa v Nottingham Forest",
+      "kickoff": "2026-09-12T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128954": {
+      "fixture": "Bournemouth v Brentford",
+      "kickoff": "2026-09-12T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128955": {
+      "fixture": "Chelsea v Hull City",
+      "kickoff": "2026-09-12T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128957": {
+      "fixture": "Crystal Palace v Ipswich Town",
+      "kickoff": "2026-09-12T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128959": {
+      "fixture": "Liverpool v Fulham",
+      "kickoff": "2026-09-12T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128962": {
+      "fixture": "Tottenham Hotspur v Everton",
+      "kickoff": "2026-09-12T16:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128961": {
+      "fixture": "Sunderland v Arsenal",
+      "kickoff": "2026-09-12T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128956": {
+      "fixture": "Coventry City v Brighton & Hove Albion",
+      "kickoff": "2026-09-13T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128960": {
+      "fixture": "Manchester United v Manchester City",
+      "kickoff": "2026-09-13T15:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128958": {
+      "fixture": "Leeds United v Newcastle United",
+      "kickoff": "2026-09-14T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128964": {
+      "fixture": "Brentford v Chelsea",
+      "kickoff": "2026-09-18T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128972": {
+      "fixture": "Tottenham Hotspur v Aston Villa",
+      "kickoff": "2026-09-19T11:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128965": {
+      "fixture": "Brighton & Hove Albion v Arsenal",
+      "kickoff": "2026-09-19T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128966": {
+      "fixture": "Everton v Ipswich Town",
+      "kickoff": "2026-09-19T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128968": {
+      "fixture": "Leeds United v Crystal Palace",
+      "kickoff": "2026-09-19T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128969": {
+      "fixture": "Manchester City v Sunderland",
+      "kickoff": "2026-09-19T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128970": {
+      "fixture": "Newcastle United v Hull City",
+      "kickoff": "2026-09-19T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128971": {
+      "fixture": "Nottingham Forest v Coventry City",
+      "kickoff": "2026-09-19T16:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128963": {
+      "fixture": "Bournemouth v Liverpool",
+      "kickoff": "2026-09-20T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128967": {
+      "fixture": "Fulham v Manchester United",
+      "kickoff": "2026-09-20T15:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128973": {
+      "fixture": "Arsenal v Leeds United",
+      "kickoff": "2026-10-10T11:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128974": {
+      "fixture": "Aston Villa v Brentford",
+      "kickoff": "2026-10-10T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128975": {
+      "fixture": "Chelsea v Bournemouth",
+      "kickoff": "2026-10-10T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128979": {
+      "fixture": "Ipswich Town v Fulham",
+      "kickoff": "2026-10-10T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128982": {
+      "fixture": "Sunderland v Brighton & Hove Albion",
+      "kickoff": "2026-10-10T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128981": {
+      "fixture": "Manchester United v Tottenham Hotspur",
+      "kickoff": "2026-10-10T16:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128977": {
+      "fixture": "Crystal Palace v Nottingham Forest",
+      "kickoff": "2026-10-11T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128978": {
+      "fixture": "Hull City v Everton",
+      "kickoff": "2026-10-11T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128980": {
+      "fixture": "Liverpool v Manchester City",
+      "kickoff": "2026-10-11T15:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128976": {
+      "fixture": "Coventry City v Newcastle United",
+      "kickoff": "2026-10-12T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128986": {
+      "fixture": "Everton v Chelsea",
+      "kickoff": "2026-10-17T11:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128984": {
+      "fixture": "Brentford v Liverpool",
+      "kickoff": "2026-10-17T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128987": {
+      "fixture": "Fulham v Hull City",
+      "kickoff": "2026-10-17T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128989": {
+      "fixture": "Manchester City v Ipswich Town",
+      "kickoff": "2026-10-17T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128990": {
+      "fixture": "Newcastle United v Aston Villa",
+      "kickoff": "2026-10-17T16:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128983": {
+      "fixture": "Bournemouth v Sunderland",
+      "kickoff": "2026-10-18T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128985": {
+      "fixture": "Brighton & Hove Albion v Crystal Palace",
+      "kickoff": "2026-10-18T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128988": {
+      "fixture": "Leeds United v Manchester United",
+      "kickoff": "2026-10-18T13:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128991": {
+      "fixture": "Nottingham Forest v Arsenal",
+      "kickoff": "2026-10-18T15:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128992": {
+      "fixture": "Tottenham Hotspur v Coventry City",
+      "kickoff": "2026-10-19T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128999": {
+      "fixture": "Ipswich Town v Nottingham Forest",
+      "kickoff": "2026-10-23T19:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128994": {
+      "fixture": "Aston Villa v Manchester City",
+      "kickoff": "2026-10-24T11:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128993": {
+      "fixture": "Arsenal v Everton",
+      "kickoff": "2026-10-24T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128996": {
+      "fixture": "Coventry City v Fulham",
+      "kickoff": "2026-10-24T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129000": {
+      "fixture": "Liverpool v Brighton & Hove Albion",
+      "kickoff": "2026-10-24T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128995": {
+      "fixture": "Chelsea v Tottenham Hotspur",
+      "kickoff": "2026-10-24T16:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128997": {
+      "fixture": "Crystal Palace v Newcastle United",
+      "kickoff": "2026-10-25T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "128998": {
+      "fixture": "Hull City v Brentford",
+      "kickoff": "2026-10-25T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129001": {
+      "fixture": "Manchester United v Bournemouth",
+      "kickoff": "2026-10-25T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129002": {
+      "fixture": "Sunderland v Leeds United",
+      "kickoff": "2026-10-25T16:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129006": {
+      "fixture": "Chelsea v Manchester United",
+      "kickoff": "2026-10-31T12:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129004": {
+      "fixture": "Bournemouth v Leeds United",
+      "kickoff": "2026-10-31T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129005": {
+      "fixture": "Brentford v Nottingham Forest",
+      "kickoff": "2026-10-31T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129007": {
+      "fixture": "Coventry City v Sunderland",
+      "kickoff": "2026-10-31T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129008": {
+      "fixture": "Hull City v Ipswich Town",
+      "kickoff": "2026-10-31T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129010": {
+      "fixture": "Manchester City v Brighton & Hove Albion",
+      "kickoff": "2026-10-31T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129012": {
+      "fixture": "Tottenham Hotspur v Crystal Palace",
+      "kickoff": "2026-10-31T17:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129003": {
+      "fixture": "Aston Villa v Fulham",
+      "kickoff": "2026-11-01T14:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129009": {
+      "fixture": "Liverpool v Arsenal",
+      "kickoff": "2026-11-01T16:30:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129011": {
+      "fixture": "Newcastle United v Everton",
+      "kickoff": "2026-11-02T20:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129013": {
+      "fixture": "Arsenal v Hull City",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129014": {
+      "fixture": "Brighton & Hove Albion v Brentford",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129015": {
+      "fixture": "Crystal Palace v Liverpool",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129016": {
+      "fixture": "Everton v Coventry City",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129017": {
+      "fixture": "Fulham v Newcastle United",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129018": {
+      "fixture": "Ipswich Town v Bournemouth",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129019": {
+      "fixture": "Leeds United v Tottenham Hotspur",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129020": {
+      "fixture": "Manchester United v Aston Villa",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129021": {
+      "fixture": "Nottingham Forest v Manchester City",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    },
+    "129022": {
+      "fixture": "Sunderland v Chelsea",
+      "kickoff": "2026-11-07T15:00:00+00:00",
+      "referee": null,
+      "status": "U"
+    }
+  },
+  "lastChanges": []
+}
