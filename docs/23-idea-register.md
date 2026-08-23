@@ -149,14 +149,14 @@ reconciliation pass.
 | Row opens into the distribution | **Built** | Ladder reads published numbers, not the raw shape, so it cannot contradict the table |
 | Theme toggle | **Built** | Three states. Following the system is a real preference |
 | Track record page | **Built** | Calls its own numbers noise under 100 claims |
-| Position pairings | **Next** | Two midfielders both high on involvements. The data now supports asking it |
+| Position pairings | **Tested, nothing there** | Facing an exceptional foul-winner predicts nothing beyond the opposing club's own rate. Correlation -0.003 over 9,419 player-matches. Kept on the stats sheet as context, labelled as such |
 | Light theme | **Built** | Both themes were already defined; what was missing was a way to choose |
 | Game state from closing odds | **Tested, not shipped** | Effect is real and monotonic: favourites foul 15% under their own rate. Three attempts to use it all scored worse. See the modelling log |
 | Head-to-head stats sheet | **Built** | Mirrored around a shared centre column. No model output, and a test enforces it |
 | Hit-rate dots | **Built** | Did the line land in each of the last five. A reader can check it; a probability they can only trust |
 | Referee panel | **Built** | Own numbers, with the confounding stated rather than dressed up as an effect |
 | Referees page | **Built** | Sortable, with this round's appointments attached. Fouls booked as a share, which is less confounded than cards per match |
-| Likely opponent column | **Partly built** | The other side's top foul-winners. A real positional matchup needs formation data we do not hold |
+| Likely opponent column | **Built, as context** | The other side's top foul-winners. Measured to carry no predictive signal, and the page says so |
 | Month calendar | **Deferred** | |
 | Leaderboard and user accounts | **Deferred** | The real trigger for a database. Nothing else needs one yet |
 

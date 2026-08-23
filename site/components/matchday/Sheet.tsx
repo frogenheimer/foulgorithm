@@ -227,7 +227,9 @@ function Players({
                 <td className={s.left}>
                   <span className={s.pName}>{p.player}</span>
                   {p.watch.length > 0 && (
-                    <span className={s.watch}>up against {p.watch.join(", ")}</span>
+                    <span className={s.watch}>
+                      opposite {p.watch.join(", ")}
+                    </span>
                   )}
                 </td>
                 <td>{p.minutes}&apos;</td>

@@ -18,6 +18,42 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-23 — Position pairings predict nothing the team rate did not already say
+
+**Question.** Two midfielders who both foul a lot ought to make for a busier
+afternoon than the same two clubs with mild ones. Does facing a specific
+exceptional foul-winner move a player's fouls beyond what his opponent's CLUB
+average already implies?
+
+**Method.** 9,419 player-matches from 2024 with a known opposing eleven. For
+each, the opponent's best foul-drawing player as of that date, from training
+data only, against the residual left by a model that already applies a
+team-level opponent factor.
+
+**Result.** Nothing.
+
+| opponent's best foul-winner | n | predicted | actual | residual |
+|---|---|---|---|---|
+| under 1.67 per 90 | 1,893 | 0.903 | 0.831 | -0.072 |
+| 1.67 to 1.91 | 1,879 | 0.909 | 0.863 | -0.045 |
+| 1.91 to 2.20 | 1,884 | 0.972 | 0.868 | -0.104 |
+| 2.20 to 2.58 | 1,879 | 0.963 | 0.887 | -0.076 |
+| over 2.58 | 1,884 | 1.060 | 0.981 | -0.079 |
+
+Correlation with the residual is **-0.003**, which is zero.
+
+**The interesting column is `predicted`, not `residual`.** It climbs from 0.903
+to 1.060 across the buckets, and `actual` climbs with it. The effect is real and
+the model already has all of it, through the opponent factor. A side with good
+foul-winners draws more fouls, that shows up in the club's rate, and knowing
+WHICH of their players is the good one adds nothing on top.
+
+**Consequence for the site.** The "opposite" names under each defender on the
+stats sheet stay, because knowing who a player will be dealing with is
+legitimately interesting to read. They are now labelled as context and the page
+says outright that they predict nothing. Calling that column a signal would be
+the exact failure this project keeps testing for.
+
 ## 2026-08-23 — Valentina gets a method, and it changes almost nothing
 
 **The gap.** The five characters were meant to be five ways of reading a match.

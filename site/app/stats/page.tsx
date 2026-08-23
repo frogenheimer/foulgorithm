@@ -33,6 +33,13 @@ export default function Stats() {
           something. A line nothing ever clears would just draw five identical dots.
         </p>
         <p>
+          The names under each defender are the opposing side&apos;s best foul-winners.
+          That is <strong>context, not a signal</strong>. Facing an exceptional
+          foul-winner was measured against 9,419 player-matches and predicts nothing
+          beyond what the opposing club&apos;s overall rate already says, so it is here
+          to tell you who to watch rather than to tell you anything will happen.
+        </p>
+        <p>
           <strong>Want a view instead of the facts?</strong> The players page has the
           model&apos;s probabilities and the five competing versions of them.
         </p>
