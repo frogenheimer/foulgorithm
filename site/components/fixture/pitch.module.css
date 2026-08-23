@@ -141,6 +141,17 @@
   max-width: 100%;
 }
 
+/* An open slot rises above every other marker. Without this the dropdown is
+   painted under any player drawn after it, which is most of them. */
+.slotOpen {
+  z-index: 40;
+}
+
+.line,
+.half {
+  isolation: auto;
+}
+
 /* The name IS the control. Rendering it and a select underneath put the same
    name on screen twice in a space with room for neither. */
 .nameButton {
@@ -231,5 +242,99 @@
 
   .benches {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- matchday squad: benches either side ---------- */
+
+.squad {
+  display: grid;
+  grid-template-columns: minmax(150px, 200px) minmax(0, 1fr) minmax(150px, 200px);
+  gap: var(--s4);
+  align-items: start;
+}
+
+.bench {
+  display: grid;
+  gap: var(--s2);
+  align-content: start;
+}
+
+.benchList {
+  display: grid;
+  gap: var(--s1);
+}
+
+.benchPlayer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s2);
+  width: 100%;
+  padding: var(--s1) var(--s2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+  text-align: left;
+  cursor: grab;
+  transition: border-color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
+}
+
+.benchPlayer:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-sunk);
+  color: var(--ink);
+}
+
+.benchPlayer:active {
+  cursor: grabbing;
+}
+
+.benchPos {
+  font-family: var(--font-mono);
+  color: var(--ink-3);
+}
+
+.dragging {
+  opacity: 0.4;
+}
+
+/* A slot ready to receive a dragged player. */
+.dropTarget {
+  outline: 2px dashed var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+.changed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  flex-wrap: wrap;
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--warn);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+.restore {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .squad {
+    grid-template-columns: 1fr;
+  }
+
+  .benchList {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
 }

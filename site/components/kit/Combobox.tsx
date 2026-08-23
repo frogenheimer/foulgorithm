@@ -32,6 +32,7 @@ export function Combobox({
   placeholder = "Search",
   restLabel = "Everyone else",
   trigger,
+  onOpenChange,
 }: {
   value: string;
   options: Option[];
@@ -45,6 +46,8 @@ export function Combobox({
    * second copy of the same name.
    */
   trigger?: (open: () => void) => React.ReactNode;
+  /** Fires when the list opens or closes, so a caller can raise its own layer. */
+  onOpenChange?: (open: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -53,11 +56,14 @@ export function Combobox({
   useEffect(() => {
     if (!open) return;
     function away(e: MouseEvent) {
-      if (box.current && !box.current.contains(e.target as Node)) setOpen(false);
+      if (box.current && !box.current.contains(e.target as Node)) {
+        setOpen(false);
+        onOpenChange?.(false);
+      }
     }
     document.addEventListener("mousedown", away);
     return () => document.removeEventListener("mousedown", away);
-  }, [open]);
+  }, [open, onOpenChange]);
 
   const { suggested, rest } = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -74,11 +80,13 @@ export function Combobox({
     onChange(v);
     setQuery("");
     setOpen(false);
+    onOpenChange?.(false);
   }
 
   const openIt = () => {
     setOpen(true);
     setQuery("");
+    onOpenChange?.(true);
   };
 
   return (

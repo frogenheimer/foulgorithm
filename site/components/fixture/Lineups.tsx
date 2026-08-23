@@ -16,6 +16,7 @@
 import { useMemo, useState } from "react";
 import type { Explorer, ExplorerRow, Formations, Slip } from "@/lib/data";
 import { Callout } from "@/components/kit";
+import { findPlayer, who } from "@/lib/who";
 import Pitch from "./Pitch";
 import type { Market } from "./Pitch";
 import SlipGrid from "./SlipGrid";
@@ -62,15 +63,15 @@ export default function Lineups({
   const onPitch = useMemo(() => {
     const names = new Set<string>();
     for (const club of clubs) {
-      shapes[club].lines.forEach((line, i) =>
+      shapes[club]?.lines.forEach((line, i) =>
         line.forEach((spot, j) => {
-          const chosen = selected[`${club}|${i}|${j}`] ?? spot.player;
-          // Both spellings, because the lineup source and the explorer disagree
-          // and the candidate list keys on the display name.
-          names.add(chosen);
-          const row = squads[club]?.find(
-            (r) => r.player === chosen || r.fullName === chosen
-          );
+          // Slots hold a canonical key once swapped and a lineup-feed name
+          // before that. Both resolve to the same row, and the candidate list
+          // keys on that row's own short name.
+          const chosen = selected[`${club}|${i}|${j}`];
+          const row = chosen
+            ? (squads[club] ?? []).find((r) => who(r.fullName) === chosen)
+            : findPlayer(squads[club] ?? [], spot.player);
           if (row) names.add(row.player);
         })
       );
@@ -94,11 +95,9 @@ export default function Lineups({
     return out;
   }, [changed, published, clubs, squads, explorer.lines, explorer.models, onPitch]);
 
-  // The lineup source gives full names ("Kai Havertz") and the explorer keys on
-  // display names ("Havertz"). Matching on either is the fix; matching on one
-  // silently returned "no record" for every player on the pitch.
+  // Three sources, three spellings. See lib/who.ts.
   const findRow = (club: string, player: string) =>
-    squads[club]?.find((r) => r.player === player || r.fullName === player);
+    findPlayer(squads[club] ?? [], player);
 
   return (
     <div style={{ display: "grid", gap: "var(--s6)" }}>
@@ -106,24 +105,10 @@ export default function Lineups({
         home={{ club: homeClub, shape: shapes[homeClub], squad: squads[homeClub] ?? [] }}
         away={{ club: awayClub, shape: shapes[awayClub], squad: squads[awayClub] ?? [] }}
         selected={selected}
-        onSwap={(key, player) =>
-          setSelected((prev) => {
-            const [club, li, si] = key.split("|");
-            const original = shapes[club]?.lines[Number(li)]?.[Number(si)]?.player;
-            const next = { ...prev };
-            // Choosing the published player again is not a change.
-            if (player === original) delete next[key];
-            else next[key] = player;
-            return next;
-          })
-        }
+        onChange={setSelected}
         onReset={() => setSelected({})}
         market={market}
         onMarket={setMarket}
-        rateOf={(club, player) => {
-          const row = findRow(club, player);
-          return row ? row.expected[market].toFixed(2) : "—";
-        }}
       />
 
       {changed && (

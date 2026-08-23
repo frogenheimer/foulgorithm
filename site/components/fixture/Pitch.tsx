@@ -1,25 +1,26 @@
 "use client";
 
 /**
- * Both elevens, on one pitch, in the shape the league published.
+ * The matchday squad: both elevens on one pitch, both benches beside it.
  *
- * The formation arrives as lines of player ids, goalkeeper first, so this draws
- * the real 4-2-3-1 rather than inferring one from position codes. Codes cannot
- * tell a back three from a back four.
+ * The formation arrives as lines of player ids from the league, so this draws
+ * the real shape rather than inferring one from position codes.
  *
- * Home occupies the left half attacking right, away the right half attacking
- * left, which is how a fixture is written and how a broadcast frames it. The
- * pitch is 105 by 68 metres, held as an aspect ratio so the shape stays right at
- * any width.
+ * **Everything keys off `who()`, never a display string.** The lineup feed says
+ * "Luka Vuskovic", the explorer's full name is "Luka Vušković" and its short
+ * name is "Vuskovic". Keying on any one of those put Boscagli on the pitch
+ * three times, because the dropdown offered a short name into a slot holding a
+ * long one and nothing noticed they were the same man.
  *
- * Swapping a player is not decoration: the five characters' combinations rebuild
- * from whoever is standing on it.
+ * A player can only be in one place. Dragging or selecting someone already on
+ * the pitch EXCHANGES the two rather than cloning him.
  */
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { ExplorerRow, Spot, TeamShape } from "@/lib/data";
 import { Combobox, MicroLabel, Toggle } from "@/components/kit";
 import type { Option } from "@/components/kit";
+import { findPlayer, who } from "@/lib/who";
 import s from "./pitch.module.css";
 
 export type Market = "committed" | "drawn" | "involvements";
@@ -36,59 +37,54 @@ export type Side = {
   squad: ExplorerRow[];
 };
 
+/** slot key -> whoever is standing in it, as a canonical key. */
+export type Selected = Record<string, string>;
+
 export default function Pitch({
   home,
   away,
   selected,
-  onSwap,
+  onChange,
   onReset,
-  rateOf,
   market,
   onMarket,
 }: {
   home: Side;
   away: Side;
-  /** slot key -> player, when swapped away from the published eleven */
-  selected: Record<string, string>;
-  onSwap: (slotKey: string, player: string) => void;
+  selected: Selected;
+  onChange: (next: Selected) => void;
   onReset: () => void;
-  rateOf: (club: string, player: string) => string;
-  /** Which number sits under each name. */
   market: Market;
   onMarket: (m: Market) => void;
 }) {
+  const [dragging, setDragging] = useState<{ club: string; key: string } | null>(null);
   const swaps = Object.keys(selected).length;
-  // A predicted eleven is right about 78% of the time. The page says which it
-  // is looking at rather than letting a guess read as a team sheet.
-  const predicted = Boolean(home.shape.predicted || away.shape.predicted);
+  const confirmed = !(home.shape.predicted || away.shape.predicted);
 
   return (
     <div className={s.wrap}>
       <div className={s.head}>
         <span className={s.club}>
-          {home.club}{" "}
-          <span className={s.formation}>
-            {home.shape.formation ?? "by position"}
-          </span>
+          {home.club} <span className={s.formation}>{home.shape.formation ?? "by position"}</span>
         </span>
-        <span className={s.versus}>
-          {swaps > 0 ? (
-            <button type="button" className={s.reset} onClick={onReset}>
-              Reset {swaps} change{swaps === 1 ? "" : "s"}
-            </button>
-          ) : predicted ? (
-            "predicted elevens, grouped by position"
-          ) : (
-            "confirmed elevens"
-          )}
-        </span>
+        <span className={s.versus}>{confirmed ? "confirmed elevens" : "predicted elevens"}</span>
         <span className={s.clubAway}>
-          <span className={s.formation}>
-            {away.shape.formation ?? "by position"}
-          </span>{" "}
-          {away.club}
+          <span className={s.formation}>{away.shape.formation ?? "by position"}</span> {away.club}
         </span>
       </div>
+
+      {swaps > 0 && (
+        <div className={s.changed}>
+          <span>
+            <strong>Not the {confirmed ? "confirmed" : "predicted"} eleven.</strong> You have
+            made {swaps} change{swaps === 1 ? "" : "s"}, and every number below reflects them.
+            Nothing here is graded: the record only holds what we published before kickoff.
+          </span>
+          <button type="button" className={s.restore} onClick={onReset}>
+            Restore {confirmed ? "confirmed lineup" : "predicted eleven"}
+          </button>
+        </div>
+      )}
 
       <div className={s.markets}>
         <Toggle
@@ -100,35 +96,124 @@ export default function Pitch({
             label: MARKET_LABEL[m],
           }))}
         />
-        <span className={s.marketNote}>
-          expected in this match, per player
-        </span>
+        <span className={s.marketNote}>expected in this match, per player</span>
       </div>
 
-      <div className={s.pitch}>
-        <Markings />
-        {/* Home: goalkeeper at the left edge, attack running right. */}
-        <Half side={home} selected={selected} onSwap={onSwap} rateOf={rateOf} market={market} />
-        {/* Away: mirrored, so the two face each other. */}
-        <Half
+      <div className={s.squad}>
+        <Bench
+          side={home}
+          selected={selected}
+          market={market}
+          dragging={dragging}
+          onDragStart={(key) => setDragging({ club: home.club, key })}
+          onDragEnd={() => setDragging(null)}
+        />
+
+        <div className={s.pitch}>
+          <Markings />
+          <Half
+            side={home}
+            selected={selected}
+            onChange={onChange}
+            market={market}
+            dragging={dragging}
+            onDrop={() => setDragging(null)}
+            onDragStart={(key) => setDragging({ club: home.club, key })}
+          />
+          <Half
+            side={away}
+            selected={selected}
+            onChange={onChange}
+            market={market}
+            dragging={dragging}
+            onDrop={() => setDragging(null)}
+            onDragStart={(key) => setDragging({ club: away.club, key })}
+            mirrored
+          />
+        </div>
+
+        <Bench
           side={away}
           selected={selected}
-          onSwap={onSwap}
-          rateOf={rateOf}
           market={market}
-          mirrored
+          dragging={dragging}
+          onDragStart={(key) => setDragging({ club: away.club, key })}
+          onDragEnd={() => setDragging(null)}
         />
       </div>
+    </div>
+  );
+}
 
-      <div className={s.benches}>
-        {[home, away].map((side) => (
-          <div key={side.club}>
-            <MicroLabel>{side.club} bench</MicroLabel>
-            <p className={s.note}>
-              {side.shape.bench.map((b: Spot) => b.player).join(" · ") || "None named"}
-            </p>
-          </div>
-        ))}
+/* ---------- who is where ---------- */
+
+/** Every slot on a side, with whoever is currently standing in it. */
+function occupancy(side: Side, selected: Selected) {
+  const out: { key: string; spot: Spot; row?: ExplorerRow; name: string }[] = [];
+  side.shape.lines.forEach((line, i) =>
+    line.forEach((spot, j) => {
+      const key = `${side.club}|${i}|${j}`;
+      const chosen = selected[key];
+      const row = chosen
+        ? side.squad.find((r) => who(r.fullName) === chosen)
+        : findPlayer(side.squad, spot.player);
+      out.push({ key, spot, row, name: row?.player ?? spot.player });
+    })
+  );
+  return out;
+}
+
+function Bench({
+  side,
+  selected,
+  market,
+  dragging,
+  onDragStart,
+  onDragEnd,
+}: {
+  side: Side;
+  selected: Selected;
+  market: Market;
+  dragging: { club: string; key: string } | null;
+  onDragStart: (key: string) => void;
+  onDragEnd: () => void;
+}) {
+  const onPitch = new Set(
+    occupancy(side, selected)
+      .map((o) => o.row && who(o.row.fullName))
+      .filter(Boolean) as string[]
+  );
+
+  // Anyone in the squad who is not currently on the pitch. That is the bench
+  // whether the league named them substitutes or a swap put them there.
+  const off = side.squad.filter((r) => !onPitch.has(who(r.fullName)));
+
+  return (
+    <div className={s.bench}>
+      <MicroLabel>{side.club} bench</MicroLabel>
+      <div className={s.benchList}>
+        {off.length === 0 && <span className={s.note}>Everyone is on the pitch.</span>}
+        {off.map((r) => {
+          const key = `bench:${who(r.fullName)}`;
+          return (
+            <button
+              key={r.fullName}
+              type="button"
+              draggable
+              onDragStart={() => onDragStart(key)}
+              onDragEnd={onDragEnd}
+              className={
+                dragging?.key === key ? `${s.benchPlayer} ${s.dragging}` : s.benchPlayer
+              }
+              title={`${r.fullName} · drag onto the pitch`}
+            >
+              <span>{r.player}</span>
+              <span className={s.benchPos}>
+                {shortPosition(r.position)} {r.expected[market].toFixed(2)}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -137,143 +222,170 @@ export default function Pitch({
 function Half({
   side,
   selected,
-  onSwap,
-  rateOf,
+  onChange,
   market,
+  dragging,
+  onDrop,
+  onDragStart,
   mirrored = false,
 }: {
   side: Side;
-  selected: Record<string, string>;
-  onSwap: (key: string, player: string) => void;
-  rateOf: (club: string, player: string) => string;
+  selected: Selected;
+  onChange: (next: Selected) => void;
   market: Market;
+  dragging: { club: string; key: string } | null;
+  onDrop: () => void;
+  onDragStart: (key: string) => void;
   mirrored?: boolean;
 }) {
+  const [open, setOpen] = useState<string | null>(null);
+  const here = occupancy(side, selected);
+  const byKey = new Map(here.map((o) => [o.key, o]));
+
   const byName = useMemo(
     () => [...side.squad].sort((a, b) => a.player.localeCompare(b.player)),
     [side.squad]
   );
 
   /**
-   * Players who actually play the slot's position are offered first. Everyone
-   * else stays one keystroke away rather than hidden, because a manager can
-   * field whoever he likes and a dropdown should not argue.
+   * Put a player into a slot.
+   *
+   * If he is already on the pitch the two EXCHANGE places, because a player can
+   * only be in one place and cloning him was the bug this replaced.
    */
-  const onPitchNames = new Set(
-    side.shape.lines.flatMap((line, i) =>
-      line.map((spot, j) => selected[`${side.club}|${i}|${j}`] ?? spot.player)
-    )
-  );
+  function place(targetKey: string, incoming: string) {
+    const next = { ...selected };
+    const displaced = byKey.get(targetKey);
+    const elsewhere = here.find((o) => o.row && who(o.row.fullName) === incoming);
 
-  const optionsFor = (spot: Spot): Option[] =>
-    byName.map((row) => {
-      const available = !onPitchNames.has(row.player);
-      const fits = samePosition(row.position, spot.position);
-      return {
-        value: row.player,
-        label: row.player,
-        // Position first, because "who plays here" is the question being asked.
-        // The rate is secondary and both fit.
-        meta: `${shortPosition(row.position)} · ${row.expected[market].toFixed(2)}`,
-        // Available and in position first, then anyone else off the pitch. A
-        // player already on it is still selectable, because a manager can
-        // reorganise, but he is not what "sub someone in" means.
-        group: available
-          ? fits
-            ? `On the bench, plays ${positionName(spot.position)}`
-            : "Off the pitch"
-          : undefined,
-      };
-    });
+    next[targetKey] = incoming;
+    if (elsewhere && elsewhere.key !== targetKey) {
+      if (displaced?.row) next[elsewhere.key] = who(displaced.row.fullName);
+      else delete next[elsewhere.key];
+    }
+    onChange(next);
+  }
 
-  const shape = useMemo(
-    () => regroup(side, selected),
-    [side, selected]
-  );
-  const lines = mirrored ? [...shape].reverse() : shape;
+  const shape = useMemo(() => regroup(side, here, mirrored), [side, here, mirrored]);
 
   return (
     <div className={mirrored ? `${s.half} ${s.away}` : s.half}>
-      {lines.map((line, i) => {
-        const lineIndex = mirrored ? side.shape.lines.length - 1 - i : i;
-        return (
-          <div key={i} className={s.line}>
-            {line.map((spot, j) => {
-              const key = `${side.club}|${lineIndex}|${j}`;
-              const player = selected[key] ?? spot.player;
-              const swapped = Boolean(selected[key]);
-              return (
-                <div key={key} className={swapped ? `${s.slot} ${s.swapped}` : s.slot}>
-                  <span className={s.shirt}>{spot.shirt ?? spot.position}</span>
-                  <div className={s.picker}>
-                    <Combobox
-                      value={player}
-                      options={optionsFor(spot)}
-                      onChange={(v) => onSwap(key, v)}
-                      label={`${spot.detail || spot.position} for ${side.club}`}
-                      placeholder="Search squad"
-                      trigger={(open) => (
-                        <button
-                          type="button"
-                          className={s.nameButton}
-                          onClick={open}
-                          title={`${player} · ${spot.detail || spot.position}. Change.`}
-                        >
-                          <span className={s.name}>{player}</span>
-                          <Chevron />
-                        </button>
-                      )}
-                    />
-                  </div>
-                  <span className={s.rate}>{rateOf(side.club, player)}</span>
+      {shape.map((line, i) => (
+        <div key={i} className={s.line}>
+          {line.map((o) => {
+            const swapped = Boolean(selected[o.key]);
+            const isOpen = open === o.key;
+            const receiving = Boolean(dragging && dragging.club === side.club);
+            return (
+              <div
+                key={o.key}
+                className={[
+                  s.slot,
+                  swapped ? s.swapped : "",
+                  isOpen ? s.slotOpen : "",
+                  receiving ? s.dropTarget : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                onDragOver={(e) => receiving && e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  if (!dragging || dragging.club !== side.club) return;
+                  const incoming = dragging.key.startsWith("bench:")
+                    ? dragging.key.slice("bench:".length)
+                    : byKey.get(dragging.key)?.row && who(byKey.get(dragging.key)!.row!.fullName);
+                  if (incoming) place(o.key, incoming);
+                  onDrop();
+                }}
+              >
+                <span
+                  className={s.shirt}
+                  draggable
+                  onDragStart={() => onDragStart(o.key)}
+                >
+                  {o.spot.shirt ?? o.spot.position}
+                </span>
+                <div className={s.picker}>
+                  <Combobox
+                    value={o.name}
+                    options={optionsFor(byName, o.spot, market)}
+                    onChange={(v) => {
+                      place(o.key, v);
+                      setOpen(null);
+                    }}
+                    onOpenChange={(isNowOpen) => setOpen(isNowOpen ? o.key : null)}
+                    label={`${o.spot.detail || o.spot.position} for ${side.club}`}
+                    placeholder="Search squad"
+                    trigger={(openIt) => (
+                      <button
+                        type="button"
+                        className={s.nameButton}
+                        onClick={openIt}
+                        title={`${o.row?.fullName ?? o.name}. Change.`}
+                      >
+                        <span className={s.name}>{o.name}</span>
+                        <Chevron />
+                      </button>
+                    )}
+                  />
                 </div>
-              );
-            })}
-          </div>
-        );
-      })}
+                <span className={s.rate}>
+                  {o.row ? o.row.expected[market].toFixed(2) : "—"}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
+}
+
+/** Options for one slot: players who fit the position first, everyone else after. */
+function optionsFor(rows: ExplorerRow[], spot: Spot, market: Market): Option[] {
+  return rows.map((row) => ({
+    value: who(row.fullName),
+    label: row.player,
+    meta: `${shortPosition(row.position)} · ${row.expected[market].toFixed(2)}`,
+    group: samePosition(row.position, spot.position)
+      ? `Plays ${positionName(spot.position)}`
+      : undefined,
+  }));
 }
 
 /**
  * Rebuild the lines from whoever is on the pitch now.
  *
- * The published shape places the published eleven. Swap a midfielder into a
- * defender's slot and leaving the shape alone stands a midfielder at left-back,
- * which is not what the manager who made that change meant. Regrouping by the
- * players' own positions is the honest re-jig: one goalkeeper, then defenders,
- * midfielders and forwards in the order they were selected.
- *
- * Untouched sides keep the league's published shape exactly, because that is a
- * real formation and this is only a grouping.
+ * An untouched side keeps the league's published shape, which is a real
+ * formation. Once a swap has happened it is a grouping by position, because
+ * leaving a midfielder standing at left-back is not what the change meant.
  */
-function regroup(side: Side, selected: Record<string, string>): Spot[][] {
-  const mine = Object.keys(selected).some((k) => k.startsWith(`${side.club}|`));
-  if (!mine) return side.shape.lines;
+function regroup(
+  side: Side,
+  here: ReturnType<typeof occupancy>,
+  mirrored: boolean
+): ReturnType<typeof occupancy>[] {
+  const touched = here.some((o) => o.key in {} || false);
+  const anySwap = here.some((o) => o.row && o.row.player !== o.spot.player);
 
-  const byName = new Map(side.squad.map((r) => [r.player, r]));
-  const current: Spot[] = side.shape.lines.flatMap((line, i) =>
-    line.map((spot, j) => {
-      const name = selected[`${side.club}|${i}|${j}`] ?? spot.player;
-      const row = byName.get(name);
-      return row
-        ? { ...spot, player: name, position: row.position.charAt(0).toUpperCase(), detail: row.position }
-        : { ...spot, player: name };
-    })
-  );
-
-  const buckets: Record<string, Spot[]> = { G: [], D: [], M: [], F: [] };
-  for (const spot of current) {
-    const code = (spot.position || "M").charAt(0).toUpperCase();
-    buckets[code in buckets ? code : "M"].push(spot);
+  let lines: ReturnType<typeof occupancy>[];
+  if (!anySwap) {
+    lines = [];
+    let i = 0;
+    for (const line of side.shape.lines) {
+      lines.push(here.slice(i, i + line.length));
+      i += line.length;
+    }
+  } else {
+    const buckets: Record<string, ReturnType<typeof occupancy>> = { G: [], D: [], M: [], F: [] };
+    for (const o of here) {
+      const code = (o.row?.position ?? o.spot.position ?? "M").charAt(0).toUpperCase();
+      buckets[code in buckets ? code : "M"].push(o);
+    }
+    lines = ["G", "D", "M", "F"].map((k) => buckets[k]).filter((l) => l.length > 0);
   }
-  return ["G", "D", "M", "F"].map((k) => buckets[k]).filter((line) => line.length > 0);
-}
-
-function shortPosition(code: string): string {
-  const c = (code || "").charAt(0).toUpperCase();
-  return { G: "GK", D: "DEF", M: "MID", F: "FWD" }[c] ?? "—";
+  void touched;
+  return mirrored ? [...lines].reverse() : lines;
 }
 
 /** Both penalty areas, both six-yard boxes, halfway line, centre circle. */
@@ -297,23 +409,18 @@ function Markings() {
 function Chevron() {
   return (
     <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden>
-      <path
-        d="M3 4.5 6 7.5 9 4.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
 /** FPL codes a squad GKP/DEF/MID/FWD; the league codes a slot G/D/M/F. */
-function samePosition(squadPosition: string, slotPosition: string): boolean {
-  const a = (squadPosition || "").trim().charAt(0).toUpperCase();
-  const b = (slotPosition || "").trim().charAt(0).toUpperCase();
-  return a === b;
+function samePosition(a: string, b: string): boolean {
+  return (a || "").charAt(0).toUpperCase() === (b || "").charAt(0).toUpperCase();
+}
+
+function shortPosition(code: string): string {
+  return { G: "GK", D: "DEF", M: "MID", F: "FWD" }[(code || "").charAt(0).toUpperCase()] ?? "—";
 }
 
 function positionName(code: string): string {
