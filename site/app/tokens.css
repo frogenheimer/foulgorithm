@@ -65,8 +65,12 @@
   --t-sm: 13px;
   --t-xs: 11px;
 
-  --font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", monospace;
+  /* Two families, and the second is load-bearing. Inter for words, a monospace
+     for figures: a price is not prose, and a mono digit reads as instrument
+     output rather than as text. Both self-hosted, so no third-party request
+     and no layout shift. */
+  --font: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", "Cascadia Mono", monospace;
 
   /* ---- space. Ten steps on a 4px base. ---- */
   --s1: 4px;
@@ -84,7 +88,10 @@
   --w-prose: 68ch;
   --w-content: 1240px;
   --w-wide: 1560px;
-  --w-rail: 64px;
+  /* Labelled, not an icon rail. Two of the eight destinations currently share a
+     glyph and cannot be told apart without hovering. */
+  --w-nav: 240px;
+  --w-nav-collapsed: 64px;
 
   /* ---- radius ---- */
   --r-sm: 6px;
@@ -96,9 +103,13 @@
   --lift: 0 1px 2px rgba(22, 24, 26, 0.04);
 
   /* ---- motion. One curve, two durations. ---- */
+  /* One curve. Three durations: the useful band for perceived motion is 200 to
+     400ms, and --d-fast sits under it deliberately because a hover state is
+     feedback rather than motion. */
   --ease: cubic-bezier(0.2, 0, 0.13, 1);
   --d-fast: 120ms;
-  --d-base: 200ms;
+  --d-base: 220ms;
+  --d-slow: 380ms;
 }
 
 /* Dark is a variant, not a second design. Only the values that must change do.

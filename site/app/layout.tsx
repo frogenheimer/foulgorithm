@@ -1,6 +1,25 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
 import { Rail } from "@/components/ui/Rail";
+import "./tokens.css";
 import "./globals.css";
+
+/**
+ * Two families. Inter for words, Geist Mono for figures.
+ *
+ * `cv05` gives Inter a single-storey `a` and `tnum` turns on tabular figures
+ * globally, so no component has to remember to align a column of numbers.
+ *
+ * Both are self-hosted through next/font: no third-party request, no layout
+ * shift, and the site keeps working if Google Fonts is unreachable.
+ */
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+  axes: ["opsz"],
+});
 
 export const metadata: Metadata = {
   title: "Foulgorithm",
@@ -11,7 +30,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-GB" suppressHydrationWarning>
+    <html
+      lang="en-GB"
+      className={`${inter.variable} ${GeistMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Applies the stored theme before first paint. Doing this in a
             component would flash the wrong theme for a frame on every load. */}

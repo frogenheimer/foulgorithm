@@ -92,10 +92,37 @@ series and appear nowhere else.
 
 ## 🔤 Type
 
-One family. `Inter` with a system fallback, tabular figures on every number.
-No display face, no serif, no monospace except in code blocks.
+**Two families, and the second is load-bearing.** Inter for the interface, a
+monospace for figures.
+
+| Family | Where | Why |
+|---|---|---|
+| **Inter** | Everything that is words | The default for modern dashboards for good reason: tall x-height, screen-designed, renders identically everywhere, ships every weight, and has tabular figures and a slashed zero as stylistic sets |
+| **Geist Mono** | Odds, probabilities, hero figures, the dots ladder | A price is not prose. Monospace figures at a large size read as instrument output rather than as text, and every digit occupies the same column without being asked |
+
+Fallback stacks are real: `Inter, ui-sans-serif, system-ui, sans-serif` and
+`"Geist Mono", ui-monospace, "SF Mono", monospace`. Both are free and
+self-hosted, so no third-party request and no layout shift.
+
+Inter is loaded with `cv05` and `tnum` on, which gives a single-storey `a` and
+tabular figures everywhere without asking a component to remember.
+
+### Where the mono goes, precisely
+
+Only three places. Mono everywhere is a terminal, which is the aesthetic this
+deliberately moved away from.
+
+- Any decimal price: `3.05`, `2/1`
+- Any hero figure on a card: the one big number
+- Micro-labels above figures, uppercase, tracked
+
+Table cells stay Inter with tabular figures. They are read as rows, not as
+readouts.
 
 ### Six sizes. Anything else is an escapee.
+
+Six is the count Vercel's dashboard settled on and the count that survives
+audit. More than six and nobody can tell two of them apart at a glance.
 
 | Token | Size | Use |
 |---|---|---|
@@ -146,7 +173,18 @@ only; a raw pixel inside a component should be rare enough to notice.
 | `--w-content` | 1240px | The default page column |
 | `--w-wide` | 1560px | Dense grids only, where the extra width earns its place |
 
-The rail is 64px, fixed, and becomes a scrolling top bar under 640px.
+### Navigation
+
+**240px, labelled, collapsible to 64px.** Not an icon-only rail.
+
+The current 64px icon rail was defensible at four destinations and stopped being
+so at eight: two of the icons are the same bar-chart glyph and nothing
+distinguishes them without a hover. Every dashboard worth copying (Linear,
+Stripe, Vercel, Grafana) runs a labelled sidebar around 240 to 256px, and the
+reference this design is built from has labels too.
+
+Collapsed state keeps the icons and is a user preference, not the default. Under
+640px it becomes a scrolling top bar.
 
 ---
 
@@ -168,12 +206,48 @@ Radii: `--r-sm` 6px, `--r-md` 10px, `--r-lg` 14px, `--r-pill` 999px.
 
 ## 🚦 Motion
 
-One curve, `--ease: cubic-bezier(.2,0,.13,1)`. Two durations, `--d-fast` 120ms
-for state and `--d-base` 200ms for anything that moves. Everything inside
-`prefers-reduced-motion: reduce` collapses to zero.
+> 💡 **If it does not clarify, guide or confirm, it does not ship.** That is the
+> whole test. Decoration on a page about probability reads as a distraction from
+> the numbers, which is the opposite of what this product sells.
 
-Nothing animates on load. A number that fades in reads as less certain than one
-that was already there.
+One curve, `--ease: cubic-bezier(.2,0,.13,1)`. Three durations.
+
+| Token | Value | Use |
+|---|---|---|
+| `--d-fast` | 120ms | Hover, focus, active. State the user caused |
+| `--d-base` | 220ms | Anything that moves or appears |
+| `--d-slow` | 380ms | Panels, drawers, the fixture page opening |
+
+Research puts the useful band at 200 to 400ms; below 150 an animation is not
+perceived as motion and above 400 it delays the person. `--d-fast` sits under
+that band on purpose: a hover state is feedback, not motion.
+
+### Animate transform and opacity. Nothing else.
+
+Both are GPU-composited and cost nothing. Animating `width`, `height`, `top` or
+`left` forces layout on every frame and is the usual cause of a dashboard that
+janks on a phone. A row expanding uses a transform, not a height transition.
+
+### Where motion is allowed
+
+- **State**: hover, focus ring, active tab. `--d-fast`.
+- **Disclosure**: a row opening into its distribution, a fixture page arriving.
+  `--d-base` to `--d-slow`, transform and opacity only.
+- **Skeletons**: a shimmer in the shape of the content, never a spinner. A
+  spinner says "wait"; a skeleton says "here is what is coming".
+
+### Where it is banned
+
+- **Numbers do not count up.** A figure that animates to its value reads as less
+  certain than one that was simply there, and this site sells certainty about
+  uncertainty.
+- **Nothing animates on page load.** Content that fades in is content that was
+  not ready.
+- **Charts do not draw themselves.** The shape is the information; revealing it
+  slowly withholds information for effect.
+
+Everything inside `prefers-reduced-motion: reduce` collapses to zero duration,
+not to a shorter one.
 
 ---
 
@@ -183,6 +257,7 @@ Mandatory. If a page hand-rolls one of these, the audit script flags it.
 
 | Component | Replaces |
 |---|---|
+| `Skeleton` | every loading state. Shaped like its content, never a spinner |
 | `PageHeader` | every `h1` + lede pair |
 | `SectionHead` | every `h2` + note pair |
 | `Card` | the 13 hand-built card shells |
@@ -221,3 +296,35 @@ spacings. Nine pages produced twenty-two CSS modules and 566 class rules, with
 eight separate implementations of one table.
 
 None of that happened through disagreement. It happened because nothing checked.
+
+---
+
+## 📚 What this was built from
+
+Not invented. The decisions above track what dashboards people actually use all
+day have settled on, with two deliberate departures.
+
+| Decision | Source |
+|---|---|
+| Six type sizes, closed scale | Vercel's dashboard settled on six; more than that and two of them become indistinguishable |
+| Inter for interface | The default for modern dashboards: screen-designed, tall x-height, tabular figures and a slashed zero as stylistic sets, renders identically everywhere |
+| Mono for figures only | The common pairing for data products is a sans for interface and a mono for hero metrics. Mono everywhere is a terminal |
+| 240px labelled sidebar | Linear, Stripe, Vercel and Grafana all run 240 to 256px with labels |
+| 200 to 400ms motion band | Below 150ms is not perceived as motion; above 400ms delays the person |
+| Transform and opacity only | Both GPU-composited. Animating width, height, top or left forces layout every frame and is the usual cause of a dashboard that janks on a phone |
+| Skeletons, not spinners | A spinner says wait. A skeleton in the shape of the content says here is what is coming |
+| Both themes from day one | Standard practice, not a later feature |
+
+### The two departures
+
+**Light by default.** Linear, Supabase and Vercel now design dark-first. This
+does not, for two reasons. Dense numeric tables read better on light, which is
+most of what this site is. And every betting site in this genre is dark, so
+light is the cheaper differentiator. Dark ships alongside it, properly, not as
+an inverted afterthought.
+
+**No count-up numbers, no self-drawing charts.** Both are current fashion and
+both are banned here. A figure that animates to its value reads as less certain
+than one that was already there, and a chart that reveals itself withholds
+information for effect. This site sells calibrated uncertainty; the visual
+language should not undercut it.
