@@ -364,3 +364,10 @@
   font-family: var(--font-mono);
   color: var(--ink-2);
 }
+
+
+/* Three calls per fixture, stacked short price to long. */
+.picks {
+  display: grid;
+  gap: var(--s2);
+}

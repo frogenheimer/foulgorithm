@@ -380,6 +380,17 @@ export type TeamShape = {
 /** fixture label -> club -> shape */
 export type Formations = Record<string, Record<string, TeamShape>>;
 
+export type FixtureOption = {
+  band: string;
+  character: string;
+  tier: string;
+  odds: number;
+  outOf100: number;
+  totalFouls: number;
+  gap: number;
+  legs: { player: string; fouls: number; market: string; outOf100: number }[];
+};
+
 export type BestPick = {
   character: string;
   tier: string;
@@ -408,6 +419,8 @@ export type PlayersData = {
   explorer: Explorer;
   fixtureSlips: FixtureSlips;
   bestPicks: Record<string, BestPick>;
+  /** Up to three calls per fixture, short price to long. */
+  fixtureOptions: Record<string, FixtureOption[]>;
   formations: Formations;
   slates: Slates;
   standings: Standing[];

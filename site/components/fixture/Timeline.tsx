@@ -19,7 +19,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import type { BestPick, SeasonFixture } from "@/lib/data";
+import type { FixtureOption, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
 import s from "./timeline.module.css";
 
@@ -34,7 +34,7 @@ export default function Timeline({
   currentMatchweek,
   expected,
   hasPage,
-  picks,
+  options,
 }: {
   fixtures: SeasonFixture[];
   matchweeks: number[];
@@ -44,7 +44,7 @@ export default function Timeline({
   /** Fixtures with a page of their own. Only this round has one. */
   hasPage: Set<string>;
   /** One call per fixture, five fouls or more. */
-  picks: Record<string, BestPick>;
+  options: Record<string, FixtureOption[]>;
 }) {
   const [week, setWeek] = useState<number | "all">("all");
 
@@ -143,7 +143,7 @@ export default function Timeline({
                     state={stateOf(f)}
                     expected={expected[`${f.home} v ${f.away}`]}
                     linked={hasPage.has(`${f.home} v ${f.away}`)}
-                    pick={picks[`${f.home} v ${f.away}`]}
+                    options={options[`${f.home} v ${f.away}`]}
                   />
                 ))}
               </div>
@@ -160,13 +160,13 @@ function Game({
   state,
   expected,
   linked,
-  pick,
+  options,
 }: {
   fixture: SeasonFixture;
   state: State;
   expected?: number;
   linked: boolean;
-  pick?: BestPick;
+  options?: FixtureOption[];
 }) {
   const label = `${f.home} v ${f.away}`;
   const cls = `${s.card} ${state === "past" ? s.past : ""} ${state === "live" ? s.live : ""}`;
@@ -216,43 +216,43 @@ function Game({
             ) : null}
           </div>
         </div>
-      ) : pick && state === "upcoming" ? (
-        // A disclosure rather than a run-on line. The legs used to be joined
-        // with dots into one wrapping sentence, which at four or five legs is a
-        // paragraph on a card that has room for a headline. Native <details>,
-        // so it costs no JavaScript in a static export and still works if the
-        // page never hydrates.
-        <details
-          className={s.pick}
-          style={{ ["--char" as string]: `var(--ch-${pick.character})` }}
-        >
-          <summary className={s.pickHead}>
-            <span className={s.pickWho}>
-              <span className={s.pickSwatch} aria-hidden />
-              {pick.character}
-            </span>
-            <span className={s.pickSummary}>
-              {pick.legs.length} legs &middot; {pick.totalFouls} fouls
-            </span>
-            <span className={s.pickOdds}>{pick.odds.toFixed(2)}</span>
-          </summary>
-
-          <ul className={s.pickLegs}>
-            {pick.legs.map((l) => (
-              <li key={`${l.player}-${l.market}-${l.fouls}`} className={s.pickLeg}>
-                <span className={s.pickPlayer}>{l.player}</span>
-                <span className={s.pickWhat}>
-                  {l.fouls}+ {l.market === "drawn" ? "won" : "fouls"}
+      ) : options?.length && state === "upcoming" ? (
+        <div className={s.picks}>
+          {options.map((o) => (
+            <details
+              key={o.band}
+              className={s.pick}
+              style={{ ["--char" as string]: `var(--ch-${o.character})` }}
+            >
+              <summary className={s.pickHead}>
+                <span className={s.pickWho}>
+                  <span className={s.pickSwatch} aria-hidden />
+                  {o.character}
                 </span>
-                <span className={s.pickLegProb}>{l.outOf100}/100</span>
-              </li>
-            ))}
-          </ul>
+                <span className={s.pickSummary}>
+                  {o.totalFouls} foul{o.totalFouls === 1 ? "" : "s"}
+                </span>
+                <span className={s.pickOdds}>{o.odds.toFixed(2)}</span>
+              </summary>
 
-          <span className={s.pickMeta}>
-            {pick.outOf100}/100 all together{linked ? " · see all five" : ""}
-          </span>
-        </details>
+              <ul className={s.pickLegs}>
+                {o.legs.map((l) => (
+                  <li key={`${l.player}-${l.market}-${l.fouls}`} className={s.pickLeg}>
+                    <span className={s.pickPlayer}>{l.player}</span>
+                    <span className={s.pickWhat}>
+                      {l.fouls}+ {l.market === "drawn" ? "won" : "fouls"}
+                    </span>
+                    <span className={s.pickLegProb}>{l.outOf100}/100</span>
+                  </li>
+                ))}
+              </ul>
+
+              <span className={s.pickMeta}>
+                {o.outOf100}/100 all together{linked ? " · see all five" : ""}
+              </span>
+            </details>
+          ))}
+        </div>
       ) : (
         <div className={s.foot}>
           {state === "live" ? (

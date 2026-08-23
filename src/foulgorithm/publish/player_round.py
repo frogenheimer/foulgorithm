@@ -327,8 +327,17 @@ def _pairing_history(seasons: int = 12) -> pd.DataFrame:
 
 def publish(output: Path = OUTPUT) -> dict:
     history = load_player_matches()
-    fixtures = pd.DataFrame(football_data.fetch_fixtures())
+
+    # The league's list decides what is next; football-data supplies the referee
+    # and the odds. Reading the round from football-data meant predicting games
+    # already played, because that file holds one round and does not roll over
+    # until midweek. See features/next_round.py.
+    from foulgorithm.features import next_round
+
+    fixtures = pd.DataFrame(next_round.fetch())
     as_of = datetime.now(timezone.utc)
+    if fixtures.empty:
+        print("  no upcoming fixtures, nothing to predict")
 
     try:
         lineups = confirmed_lineups()
@@ -366,7 +375,11 @@ def publish(output: Path = OUTPUT) -> dict:
             "home": fx.home_team_raw,
             "away": fx.away_team_raw,
             "kickoff": fx.kickoff_utc.isoformat(),
-            "referee": fx.referee_raw,
+            # NaN, not None, is what a missing referee becomes once the rows go
+            # through pandas, and NaN is not JSON. It reached the site as a
+            # literal `NaN` token and broke the build. A fixture with no
+            # appointment yet is a real and common state, so it has to survive.
+            "referee": _or_none(fx.referee_raw),
             "lineupConfirmed": any(
                 f"{t}|{fx.home_team_raw} v {fx.away_team_raw}" in lineups
                 for t in (fx.home_team_raw, fx.away_team_raw)
@@ -456,6 +469,11 @@ def publish(output: Path = OUTPUT) -> dict:
         for label, by_character in fixture_slips.items()
         if (pick := _best_pick(by_character))
     }
+    fixture_options = {
+        label: options
+        for label, by_character in fixture_slips.items()
+        if (options := _fixture_options(by_character))
+    }
 
     payload = {
         "generatedAt": as_of.replace(microsecond=0).isoformat(),
@@ -492,6 +510,7 @@ def publish(output: Path = OUTPUT) -> dict:
         "picks": picks,
         "fixtureSlips": fixture_slips,
         "bestPicks": best_picks,
+        "fixtureOptions": fixture_options,
         "slates": {
             "shapes": [
                 {"key": sl.key, "label": sl.label, "legs": sl.legs}
@@ -572,6 +591,18 @@ def _commit_slates(slates: dict, published: str) -> dict:
                 )
             )
     return slate_store.append(committed)
+
+
+def _or_none(value):
+    """Anything pandas made missing, back to a JSON null."""
+    if value is None:
+        return None
+    try:
+        if pd.isna(value):
+            return None
+    except (TypeError, ValueError):
+        pass
+    return value
 
 
 def _standings(character_ids: list[str]) -> list[dict]:
@@ -1343,6 +1374,77 @@ MIN_TOTAL_FOULS = 6
 # wearing a recommendation. Ten in a hundred is still a long price and is
 # something that actually happens.
 MIN_PICK_PROBABILITY = 0.10
+
+
+#: The price bands a fixture card offers. Short, middle and long, so a reader
+#: can see what reaching further costs rather than being handed one number.
+OPTION_BANDS: tuple[tuple[str, float, float], ...] = (
+    ("Short", 0.0, 4.5),
+    ("Middle", 4.5, 9.0),
+    ("Long", 9.0, float("inf")),
+)
+
+
+def _fixture_options(by_character: dict, limit: int = 3) -> list[dict]:
+    """Two or three calls per fixture, at different prices.
+
+    One pick at a fixed foul total is over-constrained. Requiring six total
+    fouls AND better than ten in a hundred is satisfiable once a lineup is
+    confirmed and almost never before it, so the homepage carried eight picks on
+    a Sunday and none on a Monday. The bar was not wrong; asking a single
+    combination to clear both was.
+
+    Each band offers the boldest read available at that price, and the foul
+    total it reaches is reported rather than required. Boldest means furthest
+    from what the other four say, for the same reason it does everywhere else:
+    a number they all agree on gives no reason to prefer whoever offered it.
+    """
+    best_in_band: dict[str, dict] = {}
+
+    for cid, tiers in by_character.items():
+        for slip in tiers:
+            if not slip.get("legs"):
+                continue
+            odds = slip["actualOdds"]
+            band = next((name for name, low, high in OPTION_BANDS if low <= odds < high), None)
+            if band is None:
+                continue
+
+            gap = sum(l["prob"] - l["packProb"] for l in slip["legs"]) / len(slip["legs"])
+            held = best_in_band.get(band)
+            if held is None or gap > held["gap"]:
+                best_in_band[band] = {
+                    "band": band,
+                    "character": cid,
+                    "tier": slip["targetLabel"],
+                    "odds": odds,
+                    "outOf100": slip["outOf100"],
+                    "totalFouls": sum(l["fouls"] for l in slip["legs"]),
+                    "gap": round(gap, 4),
+                    "legs": [
+                        {
+                            "player": l["player"],
+                            "fouls": l["fouls"],
+                            "market": l["market"],
+                            "outOf100": l["outOf100"],
+                        }
+                        for l in slip["legs"]
+                    ],
+                }
+
+    options = sorted(best_in_band.values(), key=lambda o: o["odds"])[:limit]
+
+    # Two bands can land on the same combination when a character's ladder
+    # repeats itself. Showing it twice is not two options.
+    seen: set[tuple] = set()
+    unique = []
+    for option in options:
+        key = tuple(sorted(l["player"] for l in option["legs"])) + (option["totalFouls"],)
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(option)
+    return unique
 
 
 def _best_pick(by_character: dict) -> dict | None:
