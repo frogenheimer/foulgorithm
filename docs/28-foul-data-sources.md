@@ -12,7 +12,7 @@ decisions rest on.
 |---|---|---|---|
 | **Team fouls per match** | football-data.co.uk | 2000 to now, **12+ leagues** | **yes** |
 | **Player fouls per match** | worldfootballR mirror | 2017 to Sep 2025, **6 leagues** | no, archived |
-| **Player fouls, season totals** | Premier League tables | current season only | **yes** |
+| **Player fouls, season totals** | Premier League tables | **2006/07 to now, 20 seasons** | **yes** |
 | Player fouls per match | FBref direct | — | blocked |
 | Player fouls | FPL | — | **does not exist** |
 | Player events incl. fouls | StatsBomb open data | 2 PL seasons | no |
@@ -22,8 +22,10 @@ Two things follow, and they are different problems that get confused:
 1. **Volume** is solvable and free. Five more leagues of player-level fouls are
    sitting in the same archive we already use, about 450,000 player-matches
    against the 81,000 we read today.
-2. **Recency** is not solvable for free at player level. Everything in that
-   archive froze on the same day.
+2. **Recency** is not solvable for free at player level *per match*. Everything
+   in that archive froze on the same day. But per-player season RATES are
+   complete and current from the league itself, back to 2006/07, which covers
+   every gap we have and eleven seasons before our archive begins.
 
 ---
 
@@ -104,14 +106,54 @@ Schema is identical: `Fls` fouls committed, `Fld` fouled, plus `Min`, `Pos`,
 Pulling all six is roughly **450,000 player-matches**, a 5.5x increase, for the
 cost of five downloads of about 40 MB each. Every one froze in September 2025.
 
-### Player fouls, current, at season-total level
+### Player fouls, EVERY season back to 2006/07, from the league itself
 
-The league's own ranked stat tables give fouls and fouls-drawn per player as
-**season totals**, live. A single match is recoverable as the difference between
-two snapshots, which is what `jobs/settle.py` already does. It covers players our
-archive has never seen, Rio Ngumoha included.
+**The most useful thing in this survey, and it was sitting in a source we
+already call.** `stats/ranked/players/fouls` takes a `compSeasons` parameter and
+the league exposes 35 season ids. Tested season by season:
 
-Going forward only. It cannot reconstruct 2025-26.
+| Season | Players with fouls |
+|---|---|
+| 2026/27 (in progress) | 142 |
+| 2021/22 | 469 |
+| 2016/17 | 462 |
+| 2011/12 | 472 |
+| **2006/07** | **477** |
+| 2005/06 and earlier | **0** |
+
+**2006/07 is the boundary.** That is **twenty complete seasons** of official
+per-player foul and fouls-drawn totals, free, no key, no blocking, from the
+league that ran the matches.
+
+Our own archive starts in 2017/18. This reaches **eleven seasons further back
+than anything we hold**, and it covers both gaps in it: the Feb to May 2025 hole
+and the whole of 2025-26.
+
+**The limit is granularity, not history.** These are SEASON TOTALS. A single
+match is recoverable only as the difference between two snapshots, which is what
+`jobs/settle.py` does going forward. It cannot be done backwards, because the
+league only ever published the running total and nobody was snapshotting in
+2019.
+
+So it completes every player RATE and adds no per-match training rows. Given the
+player's own rate is the largest single input to a prediction, that is a much
+better trade than it first sounds.
+
+### What the league does NOT publish
+
+Checked, so nobody checks again:
+
+- `fixtures/{id}` carries `teamLists`, and a lineup entry has identity only:
+  age, id, name, `matchPosition`, shirt number. **No statistics.**
+- `events` on a fixture covers goals, bookings, substitutions and period
+  markers. **No foul events.**
+- `stats/match/{id}` is real and rich, 169 stats per team including
+  `fk_foul_lost` and `fk_foul_won`, **but it is team level**. `?type=player`
+  returns the same team payload.
+- `stats/match/{id}/players`, `stats/players/match/{id}` and
+  `fixtures/{id}/players` all return 404.
+
+Per-player, per-match foul data does not exist in this API at any depth.
 
 ---
 
