@@ -114,3 +114,20 @@ checked against a scoreboard, and that both jobs' state paths are committable.
 State under `data/raw/` is gitignored, and a scheduled job that cannot commit
 its state starts from nothing every run, which for settlement means grading a
 whole season total as one match.
+
+## Before any UI change
+
+```
+scripts/audit-ui.sh            # against the baseline; CI runs this
+scripts/audit-ui.sh --list     # every offending line
+scripts/check-mobile.sh 390    # nothing scrolls sideways
+```
+
+Read [brandbook.md](brandbook.md) first. Six type sizes, ten spacing steps, one
+accent, mandatory primitives. A new component that hard-codes a size or builds
+its own table fails the build on the next push, which is the entire point:
+the previous guide asked for the same things and was ignored 190 times.
+
+To silence a genuine exception, mark the line
+`/* audit-ignore B3: reason */`. The rule id is required. Raising a baseline
+is a decision and needs `--update-baseline` deliberately.

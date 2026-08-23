@@ -1,0 +1,195 @@
+/**
+ * Design tokens. The only file in the site allowed to contain a raw hex or a
+ * raw pixel value, and scripts/audit-ui.sh enforces that.
+ *
+ * Defined in docs/brandbook.md. Six type sizes, ten spacing steps, one accent.
+ * Anything outside those scales is an escapee.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ---- ground and surface ---- */
+  --ground: #f6f6f4;
+  --surface: #ffffff;
+  --surface-sunk: #f1f1ee;
+  --rail: #16181a;
+  --line: rgba(22, 24, 26, 0.1);
+  --line-strong: rgba(22, 24, 26, 0.2);
+
+  /* ---- ink ---- */
+  --ink: #16181a;
+  --ink-2: #4a4e52;
+  --ink-3: #71767a;
+  --on-rail: #f7f7f5;
+  --on-rail-2: #9aa0a4;
+
+  /* ---- accent. One. ---- */
+  --accent: #1b7f4b;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(27, 127, 75, 0.1);
+
+  /* ---- chart categoricals, fixed order, never cycled ---- */
+  --c1: #2563c9;
+  --c2: #1b7f4b;
+  --c3: #c77a0a;
+  --c4: #b23a34;
+
+  /* ---- sequential, one hue ---- */
+  --seq-1: #cfe0f8;
+  --seq-2: #8fb6ef;
+  --seq-3: #2563c9;
+  --seq-4: #17407f;
+
+  /* ---- semantic. Always paired with a word or a sign. ---- */
+  --good: #1b7f4b;
+  --warn: #c77a0a;
+  --bad: #b23a34;
+
+  /* ---- the five. Data, not brand. ---- */
+  --ch-alan: #2563c9;
+  --ch-lily: #d2691e;
+  --ch-valentina: #1b7f4b;
+  --ch-tayler: #b8860b;
+  --ch-bdog: #a8497f;
+
+  /* ---- chart chrome ---- */
+  --grid: #e4e4df;
+  --axis: #c8c8c1;
+
+  /* ---- type. Six sizes. ---- */
+  --t-hero: 30px;
+  --t-xl: 22px;
+  --t-lg: 17px;
+  --t-md: 15px;
+  --t-sm: 13px;
+  --t-xs: 11px;
+
+  --font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", monospace;
+
+  /* ---- space. Ten steps on a 4px base. ---- */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 20px;
+  --s6: 24px;
+  --s7: 32px;
+  --s8: 40px;
+  --s9: 48px;
+  --s10: 64px;
+
+  /* ---- widths ---- */
+  --w-prose: 68ch;
+  --w-content: 1240px;
+  --w-wide: 1560px;
+  --w-rail: 64px;
+
+  /* ---- radius ---- */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-pill: 999px;
+
+  /* ---- elevation. One shadow, used once. ---- */
+  --lift: 0 1px 2px rgba(22, 24, 26, 0.04);
+
+  /* ---- motion. One curve, two durations. ---- */
+  --ease: cubic-bezier(0.2, 0, 0.13, 1);
+  --d-fast: 120ms;
+  --d-base: 200ms;
+}
+
+/* Dark is a variant, not a second design. Only the values that must change do.
+   The rail stays near-black in both, because it is what makes a screenshot
+   recognisable as this site. */
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+
+    --ground: #0e0f10;
+    --surface: #17191b;
+    --surface-sunk: #101214;
+    --rail: #0a0b0c;
+    --line: rgba(255, 255, 255, 0.1);
+    --line-strong: rgba(255, 255, 255, 0.2);
+
+    --ink: #f7f7f5;
+    --ink-2: #b9bdc0;
+    --ink-3: #8b9094;
+
+    --accent: #3fbf77;
+    --accent-ink: #0e0f10;
+    --accent-soft: rgba(63, 191, 119, 0.14);
+
+    --c1: #5b9bf5;
+    --c2: #3fbf77;
+    --c3: #e8a33d;
+    --c4: #e36a62;
+
+    --seq-1: #1b3560;
+    --seq-2: #2f5fa8;
+    --seq-3: #5b9bf5;
+    --seq-4: #a7c8fb;
+
+    --good: #3fbf77;
+    --warn: #e8a33d;
+    --bad: #e36a62;
+
+    --ch-alan: #5b9bf5;
+    --ch-lily: #e8944d;
+    --ch-valentina: #3fbf77;
+    --ch-tayler: #e0b83d;
+    --ch-bdog: #d47ab0;
+
+    --grid: #2a2d30;
+    --axis: #3a3e42;
+
+    --lift: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ground: #0e0f10;
+  --surface: #17191b;
+  --surface-sunk: #101214;
+  --rail: #0a0b0c;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.2);
+
+  --ink: #f7f7f5;
+  --ink-2: #b9bdc0;
+  --ink-3: #8b9094;
+
+  --accent: #3fbf77;
+  --accent-ink: #0e0f10;
+  --accent-soft: rgba(63, 191, 119, 0.14);
+
+  --c1: #5b9bf5;
+  --c2: #3fbf77;
+  --c3: #e8a33d;
+  --c4: #e36a62;
+
+  --seq-1: #1b3560;
+  --seq-2: #2f5fa8;
+  --seq-3: #5b9bf5;
+  --seq-4: #a7c8fb;
+
+  --good: #3fbf77;
+  --warn: #e8a33d;
+  --bad: #e36a62;
+
+  --ch-alan: #5b9bf5;
+  --ch-lily: #e8944d;
+  --ch-valentina: #3fbf77;
+  --ch-tayler: #e0b83d;
+  --ch-bdog: #d47ab0;
+
+  --grid: #2a2d30;
+  --axis: #3a3e42;
+
+  --lift: 0 1px 2px rgba(0, 0, 0, 0.3);
+}

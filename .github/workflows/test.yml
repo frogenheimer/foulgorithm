@@ -32,6 +32,14 @@ jobs:
           ruff check src tests
           ruff format --check src tests
 
+      - name: Brandbook audit
+        # Enforces docs/brandbook.md against a ratchet baseline. The existing
+        # backlog sits AT baseline and never fails a build; going above one
+        # does. Nothing raises a baseline automatically, so the numbers only
+        # fall. Until this was wired up, nothing pulled the ratchet: the last
+        # guide said "never hard-code a spacing value" and there were 39.
+        run: ./scripts/audit-ui.sh
+
       - name: Test
         # Network-marked tests are excluded: CI must not depend on a third party being up.
         run: pytest -q -m "not network"

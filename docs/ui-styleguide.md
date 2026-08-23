@@ -1,6 +1,16 @@
 # UI styleguide
 
-**Status: Decided. Read this before any UI change.**
+**Status: Superseded, 2026-08-23. Read [brandbook.md](brandbook.md) instead.**
+
+> ⚠️ **This guide described tokens without constraining anything.** It said
+> "never hard-code a hex, a pixel radius or a spacing value" and the repo went
+> on to contain 65 hard-coded font sizes, 39 hard-coded spacings and 19
+> hard-coded radii. Nine pages produced 22 CSS modules and eight separate
+> implementations of one table.
+>
+> None of that was disagreement. Nothing checked. The replacement closes every
+> scale and `scripts/audit-ui.sh` enforces it in CI against a baseline that only
+> falls.
 
 The site presents probabilities about a gambling market. That sets the tone: it should read like an instrument, not like a tipster. Sober, dense, precise. If a design choice makes a number feel more certain than it is, the choice is wrong.
 
