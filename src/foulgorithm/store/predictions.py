@@ -15,6 +15,10 @@ Design, and the reasons for it:
     "published before kickoff" than a field in our own database.
   - **Idempotent.** Re-running a publish for the same round replaces nothing;
     a prediction already recorded is skipped, so a cron firing twice is safe.
+    That check covers the batch as well as the file. It once covered only the
+    file, so a run emitting the same player twice wrote him twice: both copies
+    were absent when the check ran. Grading joins on the claim, so a repeat is
+    a double-counted bet.
 
 Deliberately not a database. The volume is a few hundred rows a week and the
 value is in the audit trail, which a file in version control provides better
@@ -95,8 +99,13 @@ def append(predictions: list[Prediction], root: Path = STORE) -> dict:
     for path, items in by_file.items():
         path.parent.mkdir(parents=True, exist_ok=True)
         seen = existing_keys(path)
-        fresh = [p for p in items if p.key not in seen]
-        skipped += len(items) - len(fresh)
+        fresh = []
+        for p in items:
+            if p.key in seen:
+                skipped += 1
+                continue
+            seen.add(p.key)   # so a repeat later in this batch is caught too
+            fresh.append(p)
         if not fresh:
             continue
         with path.open("a") as handle:

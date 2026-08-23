@@ -454,29 +454,51 @@ def _record(board: list[dict], picks: list[dict], as_of) -> dict:
                         )
 
     # Each character's tiered slips, so their record is gradeable too.
+    #
+    # One row per claim, not per tier. A character often carries the same player
+    # and line across several tiers, and that is one opinion packaged more than
+    # once, not several opinions. The tiers it appeared on are kept so a slip can
+    # still be graded as a slip.
+    slips: dict[tuple, dict] = {}
     for block in picks:
         for tier in block.get("tiers", []):
             for leg in tier["legs"]:
-                rows.append(
-                    pred_store.Prediction(
-                        published_at=published,
-                        kickoff=leg["kickoff"] if "kickoff" in leg else as_of.isoformat(),
-                        fixture=leg["fixture"],
-                        entity=leg.get("fullName") or leg["player"],
-                        market=(
-                            "player_fouls_committed"
-                            if leg["market"] == "committed"
-                            else "player_fouls_drawn"
-                        ),
-                        line=leg["line"],
-                        probability=leg["prob"],
-                        model_id=block["id"],
-                        model_version="1.0.0",
-                        lineup_confirmed=False,
-                        thin=bool(leg.get("thin")),
-                        extra={"tier": tier["target"]},
-                    )
+                market = (
+                    "player_fouls_committed"
+                    if leg["market"] == "committed"
+                    else "player_fouls_drawn"
                 )
+                entity = leg.get("fullName") or leg["player"]
+                claim = (leg["fixture"], entity, market, leg["line"], block["id"])
+                held = slips.setdefault(
+                    claim,
+                    {
+                        "kickoff": leg.get("kickoff") or as_of.isoformat(),
+                        "prob": leg["prob"],
+                        "thin": bool(leg.get("thin")),
+                        "tiers": [],
+                    },
+                )
+                if tier["target"] not in held["tiers"]:
+                    held["tiers"].append(tier["target"])
+
+    for (fixture, entity, market, line, model_id), held in slips.items():
+        rows.append(
+            pred_store.Prediction(
+                published_at=published,
+                kickoff=held["kickoff"],
+                fixture=fixture,
+                entity=entity,
+                market=market,
+                line=line,
+                probability=held["prob"],
+                model_id=model_id,
+                model_version="1.0.0",
+                lineup_confirmed=False,
+                thin=held["thin"],
+                extra={"tiers": held["tiers"]},
+            )
+        )
 
     return pred_store.append(rows)
 
