@@ -13,11 +13,26 @@ Every claim below carries a verification date. These facts rot fast, so re-check
 
 ## The finding that shapes everything
 
+> ⚠️ **Superseded in part, 2026-08-24.** This section says API-Football is the
+> only usable free source of per-player fouls. That was wrong, and the source
+> that disproves it is one this project already calls: **the Premier League's
+> own API returns per-player foul totals for every season back to 2006/07**,
+> free, no key, no block. Twenty seasons, around 470 players each, with minutes
+> so everything can be a rate. See `28-foul-data-sources.md`, which supersedes
+> the table below.
+>
+> The distinction the original claim missed is granularity, not permission.
+> API-Football gives fouls PER MATCH. The league gives SEASON TOTALS, and a
+> single match is recoverable from them only by differencing snapshots taken
+> either side of it, which works going forward and cannot be done backwards.
+> Both statements can be true and only one was written down.
+
 **API-Football is the only free source of current-season per-player fouls that we can use without a known terms-of-service conflict.** The alternatives each fail on one of availability, coverage or permission:
 
 | Source | Per-player fouls | Free | Usable | Why not |
 |---|---|---|---|---|
-| **API-Football** | **Yes** | **Yes** | **Yes** | The choice |
+| **Premier League API** | **Yes, season totals, 20 seasons** | **Yes** | **Yes** | Missing from this table entirely. In use for settlement already |
+| **API-Football** | **Yes, per match** | **Yes** | Account suspended | Still the only per-MATCH route |
 | football-data.co.uk | No, team level | Yes | Yes | Match level only, but excellent for what it does |
 | FBref | Unverified since Jan 2026 | Yes | **No** | Cloudflare interactive challenge, and its Opta data was deleted |
 | FotMob | Yes | Yes | **No** | FotMob formally objected to scraping in Jan 2026 and got a library to remove support |
