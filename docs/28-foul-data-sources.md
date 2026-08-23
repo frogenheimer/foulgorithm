@@ -134,6 +134,46 @@ Going forward only. It cannot reconstruct 2025-26.
 
 ---
 
+## 🗃️ The old foulgorithm repository
+
+Checked at `~/Documents/Foulgorithm`. 250 CSVs, and the answer is: marginal.
+
+| What is there | Shape | Verdict |
+|---|---|---|
+| `team_player_stats/` | 557 players, 20 clubs, **season aggregates** | small but useful |
+| `team_fixture_stats_previous_seasons/` | team per-fixture, 21-22 to 23-24, FBref columns | duplicates what we hold |
+| `GW*/foul_picks_*.csv` | old model OUTPUT | not source data |
+
+**The player file is a snapshot, not history.** One row per player with `Fls`,
+`Fld` and `90s` for the season to date. No date column, so a foul cannot be
+attributed to a match, and it cannot add training rows.
+
+It is still worth something. File dated **5 April 2025**, 6,565 ninetys, top
+player on 30, so it is 2024-25 to roughly matchweek 30. Our per-match data for
+that season stops on **3 February 2025**. The difference between the two is
+aggregate fouls per player for **February to April 2025**, about eight
+matchweeks that are otherwise entirely missing. Implied rate 1.014 per 90, which
+sits inside the England range and is a decent sign it is not corrupt.
+
+So: it patches a rate for one window of one season. It does not restore history.
+
+## 🔌 Libraries that scrape, and why they do not help
+
+`probberechts/soccerdata` is actively maintained, 2,000 stars, and carries
+readers for FBref, Sofascore, WhoScored, Understat, ESPN and football-data.co.uk.
+Sofascore and WhoScored both publish player fouls per match and both are live,
+which makes this the most promising lead found.
+
+It does not survive contact. **Sofascore's API returns HTTP 403 to a plain
+request** with a browser user agent, the same as FBref. Libraries reach it by
+impersonating a browser at the TLS level, which is the same category of
+circumvention as solving the Cloudflare challenge, so it is ruled out on the same
+grounds rather than on a different one.
+
+Worth stating explicitly: the blocker is not that these sources lack the data or
+that finding them is hard. Every live player-level foul source found is either
+behind a bot wall or behind a paid account. That is the actual constraint.
+
 ## 📊 The number that decides how leagues can be used
 
 Fouls committed per 90, all seasons:
