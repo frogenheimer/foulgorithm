@@ -1,0 +1,144 @@
+.reliability {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.relHead,
+.relRow {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 92px 96px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.relHead {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--border);
+}
+
+.relRow {
+  padding: var(--space-1) 0;
+}
+
+.relBand {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.track {
+  position: relative;
+  height: 18px;
+  background: linear-gradient(var(--grid), var(--grid)) center / 100% 1px no-repeat;
+}
+
+.said,
+.happened {
+  position: absolute;
+  top: 3px;
+  width: 2px;
+  height: 12px;
+  margin-left: -1px;
+  border-radius: 1px;
+}
+
+/* Two marks on one axis. The distance between them is the error, so nobody has
+   to subtract anything. */
+.said {
+  background: var(--text-muted);
+}
+
+.happened {
+  background: var(--seq-450);
+  width: 3px;
+}
+
+.gap {
+  position: absolute;
+  top: 8px;
+  height: 2px;
+  background: var(--seq-250);
+  opacity: 0.55;
+}
+
+.relNums {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.relSaid {
+  color: var(--text-muted);
+}
+
+.relArrow {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+
+.relGot {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.relRight {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sample size drawn to scale. A band of three claims must not look like a band
+   of eighty, which is exactly what a bare number lets it do. */
+.count {
+  height: 6px;
+  border-radius: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  min-width: 2px;
+}
+
+.countNum {
+  min-width: 22px;
+  text-align: right;
+}
+
+.relThin .relBand,
+.relThin .relGot {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.relThin .happened {
+  background: var(--text-muted);
+}
+
+.relNote {
+  margin: var(--space-2) 0 0;
+  max-width: 72ch;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .relHead,
+  .relRow {
+    grid-template-columns: 52px minmax(0, 1fr) 76px;
+  }
+
+  .relRight {
+    display: none;
+  }
+}

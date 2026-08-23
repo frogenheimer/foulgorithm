@@ -149,6 +149,7 @@ reconciliation pass.
 | Row opens into the distribution | **Built** | Ladder reads published numbers, not the raw shape, so it cannot contradict the table |
 | Theme toggle | **Built** | Three states. Following the system is a real preference |
 | Track record page | **Built** | Calls its own numbers noise under 100 claims |
+| Calibration view | **Built** | On the track record. Draws sample size to scale so a band of three cannot read like a band of eighty |
 | Position pairings | **Tested, nothing there** | Facing an exceptional foul-winner predicts nothing beyond the opposing club's own rate. Correlation -0.003 over 9,419 player-matches. Kept on the stats sheet as context, labelled as such |
 | Light theme | **Built** | Both themes were already defined; what was missing was a way to choose |
 | Game state from closing odds | **Tested, not shipped** | Effect is real and monotonic: favourites foul 15% under their own rate. Three attempts to use it all scored worse. See the modelling log |

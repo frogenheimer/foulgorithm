@@ -143,7 +143,7 @@ export type ModelRecord = {
   logLoss: number;
   brier: number;
   ece: number;
-  calibration: { from: number; to: number; n: number; predicted: number; observed: number }[];
+  calibration: { lo: number; hi: number; n: number; predicted: number; observed: number }[];
 };
 
 export type TrackRecord = {

@@ -18,6 +18,40 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-23 — The first graded calibration points the wrong way
+
+**Built the reliability view**, which answers the only question that matters
+about a probability: did the things we called 60% happen 60% of the time. A hit
+rate cannot, because a model that calls everything 50% and lands half of them
+looks identical to one that knows what it is talking about.
+
+**And the first reading is uncomfortable.** Over 282 graded claims from the
+house model, almost every band comes in ABOVE what was said:
+
+| band | we said | it happened | claims |
+|---|---|---|---|
+| 0 to 10% | 6 | **14** | 84 |
+| 10 to 20% | 15 | 13 | 64 |
+| 20 to 30% | 25 | **35** | 37 |
+| 30 to 40% | 36 | **50** | 30 |
+| 40 to 50% | 46 | 46 | 26 |
+| 50 to 60% | 55 | **67** | 24 |
+| 60 to 70% | 64 | 57 | 14 |
+
+Published probabilities carry a correction fitted for measured OVERconfidence.
+Live, the model is UNDERconfident, which means the correction may now be
+pushing the wrong way.
+
+**Nothing has been changed.** This is 282 claims across two matchdays, and the
+whole discipline here is that no model changes on one week's results, ever.
+Reversing a correction on a sample this size would be exactly the fiddling the
+weekly review exists to prevent. If the direction holds over a few more rounds
+the calibration correction is the first thing to re-examine, and this entry
+exists so that gets checked rather than remembered.
+
+The site states this on the page rather than leaving the chart to be read
+unaided, including that it is too early to act on.
+
 ## 2026-08-23 — Position pairings predict nothing the team rate did not already say
 
 **Question.** Two midfielders who both foul a lot ought to make for a busier

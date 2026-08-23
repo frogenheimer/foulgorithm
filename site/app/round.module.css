@@ -56,3 +56,19 @@
 .footNote strong {
   color: var(--text-secondary);
 }
+
+/* A stated reading of a chart above it. Distinct from a caption: this is an
+   interpretation and should look like one. */
+.reading {
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+  max-width: 74ch;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.reading strong {
+  color: var(--text-secondary);
+}

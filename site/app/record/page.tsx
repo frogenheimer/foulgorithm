@@ -1,3 +1,4 @@
+import Reliability from "@/components/record/Reliability";
 import { Callout, Card, StatTile, TileGrid } from "@/components/ui";
 import { getTrackRecord } from "@/lib/data";
 import styles from "../round.module.css";
@@ -117,6 +118,25 @@ export default function Record() {
           </table>
         </div>
       </Card>
+
+      {house.calibration?.length > 0 && (
+        <Card
+          title="Were we right about how sure we were"
+          subtitle="A hit rate cannot answer this. A model that calls everything 50% and lands half of them looks identical to one that knows what it is talking about."
+        >
+          <Reliability buckets={house.calibration} />
+          <p className={styles.reading}>
+            <strong>Early reading, and it points the wrong way.</strong> Almost every
+            band comes in above what we said rather than below: 6% called and 14%
+            happened, 36% called and 50% happened. Published probabilities carry a
+            correction for measured OVERconfidence, and this is the opposite. It is
+            {" "}
+            {house.n} claims across two matchdays, which is far too few to act on, so
+            nothing has been changed. If it holds over a few more rounds the correction
+            is the first thing that should go.
+          </p>
+        </Card>
+      )}
 
       <Card
         title="What these columns mean"
