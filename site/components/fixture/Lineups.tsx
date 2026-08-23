@@ -17,6 +17,7 @@ import { useMemo, useState } from "react";
 import type { Explorer, ExplorerRow, Formations, Slip } from "@/lib/data";
 import { Callout } from "@/components/kit";
 import { findPlayer, who } from "@/lib/who";
+import type { Basis } from "./Pitch";
 import Pitch from "./Pitch";
 import type { Market } from "./Pitch";
 import SlipGrid from "./SlipGrid";
@@ -45,6 +46,7 @@ export default function Lineups({
 }) {
   const [selected, setSelected] = useState<Record<string, string>>({});
   const [market, setMarket] = useState<Market>("committed");
+  const [basis, setBasis] = useState<Basis>("match");
   // Narrow screens show one side at a time; both fit side by side above 900px.
 
   // Home first, away second, matching the fixture label rather than object order.
@@ -109,6 +111,8 @@ export default function Lineups({
         onReset={() => setSelected({})}
         market={market}
         onMarket={setMarket}
+        basis={basis}
+        onBasis={setBasis}
       />
 
       {changed && (

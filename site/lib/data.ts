@@ -118,7 +118,15 @@ export type ExplorerRow = {
   startProbability: number | null;
   confirmed: boolean;
   thin: boolean;
+  /** What the model expects in THIS match. Not an average of anything. */
   expected: { committed: number; drawn: number; involvements: number };
+  /** His plain per-90 across everything we hold. Null if he has never played. */
+  career: {
+    committed: number | null;
+    drawn: number | null;
+    involvements: number | null;
+    nineties: number;
+  } | null;
   committed: number[][];
   drawn: number[][];
   involvements: number[][];

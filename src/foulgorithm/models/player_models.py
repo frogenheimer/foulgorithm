@@ -131,7 +131,16 @@ class PlayerFoulModel:
         self._history = history
         # Never survives a refit. See _visible.
         self._visible_cache: dict = {}
-        minutes = history["minutes"].sum()
+        minutes = float(history["minutes"].sum())
+        # A history with no minutes in it divides by zero and makes the league
+        # rate NaN, which then silently poisons every prior and every shrunk
+        # rate downstream without raising anywhere. Refusing is louder and the
+        # only honest option: there is no league rate to be had.
+        if minutes <= 0:
+            raise ValueError(
+                "cannot fit on a history with no minutes played: there is no "
+                "league rate to shrink toward"
+            )
         self._league_rate = float(history[self.stat].sum() / (minutes / 90.0))
 
         # Shrink toward the player's POSITION, not the league.
@@ -235,6 +244,30 @@ class PlayerFoulModel:
             return self._default_minutes if starter else self._default_minutes * 0.35
         w = _weights(rows["known_at"], as_of, self.half_life_days)
         return float(np.average(rows["minutes"].to_numpy(), weights=w))
+
+    def plain_rate(self, player: str, as_of) -> tuple[float | None, float]:
+        """Fouls divided by nineties. No shrinkage, no decay, no adjustment.
+
+        The number the site publishes is the model's expected value for one
+        match, which is a different thing and a better one. This exists so the
+        two can be shown side by side: where they disagree, the difference IS
+        the model's opinion, and a reader is entitled to see how big it is.
+
+        Deliberately not shrunk and not decayed. Shrinking it would pull it
+        toward the same prior the model uses and leave nothing to compare.
+
+        Returns (rate, nineties). None when he has never played, rather than a
+        zero that reads as "never fouls anyone".
+        """
+        rows = self._visible(as_of)
+        rows = rows[rows["player"] == player]
+        if rows.empty:
+            return None, 0.0
+
+        nineties = float(rows["minutes"].sum()) / 90.0
+        if nineties <= 0:
+            return None, 0.0
+        return float(rows[self.stat].sum()) / nineties, nineties
 
     def minutes_profile(self, player: str, as_of, confirmed: str | None = None) -> MinutesProfile:
         """Split minutes into whether he plays and how long, rather than averaging.

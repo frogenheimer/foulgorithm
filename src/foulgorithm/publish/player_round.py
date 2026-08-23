@@ -926,12 +926,42 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                         )
 
                 explorer.append(
-                    _explorer_row(sel, team, opponent, fx, by_market)
+                    _explorer_row(
+                        sel, team, opponent, fx, by_market,
+                        career=_career_rates(
+                            {"committed": committed, "drawn": drawn}, sel, as_of
+                        ),
+                    )
                 )
     return rows, explorer
 
 
-def _explorer_row(sel, team: str, opponent: str, fx, by_market: dict) -> dict:
+def _career_rates(models: dict, sel, as_of) -> dict | None:
+    """His plain per-90 in everything we hold, or None if he has never played.
+
+    The house model supplies it, because any of them would give the same answer:
+    this deliberately has no shrinkage and no decay, so no character setting
+    touches it.
+    """
+    if sel.history is None:
+        return None
+    committed, nineties = models["committed"][HOUSE_MODEL].plain_rate(sel.history, as_of)
+    drawn, _ = models["drawn"][HOUSE_MODEL].plain_rate(sel.history, as_of)
+    if committed is None and drawn is None:
+        return None
+    return {
+        "committed": round(committed, 2) if committed is not None else None,
+        "drawn": round(drawn, 2) if drawn is not None else None,
+        "involvements": (
+            round(committed + drawn, 2)
+            if committed is not None and drawn is not None
+            else None
+        ),
+        "nineties": round(nineties, 1),
+    }
+
+
+def _explorer_row(sel, team: str, opponent: str, fx, by_market: dict, career=None) -> dict:
     """One player, every market, every line, every model, in one compact row.
 
     Held as arrays rather than nested objects because the site filters this on
@@ -976,11 +1006,18 @@ def _explorer_row(sel, team: str, opponent: str, fx, by_market: dict) -> dict:
         "startProbability": why.get("startProbability"),
         "confirmed": bool(sel.confirmed),
         "thin": why["effectiveMatches"] < THIN_EVIDENCE or sel.history is None,
+        # What the model expects in THIS match: his shrunk, time-decayed rate,
+        # times his expected minutes, times the opponent and the referee, read
+        # off the fitted distribution. Not an average of anything.
         "expected": {
             "committed": round(committed_d[HOUSE_MODEL].mean(), 2),
             "drawn": round(drawn_d[HOUSE_MODEL].mean(), 2),
             "involvements": round(involved[HOUSE_MODEL].mean(), 2),
         },
+        # And the plain one, for comparison: fouls divided by nineties, over
+        # everything we hold, unshrunk and undecayed. Where the two disagree the
+        # difference IS the model's opinion, and a reader should see its size.
+        "career": career,
         # Involvements are not calibration-corrected: the correction was fitted
         # on the two component markets and does not transfer to their sum.
         "committed": grid(committed_d, "player_fouls_committed"),

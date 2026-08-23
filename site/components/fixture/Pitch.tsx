@@ -37,6 +37,29 @@ import s from "./pitch.module.css";
 export type { Market } from "@/lib/markets";
 export { MARKET_LABEL } from "@/lib/markets";
 
+/**
+ * Which number to draw on a shirt.
+ *
+ * "Expected" was the only option and it was not labelled as anything, so a
+ * reader could not tell whether it was a forecast for this match or an average
+ * of past ones. It is the former. This makes the latter available beside it,
+ * because where the two disagree the gap is the model's opinion: a substitute
+ * averaging 1.37 fouls per 90 is expected to give away 0.59 in a match he is
+ * likely to watch most of.
+ */
+export type Basis = "match" | "career";
+
+export const BASIS_LABEL: Record<Basis, string> = {
+  match: "Expected this match",
+  career: "Career per 90",
+};
+
+export function valueFor(row: ExplorerRow | undefined, market: Market, basis: Basis) {
+  if (!row) return null;
+  if (basis === "career") return row.career?.[market] ?? null;
+  return row.expected[market];
+}
+
 export type Side = {
   club: string;
   shape: TeamShape;
@@ -54,6 +77,8 @@ export default function Pitch({
   onReset,
   market,
   onMarket,
+  basis,
+  onBasis,
 }: {
   home: Side;
   away: Side;
@@ -62,6 +87,8 @@ export default function Pitch({
   onReset: () => void;
   market: Market;
   onMarket: (m: Market) => void;
+  basis: Basis;
+  onBasis: (b: Basis) => void;
 }) {
   const [dragging, setDragging] = useState<{ club: string; key: string } | null>(null);
   const swaps = Object.keys(selected).length;
@@ -102,7 +129,20 @@ export default function Pitch({
             label: MARKET_LABEL[m],
           }))}
         />
-        <span className={s.marketNote}>expected in this match, per player</span>
+        <Toggle
+          value={basis}
+          onChange={onBasis}
+          label="Which reading to show"
+          options={(Object.keys(BASIS_LABEL) as Basis[]).map((b) => ({
+            value: b,
+            label: BASIS_LABEL[b],
+          }))}
+        />
+        <span className={s.marketNote}>
+          {basis === "match"
+            ? "what the model expects here, allowing for minutes and opponent"
+            : "his own rate per 90 across every match we hold, unadjusted"}
+        </span>
       </div>
 
       <PitchKey />
@@ -112,6 +152,7 @@ export default function Pitch({
           side={home}
           selected={selected}
           market={market}
+          basis={basis}
           dragging={dragging}
           onDragStart={(key) => setDragging({ club: home.club, key })}
           onDragEnd={() => setDragging(null)}
@@ -128,6 +169,7 @@ export default function Pitch({
             selected={selected}
             onChange={onChange}
             market={market}
+            basis={basis}
             dragging={dragging}
             onDrop={() => setDragging(null)}
             onDragStart={(key) => setDragging({ club: home.club, key })}
@@ -137,6 +179,7 @@ export default function Pitch({
             selected={selected}
             onChange={onChange}
             market={market}
+            basis={basis}
             dragging={dragging}
             onDrop={() => setDragging(null)}
             onDragStart={(key) => setDragging({ club: away.club, key })}
@@ -148,6 +191,7 @@ export default function Pitch({
           side={away}
           selected={selected}
           market={market}
+          basis={basis}
           dragging={dragging}
           onDragStart={(key) => setDragging({ club: away.club, key })}
           onDragEnd={() => setDragging(null)}
@@ -164,6 +208,7 @@ function Bench({
   side,
   selected,
   market,
+  basis,
   dragging,
   onDragStart,
   onDragEnd,
@@ -171,6 +216,7 @@ function Bench({
   side: Side;
   selected: Selected;
   market: Market;
+  basis: Basis;
   dragging: { club: string; key: string } | null;
   onDragStart: (key: string) => void;
   onDragEnd: () => void;
@@ -203,7 +249,7 @@ function Bench({
             >
               <span>{r.player}</span>
               <span className={s.benchPos}>
-                {shortPosition(r.position)} {r.expected[market].toFixed(2)}
+                {shortPosition(r.position)} {valueFor(r, market, basis)?.toFixed(2) ?? "—"}
               </span>
             </button>
           );
@@ -218,6 +264,7 @@ function Half({
   selected,
   onChange,
   market,
+  basis,
   dragging,
   onDrop,
   onDragStart,
@@ -227,6 +274,7 @@ function Half({
   selected: Selected;
   onChange: (next: Selected) => void;
   market: Market;
+  basis: Basis;
   dragging: { club: string; key: string } | null;
   onDrop: () => void;
   onDragStart: (key: string) => void;
@@ -236,6 +284,15 @@ function Half({
   const here = occupancyOf(side.shape, side.squad, selected, findPlayer);
   const byKey = new Map(here.map((o) => [o.key, o]));
   const shirts = useMemo(() => shirtIndex(side.shape), [side.shape]);
+
+  // Whoever is not currently standing on the pitch. A substitution means
+  // bringing one of these on, so they lead the dropdown; a player already out
+  // there can still be picked, but choosing him swaps two positions rather than
+  // making a substitution, and the list now says which is which.
+  const benched = useMemo(
+    () => new Set(benchFrom(side.squad, here).map((r) => who(r.fullName))),
+    [side.squad, here]
+  );
 
   const byName = useMemo(
     () => [...side.squad].sort((a, b) => a.player.localeCompare(b.player)),
@@ -319,7 +376,7 @@ function Half({
                 <div className={s.picker}>
                   <Combobox
                     value={o.name}
-                    options={optionsFor(byName, o.spot, market)}
+                    options={optionsFor(byName, o.spot, market, basis, benched)}
                     onChange={(v) => {
                       place(o.key, v);
                       setOpen(null);
@@ -343,7 +400,7 @@ function Half({
                   />
                 </div>
                 <span className={s.rate}>
-                  {o.row ? o.row.expected[market].toFixed(2) : "—"}
+                  {valueFor(o.row, market, basis)?.toFixed(2) ?? "—"}
                 </span>
               </div>
             );
@@ -354,16 +411,42 @@ function Half({
   );
 }
 
-/** Options for one slot: players who fit the position first, everyone else after. */
-function optionsFor(rows: ExplorerRow[], spot: Spot, market: Market): Option[] {
-  return rows.map((row) => ({
-    value: who(row.fullName),
-    label: row.player,
-    meta: `${shortPosition(row.position)} · ${row.expected[market].toFixed(2)}`,
-    group: samePosition(row.position, spot.position)
-      ? `Plays ${positionName(spot.position)}`
-      : undefined,
-  }));
+/**
+ * Options for one slot, bench first.
+ *
+ * The list used to group only on position, so it offered starters already on
+ * the pitch above substitutes, under a heading that said they play in midfield.
+ * Both are true and neither is what someone making a substitution is looking
+ * for. A player out there can still be chosen and the two exchange places,
+ * which is a different act and now says so.
+ */
+function optionsFor(
+  rows: ExplorerRow[], spot: Spot, market: Market, basis: Basis, bench: Set<string>
+): Option[] {
+  const ranked = [...rows].sort((a, b) => {
+    const onBench = Number(bench.has(who(b.fullName))) - Number(bench.has(who(a.fullName)));
+    if (onBench) return onBench;
+    const fits =
+      Number(samePosition(b.position, spot.position)) -
+      Number(samePosition(a.position, spot.position));
+    if (fits) return fits;
+    return a.player.localeCompare(b.player);
+  });
+
+  return ranked.map((row) => {
+    const isBenched = bench.has(who(row.fullName));
+    const fits = samePosition(row.position, spot.position);
+    return {
+      value: who(row.fullName),
+      label: row.player,
+      meta: `${shortPosition(row.position)} · ${valueFor(row, market, basis)?.toFixed(2) ?? "—"}`,
+      group: isBenched
+        ? fits
+          ? `On the bench, plays ${positionName(spot.position)}`
+          : "On the bench"
+        : "Already on the pitch, swaps places",
+    };
+  });
 }
 
 
