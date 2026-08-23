@@ -1,7 +1,8 @@
 import Link from "next/link";
+import Lineups from "@/components/fixture/Lineups";
 import SlipGrid from "@/components/fixture/SlipGrid";
 import { Card, MicroLabel, PageHeader, SectionHead } from "@/components/kit";
-import { fixtureSlug, getMatchday, getPlayers } from "@/lib/data";
+import { fixtureSlug, getExplorer, getMatchday, getPlayers } from "@/lib/data";
 import s from "./fixture.module.css";
 
 export function generateStaticParams() {
@@ -23,6 +24,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
   const slips = data.fixtureSlips[label];
   const board = data.board.find((f) => `${f.home} v ${f.away}` === label);
   const sheet = getMatchday().fixtures.find((f) => `${f.home} v ${f.away}` === label);
+  const shape = data.formations[label];
   const [home, away] = label.split(" v ");
   const kickoff = board?.kickoff ? new Date(board.kickoff) : null;
 
@@ -92,9 +94,22 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
       <section>
         <SectionHead
           title="The five, at matched risk"
-          note="Each character builds a combination to each price. Same ladder for all five, so a cautious one cannot look better by picking near-certainties and a bold one cannot look better by reaching. Click any cell for its legs."
+          note={
+            shape
+              ? "Each character builds a combination to each price, from the eleven on the pitch. Swap anyone and all five rebuild. Same ladder for all of them, so a cautious one cannot look better by picking near-certainties and a bold one cannot look better by reaching."
+              : "Each character builds a combination to each price. Same ladder for all five, so a cautious one cannot look better by picking near-certainties and a bold one cannot look better by reaching. Click any cell for its legs."
+          }
         />
-        <SlipGrid slips={slips} characters={data.picks.map((p) => p.id)} />
+        {shape ? (
+          <Lineups
+            fixture={label}
+            shapes={shape}
+            explorer={getExplorer()}
+            published={slips}
+          />
+        ) : (
+          <SlipGrid slips={slips} characters={data.picks.map((p) => p.id)} />
+        )}
       </section>
     </div>
   );

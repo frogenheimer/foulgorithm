@@ -298,6 +298,7 @@ def publish(output: Path = OUTPUT) -> dict:
         "board": board,
         "picks": picks,
         "fixtureSlips": _fixture_slips(candidates, fixtures),
+        "formations": _formations(lineups),
         "explorer": {
             "models": list(pm.CHARACTER_SETTINGS),
             "lines": list(EXPLORER_LINES),
@@ -899,6 +900,40 @@ def _character_picks(cid, candidates) -> dict:
             if t
         ],
     }
+
+
+def _formations(lineups: dict) -> dict:
+    """The confirmed shape per club per fixture, so a pitch can be drawn.
+
+    The league publishes the formation as LINES of player ids, goalkeeper first,
+    which is the real shape rather than something inferred from position codes.
+    A back three and a back four are indistinguishable from codes alone.
+    """
+    out: dict[str, dict] = {}
+    for key, lu in lineups.items():
+        if not lu.lines:
+            continue
+        out.setdefault(lu.fixture, {})[lu.team] = {
+            "formation": lu.formation,
+            "lines": [
+                [
+                    {
+                        "player": spot.name,
+                        "position": spot.position,
+                        "detail": spot.detail,
+                        "shirt": spot.shirt,
+                        "captain": spot.captain,
+                    }
+                    for spot in line
+                ]
+                for line in lu.lines
+            ],
+            "bench": [
+                {"player": b.name, "position": b.position, "detail": b.detail, "shirt": b.shirt}
+                for b in lu.bench
+            ],
+        }
+    return out
 
 
 def _fixture_slips(candidates: list[dict], fixtures) -> dict:

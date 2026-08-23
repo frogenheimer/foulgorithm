@@ -1,0 +1,153 @@
+.wrap {
+  display: grid;
+  gap: var(--s4);
+}
+
+.pitch {
+  position: relative;
+  display: grid;
+  gap: var(--s2);
+  padding: var(--s4) var(--s3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  /* A pitch, not a photograph of one. Two greens and a centre line is enough
+     to read as a pitch; anything more competes with the players on it. */
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      var(--turf-a) 0 var(--s10),
+      var(--turf-b) var(--s10) calc(var(--s10) * 2)
+    );
+  overflow: hidden;
+}
+
+.markings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  /* Pitch markings are white paint, and they stay white on turf in both
+     themes. Held here so the component carries no colour of its own. */
+  color: var(--pitch-paint);
+}
+
+.line {
+  display: flex;
+  justify-content: center;
+  gap: var(--s2);
+  position: relative;
+  z-index: 1;
+}
+
+.slot {
+  flex: 1;
+  max-width: 128px;
+  display: grid;
+  gap: var(--s1);
+  justify-items: center;
+  padding: var(--s1);
+  border-radius: var(--r-sm);
+  transition: background var(--d-fast) var(--ease);
+}
+
+.slot:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.shirt {
+  display: grid;
+  place-items: center;
+  width: var(--s8);
+  height: var(--s8);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  border: 2px solid var(--line-strong);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.swapped .shirt {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.name {
+  font-size: var(--t-xs);
+  font-weight: 500;
+  color: var(--on-turf);
+  text-align: center;
+  line-height: 1.25;
+  max-width: 12ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rate {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--on-turf-2);
+}
+
+.picker {
+  font: inherit;
+  font-size: var(--t-xs);
+  width: 100%;
+  max-width: 118px;
+  padding: var(--s1);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+.club {
+  font-size: var(--t-lg);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.formation {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+
+.reset {
+  font-size: var(--t-xs);
+  color: var(--accent);
+}
+
+.note {
+  margin: 0;
+  max-width: var(--w-prose);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+
+.sides {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--s5);
+}
+
+@media (max-width: 700px) {
+  .slot {
+    max-width: 88px;
+  }
+
+  .picker {
+    max-width: 82px;
+  }
+}

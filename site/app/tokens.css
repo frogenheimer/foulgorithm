@@ -94,6 +94,14 @@
   --w-nav-collapsed: 64px;
   --w-metric: 200px;
 
+  /* A pitch. Two greens and a centre line read as one; anything more competes
+     with the players standing on it. */
+  --turf-a: #1f6b3f;
+  --turf-b: #1b6039;
+  --on-turf: #f2f7f3;
+  --on-turf-2: #b9d4c3;
+  --pitch-paint: #ffffff;
+
   /* ---- radius ---- */
   --r-sm: 6px;
   --r-md: 10px;

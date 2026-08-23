@@ -341,6 +341,25 @@ export type Slip = {
   legs: SlipLeg[];
 };
 
+export type Spot = {
+  player: string;
+  position: string;
+  /** "Right Full Back", "Centre Defensive Midfielder". Places a slot left or right. */
+  detail: string;
+  shirt: number | null;
+  captain?: boolean;
+};
+
+export type TeamShape = {
+  formation: string | null;
+  /** Goalkeeper first, then each line up the pitch. Published by the league. */
+  lines: Spot[][];
+  bench: Spot[];
+};
+
+/** fixture label -> club -> shape */
+export type Formations = Record<string, Record<string, TeamShape>>;
+
 /** fixture label -> character id -> ladder of slips */
 export type FixtureSlips = Record<string, Record<string, Slip[]>>;
 
@@ -357,6 +376,7 @@ export type PlayersData = {
   picks: CharacterPicks[];
   explorer: Explorer;
   fixtureSlips: FixtureSlips;
+  formations: Formations;
 };
 
 /** "Arsenal v Coventry" -> "arsenal-coventry" */

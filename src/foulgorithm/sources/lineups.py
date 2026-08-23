@@ -10,10 +10,21 @@ different products and are graded separately, per docs/07-backtesting.md.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from foulgorithm.identity.teams import from_pulselive
 from foulgorithm.sources import pulselive
+
+
+@dataclass(frozen=True)
+class Spot:
+    """One player in one slot of a formation."""
+
+    name: str
+    position: str         # G, D, M, F
+    detail: str           # "Right Full Back", "Centre Defensive Midfielder"
+    shirt: int | None
+    captain: bool
 
 
 @dataclass(frozen=True)
@@ -23,6 +34,11 @@ class ConfirmedLineup:
     formation: str | None
     starters: list[str]
     substitutes: list[str]
+    # The formation as LINES, goalkeeper first, each holding the players in it.
+    # The league publishes this directly, so a pitch can be drawn from the real
+    # shape rather than inferred from position codes.
+    lines: list[list[Spot]] = field(default_factory=list)
+    bench: list[Spot] = field(default_factory=list)
 
 
 def for_round(season_id: int | None = None, limit: int = 20) -> dict[str, ConfirmedLineup]:
@@ -58,17 +74,45 @@ def for_round(season_id: int | None = None, limit: int = 20) -> dict[str, Confir
                 mapped = from_pulselive(club)
             except Exception:  # noqa: BLE001
                 continue
-            formation = team_list.get("formation")
-            if isinstance(formation, dict):
-                formation = formation.get("label")
+            raw_formation = team_list.get("formation")
+            formation = raw_formation.get("label") if isinstance(raw_formation, dict) else raw_formation
+
+            eleven = team_list.get("lineup") or []
+            by_id = {int(p["id"]): p for p in eleven if p.get("id") is not None}
+
+            # The league publishes the shape as lines of player ids, goalkeeper
+            # first. Using it means a pitch is drawn from the real formation
+            # rather than guessed from position codes, which cannot tell a back
+            # three from a back four.
+            lines: list[list[Spot]] = []
+            if isinstance(raw_formation, dict):
+                for row in raw_formation.get("players") or []:
+                    spots = [_spot(by_id[int(i)]) for i in row if int(i) in by_id]
+                    if spots:
+                        lines.append(spots)
+
             out[f"{mapped}|{label}"] = ConfirmedLineup(
                 fixture=label,
                 team=mapped,
                 formation=formation,
-                starters=[_name(p) for p in team_list.get("lineup") or []],
+                starters=[_name(p) for p in eleven],
                 substitutes=[_name(p) for p in team_list.get("substitutes") or []],
+                lines=lines,
+                bench=[_spot(p) for p in team_list.get("substitutes") or []],
             )
     return out
+
+
+def _spot(entry: dict) -> Spot:
+    """One slot in a formation, with enough detail to place it left or right."""
+    info = entry.get("info") or {}
+    return Spot(
+        name=_name(entry),
+        position=str(entry.get("matchPosition") or info.get("position") or "?"),
+        detail=str(info.get("positionInfo") or ""),
+        shirt=entry.get("matchShirtNumber") or info.get("shirtNum"),
+        captain=bool(entry.get("captain")),
+    )
 
 
 def _name(entry: dict) -> str:

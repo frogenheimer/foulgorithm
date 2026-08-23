@@ -161,6 +161,15 @@ reconciliation pass.
 | Month calendar | **Deferred** | |
 | Leaderboard and user accounts | **Deferred** | The real trigger for a database. Nothing else needs one yet |
 
+## The pitch
+
+| Idea | Status | Note |
+|---|---|---|
+| Confirmed eleven on a pitch | **Built** | Drawn from the league's own formation lines, so a back three and a back four are actually different |
+| Swap a player per slot | **Built** | Dropdown per position, from that club's squad |
+| Swapping rebuilds the five | **Built** | Client-side port of `_slip_at_odds`. Works because within a fixture the opponent and head-to-head factors are fixed, so a swap swaps one contribution |
+| Player heatmaps / average position | **Blocked, and worth explaining** | We hold position CODES, not coordinates. FBref's positional data went with the January 2026 Opta termination. The nearest testable version, whether facing a specific foul-winner matters, was measured at a correlation of -0.003 |
+
 ## Storage
 
 Predictions are append-only JSONL in git, which is tamper-evident and diffable,
