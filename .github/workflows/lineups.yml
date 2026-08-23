@@ -1,20 +1,22 @@
 name: lineups
 
-# Confirmed lineups land about an hour before kickoff, so this polls through the
-# windows when Premier League matches actually kick off (all times UTC).
+# Confirmed elevens are published at T-60. Catching that reliably is a timing
+# problem, and cron is the wrong tool for it: a 30-minute cron catches T-60
+# somewhere between T-60 and T-30, and GitHub's scheduler is documented as
+# running late under load, sometimes by 15 minutes or more. Stacking those, a
+# fixture could publish at T-15 or be missed. Tightening the interval does not
+# help, because the jitter is in the scheduler rather than the interval.
 #
-# It runs here rather than on the site because the site is a static export with
-# no backend. There is no server for a button to call, and adding one would mean
-# either paying for invocations or exposing an endpoint anyone could use to
-# hammer the league's API on our behalf.
+# So cron only has to START the job roughly on time. Everything precise happens
+# inside it: it works out when the next lineups are due, sleeps, then polls every
+# minute until they land. One run covers a whole afternoon.
 on:
   schedule:
-    # Saturday and Sunday, 11:00 to 20:00
-    - cron: "0,30 11-20 * * 6,0"
-    # Friday and Monday evenings
-    - cron: "0,30 18-21 * * 1,5"
-    # Midweek rounds
-    - cron: "0,30 18-21 * * 2,3,4"
+    # Weekend match windows. Each run watches for up to 5.5 hours, so these
+    # overlap deliberately and there is no gap between them.
+    - cron: "0 9,12,15,18 * * 6,0"
+    # Friday and Monday evenings, and midweek rounds.
+    - cron: "0 17 * * 1,2,3,4,5"
   workflow_dispatch:
     inputs:
       force:
@@ -24,15 +26,17 @@ on:
 
 concurrency:
   group: lineups
+  # Queue rather than cancel: a second window starting while the first is still
+  # watching is continuous coverage, not a duplicate.
   cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
-  poll:
+  watch:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
 
@@ -46,25 +50,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
 
-      - name: Poll
-        id: poll
-        env:
-          # Empty on a scheduled run: the inputs context only exists for
-          # workflow_dispatch. Held here rather than inline so the run line
-          # reads as a command instead of an expression.
-          FORCE: ${{ inputs.force && '--force' || '' }}
-        # Exit 1 means nothing changed, which is the common case and not a
-        # failure. Only exit 2, a dead source, should fail the run and alert us.
+      - name: Watch for lineups
+        id: watch
+        # Exit 1 means nothing was due in this window, which is normal. Only
+        # exit 2, a dead source, should fail the run and alert us.
         run: |
           set +e
-          python -m foulgorithm.jobs.lineup_watch $FORCE
+          python -m foulgorithm.jobs.lineup_watch_live
           code=$?
           set -e
           if [ $code -eq 2 ]; then exit 1; fi
           echo "changed=$([ $code -eq 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
       - name: Commit
-        if: steps.poll.outputs.changed == 'true'
+        if: steps.watch.outputs.changed == 'true'
         run: |
           git config user.name "foulgorithm-bot"
           git config user.email "foulgorithm@users.noreply.github.com"

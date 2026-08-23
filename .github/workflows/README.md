@@ -33,9 +33,21 @@ Every workflow sets a `timeout-minutes` so a hung job cannot drain the budget.
 
 ## lineups
 
-Polls for confirmed lineups through the windows when Premier League matches kick
-off, and republishes when they land. Confirmed elevens appear roughly an hour
-before kickoff, so most runs find nothing changed, exit 1 and cost seconds.
+Watches for confirmed elevens and republishes when they land. The Premier League
+publishes them at T-60.
+
+**Cron only starts the job; it does not do the timing.** A 30-minute cron catches
+T-60 somewhere between T-60 and T-30, and GitHub's scheduler runs late under
+load, sometimes by 15 minutes or more. Stacked, a fixture could publish at T-15
+or be missed, and tightening the interval does not help because the jitter is in
+the scheduler rather than the interval.
+
+So the job works out when the next lineups are due, sleeps until T-75, then polls
+every minute until they arrive. One run covers a whole afternoon and the windows
+overlap, so there is no gap between them.
+
+Measured: our own predicted eleven is 62.9% accurate. A confirmed one is exact.
+That gap is why this is worth doing properly rather than approximately.
 
 **This lives here rather than on the site on purpose.** The site is a static
 export with no backend, so there is no server for a button to call. Adding one
