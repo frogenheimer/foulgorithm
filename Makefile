@@ -37,9 +37,6 @@ backtest: ## Run walk-forward evaluation of all registered models
 ingest: ## Ingest one source. Usage: make ingest SOURCE=fbref [CACHED=1]
 	$(PY) -m foulgorithm.cli ingest --source=$(SOURCE) $(if $(CACHED),--cached,)
 
-predict: ## Generate and publish predictions for upcoming fixtures
-	$(PY) -m foulgorithm.cli predict
-
 review: ## Grade settled predictions and write the weekly review
 	$(PY) -m foulgorithm.cli review
 
@@ -100,3 +97,6 @@ check: test js-test site-build ui-audit ## Everything: both suites, the build, t
 
 data: ## Regenerate the site's data. The slow one, about 50 seconds.
 	$(PY) -m foulgorithm.publish.player_round
+
+api-football-probe: ## Say what the API-Football account actually gives us
+	$(PY) -m foulgorithm.sources.api_football

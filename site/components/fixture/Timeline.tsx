@@ -291,12 +291,10 @@ function Game({
         </div>
       ) : options?.length && state === "upcoming" ? (
         <div className={s.picks}>
-          {options.map((o, i) => (
+          {options.map((o) => (
             <details
               key={o.band}
               className={s.pick}
-              // The shortest one open, so a card shows a call without a click.
-              open={i === 0}
               style={{ ["--char" as string]: `var(--ch-${o.character})` }}
             >
               <summary className={s.pickHead}>
