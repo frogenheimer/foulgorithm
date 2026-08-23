@@ -183,6 +183,15 @@ export type CharacterFixture = {
   pmfFrom: number;
 };
 
+export type CharacterSettings = {
+  half_life_days: number;
+  prior_matches: number;
+  opponent_weight: number;
+  dispersion: number;
+  amplify: number;
+  reads_head_to_head?: boolean;
+};
+
 export type CharacterBlock = {
   id: string;
   name: string;

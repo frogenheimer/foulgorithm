@@ -1,216 +1,159 @@
+/* Five cards, then one page each. Restrained: the numbers are the subject and
+   the personalities are how the numbers are reached. */
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--s4);
-  align-items: start;
-}
-
-.grid > * {
-  min-width: 0;
 }
 
 .card {
-  display: block;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
+  display: grid;
+  gap: var(--s4);
+  align-content: start;
   padding: var(--s5);
-  min-width: 0;
-  transition: border-color var(--d-base) var(--ease),
-    transform var(--d-base) var(--ease);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--char);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--lift);
+  transition: border-color var(--d-fast) var(--ease), transform var(--d-fast) var(--ease);
 }
 
 .card:hover {
-  border-color: var(--line-strong);
+  border-bottom-color: var(--line-strong);
   transform: translateY(-2px);
 }
 
-.cardTop {
-  display: flex;
-  align-items: center;
-  gap: var(--s4);
+/* The emotion is the loud thing, and it is one word. */
+.emotion {
+  font-size: var(--t-hero);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--char);
 }
 
 .name {
-  font-size: var(--t-xl);
-  font-weight: 650;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-.emotion {
-  font-size: var(--t-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: var(--t-sm);
   color: var(--ink-3);
-  margin-top: var(--s1);
 }
 
 .tagline {
-  font-size: var(--t-sm);
-  color: var(--ink-2);
-  font-style: italic;
-  margin-top: var(--s4);
-  min-height: 2.6em;
+  font-size: var(--t-md);
+  color: var(--ink);
+  line-height: 1.4;
+  max-width: 30ch;
 }
 
-.spec {
-  margin-top: var(--s4);
-  padding-top: var(--s4);
-  border-top: 1px solid var(--line);
-  display: grid;
+.foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
   gap: var(--s3);
-}
-
-.spec dt {
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
   font-size: var(--t-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
   color: var(--ink-3);
 }
 
-.spec dd {
-  font-size: var(--t-sm);
-  color: var(--ink-2);
-  margin-top: var(--s1);
-}
-
-.weakness {
-  line-height: 1.45;
-}
-
-/* ---------- disagreement table ---------- */
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--t-sm);
-  font-variant-numeric: tabular-nums;
-}
-
-.table th,
-.table td {
-  text-align: left;
-  padding: var(--s2) var(--s4);
-  border-bottom: 1px solid var(--line);
-  white-space: nowrap;
-}
-
-.table th {
-  font-size: var(--t-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--ink-3);
+.go {
+  color: var(--char);
   font-weight: 600;
 }
 
-.table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.table tbody tr:hover {
-  background: var(--surface-sunk);
-}
-
-.num {
-  text-align: right;
-}
-
-.fixture {
-  color: var(--ink);
-}
-
-.spread {
-  color: var(--ink);
-  font-weight: 600;
-}
-
-.swatchRow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s2);
-}
-
-.swatch {
-  width: 9px;
-  height: 9px;
-  border-radius: var(--r-sm);
-  display: inline-block;
-}
-
-/* ---------- individual character page ---------- */
+/* ---------- one character ---------- */
 
 .hero {
-  display: flex;
-  align-items: center;
-  gap: var(--s6);
-  flex-wrap: wrap;
-  padding-top: var(--s9);
-}
-
-.heroName {
-  font-size: var(--t-hero);
-  font-weight: 650;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
+  display: grid;
+  gap: var(--s3);
+  padding-bottom: var(--s6);
+  border-bottom: 1px solid var(--line);
 }
 
 .heroEmotion {
-  font-size: var(--t-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--ink-3);
-  margin-top: var(--s2);
+  font-size: clamp(40px, 7vw, 64px);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--char);
+}
+
+.heroName {
+  font-size: var(--t-lg);
+  color: var(--ink-2);
 }
 
 .heroTagline {
   font-size: var(--t-lg);
-  color: var(--ink-2);
-  font-style: italic;
-  margin-top: var(--s3);
-  max-width: 44ch;
+  color: var(--ink);
+  max-width: 34ch;
+  line-height: 1.35;
+}
+
+.two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--s6);
+  align-items: start;
 }
 
 .prose {
-  max-width: 70ch;
-  color: var(--ink-2);
-}
-
-.traits {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--s4);
-}
-
-.trait {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-left-width: 3px;
-  border-radius: var(--r-md);
-  padding: var(--s4);
-}
-
-.traitLabel {
-  font-size: var(--t-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--ink-3);
-}
-
-.traitBody {
-  font-size: var(--t-sm);
+  max-width: var(--w-prose);
+  font-size: var(--t-md);
   color: var(--ink-2);
-  margin-top: var(--s2);
-  line-height: 1.5;
+  line-height: 1.7;
+}
+
+.prose strong {
+  color: var(--ink);
 }
 
 .back {
   display: inline-block;
+  margin-bottom: var(--s3);
   font-size: var(--t-sm);
-  color: var(--ink-2);
-  margin-bottom: var(--s4);
+  color: var(--ink-3);
 }
 
 .back:hover {
-  color: var(--ink);
+  color: var(--accent);
+}
+
+.tiers {
+  display: grid;
+  gap: var(--s2);
+}
+
+.tier {
+  display: grid;
+  grid-template-columns: 5ch minmax(0, 1fr) 7ch;
+  align-items: baseline;
+  gap: var(--s3);
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--t-sm);
+}
+
+.tier:last-child {
+  border-bottom: 0;
+}
+
+.tierPrice {
+  font-family: var(--font-mono);
+  color: var(--char);
+  font-weight: 600;
+}
+
+.tierLegs {
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.tierOdds {
+  font-family: var(--font-mono);
+  color: var(--ink-3);
+  text-align: right;
 }
