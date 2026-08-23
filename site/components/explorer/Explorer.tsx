@@ -325,7 +325,7 @@ function Spread({ probs, models, active }: { probs: number[]; models: string[]; 
           style={
             {
               left: `${((p - lo) / span) * 100}%`,
-              "--char": `var(--char-${models[i]})`,
+              "--char": `var(--ch-${models[i]})`,
             } as React.CSSProperties
           }
           aria-hidden

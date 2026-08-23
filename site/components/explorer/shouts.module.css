@@ -1,62 +1,62 @@
 .wrap {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--s4);
 }
 
 .head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-4);
+  gap: var(--s4);
   flex-wrap: wrap;
 }
 
 .title {
-  font-size: var(--text-lg);
+  font-size: var(--t-lg);
   font-weight: 600;
   margin: 0;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .select {
   font: inherit;
-  font-size: var(--text-sm);
-  color: var(--text-primary);
-  background: var(--plane);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-2) var(--space-3);
+  font-size: var(--t-sm);
+  color: var(--ink);
+  background: var(--ground);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: var(--s2) var(--s3);
 }
 
 .note {
   margin: 0;
   max-width: 72ch;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
   line-height: 1.6;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: var(--space-3);
+  gap: var(--s3);
 }
 
 .card {
   display: grid;
   align-content: start;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  border: 1px solid var(--border);
+  gap: var(--s3);
+  padding: var(--s4);
+  border: 1px solid var(--line);
   border-top: 2px solid var(--char);
-  border-radius: var(--radius-md);
-  background: var(--surface-1);
+  border-radius: var(--r-md);
+  background: var(--surface);
 }
 
 .cardHead {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--s2);
 }
 
 .swatch {
@@ -67,59 +67,59 @@
 }
 
 .model {
-  font-size: var(--text-sm);
+  font-size: var(--t-sm);
   font-weight: 600;
   text-transform: capitalize;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .house {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
+  color: var(--ink-3);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 1px var(--space-2);
+  padding: 1px var(--s2);
 }
 
 .call {
   margin: 0;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
   line-height: 1.5;
 }
 
 .call strong {
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .freq {
   display: flex;
   align-items: baseline;
-  gap: var(--space-2);
+  gap: var(--s2);
   margin: 0;
 }
 
 .big {
-  font-size: var(--text-hero);
+  font-size: var(--t-hero);
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--ink);
   line-height: 1;
 }
 
 .of {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
 }
 
 .facts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-2);
+  gap: var(--s2);
   margin: 0;
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--border);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
 }
 
 .facts div {
@@ -131,14 +131,14 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: var(--ink-3);
 }
 
 .facts dd {
   margin: 0;
-  font-size: var(--text-sm);
+  font-size: var(--t-sm);
   font-variant-numeric: tabular-nums;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 /* Direction is carried by the sign as well as the colour. */
@@ -147,13 +147,13 @@
 }
 
 .down {
-  color: var(--text-secondary);
+  color: var(--ink-2);
 }
 
 .caveat,
 .nothing {
   margin: 0;
-  font-size: var(--text-xs);
-  color: var(--text-muted);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
   line-height: 1.5;
 }

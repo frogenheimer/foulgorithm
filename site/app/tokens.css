@@ -92,6 +92,7 @@
      glyph and cannot be told apart without hovering. */
   --w-nav: 240px;
   --w-nav-collapsed: 64px;
+  --w-metric: 200px;
 
   /* ---- radius ---- */
   --r-sm: 6px;

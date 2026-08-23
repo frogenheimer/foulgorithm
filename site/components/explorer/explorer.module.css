@@ -1,6 +1,6 @@
 .wrap {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--s5);
 }
 
 /* ---------- market tabs ---------- */
@@ -8,7 +8,7 @@
 .tabs {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-2);
+  gap: var(--s2);
 }
 
 .tab,
@@ -16,18 +16,18 @@
   display: grid;
   gap: 2px;
   text-align: left;
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface-1);
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
   cursor: pointer;
-  transition: border-color var(--duration-fast) var(--ease),
-    background var(--duration-fast) var(--ease);
+  transition: border-color var(--d-fast) var(--ease),
+    background var(--d-fast) var(--ease);
 }
 
 .tab:hover {
-  border-color: var(--border-strong);
-  background: var(--surface-2);
+  border-color: var(--line-strong);
+  background: var(--surface-sunk);
 }
 
 .tabOn {
@@ -36,14 +36,14 @@
 }
 
 .tabLabel {
-  font-size: var(--text-base);
+  font-size: var(--t-md);
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .tabHint {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
   line-height: 1.4;
 }
 
@@ -53,36 +53,36 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface-1);
+  gap: var(--s4);
+  padding: var(--s4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
 }
 
 .field {
   display: grid;
-  gap: var(--space-1);
+  gap: var(--s1);
   min-width: 0;
 }
 
 .fieldLabel {
-  font-size: var(--text-xs);
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: var(--ink-3);
   font-weight: 600;
 }
 
 .input,
 .select {
   font: inherit;
-  font-size: var(--text-sm);
-  color: var(--text-primary);
-  background: var(--plane);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-2) var(--space-3);
+  font-size: var(--t-sm);
+  color: var(--ink);
+  background: var(--ground);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: var(--s2) var(--s3);
   min-width: 140px;
   max-width: 240px;
 }
@@ -95,21 +95,21 @@
 
 .segment {
   display: inline-flex;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
   overflow: hidden;
 }
 
 .seg,
 .segOn {
   font: inherit;
-  font-size: var(--text-sm);
+  font-size: var(--t-sm);
   font-variant-numeric: tabular-nums;
-  padding: var(--space-2) var(--space-3);
+  padding: var(--s2) var(--s3);
   border: 0;
-  border-right: 1px solid var(--border);
-  background: var(--plane);
-  color: var(--text-secondary);
+  border-right: 1px solid var(--line);
+  background: var(--ground);
+  color: var(--ink-2);
   cursor: pointer;
 }
 
@@ -120,29 +120,29 @@
 
 .segOn {
   background: var(--accent);
-  color: #fff;
+  color: var(--accent-ink);
   font-weight: 600;
 }
 
 .toggles {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--s4);
   margin-left: auto;
 }
 
 .check {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
+  gap: var(--s2);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
   cursor: pointer;
   white-space: nowrap;
 }
 
 .count {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
   margin: 0;
 }
 
@@ -154,23 +154,23 @@
   /* See matchday.module.css: a grid item will not shrink below its contents
      without this, and the table widens the page instead of scrolling. */
   min-width: 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--text-sm);
+  font-size: var(--t-sm);
   font-variant-numeric: tabular-nums;
 }
 
 .table th,
 .table td {
   text-align: right;
-  padding: var(--space-2) var(--space-4);
-  border-bottom: 1px solid var(--border);
+  padding: var(--s2) var(--s4);
+  border-bottom: 1px solid var(--line);
   white-space: nowrap;
   vertical-align: middle;
 }
@@ -187,7 +187,7 @@
 }
 
 .table tbody tr:hover {
-  background: var(--surface-2);
+  background: var(--surface-sunk);
 }
 
 .wide {
@@ -195,14 +195,14 @@
 }
 
 .table th {
-  font-size: var(--text-xs);
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: var(--ink-3);
   font-weight: 600;
   position: sticky;
   top: 0;
-  background: var(--surface-1);
+  background: var(--surface);
   z-index: 1;
 }
 
@@ -218,13 +218,13 @@
 }
 
 .sortable:hover {
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .name {
   display: block;
-  font-size: var(--text-sm);
-  color: var(--text-primary);
+  font-size: var(--t-sm);
+  color: var(--ink);
   font-weight: 600;
   line-height: 1.3;
 }
@@ -232,18 +232,18 @@
 .meta {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-xs);
-  color: var(--text-muted);
+  gap: var(--s2);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
   line-height: 1.3;
 }
 
 .fixture {
-  color: var(--text-secondary);
+  color: var(--ink-2);
 }
 
 .num {
-  color: var(--text-secondary);
+  color: var(--ink-2);
 }
 
 /* A confirmed lineup is worth marking on every row, because pre-lineup and
@@ -271,22 +271,22 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  padding: 1px var(--space-2);
+  padding: 1px var(--s2);
   border-radius: 999px;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
+  border: 1px solid var(--line);
+  color: var(--ink-3);
 }
 
 /* Thin evidence is dimmed AND labelled. Colour never carries meaning alone. */
 .thinRow .name {
-  color: var(--text-secondary);
+  color: var(--ink-2);
 }
 
 .empty {
-  padding: var(--space-7) var(--space-4);
+  padding: var(--s7) var(--s4);
   text-align: center;
-  color: var(--text-muted);
-  font-size: var(--text-sm);
+  color: var(--ink-3);
+  font-size: var(--t-sm);
   margin: 0;
 }
 
@@ -295,7 +295,7 @@
 .bars {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--s3);
 }
 
 .grid {
@@ -315,7 +315,7 @@
 }
 
 .cellOn {
-  background: var(--seq-450);
+  background: var(--seq-3);
 }
 
 .barsValue {
@@ -325,14 +325,14 @@
 }
 
 .barsValue strong {
-  font-size: var(--text-sm);
+  font-size: var(--t-sm);
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .barsUnit {
-  font-size: var(--text-xs);
-  color: var(--text-muted);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
 }
 
 /* ---------- model spread ---------- */
@@ -370,15 +370,15 @@
 
 .dotOn {
   opacity: 1;
-  box-shadow: 0 0 0 2px var(--surface-1);
+  box-shadow: 0 0 0 2px var(--surface);
 }
 
 .spreadRange {
   position: absolute;
   left: 0;
   bottom: -2px;
-  font-size: var(--text-xs);
-  color: var(--text-muted);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
 }
 
 @media (max-width: 720px) {
@@ -399,7 +399,7 @@
 }
 
 .openRow {
-  background: var(--surface-2);
+  background: var(--surface-sunk);
 }
 
 .openRow td {
@@ -408,9 +408,9 @@
 
 .shapeRow td {
   padding: 0;
-  background: var(--surface-2);
+  background: var(--surface-sunk);
 }
 
 .shapeRow:hover td {
-  background: var(--surface-2);
+  background: var(--surface-sunk);
 }

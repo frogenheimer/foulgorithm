@@ -1,7 +1,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-4);
+  gap: var(--s4);
   align-items: start;
 }
 
@@ -11,67 +11,67 @@
 
 .card {
   display: block;
-  background: var(--surface-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--s5);
   min-width: 0;
-  transition: border-color var(--duration-base) var(--ease),
-    transform var(--duration-base) var(--ease);
+  transition: border-color var(--d-base) var(--ease),
+    transform var(--d-base) var(--ease);
 }
 
 .card:hover {
-  border-color: var(--border-strong);
+  border-color: var(--line-strong);
   transform: translateY(-2px);
 }
 
 .cardTop {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--s4);
 }
 
 .name {
-  font-size: var(--text-xl);
+  font-size: var(--t-xl);
   font-weight: 650;
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
 
 .emotion {
-  font-size: var(--text-xs);
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--text-muted);
-  margin-top: var(--space-1);
+  color: var(--ink-3);
+  margin-top: var(--s1);
 }
 
 .tagline {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: var(--ink-2);
   font-style: italic;
-  margin-top: var(--space-4);
+  margin-top: var(--s4);
   min-height: 2.6em;
 }
 
 .spec {
-  margin-top: var(--space-4);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--border);
+  margin-top: var(--s4);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line);
   display: grid;
-  gap: var(--space-3);
+  gap: var(--s3);
 }
 
 .spec dt {
-  font-size: var(--text-xs);
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: var(--ink-3);
 }
 
 .spec dd {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: var(--ink-2);
   margin-top: 2px;
 }
 
@@ -91,16 +91,16 @@
 .table th,
 .table td {
   text-align: left;
-  padding: var(--space-2) var(--space-4);
-  border-bottom: 1px solid var(--border);
+  padding: var(--s2) var(--s4);
+  border-bottom: 1px solid var(--line);
   white-space: nowrap;
 }
 
 .table th {
-  font-size: var(--text-xs);
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-muted);
+  color: var(--ink-3);
   font-weight: 600;
 }
 
@@ -109,7 +109,7 @@
 }
 
 .table tbody tr:hover {
-  background: var(--surface-2);
+  background: var(--surface-sunk);
 }
 
 .num {
@@ -117,18 +117,18 @@
 }
 
 .fixture {
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .spread {
-  color: var(--text-primary);
+  color: var(--ink);
   font-weight: 600;
 }
 
 .swatchRow {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--s2);
 }
 
 .swatch {
@@ -143,74 +143,74 @@
 .hero {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--s6);
   flex-wrap: wrap;
-  padding-top: var(--space-9);
+  padding-top: var(--s9);
 }
 
 .heroName {
-  font-size: var(--text-hero);
+  font-size: var(--t-hero);
   font-weight: 650;
   letter-spacing: -0.025em;
   line-height: 1.05;
 }
 
 .heroEmotion {
-  font-size: var(--text-sm);
+  font-size: var(--t-sm);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--text-muted);
-  margin-top: var(--space-2);
+  color: var(--ink-3);
+  margin-top: var(--s2);
 }
 
 .heroTagline {
-  font-size: var(--text-lg);
-  color: var(--text-secondary);
+  font-size: var(--t-lg);
+  color: var(--ink-2);
   font-style: italic;
-  margin-top: var(--space-3);
+  margin-top: var(--s3);
   max-width: 44ch;
 }
 
 .prose {
   max-width: 70ch;
-  color: var(--text-secondary);
+  color: var(--ink-2);
 }
 
 .traits {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: var(--space-4);
+  gap: var(--s4);
 }
 
 .trait {
-  background: var(--surface-1);
-  border: 1px solid var(--border);
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-left-width: 3px;
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
+  border-radius: var(--r-md);
+  padding: var(--s4);
 }
 
 .traitLabel {
-  font-size: var(--text-xs);
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: var(--text-muted);
+  color: var(--ink-3);
 }
 
 .traitBody {
   font-size: 14px;
-  color: var(--text-secondary);
-  margin-top: var(--space-2);
+  color: var(--ink-2);
+  margin-top: var(--s2);
   line-height: 1.5;
 }
 
 .back {
   display: inline-block;
   font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: var(--space-4);
+  color: var(--ink-2);
+  margin-bottom: var(--s4);
 }
 
 .back:hover {
-  color: var(--text-primary);
+  color: var(--ink);
 }

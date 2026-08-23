@@ -1,0 +1,270 @@
+/* The primitives. Every value from tokens.css. See docs/brandbook.md. */
+
+/* ---------- page and section headers ---------- */
+
+.page {
+  display: grid;
+  gap: var(--s3);
+  max-width: var(--w-prose);
+}
+
+.h1 {
+  font-size: var(--t-xl);
+  color: var(--ink);
+}
+
+.lede {
+  font-size: var(--t-md);
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.section {
+  display: grid;
+  gap: var(--s1);
+  margin-bottom: var(--s4);
+}
+
+.h2 {
+  font-size: var(--t-lg);
+  color: var(--ink);
+}
+
+.note {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+  line-height: 1.6;
+  max-width: var(--w-prose);
+}
+
+/* ---------- micro-label ---------- */
+
+/* One rule. There were thirty-nine of these. */
+.micro {
+  display: block;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+}
+
+/* ---------- card ---------- */
+
+.card {
+  display: grid;
+  gap: var(--s4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--lift);
+  padding: var(--s5);
+}
+
+.cardFlush {
+  composes: card;
+  padding: 0;
+  gap: 0;
+}
+
+.cardHead {
+  display: grid;
+  gap: var(--s1);
+}
+
+.cardFlush .cardHead {
+  padding: var(--s5) var(--s5) 0;
+}
+
+.cardTitle {
+  font-size: var(--t-lg);
+  color: var(--ink);
+}
+
+.cardSub {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+  line-height: 1.6;
+  max-width: var(--w-prose);
+}
+
+/* ---------- metric ---------- */
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--w-metric), 1fr));
+  gap: var(--s4);
+}
+
+.metric {
+  display: grid;
+  gap: var(--s1);
+  align-content: start;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--lift);
+  padding: var(--s5);
+}
+
+.metricValue {
+  font-family: var(--font-mono);
+  font-size: var(--t-hero);
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--ink);
+  /* A hero figure is read as a quantity, not scanned down a column. */
+  font-variant-numeric: normal;
+}
+
+.metricNote {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+.tone1 { color: var(--c1); }
+.tone2 { color: var(--c2); }
+.tone3 { color: var(--c3); }
+.tone4 { color: var(--c4); }
+
+/* ---------- table ---------- */
+
+.tableWrap {
+  overflow-x: auto;
+  min-width: 0;
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-sm);
+}
+
+.dataTable th,
+.dataTable td {
+  text-align: left;
+  padding: var(--s2) var(--s4);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.dataTable th.num,
+.dataTable td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.dataTable thead th {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+  background: var(--surface-sunk);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.dataTable tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.dataTable tbody tr:hover {
+  background: var(--surface-sunk);
+}
+
+.sortable {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+
+.sortable:hover {
+  color: var(--ink);
+}
+
+.sortMark {
+  color: var(--accent);
+}
+
+.empty {
+  padding: var(--s8) var(--s4);
+  text-align: center;
+  color: var(--ink-3);
+  font-size: var(--t-sm);
+}
+
+/* ---------- odds ---------- */
+
+.odds {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.oddsMuted {
+  composes: odds;
+  color: var(--ink-3);
+}
+
+/* ---------- dots: the fingerprint ---------- */
+
+.dots {
+  display: inline-flex;
+  gap: var(--s1);
+  align-items: center;
+}
+
+.hit,
+.miss,
+.gap {
+  width: var(--s2);
+  height: var(--s2);
+  border-radius: var(--r-pill);
+}
+
+/* Filled against hollow, not two colours, so it survives greyscale. */
+.hit { background: var(--accent); }
+.miss { border: 1px solid var(--axis); }
+.gap { border: 1px dashed var(--line); }
+
+/* ---------- badge ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 var(--s2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  color: var(--ink-3);
+}
+
+.badgeGood { border-color: var(--good); color: var(--good); }
+.badgeWarn { border-color: var(--warn); color: var(--warn); }
+.badgeBad { border-color: var(--bad); color: var(--bad); }
+
+/* ---------- skeleton ---------- */
+
+/* Shaped like its content. A spinner says wait; this says here is what is
+   coming. Opacity only, which is GPU-composited. */
+.skeleton {
+  background: var(--surface-sunk);
+  border-radius: var(--r-sm);
+  animation: pulse 1.4s var(--ease) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}

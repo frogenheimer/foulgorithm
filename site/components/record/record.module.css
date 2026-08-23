@@ -1,6 +1,6 @@
 .reliability {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--s2);
 }
 
 .relHead,
@@ -8,26 +8,26 @@
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr) 92px 96px;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--s3);
 }
 
 .relHead {
-  font-size: var(--text-xs);
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: var(--ink-3);
   font-weight: 600;
-  padding-bottom: var(--space-1);
-  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--s1);
+  border-bottom: 1px solid var(--line);
 }
 
 .relRow {
-  padding: var(--space-1) 0;
+  padding: var(--s1) 0;
 }
 
 .relBand {
-  font-size: var(--text-xs);
-  color: var(--text-secondary);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
   font-variant-numeric: tabular-nums;
 }
 
@@ -50,11 +50,11 @@
 /* Two marks on one axis. The distance between them is the error, so nobody has
    to subtract anything. */
 .said {
-  background: var(--text-muted);
+  background: var(--ink-3);
 }
 
 .happened {
-  background: var(--seq-450);
+  background: var(--seq-3);
   width: 3px;
 }
 
@@ -62,29 +62,29 @@
   position: absolute;
   top: 8px;
   height: 2px;
-  background: var(--seq-250);
+  background: var(--seq-2);
   opacity: 0.55;
 }
 
 .relNums {
   display: inline-flex;
   align-items: baseline;
-  gap: var(--space-1);
-  font-size: var(--text-sm);
+  gap: var(--s1);
+  font-size: var(--t-sm);
   font-variant-numeric: tabular-nums;
 }
 
 .relSaid {
-  color: var(--text-muted);
+  color: var(--ink-3);
 }
 
 .relArrow {
-  color: var(--text-muted);
-  font-size: var(--text-xs);
+  color: var(--ink-3);
+  font-size: var(--t-xs);
 }
 
 .relGot {
-  color: var(--text-primary);
+  color: var(--ink);
   font-weight: 600;
 }
 
@@ -93,9 +93,9 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--space-2);
-  font-size: var(--text-xs);
-  color: var(--text-muted);
+  gap: var(--s2);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
 
@@ -104,8 +104,8 @@
 .count {
   height: 6px;
   border-radius: 2px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
   min-width: 2px;
 }
 
@@ -116,19 +116,19 @@
 
 .relThin .relBand,
 .relThin .relGot {
-  color: var(--text-muted);
+  color: var(--ink-3);
   font-weight: 400;
 }
 
 .relThin .happened {
-  background: var(--text-muted);
+  background: var(--ink-3);
 }
 
 .relNote {
-  margin: var(--space-2) 0 0;
+  margin: var(--s2) 0 0;
   max-width: 72ch;
-  font-size: var(--text-xs);
-  color: var(--text-muted);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
   line-height: 1.6;
 }
 

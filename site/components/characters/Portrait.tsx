@@ -11,11 +11,11 @@
  */
 
 export const CHARACTER_COLOUR: Record<string, string> = {
-  alan: "var(--char-alan)",
-  lily: "var(--char-lily)",
-  valentina: "var(--char-valentina)",
-  tayler: "var(--char-tayler)",
-  bdog: "var(--char-bdog)",
+  alan: "var(--ch-alan)",
+  lily: "var(--ch-lily)",
+  valentina: "var(--ch-valentina)",
+  tayler: "var(--ch-tayler)",
+  bdog: "var(--ch-bdog)",
 };
 
 function Frame({ colour, children }: { colour: string; children: React.ReactNode }) {

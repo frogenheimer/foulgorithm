@@ -4,14 +4,14 @@
   position: sticky; top: 0; align-self: flex-start;
   height: 100vh; width: 64px; flex-shrink: 0;
   display: flex; flex-direction: column; align-items: center;
-  gap: var(--space-6); padding: var(--space-4) 0;
-  border-right: 1px solid var(--border); background: var(--surface-1);
+  gap: var(--s6); padding: var(--s4) 0;
+  border-right: 1px solid var(--line); background: var(--surface);
   z-index: 10;
 }
 
 .mark {
   display: grid; place-items: center;
-  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  width: 34px; height: 34px; border-radius: var(--r-sm);
   background: var(--accent); color: var(--accent-ink);
   font-family: var(--font-mono); font-weight: 700; font-size: 17px;
   /* One glow, rationed to the single most important mark on screen. */
@@ -19,13 +19,13 @@
 }
 .markGlyph { line-height: 1; }
 
-.items { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+.items { list-style: none; display: flex; flex-direction: column; gap: var(--s2); }
 
 .item {
   position: relative; display: grid; place-items: center;
-  width: 40px; height: 40px; border-radius: var(--radius-sm);
-  color: var(--text-muted);
-  transition: color var(--duration-fast) var(--ease), background var(--duration-fast) var(--ease);
+  width: 40px; height: 40px; border-radius: var(--r-sm);
+  color: var(--ink-3);
+  transition: color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
 }
 .item:hover { color: var(--accent); background: var(--accent-soft); }
 
@@ -34,11 +34,11 @@
 .tip {
   position: absolute; left: calc(100% + 10px); top: 50%;
   transform: translateY(-50%) translateX(-4px);
-  background: var(--text-primary); color: var(--plane);
-  font-size: var(--text-sm); white-space: nowrap;
-  padding: 4px var(--space-3); border-radius: var(--radius-sm);
+  background: var(--ink); color: var(--ground);
+  font-size: var(--t-sm); white-space: nowrap;
+  padding: 4px var(--s3); border-radius: var(--r-sm);
   opacity: 0; pointer-events: none;
-  transition: opacity var(--duration-fast) var(--ease), transform var(--duration-fast) var(--ease);
+  transition: opacity var(--d-fast) var(--ease), transform var(--d-fast) var(--ease);
 }
 .item:hover .tip, .item:focus-visible .tip { opacity: 1; transform: translateY(-50%) translateX(0); }
 
@@ -58,26 +58,26 @@
   width: 100%;
   max-width: min(1680px, 100%);
   margin: 0 auto;
-  padding: 0 clamp(var(--space-4), 3vw, var(--space-9));
+  padding: 0 clamp(var(--s4), 3vw, var(--s9));
 }
 
 .footer {
-  margin-top: var(--space-10);
-  padding: var(--space-6) clamp(var(--space-4), 3vw, var(--space-9)) var(--space-9);
-  border-top: 1px solid var(--border); color: var(--text-muted); font-size: var(--text-sm);
+  margin-top: var(--s10);
+  padding: var(--s6) clamp(var(--s4), 3vw, var(--s9)) var(--s9);
+  border-top: 1px solid var(--line); color: var(--ink-3); font-size: var(--t-sm);
   max-width: min(1680px, 100%);
   margin-left: auto; margin-right: auto; width: 100%;
 }
-.footer p + p { margin-top: var(--space-2); }
+.footer p + p { margin-top: var(--s2); }
 .footer a { text-decoration: underline; text-underline-offset: 2px; }
 
 @media (max-width: 640px) {
   .shell { flex-direction: column; }
   .rail {
     position: static; height: auto; width: 100%;
-    flex-direction: row; justify-content: flex-start; gap: var(--space-3);
-    padding: var(--space-2) var(--space-4);
-    border-right: none; border-bottom: 1px solid var(--border);
+    flex-direction: row; justify-content: flex-start; gap: var(--s3);
+    padding: var(--s2) var(--s4);
+    border-right: none; border-bottom: 1px solid var(--line);
     /* The row grew past the viewport as pages were added: six destinations plus
        a mark plus a theme toggle do not fit across a phone. It scrolls inside
        itself rather than widening the page, which is the rule everywhere else
@@ -91,8 +91,8 @@
   .tip { display: none; }
   /* margin-top: auto does nothing in a row. Without this the toggle sits hard
      against the last nav item and reads as another destination. */
-  .theme { margin-top: 0; margin-left: var(--space-2); flex-shrink: 0; }
-  .content, .footer { padding-left: var(--space-4); padding-right: var(--space-4); }
+  .theme { margin-top: 0; margin-left: var(--s2); flex-shrink: 0; }
+  .content, .footer { padding-left: var(--s4); padding-right: var(--s4); }
 }
 
 /* Sits at the foot of the rail, away from navigation. Changing how the page
@@ -104,17 +104,17 @@
   width: 38px;
   height: 38px;
   border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--r-sm);
   background: none;
-  color: var(--text-muted);
+  color: var(--ink-3);
   cursor: pointer;
-  transition: color var(--duration-fast) var(--ease),
-    border-color var(--duration-fast) var(--ease);
+  transition: color var(--d-fast) var(--ease),
+    border-color var(--d-fast) var(--ease);
 }
 
 .theme:hover {
-  color: var(--text-primary);
-  border-color: var(--border);
+  color: var(--ink);
+  border-color: var(--line);
 }
 
 .theme:focus-visible {

@@ -1,24 +1,24 @@
 .body {
   max-width: 70ch;
-  color: var(--text-secondary);
+  color: var(--ink-2);
 }
 
 .body p + p {
-  margin-top: var(--space-4);
+  margin-top: var(--s4);
 }
 
 .list {
   list-style: none;
-  margin-top: var(--space-2);
+  margin-top: var(--s2);
 }
 
 .list li {
   position: relative;
-  padding-left: var(--space-5);
+  padding-left: var(--s5);
 }
 
 .list li + li {
-  margin-top: var(--space-3);
+  margin-top: var(--s3);
 }
 
 .list li::before {
@@ -29,25 +29,25 @@
   width: 6px;
   height: 6px;
   border-radius: 2px;
-  background: var(--series-1);
+  background: var(--c1);
 }
 
 .list strong {
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .spec {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--s3);
 }
 
 .spec > div {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-4);
+  gap: var(--s4);
   flex-wrap: wrap;
-  padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--s3);
+  border-bottom: 1px solid var(--line);
 }
 
 .spec > div:last-child {
@@ -56,15 +56,15 @@
 }
 
 .spec dt {
-  font-size: var(--text-sm);
+  font-size: var(--t-sm);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: var(--ink-3);
 }
 
 .spec dd {
   font-size: 14px;
-  color: var(--text-primary);
+  color: var(--ink);
   text-align: right;
   font-variant-numeric: tabular-nums;
 }

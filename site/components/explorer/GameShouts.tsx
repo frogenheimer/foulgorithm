@@ -94,7 +94,7 @@ export default function GameShouts({ data }: { data: Data }) {
           <article
             key={model}
             className={s.card}
-            style={{ ["--char" as string]: `var(--char-${model})` }}
+            style={{ ["--char" as string]: `var(--ch-${model})` }}
           >
             <header className={s.cardHead}>
               <span className={s.swatch} aria-hidden />

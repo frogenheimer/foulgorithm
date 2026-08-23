@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
-import { Rail } from "@/components/ui/Rail";
+import { Nav } from "@/components/kit/Nav";
 import "./tokens.css";
 import "./globals.css";
 
@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <Rail>{children}</Rail>
+        <Nav>{children}</Nav>
       </body>
     </html>
   );
