@@ -45,24 +45,35 @@ export default function Pitch({
   rateOf: (club: string, player: string) => string;
 }) {
   const swaps = Object.keys(selected).length;
+  // A predicted eleven is right about 78% of the time. The page says which it
+  // is looking at rather than letting a guess read as a team sheet.
+  const predicted = Boolean(home.shape.predicted || away.shape.predicted);
 
   return (
     <div className={s.wrap}>
       <div className={s.head}>
         <span className={s.club}>
-          {home.club} <span className={s.formation}>{home.shape.formation}</span>
+          {home.club}{" "}
+          <span className={s.formation}>
+            {home.shape.formation ?? "by position"}
+          </span>
         </span>
         <span className={s.versus}>
           {swaps > 0 ? (
             <button type="button" className={s.reset} onClick={onReset}>
               Reset {swaps} change{swaps === 1 ? "" : "s"}
             </button>
+          ) : predicted ? (
+            "predicted elevens, grouped by position"
           ) : (
-            "attacking direction shown"
+            "confirmed elevens"
           )}
         </span>
         <span className={s.clubAway}>
-          <span className={s.formation}>{away.shape.formation}</span> {away.club}
+          <span className={s.formation}>
+            {away.shape.formation ?? "by position"}
+          </span>{" "}
+          {away.club}
         </span>
       </div>
 

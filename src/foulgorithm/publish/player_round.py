@@ -224,6 +224,7 @@ def publish(output: Path = OUTPUT) -> dict:
     house_c, house_d = committed[HOUSE_MODEL], drawn[HOUSE_MODEL]
 
     board = []
+    predicted_shapes: dict[str, dict] = {}
     all_rows: list[dict] = []
 
     for fx in fixtures.itertuples():
@@ -242,6 +243,7 @@ def publish(output: Path = OUTPUT) -> dict:
         for team, opponent in ((fx.home_team_raw, fx.away_team_raw), (fx.away_team_raw, fx.home_team_raw)):
             players = []
             label = f"{fx.home_team_raw} v {fx.away_team_raw}"
+            selections = []
             for sel in squad(
                 squads, resolution, team,
                 lineup=lineups.get(f"{team}|{label}"),
@@ -249,6 +251,7 @@ def publish(output: Path = OUTPUT) -> dict:
             ):
                 # A confirmed starter is a certainty, not a probability. Say so,
                 # and the minutes mixture drops its unused branch entirely.
+                selections.append(sel)
                 state = "start" if sel.confirmed else None
                 dist_c, why_c = house_c.predict_one(
                     sel.lookup, opponent, as_of, confirmed=state, team=team
@@ -273,6 +276,11 @@ def publish(output: Path = OUTPUT) -> dict:
                 }
                 players.append(row)
                 all_rows.append(row)
+            if not any(sel.confirmed for sel in selections):
+                shape = _predicted_shape(selections)
+                if shape:
+                    predicted_shapes.setdefault(label, {})[team] = shape
+
             fixture_block["teams"][team] = sorted(
                 players, key=lambda r: -r["committed"]["p1plus"]
             )
@@ -337,7 +345,9 @@ def publish(output: Path = OUTPUT) -> dict:
         "board": board,
         "picks": picks,
         "fixtureSlips": _fixture_slips(candidates, fixtures),
-        "formations": _formations(lineups),
+        # Confirmed shapes win; a predicted one fills a fixture the league has
+        # not published an eleven for yet.
+        "formations": {**predicted_shapes, **_formations(lineups)},
         "explorer": {
             "models": list(pm.CHARACTER_SETTINGS),
             "lines": list(EXPLORER_LINES),
@@ -944,6 +954,59 @@ def _character_picks(cid, candidates) -> dict:
     }
 
 
+def _predicted_shape(selections: list) -> dict | None:
+    """A pitch for a fixture whose eleven has not been confirmed.
+
+    Grouped from the predicted eleven's own positions rather than from a
+    formation the league has not published: one goalkeeper, then defenders,
+    midfielders and forwards, and the label falls out of the counts.
+
+    ⚠️ This is a grouping, NOT a formation, and it is labelled as one. FPL codes
+    a wing-back as a defender, so a side that plays three at the back with two
+    wing-backs comes out as five defenders and a genuine 4-2-3-1 can come out as
+    "6-4". Printing that as a formation would be inventing a shape the league
+    has not published. The eleven itself is right about 78% of the time; the
+    arrangement is only ever "these are the defenders".
+    """
+    def code_for(sel) -> str:
+        # FPL codes GKP/DEF/MID/FWD; anything unrecognised sits in midfield,
+        # which is where an unknown is least wrong.
+        code = (sel.position or "").strip().upper()[:1]
+        return code if code in ("G", "D", "M", "F") else "M"
+
+    # Exactly one goalkeeper, then ten outfielders in order. Grouping the first
+    # eleven selections by position put every backup keeper on the pitch: a club
+    # carries three and they all rank as goalkeepers, so the shape came out as
+    # 5-2-1 with three men in goal.
+    keepers = [sel for sel in selections if code_for(sel) == "G"]
+    outfield = [sel for sel in selections if code_for(sel) != "G"]
+    if not keepers or len(outfield) < 10:
+        return None
+
+    lines: dict[str, list] = {"G": keepers[:1], "D": [], "M": [], "F": []}
+    for sel in outfield[:10]:
+        lines[code_for(sel)].append(sel)
+
+    order = ["G", "D", "M", "F"]
+    out = [
+        [
+            {
+                "player": sel.display,
+                "position": code,
+                "detail": sel.position or "",
+                "shirt": None,
+                "captain": False,
+            }
+            for sel in lines[code]
+        ]
+        for code in order
+        if lines[code]
+    ]
+    # No formation label. See the docstring: a position grouping is not a shape,
+    # and printing "6-4" as though it were one is a claim we cannot support.
+    return {"formation": None, "lines": out, "bench": [], "predicted": True}
+
+
 def _formations(lineups: dict) -> dict:
     """The confirmed shape per club per fixture, so a pitch can be drawn.
 
@@ -957,6 +1020,7 @@ def _formations(lineups: dict) -> dict:
             continue
         out.setdefault(lu.fixture, {})[lu.team] = {
             "formation": lu.formation,
+            "predicted": False,
             "lines": [
                 [
                     {

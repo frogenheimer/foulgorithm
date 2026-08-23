@@ -45,7 +45,7 @@
 .pitch {
   position: relative;
   aspect-ratio: 105 / 68;
-  min-height: 320px;
+  min-height: 420px;
   display: flex;
   align-items: stretch;
   border-radius: var(--r-md);
@@ -80,7 +80,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  gap: var(--s1);
+  gap: var(--s2);
   position: relative;
   z-index: 1;
   min-width: 0;
@@ -101,12 +101,12 @@
 .shirt {
   display: grid;
   place-items: center;
-  width: var(--s7);
-  height: var(--s7);
+  width: var(--s8);
+  height: var(--s8);
   border-radius: var(--r-pill);
   background: var(--surface);
   border: 2px solid var(--line-strong);
-  font-size: var(--t-xs);
+  font-size: var(--t-sm);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: var(--ink);
@@ -133,7 +133,8 @@
    name on screen twice in a space with room for neither. */
 .nameButton {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
+  justify-content: center;
   /* audit-ignore B2: gap between a name and its chevron, optical. */
   gap: 2px;
   max-width: 100%;
@@ -150,19 +151,21 @@
 }
 
 .name {
-  font-size: var(--t-xs);
+  font-size: var(--t-sm);
   font-weight: 500;
   color: var(--on-turf);
-  line-height: 1.2;
-  max-width: 10ch;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.25;
+  /* Two lines rather than an ellipsis. A truncated name is not a name, and a
+     pitch has the vertical room a table row does not. */
+  max-width: 13ch;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .rate {
   font-family: var(--font-mono);
-  font-size: var(--t-xs);
+  font-size: var(--t-sm);
   color: var(--on-turf-2);
 }
 

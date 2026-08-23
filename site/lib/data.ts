@@ -352,6 +352,8 @@ export type Spot = {
 
 export type TeamShape = {
   formation: string | null;
+  /** True when the eleven is our guess rather than the league's team sheet. */
+  predicted?: boolean;
   /** Goalkeeper first, then each line up the pitch. Published by the league. */
   lines: Spot[][];
   bench: Spot[];
