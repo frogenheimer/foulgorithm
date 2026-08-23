@@ -42,6 +42,18 @@
 
 /* 105m by 68m is 1.54:1. Held as an aspect ratio so the shape is right at any
    width rather than a box that happens to look pitch-like. */
+.markets {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+.marketNote {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
 .pitch {
   position: relative;
   aspect-ratio: 105 / 68;
@@ -185,7 +197,19 @@
 @media (max-width: 760px) {
   /* A full pitch at phone width puts eight columns in 360px. Rotated, each
      line is a row and the names have somewhere to go. */
-  .pitch {
+  .markets {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+.marketNote {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.pitch {
     aspect-ratio: 68 / 105;
     flex-direction: column;
     min-height: 520px;

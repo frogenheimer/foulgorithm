@@ -18,9 +18,17 @@
 
 import { useMemo } from "react";
 import type { ExplorerRow, Spot, TeamShape } from "@/lib/data";
-import { Combobox, MicroLabel } from "@/components/kit";
+import { Combobox, MicroLabel, Toggle } from "@/components/kit";
 import type { Option } from "@/components/kit";
 import s from "./pitch.module.css";
+
+export type Market = "committed" | "drawn" | "involvements";
+
+export const MARKET_LABEL: Record<Market, string> = {
+  committed: "Fouls conceded",
+  drawn: "Fouls won",
+  involvements: "Involvements",
+};
 
 export type Side = {
   club: string;
@@ -35,6 +43,8 @@ export default function Pitch({
   onSwap,
   onReset,
   rateOf,
+  market,
+  onMarket,
 }: {
   home: Side;
   away: Side;
@@ -43,6 +53,9 @@ export default function Pitch({
   onSwap: (slotKey: string, player: string) => void;
   onReset: () => void;
   rateOf: (club: string, player: string) => string;
+  /** Which number sits under each name. */
+  market: Market;
+  onMarket: (m: Market) => void;
 }) {
   const swaps = Object.keys(selected).length;
   // A predicted eleven is right about 78% of the time. The page says which it
@@ -77,12 +90,34 @@ export default function Pitch({
         </span>
       </div>
 
+      <div className={s.markets}>
+        <Toggle
+          value={market}
+          onChange={onMarket}
+          label="Which number to show"
+          options={(Object.keys(MARKET_LABEL) as Market[]).map((m) => ({
+            value: m,
+            label: MARKET_LABEL[m],
+          }))}
+        />
+        <span className={s.marketNote}>
+          expected in this match, per player
+        </span>
+      </div>
+
       <div className={s.pitch}>
         <Markings />
         {/* Home: goalkeeper at the left edge, attack running right. */}
-        <Half side={home} selected={selected} onSwap={onSwap} rateOf={rateOf} />
+        <Half side={home} selected={selected} onSwap={onSwap} rateOf={rateOf} market={market} />
         {/* Away: mirrored, so the two face each other. */}
-        <Half side={away} selected={selected} onSwap={onSwap} rateOf={rateOf} mirrored />
+        <Half
+          side={away}
+          selected={selected}
+          onSwap={onSwap}
+          rateOf={rateOf}
+          market={market}
+          mirrored
+        />
       </div>
 
       <div className={s.benches}>
@@ -104,12 +139,14 @@ function Half({
   selected,
   onSwap,
   rateOf,
+  market,
   mirrored = false,
 }: {
   side: Side;
   selected: Record<string, string>;
   onSwap: (key: string, player: string) => void;
   rateOf: (club: string, player: string) => string;
+  market: Market;
   mirrored?: boolean;
 }) {
   const byName = useMemo(
@@ -122,15 +159,30 @@ function Half({
    * else stays one keystroke away rather than hidden, because a manager can
    * field whoever he likes and a dropdown should not argue.
    */
+  const onPitchNames = new Set(
+    side.shape.lines.flatMap((line, i) =>
+      line.map((spot, j) => selected[`${side.club}|${i}|${j}`] ?? spot.player)
+    )
+  );
+
   const optionsFor = (spot: Spot): Option[] =>
-    byName.map((row) => ({
-      value: row.player,
-      label: row.player,
-      meta: row.expected.committed.toFixed(2),
-      group: samePosition(row.position, spot.position)
-        ? `Plays ${positionName(spot.position)}`
-        : undefined,
-    }));
+    byName.map((row) => {
+      const available = !onPitchNames.has(row.player);
+      const fits = samePosition(row.position, spot.position);
+      return {
+        value: row.player,
+        label: row.player,
+        meta: row.expected[market].toFixed(2),
+        // Available and in position first, then anyone else off the pitch. A
+        // player already on it is still selectable, because a manager can
+        // reorganise, but he is not what "sub someone in" means.
+        group: available
+          ? fits
+            ? `On the bench, plays ${positionName(spot.position)}`
+            : "Off the pitch"
+          : undefined,
+      };
+    });
 
   const lines = mirrored ? [...side.shape.lines].reverse() : side.shape.lines;
 

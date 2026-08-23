@@ -115,20 +115,30 @@ def squad(
     # say so; the two are graded separately because they are different products.
     if lineup and lineup.starters:
         by_key = {fpl.normalise(p.name): p for p in players}
-        out = []
-        for name in lineup.starters:
+
+        def selection_for(name: str, starting: bool) -> Selection:
             match = by_key.get(fpl.normalise(name))
-            out.append(
-                Selection(
-                    display=match.web_name if match else name.split()[-1],
-                    full=match.name if match else name,
-                    history=resolution.matched.get(match.name) if match else None,
-                    position=match.position if match else "?",
-                    available=True,
-                    news="",
-                    confirmed=True,
-                )
+            return Selection(
+                display=match.web_name if match else name.split()[-1],
+                full=match.name if match else name,
+                history=resolution.matched.get(match.name) if match else None,
+                position=match.position if match else "?",
+                available=True,
+                news="",
+                confirmed=starting,
             )
+
+        # The named substitutes get predictions too. Without them the pitch can
+        # only offer players already on it, so "swap someone out" had nothing to
+        # swap in: a confirmed eleven is eleven, and every other name had no
+        # numbers attached.
+        out = [selection_for(n, True) for n in lineup.starters]
+        seen = {fpl.normalise(n) for n in lineup.starters}
+        out += [
+            selection_for(n, False)
+            for n in lineup.substitutes
+            if fpl.normalise(n) not in seen
+        ]
         return out
 
     ranked = fpl.likely_eleven(players, limit)
