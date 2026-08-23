@@ -8,6 +8,7 @@ Two outputs in one file:
 from __future__ import annotations
 
 import json
+from functools import lru_cache
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -133,6 +134,24 @@ def squad(
     return out
 
 
+@lru_cache(maxsize=1)
+def _pairing_history(seasons: int = 12) -> pd.DataFrame:
+    """Recent completed seasons of match results, for the head-to-head table."""
+    from foulgorithm.publish.site_export import season_labels
+
+    frames = []
+    for label in season_labels()[-seasons:]:
+        try:
+            frames.append(pd.DataFrame(football_data.parse(football_data.fetch(label))))
+        except Exception:
+            continue
+    if not frames:
+        return pd.DataFrame()
+    out = pd.concat(frames, ignore_index=True)
+    out["known_at"] = pd.to_datetime(out["known_at"], utc=True)
+    return out
+
+
 def publish(output: Path = OUTPUT) -> dict:
     history = load_player_matches()
     fixtures = pd.DataFrame(football_data.fetch_fixtures())
@@ -150,6 +169,15 @@ def publish(output: Path = OUTPUT) -> dict:
 
     committed = {c: pm.build(c, "player_fouls_committed") for c in pm.CHARACTER_SETTINGS}
     drawn = {c: pm.build(c, "player_fouls_drawn") for c in pm.CHARACTER_SETTINGS}
+
+    # Only Valentina reads this, and only she stores it. See her method in
+    # foulgorithm.features.head_to_head.
+    #
+    # Built from completed seasons, not the current one. A pairing effect needs
+    # a run of meetings to say anything, and the current season file does not
+    # exist until that season is underway.
+    for model in (*committed.values(), *drawn.values()):
+        model.fit_pairings(_pairing_history(), as_of)
     for model in list(committed.values()) + list(drawn.values()):
         model.fit(history)
 
@@ -178,8 +206,12 @@ def publish(output: Path = OUTPUT) -> dict:
                 # A confirmed starter is a certainty, not a probability. Say so,
                 # and the minutes mixture drops its unused branch entirely.
                 state = "start" if sel.confirmed else None
-                dist_c, why_c = house_c.predict_one(sel.lookup, opponent, as_of, confirmed=state)
-                dist_d, why_d = house_d.predict_one(sel.lookup, opponent, as_of, confirmed=state)
+                dist_c, why_c = house_c.predict_one(
+                    sel.lookup, opponent, as_of, confirmed=state, team=team
+                )
+                dist_d, why_d = house_d.predict_one(
+                    sel.lookup, opponent, as_of, confirmed=state, team=team
+                )
                 row = {
                     "player": sel.display,
                     "fullName": sel.full,
@@ -504,6 +536,7 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                         dists[cid], whys[cid] = model.predict_one(
                             sel.lookup, opponent, as_of,
                             confirmed="start" if sel.confirmed else None,
+                            team=team,
                         )
                     by_market[market] = (dists, whys)
                     market_key = (

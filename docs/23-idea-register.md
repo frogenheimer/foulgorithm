@@ -65,7 +65,7 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Five temperaments as real models | **Built** |
 | Equal-risk comparison | **Built**, now four odds tiers |
 | Season-long replay competition | **Built**, and it found selection bias |
-| Character-specific research methodology | **Not done.** See below |
+| Character-specific research methodology | **Started.** Valentina reads head-to-head history, which none of the other four do. Accuracy-neutral, shipped for differentiation |
 | Characters evolving in character | **Planned**, weekly, logged |
 
 **The gap worth naming.** Each character's *selection* is currently a scoring

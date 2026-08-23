@@ -82,6 +82,7 @@ class PlayerFoulModel:
         dispersion: float = 1.05,
         amplify: float = 1.0,
         label: str | None = None,
+        reads_head_to_head: bool = False,
     ):
         self.character_id = character_id
         self.half_life_days = half_life_days
@@ -89,12 +90,31 @@ class PlayerFoulModel:
         self.opponent_weight = opponent_weight
         self.dispersion = dispersion
         self.amplify = amplify
+        # Valentina's alone. The other four differ from each other by how much
+        # they trust the same numbers; this is a question none of them asks.
+        self.reads_head_to_head = reads_head_to_head
+        self._pairings: dict = {}
         self.label = label or character_id
         self._history: pd.DataFrame | None = None
         self._league_rate = 1.0
         self._position_rate: dict[str, float] = {}
         self._player_position: dict[str, str] = {}
         self._default_minutes = 70.0
+
+    def fit_pairings(self, matches, as_of=None) -> None:
+        """Learn which fixtures run hot. Only Valentina asks, so only she stores it."""
+        if not self.reads_head_to_head:
+            return
+        from foulgorithm.features import head_to_head
+
+        self._pairings = head_to_head.residuals_from(matches, as_of)
+
+    def head_to_head_factor(self, team: str, opponent: str) -> float:
+        if not self.reads_head_to_head or not self._pairings:
+            return 1.0
+        from foulgorithm.features import head_to_head
+
+        return head_to_head.adjustment(team, opponent, self._pairings)
 
     def config(self) -> dict:
         return {
@@ -103,6 +123,7 @@ class PlayerFoulModel:
             "opponent_weight": self.opponent_weight,
             "dispersion": self.dispersion,
             "amplify": self.amplify,
+            "readsHeadToHead": self.reads_head_to_head,
         }
 
     def fit(self, history: pd.DataFrame) -> None:
@@ -320,10 +341,13 @@ class PlayerFoulModel:
         as_of,
         referee_factor: float = 1.0,
         confirmed: str | None = None,
+        team: str | None = None,
     ) -> tuple[CountDistribution, dict]:
         rate, effective = self.player_rate(player, as_of)
         profile = self.minutes_profile(player, as_of, confirmed=confirmed)
         opp = self.opponent_factor(opponent, as_of)
+        h2h = self.head_to_head_factor(team, opponent) if team else 1.0
+        opp *= h2h
 
         # A mixture over whether he plays, not one distribution at his average
         # minutes. The mean is identical either way, which is why averaging
@@ -354,6 +378,7 @@ class PlayerFoulModel:
             "expectedMinutes": round(minutes, 1),
             "expected_fouls": round(dist.mean(), 3),
             "opponentFactor": round(opp, 3),
+            "headToHeadFactor": round(h2h, 3),
             "refereeFactor": round(referee_factor, 3),
             "effectiveMatches": round(effective, 1),
             "startProbability": round(profile.p_start, 3),
@@ -381,7 +406,8 @@ CHARACTER_SETTINGS: dict[str, dict] = {
     # Lust: long memory for reputation, trusts the name over the matchup.
     "lily": dict(half_life_days=1200, prior_matches=8, opponent_weight=0.5, dispersion=1.10, amplify=1.1),
     # Violence: reads the matchup hardest, medium memory.
-    "valentina": dict(half_life_days=400, prior_matches=6, opponent_weight=1.6, dispersion=1.05, amplify=1.15),
+    "valentina": dict(half_life_days=400, prior_matches=6, opponent_weight=1.6, dispersion=1.05,
+                      amplify=1.15, reads_head_to_head=True),
     # Terror: long memory, heavy shrinkage, wide distribution, never exaggerates.
     "tayler": dict(half_life_days=1000, prior_matches=30, opponent_weight=0.4, dispersion=1.25, amplify=1.0),
     # Bravery: short-to-medium memory, trusts thin evidence others shrink away.

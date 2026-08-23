@@ -18,6 +18,50 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-23 — Valentina gets a method, and it changes almost nothing
+
+**The gap.** The five characters were meant to be five ways of reading a match.
+They were five settings of the same calculation: memory length, shrinkage,
+opponent weight, dispersion. Valentina, described as the one who reads the
+matchup, read it by having `opponent_weight` set to 1.6. Turning a dial up is
+not a different way of thinking.
+
+**Does the thing she is supposed to read exist?** Across 9,120 matches, each
+fixture's fouls were compared against what the two clubs' own season rates
+imply. Splitting each pairing's history in half and correlating the halves, over
+428 pairings with eight or more meetings, gives **+0.138**. The spread of pairing
+means is 2.17 fouls where noise alone would produce 1.90, so the real pairing
+effect is about **1.06 fouls on a base near 21**, roughly 5%.
+
+Real, then, and small, and mostly noise: a split-half of 0.138 is a reliability
+near 0.24, so about three quarters of any observed pairing residual is nothing.
+Using it raw would repeat the promoted-clubs mistake exactly, where a
+Championship rate at face value scored 16% worse than a plain league average and
+only helped once shrunk to 37% of itself.
+
+**Result**, 26,329 walk-forward player-matches:
+
+| variant | log loss | ECE |
+|---|---|---|
+| Valentina without head-to-head | 0.4001 | 0.0069 |
+| Valentina with head-to-head | **0.4000** | 0.0069 |
+
+**Shipped anyway, and the reason is not accuracy.** One ten-thousandth of a log
+loss is nothing. It ships because it makes her genuinely different in KIND
+rather than in degree, which is what the five were supposed to be and were not.
+After the adjustment she is the only one who notices that the Merseyside derby
+runs about 2% above what Everton and Liverpool are worth separately.
+
+Worth recording that this is the first change in several not to make the model
+worse. Count-specific dispersion, the cards blend, the involvement widening and
+game state all did. That it merely does no harm is, at this point, the
+encouraging version.
+
+**The remaining honesty problem is unchanged.** The five still separate by about
+2% on player markets. One of them now has a method the others do not, which is
+a start, and the site should keep saying how small the differences are rather
+than letting five portraits imply five sharply different opinions.
+
 ## 2026-08-22 — Game state from closing odds: real signal, worse model
 
 **Question.** Fouls should depend on who has the ball. Possession would say it

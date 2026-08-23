@@ -81,11 +81,12 @@ VALENTINA = Character(
     emotion="Violence",
     tagline="Reads the fight, not the football.",
     philosophy=(
-        "Violence looks for conflict and finds it. Valentina models cards, not "
-        "fouls, and infers fouls from them, on the argument that a booking is "
-        "the referee telling you what kind of match this is. She amplifies "
-        "rivalry and treats a physical side as a physical side regardless of "
-        "who they are playing."
+        "Violence looks for conflict and finds it. Valentina is the only one of "
+        "the five who asks a different question rather than the same question "
+        "more loudly: she checks whether THESE TWO CLUBS produce more fouls than "
+        "their own records imply, and carries that into every player in the "
+        "fixture. The Merseyside derby runs about 2% above what Everton and "
+        "Liverpool are worth separately, and she is the only one who notices."
     ),
     on_losing=(
         "Concludes she read the temperature correctly but the referee bottled "
