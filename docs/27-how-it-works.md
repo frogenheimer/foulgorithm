@@ -263,10 +263,12 @@ marketing.
 - **No bookmaker prices.** No free archive of historical player prop odds
   exists, so we cannot measure closing line value on the market we actually
   publish. Calibration on a large sample is the substitute, and it is weaker.
-- **Match-level under-dispersion of 39%.** Real matches vary more than our match
-  predictions say they should, slope 1.644 where 1.0 is correct. Player-level
-  dispersion is right, slope 1.007, so the missing piece is a shared per-match
-  factor. Plan in `25-match-variance.md`.
+- **Match totals barely discriminate.** The 39% under-dispersion originally
+  reported here was one configuration's number: re-measured per character on
+  2026-08-23, the house model has no missing shared variance and its total
+  spread is already about 10% too wide. The real fault is that its point
+  estimates barely vary between matches. Measurement and what survives of the
+  plan in `25-match-variance.md`.
 - **Position on the pitch does nothing.** Measured at r = -0.003 for positional
   pairings. The pitch view lets you move players around; the model does not care
   where they stand.

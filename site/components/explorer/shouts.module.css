@@ -18,15 +18,6 @@
   color: var(--ink);
 }
 
-.select {
-  font: inherit;
-  font-size: var(--t-sm);
-  color: var(--ink);
-  background: var(--ground);
-  border: 1px solid var(--line);
-  border-radius: var(--r-sm);
-  padding: var(--s2) var(--s3);
-}
 
 .note {
   margin: 0;

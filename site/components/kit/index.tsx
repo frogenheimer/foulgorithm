@@ -366,3 +366,41 @@ export function Thin({ title }: { title?: string }) {
 
 /** Class for a table row whose numbers rest on thin evidence. */
 export const thinRow = s.thinRow;
+
+
+/**
+ * A short list of choices. Four of these were hand-rolled across the explorer
+ * and the shouts panel, each styled from its own stylesheet.
+ *
+ * Deliberately a native select rather than a Combobox. Combobox exists because
+ * a native select is hostile at forty options; at five it is the better control,
+ * and forcing a search box onto "which of five models" is ceremony. The rule:
+ * searchable Combobox when the list is long or unbounded, this when it is short
+ * and fixed.
+ */
+export function Select<T extends string>({
+  value,
+  options,
+  onChange,
+  label,
+}: {
+  value: T;
+  options: { value: T; label: string }[];
+  onChange: (value: T) => void;
+  label: string;
+}) {
+  return (
+    <select
+      className={s.select}
+      value={value}
+      aria-label={label}
+      onChange={(e) => onChange(e.target.value as T)}
+    >
+      {options.map((o) => (
+        <option key={o.value} value={o.value}>
+          {o.label}
+        </option>
+      ))}
+    </select>
+  );
+}

@@ -496,3 +496,28 @@
 .thinRow td {
   color: var(--ink-3);
 }
+
+
+/* A short, fixed list of choices. See Select in index.tsx for when this rather
+   than the Combobox. */
+.select {
+  font: inherit;
+  font-size: var(--t-sm);
+  color: var(--ink);
+  background: var(--ground);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: var(--s2) var(--s3);
+  min-width: 140px;
+  max-width: 240px;
+  transition: border-color var(--d-fast) var(--ease);
+}
+
+.select:hover {
+  border-color: var(--line-strong);
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}

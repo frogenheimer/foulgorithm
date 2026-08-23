@@ -6,6 +6,55 @@ Append new ideas at the top with a date. When an idea gets picked up it moves to
 
 ---
 
+## 2026-08-23 — Ideas from the two external audits
+
+Source and full reasoning in [28-external-audit-review.md](28-external-audit-review.md).
+The phase 1 items (substitute programme, calibration apparatus, thin-evidence
+widening, house-beside-character, manual odds capture) are proposed there, not
+here. This entry holds what was judged valuable but not committed.
+
+- **Coarse positional-channel matchups from formation lines.** Advisor 1 wanted
+  spatial interaction matrices, which need coordinate data we do not hold. The
+  version we CAN test: does a full-back facing a formation with wide wingers
+  concede more than facing a narrow midfield, using the formation slots the
+  lineup source already gives us? The r = -0.003 pairing test measured player
+  quality, not channel geometry, so this is genuinely untested.
+- **Match-based rather than calendar decay** for the house half-life (advisor
+  1). Calendar decay punishes international breaks and injury absences; decay
+  by matches played treats evidence as evidence. Counter-argument to test
+  against: regime change happens in calendar time, and a six-month absence
+  genuinely stales information. One harness run decides it.
+- **Manager and regime-change targeted evaluation** (advisor 2 §39, 83). Alan's
+  claimed edge is "new manager or injury crisis" and it has never been tested
+  on that subset. Blocked on data we could build by hand: a manager-change CSV
+  is roughly 15 rows a season.
+- **Hurdle and Poisson-lognormal challengers** for the distribution ladder
+  (advisor 2 §57, 59). P(0) may be a minutes-and-role question while
+  P(count | count >= 1) is an aggression question. Fits the existing challenger
+  protocol; no new data.
+- **Referee effects on distribution shape, not just mean** (advisor 2 §43). A
+  strict referee may move the zero probability and the tail differently. Cheap
+  study on data in hand.
+- **Rest and congestion features** (advisor 2 §49). Days since last match and
+  matches in the previous 14 days are derivable from fixture dates we hold.
+  Listed in 06-modelling as designed features and never actually tested.
+- **Substitution endogeneity, crude version** (advisor 2 §18). Fouls and
+  minutes may not be independent for starters (a booked or foul-prone player
+  gets withdrawn). Full test needs in-match foul timing we lack; the crude
+  test, starters' minutes against their own fouls that match, uses data in
+  hand.
+- **Within-branch minutes distributions** (advisor 2 §17). The mixture already
+  captures the zero spike, which was the big win; whether spread around
+  minutes-if-start moves anything is an open, probably small, question.
+- **Kish effective sample size** alongside `effectiveMatches` (advisor 2 §56).
+  Sigma-w is exposure, (sigma-w)^2 / sigma-w^2 is the conventional n_eff. Show
+  both or rename. Small.
+- **Age curve for Lily** (advisor 1). An age-decay factor for older players
+  would sharpen her reputation-lag weakness into something testable. Low value
+  until the characters have a longer record.
+
+---
+
 ## 2026-08-21 — Public leaderboard, points and a levelling game
 
 **The idea.** Open the competition beyond the five characters. Any user can make predictions, earn points for accuracy, climb a leaderboard, level up, and win weekly rounds. The five emotions become the house players who seed the board rather than the whole product.

@@ -13,10 +13,12 @@ export default function Players() {
   return (
     <div className="stack">
       <section className={s.intro}>
-        <h1 className={s.h1}>Every player, every market</h1>
+        <h1 className={s.h1}>Look up any player</h1>
         <p className={s.lede}>
-          Fouls conceded, fouls won, and both together. {d.rows.length} players across the
-          round, filterable by game, position and how many fouls you care about.
+          The other pages choose for you. This one does not: {d.rows.length} players across
+          the round, every market and every line, with all five models side by side and the
+          full shape behind any number you open. Filter by game, position, or how many fouls
+          you care about.
         </p>
       </section>
 

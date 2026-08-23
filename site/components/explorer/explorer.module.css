@@ -75,20 +75,8 @@
 }
 
 .input,
-.select {
-  font: inherit;
-  font-size: var(--t-sm);
-  color: var(--ink);
-  background: var(--ground);
-  border: 1px solid var(--line);
-  border-radius: var(--r-sm);
-  padding: var(--s2) var(--s3);
-  min-width: 140px;
-  max-width: 240px;
-}
 
-.input:focus-visible,
-.select:focus-visible {
+.input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }

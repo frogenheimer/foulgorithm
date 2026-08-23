@@ -15,7 +15,7 @@
 
 import { Fragment, useMemo, useState } from "react";
 import type { Explorer as Data, ExplorerRow } from "@/lib/data";
-import { DataTable , Thin } from "@/components/kit";
+import { DataTable , Thin , Select } from "@/components/kit";
 import Bars from "./Bars";
 import Shape from "./Shape";
 import { MARKET_LABEL } from "@/lib/markets";
@@ -111,30 +111,28 @@ export default function Explorer({ data }: { data: Data }) {
 
         <label className={s.field}>
           <span className={s.fieldLabel}>Game</span>
-          <select className={s.select} value={fixture} onChange={(e) => setFixture(e.target.value)}>
-            <option value="">Every game</option>
-            {fixtures.map((f) => (
-              <option key={f} value={f}>
-                {f}
-              </option>
-            ))}
-          </select>
+          <Select
+            value={fixture}
+            onChange={setFixture}
+            label="Game"
+            options={[
+              { value: "", label: "Every game" },
+              ...fixtures.map((f) => ({ value: f, label: f })),
+            ]}
+          />
         </label>
 
         <label className={s.field}>
           <span className={s.fieldLabel}>Position</span>
-          <select
-            className={s.select}
+          <Select
             value={position}
-            onChange={(e) => setPosition(e.target.value)}
-          >
-            <option value="">Any</option>
-            {POSITIONS.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
+            onChange={setPosition}
+            label="Position"
+            options={[
+              { value: "", label: "Any" },
+              ...POSITIONS.map((p) => ({ value: p, label: p })),
+            ]}
+          />
         </label>
 
         <div className={s.field}>
@@ -157,13 +155,15 @@ export default function Explorer({ data }: { data: Data }) {
         {!simple && (
           <label className={s.field}>
             <span className={s.fieldLabel}>Model</span>
-            <select className={s.select} value={model} onChange={(e) => setModel(e.target.value)}>
-              {data.models.map((m) => (
-                <option key={m} value={m}>
-                  {m === data.house ? `${m} (house)` : m}
-                </option>
-              ))}
-            </select>
+            <Select
+              value={model}
+              onChange={setModel}
+              label="Model"
+              options={data.models.map((m) => ({
+                value: m,
+                label: m === data.house ? `${m} (house)` : m,
+              }))}
+            />
           </label>
         )}
 

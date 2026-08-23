@@ -30,6 +30,7 @@ MODE="${1:-report}"
 # raw values are allowed to exist.
 css_files () { find app components -name "*.css" ! -name "tokens.css" 2>/dev/null; }
 kit_free_css () { css_files | grep -v "components/kit/" || true; }
+kit_free_tsx () { tsx_files | grep -v "components/kit/" || true; }
 tsx_files () { find app components -name "*.tsx" 2>/dev/null; }
 
 declare -a IDS DESCS COUNTS
@@ -94,6 +95,11 @@ hits B9 "standalone .table definition (one DataTable, not nine)" css_files \
 # components/kit and nowhere else defines it.
 hits B12 "thin-evidence style outside components/kit (use <Thin/> or thinRow)" kit_free_css \
   '^\.thin[a-zA-Z]*[[:space:]]*(\{|[a-zA-Z. ]*\{)'
+
+# Four hand-rolled selects, each styled from its own stylesheet. Combobox for a
+# long or unbounded list, Select for a short fixed one, and nothing else.
+hits B13 "raw <select> outside components/kit (use Select or Combobox)" kit_free_tsx \
+  '<select'
 
 hits B10 "hex colour in a component file" tsx_files \
   '#[0-9a-fA-F]{6}\b'

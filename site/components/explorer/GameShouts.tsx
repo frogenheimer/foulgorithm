@@ -15,6 +15,7 @@
 
 import { useMemo, useState } from "react";
 import type { Explorer as Data, ExplorerRow } from "@/lib/data";
+import { Select } from "@/components/kit";
 import s from "./shouts.module.css";
 
 type Market = "committed" | "drawn" | "involvements";
@@ -69,18 +70,12 @@ export default function GameShouts({ data }: { data: Data }) {
     <div className={s.wrap}>
       <div className={s.head}>
         <h2 className={s.title}>What each of them likes here</h2>
-        <select
-          className={s.select}
+        <Select
           value={fixture}
-          onChange={(e) => setFixture(e.target.value)}
-          aria-label="Fixture"
-        >
-          {fixtures.map((f) => (
-            <option key={f} value={f}>
-              {f}
-            </option>
-          ))}
-        </select>
+          onChange={setFixture}
+          label="Fixture"
+          options={fixtures.map((f) => ({ value: f, label: f }))}
+        />
       </div>
 
       <p className={s.note}>
