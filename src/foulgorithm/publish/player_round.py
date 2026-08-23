@@ -345,6 +345,21 @@ def publish(output: Path = OUTPUT) -> dict:
         print(f"  confirmed lineups unavailable: {exc}")
         lineups = {}
 
+    # Only the ones for fixtures we are actually predicting.
+    #
+    # The feed returns every confirmed eleven it holds, including last round's,
+    # and the site reported that count against the number of fixtures on the
+    # board. Once the board became the round that is COMING rather than the one
+    # just played, it read "18 of 2".
+    # Keyed "Club|Home v Away", not by club. Filtering on the club alone matched
+    # nothing and produced a confident zero, which is the worse failure: it looks
+    # exactly like "no lineups are out yet" and would have stayed zero at kickoff.
+    if not fixtures.empty:
+        lineups = scope_lineups(
+            lineups,
+            {f"{row.home_team_raw} v {row.away_team_raw}" for row in fixtures.itertuples()},
+        )
+
     squads = fpl.current_squads()
     everyone = [p for club in squads.values() for p in club]
     resolution = identity.resolve(everyone, history["player"].unique())
@@ -682,6 +697,17 @@ def _keep_expected_totals(board: list[dict], as_of) -> dict:
 
     expected_totals.record(totals, as_of.replace(microsecond=0).isoformat())
     return expected_totals.load()
+
+
+def scope_lineups(lineups: dict, playing: set[str]) -> dict:
+    """Only the confirmed elevens for fixtures we are predicting.
+
+    Keys are "Club|Home v Away", so the fixture is the part after the bar.
+    Filtering on the club alone matched nothing and produced a confident zero.
+    """
+    if not playing:
+        return lineups
+    return {key: xi for key, xi in lineups.items() if key.split("|", 1)[-1] in playing}
 
 
 def _or_none(value):
