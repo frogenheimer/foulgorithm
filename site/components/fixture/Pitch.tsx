@@ -172,7 +172,9 @@ function Half({
       return {
         value: row.player,
         label: row.player,
-        meta: row.expected[market].toFixed(2),
+        // Position first, because "who plays here" is the question being asked.
+        // The rate is secondary and both fit.
+        meta: `${shortPosition(row.position)} · ${row.expected[market].toFixed(2)}`,
         // Available and in position first, then anyone else off the pitch. A
         // player already on it is still selectable, because a manager can
         // reorganise, but he is not what "sub someone in" means.
@@ -184,7 +186,11 @@ function Half({
       };
     });
 
-  const lines = mirrored ? [...side.shape.lines].reverse() : side.shape.lines;
+  const shape = useMemo(
+    () => regroup(side, selected),
+    [side, selected]
+  );
+  const lines = mirrored ? [...shape].reverse() : shape;
 
   return (
     <div className={mirrored ? `${s.half} ${s.away}` : s.half}>
@@ -228,6 +234,46 @@ function Half({
       })}
     </div>
   );
+}
+
+/**
+ * Rebuild the lines from whoever is on the pitch now.
+ *
+ * The published shape places the published eleven. Swap a midfielder into a
+ * defender's slot and leaving the shape alone stands a midfielder at left-back,
+ * which is not what the manager who made that change meant. Regrouping by the
+ * players' own positions is the honest re-jig: one goalkeeper, then defenders,
+ * midfielders and forwards in the order they were selected.
+ *
+ * Untouched sides keep the league's published shape exactly, because that is a
+ * real formation and this is only a grouping.
+ */
+function regroup(side: Side, selected: Record<string, string>): Spot[][] {
+  const mine = Object.keys(selected).some((k) => k.startsWith(`${side.club}|`));
+  if (!mine) return side.shape.lines;
+
+  const byName = new Map(side.squad.map((r) => [r.player, r]));
+  const current: Spot[] = side.shape.lines.flatMap((line, i) =>
+    line.map((spot, j) => {
+      const name = selected[`${side.club}|${i}|${j}`] ?? spot.player;
+      const row = byName.get(name);
+      return row
+        ? { ...spot, player: name, position: row.position.charAt(0).toUpperCase(), detail: row.position }
+        : { ...spot, player: name };
+    })
+  );
+
+  const buckets: Record<string, Spot[]> = { G: [], D: [], M: [], F: [] };
+  for (const spot of current) {
+    const code = (spot.position || "M").charAt(0).toUpperCase();
+    buckets[code in buckets ? code : "M"].push(spot);
+  }
+  return ["G", "D", "M", "F"].map((k) => buckets[k]).filter((line) => line.length > 0);
+}
+
+function shortPosition(code: string): string {
+  const c = (code || "").charAt(0).toUpperCase();
+  return { G: "GK", D: "DEF", M: "MID", F: "FWD" }[c] ?? "—";
 }
 
 /** Both penalty areas, both six-yard boxes, halfway line, centre circle. */
