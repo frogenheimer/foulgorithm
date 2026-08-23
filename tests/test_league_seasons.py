@@ -80,3 +80,16 @@ class TestProvenance:
         """A file of nothing is indistinguishable from a season we never tried."""
         assert ls.write_season(tmp_path, "2005/06", 1, [], ("fouls",)) is None
         assert list(tmp_path.glob("*.json")) == []
+
+
+class TestSeasonLabels:
+    """The current season is labelled in full and every other one is not."""
+
+    def test_a_four_digit_end_year_is_shortened(self):
+        assert ls._short("2026/2027") == "2026/27"
+
+    def test_an_already_short_label_is_untouched(self):
+        assert ls._short("2024/25") == "2024/25"
+
+    def test_something_unexpected_is_left_alone(self):
+        assert ls._short("weird") == "weird"

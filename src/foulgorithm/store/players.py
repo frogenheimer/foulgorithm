@@ -66,6 +66,41 @@ def fetch_worldfootballr(cache: Path = WFR_CACHE) -> Path:
     return cache
 
 
+def load_all_leagues(codes: tuple[str, ...] | None = None) -> pd.DataFrame:
+    """Every league we hold a file for, in one frame, each row carrying its league.
+
+    **Additive on purpose.** `load_player_matches()` is what every model reads
+    and it still returns England alone, unchanged. Pooling is a modelling
+    decision that belongs to roadmap item 8, not to a loader.
+
+    The league column is not decoration. Serie A runs 1.197 fouls per 90 against
+    England's 0.972, a 23% gap, while England's own eight-season spread is about
+    9%. A pooled frame without it would overstate every Italian player by a
+    fifth, silently. Anything fitting on this frame has to model the league.
+
+    A league whose file is not on disk is simply absent. No empty rows, no
+    placeholder: a league we do not hold and a league with no fouls have to look
+    different.
+    """
+    from foulgorithm.sources import leagues as league_source
+
+    wanted = codes or tuple(league_source.LEAGUES)
+    frames = []
+    for code in wanted:
+        path = league_source.path_for(code)
+        if not path.exists():
+            continue
+        frame = load_player_matches(path)
+        frame["league"] = code
+        frames.append(frame)
+
+    if not frames:
+        raise SourceError(
+            "no league files on disk. Run `make leagues` to download them."
+        )
+    return pd.concat(frames, ignore_index=True)
+
+
 def load_player_matches(cache: Path = WFR_CACHE) -> pd.DataFrame:
     path = fetch_worldfootballr(cache)
     raw = pd.read_csv(path, low_memory=False)

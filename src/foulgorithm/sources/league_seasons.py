@@ -84,6 +84,15 @@ def source_url(stat: str, season_id: int) -> str:
     )
 
 
+def _short(label: str) -> str:
+    """"2026/2027" to "2026/27", matching how every other season is written."""
+    if "/" in label:
+        start, _, end = label.partition("/")
+        if len(end) == 4:
+            return f"{start}/{end[2:]}"
+    return label
+
+
 def seasons() -> list[tuple[str, int]]:
     """Every season the league exposes, newest first, label and id."""
     payload = pulselive._get(
@@ -95,8 +104,10 @@ def seasons() -> list[tuple[str, int]]:
         if label and "/" in label:
             out.append((label, int(row["id"])))
         elif label and "Season" in label:
-            # The current season is labelled in full: "... Season 2026/2027".
-            out.append((label.split()[-1], int(row["id"])))
+            # The current season is labelled in full, "... Season 2026/2027",
+            # while every other season reads "2024/25". Normalised here so one
+            # season does not sort and group differently from the other twenty.
+            out.append((_short(label.split()[-1]), int(row["id"])))
     return out
 
 

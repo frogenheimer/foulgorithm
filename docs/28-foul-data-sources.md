@@ -276,6 +276,56 @@ Worth stating explicitly: the blocker is not that these sources lack the data or
 that finding them is hard. Every live player-level foul source found is either
 behind a bot wall or behind a paid account. That is the actual constraint.
 
+## 🧮 What was actually fetched, and the two offsets that came with it
+
+**Fetched 2026-08-24.** Both sets are on disk with provenance.
+
+| Set | Size | Span |
+|---|---|---|
+| Player-matches, six leagues | **485,569 rows, 8,968 players** | 2017 to Sep 2025 |
+| Player-seasons, league API | **13,419 rows, 3,916 players, 49 columns** | 2001/02 to 2026/27 |
+
+Player-matches by league, and the reason a league column is mandatory:
+
+| League | Rows | Players | Fouls/90 | vs England |
+|---|---|---|---|---|
+| **England** | 81,327 | 1,671 | **0.972** | — |
+| USA | 90,080 | 1,907 | 1.092 | +12% |
+| Germany | 69,668 | 1,568 | 1.100 | +13% |
+| France | 79,419 | 2,005 | 1.153 | +19% |
+| Italy | 77,735 | 1,820 | 1.197 | +23% |
+| Spain | 87,340 | 1,838 | 1.211 | **+25%** |
+
+**England is the outlier, not the yardstick.** Every other league sits 12 to 25
+percent above it. Pooling without a fitted league term would not shade the
+numbers, it would move them a fifth of the way to somewhere else.
+
+Season coverage from the league API is essentially total: 2006/07 to 2025/26,
+around 460 to 500 players with fouls each year, and about 750,000 minutes
+against a theoretical maximum of 752,400. Seasons before 2006/07 carry minutes
+and appearances but no fouls, which is why they are on disk and why they cannot
+be used for this.
+
+### The provider offset, measured rather than assumed
+
+Roadmap item 9 warns that the league API and the FBref archive count fouls
+differently and that the offset must be measured before mixing them. Same
+competition, same seasons, England only:
+
+| Season | League API | Archive | Gap |
+|---|---|---|---|
+| 2017/18 | 0.985 | 0.943 | +4.5% |
+| 2019/20 | 1.039 | 0.977 | +6.4% |
+| 2021/22 | 0.965 | 0.933 | +3.4% |
+| 2023/24 | 1.056 | 1.008 | +4.8% |
+| 2024/25 | 1.058 | 1.018 | +4.0% |
+
+**The league API reads about 4.6% higher, every season, never once lower.** The
+two track the same year-to-year movement, so this is a definitional difference
+between providers rather than an error in either. Anything that mixes them has
+to carry this term, and anything that swaps one for the other silently will move
+every published number by roughly five percent for no stated reason.
+
 ## 📊 The number that decides how leagues can be used
 
 Fouls committed per 90, all seasons:
