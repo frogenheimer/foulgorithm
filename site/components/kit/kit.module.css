@@ -268,3 +268,57 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.55; }
 }
+
+/* ---------- callout ---------- */
+
+/* One thing the reader must know before the rest. Used sparingly: a page with
+   three callouts has none. */
+.callout {
+  border-left: 3px solid var(--c1);
+  padding: var(--s1) 0 var(--s1) var(--s4);
+  max-width: var(--w-prose);
+  font-size: var(--t-md);
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.callout strong {
+  color: var(--ink);
+}
+
+.standalone {
+  margin: 0;
+  max-width: var(--w-prose);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+
+/* ---------- prose ---------- */
+
+/* A run of sentences rather than data. Constrained to a reading width, because
+   a 1240px line of text is unreadable however good the type is. */
+.prose {
+  display: grid;
+  gap: var(--s3);
+  max-width: var(--w-prose);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  line-height: 1.7;
+}
+
+.prose strong {
+  color: var(--ink);
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose ul {
+  display: grid;
+  gap: var(--s2);
+  padding-left: var(--s5);
+}

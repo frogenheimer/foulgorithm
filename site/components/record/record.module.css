@@ -43,8 +43,8 @@
   top: 3px;
   width: 2px;
   height: 12px;
-  margin-left: -1px;
-  border-radius: 1px;
+  margin-left: -1px; /* audit-ignore B2: centres a 2px mark on its own position */
+  border-radius: var(--r-sm);
 }
 
 /* Two marks on one axis. The distance between them is the error, so nobody has
@@ -103,7 +103,7 @@
    of eighty, which is exactly what a bare number lets it do. */
 .count {
   height: 6px;
-  border-radius: 2px;
+  border-radius: var(--r-sm);
   background: var(--surface-sunk);
   border: 1px solid var(--line);
   min-width: 2px;

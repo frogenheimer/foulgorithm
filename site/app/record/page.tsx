@@ -1,5 +1,5 @@
 import Reliability from "@/components/record/Reliability";
-import { Callout, Card, StatTile, TileGrid } from "@/components/ui";
+import { Callout, Card, Metric, MetricRow } from "@/components/kit";
 import { getTrackRecord } from "@/lib/data";
 import styles from "../round.module.css";
 import t from "./record.module.css";
@@ -49,25 +49,25 @@ export default function Record() {
       </section>
 
       <section>
-        <TileGrid>
-          <StatTile
+        <MetricRow>
+          <Metric
             label="Claims graded"
             value={String(d.gradedClaims)}
-            tone="series1"
+            tone={1}
             note={`${d.withoutOutcome} had no outcome to settle against`}
           />
-          <StatTile
+          <Metric
             label="We said"
             value={pct(house.claimed)}
-            tone="series2"
+            tone={2}
             note="average probability across every claim"
           />
-          <StatTile
+          <Metric
             label="It happened"
             value={pct(house.actual)}
             note={`${signed(house.gap)} against what we said`}
           />
-        </TileGrid>
+        </MetricRow>
       </section>
 
       {thin > 0 && (
@@ -82,7 +82,7 @@ export default function Record() {
       <Card
         title="By model"
         subtitle="Claimed against actual is the honest column. A hit rate alone can hide a model that is confidently wrong."
-        padded={false}
+        flush
       >
         <div className={t.scroller}>
           <table className={t.table}>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Portrait, { CHARACTER_COLOUR } from "@/components/characters/Portrait";
-import { Callout, Card, SectionHead } from "@/components/ui";
+import { Callout, Card, SectionHead } from "@/components/kit";
 import { getCharacters } from "@/lib/data";
 import { count, fouls, kickoff, odds, pct } from "@/lib/format";
 import c from "../characters.module.css";
@@ -69,7 +69,7 @@ export default async function CharacterPage({ params }: { params: Promise<{ id: 
           Every fixture as {ch.name} sees it, against what the five agree on average. A gap is him
           backing his temperament against the room.
         </SectionHead>
-        <Card padded={false}>
+        <Card flush>
           <div className="scroll-x">
             <table className={c.table}>
               <thead>

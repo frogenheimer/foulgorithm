@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Portrait, { CHARACTER_COLOUR } from "@/components/characters/Portrait";
-import { Callout, Card, SectionHead } from "@/components/ui";
+import { Callout, Card, SectionHead } from "@/components/kit";
 import { getCharacters } from "@/lib/data";
 import { count, fouls } from "@/lib/format";
 import styles from "../round.module.css";
@@ -59,7 +59,7 @@ export default function Characters() {
           uninformative and disagreement is the whole point. Spread is the gap between the highest
           and lowest expected total.
         </SectionHead>
-        <Card padded={false}>
+        <Card flush>
           <div className="scroll-x">
             <table className={c.table}>
               <thead>

@@ -6,14 +6,14 @@
   padding-bottom: var(--s3); margin-bottom: var(--s2);
   border-bottom: 1px solid var(--line);
 }
-.team { font-family: var(--font-mono); font-size: 15px; font-weight: 620; }
+.team { font-family: var(--font-mono); font-size: var(--t-md); font-weight: 620; }
 .away { text-align: right; }
 .vs {
   font-size: var(--t-xs); text-transform: uppercase;
   letter-spacing: 0.1em; color: var(--ink-3);
 }
 
-.rows { display: grid; gap: 2px; }
+.rows { display: grid; gap: var(--s1); }
 
 .row {
   display: grid; grid-template-columns: 62px 1fr 62px;
@@ -22,7 +22,7 @@
 }
 
 .value {
-  font-size: 15px; font-variant-numeric: tabular-nums;
+  font-size: var(--t-md); font-variant-numeric: tabular-nums;
   color: var(--ink-2);
 }
 .alignRight { text-align: right; }
@@ -32,14 +32,14 @@
 .middle { min-width: 0; }
 .label {
   font-size: var(--t-sm); color: var(--ink-3);
-  text-align: center; margin-bottom: 4px;
+  text-align: center; margin-bottom: var(--s1);
 }
 
 /* Both halves the same hue. A red-versus-green split would read as
    good-versus-bad, and more fouls is neither. */
-.bar { display: flex; gap: 2px; height: 6px; }
+.bar { display: flex; gap: var(--s1); height: 6px; }
 .left, .right {
-  background: var(--seq-3); border-radius: 3px; min-width: 2px;
+  background: var(--seq-3); border-radius: var(--r-sm); min-width: 2px;
   transition: width var(--d-base) var(--ease);
 }
 .right { background: var(--seq-2); }

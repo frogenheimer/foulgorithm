@@ -47,7 +47,7 @@
 }
 
 .tagline {
-  font-size: 14px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
   font-style: italic;
   margin-top: var(--s4);
@@ -70,9 +70,9 @@
 }
 
 .spec dd {
-  font-size: 14px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
-  margin-top: 2px;
+  margin-top: var(--s1);
 }
 
 .weakness {
@@ -84,7 +84,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: var(--t-sm);
   font-variant-numeric: tabular-nums;
 }
 
@@ -134,7 +134,7 @@
 .swatch {
   width: 9px;
   height: 9px;
-  border-radius: 2px;
+  border-radius: var(--r-sm);
   display: inline-block;
 }
 
@@ -198,7 +198,7 @@
 }
 
 .traitBody {
-  font-size: 14px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
   margin-top: var(--s2);
   line-height: 1.5;
@@ -206,7 +206,7 @@
 
 .back {
   display: inline-block;
-  font-size: 14px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
   margin-bottom: var(--s4);
 }

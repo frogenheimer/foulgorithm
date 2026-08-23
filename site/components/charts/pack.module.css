@@ -8,8 +8,8 @@
   height: auto;
   max-width: none;
 }
-.tick { font-size: 11.5px; fill: var(--ink-3); }
+.tick { font-size: var(--t-xs); fill: var(--ink-3); }
 .value {
-  font-size: 11.5px; fill: var(--ink-2);
+  font-size: var(--t-xs); fill: var(--ink-2);
   font-variant-numeric: tabular-nums;
 }

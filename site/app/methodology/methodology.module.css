@@ -28,7 +28,7 @@
   top: 0.62em;
   width: 6px;
   height: 6px;
-  border-radius: 2px;
+  border-radius: var(--r-sm);
   background: var(--c1);
 }
 
@@ -63,7 +63,7 @@
 }
 
 .spec dd {
-  font-size: 14px;
+  font-size: var(--t-sm);
   color: var(--ink);
   text-align: right;
   font-variant-numeric: tabular-nums;

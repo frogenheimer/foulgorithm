@@ -5,10 +5,10 @@
   gap: var(--s4); flex-wrap: wrap; margin-bottom: var(--s4);
 }
 
-.tabs { display: flex; gap: 2px; background: var(--surface-sunk); border-radius: var(--r-md); padding: 3px; }
+.tabs { display: flex; gap: var(--s1); background: var(--surface-sunk); border-radius: var(--r-md); padding: var(--s1); }
 
 .tab, .tabOn {
-  font-size: 14px; padding: var(--s2) var(--s4); border-radius: var(--r-sm);
+  font-size: var(--t-sm); padding: var(--s2) var(--s4); border-radius: var(--r-sm);
   color: var(--ink-2); transition: background var(--d-fast) var(--ease), color var(--d-fast) var(--ease);
   min-height: 34px;
 }
@@ -16,7 +16,7 @@
 .tabOn { background: var(--surface); color: var(--ink); font-weight: 560; }
 
 .search {
-  font: inherit; font-size: 14px; padding: var(--s2) var(--s3);
+  font: inherit; font-size: var(--t-sm); padding: var(--s2) var(--s3);
   background: var(--surface-sunk); color: var(--ink);
   border: 1px solid var(--line); border-radius: var(--r-sm);
   min-width: 180px; min-height: 34px;
@@ -41,10 +41,10 @@
 .ticketTarget { font-size: var(--t-xl); font-weight: 640; letter-spacing: -0.02em; }
 .ticketShape { font-size: var(--t-sm); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
-.ticketLegs { list-style: none; margin: var(--s3) 0; font-size: 14px; }
+.ticketLegs { list-style: none; margin: var(--s3) 0; font-size: var(--t-sm); }
 .ticketLegs li {
   display: flex; justify-content: space-between; gap: var(--s2);
-  padding: 2px 0; color: var(--ink-2);
+  padding: var(--s1) 0; color: var(--ink-2);
 }
 .legLine { color: var(--ink); font-variant-numeric: tabular-nums; }
 
@@ -53,7 +53,7 @@
   padding-top: var(--s2); border-top: 1px solid var(--line);
   font-variant-numeric: tabular-nums;
 }
-.ticketFoot strong { color: var(--ink); font-size: 15px; }
+.ticketFoot strong { color: var(--ink); font-size: var(--t-md); }
 
 .ticketNote { font-size: var(--t-sm); color: var(--ink-3); margin-top: var(--s3); max-width: 72ch; }
 
@@ -68,9 +68,9 @@
 }
 .count { color: var(--ink-3); font-weight: 400; }
 
-.table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+.table { width: 100%; border-collapse: collapse; font-size: var(--t-sm); font-variant-numeric: tabular-nums; }
 .table th, .table td {
-  text-align: left; padding: 5px var(--s2);
+  text-align: left; padding: var(--s1) var(--s2);
   border-bottom: 1px solid var(--line); white-space: nowrap;
 }
 .table th { font-size: var(--t-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); font-weight: 600; padding: 0; }
@@ -82,7 +82,7 @@
   color: var(--ink-3); padding: var(--s2); width: 100%; text-align: inherit;
 }
 .sort:hover { color: var(--ink); }
-.sortOn { color: var(--ink); font-weight: 700; }
+.sortOn { color: var(--ink); font-weight: 600; }
 
 .num { text-align: right; }
 .thinRow td { color: var(--ink-3); }

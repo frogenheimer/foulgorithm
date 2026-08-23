@@ -1,7 +1,7 @@
 import DistributionChart from "@/components/charts/DistributionChart";
 import DotPlot from "@/components/charts/DotPlot";
 import TrendChart from "@/components/charts/TrendChart";
-import { Callout, Card, SectionHead, StatTile, TileGrid } from "@/components/ui";
+import { Callout, Card, SectionHead, Metric, MetricRow } from "@/components/kit";
 import { getOverview } from "@/lib/data";
 import { count, fouls, shortDate, signedPct } from "@/lib/format";
 import styles from "../round.module.css";
@@ -30,21 +30,21 @@ export default function History() {
       </section>
 
       <section>
-        <TileGrid>
-          <StatTile
+        <MetricRow>
+          <Metric
             label="Fouls per match now"
             value={String(h.foulsPerMatchNow)}
-            tone="series1"
+            tone={1}
             note={`${signedPct(h.changePct)} since ${d.coverage.firstSeason}`}
           />
-          <StatTile
+          <Metric
             label="Cards per match now"
             value={String(cardsNow)}
-            tone="series2"
+            tone={2}
             note={`${signedPct(cardsChange)} since ${d.coverage.firstSeason}`}
           />
-          <StatTile label="Matches analysed" value={count(d.coverage.matches)} note={`${d.coverage.seasons} seasons`} />
-          <StatTile
+          <Metric label="Matches analysed" value={count(d.coverage.matches)} note={`${d.coverage.seasons} seasons`} />
+          <Metric
             label="Away yellow penalty"
             value={signedPct(
               ((d.homeAway.awayYellows - d.homeAway.homeYellows) / d.homeAway.homeYellows) * 100,
@@ -52,7 +52,7 @@ export default function History() {
             )}
             note={`${d.homeAway.awayYellows} away vs ${d.homeAway.homeYellows} home`}
           />
-        </TileGrid>
+        </MetricRow>
       </section>
 
       <section>
@@ -111,7 +111,7 @@ export default function History() {
           behaviours, not one number: defenders and holding midfielders commit fouls, while dribblers
           and forwards draw them.
         </SectionHead>
-        <Card padded={false}>
+        <Card flush>
           <div className="scroll-x">
             <table className={tableStyles.table}>
               <thead>

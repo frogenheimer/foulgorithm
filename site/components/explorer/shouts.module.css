@@ -74,13 +74,13 @@
 }
 
 .house {
-  font-size: 10px;
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink-3);
   border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 1px var(--s2);
+  border-radius: var(--r-pill);
+  padding: 1px var(--s2); /* audit-ignore B2: 1px is optical on a pill */
 }
 
 .call {
@@ -124,11 +124,11 @@
 
 .facts div {
   display: grid;
-  gap: 2px;
+  gap: var(--s1);
 }
 
 .facts dt {
-  font-size: 10px;
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink-3);

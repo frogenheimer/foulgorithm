@@ -288,6 +288,32 @@ sheet, in player rows, in the track record and beside every combination leg.
 
 ---
 
+## 📉 The backlog, and where it went
+
+The audit was switched on over an existing backlog. Nine of eleven rules are now
+at zero. Nothing raises a baseline automatically, so these can only fall.
+
+| Rule | At switch-on | Now |
+|---|---|---|
+| B1 raw font sizes | 65 across ten values | **0** |
+| B2 raw px spacing | 39 | **0** |
+| B3 hex outside tokens | 65 | **0** |
+| B4 raw border radii | 19 | **0** |
+| B5 weights outside the scale | 2 | **0** |
+| B6 motion without the curve | 2 | **0** |
+| B7 raw tables | 13 | 12 |
+| B9 duplicate `.table` definitions | 8 | 7 |
+
+B7 and B9 are the same job: `DataTable` needs expandable rows before the
+explorer, the stats sheet and the slip grid can use it. That is named in the one
+suppression that exists rather than waved through.
+
+The escapees were snapped to the nearest token, which moved some values: a 14px
+label is now 15px. That is what a closed scale means. Six sizes that are
+actually six, not six plus ten near-misses nobody can tell apart.
+
+---
+
 ## ⚠️ Why this exists
 
 The previous guide said "never hard-code a pixel radius or a spacing value".

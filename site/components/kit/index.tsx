@@ -22,11 +22,21 @@ export function PageHeader({ title, lede }: { title: string; lede?: ReactNode })
   );
 }
 
-export function SectionHead({ title, note }: { title: string; note?: ReactNode }) {
+export function SectionHead({
+  title,
+  note,
+  children,
+}: {
+  title: string;
+  note?: ReactNode;
+  /** Alias for `note`, so a heading and its explanation can be written inline. */
+  children?: ReactNode;
+}) {
+  const body = note ?? children;
   return (
     <div className={s.section}>
       <h2 className={s.h2}>{title}</h2>
-      {note && <p className={s.note}>{note}</p>}
+      {body && <p className={s.note}>{body}</p>}
     </div>
   );
 }
@@ -223,6 +233,28 @@ export function Dots({
       ))}
     </span>
   );
+}
+
+/* ---------- callout and prose ---------- */
+
+/** One thing the reader must know first. A page with three of these has none. */
+export function Callout({ children }: { children: ReactNode }) {
+  return <aside className={s.callout}>{children}</aside>;
+}
+
+/** A quiet standalone line. Caveats, sample-size notes, sourcing. */
+export function Note({ children }: { children: ReactNode }) {
+  return <p className={s.standalone}>{children}</p>;
+}
+
+/**
+ * A run of sentences rather than data.
+ *
+ * Constrained to a reading width: a 1240px line of text is unreadable however
+ * good the type is, and most of this site's credibility lives in its prose.
+ */
+export function Prose({ children }: { children: ReactNode }) {
+  return <div className={s.prose}>{children}</div>;
 }
 
 /* ---------- badge ---------- */

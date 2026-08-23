@@ -1,5 +1,5 @@
 import Table from "@/components/referees/Table";
-import { Callout, StatTile, TileGrid } from "@/components/ui";
+import { Callout, Metric, MetricRow } from "@/components/kit";
 import { getOverview } from "@/lib/data";
 import s from "../round.module.css";
 
@@ -35,25 +35,25 @@ export default function Referees() {
       </Callout>
 
       <section>
-        <TileGrid>
-          <StatTile
+        <MetricRow>
+          <Metric
             label="League average"
             value={mean.toFixed(1)}
-            tone="series1"
+            tone={1}
             note="fouls per match across every referee here"
           />
-          <StatTile
+          <Metric
             label="Widest spread"
             value={`${spread.toFixed(1)} fouls`}
-            tone="series2"
+            tone={2}
             note={`${busiest.referee} down to ${refs[refs.length - 1].referee}`}
           />
-          <StatTile
+          <Metric
             label="Quickest to book"
             value={strictest?.cardsPerFoul ? `${(strictest.cardsPerFoul * 100).toFixed(1)}%` : "—"}
             note={strictest ? `${strictest.referee}, share of fouls that draw a card` : undefined}
           />
-        </TileGrid>
+        </MetricRow>
       </section>
 
       <Table rows={refs} appointments={d.appointments} />

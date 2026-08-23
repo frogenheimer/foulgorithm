@@ -1,4 +1,4 @@
-import { Callout, Card, SectionHead } from "@/components/ui";
+import { Callout, Card, SectionHead } from "@/components/kit";
 import { getRound } from "@/lib/data";
 import { count } from "@/lib/format";
 import styles from "../round.module.css";

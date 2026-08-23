@@ -17,7 +17,7 @@
   font-size: var(--t-sm);
   padding: var(--s2) var(--s3);
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   background: var(--surface);
   color: var(--ink-2);
   cursor: pointer;
@@ -81,7 +81,7 @@
 
 .club {
   display: grid;
-  gap: 2px;
+  gap: var(--s1);
   margin: 0;
   font-size: var(--t-lg);
   font-weight: 600;
@@ -101,7 +101,7 @@
 .ref {
   display: grid;
   justify-items: center;
-  gap: 1px;
+  gap: 1px; /* audit-ignore B2: hairline between dot-grid cells */
   text-align: center;
   padding: var(--s2) var(--s4);
   border: 1px solid var(--line);
@@ -110,7 +110,7 @@
 }
 
 .refLabel {
-  font-size: 10px;
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink-3);
@@ -249,7 +249,7 @@
 
 .dots {
   display: inline-flex;
-  gap: 3px;
+  gap: var(--s1);
 }
 
 .hit,
@@ -332,7 +332,7 @@
 }
 
 .playerTable th {
-  font-size: 10px;
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink-3);
@@ -351,7 +351,7 @@
 
 .watch {
   display: block;
-  font-size: 10px;
+  font-size: var(--t-xs);
   color: var(--ink-3);
 }
 

@@ -1,6 +1,6 @@
 import Explorer from "@/components/explorer/Explorer";
 import GameShouts from "@/components/explorer/GameShouts";
-import { Callout } from "@/components/ui";
+import { Callout } from "@/components/kit";
 import { getExplorer, getPlayers } from "@/lib/data";
 import s from "../round.module.css";
 

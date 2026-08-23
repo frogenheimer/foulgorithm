@@ -36,7 +36,7 @@
 }
 
 .sub {
-  font-size: 14px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
   margin-top: var(--s4);
 }
@@ -48,7 +48,7 @@
 }
 
 .note {
-  font-size: 14px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
   margin-top: var(--s2);
   margin-bottom: var(--s5);
@@ -80,7 +80,7 @@
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .leader {
-      animation: rise linear both;
+      animation: rise var(--ease) both;
       animation-timeline: view();
       animation-range: entry 0% entry 30%;
     }
@@ -111,7 +111,7 @@
 }
 
 .name {
-  font-size: 16px;
+  font-size: var(--t-md);
   font-weight: 560;
   letter-spacing: -0.01em;
 }
@@ -119,7 +119,7 @@
 .meta {
   font-size: var(--t-sm);
   color: var(--ink-3);
-  margin-top: 2px;
+  margin-top: var(--s1);
   /* One line, always. Larger type made two rows wrap, which broke the vertical
      rhythm and made the list look misaligned rather than spacious. */
   white-space: nowrap;
@@ -137,7 +137,7 @@
 .dots {
   display: grid;
   grid-template-columns: repeat(10, 6px);
-  gap: 3px;
+  gap: var(--s1);
 }
 
 .dotOn,
@@ -157,7 +157,7 @@
 }
 
 .freqText {
-  font-size: 14px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -165,11 +165,11 @@
 
 .freqText strong {
   color: var(--ink);
-  font-size: 16px;
+  font-size: var(--t-md);
 }
 
 .bandCol {
-  font-size: 14px;
+  font-size: var(--t-sm);
   color: var(--ink-2);
   white-space: nowrap;
   text-align: right;
@@ -177,7 +177,7 @@
 
 .floorCol {
   color: var(--accent);
-  font-size: 16px;
+  font-size: var(--t-md);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   text-align: right;
@@ -263,7 +263,7 @@
 }
 
 .charStats dd {
-  font-size: 15px;
+  font-size: var(--t-md);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -276,7 +276,7 @@
 .pick {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 2px var(--s3);
+  gap: var(--s1) var(--s3);
   padding: var(--s3) 0;
   border-bottom: 1px solid var(--line);
 }
@@ -286,7 +286,7 @@
 }
 
 .pickPlayer {
-  font-size: 14px;
+  font-size: var(--t-sm);
   font-weight: 540;
   display: flex;
   align-items: center;
@@ -295,13 +295,13 @@
 }
 
 .thin {
-  font-size: 9px;
+  font-size: var(--t-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--ink-3);
   border: 1px solid var(--line);
-  border-radius: 3px;
-  padding: 0 4px;
+  border-radius: var(--r-sm);
+  padding: 0 var(--s1);
 }
 
 .pickMarket {
@@ -311,7 +311,7 @@
 }
 
 .pickProb {
-  font-size: 14px;
+  font-size: var(--t-sm);
   font-variant-numeric: tabular-nums;
   text-align: right;
   grid-row: 1;
@@ -344,7 +344,7 @@
   cursor: pointer;
   list-style: none;
   min-height: 48px;
-  font-size: 15px;
+  font-size: var(--t-md);
 }
 
 .summary::-webkit-details-marker,
@@ -358,7 +358,7 @@
   display: inline-block;
   color: var(--ink-3);
   transition: transform var(--d-fast) var(--ease);
-  font-size: 18px;
+  font-size: var(--t-lg);
   line-height: 1;
 }
 
@@ -399,14 +399,14 @@ details[open] > summary .chev {
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: var(--t-sm);
   font-variant-numeric: tabular-nums;
 }
 
 .table th,
 .table td {
   text-align: left;
-  padding: 5px var(--s2);
+  padding: var(--s1) var(--s2);
   border-bottom: 1px solid var(--line);
   white-space: nowrap;
 }
@@ -441,7 +441,7 @@ details[open] > summary .chev {
 .machineryBody {
   max-width: 68ch;
   color: var(--ink-2);
-  font-size: 14px;
+  font-size: var(--t-sm);
   padding: 0 var(--s4) var(--s4);
 }
 
@@ -457,7 +457,7 @@ details[open] > summary .chev {
 
 .outBand {
   color: var(--ink-3);
-  margin-left: 2px;
+  margin-left: var(--s1);
 }
 
 .confirmed {
@@ -467,8 +467,8 @@ details[open] > summary .chev {
   letter-spacing: 0.06em;
   color: var(--c1);
   border: 1px solid var(--c1);
-  border-radius: 3px;
-  padding: 1px 5px;
+  border-radius: var(--r-sm);
+  padding: 1px var(--s1); /* audit-ignore B2: 1px is optical on a pill, not a layout step */
   margin-right: var(--s3);
   vertical-align: middle;
 }
@@ -489,20 +489,20 @@ details[open] > summary .chev {
 .tierSummary::-webkit-details-marker { display: none; }
 
 .tierTarget {
-  font-family: var(--font-mono); font-size: 15px; font-weight: 640;
+  font-family: var(--font-mono); font-size: var(--t-md); font-weight: 640;
   color: var(--accent); font-variant-numeric: tabular-nums;
 }
 .tierLegs { font-size: var(--t-sm); color: var(--ink-3); }
 .tierProb {
-  font-size: 14px; color: var(--ink-2);
+  font-size: var(--t-sm); color: var(--ink-2);
   font-variant-numeric: tabular-nums; text-align: right;
 }
 
-.tierBody { list-style: none; padding: 0 0 var(--s3) 26px; }
+.tierBody { list-style: none; padding: 0 0 var(--s3) var(--s6); }
 .tierBody li {
   display: grid; grid-template-columns: 1fr auto auto;
   gap: var(--s3); align-items: baseline;
-  padding: 3px 0; font-size: 14px;
+  padding: var(--s1) 0; font-size: var(--t-sm);
 }
 .legName { display: flex; align-items: center; gap: var(--s2); min-width: 0; }
 .legMarket { font-size: var(--t-sm); color: var(--ink-3); white-space: nowrap; }
