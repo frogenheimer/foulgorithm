@@ -137,6 +137,15 @@ def run(dry_run: bool = False) -> int:
     except Exception as exc:
         print(f"stats sheet not refreshed: {exc}", file=sys.stderr)
 
+    # Results land here: scores and the league's own team foul counts, which is
+    # what the season timeline shows for a match that has been played.
+    try:
+        from foulgorithm.publish import season
+
+        season.publish()
+    except Exception as exc:
+        print(f"season timeline not refreshed: {exc}", file=sys.stderr)
+
     TRACK_RECORD.parent.mkdir(parents=True, exist_ok=True)
     TRACK_RECORD.write_text(
         json.dumps(

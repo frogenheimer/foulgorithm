@@ -68,6 +68,15 @@ def run(force: bool = False) -> int:
         matchday.publish()
     except Exception as exc:
         print(f"stats sheet not refreshed: {exc}", file=sys.stderr)
+
+    # Results land here: scores and the league's own team foul counts, which is
+    # what the season timeline shows for a match that has been played.
+    try:
+        from foulgorithm.publish import season
+
+        season.publish()
+    except Exception as exc:
+        print(f"season timeline not refreshed: {exc}", file=sys.stderr)
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(
         json.dumps(

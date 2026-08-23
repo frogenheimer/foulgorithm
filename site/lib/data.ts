@@ -465,3 +465,29 @@ export type Matchday = {
 };
 
 export const getMatchday = () => read<Matchday>("matchday.json");
+
+/* ---------- the season ---------- */
+
+export type TeamResult = { fouls?: number; won?: number; cards?: number };
+
+export type SeasonFixture = {
+  matchweek: number;
+  home: string;
+  away: string;
+  kickoff: string;
+  /** "U" upcoming, "L" live, "C" complete, from the league's own feed. */
+  status: string;
+  referee: string | null;
+  score?: [number, number];
+  /** What actually happened. Team-level, from the league, not an estimate. */
+  result?: { home?: TeamResult; away?: TeamResult };
+};
+
+export type Season = {
+  generatedAt: string;
+  matchweeks: number[];
+  currentMatchweek: number;
+  fixtures: SeasonFixture[];
+};
+
+export const getSeason = () => read<Season>("season.json");

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Timeline from "@/components/fixture/Timeline";
 import { Card, Metric, MetricRow, PageHeader, SectionHead } from "@/components/kit";
-import { getPlayers, getTrackRecord } from "@/lib/data";
+import { getPlayers, getSeason, getTrackRecord } from "@/lib/data";
 import { count } from "@/lib/format";
 
 export default function Today() {
   const d = getPlayers();
   const record = getTrackRecord();
+  const season = getSeason();
   const t = d.trainedOn;
   const lead = d.topFoulers[0];
 
@@ -45,7 +46,13 @@ export default function Today() {
       />
 
       <section>
-        <Timeline fixtures={d.board} expected={expected} />
+        <Timeline
+          fixtures={season.fixtures}
+          matchweeks={season.matchweeks}
+          currentMatchweek={season.currentMatchweek}
+          expected={expected}
+          hasPage={new Set(Object.keys(d.fixtureSlips))}
+        />
       </section>
 
       <section>

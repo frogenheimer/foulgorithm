@@ -194,3 +194,75 @@
     padding-left: var(--s6);
   }
 }
+
+/* ---------- matchweek picker ---------- */
+
+.picker {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+  margin-bottom: var(--s6);
+}
+
+.weeks {
+  display: flex;
+  gap: var(--s1);
+  overflow-x: auto;
+  min-width: 0;
+  padding-bottom: var(--s1);
+  scrollbar-width: thin;
+}
+
+.week,
+.weekOn {
+  flex-shrink: 0;
+  padding: var(--s1) var(--s3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  font-size: var(--t-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.week:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.weekOn {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---------- result on a played card ---------- */
+
+.result {
+  display: grid;
+  gap: var(--s1);
+  padding-top: var(--s2);
+}
+
+.scoreline {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--t-lg);
+  color: var(--ink);
+}
+
+.stats {
+  display: flex;
+  gap: var(--s3);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.statValue {
+  color: var(--ink-2);
+}
