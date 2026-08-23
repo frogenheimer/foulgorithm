@@ -84,6 +84,20 @@ speed.
 **Simply:** the same idea we have now, but the maths decides how much to trust a
 small sample instead of us picking a number.
 
+**Changed by the 2026-08-24 data work.** Two things, both in its favour.
+
+The training set can now be **485,569 player-matches across six leagues rather
+than 81,327 in one**, which is the regime where a hierarchical model earns its
+fit time: the whole objection was cost against a thin sample, and the sample is
+no longer thin. It also gains a level, league above team, and
+`29-why-leagues-differ.md` says that level should be a single multiplicative
+intercept rather than a per-position interaction.
+
+Separately, the league API now supplies **twenty seasons of per-player season
+totals**, which is a natural prior for a player with little match history and a
+better one than his position's mean. A player with 200 league appearances and no
+rows in our match archive is currently treated as unknown; he is not.
+
 ### 3. Count-specific dispersion
 
 **Technical.** Replace the single global `dispersion_scale` with a fitted
@@ -206,6 +220,15 @@ discontinuity once the offset is applied.
 
 ### 9. Team-level features from the live match store
 
+> ✅ **The offset this item demanded be measured has now been measured.**
+> Same competition, same seasons, England only: the league API reads **3.4% to
+> 6.4% higher than the FBref archive, every season, never once lower**, averaging
+> about 4.6%. Both track identical year-to-year movement, so it is a definitional
+> difference between providers rather than an error in either. Any swap that does
+> not carry this term moves every published number by roughly five percent for no
+> stated reason. Full table in `28-foul-data-sources.md`.
+
+
 **Not yet built. Costs nothing and uses data already ingested.**
 
 `opponent_factor` and `refereeFactor` are currently computed from the player
@@ -237,9 +260,18 @@ which is coverage rather than method:
 
 0a. **Team features from the live match store** (9). Costs nothing, uses data
     already on disk, and makes two of three prediction inputs current again.
-0b. **Pool the other big-five leagues** (8). 5.5x the training data for five
-    downloads, and the only route to a decent prior for the third of the league
-    our archive has never seen.
+0b. **Pool the other big-five leagues** (8). The data is **now on disk**:
+    485,569 player-matches, 8,968 players, six leagues, fetched 2026-08-24. Its
+    value is quantified rather than assumed: of the 35 players the site
+    currently shows with no record at all, **16 already have one in the pooled
+    set**, including Oscar Mingueza at 128 matches in Spain and Borna Sosa at
+    110 in Germany. Those records are being thrown away every publish.
+
+0c. **A season-total prior for thin players** (new, from the same work). Twenty
+    seasons of official per-player totals, 2006/07 onward, free. A player with a
+    long career and no rows in our match archive is currently priced as his
+    position's average. This is the cheapest correction available to the largest
+    single input in a prediction.
 
 Every one goes through the same harness and has to beat the incumbent
 out-of-sample. Nothing ships on being more sophisticated.
