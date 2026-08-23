@@ -10,6 +10,45 @@ A prediction system without a feedback loop degrades silently. Sources change fo
 
 It is also the entire public credibility of the project. Publishing graded results every week, including the bad ones, is the difference between this and a tipster account that quietly deletes losing posts.
 
+## ⚠️ Settlement coverage depends on snapshot timing, and currently varies wildly
+
+**Measured 2026-08-24 against the league's own match totals.**
+
+| Fixture | Fouls we captured | Actual | Coverage |
+|---|---|---|---|
+| Arsenal v Coventry | 22 | 23 | **96%** |
+| Brentford v Tottenham | 28 | 31 | **90%** |
+| Hull v Man United | 17 | 19 | **89%** |
+| Everton v Crystal Palace | 3 | 20 | 15% |
+| Nott'm Forest v Leeds | 2 | 29 | 7% |
+| Ipswich v Sunderland | 0 | 26 | **0%** |
+
+**The mechanism is sound and the numbers it produces are right.** Arsenal v
+Coventry graded 22 players with a realistic spread and summed to within one foul
+of the truth. Nothing is fabricated: `per_match` excludes anyone whose
+appearances did not rise by exactly one, so a player who did not feature is
+absent rather than recorded as a zero.
+
+**What varies is how many players each run can see.** A player's fouls in one
+match are the difference between two season-total snapshots, and there is only
+ever one snapshot on disk, overwritten each run. If two matchweeks pass between
+runs, most players show two new appearances and are correctly skipped, so the
+fixture settles with a handful of players or none.
+
+So the fix is operational, not logical: **the settle job has to run after every
+round completes.** It has never done so reliably.
+
+Two consequences worth stating plainly:
+
+- **The published track record is computed on a biased sample.** Three fixtures
+  are represented at roughly 90% and three at under 15%, so any headline
+  accuracy figure currently over-weights the first three. It is not wrong so
+  much as not yet meaningful.
+- **A thin fixture reads as a bad one.** Ipswich v Sunderland graded five
+  players who genuinely committed no fouls, so thirty claims settled as losses.
+  Every one is correct, and together they say far less than thirty settled
+  claims normally would.
+
 ## Automated: the Monday job
 
 Runs Monday morning after the weekend's matches settle.
