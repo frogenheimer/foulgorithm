@@ -109,6 +109,11 @@ def download(code: str, root: Path = CACHE, force: bool = False) -> Path:
 
     path = path_for(code, root)
     if path.exists() and not force:
+        # A file already on disk still needs its provenance recorded. Returning
+        # early skipped it, so England, the one file that predated this module,
+        # was the only league with no record of where it came from. That is
+        # precisely the league whose staleness went unnoticed for eleven months.
+        _record_provenance(code, url_for(code), path, path.stat().st_size, root)
         return path
 
     root.mkdir(parents=True, exist_ok=True)

@@ -82,3 +82,28 @@ class TestNormalising:
     def test_a_missing_foul_count_stays_missing(self):
         row = leagues.normalise(self.raw(Fls=None), "ENG")
         assert row["fouls_committed"] is None
+
+
+class TestProvenanceIsAlwaysRecorded:
+    """A file already on disk still needs a record of where it came from.
+
+    Returning early skipped it, so England, the one file predating this module,
+    was the only league with no provenance. That is exactly the league whose
+    staleness went unnoticed for eleven months.
+    """
+
+    def test_an_existing_file_still_gets_a_manifest_entry(self, tmp_path):
+        import json
+
+        (tmp_path / "eng_misc_player_match.csv").write_text("Player,Fls\nA,1\n")
+        leagues.download("ENG", tmp_path)
+        held = json.loads((tmp_path / "manifest.json").read_text())
+        assert "ENG" in held
+        assert held["ENG"]["url"].startswith("https://")
+        assert held["ENG"]["fetchedAt"]
+
+    def test_it_does_not_redownload_what_is_there(self, tmp_path):
+        path = tmp_path / "eng_misc_player_match.csv"
+        path.write_text("original")
+        leagues.download("ENG", tmp_path)
+        assert path.read_text() == "original"
