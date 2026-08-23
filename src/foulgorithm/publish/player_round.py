@@ -1333,7 +1333,10 @@ def _formations(lineups: dict) -> dict:
     return out
 
 
-MIN_TOTAL_FOULS = 5
+# Six, not five. A five-foul ticket is usually four legs at 1+ plus one at 2+,
+# which is close enough to "several players will foul someone" to not be a call
+# at all. Six forces either a genuine 2+ opinion or a sixth player worth naming.
+MIN_TOTAL_FOULS = 6
 
 # A headline pick has to be worth reading. Ranking purely on distance from the
 # pack found a 22/1 combination at four in a hundred, which is a lottery ticket
@@ -1345,7 +1348,7 @@ MIN_PICK_PROBABILITY = 0.10
 def _best_pick(by_character: dict) -> dict | None:
     """One call per fixture, from whichever character makes the boldest case.
 
-    Constrained to combinations totalling at least five foul events, because a
+    Constrained to combinations totalling at least six foul events, because a
     two-leg ticket at even money is not what anyone opens a page like this for.
     Among those, the pick is the one furthest from what the other four say:
     a number everyone agrees on is a consensus, and gives no reason to prefer

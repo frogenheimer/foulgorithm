@@ -217,23 +217,42 @@ function Game({
           </div>
         </div>
       ) : pick && state === "upcoming" ? (
-        <div className={s.pick} style={{ ["--char" as string]: `var(--ch-${pick.character})` }}>
-          <span className={s.pickHead}>
+        // A disclosure rather than a run-on line. The legs used to be joined
+        // with dots into one wrapping sentence, which at four or five legs is a
+        // paragraph on a card that has room for a headline. Native <details>,
+        // so it costs no JavaScript in a static export and still works if the
+        // page never hydrates.
+        <details
+          className={s.pick}
+          style={{ ["--char" as string]: `var(--ch-${pick.character})` }}
+        >
+          <summary className={s.pickHead}>
             <span className={s.pickWho}>
               <span className={s.pickSwatch} aria-hidden />
               {pick.character}
             </span>
+            <span className={s.pickSummary}>
+              {pick.legs.length} legs &middot; {pick.totalFouls} fouls
+            </span>
             <span className={s.pickOdds}>{pick.odds.toFixed(2)}</span>
-          </span>
-          <span className={s.pickLegs}>
-            {pick.legs
-              .map((l) => `${l.player} ${l.fouls}+ ${l.market === "drawn" ? "won" : "fouls"}`)
-              .join(" · ")}
-          </span>
+          </summary>
+
+          <ul className={s.pickLegs}>
+            {pick.legs.map((l) => (
+              <li key={`${l.player}-${l.market}-${l.fouls}`} className={s.pickLeg}>
+                <span className={s.pickPlayer}>{l.player}</span>
+                <span className={s.pickWhat}>
+                  {l.fouls}+ {l.market === "drawn" ? "won" : "fouls"}
+                </span>
+                <span className={s.pickLegProb}>{l.outOf100}/100</span>
+              </li>
+            ))}
+          </ul>
+
           <span className={s.pickMeta}>
-            {pick.totalFouls} fouls · {pick.outOf100} in 100 · {linked ? "see all five" : ""}
+            {pick.outOf100}/100 all together{linked ? " · see all five" : ""}
           </span>
-        </div>
+        </details>
       ) : (
         <div className={s.foot}>
           {state === "live" ? (
