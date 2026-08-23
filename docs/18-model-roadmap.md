@@ -1,6 +1,7 @@
 # Model roadmap
 
-**Status: Decided and shipped, 2026-08-22.** (the answer stands; items 3 and 5 are next)
+**Status: Decided and shipped, 2026-08-22. Items 8 and 9 added 2026-08-24 after
+the data survey in `28-foul-data-sources.md`, and both come before the rest.**
 
 ## Are the current models machine learning?
 
@@ -145,6 +146,65 @@ framework already resembles without the fitted weights.
 
 ---
 
+### 8. Pool the other big-five leagues, with a league offset
+
+**Not yet built. The data is verified as obtainable and free.** See
+`28-foul-data-sources.md` for how it was checked.
+
+The same archive we already read holds `misc` files for Italy, Spain, Germany,
+France and the USA, identical schema, `Fls` and `Fld` per player per match. Six
+leagues together is roughly **450,000 player-matches against the 81,000 we use
+today**, for five downloads of about 40 MB.
+
+**Why it is not simply "more rows".** Serie A runs 0.972 against England's 1.197
+fouls per 90, a 23% gap, while England's own eight-season spread is about 9%. The
+league effect is more than twice the season effect, so concatenating the files
+would overstate every Italian player by roughly a fifth. Pooled with a fitted
+league intercept it is sound, and that is exactly the shape of the hierarchical
+model in item 2: league becomes another level above team and position.
+
+**What it buys, in order of value:**
+
+1. **Position and role priors estimated on 5.5x the data.** Every thin player is
+   shrunk toward a prior, so the prior's quality sets the floor for a third of
+   the league. This is the largest single win available without a paid source.
+2. **A record for players who arrived from abroad.** A summer signing from Serie
+   A currently has no history and is priced as a generic midfielder. With a
+   league offset his Italian record transfers, discounted rather than discarded.
+3. **Better dispersion and shrinkage constants**, currently hand-set, estimated
+   across far more players.
+4. **A test of whether foul propensity is a player trait or a league artefact.**
+   If a player's rank within his league survives a move, it is a trait, and that
+   is worth knowing before trusting any of the above.
+
+**What it does NOT buy: recency.** All six files froze on the same day in
+September 2025. This fixes volume, never staleness. Anyone reaching for it to
+solve the eleven-month gap has misread the problem.
+
+**Tests that decide it.** Held-out log loss on English players only, because
+that is what we publish. Pooling has to beat the England-only model on England,
+not merely fit more data. Two guards worth building at the same time: the league
+offsets should come out with Italy above England by something near the 23%
+measured here, and a player who moved leagues mid-history should not show a
+discontinuity once the offset is applied.
+
+### 9. Team-level features from the live match store
+
+**Not yet built. Costs nothing and uses data already ingested.**
+
+`opponent_factor` and `refereeFactor` are currently computed from the player
+history, which stops in September 2025. The same quantities are derivable from
+`store/matches.py`, which holds 9,880 matches back to 2000 and is **current
+through May 2026** with fouls on every one.
+
+Two of the three inputs to a player prediction would stop being stale. Only the
+player's own rate genuinely needs player-level data, which narrows the problem
+considerably and should be done before any purchase is considered.
+
+Care needed: the two sources count fouls differently enough to matter, since
+they were collected by different providers. The offset has to be measured before
+the swap, not assumed to be zero.
+
 ## Recommended order
 
 1. **Count-specific dispersion** (3). Small, fixes a known defect, no new data.
@@ -154,6 +214,16 @@ framework already resembles without the fitted weights.
 4. **Joint match model** (4). Makes combination tickets honest.
 5. **Gradient boosting** (1), as a challenger to see whether the hand-specified
    structure is leaving anything on the table.
+
+Two items were added after the August 2026 data survey and jump most of that
+queue, because both are free and both address the largest current weakness,
+which is coverage rather than method:
+
+0a. **Team features from the live match store** (9). Costs nothing, uses data
+    already on disk, and makes two of three prediction inputs current again.
+0b. **Pool the other big-five leagues** (8). 5.5x the training data for five
+    downloads, and the only route to a decent prior for the third of the league
+    our archive has never seen.
 
 Every one goes through the same harness and has to beat the incumbent
 out-of-sample. Nothing ships on being more sophisticated.
