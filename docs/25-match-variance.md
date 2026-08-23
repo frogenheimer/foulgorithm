@@ -1,6 +1,12 @@
 # The match-level variance gap, and how to close it
 
-**Status: Diagnosed 2026-08-23, not built. This is a plan.**
+**Status: Measured 2026-08-23. The plan below is superseded by the measurement
+in the next section, which contradicts it. Kept because the reasoning is worth
+reading against the result.**
+
+> ⚠️ **Do not build step 1.** For the house model there is no missing shared
+> variance to add, and adding it would widen a total distribution that is
+> already slightly too wide.
 
 Raised from an observation on one Saturday: actual totals ran 19, 20, 26, 29, 31
 while we predicted 22, 24, 22, 22, 23. The predictions looked timid. They are,
@@ -8,7 +14,65 @@ but not in the way it first appears, and the difference decides what to build.
 
 ---
 
-## 🎯 What is actually wrong
+## 📊 What the measurement says
+
+Run `python -m foulgorithm.backtest.match_variance_study`. The decomposition is
+tested against planted shared factors of 0.05, 0.10 and 0.20 in
+`tests/test_match_variance.py`, so a zero here means zero rather than a broken
+measurement.
+
+    Var(T)  =  E[Var(T|M)]  +  s^2 * (sum mu_i)^2
+
+The first term is what the model already believes about a total. Only what is
+left over is a missing shared factor.
+
+| character | window | n | slope | model variance | actual variance | shared sd |
+|---|---|---|---|---|---|---|
+| **tayler** | 2024 | 463 | 2.003 | 26.93 | 24.43 | **0** |
+| **tayler** | 2023 | 875 | 1.589 | 26.71 | 24.06 | **0** |
+| alan | 2024 | 463 | 0.505 | 23.59 | 27.86 | 0.088 |
+| alan | 2023 | 875 | 0.436 | 23.33 | 28.67 | 0.099 |
+| bdog | 2024 | 463 | 0.785 | 23.64 | 23.34 | 0 |
+| bdog | 2023 | 875 | 0.644 | 23.08 | 24.42 | 0.051 |
+
+**There is no single answer, because "the model" is five models.** The gap the
+plan set out to close does not exist for the one that matters.
+
+**Tayler is the house model and has nothing missing.** His predictive variance
+for a match total, 26.93, already exceeds what actually happens, 24.43. Adding a
+shared random effect would widen a distribution that is already about 10% too
+wide. His slope of 2.0 is a different fault entirely: his POINT ESTIMATES barely
+discriminate between matches, sd 1.09 against outcomes at 5.29. A mean-1 random
+effect does not move a point estimate, so step 1 would not have fixed the thing
+it was proposed to fix.
+
+**Alan is the mirror image.** Slope 0.5 means his predictions vary MORE between
+matches than outcomes justify, and he does carry about 9% unexplained shared
+variance because his dispersion is pinned at 1.00, the narrowest of the five.
+Both are his temperament working exactly as designed, not a defect.
+
+**So the original 1.644 was one configuration's number read as the model's.**
+Slope ranges from 0.44 to 2.00 across three characters on the same data.
+
+## ✅ What this leaves
+
+- **Nothing to ship for the house model.** The spread on match totals and on
+  combination tickets within one fixture is right, so treating legs as
+  independent is approximately correct. That was the practical worry and it does
+  not hold up.
+- **The real fault is discrimination, not spread.** Tayler predicts 21.5 for
+  almost every match while reality runs 21.5 ± 5.3. Most of that is genuinely
+  unpredictable, which is why three attempts to explain it failed, and a
+  calibrated model SHOULD predict close to the mean when it knows little. The
+  open question is whether any of the remaining spread is predictable at all.
+- **Steps 2 and 3 below are untouched by this.** A partially-pooled referee
+  effect and modelling the total directly are both about finding real signal,
+  which is the actual gap. Only step 1, scaling up variance we do not have
+  evidence is missing, is dead.
+
+---
+
+## 🎯 What the original diagnosis said
 
 Measured over 659 matches and 16,749 player-matches:
 
