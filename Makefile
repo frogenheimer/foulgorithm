@@ -100,3 +100,9 @@ data: ## Regenerate the site's data. The slow one, about 50 seconds.
 
 api-football-probe: ## Say what the API-Football account actually gives us
 	$(PY) -m foulgorithm.sources.api_football
+
+leagues: ## Download the big-five player-match files
+	$(PY) -m foulgorithm.sources.leagues
+
+seasons: ## Fetch twenty seasons of league player totals
+	$(PY) -m foulgorithm.sources.league_seasons
