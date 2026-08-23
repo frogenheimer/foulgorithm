@@ -399,6 +399,12 @@ export type FixtureOption = {
   legs: { player: string; fouls: number; market: string; outOf100: number }[];
 };
 
+export type SettledOption = Omit<FixtureOption, "legs"> & {
+  /** True landed, false missed, null not settled yet. */
+  landed: boolean | null;
+  legs: (FixtureOption["legs"][number] & { landed: boolean | null })[];
+};
+
 export type BestPick = {
   character: string;
   tier: string;
@@ -429,6 +435,8 @@ export type PlayersData = {
   bestPicks: Record<string, BestPick>;
   /** What we said each fixture would produce, kept after it is played. */
   expectedTotals: Record<string, { expected: number; publishedAt: string }>;
+  /** Past cards, each leg marked landed / missed / undecided. */
+  settledCards: Record<string, { version: number; options: SettledOption[] }>;
   /** Up to three calls per fixture, short price to long. */
   fixtureOptions: Record<string, FixtureOption[]>;
   formations: Formations;

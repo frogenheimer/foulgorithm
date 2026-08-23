@@ -1,0 +1,81 @@
+{
+ "fixture": "Crystal Palace v Man City",
+ "kickoff": "2026-08-28T19:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-08-23T20:02:52+00:00",
+   "options": [
+    {
+     "band": "Short",
+     "character": "alan",
+     "tier": "2/1",
+     "odds": 3.4,
+     "outOf100": 29,
+     "totalFouls": 1,
+     "gap": 0.1182,
+     "legs": [
+      {
+       "player": "Devenny",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 29
+      }
+     ]
+    },
+    {
+     "band": "Middle",
+     "character": "bdog",
+     "tier": "3/1",
+     "odds": 4.94,
+     "outOf100": 20,
+     "totalFouls": 3,
+     "gap": 0.1122,
+     "legs": [
+      {
+       "player": "Semenyo",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 49
+      },
+      {
+       "player": "Khusanov",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 41
+      }
+     ]
+    },
+    {
+     "band": "Long",
+     "character": "bdog",
+     "tier": "10/1",
+     "odds": 13.8,
+     "outOf100": 7,
+     "totalFouls": 6,
+     "gap": 0.1079,
+     "legs": [
+      {
+       "player": "Semenyo",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 49
+      },
+      {
+       "player": "Khusanov",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 41
+      },
+      {
+       "player": "Grealish",
+       "fouls": 3,
+       "market": "drawn",
+       "outOf100": 36
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -419,3 +419,64 @@
   font-size: var(--t-xs);
   color: var(--ink-3);
 }
+
+
+/* ---------- a played card, marked ---------- */
+
+.settled {
+  display: grid;
+  gap: var(--s1);
+  margin: var(--s3) 0 0;
+  padding: var(--s3) 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+  font-size: var(--t-xs);
+}
+
+.settledRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  color: var(--ink-3);
+}
+
+.settledOdds {
+  font-family: var(--font-mono);
+  color: var(--ink-2);
+}
+
+.settledLegs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.settledMark {
+  margin-left: auto;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Green and red carry the meaning, and never carry it alone: every row also
+   says "came in", "no" or "open" in words. */
+.landed .settledMark {
+  color: var(--good, var(--accent));
+}
+
+.missed .settledMark {
+  color: var(--bad, var(--warn));
+}
+
+.legLanded {
+  color: var(--good, var(--accent));
+}
+
+.legMissed {
+  color: var(--bad, var(--warn));
+  text-decoration: line-through;
+}
+
+.legOpen {
+  color: var(--ink-3);
+}

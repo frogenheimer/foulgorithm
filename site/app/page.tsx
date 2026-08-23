@@ -50,6 +50,7 @@ export default function Today() {
           expected={expected}
           hasPage={new Set(Object.keys(d.fixtureSlips))}
           options={d.fixtureOptions}
+          settled={d.settledCards ?? {}}
         />
       </section>
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Lineups from "@/components/fixture/Lineups";
+import Explorer from "@/components/explorer/Explorer";
 import SlipGrid from "@/components/fixture/SlipGrid";
 import { Card, MicroLabel, PageHeader, SectionHead } from "@/components/kit";
 import { fixtureSlug, getExplorer, getMatchday, getPlayers } from "@/lib/data";
@@ -72,6 +73,18 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         ) : (
           <SlipGrid slips={slips} characters={data.picks.map((p) => p.id)} />
         )}
+      </section>
+
+      {/* Moved here from the players page, which is gone. Every player in this
+          fixture, every market and line, with the five side by side and the
+          full shape behind any number you open. It was on a round-wide page
+          with a game filter; on a fixture page that filter is the fixture. */}
+      <section>
+        <SectionHead
+          title="Every player in this game"
+          note="Fouls conceded, fouls won, and both together. Open a row for the whole distribution behind the number, not just the headline."
+        />
+        <Explorer data={getExplorer()} only={`${home} v ${away}`} />
       </section>
 
       {sheet && (

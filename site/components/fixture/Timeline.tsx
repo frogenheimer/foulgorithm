@@ -19,7 +19,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import type { FixtureOption, SeasonFixture } from "@/lib/data";
+import type { FixtureOption, SettledOption, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
 import { Combobox } from "@/components/kit";
 import s from "./timeline.module.css";
@@ -36,6 +36,7 @@ export default function Timeline({
   expected,
   hasPage,
   options,
+  settled,
 }: {
   fixtures: SeasonFixture[];
   matchweeks: number[];
@@ -46,6 +47,7 @@ export default function Timeline({
   hasPage: Set<string>;
   /** One call per fixture, five fouls or more. */
   options: Record<string, FixtureOption[]>;
+  settled: Record<string, { version: number; options: SettledOption[] }>;
 }) {
   const [week, setWeek] = useState<number | "all">("all");
 
@@ -157,6 +159,7 @@ export default function Timeline({
                     expected={expected[`${f.home} v ${f.away}`]}
                     linked={hasPage.has(`${f.home} v ${f.away}`)}
                     options={options[`${f.home} v ${f.away}`]}
+                    settled={settled[`${f.home} v ${f.away}`]}
                   />
                 ))}
               </div>
@@ -189,12 +192,14 @@ function Game({
   expected,
   linked,
   options,
+  settled,
 }: {
   fixture: SeasonFixture;
   state: State;
   expected?: number;
   linked: boolean;
   options?: FixtureOption[];
+  settled?: { version: number; options: SettledOption[] };
 }) {
   const label = `${f.home} v ${f.away}`;
   const cls = `${s.card} ${state === "past" ? s.past : ""} ${state === "live" ? s.live : ""}`;
@@ -243,6 +248,46 @@ function Game({
               </span>
             ) : null}
           </div>
+
+          {/* What the card said, marked against what happened. Only fixtures we
+              recorded a card for before kickoff appear here. */}
+          {settled?.options.length ? (
+            <ul className={s.settled}>
+              {settled.options.map((o) => (
+                <li
+                  key={o.band}
+                  className={[
+                    s.settledRow,
+                    o.landed === true ? s.landed : "",
+                    o.landed === false ? s.missed : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                >
+                  <span className={s.settledOdds}>{o.odds.toFixed(2)}</span>
+                  <span className={s.settledLegs}>
+                    {o.legs.map((l) => (
+                      <span
+                        key={`${l.player}-${l.fouls}`}
+                        className={
+                          l.landed === true
+                            ? s.legLanded
+                            : l.landed === false
+                              ? s.legMissed
+                              : s.legOpen
+                        }
+                      >
+                        {l.player} {l.fouls}+
+                      </span>
+                    ))}
+                  </span>
+                  <span className={s.settledMark}>
+                    {o.landed === true ? "came in" : o.landed === false ? "no" : "open"}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       ) : options?.length && state === "upcoming" ? (
         <div className={s.picks}>

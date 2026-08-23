@@ -474,6 +474,8 @@ def publish(output: Path = OUTPUT) -> dict:
         for label, by_character in fixture_slips.items()
         if (options := _fixture_options(by_character))
     }
+    # Keep what each card says, so it can be marked right or wrong afterwards.
+    _record_cards(fixture_options, fixtures, as_of)
 
     payload = {
         "generatedAt": as_of.replace(microsecond=0).isoformat(),
@@ -514,6 +516,9 @@ def publish(output: Path = OUTPUT) -> dict:
         "fixtureSlips": fixture_slips,
         "bestPicks": best_picks,
         "fixtureOptions": fixture_options,
+        # What past cards said, marked against what happened. See
+        # store/published_picks.py for why it is the last version before kickoff.
+        "settledCards": _settled_cards(),
         "slates": {
             "shapes": [
                 {"key": sl.key, "label": sl.label, "legs": sl.legs}
@@ -594,6 +599,66 @@ def _commit_slates(slates: dict, published: str) -> dict:
                 )
             )
     return slate_store.append(committed)
+
+
+def _settled_cards() -> dict:
+    """Past fixture cards, with each leg marked landed, missed or undecided.
+
+    Only fixtures we published a card for before kickoff appear. Cards shown
+    before the store existed are absent and stay absent, because reconstructing
+    what a card would have said is not the same as recording what it did say.
+    """
+    from foulgorithm.review import grade as grading
+    from foulgorithm.store import predictions as pred_store
+    from foulgorithm.store import published_picks
+
+    try:
+        graded = grading.load_all()
+    except Exception:
+        return {}
+
+    claims = {row["key"]: row for row in pred_store.load_all()}
+    outcomes: dict[tuple, bool] = {}
+    for row in graded:
+        claim = claims.get(row.get("key"))
+        if not claim:
+            continue
+        market = "committed" if claim["market"].endswith("committed") else "drawn"
+        outcomes[(claim["entity"], market, claim["line"])] = bool(row.get("won"))
+
+        # Cards name players the short way; the ledger stores the full name.
+        short = claim["entity"].split()[-1]
+        outcomes.setdefault((short, market, claim["line"]), bool(row.get("won")))
+
+    out = {}
+    for fixture in published_picks.load_all():
+        version = published_picks.final(fixture)
+        if not version:
+            continue
+        scored = [published_picks.score(o, outcomes) for o in version["options"]]
+        if any(o["landed"] is not None for o in scored):
+            out[fixture] = {"version": version["version"], "options": scored}
+    return out
+
+
+def _record_cards(fixture_options: dict, fixtures, as_of) -> None:
+    """Version what each fixture card is showing right now.
+
+    A midweek model change should produce different picks, so this versions
+    rather than freezes. The last version before kickoff is what gets scored,
+    because that is what was on the card when the game started.
+    """
+    from foulgorithm.store import published_picks
+
+    kickoffs = {
+        f"{row.home_team_raw} v {row.away_team_raw}": row.kickoff_utc.isoformat()
+        for row in fixtures.itertuples()
+    }
+    stamp = as_of.replace(microsecond=0).isoformat()
+    for label, options in fixture_options.items():
+        kickoff = kickoffs.get(label)
+        if kickoff:
+            published_picks.record(label, kickoff, options, stamp)
 
 
 def _keep_expected_totals(board: list[dict], as_of) -> dict:

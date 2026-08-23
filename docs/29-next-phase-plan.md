@@ -2,7 +2,10 @@
 
 **Status: Proposed 2026-08-23, after both advisor replies to
 `28-external-audit-review.md`. This operationalises and supersedes the phase 1
-sketch in 28.**
+sketch in 28. Addendum: advisor 1 followed with an adversarial counter-audit
+the same day. Two of its four claims hardened items A4 and B5 below, and two
+were rejected on technical grounds. Full disposition in
+`audit-responses/2026-08-23-advisor-1-counter.md`.**
 
 Both advisors replied to our responses (`audit-responses/`). Advisor 1 accepted
 every disposition and added nothing new. Advisor 2 scored the response 8/10 and
@@ -161,6 +164,13 @@ Lock the evaluation period first, then: House and all five characters, raw and
 calibrated, on log score, CRPS, Brier per line and ECE, per market. The pack
 states plainly which model wins on log score and CRPS, not only ECE.
 
+Contingency, adopted from advisor 1's counter-audit: a character whose
+locked-period calibration fails a threshold stated before the run gets either
+a per-character calibration layer on its published probabilities, which
+preserves temperament in rankings and selection while fixing gross bias, or
+louder opinion labelling on the site. Which of the two is decided when the
+numbers exist, not before.
+
 ### A5. The substitute gating study
 
 The question that gates Phase B item 1: is substitute foul behaviour different
@@ -193,9 +203,14 @@ harness, per `06-modelling.md`.
    pseudo-counts, widening thin players only. Prior negative results were
    global expansions and do not cover this.
 4. **House beside every character number** on the site, deviation quantified.
-5. **Manual odds capture page** for tracked lines, the cards comparator wired
-   as a labelled weak signal, CLV on that sample, quarterly re-survey of
-   licensed fouls-prop coverage.
+5. **Manual odds capture page**, designed against selection bias rather than
+   just built: the tracked line set is chosen by a pre-registered rule per
+   round, never by attractiveness, both sides of a line are captured where
+   displayed, every capture is timestamped, and any discretionary addition is
+   recorded as discretionary. The cards comparator wired as a labelled weak
+   signal (that one is automated, so it gives a systematic sample), CLV on
+   the manual sample always reported with its interval and n, and a quarterly
+   re-survey of licensed fouls-prop coverage.
 
 ## ✅ Standing rules adopted this phase
 

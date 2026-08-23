@@ -39,11 +39,19 @@ const MARKET_NOUN: Record<Market, string> = {
 
 const POSITIONS = ["GK", "DF", "MF", "FW"];
 
-export default function Explorer({ data }: { data: Data }) {
+/**
+ * The table, either across a round or locked to one fixture.
+ *
+ * `only` pins it to a single game and hides the game filter, which is how it
+ * lives on a fixture page. The round-wide version had its own page; that page
+ * is gone, and searching across fixtures went with it deliberately, because a
+ * table filtered to a game you are already looking at needs no game filter.
+ */
+export default function Explorer({ data, only }: { data: Data; only?: string }) {
   const [market, setMarket] = useState<Market>("committed");
   const [line, setLine] = useState(0);
   const [model, setModel] = useState(data.house);
-  const [fixture, setFixture] = useState("");
+  const [fixture, setFixture] = useState(only ?? "");
   const [position, setPosition] = useState("");
   const [query, setQuery] = useState("");
   const [hideThin, setHideThin] = useState(false);
@@ -109,18 +117,20 @@ export default function Explorer({ data }: { data: Data }) {
           />
         </label>
 
-        <label className={s.field}>
-          <span className={s.fieldLabel}>Game</span>
-          <Select
-            value={fixture}
-            onChange={setFixture}
-            label="Game"
-            options={[
-              { value: "", label: "Every game" },
-              ...fixtures.map((f) => ({ value: f, label: f })),
-            ]}
-          />
-        </label>
+        {!only && (
+          <label className={s.field}>
+            <span className={s.fieldLabel}>Game</span>
+            <Select
+              value={fixture}
+              onChange={setFixture}
+              label="Game"
+              options={[
+                { value: "", label: "Every game" },
+                ...fixtures.map((f) => ({ value: f, label: f })),
+              ]}
+            />
+          </label>
+        )}
 
         <label className={s.field}>
           <span className={s.fieldLabel}>Position</span>
