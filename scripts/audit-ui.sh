@@ -15,8 +15,10 @@
 #
 # To silence one genuine exception, mark the line:
 #   /* audit-ignore B3: brand mark colour is an asset, not a token */
-# The rule id is required and a reason is expected. A suppression that does not
-# say which rule it silences is indistinguishable from one nobody understood.
+# On the line itself, or on either of the two lines above it, so a CSS comment
+# can sit where a CSS comment belongs. The rule id is required and a reason is
+# expected: a suppression that does not say which rule it silences is
+# indistinguishable from one nobody understood.
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -39,8 +41,14 @@ hits () {
   while IFS= read -r f; do
     [ -f "$f" ] || continue
     while IFS= read -r line; do
-      # Skip anything explicitly suppressed for this rule.
+      # Suppressed on the line itself, or on one of the two lines above it.
+      # A CSS comment naturally sits above the declaration it explains, and a
+      # rule that demands otherwise gets contorted around rather than obeyed.
       case "$line" in *"audit-ignore $id"*) continue;; esac
+      local num="${line%%:*}"
+      local before
+      before=$(sed -n "$((num > 2 ? num - 2 : 1)),$((num - 1))p" "$f" 2>/dev/null)
+      case "$before" in *"audit-ignore $id"*) continue;; esac
       lines="${lines}${f}: ${line}"$'\n'
       n=$((n + 1))
     done < <(grep -nE "$pat" "$f" 2>/dev/null || true)

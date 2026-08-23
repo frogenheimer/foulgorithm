@@ -5,16 +5,18 @@
 
 .pitch {
   position: relative;
-  display: grid;
+  display: flex;
+  align-items: stretch;
   gap: var(--s2);
-  padding: var(--s4) var(--s3);
+  min-height: 260px;
+  padding: var(--s3);
   border-radius: var(--r-md);
   border: 1px solid var(--line);
   /* A pitch, not a photograph of one. Two greens and a centre line is enough
      to read as a pitch; anything more competes with the players on it. */
   background:
     repeating-linear-gradient(
-      to bottom,
+      to right,
       var(--turf-a) 0 var(--s10),
       var(--turf-b) var(--s10) calc(var(--s10) * 2)
     );
@@ -31,17 +33,21 @@
   color: var(--pitch-paint);
 }
 
+/* One column per line of the formation, goalkeeper at the back. */
 .line {
+  flex: 1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
   gap: var(--s2);
   position: relative;
   z-index: 1;
 }
 
 .slot {
-  flex: 1;
-  max-width: 128px;
+  width: 100%;
+  max-width: 132px;
   display: grid;
   gap: var(--s1);
   justify-items: center;
@@ -138,8 +144,20 @@
 
 .sides {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s5);
+}
+
+@media (max-width: 900px) {
+  /* One side at a time on a phone, chosen by the toggle. Two wide pitches
+     stacked is a lot of scrolling to compare two things. */
+  .sides {
+    grid-template-columns: 1fr;
+  }
+
+  .hideNarrow {
+    display: none;
+  }
 }
 
 @media (max-width: 700px) {

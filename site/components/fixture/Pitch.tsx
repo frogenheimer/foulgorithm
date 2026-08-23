@@ -14,7 +14,8 @@
 
 import { useMemo } from "react";
 import type { ExplorerRow, Spot, TeamShape } from "@/lib/data";
-import { MicroLabel } from "@/components/kit";
+import { Combobox, MicroLabel } from "@/components/kit";
+import type { Option } from "@/components/kit";
 import s from "./pitch.module.css";
 
 export default function Pitch({
@@ -25,6 +26,8 @@ export default function Pitch({
   onSwap,
   onReset,
   rateOf,
+  away = false,
+  hiddenWhenNarrow = false,
 }: {
   club: string;
   shape: TeamShape;
@@ -36,15 +39,32 @@ export default function Pitch({
   onReset: () => void;
   /** What to show under each name. Expected fouls, usually. */
   rateOf: (player: string) => string;
+  /** The away side attacks left, so its formation is drawn goalkeeper-first. */
+  away?: boolean;
+  /** Hidden below 900px, where the two sides show one at a time. */
+  hiddenWhenNarrow?: boolean;
 }) {
-  const options = useMemo(
+  const byName = useMemo(
     () => [...squad].sort((a, b) => a.player.localeCompare(b.player)),
     [squad]
   );
+
+  /**
+   * Options for one slot, with players who actually play that position offered
+   * first. Everyone else stays one keystroke away rather than hidden: a manager
+   * can field whoever he likes and the dropdown should not argue.
+   */
+  const optionsFor = (spot: Spot): Option[] =>
+    byName.map((row) => ({
+      value: row.player,
+      label: row.player,
+      meta: `${row.expected.committed.toFixed(2)}`,
+      group: samePosition(row.position, spot.position) ? `Plays ${positionName(spot.position)}` : undefined,
+    }));
   const swaps = Object.keys(selected).length;
 
   return (
-    <div className={s.wrap}>
+    <div className={hiddenWhenNarrow ? `${s.wrap} ${s.hideNarrow}` : s.wrap}>
       <div className={s.head}>
         <span className={s.club}>{club}</span>
         <span className={s.formation}>{shape.formation ?? "shape unknown"}</span>
@@ -57,11 +77,14 @@ export default function Pitch({
 
       <div className={s.pitch}>
         <Markings />
-        {/* Drawn attack-first, so the pitch reads the way a fan looks at it. */}
-        {[...shape.lines].reverse().map((line, i) => (
+        {/* Lines arrive goalkeeper-first. Home attacks right, so drawn in order
+            its keeper sits at the left edge; away attacks left and reverses.
+            The two pitches then face each other the way the fixture is written. */}
+        {(away ? [...shape.lines].reverse() : [...shape.lines]).map((line, i) => (
           <div key={i} className={s.line}>
             {line.map((spot, j) => {
-              const key = `${club}|${shape.lines.length - 1 - i}|${j}`;
+              const lineIndex = away ? shape.lines.length - 1 - i : i;
+              const key = `${club}|${lineIndex}|${j}`;
               const player = selected[key] ?? spot.player;
               const swapped = Boolean(selected[key]);
               return (
@@ -71,21 +94,15 @@ export default function Pitch({
                     {player}
                   </span>
                   <span className={s.rate}>{rateOf(player)}</span>
-                  <select
-                    className={s.picker}
-                    value={player}
-                    onChange={(e) => onSwap(key, e.target.value)}
-                    aria-label={`${spot.detail || spot.position} for ${club}`}
-                  >
-                    {options.some((o) => o.player === player) ? null : (
-                      <option value={player}>{player}</option>
-                    )}
-                    {options.map((o) => (
-                      <option key={o.fullName} value={o.player}>
-                        {o.player}
-                      </option>
-                    ))}
-                  </select>
+                  <div className={s.picker}>
+                    <Combobox
+                      value={player}
+                      options={optionsFor(spot)}
+                      onChange={(v) => onSwap(key, v)}
+                      label={`${spot.detail || spot.position} for ${club}`}
+                      placeholder="Search squad"
+                    />
+                  </div>
                 </div>
               );
             })}
@@ -101,6 +118,16 @@ export default function Pitch({
       )}
     </div>
   );
+}
+
+/** FPL codes a squad by GKP/DEF/MID/FWD; the league codes a slot G/D/M/F. */
+function samePosition(squadPosition: string, slotPosition: string): boolean {
+  const first = (squadPosition || "").trim().charAt(0).toUpperCase();
+  return first === (slotPosition || "").trim().charAt(0).toUpperCase();
+}
+
+function positionName(code: string): string {
+  return { G: "in goal", D: "in defence", M: "in midfield", F: "up front" }[code] ?? "here";
 }
 
 /** Halfway line, centre circle, penalty box. Enough to read as a pitch. */

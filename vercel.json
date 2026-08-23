@@ -3,5 +3,7 @@
   "framework": null,
   "installCommand": "npm --prefix site ci",
   "buildCommand": "npm --prefix site run build",
-  "outputDirectory": "site/out"
+  "outputDirectory": "site/out",
+  "cleanUrls": true,
+  "trailingSlash": false
 }

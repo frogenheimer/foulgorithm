@@ -55,3 +55,53 @@ piece of work rather than a column rename.
 **Status.** Idea only, deliberately deferred. The current fallback is defensible
 and clearly labelled thin, which is a reasonable place to sit while more
 valuable work is outstanding.
+
+
+---
+
+## Positional heatmaps, and what they would need
+
+**Status.** Wanted, blocked on data rather than on effort. Raised 2026-08-23
+alongside the interactive pitch, which is built.
+
+The idea: let a reader move a player's average position around the pitch, in
+zones rather than pixels, and have that change his expected fouls and which
+opposition players he is likely to collide with. A left-back pushed high meets
+the winger more often; a holding midfielder dropped deep meets the striker.
+
+### 🛑 Why it cannot be built yet
+
+**We hold position CODES, not coordinates.** The lineup source gives `Right Full
+Back` and `Centre Defensive Midfielder`, which places a slot on a formation and
+says nothing about where a player actually spends the match. Average-position
+and heatmap data lived on FBref and went with the January 2026 Opta
+termination. Nothing free replaced it, and it is not in any of the four sources
+we currently read.
+
+Building a response curve without that data would mean inventing how fouls vary
+with position and presenting the invention as a model. That is the one thing
+this project consistently refuses to do.
+
+### ⚠️ And the nearest testable version already failed
+
+The closest question the current data CAN answer is whether facing a specific
+dangerous opponent matters: does a defender concede more against a side whose
+best foul-winner is exceptional, beyond what that club's overall rate implies?
+
+Measured over 9,419 player-matches, the correlation is **-0.003**. Zero. The
+team-level opponent factor already carries all of it, and knowing which of their
+players is the good one adds nothing. See the modelling log, 2026-08-23.
+
+That does not kill the heatmap idea. It does mean the effect, if it exists, is
+finer than "who is on the pitch" and needs real spatial data to find.
+
+### ✅ What would unblock it
+
+- Event data with pitch coordinates for fouls. StatsBomb open data covers a few
+  competitions and not the current Premier League season
+- Tracking or average-position data, which is a commercial product
+- A season of our own collection, if fouls were ever logged with a location
+
+Until one of those exists, the pitch stays a lineup tool: it changes WHO is
+playing, which genuinely moves every number, rather than WHERE they stand, which
+we cannot price.

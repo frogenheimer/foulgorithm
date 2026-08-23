@@ -53,6 +53,27 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         />
       </div>
 
+            <section>
+        <SectionHead
+          title="The five, at matched risk"
+          note={
+            shape
+              ? "Each character builds a combination to each price, from the eleven on the pitch. Swap anyone and all five rebuild. Same ladder for all of them, so a cautious one cannot look better by picking near-certainties and a bold one cannot look better by reaching."
+              : "Each character builds a combination to each price. Same ladder for all five, so a cautious one cannot look better by picking near-certainties and a bold one cannot look better by reaching. Click any cell for its legs."
+          }
+        />
+        {shape ? (
+          <Lineups
+            fixture={label}
+            shapes={shape}
+            explorer={getExplorer()}
+            published={slips}
+          />
+        ) : (
+          <SlipGrid slips={slips} characters={data.picks.map((p) => p.id)} />
+        )}
+      </section>
+
       {sheet && (
         <section>
           <SectionHead
@@ -91,26 +112,6 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         </section>
       )}
 
-      <section>
-        <SectionHead
-          title="The five, at matched risk"
-          note={
-            shape
-              ? "Each character builds a combination to each price, from the eleven on the pitch. Swap anyone and all five rebuild. Same ladder for all of them, so a cautious one cannot look better by picking near-certainties and a bold one cannot look better by reaching."
-              : "Each character builds a combination to each price. Same ladder for all five, so a cautious one cannot look better by picking near-certainties and a bold one cannot look better by reaching. Click any cell for its legs."
-          }
-        />
-        {shape ? (
-          <Lineups
-            fixture={label}
-            shapes={shape}
-            explorer={getExplorer()}
-            published={slips}
-          />
-        ) : (
-          <SlipGrid slips={slips} characters={data.picks.map((p) => p.id)} />
-        )}
-      </section>
     </div>
   );
 }

@@ -340,3 +340,132 @@
   gap: var(--s2);
   padding-left: var(--s5);
 }
+
+/* ---------- combobox ---------- */
+
+.combo {
+  position: relative;
+  width: 100%;
+}
+
+.comboInput {
+  font: inherit;
+  font-size: var(--t-xs);
+  width: 100%;
+  padding: var(--s1) var(--s2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+  text-overflow: ellipsis;
+}
+
+.comboInput:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.comboList {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + var(--s1));
+  left: 0;
+  min-width: 100%;
+  max-width: 260px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: var(--s1);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  box-shadow: var(--lift);
+  list-style: none;
+}
+
+.comboGroup {
+  padding: var(--s2) var(--s2) var(--s1);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+}
+
+.comboItem,
+.comboItemOn {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  width: 100%;
+  padding: var(--s1) var(--s2);
+  border-radius: var(--r-sm);
+  font-size: var(--t-sm);
+  color: var(--ink);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.comboItemOn {
+  background: var(--accent-soft);
+}
+
+.comboItem:hover {
+  background: var(--surface-sunk);
+}
+
+.comboMeta {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.comboEmpty {
+  padding: var(--s3) var(--s2);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+/* ---------- toggle ---------- */
+
+.toggle {
+  display: inline-flex;
+  /* audit-ignore B2: 2px is the track inset on a pill, optical rather than a
+     layout step. At --s1 the switch reads as two separate buttons. */
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--surface-sunk);
+}
+
+.toggleOption,
+.toggleOptionOn {
+  padding: var(--s1) var(--s4);
+  border-radius: var(--r-pill);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--ink-3);
+  white-space: nowrap;
+  transition: background var(--d-fast) var(--ease), color var(--d-fast) var(--ease);
+}
+
+.toggleOption:hover {
+  color: var(--ink);
+}
+
+.toggleOptionOn {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--lift);
+}
+
+/* Shown only where a full side-by-side will not fit. */
+.narrowOnly {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .narrowOnly {
+    display: inline-flex;
+  }
+}

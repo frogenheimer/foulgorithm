@@ -289,6 +289,51 @@ export function Badge({
   return <span className={`${s.badge} ${map[tone]}`}>{children}</span>;
 }
 
+/**
+ * A segmented switch between a small, fixed set of views.
+ *
+ * Not a checkbox: both options are always visible and named, so nobody has to
+ * work out what the off state means.
+ */
+export function Toggle<T extends string>({
+  value,
+  options,
+  onChange,
+  label,
+  narrowOnly = false,
+}: {
+  value: T;
+  options: { value: T; label: string }[];
+  onChange: (value: T) => void;
+  label: string;
+  /** Hide above 900px, where a side-by-side layout fits and a switch is noise. */
+  narrowOnly?: boolean;
+}) {
+  return (
+    <div
+      className={narrowOnly ? `${s.toggle} ${s.narrowOnly}` : s.toggle}
+      role="tablist"
+      aria-label={label}
+    >
+      {options.map((o) => (
+        <button
+          key={o.value}
+          type="button"
+          role="tab"
+          aria-selected={o.value === value}
+          className={o.value === value ? s.toggleOptionOn : s.toggleOption}
+          onClick={() => onChange(o.value)}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export { Combobox } from "./Combobox";
+export type { Option } from "./Combobox";
+
 /* ---------- skeleton ---------- */
 
 export function Skeleton({ width = "100%", height = "1em" }: { width?: string; height?: string }) {

@@ -15,7 +15,7 @@
 
 import { useMemo, useState } from "react";
 import type { Explorer, ExplorerRow, Formations, Slip } from "@/lib/data";
-import { Callout } from "@/components/kit";
+import { Callout, Toggle } from "@/components/kit";
 import Pitch from "./Pitch";
 import SlipGrid from "./SlipGrid";
 import { candidatesFor, slipAtOdds } from "./rebuild";
@@ -42,7 +42,11 @@ export default function Lineups({
   published: Record<string, Slip[]>;
 }) {
   const [selected, setSelected] = useState<Record<string, string>>({});
-  const clubs = Object.keys(shapes);
+  // Narrow screens show one side at a time; both fit side by side above 900px.
+  const [showing, setShowing] = useState<string>("");
+  // Home first, away second, matching the fixture label rather than object order.
+  const [homeClub, awayClub] = fixture.split(" v ");
+  const clubs = [homeClub, awayClub].filter((c) => shapes[c]);
 
   const squads = useMemo(() => {
     const out: Record<string, ExplorerRow[]> = {};
@@ -101,11 +105,21 @@ export default function Lineups({
 
   return (
     <div style={{ display: "grid", gap: "var(--s6)" }}>
-      <div className={s.sides}>
-        {clubs.map((club) => (
+      <Toggle
+        narrowOnly
+        label="Which side to show"
+        value={showing || clubs[0]}
+        options={clubs.map((c) => ({ value: c, label: c }))}
+        onChange={setShowing}
+      />
+
+      <div className={s.sides} data-showing={showing || clubs[0]}>
+        {clubs.map((club, i) => (
           <Pitch
             key={club}
             club={club}
+            away={i === 1}
+            hiddenWhenNarrow={(showing || clubs[0]) !== club}
             shape={shapes[club]}
             squad={squads[club] ?? []}
             selected={selected}
