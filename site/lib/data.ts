@@ -226,9 +226,13 @@ export type MarketBlock = {
   why: {
     ratePer90: number;
     expectedMinutes: number;
+    expected_fouls?: number;
     opponentFactor: number;
+    headToHeadFactor?: number;
     refereeFactor: number;
     effectiveMatches: number;
+    startProbability?: number | null;
+    minutesIfStarting?: number;
   };
   exact0: number;
   p1plus: number; p2plus: number; p3plus: number;
@@ -306,6 +310,40 @@ export type LeagueLeaders = Record<
   { label: string; leaders: { player: string; team: string; value: number; rank: number }[] }
 >;
 
+export type SlipLeg = {
+  player: string;
+  fullName?: string;
+  team: string;
+  fixture: string;
+  market: "committed" | "drawn";
+  line: number;
+  fouls: number;
+  prob: number;
+  outOf100: number;
+  packProb: number;
+  edge: number;
+  band: string;
+  thin: boolean;
+};
+
+export type Slip = {
+  target: number;
+  targetLabel: string;
+  actualOdds: number;
+  probability: number;
+  outOf100: number;
+  /** Derived from the fair price by removing a margin. An estimate, never observed. */
+  estimatedOffer: number;
+  legCount: number;
+  /** Share of the combination the margin removes. Compounds per leg. */
+  takeOut: number;
+  floor: number;
+  legs: SlipLeg[];
+};
+
+/** fixture label -> character id -> ladder of slips */
+export type FixtureSlips = Record<string, Record<string, Slip[]>>;
+
 export type PlayersData = {
   generatedAt: string;
   trainedOn: { playerMatches: number; players: number; from: string; to: string };
@@ -318,7 +356,12 @@ export type PlayersData = {
   board: FixtureBoard[];
   picks: CharacterPicks[];
   explorer: Explorer;
+  fixtureSlips: FixtureSlips;
 };
+
+/** "Arsenal v Coventry" -> "arsenal-coventry" */
+export const fixtureSlug = (label: string) =>
+  label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 export const getPlayers = () => read<PlayersData>("players.json");
 export const getExplorer = (): Explorer => getPlayers().explorer;

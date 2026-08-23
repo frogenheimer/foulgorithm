@@ -1,0 +1,179 @@
+/* The five characters against the five tiers. */
+
+.wrap {
+  display: grid;
+  gap: var(--s4);
+}
+
+.scroll {
+  overflow-x: auto;
+  min-width: 0;
+}
+
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-sm);
+}
+
+.grid th,
+.grid td {
+  padding: var(--s2) var(--s3);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.grid thead th {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+  background: var(--surface-sunk);
+}
+
+.grid tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.who {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.swatch {
+  width: var(--s2);
+  height: var(--s2);
+  border-radius: var(--r-pill);
+  background: var(--char);
+  flex-shrink: 0;
+}
+
+.name {
+  font-weight: 500;
+  text-transform: capitalize;
+  color: var(--ink);
+}
+
+.cell {
+  display: grid;
+  gap: var(--s1);
+  justify-items: center;
+  width: 100%;
+  padding: var(--s1);
+  border-radius: var(--r-sm);
+  transition: background var(--d-fast) var(--ease);
+}
+
+.cell:hover {
+  background: var(--surface-sunk);
+}
+
+.cellOn {
+  composes: cell;
+  background: var(--accent-soft);
+}
+
+.price {
+  font-family: var(--font-mono);
+  font-size: var(--t-md);
+  color: var(--ink);
+}
+
+.sub {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.legsRow td {
+  background: var(--surface-sunk);
+  padding: 0;
+}
+
+.legs {
+  display: grid;
+  gap: var(--s3);
+  padding: var(--s4) var(--s5);
+  text-align: left;
+}
+
+.legList {
+  display: grid;
+  gap: var(--s2);
+  list-style: none;
+}
+
+.leg {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  font-size: var(--t-sm);
+}
+
+.legPlayer {
+  color: var(--ink);
+  font-weight: 500;
+  min-width: 11ch;
+}
+
+.legWhat {
+  color: var(--ink-2);
+  flex: 1;
+}
+
+.legProb {
+  font-family: var(--font-mono);
+  color: var(--ink-3);
+}
+
+.maths {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--s3);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}
+
+.mathsItem {
+  display: grid;
+  gap: var(--s1);
+}
+
+.mathsValue {
+  font-family: var(--font-mono);
+  font-size: var(--t-md);
+  color: var(--ink);
+}
+
+.caveat {
+  margin: 0;
+  max-width: var(--w-prose);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+
+.picks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--s4);
+}
+
+.pick {
+  display: grid;
+  gap: var(--s2);
+  padding: var(--s4);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--char);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+
+.pickWhy {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  line-height: 1.5;
+}

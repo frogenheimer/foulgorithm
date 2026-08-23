@@ -19,6 +19,7 @@ from foulgorithm.characters import base as characters
 from foulgorithm.publish import combinations as combos
 from foulgorithm.identity import players as identity
 from foulgorithm.identity.teams import history_name, to_fpl
+from foulgorithm.markets import odds as odds_math
 from foulgorithm.models import calibration, involvement, player_models as pm
 from foulgorithm.sources import football_data, fpl, league_stats
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
@@ -42,7 +43,11 @@ PICKS_PER_CHARACTER = 5
 #
 # The targets are OUR fair odds, not anyone's price. We hold no bookmaker odds
 # for these markets and, per the research, no archive of them exists to buy.
-ODDS_TIERS = (2.0, 3.0, 5.0, 10.0)
+# DECIMAL prices, and the labels derived from them rather than assumed. These
+# are 2/1, 3/1, 5/1, 10/1 and 20/1 fractional. Held as (2.0, 3.0, 5.0, 10.0)
+# they were rendered "2/1", "3/1" and so on, which made every published tier one
+# step longer than it read. See foulgorithm.markets.odds.
+ODDS_TIERS = (3.0, 4.0, 6.0, 11.0, 21.0)
 MAX_LEGS_PER_TIER = 6
 
 # Pinned bands, UK PHIA yardstick. If we write a word it always means this range.
@@ -292,6 +297,7 @@ def publish(output: Path = OUTPUT) -> dict:
         "topFoulers": top,
         "board": board,
         "picks": picks,
+        "fixtureSlips": _fixture_slips(candidates, fixtures),
         "explorer": {
             "models": list(pm.CHARACTER_SETTINGS),
             "lines": list(EXPLORER_LINES),
@@ -788,11 +794,31 @@ def _slip_at_odds(cid: str, candidates: list[dict], target: float) -> dict | Non
     if not chosen or combined > wanted * 1.6:
         return None
 
+    fair = 1 / combined
+    legs = len(chosen)
+    est = odds_math.offered(fair, legs=legs)
     return {
         "target": target,
-        "actualOdds": round(1 / combined, 2),
+        "targetLabel": odds_math.fractional(target),
+        # Decimal for the price we computed, fractional only for the round tier
+        # it was built to. limit_denominator on an arbitrary price produces
+        # things like 269/20, which is correct and unreadable.
+        "actualOdds": round(fair, 2),
         "probability": round(combined, 4),
         "outOf100": round(combined * 100),
+        # An estimate and never an observation. No player-fouls price has ever
+        # been published anywhere we can reach, so this is a stated assumption
+        # with the margin shown beside it on the page.
+        #
+        # No verdict is attached, deliberately. The estimate is derived from
+        # the fair price by removing a margin, so any comparison between the
+        # two is circular and would always read "below fair". What IS worth
+        # saying is how much of the combination the margin eats, which is the
+        # take-out, and it is the reason accumulators get pushed.
+        "estimatedOffer": round(est, 2),
+        "legCount": legs,
+        "takeOut": round(odds_math.take_out(legs=legs), 3),
+        "floor": round(odds_math.floor(fair), 2),
         "legs": [_leg(row, cid) for row in chosen],
     }
 
@@ -873,6 +899,29 @@ def _character_picks(cid, candidates) -> dict:
             if t
         ],
     }
+
+
+def _fixture_slips(candidates: list[dict], fixtures) -> dict:
+    """Every character's ladder, built inside a single fixture.
+
+    Built per fixture rather than across the round because that is the unit a
+    reader is actually looking at. A slip mixing three different matches is not
+    a read on a game, it is a read on a Saturday.
+    """
+    out: dict[str, dict] = {}
+    for fx in fixtures.itertuples():
+        label = f"{fx.home_team_raw} v {fx.away_team_raw}"
+        here = [c for c in candidates if c["fixture"] == label]
+        if not here:
+            continue
+        by_character = {}
+        for cid in pm.CHARACTER_SETTINGS:
+            tiers = [t for t in (_slip_at_odds(cid, here, target) for target in ODDS_TIERS) if t]
+            if tiers:
+                by_character[cid] = tiers
+        if by_character:
+            out[label] = by_character
+    return out
 
 
 if __name__ == "__main__":
