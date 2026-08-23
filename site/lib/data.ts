@@ -409,6 +409,8 @@ export type PlayersData = {
   fixtureSlips: FixtureSlips;
   bestPicks: Record<string, BestPick>;
   formations: Formations;
+  slates: Slates;
+  standings: Standing[];
 };
 
 /** "Arsenal v Coventry" -> "arsenal-coventry" */
@@ -546,6 +548,26 @@ export type TableRow = {
   players: TeamPlayer[];
   /** Squad members with no minutes in the window, so no rate to show. */
   noHistory: number;
+};
+
+export type Standing = {
+  id: string;
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  legsLanded: number;
+  legsMissed: number;
+  difference: number;
+  points: number;
+};
+
+export type SlateShape = { key: string; label: string; legs: number };
+
+export type Slates = {
+  shapes: SlateShape[];
+  byCharacter: Record<string, Record<string, { legs: SlipLeg[]; label: string } | null>>;
+  note: string;
 };
 
 export type Teams = {

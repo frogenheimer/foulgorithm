@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Signature from "@/components/characters/Signature";
 import type { Settings } from "@/components/characters/Signature";
-import { Callout, PageHeader, SectionHead } from "@/components/kit";
+import { Callout, DataTable, Note, PageHeader, SectionHead } from "@/components/kit";
 import { getCharacters, getPlayers } from "@/lib/data";
 import c from "./characters.module.css";
 
@@ -9,7 +9,11 @@ export const metadata = { title: "The five · Foulgorithm" };
 
 export default function Characters() {
   const d = getCharacters();
-  const settings = getPlayers().picks;
+  const players = getPlayers();
+  const settings = players.picks;
+  const standings = players.standings ?? [];
+  const named = (id: string) => d.characters.find((c) => c.id === id)?.name ?? id;
+  const anyPlayed = standings.some((r) => r.played > 0);
   const peers = settings.map((p) => p.settings as unknown as Settings);
 
   return (
@@ -26,6 +30,36 @@ export default function Characters() {
         matters. But these are five slightly different readings, not five sharply different
         opinions, and the bars below are the whole of the difference.
       </Callout>
+
+      <section>
+        <SectionHead
+          title="The table"
+          note="Every gameweek all five commit to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Identical shapes, so this measures which players they pick and not how hard a bet they chose. Every leg lands is a win, all but one is a draw, and goal difference is legs landed minus legs missed."
+        />
+        {anyPlayed ? (
+          <DataTable
+            rows={standings}
+            rowKey={(r) => r.id}
+            columns={[
+              { key: "name", head: "", cell: (r) => named(r.id) },
+              { key: "played", head: "P", numeric: true, cell: (r) => r.played },
+              { key: "won", head: "W", numeric: true, cell: (r) => r.won },
+              { key: "drawn", head: "D", numeric: true, cell: (r) => r.drawn },
+              { key: "lost", head: "L", numeric: true, cell: (r) => r.lost },
+              { key: "landed", head: "Legs", numeric: true, cell: (r) => `${r.legsLanded}/${r.legsLanded + r.legsMissed}` },
+              { key: "gd", head: "GD", numeric: true, cell: (r) => (r.difference > 0 ? `+${r.difference}` : r.difference) },
+              { key: "points", head: "Pts", numeric: true, cell: (r) => r.points },
+            ]}
+          />
+        ) : (
+          <Note>
+            Nothing has settled yet. A slate is only scored once every leg in it has an
+            outcome, because counting an unsettled leg as a miss would turn &ldquo;we do not
+            know&rdquo; into &ldquo;they got it wrong&rdquo;. The table fills in as rounds
+            finish.
+          </Note>
+        )}
+      </section>
 
       <section>
         <SectionHead

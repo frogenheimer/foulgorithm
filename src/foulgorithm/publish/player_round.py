@@ -16,6 +16,8 @@ from pathlib import Path
 import pandas as pd
 
 from foulgorithm.characters import base as characters
+from foulgorithm.models import ensemble
+from foulgorithm.publish import league
 from foulgorithm.characters import reasons as character_reasons
 from foulgorithm.publish import combinations as combos
 from foulgorithm.identity import players as identity
@@ -440,6 +442,12 @@ def publish(output: Path = OUTPUT) -> dict:
     )
     picks = [_character_picks(cid, candidates) for cid in pm.CHARACTER_SETTINGS]
 
+    # The five committed to identical shapes, so the table measures judgement
+    # rather than difficulty. See publish/league.py.
+    character_ids = list(pm.CHARACTER_SETTINGS)
+    slates = league.build_slates(candidates, character_ids)
+    standings = _standings(character_ids)
+
     top = sorted(all_rows, key=lambda r: -r["committed"]["p1plus"])[:12]
 
     fixture_slips = _fixture_slips(candidates, fixtures)
@@ -484,6 +492,16 @@ def publish(output: Path = OUTPUT) -> dict:
         "picks": picks,
         "fixtureSlips": fixture_slips,
         "bestPicks": best_picks,
+        "slates": {
+            "shapes": [
+                {"key": sl.key, "label": sl.label, "legs": sl.legs}
+                for sl in ensemble.SLATES
+            ],
+            "byCharacter": slates,
+            "note": "Identical shapes for all five, so the table measures which "
+                    "players they pick rather than how hard a bet they chose.",
+        },
+        "standings": standings,
         # Confirmed shapes win; a predicted one fills a fixture the league has
         # not published an eleven for yet.
         "formations": {**predicted_shapes, **_formations(lineups)},
@@ -504,11 +522,74 @@ def publish(output: Path = OUTPUT) -> dict:
     # Persist the claims themselves, separately from the page they render on.
     # The JSON above is a view and gets overwritten every run; this is the
     # record, and it is append-only.
-    payload["recorded"] = _record(board, picks, as_of)
+    payload["recorded"] = _record(board, picks, as_of, slates)
     return payload
 
 
-def _record(board: list[dict], picks: list[dict], as_of) -> dict:
+def _commit_slates(slates: dict, published: str) -> dict:
+    """Record what each character committed to, as claim keys.
+
+    Stored beside the claims rather than inside them. A slate leg is the same
+    claim a tier already recorded, so writing it as a claim collides on the key,
+    and the ledger is append-only so it cannot be added to one later. See
+    store/slates.py.
+    """
+    from foulgorithm.store import slates as slate_store
+
+    committed = []
+    for cid, by_slate in (slates or {}).items():
+        for slate_key, built in (by_slate or {}).items():
+            if not built or not built["legs"]:
+                continue
+            keys = []
+            for leg in built["legs"]:
+                keys.append(
+                    pred_store.Prediction(
+                        published_at=published,
+                        kickoff=leg["kickoff"],
+                        fixture=leg["fixture"],
+                        entity=leg.get("fullName") or leg["player"],
+                        market=(
+                            "player_fouls_committed"
+                            if leg["market"] == "committed"
+                            else "player_fouls_drawn"
+                        ),
+                        line=leg["line"],
+                        probability=leg["prob"],
+                        model_id=cid,
+                        model_version="1.0.0",
+                        lineup_confirmed=False,
+                        thin=bool(leg.get("thin")),
+                    ).key
+                )
+            committed.append(
+                slate_store.Committed(
+                    published_at=published,
+                    round=slate_store.round_of(built["legs"][0]["kickoff"]),
+                    character=cid,
+                    slate=slate_key,
+                    claim_keys=keys,
+                )
+            )
+    return slate_store.append(committed)
+
+
+def _standings(character_ids: list[str]) -> list[dict]:
+    """The table so far. Empty until slates start settling, and says so."""
+    from foulgorithm.review import grade as grading
+    from foulgorithm.store import predictions as pred_store
+
+    try:
+        graded = grading.load_all()
+    except Exception:
+        return league.table([], character_ids)
+    from foulgorithm.store import slates as slate_store
+
+    joined = league.join_slates(graded, slate_store.load_all())
+    return league.table(joined, character_ids)
+
+
+def _record(board: list[dict], picks: list[dict], as_of, slates: dict | None = None) -> dict:
     """Write every published claim to the append-only store."""
     published = pred_store.now_iso()
     rows: list[pred_store.Prediction] = []
@@ -586,7 +667,35 @@ def _record(board: list[dict], picks: list[dict], as_of) -> dict:
             )
         )
 
-    return pred_store.append(rows)
+    for cid, by_slate in (slates or {}).items():
+        for built in (by_slate or {}).values():
+            if not built:
+                continue
+            for leg in built["legs"]:
+                rows.append(
+                    pred_store.Prediction(
+                        published_at=published,
+                        kickoff=leg["kickoff"],
+                        fixture=leg["fixture"],
+                        entity=leg.get("fullName") or leg["player"],
+                        market=(
+                            "player_fouls_committed"
+                            if leg["market"] == "committed"
+                            else "player_fouls_drawn"
+                        ),
+                        line=leg["line"],
+                        probability=leg["prob"],
+                        model_id=cid,
+                        model_version="1.0.0",
+                        lineup_confirmed=False,
+                        thin=bool(leg.get("thin")),
+                        extra={},
+                    )
+                )
+
+    written = pred_store.append(rows)
+    written["slates"] = _commit_slates(slates, published)
+    return written
 
 
 def _league_leaders() -> dict:

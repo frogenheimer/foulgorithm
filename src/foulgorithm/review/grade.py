@@ -102,6 +102,18 @@ def grade(
     }
 
 
+def load_all(root: Path = GRADED) -> list[dict]:
+    """Every graded claim on disk, oldest first."""
+    if not root.exists():
+        return []
+    rows = []
+    for path in sorted(root.glob("*.jsonl")):
+        for line in path.read_text().splitlines():
+            if line.strip():
+                rows.append(json.loads(line))
+    return rows
+
+
 def summarise(graded: list[Graded]) -> dict:
     """Per-model record, and the column that matters most.
 
