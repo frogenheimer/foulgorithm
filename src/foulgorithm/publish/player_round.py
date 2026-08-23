@@ -16,6 +16,7 @@ from pathlib import Path
 import pandas as pd
 
 from foulgorithm.characters import base as characters
+from foulgorithm.characters import reasons as character_reasons
 from foulgorithm.publish import combinations as combos
 from foulgorithm.identity import players as identity
 from foulgorithm.identity.teams import history_name, to_fpl
@@ -973,6 +974,15 @@ def _leg(row: dict, cid: str) -> dict:
         "edge": round(p - pack, 4),
         "band": band(p),
         "thin": why["effectiveMatches"] < THIN_EVIDENCE,
+        "reason": character_reasons.reason(
+            cid,
+            {
+                "player": row["player"], "market": row["market"], "line": row["line"],
+                "fouls": int(row["line"] + 0.5), "prob": p, "packProb": pack,
+                "edge": p - pack, "thin": why["effectiveMatches"] < THIN_EVIDENCE,
+            },
+            why,
+        ),
     }
 
 
@@ -1006,6 +1016,17 @@ def _character_picks(cid, candidates) -> dict:
                 "why": why,
                 "thin": why["effectiveMatches"] < THIN_EVIDENCE or not row.get("hasHistory", True),
                 "position": row.get("position"),
+                "reason": character_reasons.reason(
+                    cid,
+                    {
+                        "player": row["player"], "market": row["market"], "line": row["line"],
+                        "fouls": int(row["line"] + 0.5), "prob": p, "packProb": pack,
+                        "edge": p - pack,
+                        "thin": why["effectiveMatches"] < THIN_EVIDENCE
+                        or not row.get("hasHistory", True),
+                    },
+                    why,
+                ),
             }
         )
 
@@ -1016,6 +1037,7 @@ def _character_picks(cid, candidates) -> dict:
         "emotion": c.emotion,
         "tagline": c.tagline,
         "settings": pm.CHARACTER_SETTINGS[cid],
+        "summary": character_reasons.summary(cid, picks),
         "picks": picks,
         "combinedProb": round(combined, 4),
         "combinedFair": round(1 / combined, 1) if combined > 0 else None,
