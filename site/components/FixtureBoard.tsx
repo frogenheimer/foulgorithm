@@ -5,14 +5,17 @@ import type { FixtureBoard as Board, PlayerRow } from "@/lib/data";
 import { odds } from "@/lib/format";
 import { Bars, DotArray } from "@/components/charts/pack";
 import HeadToHead from "@/components/HeadToHead";
+import { MARKET_LABEL, type Market as SharedMarket } from "@/lib/markets";
 import s from "./board.module.css";
 
-type Market = "committed" | "drawn";
+/** The board shows two of the three. Narrowed from the shared vocabulary
+    rather than redeclared, so the labels cannot drift apart from the rest. */
+type Market = Extract<SharedMarket, "committed" | "drawn">;
 type View = "compare" | "table" | "chart";
 type SortKey = "p1plus" | "p2plus" | "p3plus" | "expectedMinutes" | "player";
 
 const MARKETS: { key: Market; label: string }[] = [
-  { key: "committed", label: "Fouls committed" },
+  { key: "committed", label: MARKET_LABEL.committed },
   { key: "drawn", label: "Fouls won" },
 ];
 
@@ -110,7 +113,7 @@ export default function FixtureBoard({ fixture }: { fixture: Board }) {
               <div key={team} className={s.teamCol}>
                 <h5 className={s.teamName}>{team}</h5>
                 <p className={s.chartCaption}>
-                  {market === "committed" ? "Fouls committed" : "Fouls won"} per 90, career to date
+                  {MARKET_LABEL[market]} per 90, career to date
                 </p>
                 <Bars rows={rows.map((r) => ({ label: r.player, value: r.value }))} max={max} />
               </div>

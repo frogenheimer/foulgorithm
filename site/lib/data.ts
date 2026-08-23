@@ -333,6 +333,15 @@ export type SlipLeg = {
   edge: number;
   band: string;
   thin: boolean;
+  /**
+   * Why this character backed this leg, in his own voice.
+   *
+   * Optional because it is generated alongside the probability it describes.
+   * A slip rebuilt in the browser after a lineup change has new numbers and no
+   * sentence, and showing the old sentence next to a new number is precisely
+   * the drift the generator exists to prevent. Absent is better than stale.
+   */
+  reason?: string;
 };
 
 export type Slip = {

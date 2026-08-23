@@ -19,6 +19,7 @@
 import { useMemo, useState } from "react";
 import type { ExplorerRow, Spot, TeamShape } from "@/lib/data";
 import { Combobox, MicroLabel, Toggle } from "@/components/kit";
+import { MARKET_LABEL, type Market } from "@/lib/markets";
 import type { Option } from "@/components/kit";
 import { findPlayer, who } from "@/lib/who";
 import {
@@ -33,13 +34,8 @@ import {
 } from "@/lib/pitch";
 import s from "./pitch.module.css";
 
-export type Market = "committed" | "drawn" | "involvements";
-
-export const MARKET_LABEL: Record<Market, string> = {
-  committed: "Fouls conceded",
-  drawn: "Fouls won",
-  involvements: "Involvements",
-};
+export type { Market } from "@/lib/markets";
+export { MARKET_LABEL } from "@/lib/markets";
 
 export type Side = {
   club: string;

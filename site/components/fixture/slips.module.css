@@ -109,6 +109,9 @@
 .leg {
   display: flex;
   align-items: baseline;
+  /* Wraps so the character's reasoning can take a full line of its own
+     underneath the numbers rather than squeezing in beside them. */
+  flex-wrap: wrap;
   gap: var(--s3);
   font-size: var(--t-sm);
 }
@@ -176,4 +179,15 @@
   font-size: var(--t-sm);
   color: var(--ink-2);
   line-height: 1.5;
+}
+
+/* The character's own words about this leg. Sits under the numbers because the
+   numbers are the claim and this is the argument for it. */
+.legReason {
+  flex: 1 0 100%;
+  margin-top: var(--s1);
+  font-size: var(--t-xs);
+  line-height: 1.45;
+  color: var(--ink-3);
+  text-wrap: pretty;
 }

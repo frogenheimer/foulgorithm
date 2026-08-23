@@ -178,6 +178,7 @@ function Legs({ slip }: { slip: Slip }) {
             <span className={s.legProb}>
               {l.outOf100}/100
             </span>
+            {l.reason && <p className={s.legReason}>{l.reason}</p>}
           </li>
         ))}
       </ul>

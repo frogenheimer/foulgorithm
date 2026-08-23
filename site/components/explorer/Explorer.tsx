@@ -18,16 +18,12 @@ import type { Explorer as Data, ExplorerRow } from "@/lib/data";
 import { DataTable } from "@/components/kit";
 import Bars from "./Bars";
 import Shape from "./Shape";
+import { MARKET_LABEL } from "@/lib/markets";
 import s from "./explorer.module.css";
 
 type Market = "committed" | "drawn" | "involvements";
 type Sort = "prob" | "expected" | "minutes" | "name";
 
-const MARKET_LABEL: Record<Market, string> = {
-  committed: "Fouls conceded",
-  drawn: "Fouls won",
-  involvements: "Total involvements",
-};
 
 const MARKET_HINT: Record<Market, string> = {
   committed: "Fouls he gives away",
