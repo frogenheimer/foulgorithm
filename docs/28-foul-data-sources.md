@@ -186,6 +186,19 @@ So the asymmetry is ours, not theirs. Every season back to 2006/07 is equally
 available as totals, and only the seasons we snapshot through will ever have
 per-match detail.
 
+**And we cannot snapshot backwards.** A snapshot is a reading of the running
+total right now, and the API only ever reports the current or final figure.
+Tested and all silently ignored: `gameWeek`, `gameweek`, `matchweek`, `week`,
+`gameWeeks`, `fixtures`. Each returns the identical 476 entries with the same
+season-top value, so the filter is not merely unsupported, it is accepted and
+discarded, which would have been an easy way to fool ourselves. There is no
+as-of-date parameter and `stats/player/{id}` returns season or career totals
+rather than a match history.
+
+The 2025-26 season is therefore permanently unrecoverable at match level, and so
+is every season before it. Only 2026-27 onwards can be built, one round at a
+time, by a settle job that actually runs.
+
 ### What the league does NOT publish
 
 Checked, so nobody checks again:
