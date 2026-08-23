@@ -21,6 +21,11 @@ data/snapshots/
 data/scratch/
 !data/reference/
 !data/reference/**
+# data/state/ IS committed: it is what the scheduled jobs have already seen, not
+# a cache. A job cannot commit an ignored path, so state kept under data/raw/
+# was lost between every run.
+!data/state/
+!data/state/**
 
 # Backtest artifacts
 runs/

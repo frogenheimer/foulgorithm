@@ -52,7 +52,8 @@ jobs:
         run: |
           git config user.name "foulgorithm-bot"
           git config user.email "foulgorithm@users.noreply.github.com"
-          git add site/public/data data/raw/player_season_totals.json data/graded
+          git add site/public/data data/state/player_season_totals.json data/graded
           git diff --cached --quiet && exit 0
           git commit -m "Grade the round"
+          git pull --rebase --autostash
           git push

@@ -1,0 +1,935 @@
+{
+  "takenAt": "2026-08-23T03:52:43.487351+00:00",
+  "totals": {
+    "Aaron Hickey": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Abdoul Ouattara": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Abdul Fatawu": {
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Adam Wharton": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Anan Khalaili": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Andrey Santos": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Andy Robertson": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Anton Stach": {
+      "fouls": 2.0,
+      "was_fouled": 4.0,
+      "appearances": 1.0
+    },
+    "Anton\u00edn Kinsky": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Archie Gray": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Arnaud Kalimuendo": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Aur\u00e8le Amenda": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Ayden Heaven": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Ben White": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Benjamin Sesko": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Beto": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Bobby Thomas": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Brandon Thomas-Asante": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Brenden Aaronson": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Brennan Johnson": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Brian Brobbey": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Bruno Fernandes": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Bryan Mbeumo": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Bukayo Saka": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Caleb Yirenkyi": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Callum Wilson": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Caoimh\u00edn Kelleher": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Carl Rushworth": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Chadi Riad": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Charly Alcaraz": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Chemsdine Talbi": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Chris Richards": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Chris Rigg": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Chris Wood": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Christos Tzolis": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Chuba Akpom": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Cody Drameh": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Conor Gallagher": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Cristhian Mosquera": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Daichi Kamada": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Daizen Maeda": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Dan Ballard": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Dan Ndoye": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Dango Ouattara": {
+      "fouls": 3.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Daniel Mu\u00f1oz": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Dara O'Shea": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "David Raya": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Dean Henderson": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Declan Rice": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Destiny Udogie": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Diogo Dalot": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Dominic Calvert-Lewin": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Dominic Solanke": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Dwight McNeil": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Eberechi Eze": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Eddie Nketiah": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Elliot Stroud": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Ellis Simms": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Emersonn": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Enzo Le F\u00e9e": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Ethan Ampadu": {
+      "fouls": 2.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Evann Guessand": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Frank Onyeka": {
+      "fouls": 3.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Gabriel Magalh\u00e3es": {
+      "fouls": 2.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Granit Xhaka": {
+      "fouls": 1.0,
+      "was_fouled": 4.0,
+      "appearances": 1.0
+    },
+    "Gustavo Hamer": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Habib Diarra": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Harrison Armstrong": {
+      "fouls": 3.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Harry Maguire": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Harry Wilson": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Hayden Hackney": {
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Ibrahim Sangar\u00e9": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Igor Jesus": {
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Igor Thiago": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Iliman Ndiaye": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Issa Diop": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Jack Clarke": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Jack Rudoni": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Jacob Greaves": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Jaidon Anthony": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Jair Cunha": {
+      "fouls": 2.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Jaka Bijol": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "James Garner": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "James Justin": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "James Maddison": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "James McAtee": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "James Tarkowski": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "James Trafford": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Jan Paul van Hecke": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Jarrad Branthwaite": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Jay Dasilva": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Jaydee Canvot": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Jayden Bogle": {
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Jean-Philippe Mateta": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Joe Rodon": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "John Egan": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Jordan Pickford": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Julio Enciso": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "J\u00f8rgen Strand Larsen": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Kai Havertz": {
+      "fouls": 2.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Kasey McAteer": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Keane Lewis-Potter": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Kevin Schade": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Kiernan Dewsbury-Hall": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Kjell Scherpen": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Kobbie Mainoo": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Konstantinos Tzolakis": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Kristoffer Ajer": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Leif Davis": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Lewie Coyle": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Liam Millar": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Loum Tchaouna": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Luca Netz": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Lucas Bergvall": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Lucas Herrington": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Luke O'Nien": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Luke Shaw": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Mamadou Sangar\u00e9": {
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Marcelino N\u00fa\u00f1ez": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Marcos Senesi": {
+      "fouls": 2.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Marcus Rashford": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Martin \u00d8degaard": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Mart\u00edn Zubimendi": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Mateus Fernandes": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Matheus Cunha": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Mathias Jensen": {
+      "fouls": 3.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Mathys Tel": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Matt Crooks": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Matt Grimes": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Matt Targett": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Matz Sels": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Merlin R\u00f6hl": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Michael Kayode": {
+      "fouls": 0.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Mikel Merino": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Mikey Moore": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Mikkel Damsgaard": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Milan van Ewijk": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Mohamed Belloumi": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Morgan Gibbs-White": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Murillo": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Myles Lewis-Skelly": {
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Nathan Collins": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Neco Williams": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Nikola Milenkovic": {
+      "fouls": 3.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Nilson Angulo": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Noah Okafor": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Noah Sadiki": {
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Nobel Mendy": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Noni Madueke": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Noussair Mazraoui": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Ola Aina": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Oliver McBurnie": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Omar Alderete": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Paddy McNair": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Patrick Dorgu": {
+      "fouls": 4.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Piero Hincapi\u00e9": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Regan Slater": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Reinildo Mandava": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Riccardo Calafiori": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Richarlison": {
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Robin Roefs": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Rodrigo Bentancur": {
+      "fouls": 3.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Ryan Giles": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Sandro Tonali": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Sasa Lukic": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Sean Longstaff": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Semi Ajayi": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Senne Lammens": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Shea Lacey": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Sindre Egeli": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Taiwo Awoniyi": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Takehiro Tomiyasu": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Tarik Muharemovic": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Thierno Barry": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Thomas Meunier": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Trai Hume": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Tyrick Mitchell": {
+      "fouls": 2.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Tyrique George": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Victor Torp": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Vitalii Mykolenko": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0
+    },
+    "Vitaly Janelt": {
+      "fouls": 4.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Wilson Isidor": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Xaver Schlager": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    },
+    "Yehor Yarmoliuk": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0
+    },
+    "Youri Tielemans": {
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 1.0
+    },
+    "Y\u00e9remy Pino": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0
+    }
+  }
+}

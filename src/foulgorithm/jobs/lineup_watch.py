@@ -22,7 +22,11 @@ from pathlib import Path
 
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
 
-STATE = Path("data/raw/lineups_seen.json")
+# Committed, not cached. This lives outside data/raw/ because that directory is
+# gitignored as reproducible cache, and this is a record of what the job has
+# already seen. A scheduled run cannot commit an ignored path, so state kept
+# there would be lost between every run.
+STATE = Path("data/state/lineups_seen.json")
 
 
 def fingerprint(lineups: dict) -> dict:

@@ -1,0 +1,197 @@
+{
+  "checkedAt": "2026-08-23T03:52:39.603985+00:00",
+  "lineups": {
+    "Arsenal|Arsenal v Coventry": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Ben White",
+        "Bukayo Saka",
+        "Christos Tzolis",
+        "Cristhian Mosquera",
+        "David Raya",
+        "Declan Rice",
+        "Gabriel Magalh\u00e3es",
+        "Kai Havertz",
+        "Martin \u00d8degaard",
+        "Myles Lewis-Skelly",
+        "Riccardo Calafiori"
+      ]
+    },
+    "Brentford|Brentford v Tottenham": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Caoimh\u00edn Kelleher",
+        "Dango Ouattara",
+        "Igor Thiago",
+        "Keane Lewis-Potter",
+        "Kevin Schade",
+        "Kristoffer Ajer",
+        "Mamadou Sangar\u00e9",
+        "Mathias Jensen",
+        "Michael Kayode",
+        "Nathan Collins",
+        "Vitaly Janelt"
+      ]
+    },
+    "Coventry|Arsenal v Coventry": {
+      "formation": "4-1-4-1",
+      "starters": [
+        "Aur\u00e8le Amenda",
+        "Bobby Thomas",
+        "Brandon Thomas-Asante",
+        "Caleb Yirenkyi",
+        "Carl Rushworth",
+        "Ellis Simms",
+        "Frank Onyeka",
+        "Jay Dasilva",
+        "Loum Tchaouna",
+        "Matt Grimes",
+        "Milan van Ewijk"
+      ]
+    },
+    "Crystal Palace|Everton v Crystal Palace": {
+      "formation": "3-4-2-1",
+      "starters": [
+        "Adam Wharton",
+        "Chadi Riad",
+        "Chris Richards",
+        "Daichi Kamada",
+        "Daniel Mu\u00f1oz",
+        "Dean Henderson",
+        "Dwight McNeil",
+        "Eddie Nketiah",
+        "Jaydee Canvot",
+        "Jean-Philippe Mateta",
+        "Tyrick Mitchell"
+      ]
+    },
+    "Everton|Everton v Crystal Palace": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Harrison Armstrong",
+        "Hayden Hackney",
+        "Iliman Ndiaye",
+        "James Tarkowski",
+        "Jarrad Branthwaite",
+        "Jordan Pickford",
+        "Kiernan Dewsbury-Hall",
+        "Merlin R\u00f6hl",
+        "Thierno Barry",
+        "Tyrique George",
+        "Vitalii Mykolenko"
+      ]
+    },
+    "Hull|Hull v Man United": {
+      "formation": "5-4-1",
+      "starters": [
+        "Elliot Stroud",
+        "John Egan",
+        "Konstantinos Tzolakis",
+        "Lewie Coyle",
+        "Matt Crooks",
+        "Mohamed Belloumi",
+        "Nobel Mendy",
+        "Oliver McBurnie",
+        "Regan Slater",
+        "Ryan Giles",
+        "Semi Ajayi"
+      ]
+    },
+    "Ipswich|Ipswich v Sunderland": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Abdul Fatawu",
+        "Daizen Maeda",
+        "Dara O'Shea",
+        "Emersonn",
+        "Issa Diop",
+        "Jacob Greaves",
+        "Julio Enciso",
+        "Kjell Scherpen",
+        "Leif Davis",
+        "Marcelino N\u00fa\u00f1ez",
+        "Sasa Lukic"
+      ]
+    },
+    "Leeds|Nott'm Forest v Leeds": {
+      "formation": "3-4-2-1",
+      "starters": [
+        "Anton Stach",
+        "Brenden Aaronson",
+        "Dominic Calvert-Lewin",
+        "Ethan Ampadu",
+        "Harry Wilson",
+        "Jaka Bijol",
+        "James Justin",
+        "James Trafford",
+        "Jayden Bogle",
+        "Joe Rodon",
+        "Tarik Muharemovic"
+      ]
+    },
+    "Man United|Hull v Man United": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Andrey Santos",
+        "Ayden Heaven",
+        "Bruno Fernandes",
+        "Bryan Mbeumo",
+        "Harry Maguire",
+        "Luke Shaw",
+        "Matheus Cunha",
+        "Noussair Mazraoui",
+        "Patrick Dorgu",
+        "Senne Lammens",
+        "Youri Tielemans"
+      ]
+    },
+    "Nott'm Forest|Nott'm Forest v Leeds": {
+      "formation": "3-4-2-1",
+      "starters": [
+        "Dan Ndoye",
+        "Ibrahim Sangar\u00e9",
+        "Igor Jesus",
+        "Jair Cunha",
+        "James McAtee",
+        "Matz Sels",
+        "Morgan Gibbs-White",
+        "Murillo",
+        "Neco Williams",
+        "Nikola Milenkovic",
+        "Ola Aina"
+      ]
+    },
+    "Sunderland|Ipswich v Sunderland": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Brian Brobbey",
+        "Dan Ballard",
+        "Enzo Le F\u00e9e",
+        "Granit Xhaka",
+        "Luke O'Nien",
+        "Nilson Angulo",
+        "Noah Sadiki",
+        "Reinildo Mandava",
+        "Robin Roefs",
+        "Thomas Meunier",
+        "Trai Hume"
+      ]
+    },
+    "Tottenham|Brentford v Tottenham": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Andy Robertson",
+        "Anton\u00edn Kinsky",
+        "Archie Gray",
+        "Conor Gallagher",
+        "Jan Paul van Hecke",
+        "Lucas Bergvall",
+        "Marcos Senesi",
+        "Mathys Tel",
+        "Mikey Moore",
+        "Richarlison",
+        "Sandro Tonali"
+      ]
+    }
+  }
+}

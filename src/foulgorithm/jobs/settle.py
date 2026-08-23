@@ -24,7 +24,10 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-SNAPSHOT = Path("data/raw/player_season_totals.json")
+# Committed, not cached. See lineup_watch.STATE for why. It matters more here:
+# with no previous snapshot, per_match() diffs against nothing and a player's
+# whole SEASON total is graded as one match's outcome.
+SNAPSHOT = Path("data/state/player_season_totals.json")
 TRACK_RECORD = Path("site/public/data/track-record.json")
 
 MARKETS = {"fouls": "player_fouls_committed", "was_fouled": "player_fouls_drawn"}

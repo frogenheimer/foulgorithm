@@ -48,11 +48,16 @@ jobs:
 
       - name: Poll
         id: poll
+        env:
+          # Empty on a scheduled run: the inputs context only exists for
+          # workflow_dispatch. Held here rather than inline so the run line
+          # reads as a command instead of an expression.
+          FORCE: ${{ inputs.force && '--force' || '' }}
         # Exit 1 means nothing changed, which is the common case and not a
         # failure. Only exit 2, a dead source, should fail the run and alert us.
         run: |
           set +e
-          python -m foulgorithm.jobs.lineup_watch ${{ inputs.force && '--force' || '' }}
+          python -m foulgorithm.jobs.lineup_watch $FORCE
           code=$?
           set -e
           if [ $code -eq 2 ]; then exit 1; fi
@@ -63,7 +68,8 @@ jobs:
         run: |
           git config user.name "foulgorithm-bot"
           git config user.email "foulgorithm@users.noreply.github.com"
-          git add site/public/data data/raw/lineups_seen.json data/predictions
+          git add site/public/data data/state/lineups_seen.json data/predictions
           git diff --cached --quiet && exit 0
           git commit -m "Confirmed lineups for this round"
+          git pull --rebase --autostash
           git push
