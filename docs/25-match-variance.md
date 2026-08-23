@@ -4,9 +4,16 @@
 in the next section, which contradicts it. Kept because the reasoning is worth
 reading against the result.**
 
-> ⚠️ **Do not build step 1.** For the house model there is no missing shared
-> variance to add, and adding it would widen a total distribution that is
-> already slightly too wide.
+> ⚠️ **Do not build step 1.** For the house model the decomposition finds no
+> missing shared variance to add, and adding it would widen a total
+> distribution that is already slightly too wide. One caveat, raised by an
+> external reviewer 2026-08-23 and accepted: a fitted shared sd of zero rests
+> on the model's own conditional variances being right, so overstated
+> idiosyncratic variance could cancel against missing positive covariance and
+> hide a real shared factor. The direct test that does not route through the
+> decomposition, pairwise within-match residual correlation between players,
+> is in the Phase A evidence pack (`29-next-phase-plan.md`). Match-level
+> discrimination stays an open research question either way.
 
 Raised from an observation on one Saturday: actual totals ran 19, 20, 26, 29, 31
 while we predicted 22, 24, 22, 22, 23. The predictions looked timid. They are,

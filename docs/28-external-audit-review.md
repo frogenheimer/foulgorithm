@@ -1,6 +1,17 @@
 # Review of the two external methodology audits
 
-**Status: Written 2026-08-23, against the code and docs as of that date.**
+**Status: Written 2026-08-23, against the code and docs as of that date.
+Addendum 2026-08-23: both advisors replied (see `audit-responses/`). Advisor 1
+accepted every disposition. Advisor 2 accepted the direction and pressed three
+challenges that this document's phrasing partly earned: "retired by
+measurement" overstates what the variance decomposition shows, calibration is
+red/amber rather than apparatus-pending, and several "already built" claims
+are assertions until their evaluation tables are visible. The accepted
+corrections and the committed plan live in `29-next-phase-plan.md`, which
+supersedes the phase 1 sketch below. Read the shared-variance rejection in
+this document with the agreed phrasing: the specific shared-random-effect
+explanation is unsupported by the decomposition, and match-level
+discrimination remains an explicit open research question.**
 
 Two external advisors reviewed the methodology. Advisor 1 wrote a short
 architectural audit ("Technical Audit & Architectural Blueprint"). Advisor 2

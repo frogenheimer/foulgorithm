@@ -246,21 +246,25 @@ function Game({
         </div>
       ) : options?.length && state === "upcoming" ? (
         <div className={s.picks}>
-          {options.map((o) => (
+          {options.map((o, i) => (
             <details
               key={o.band}
               className={s.pick}
+              // The shortest one open, so a card shows a call without a click.
+              open={i === 0}
               style={{ ["--char" as string]: `var(--ch-${o.character})` }}
             >
               <summary className={s.pickHead}>
-                <span className={s.pickWho}>
-                  <span className={s.pickSwatch} aria-hidden />
-                  {o.character}
+                <span className={s.pickRow}>
+                  <span className={s.pickWho}>
+                    <span className={s.pickSwatch} aria-hidden />
+                    {o.character}
+                  </span>
+                  <span className={s.pickSummary}>
+                    {o.totalFouls} foul{o.totalFouls === 1 ? "" : "s"}
+                  </span>
+                  <span className={s.pickOdds}>{o.odds.toFixed(2)}</span>
                 </span>
-                <span className={s.pickSummary}>
-                  {o.totalFouls} foul{o.totalFouls === 1 ? "" : "s"}
-                </span>
-                <span className={s.pickOdds}>{o.odds.toFixed(2)}</span>
               </summary>
 
               <ul className={s.pickLegs}>

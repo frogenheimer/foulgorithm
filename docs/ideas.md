@@ -52,6 +52,16 @@ here. This entry holds what was judged valuable but not committed.
 - **Age curve for Lily** (advisor 1). An age-decay factor for older players
   would sharpen her reputation-lag weakness into something testable. Low value
   until the characters have a longer record.
+- **Market-blend challenger, P_final = f(P_model, P_market)** (advisor 2 §29
+  and §72, reaffirmed in their reply). Test whether the model adds incremental
+  information beyond the market rather than assuming the market is wrong.
+  Blocked on price data: only becomes testable once the manual capture page
+  has accumulated a real sample, and even then on the tracked lines only.
+- **Poisson-lognormal shared intensity, conditional reopen** (advisor 2 reply).
+  Stays retired unless the direct pairwise within-match residual correlation
+  test in the Phase A evidence pack comes back positive, in which case the
+  decomposition's zero was masking cancellation and this is the first
+  candidate back on the table.
 
 ---
 

@@ -276,11 +276,20 @@
   border-top: 1px solid var(--line);
 }
 
-.pickHead {
+/* A <summary> must NOT be display:flex. Safari drops its click-to-toggle when
+   the display type changes, which is exactly how three pick cards ended up
+   rendering their headings and refusing to open. The flex lives on a span
+   inside it instead. */
+
+.pickRow {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--s2);
+}
+
+.pickHead:hover .pickRow {
+  color: var(--ink);
 }
 
 .pickWho {
@@ -326,9 +335,6 @@
 /* ---------- the house pick, as a disclosure ---------- */
 
 .pickHead {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s2);
   cursor: pointer;
   list-style: none;
 }
