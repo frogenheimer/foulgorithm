@@ -1,0 +1,99 @@
+"""The house model, and how the five are scored against each other.
+
+**The house model is the five averaged.** Each of them is wrong in its own
+direction and the errors are not perfectly correlated, so half of each cancels.
+It is a sixth opinion rather than a judge of the other five, and it has no
+temperament, no weakness worth naming and nothing to explore. That is what makes
+it the right thing to put on a fixture card.
+
+**The league table is the five scored on identical bets.** Comparing characters
+is only fair when they are asked the same question, so every gameweek each one
+must produce the same fixed slates: six players at 1+, three at 2+, and a mixed
+two-and-two. A character that would rather pass has to commit.
+
+Scoring reads as a football table, which is the right metaphor for a site about
+football:
+
+  - every leg lands, three points
+  - all but one lands, one point
+  - anything worse, none
+  - goal difference is legs landed minus legs missed
+
+Weights are equal until there is a record to fit them on. The parameter exists
+so that day does not need a rewrite.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+def blend(probabilities: list[float], weights: list[float] | None = None) -> float:
+    """The house number: a weighted mean of the five.
+
+    Refuses an empty list rather than returning a default, because a default
+    here is a made-up number on the front page.
+    """
+    if not probabilities:
+        raise ValueError("nothing to blend")
+    if weights is None:
+        return sum(probabilities) / len(probabilities)
+    if len(weights) != len(probabilities):
+        raise ValueError(
+            f"{len(weights)} weights for {len(probabilities)} probabilities"
+        )
+    total = sum(weights)
+    if total <= 0:
+        raise ValueError("weights must sum to something positive")
+    return sum(p * w for p, w in zip(probabilities, weights)) / total
+
+
+@dataclass(frozen=True)
+class Slate:
+    """A fixed bet shape every character must produce every gameweek."""
+
+    key: str
+    label: str
+    # (line, how many legs at it). A line of 0.5 means "1+ fouls".
+    shape: tuple[tuple[float, int], ...]
+
+    @property
+    def legs(self) -> int:
+        return sum(n for _, n in self.shape)
+
+
+# Identical shapes, so a hit count is directly comparable. Difficulty is held
+# constant and only the selection varies, which is the thing being measured.
+SLATES: tuple[Slate, ...] = (
+    Slate("six-ones", "Six at 1+", ((0.5, 6),)),
+    Slate("three-twos", "Three at 2+", ((1.5, 3),)),
+    Slate("two-and-two", "Two at 2+, two at 1+", ((1.5, 2), (0.5, 2))),
+)
+
+
+def score_slate(legs: list[bool]) -> dict:
+    """Points and difference for one slate, read as a football result.
+
+    A near miss is not a wipeout. Scoring "all but one" the same as "none of
+    them" throws away most of what separates a good week from a bad one.
+    """
+    if not legs:
+        return {"points": 0, "result": "void", "landed": 0, "missed": 0, "difference": 0}
+
+    landed = sum(1 for x in legs if x)
+    missed = len(legs) - landed
+
+    if missed == 0:
+        points, result = 3, "won"
+    elif missed == 1:
+        points, result = 1, "drawn"
+    else:
+        points, result = 0, "lost"
+
+    return {
+        "points": points,
+        "result": result,
+        "landed": landed,
+        "missed": missed,
+        "difference": landed - missed,
+    }

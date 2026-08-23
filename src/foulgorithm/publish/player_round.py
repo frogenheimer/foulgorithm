@@ -134,11 +134,28 @@ def squad(
         # numbers attached.
         out = [selection_for(n, True) for n in lineup.starters]
         seen = {fpl.normalise(n) for n in lineup.starters}
-        out += [
-            selection_for(n, False)
-            for n in lineup.substitutes
-            if fpl.normalise(n) not in seen
-        ]
+        for name in lineup.substitutes:
+            if fpl.normalise(name) not in seen:
+                out.append(selection_for(name, False))
+                seen.add(fpl.normalise(name))
+
+        # Everyone else available. A named eleven and nine substitutes is the
+        # match; the rest of the squad is who a reader might ask about.
+        for p in players:
+            if fpl.normalise(p.name) in seen or not p.available:
+                continue
+            out.append(
+                Selection(
+                    display=p.web_name,
+                    full=p.name,
+                    history=resolution.matched.get(p.name),
+                    position=p.position,
+                    available=True,
+                    news=p.news,
+                    confirmed=False,
+                )
+            )
+            seen.add(fpl.normalise(p.name))
         return out
 
     ranked = fpl.likely_eleven(players, limit)
@@ -167,6 +184,24 @@ def squad(
             seen = {p.name for p in lead}
             ranked = lead + [p for p in ranked if p.name not in seen]
             ranked = ranked[:limit]
+
+    # Then everyone else who could feature.
+    #
+    # Cutting at the limit meant a player with no starts this season never
+    # appeared however obviously he belongs in a foul market: Rio Ngumoha wins
+    # fouls for Liverpool and was invisible, along with 110 other available
+    # players. The likely eleven still leads, so the pitch picks the same
+    # starters. This only widens what can be SELECTED. Training is untouched and
+    # always was: history covers everyone who ever played.
+    chosen = {p.name for p in ranked}
+    ranked = ranked + sorted(
+        (
+            p
+            for p in players
+            if p.name not in chosen and p.available and (p.chance is None or p.chance >= 50)
+        ),
+        key=lambda p: (-p.minutes, p.name),
+    )
 
     out = []
     for p in ranked:
