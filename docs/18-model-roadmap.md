@@ -181,6 +181,22 @@ model in item 2: league becomes another level above team and position.
 September 2025. This fixes volume, never staleness. Anyone reaching for it to
 solve the eleven-month gap has misread the problem.
 
+**What the data already says about the offset**, explored in
+`29-why-leagues-differ.md` and worth reading before building this:
+
+- The gap is **not** explained by how much each league tackles. Correlation
+  between fouls and tackles won is −0.135 across leagues and −0.235 within
+  England across seasons. Italy tackles less than England and fouls 23% more.
+- It is present in **every position**, 16% to 23%, largest for defenders. So a
+  single league intercept is likely to be enough and a league-by-position
+  interaction probably will not earn its parameters. Test it, do not assume it.
+- It should be **multiplicative**, holding proportionally across roles with very
+  different base rates.
+- The sharpest test available: **a player who changed leagues should keep his
+  rank among peers better than he keeps his rate.** If the difference is
+  interpretation rather than behaviour, that is what the data will show, and it
+  is a cleaner check than any goodness-of-fit number.
+
 **Tests that decide it.** Held-out log loss on English players only, because
 that is what we publish. Pooling has to beat the England-only model on England,
 not merely fit more data. Two guards worth building at the same time: the league
