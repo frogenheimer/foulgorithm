@@ -115,6 +115,7 @@ export default async function CharacterPage({ params }: { params: Promise<{ id: 
       <section>
         <SectionHead title="Under the bonnet" />
         <Card>
+          <div className="scroll-x">
             <table className={c.table}>
               <tbody>
                 <tr>
@@ -140,6 +141,7 @@ export default async function CharacterPage({ params }: { params: Promise<{ id: 
                 </tr>
               </tbody>
             </table>
+          </div>
         </Card>
         <Callout>
           Frozen at this version on 21 August 2026 and not tuned since. Any change from here has to

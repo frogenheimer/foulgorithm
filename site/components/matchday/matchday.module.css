@@ -122,8 +122,18 @@
 
 /* ---------- the mirrored comparison ---------- */
 
+/* Wide content scrolls inside its own box. The page body never scrolls.
+   min-width: 0 is load-bearing: a grid item defaults to min-width: auto and
+   refuses to shrink below its contents, so without it the 520px table pushed
+   the whole page wider instead of scrolling inside this box. */
+.compareScroller {
+  overflow-x: auto;
+  min-width: 0;
+}
+
 .compare {
   width: 100%;
+  min-width: 520px;
   border-collapse: collapse;
   font-variant-numeric: tabular-nums;
 }
@@ -248,6 +258,7 @@
 
 .scroller {
   overflow-x: auto;
+  min-width: 0;
 }
 
 .playerTable {
@@ -314,6 +325,10 @@
 @media (max-width: 900px) {
   .split {
     grid-template-columns: 1fr;
+  }
+
+  .sheet {
+    padding: var(--space-4) var(--space-3);
   }
 
   .head {

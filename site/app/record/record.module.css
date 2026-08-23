@@ -29,6 +29,7 @@
 /* Wide tables scroll inside their own box. The page body never scrolls sideways. */
 .scroller {
   overflow-x: auto;
+  min-width: 0;
 }
 
 .thin {

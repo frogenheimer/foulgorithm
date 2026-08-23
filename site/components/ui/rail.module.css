@@ -78,9 +78,20 @@
     flex-direction: row; justify-content: flex-start; gap: var(--space-3);
     padding: var(--space-2) var(--space-4);
     border-right: none; border-bottom: 1px solid var(--border);
+    /* The row grew past the viewport as pages were added: six destinations plus
+       a mark plus a theme toggle do not fit across a phone. It scrolls inside
+       itself rather than widening the page, which is the rule everywhere else
+       and was not being followed here. */
+    overflow-x: auto;
+    scrollbar-width: none;
   }
-  .items { flex-direction: row; }
+  .rail::-webkit-scrollbar { display: none; }
+  .items { flex-direction: row; flex-shrink: 0; }
+  .mark { flex-shrink: 0; }
   .tip { display: none; }
+  /* margin-top: auto does nothing in a row. Without this the toggle sits hard
+     against the last nav item and reads as another destination. */
+  .theme { margin-top: 0; margin-left: var(--space-2); flex-shrink: 0; }
   .content, .footer { padding-left: var(--space-4); padding-right: var(--space-4); }
 }
 

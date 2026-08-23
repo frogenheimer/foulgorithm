@@ -217,8 +217,13 @@ svg {
   margin-top: var(--space-7);
 }
 
+/* Wide content scrolls inside its own box; the page body never scrolls
+   sideways. min-width: 0 is load-bearing: a grid or flex item defaults to
+   min-width: auto and will not shrink below its contents, so without it the
+   table pushes the page wider instead of scrolling in here. */
 .scroll-x {
   overflow-x: auto;
+  min-width: 0;
 }
 
 .tabular {

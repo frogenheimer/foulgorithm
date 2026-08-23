@@ -174,3 +174,35 @@ page. We are a tool: one shell, dense content, no scroll narrative.
 Their layout is a template for *structure*, never for *claims*. Every number on
 our version still carries its uncertainty, its sample size and its band word.
 A prettier shell must not quietly turn an estimate into a promise.
+
+## Checking narrow widths
+
+**Do not judge mobile layout from a screenshot.** Headless Chrome will not open
+a viewport narrower than 500px, so `--window-size=390` renders the page at 500
+and then CLIPS the image to 390. Text appears cut off at the right edge and it
+looks exactly like a page overflowing its viewport. It is not, and reading it
+that way has twice cost a round of fixing layout that was already correct.
+
+Run `scripts/check-mobile.sh [width]` instead. It loads each route inside an
+iframe of the requested width, which gets a genuine viewport of that size, and
+compares `scrollWidth` against it. Equal is correct. Wider is a real bug, and
+the widest offending element is named.
+
+```
+route                      viewport  scrollWidth  verdict
+/stats                          390          390  ok
+/characters/alan                390          530  OVERFLOWS  table.characters_table@763
+```
+
+Both 390 and 320 should pass before any layout change ships.
+
+### The rule, and the trap inside it
+
+Wide content scrolls inside its own `overflow-x: auto` box. The page body never
+scrolls sideways.
+
+`min-width: 0` on that box is load-bearing and easy to leave out. A grid or flex
+item defaults to `min-width: auto`, which refuses to shrink below its contents,
+so a 622px table inside a scroller that is itself a grid item will still push
+the whole page to 622px. The scroller looks correct and does nothing. The shared
+`.scroll-x` helper in `globals.css` carries it; a bespoke one must too.

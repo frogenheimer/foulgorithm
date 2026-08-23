@@ -151,6 +151,9 @@
 /* Wide content scrolls inside its own box. The page never scrolls sideways. */
 .scroller {
   overflow-x: auto;
+  /* See matchday.module.css: a grid item will not shrink below its contents
+     without this, and the table widens the page instead of scrolling. */
+  min-width: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-1);

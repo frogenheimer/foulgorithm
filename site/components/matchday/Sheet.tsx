@@ -87,6 +87,7 @@ function Fixture({ fixture, window }: { fixture: MatchdayFixture; window: number
         </h2>
       </header>
 
+      <div className={s.compareScroller}>
       <table className={s.compare}>
         <caption className={s.caption}>
           Per match, and whether the line landed in each of the last {window}. Most
@@ -98,6 +99,7 @@ function Fixture({ fixture, window }: { fixture: MatchdayFixture; window: number
           ))}
         </tbody>
       </table>
+      </div>
 
       {ref.matches > 0 && (
         <p className={s.refCaveat}>
