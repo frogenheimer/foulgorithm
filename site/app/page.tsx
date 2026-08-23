@@ -17,18 +17,15 @@ export default function Today() {
   // carries exactly eleven a side and an unconfirmed one carries fourteen, so
   // slicing the flattened list took fourteen from the home side and eight from
   // the away side and made every unconfirmed fixture look quiet.
-  const expected: Record<string, number> = {};
-  for (const f of d.board) {
-    const label = `${f.home} v ${f.away}`;
-    expected[label] = Object.values(f.teams).reduce(
-      (total, squad) =>
-        total +
-        squad
-          .slice(0, 11)
-          .reduce((a, p) => a + (p.committed?.why?.expected_fouls ?? 0), 0),
-      0
-    );
-  }
+  // What we said, from the permanent record rather than the current board.
+  //
+  // It was summed off the board, which only holds the fixtures being predicted
+  // now. The moment the pipeline moved to predicting the round that is COMING,
+  // every played card lost its claim and "We said 22" quietly disappeared from
+  // the comparison that is the whole point of showing a result.
+  const expected: Record<string, number> = Object.fromEntries(
+    Object.entries(d.expectedTotals ?? {}).map(([label, held]) => [label, held.expected])
+  );
 
   const house = record?.models?.house;
 

@@ -371,3 +371,45 @@
   display: grid;
   gap: var(--s2);
 }
+
+
+/* ---------- matchweek picker ---------- */
+
+.weekTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s2) var(--s3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  transition: border-color var(--d-fast) var(--ease);
+}
+
+.weekTrigger:hover {
+  border-color: var(--line-strong);
+}
+
+.weekLabel {
+  white-space: nowrap;
+}
+
+/* "Current" said in a word. It was a bare middle dot appended to a label. */
+.weekNow {
+  padding: 0 var(--s2);
+  border-radius: var(--r1);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.weekNote {
+  margin-left: var(--s3);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}

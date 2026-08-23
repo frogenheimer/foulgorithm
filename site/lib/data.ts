@@ -427,6 +427,8 @@ export type PlayersData = {
   explorer: Explorer;
   fixtureSlips: FixtureSlips;
   bestPicks: Record<string, BestPick>;
+  /** What we said each fixture would produce, kept after it is played. */
+  expectedTotals: Record<string, { expected: number; publishedAt: string }>;
   /** Up to three calls per fixture, short price to long. */
   fixtureOptions: Record<string, FixtureOption[]>;
   formations: Formations;

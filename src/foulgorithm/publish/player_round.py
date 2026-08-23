@@ -506,6 +506,9 @@ def publish(output: Path = OUTPUT) -> dict:
                     "Until then these are predicted from current squads.",
         },
         "topFoulers": top,
+        # What we say each of these fixtures will produce, kept permanently so a
+        # played card can still show it. See store/expected_totals.py.
+        "expectedTotals": _keep_expected_totals(board, as_of),
         "board": board,
         "picks": picks,
         "fixtureSlips": fixture_slips,
@@ -591,6 +594,29 @@ def _commit_slates(slates: dict, published: str) -> dict:
                 )
             )
     return slate_store.append(committed)
+
+
+def _keep_expected_totals(board: list[dict], as_of) -> dict:
+    """Record this round's expected totals, and return everything ever recorded.
+
+    Eleven a side, not twenty-two off a combined list: a confirmed fixture
+    carries exactly eleven a side and an unconfirmed one carries more, so
+    slicing a flattened list took the wrong number from each side and made every
+    unconfirmed fixture look quiet.
+    """
+    from foulgorithm.store import expected_totals
+
+    totals = {}
+    for fixture in board:
+        label = f"{fixture['home']} v {fixture['away']}"
+        totals[label] = sum(
+            sum((p.get("committed", {}).get("why", {}).get("expected_fouls") or 0)
+                for p in squad[:11])
+            for squad in fixture["teams"].values()
+        )
+
+    expected_totals.record(totals, as_of.replace(microsecond=0).isoformat())
+    return expected_totals.load()
 
 
 def _or_none(value):

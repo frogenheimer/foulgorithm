@@ -21,6 +21,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { FixtureOption, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
+import { Combobox } from "@/components/kit";
 import s from "./timeline.module.css";
 
 type State = "past" | "live" | "upcoming";
@@ -95,27 +96,39 @@ export default function Timeline({
 
   return (
     <div>
+      {/* A dropdown, not a scrolling row of thirty-eight buttons. The row put
+          the whole season in a horizontally scrolling box where the current
+          matchweek was usually off-screen, and marked it with a bare middle dot
+          that meant nothing to anyone who had not been told. */}
       <div className={s.picker}>
-        <div className={s.weeks}>
-          <button
-            type="button"
-            className={week === "all" ? s.weekOn : s.week}
-            onClick={() => setWeek("all")}
-          >
-            All matchweeks
-          </button>
-          {matchweeks.map((w) => (
-            <button
-              key={w}
-              type="button"
-              className={week === w ? s.weekOn : s.week}
-              onClick={() => setWeek(w)}
-            >
-              MW{w}
-              {w === currentMatchweek ? " ·" : ""}
+        <Combobox
+          value={week === "all" ? "all" : `${week}`}
+          options={[
+            { value: "all", label: "All matchweeks" },
+            ...matchweeks.map((w) => ({
+              value: `${w}`,
+              label: `Matchweek ${w}`,
+              meta: w === currentMatchweek ? "current" : undefined,
+            })),
+          ]}
+          onChange={(v) => setWeek(v === "all" ? "all" : Number(v))}
+          label="Which matchweek to show"
+          placeholder="Search matchweeks"
+          trigger={(open) => (
+            <button type="button" className={s.weekTrigger} onClick={open}>
+              <span className={s.weekLabel}>
+                {week === "all" ? "All matchweeks" : `Matchweek ${week}`}
+              </span>
+              {week !== "all" && week === currentMatchweek && (
+                <span className={s.weekNow}>current</span>
+              )}
+              <Chevron />
             </button>
-          ))}
-        </div>
+          )}
+        />
+        {week === "all" && currentMatchweek != null && (
+          <span className={s.weekNote}>Matchweek {currentMatchweek} is under way</span>
+        )}
       </div>
 
       <div className={s.wrap}>
@@ -152,6 +165,21 @@ export default function Timeline({
         })}
       </div>
     </div>
+  );
+}
+
+function Chevron() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden>
+      <path
+        d="M3 4.5 6 7.5 9 4.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
