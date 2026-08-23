@@ -18,6 +18,42 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-23 — Our predicted eleven is 63% right, and that is the real problem
+
+**Question.** Every player bet depends on the player playing. Before confirmed
+lineups land, roughly an hour before kickoff, we guess the eleven by ranking a
+club's available players on starts then minutes. How good is that guess?
+
+**Result**, 1,122 team-matches from August 2023:
+
+| | |
+|---|---|
+| Slots correct | **62.9%** (7,760 of 12,342) |
+| Average correct per XI | **6.9 of 11** |
+| All eleven right | **0.6%** |
+| Five or fewer right | **18.3%** |
+
+Sportmonks sells human-curated expected lineups at about **84%** for the Premier
+League, for 34 euros a month. That is a twenty-point gap on the one input every
+player bet depends on.
+
+**The model's own P(start) is worse, not better.** The two-stage minutes model
+computes a time-decayed probability of starting and nothing used it to pick an
+eleven, which looked like a free win. Measured over 739 team-matches it scores
+**61.2%** against the counter's 65.1%. The half-life is the reason: at 1,000
+days it is slow to notice a player becoming a regular, where a count of this
+season's starts notices immediately. Not shipped.
+
+**What this actually means for the product.** The confirmed-lineup poll already
+runs and is 100% accurate, so the answer is not a better guess but a clearer
+separation. A pick published before lineups is a different product from one
+published after, they are already graded separately, and the site should make
+that distinction much louder than it currently does.
+
+For the window before confirmation there are three options and none is free and
+good: keep the 63% guess and label it, pay for an 84% feed, or publish nothing
+until lineups land. That is a product decision rather than a modelling one.
+
 ## 2026-08-23 — The first graded calibration points the wrong way
 
 **Built the reliability view**, which answers the only question that matters

@@ -8,6 +8,7 @@
  * design. Reuse simply was not the cheap path.
  */
 
+import { Fragment } from "react";
 import type { ReactNode } from "react";
 import s from "./kit.module.css";
 
@@ -134,6 +135,8 @@ export function DataTable<T>({
   sortKey,
   onSort,
   onRowClick,
+  expanded,
+  renderExpanded,
   empty = "Nothing matches.",
 }: {
   rows: T[];
@@ -142,6 +145,10 @@ export function DataTable<T>({
   sortKey?: string;
   onSort?: (key: string) => void;
   onRowClick?: (row: T) => void;
+  /** Key of the row currently open, from `rowKey`. */
+  expanded?: string | null;
+  /** What to draw underneath an open row, spanning every column. */
+  renderExpanded?: (row: T) => ReactNode;
   empty?: ReactNode;
 }) {
   return (
@@ -164,19 +171,31 @@ export function DataTable<T>({
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
-            <tr
-              key={rowKey(row)}
-              onClick={onRowClick ? () => onRowClick(row) : undefined}
-              style={onRowClick ? { cursor: "pointer" } : undefined}
-            >
-              {columns.map((c) => (
-                <td key={c.key} className={c.numeric ? s.num : undefined}>
-                  {c.cell(row)}
-                </td>
-              ))}
-            </tr>
-          ))}
+          {rows.map((row) => {
+            const key = rowKey(row);
+            const open = expanded === key && Boolean(renderExpanded);
+            return (
+              <Fragment key={key}>
+                <tr
+                  onClick={onRowClick ? () => onRowClick(row) : undefined}
+                  className={open ? s.rowOpen : undefined}
+                  aria-expanded={renderExpanded ? open : undefined}
+                  style={onRowClick ? { cursor: "pointer" } : undefined}
+                >
+                  {columns.map((c) => (
+                    <td key={c.key} className={c.numeric ? s.num : undefined}>
+                      {c.cell(row)}
+                    </td>
+                  ))}
+                </tr>
+                {open && (
+                  <tr className={s.expandedRow}>
+                    <td colSpan={columns.length}>{renderExpanded!(row)}</td>
+                  </tr>
+                )}
+              </Fragment>
+            );
+          })}
         </tbody>
       </table>
       {rows.length === 0 && <p className={s.empty}>{empty}</p>}

@@ -1,4 +1,5 @@
 import Reliability from "@/components/record/Reliability";
+import { DataTable } from "@/components/kit";
 import { Callout, Card, Metric, MetricRow } from "@/components/kit";
 import { getTrackRecord } from "@/lib/data";
 import styles from "../round.module.css";
@@ -84,39 +85,28 @@ export default function Record() {
         subtitle="Claimed against actual is the honest column. A hit rate alone can hide a model that is confidently wrong."
         flush
       >
-        <div className={t.scroller}>
-          <table className={t.table}>
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>Claims</th>
-                <th>We said</th>
-                <th>It happened</th>
-                <th>Gap</th>
-                <th>Log loss</th>
-                <th>Calibration error</th>
-              </tr>
-            </thead>
-            <tbody>
-              {models.map(([id, m]) => {
-                const noisy = m.n < MEANINGFUL;
-                return (
-                  <tr key={id} className={noisy ? t.thin : undefined}>
-                    <td>{id}</td>
-                    <td>{m.n}</td>
-                    <td>{pct(m.claimed)}</td>
-                    <td>{pct(m.actual)}</td>
-                    <td className={noisy ? undefined : Math.abs(m.gap) < 0.05 ? t.good : t.bad}>
-                      {signed(m.gap)}
-                    </td>
-                    <td>{m.logLoss.toFixed(4)}</td>
-                    <td>{m.ece.toFixed(4)}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        <DataTable
+          rows={models}
+          rowKey={([id]) => id}
+          columns={[
+            { key: "model", head: "Model", cell: ([id]) => id },
+            { key: "n", head: "Claims", numeric: true, cell: ([, m]) => m.n },
+            { key: "said", head: "We said", numeric: true, cell: ([, m]) => pct(m.claimed) },
+            { key: "got", head: "It happened", numeric: true, cell: ([, m]) => pct(m.actual) },
+            {
+              key: "gap",
+              head: "Gap",
+              numeric: true,
+              cell: ([, m]) => (
+                <span className={m.n < MEANINGFUL ? t.thin : Math.abs(m.gap) < 0.05 ? t.good : t.bad}>
+                  {signed(m.gap)}
+                </span>
+              ),
+            },
+            { key: "ll", head: "Log loss", numeric: true, cell: ([, m]) => m.logLoss.toFixed(4) },
+            { key: "ece", head: "Calibration error", numeric: true, cell: ([, m]) => m.ece.toFixed(4) },
+          ]}
+        />
       </Card>
 
       {house.calibration?.length > 0 && (

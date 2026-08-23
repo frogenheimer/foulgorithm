@@ -175,6 +175,24 @@
   background: var(--surface-sunk);
 }
 
+/* An open row and its body read as one block. */
+.rowOpen {
+  background: var(--surface-sunk);
+}
+
+.rowOpen td {
+  border-bottom-color: transparent;
+}
+
+.expandedRow td {
+  padding: 0;
+  background: var(--surface-sunk);
+}
+
+.expandedRow:hover td {
+  background: var(--surface-sunk);
+}
+
 .sortable {
   display: inline-flex;
   align-items: center;

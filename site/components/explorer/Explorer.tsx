@@ -15,6 +15,7 @@
 
 import { Fragment, useMemo, useState } from "react";
 import type { Explorer as Data, ExplorerRow } from "@/lib/data";
+import { DataTable } from "@/components/kit";
 import Bars from "./Bars";
 import Shape from "./Shape";
 import s from "./explorer.module.css";
@@ -197,112 +198,93 @@ export default function Explorer({ data }: { data: Data }) {
           : `Showing ${model}, with every model plotted in the spread column.`}
       </p>
 
-      <div className={s.scroller}>
-        <table className={s.table}>
-          <thead>
-            <tr>
-              <th className={s.left}>
-                <button type="button" className={s.sortable} onClick={() => setSort("name")}>
-                  Player
-                </button>
-              </th>
-              <th className={s.left}>Game</th>
-              <th>
-                <button type="button" className={s.sortable} onClick={() => setSort("minutes")}>
-                  Mins
-                </button>
-              </th>
-              <th>
-                <button type="button" className={s.sortable} onClick={() => setSort("expected")}>
-                  Expected
-                </button>
-              </th>
-              <th className={s.wide}>
-                <button type="button" className={s.sortable} onClick={() => setSort("prob")}>
-                  {lineLabel} in 100 games
-                </button>
-              </th>
-              {!simple && <th className={s.wide}>Where the five sit</th>}
-              <th>Fair price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => {
-              const probs = r[market][line];
-              const p = probs[modelIndex];
-              const id = r.fullName + r.fixture;
-              const expanded = open === id;
-              const columns = simple ? 6 : 7;
-              return (
-                <Fragment key={id}>
-                <tr
-                  className={`${r.thin ? s.thinRow : ""} ${expanded ? s.openRow : ""}`}
-                  onClick={() => setOpen(expanded ? null : id)}
-                  aria-expanded={expanded}
-                >
-                  <td className={s.left}>
-                    <span className={s.name}>{r.player}</span>
-                    <span className={s.meta}>
-                      {/* Position is missing for some players. "?" is noise;
-                          the club is the useful half of this line anyway. */}
-                      {r.position && r.position !== "?" ? `${r.position} · ` : ""}
-                      {r.team}
-                      {r.confirmed && (
-                        <span
-                          className={s.confirmed}
-                          title="Named in the confirmed eleven. Predictions made before and after a lineup are graded separately."
-                        >
-                          <span className={s.dotMark} aria-hidden />
-                          named
-                        </span>
-                      )}
-                      {r.thin && (
-                        <span className={s.thinTag} title="Too little history on this player to be confident.">
-                          thin
-                        </span>
-                      )}
-                    </span>
-                  </td>
-                  <td className={s.left}>
-                    <span className={s.fixture}>{r.fixture}</span>
-                  </td>
-                  <td className={s.num}>{Math.round(r.minutes)}&apos;</td>
-                  <td className={s.num}>{r.expected[market].toFixed(2)}</td>
-                  <td>
-                    <Bars p={p} />
-                  </td>
-                  {!simple && (
-                    <td>
-                      <Spread probs={probs} models={data.models} active={modelIndex} />
-                    </td>
-                  )}
-                  <td className={s.num}>{p > 0 ? (1 / p).toFixed(2) : "—"}</td>
-                </tr>
-                {expanded && (
-                  <tr className={s.shapeRow}>
-                    <td colSpan={columns}>
-                      <Shape
-                        pmf={r.pmf[market]}
-                        lines={data.lines}
-                        published={r[market].map((probs) => probs[modelIndex])}
-                        selected={line}
-                        noun={MARKET_NOUN[market]}
-                      />
-                    </td>
-                  </tr>
-                )}
-                </Fragment>
-              );
-            })}
-          </tbody>
-        </table>
-        {rows.length === 0 && (
-          <p className={s.empty}>
-            Nothing matches those filters. Widen the search, rather than reading this as a
-            prediction that nobody fouls.
-          </p>
+      <DataTable
+        rows={rows}
+        rowKey={(r) => r.fullName + r.fixture}
+        sortKey={sort}
+        onSort={(k) => setSort(k as Sort)}
+        onRowClick={(r) => {
+          const id = r.fullName + r.fixture;
+          setOpen(open === id ? null : id);
+        }}
+        expanded={open}
+        renderExpanded={(r) => (
+          <Shape
+            pmf={r.pmf[market]}
+            lines={data.lines}
+            published={r[market].map((probs) => probs[modelIndex])}
+            selected={line}
+            noun={MARKET_NOUN[market]}
+          />
         )}
-      </div>
+        empty="Nothing matches those filters. Widen the search, rather than reading this as a prediction that nobody fouls."
+        columns={[
+          {
+            key: "name",
+            head: "Player",
+            sort: () => 0,
+            cell: (r) => (
+              <>
+                <span className={s.name}>{r.player}</span>
+                <span className={s.meta}>
+                  {r.position && r.position !== "?" ? `${r.position} · ` : ""}
+                  {r.team}
+                  {r.confirmed && (
+                    <span className={s.confirmed} title="Named in the confirmed eleven.">
+                      <span className={s.dotMark} aria-hidden />
+                      named
+                    </span>
+                  )}
+                  {r.thin && (
+                    <span className={s.thinTag} title="Too little history to be confident.">
+                      thin
+                    </span>
+                  )}
+                </span>
+              </>
+            ),
+          },
+          { key: "game", head: "Game", cell: (r) => <span className={s.fixture}>{r.fixture}</span> },
+          { key: "minutes", head: "Mins", numeric: true, sort: () => 0, cell: (r) => `${Math.round(r.minutes)}'` },
+          {
+            key: "expected",
+            head: "Expected",
+            numeric: true,
+            sort: () => 0,
+            cell: (r) => r.expected[market].toFixed(2),
+          },
+          {
+            key: "prob",
+            head: `${lineLabel} in 100 games`,
+            sort: () => 0,
+            cell: (r) => <Bars p={r[market][line][modelIndex]} />,
+          },
+          ...(simple
+            ? []
+            : [
+                {
+                  key: "spread",
+                  head: "Where the five sit",
+                  cell: (r: ExplorerRow) => (
+                    <Spread
+                      probs={r[market][line]}
+                      models={data.models}
+                      active={modelIndex}
+                    />
+                  ),
+                },
+              ]),
+          {
+            key: "fair",
+            head: "Fair price",
+            numeric: true,
+            cell: (r) => {
+              const p = r[market][line][modelIndex];
+              return p > 0 ? (1 / p).toFixed(2) : "—";
+            },
+          },
+        ]}
+      />
     </div>
   );
 }

@@ -15,6 +15,7 @@
 
 import { useMemo, useState } from "react";
 import type { Appointment, RefereeRow } from "@/lib/data";
+import { DataTable } from "@/components/kit";
 import s from "./referees.module.css";
 
 type Sort = "fouls" | "cards" | "strict" | "matches" | "name";
@@ -74,75 +75,63 @@ export default function Table({
         </span>
       </div>
 
-      <div className={s.scroller}>
-        <table className={s.table}>
-          <thead>
-            <tr>
-              <th className={s.left}>
-                <button type="button" className={s.sortable} onClick={() => setSort("name")}>
-                  Referee
-                </button>
-              </th>
-              <th className={s.left}>This round</th>
-              <th>
-                <button type="button" className={s.sortable} onClick={() => setSort("matches")}>
-                  Matches
-                </button>
-              </th>
-              <th>
-                <button type="button" className={s.sortable} onClick={() => setSort("fouls")}>
-                  Fouls
-                </button>
-              </th>
-              <th>vs league</th>
-              <th>
-                <button type="button" className={s.sortable} onClick={() => setSort("cards")}>
-                  Cards
-                </button>
-              </th>
-              <th>Reds</th>
-              <th>
-                <button type="button" className={s.sortable} onClick={() => setSort("strict")}>
-                  Fouls booked
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {shown.map((r) => {
+      <DataTable
+        rows={shown}
+        rowKey={(r) => r.referee}
+        sortKey={sort}
+        onSort={(k) => setSort(k as Sort)}
+        columns={[
+          {
+            key: "name",
+            head: "Referee",
+            sort: () => 0,
+            cell: (r) => <span className={s.name}>{r.referee}</span>,
+          },
+          {
+            key: "round",
+            head: "This round",
+            cell: (r) => {
               const games = byReferee.get(r.referee);
-              const off = Math.round((r.vsLeague - 1) * 100);
-              return (
-                <tr key={r.referee}>
-                  <td className={s.left}>
-                    <span className={s.name}>{r.referee}</span>
-                  </td>
-                  <td className={s.left}>
-                    {games ? (
-                      <span className={s.fixture}>{games.join(", ")}</span>
-                    ) : (
-                      <span className={s.none}>&mdash;</span>
-                    )}
-                  </td>
-                  <td className={s.num}>{r.matches}</td>
-                  <td className={s.strong}>{r.foulsPerMatch}</td>
-                  {/* Signed, so direction survives without the colour. */}
-                  <td className={s.num}>
-                    {off === 0 ? "level" : `${off > 0 ? "+" : ""}${off}%`}
-                  </td>
-                  <td className={s.num}>{r.cardsPerMatch ?? "—"}</td>
-                  <td className={s.num}>{r.redsPerMatch ?? "—"}</td>
-                  {/* As a percentage, not "1 in N". Rounding the reciprocal to a
-                      whole number collapsed a real 26% spread into two values. */}
-                  <td className={s.strong}>
-                    {r.cardsPerFoul !== null ? `${(r.cardsPerFoul * 100).toFixed(1)}%` : "—"}
-                  </td>
-                </tr>
+              return games ? (
+                <span className={s.fixture}>{games.join(", ")}</span>
+              ) : (
+                <span className={s.none}>&mdash;</span>
               );
-            })}
-          </tbody>
-        </table>
-      </div>
+            },
+          },
+          { key: "matches", head: "Matches", numeric: true, sort: () => 0, cell: (r) => r.matches },
+          {
+            key: "fouls",
+            head: "Fouls",
+            numeric: true,
+            sort: () => 0,
+            cell: (r) => <span className={s.strong}>{r.foulsPerMatch}</span>,
+          },
+          {
+            key: "vs",
+            head: "vs league",
+            numeric: true,
+            // Signed, so direction survives without the colour.
+            cell: (r) => {
+              const off = Math.round((r.vsLeague - 1) * 100);
+              return off === 0 ? "level" : `${off > 0 ? "+" : ""}${off}%`;
+            },
+          },
+          { key: "cards", head: "Cards", numeric: true, sort: () => 0, cell: (r) => r.cardsPerMatch ?? "—" },
+          { key: "reds", head: "Reds", numeric: true, cell: (r) => r.redsPerMatch ?? "—" },
+          {
+            key: "strict",
+            head: "Fouls booked",
+            numeric: true,
+            sort: () => 0,
+            cell: (r) => (
+              <span className={s.strong}>
+                {r.cardsPerFoul !== null ? `${(r.cardsPerFoul * 100).toFixed(1)}%` : "—"}
+              </span>
+            ),
+          },
+        ]}
+      />
 
       {thisRound && unlisted.length > 0 && (
         <p className={s.note}>
