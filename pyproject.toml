@@ -45,6 +45,10 @@ packages = ["src/foulgorithm"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# The package lives in src/ and is not always installed into the venv, so
+# pytest is told where to look rather than every caller having to export
+# PYTHONPATH. `make test` was failing on import for exactly this reason.
+pythonpath = ["src"]
 addopts = "-q --strict-markers"
 markers = [
     "network: test hits the network. Deselected by default in CI",

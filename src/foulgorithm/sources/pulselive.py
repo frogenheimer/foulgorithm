@@ -22,6 +22,7 @@ monetisation. See docs/13-legal-and-ethics.md.
 from __future__ import annotations
 
 import json
+from functools import lru_cache
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
@@ -71,6 +72,17 @@ class Fixture:
         return self.status == STATUS_COMPLETE
 
 
+def forget() -> None:
+    """Drop the cached fixture list, for a process that outlives its data.
+
+    The lineup watcher runs for five and a half hours and exists to notice
+    kickoff moves and referee appointments, so it must not be served a list it
+    fetched at the start.
+    """
+    fixtures.cache_clear()
+    current_season_id.cache_clear()
+
+
 def _get(path: str) -> dict:
     request = urllib.request.Request(f"{BASE}/{path}", headers=HEADERS)
     try:
@@ -82,8 +94,14 @@ def _get(path: str) -> dict:
         raise SourceError(f"{path} returned HTTP {exc.code}") from exc
 
 
+@lru_cache(maxsize=1)
 def current_season_id() -> int:
-    """The newest Premier League season. Never hard-coded."""
+    """The newest Premier League season. Never hard-coded.
+
+    Cached for the process. It was fetched once per call and a publish run asks
+    a thousand times, which is a thousand identical round trips for a number
+    that changes once a year.
+    """
     data = _get(f"competitions/{COMPETITION}/compseasons?pageSize=5")
     seasons = data.get("content") or []
     if not seasons:
@@ -91,7 +109,18 @@ def current_season_id() -> int:
     return int(seasons[0]["id"])
 
 
+@lru_cache(maxsize=4)
 def fixtures(season_id: int | None = None, page_size: int = 100) -> list[Fixture]:
+    """The season's fixture list.
+
+    Cached for the process, which is the single biggest saving in a publish run.
+    Profiling one showed 1,004 HTTP requests taking 89 of 232 seconds, almost
+    all of them this list being fetched again inside a per-player loop, for data
+    that does not change while the process is alive.
+
+    Long-running jobs that must see kickoff changes call `forget()` first. The
+    lineup watcher is the one that matters.
+    """
     season = season_id or current_season_id()
     data = _get(
         f"fixtures?comps={COMPETITION}&compSeasons={season}&pageSize={page_size}&sort=asc"

@@ -39,6 +39,12 @@ def _now() -> datetime:
 def upcoming(within: timedelta = timedelta(hours=6)) -> list:
     from foulgorithm.sources import pulselive
 
+    # The fixture list is cached for the process, which saves a publish run
+    # ninety seconds and would quietly break this one. This job runs for five
+    # and a half hours and exists to notice kickoff moves and referee
+    # appointments, so it re-asks every round.
+    pulselive.forget()
+
     now = _now()
     return sorted(
         (

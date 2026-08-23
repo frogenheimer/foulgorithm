@@ -97,6 +97,7 @@ class PlayerFoulModel:
         self.label = label or character_id
         self._history: pd.DataFrame | None = None
         self._league_rate = 1.0
+        self._visible_cache: dict = {}
         self._position_rate: dict[str, float] = {}
         self._player_position: dict[str, str] = {}
         self._default_minutes = 70.0
@@ -128,6 +129,8 @@ class PlayerFoulModel:
 
     def fit(self, history: pd.DataFrame) -> None:
         self._history = history
+        # Never survives a refit. See _visible.
+        self._visible_cache: dict = {}
         minutes = history["minutes"].sum()
         self._league_rate = float(history[self.stat].sum() / (minutes / 90.0))
 
@@ -181,7 +184,22 @@ class PlayerFoulModel:
         return self._league_rate
 
     def _visible(self, as_of) -> pd.DataFrame:
-        return self._history[self._history["known_at"] <= as_of]
+        """History known by `as_of`, cached for the fit it belongs to.
+
+        Filtering the whole frame ran on every call and a publish run makes
+        about twenty-five thousand of them, all with the same timestamp.
+
+        Keyed on `as_of` and dropped by `fit`, because this is precisely where a
+        leakage bug would live: a cache that survived a refit would answer a
+        walk-forward fold with the previous fold's data, which is the failure
+        that killed the 2025 version.
+        """
+        key = pd.Timestamp(as_of)
+        cached = self._visible_cache.get(key)
+        if cached is None:
+            cached = self._history[self._history["known_at"] <= key]
+            self._visible_cache[key] = cached
+        return cached
 
     def player_rate(self, player: str, as_of) -> tuple[float, float]:
         """Shrunk, time-decayed rate per 90. Returns (rate, effective matches)."""

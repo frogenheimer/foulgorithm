@@ -1,6 +1,10 @@
 .DEFAULT_GOAL := help
-.PHONY: help setup test lint fmt snapshot backtest ingest predict review site clean
+.PHONY: help setup test lint fmt snapshot backtest ingest predict review site clean \
+        check js-test site-build ui-audit data
 
+# Everything runs with src/ importable, because the package is not reliably
+# installed into the venv and every target needed the prefix by hand.
+export PYTHONPATH := src
 PY := .venv/bin/python
 PIP := .venv/bin/pip
 
@@ -74,3 +78,25 @@ record: ## Show what is in the append-only prediction store
 
 grade: ## Settle published predictions against results
 	$(PY) -m foulgorithm.review.grade
+
+# ---- one command, everything ----
+#
+# These were run one at a time and in the wrong order often enough to be worth
+# a single target. A change is not finished until all four pass, so make it one
+# thing to type and one thing to read.
+
+js-test: ## Run the site's tests
+	cd site && npx vitest run
+
+site-build: ## Build the static site
+	cd site && npm run build
+
+ui-audit: ## Check the interface against the brandbook
+	./scripts/audit-ui.sh
+
+check: test js-test site-build ui-audit ## Everything: both suites, the build, the audit
+	@echo
+	@echo "All green."
+
+data: ## Regenerate the site's data. The slow one, about 50 seconds.
+	$(PY) -m foulgorithm.publish.player_round

@@ -17,8 +17,8 @@ which is a real piece of work and is not this.
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
-from itertools import combinations
 
 # Legs per ticket. Two is thin, four is already a long shot at these prices.
 MIN_LEGS = 2
@@ -75,6 +75,65 @@ def _legs_for(players: list[dict], market: str) -> list[Leg]:
     return out
 
 
+def best_combination(legs: list[Leg], target: int) -> tuple[float, tuple[Leg, ...]] | None:
+    """The likeliest set of legs hitting `target` fouls exactly, one per player.
+
+    Exact, not a heuristic. The previous version enumerated every combination of
+    every size and discarded the ones that missed the target or reused a player,
+    which for fourteen players at three lines each is C(42, 4) per target per
+    fixture. A publish run spent sixty-five seconds there and evaluated one
+    generator 173 million times.
+
+    Choosing at most one leg per player to reach an exact total while maximising
+    a product of probabilities is a knapsack. The state is (fouls so far, legs
+    so far) and the value is the best log-probability reaching it, so the work is
+    players x target x legs-per-player instead of combinatorial.
+
+    Log probabilities rather than products: forty multiplications of numbers
+    around 0.1 underflow, and comparing sums avoids it entirely.
+
+    `tests/test_combinations_speed.py` checks this against the exhaustive search
+    it replaced, on random pools, because "faster" is only worth having if the
+    answer is the same.
+    """
+    if not legs or target <= 0:
+        return None
+
+    by_player: dict[str, list[Leg]] = {}
+    for leg in legs:
+        by_player.setdefault(leg.player, []).append(leg)
+
+    # (fouls, legs used) -> (total log prob, chosen legs)
+    best: dict[tuple[int, int], tuple[float, tuple[Leg, ...]]] = {(0, 0): (0.0, ())}
+
+    for options in by_player.values():
+        nxt = dict(best)
+        for (fouls, used), (score, chosen) in best.items():
+            if used >= MAX_LEGS:
+                continue
+            for leg in options:
+                total = fouls + leg.fouls
+                if total > target or leg.prob <= 0:
+                    continue
+                key = (total, used + 1)
+                candidate = score + math.log(leg.prob)
+                held = nxt.get(key)
+                if held is None or candidate > held[0]:
+                    nxt[key] = (candidate, chosen + (leg,))
+        best = nxt
+
+    winner = None
+    for (fouls, used), (score, chosen) in best.items():
+        if fouls != target or not (MIN_LEGS <= used <= MAX_LEGS):
+            continue
+        if winner is None or score > winner[0]:
+            winner = (score, chosen)
+
+    if winner is None:
+        return None
+    return math.exp(winner[0]), winner[1]
+
+
 def best_tickets(
     fixture: dict,
     market: str = "committed",
@@ -89,25 +148,18 @@ def best_tickets(
     # would double-count him, since 2+ already implies 1+.
     tickets = []
     for target in targets:
-        best: Ticket | None = None
-        for size in range(MIN_LEGS, MAX_LEGS + 1):
-            for combo in combinations(legs, size):
-                if len({leg.player for leg in combo}) != size:
-                    continue
-                if sum(leg.fouls for leg in combo) != target:
-                    continue
-                p = 1.0
-                for leg in combo:
-                    p *= leg.prob
-                if best is None or p > best.probability:
-                    best = Ticket(
-                        target=target,
-                        legs=list(combo),
-                        probability=p,
-                        fair=round(1 / p, 2) if p > 0 else float("inf"),
-                    )
-        if best:
-            tickets.append(best)
+        found = best_combination(legs, target)
+        if not found:
+            continue
+        p, chosen = found
+        tickets.append(
+            Ticket(
+                target=target,
+                legs=list(chosen),
+                probability=p,
+                fair=round(1 / p, 2) if p > 0 else float("inf"),
+            )
+        )
     return tickets
 
 
