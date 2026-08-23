@@ -63,6 +63,10 @@ function Fixture({ fixture, window }: { fixture: MatchdayFixture; window: number
 
   return (
     <div className={s.sheet}>
+      {/* Header, caption and comparison share one column so the club names sit
+          at the edges of the table rather than at the edges of the card, which
+          left them stranded once the table stopped stretching. */}
+      <div className={s.headline}>
       <header className={s.head}>
         <h2 className={s.club}>
           {fixture.home}
@@ -87,11 +91,19 @@ function Fixture({ fixture, window }: { fixture: MatchdayFixture; window: number
         </h2>
       </header>
 
+      {/* Outside the table, not as its caption. A caption's own text width
+          feeds the table's preferred width, so this one line was dragging the
+          whole comparison out to fill its container however the columns were
+          sized. The caption stays for screen readers. */}
+      <p className={s.caption}>
+        Per match, and whether the line landed in each of the last {window}. Most
+        recent on the left.
+      </p>
+
       <div className={s.compareScroller}>
       <table className={s.compare}>
-        <caption className={s.caption}>
-          Per match, and whether the line landed in each of the last {window}. Most
-          recent on the left.
+        <caption className={s.srOnly}>
+          Fouls, cards, shots and corners per match for both clubs, with recent form
         </caption>
         <tbody>
           {ORDER.map((key) => (
@@ -99,6 +111,7 @@ function Fixture({ fixture, window }: { fixture: MatchdayFixture; window: number
           ))}
         </tbody>
       </table>
+      </div>
       </div>
 
       {ref.matches > 0 && (
@@ -144,16 +157,20 @@ function Row({
       <td className={`${s.val} ${lead === "home" ? s.lead : ""}`}>
         {h.value ?? "—"}
       </td>
-      <td className={s.form}>
-        {hf && <Dots hits={hf.hits} window={window} label={`${h.label} over ${hf.line}`} />}
-        {hf && <span className={s.line}>over {hf.line}</span>}
+      <td className={s.formCell}>
+        <span className={s.form}>
+          {hf && <Dots hits={hf.hits} window={window} label={`${h.label} over ${hf.line}`} />}
+          {hf && <span className={s.line}>over {hf.line}</span>}
+        </span>
       </td>
       <th scope="row" className={s.metric}>
         {h.label}
       </th>
-      <td className={`${s.form} ${s.rightForm}`}>
-        {af && <span className={s.line}>over {af.line}</span>}
-        {af && <Dots hits={af.hits} window={window} label={`${a.label} over ${af.line}`} />}
+      <td className={s.formCell}>
+        <span className={`${s.form} ${s.rightForm}`}>
+          {af && <span className={s.line}>over {af.line}</span>}
+          {af && <Dots hits={af.hits} window={window} label={`${a.label} over ${af.line}`} />}
+        </span>
       </td>
       <td className={`${s.val} ${s.right} ${lead === "away" ? s.lead : ""}`}>
         {a.value ?? "—"}
