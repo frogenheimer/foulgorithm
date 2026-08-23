@@ -96,3 +96,21 @@ Any change that introduces a paid dependency, or that materially increases sched
 ## Secrets
 
 `.env` locally, gitignored, with `.env.example` committed as the template. GitHub Actions secrets for CI. The Supabase service role key never appears in the site, in a notebook or in a commit. The site only ever uses the anon key.
+
+## Before pushing
+
+```
+scripts/smoke.sh
+```
+
+Runs the whole thing end to end: both test suites, every live source, both
+scheduled jobs, the published data files, a site build and the narrow-width
+check. Most of what has broken in this project broke BETWEEN components rather
+than inside one, and the test suite mocks or skips exactly those seams.
+
+It also asserts two things worth keeping honest by machine: that no model output
+has leaked onto the stats sheet, whose entire claim is that every number can be
+checked against a scoreboard, and that both jobs' state paths are committable.
+State under `data/raw/` is gitignored, and a scheduled job that cannot commit
+its state starts from nothing every run, which for settlement means grading a
+whole season total as one match.
