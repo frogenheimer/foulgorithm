@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-23T03:52:39.603985+00:00",
+  "checkedAt": "2026-08-23T14:53:17.500973+00:00",
   "lineups": {
     "Arsenal|Arsenal v Coventry": {
       "formation": "4-2-3-1",
@@ -17,6 +17,38 @@
         "Riccardo Calafiori"
       ]
     },
+    "Aston Villa|Brighton v Aston Villa": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Boubacar Kamara",
+        "Emiliano Buend\u00eda",
+        "George Hemmings",
+        "Ian Maatsen",
+        "John McGinn",
+        "Jo\u00e3o Gomes",
+        "Marco Bizot",
+        "Matty Cash",
+        "Pau Torres",
+        "Ross Barkley",
+        "Victor Lindel\u00f6f"
+      ]
+    },
+    "Bournemouth|Man City v Bournemouth": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Adam Smith",
+        "Adrien Truffert",
+        "Alex Scott",
+        "Ant\u00f3nio Silva",
+        "Djordje Petrovic",
+        "Evanilson",
+        "James Hill",
+        "Justin Kluivert",
+        "Lewis Cook",
+        "Marcus Tavernier",
+        "Rayan"
+      ]
+    },
     "Brentford|Brentford v Tottenham": {
       "formation": "4-2-3-1",
       "starters": [
@@ -31,6 +63,22 @@
         "Michael Kayode",
         "Nathan Collins",
         "Vitaly Janelt"
+      ]
+    },
+    "Brighton|Brighton v Aston Villa": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Bart Verbruggen",
+        "Diego G\u00f3mez",
+        "Georginio Rutter",
+        "Jack Hinshelwood",
+        "Lewis Dunk",
+        "Luka Vuskovic",
+        "Mats Wieffer",
+        "Maxim De Cuyper",
+        "Olivier Boscagli",
+        "Pascal Gro\u00df",
+        "Yasin Ayari"
       ]
     },
     "Coventry|Arsenal v Coventry": {
@@ -127,6 +175,22 @@
         "Jayden Bogle",
         "Joe Rodon",
         "Tarik Muharemovic"
+      ]
+    },
+    "Man City|Man City v Bournemouth": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Abdukodir Khusanov",
+        "Antoine Semenyo",
+        "Elliot Anderson",
+        "Erling Haaland",
+        "Gianluigi Donnarumma",
+        "Josko Gvardiol",
+        "Marc Gu\u00e9hi",
+        "Nico O'Reilly",
+        "Phil Foden",
+        "Rico Lewis",
+        "R\u00faben Dias"
       ]
     },
     "Man United|Hull v Man United": {
