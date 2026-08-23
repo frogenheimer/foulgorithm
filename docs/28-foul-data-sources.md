@@ -139,6 +139,53 @@ So it completes every player RATE and adds no per-match training rows. Given the
 player's own rate is the largest single input to a prediction, that is a much
 better trade than it first sounds.
 
+### What else comes with it, and at what cost
+
+**Minutes are there**, so everything can be a rate rather than a count:
+`mins_played` returns 562 players for 2024/25 and is present in all twenty
+seasons alongside `appearances`.
+
+**Thirty-nine player stats respond**, tested one by one against 2024/25. The
+ones that matter for a foul model:
+
+| Group | Stats |
+|---|---|
+| **Denominators** | `mins_played`, `appearances`, `touches`, `total_pass` |
+| **Targets** | `fouls`, `was_fouled`, `fouled_final_third` |
+| **Discipline** | `yellow_card`, `red_card`, `penalty_conceded` |
+| **Tackling** | `total_tackle`, `won_tackle`, `attempted_tackle_foul`, `challenge_lost` |
+| **Duels** | `duel_won`, `duel_lost`, `aerial_won`, `aerial_lost` |
+| **Carrying** | `total_contest`, `won_contest`, `dispossessed`, `unsuccessful_touch` |
+| **Position of play** | `poss_won_def_3rd`, `poss_won_mid_3rd`, `poss_won_att_3rd`, `touches_in_opp_box` |
+| **Defending** | `interception`, `interception_won`, `total_clearance`, `head_clearance`, `ball_recovery` |
+
+`attempted_tackle_foul` is worth calling out: a tackle attempt that became a
+foul, which is nearly the mechanism the model is trying to predict.
+
+Four team-level names do NOT work per player: `total_yel_card`, `fk_foul_lost`,
+`fk_foul_won`, `possession_percentage`. The first three have player equivalents
+under different names; possession is inherently a team quantity.
+
+**Fetch cost.** `pageSize=500` returns a whole season in one request, about 2.5
+seconds. Twenty seasons times twenty stats is 400 requests, roughly seventeen
+minutes, once. The default `pageSize=100` would make it 2,000.
+
+### Why recent matches have per-player fouls and old ones do not
+
+**Not archiving. The league has never published per-match player stats, in any
+season.** Verified above: no player-scoped match endpoint exists, and lineups
+carry identity only.
+
+What exists for recent matches is manufactured here. `jobs/settle.py` snapshots
+the season totals, and a player's fouls in one match are the difference between
+two snapshots taken either side of it. Old seasons expose exactly the same
+totals; there is simply only one reading of them, and a single reading cannot be
+differenced.
+
+So the asymmetry is ours, not theirs. Every season back to 2006/07 is equally
+available as totals, and only the seasons we snapshot through will ever have
+per-match detail.
+
 ### What the league does NOT publish
 
 Checked, so nobody checks again:
