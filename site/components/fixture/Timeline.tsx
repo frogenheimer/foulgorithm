@@ -19,7 +19,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import type { SeasonFixture } from "@/lib/data";
+import type { BestPick, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
 import s from "./timeline.module.css";
 
@@ -34,6 +34,7 @@ export default function Timeline({
   currentMatchweek,
   expected,
   hasPage,
+  picks,
 }: {
   fixtures: SeasonFixture[];
   matchweeks: number[];
@@ -42,6 +43,8 @@ export default function Timeline({
   expected: Record<string, number>;
   /** Fixtures with a page of their own. Only this round has one. */
   hasPage: Set<string>;
+  /** One call per fixture, five fouls or more. */
+  picks: Record<string, BestPick>;
 }) {
   const [week, setWeek] = useState<number | "all">("all");
 
@@ -140,6 +143,7 @@ export default function Timeline({
                     state={stateOf(f)}
                     expected={expected[`${f.home} v ${f.away}`]}
                     linked={hasPage.has(`${f.home} v ${f.away}`)}
+                    pick={picks[`${f.home} v ${f.away}`]}
                   />
                 ))}
               </div>
@@ -156,11 +160,13 @@ function Game({
   state,
   expected,
   linked,
+  pick,
 }: {
   fixture: SeasonFixture;
   state: State;
   expected?: number;
   linked: boolean;
+  pick?: BestPick;
 }) {
   const label = `${f.home} v ${f.away}`;
   const cls = `${s.card} ${state === "past" ? s.past : ""} ${state === "live" ? s.live : ""}`;
@@ -209,6 +215,24 @@ function Game({
               </span>
             ) : null}
           </div>
+        </div>
+      ) : pick && state === "upcoming" ? (
+        <div className={s.pick} style={{ ["--char" as string]: `var(--ch-${pick.character})` }}>
+          <span className={s.pickHead}>
+            <span className={s.pickWho}>
+              <span className={s.pickSwatch} aria-hidden />
+              {pick.character}
+            </span>
+            <span className={s.pickOdds}>{pick.odds.toFixed(2)}</span>
+          </span>
+          <span className={s.pickLegs}>
+            {pick.legs
+              .map((l) => `${l.player} ${l.fouls}+ ${l.market === "drawn" ? "won" : "fouls"}`)
+              .join(" · ")}
+          </span>
+          <span className={s.pickMeta}>
+            {pick.totalFouls} fouls · {pick.outOf100} in 100 · {linked ? "see all five" : ""}
+          </span>
         </div>
       ) : (
         <div className={s.foot}>

@@ -371,6 +371,17 @@ export type TeamShape = {
 /** fixture label -> club -> shape */
 export type Formations = Record<string, Record<string, TeamShape>>;
 
+export type BestPick = {
+  character: string;
+  tier: string;
+  odds: number;
+  outOf100: number;
+  totalFouls: number;
+  /** How far this character sits from the other four on the same legs. */
+  gap: number;
+  legs: { player: string; fouls: number; market: "committed" | "drawn"; outOf100: number }[];
+};
+
 /** fixture label -> character id -> ladder of slips */
 export type FixtureSlips = Record<string, Record<string, Slip[]>>;
 
@@ -387,6 +398,7 @@ export type PlayersData = {
   picks: CharacterPicks[];
   explorer: Explorer;
   fixtureSlips: FixtureSlips;
+  bestPicks: Record<string, BestPick>;
   formations: Formations;
 };
 

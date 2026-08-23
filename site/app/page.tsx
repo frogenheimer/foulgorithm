@@ -52,6 +52,7 @@ export default function Today() {
           currentMatchweek={season.currentMatchweek}
           expected={expected}
           hasPage={new Set(Object.keys(d.fixtureSlips))}
+          picks={d.bestPicks}
         />
       </section>
 

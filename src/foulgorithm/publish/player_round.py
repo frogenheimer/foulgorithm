@@ -321,6 +321,13 @@ def publish(output: Path = OUTPUT) -> dict:
 
     top = sorted(all_rows, key=lambda r: -r["committed"]["p1plus"])[:12]
 
+    fixture_slips = _fixture_slips(candidates, fixtures)
+    best_picks = {
+        label: pick
+        for label, by_character in fixture_slips.items()
+        if (pick := _best_pick(by_character))
+    }
+
     payload = {
         "generatedAt": as_of.replace(microsecond=0).isoformat(),
         "trainedOn": {
@@ -354,7 +361,8 @@ def publish(output: Path = OUTPUT) -> dict:
         "topFoulers": top,
         "board": board,
         "picks": picks,
-        "fixtureSlips": _fixture_slips(candidates, fixtures),
+        "fixtureSlips": fixture_slips,
+        "bestPicks": best_picks,
         # Confirmed shapes win; a predicted one fills a fixture the league has
         # not published an eleven for yet.
         "formations": {**predicted_shapes, **_formations(lineups)},
@@ -1050,6 +1058,52 @@ def _formations(lineups: dict) -> dict:
             ],
         }
     return out
+
+
+MIN_TOTAL_FOULS = 5
+
+# A headline pick has to be worth reading. Ranking purely on distance from the
+# pack found a 22/1 combination at four in a hundred, which is a lottery ticket
+# wearing a recommendation. Ten in a hundred is still a long price and is
+# something that actually happens.
+MIN_PICK_PROBABILITY = 0.10
+
+
+def _best_pick(by_character: dict) -> dict | None:
+    """One call per fixture, from whichever character makes the boldest case.
+
+    Constrained to combinations totalling at least five foul events, because a
+    two-leg ticket at even money is not what anyone opens a page like this for.
+    Among those, the pick is the one furthest from what the other four say:
+    a number everyone agrees on is a consensus, and gives no reason to prefer
+    the character offering it.
+    """
+    best = None
+    for cid, tiers in by_character.items():
+        for slip in tiers:
+            total = sum(leg["fouls"] for leg in slip["legs"])
+            if total < MIN_TOTAL_FOULS or slip["probability"] < MIN_PICK_PROBABILITY:
+                continue
+            gap = sum(leg["prob"] - leg["packProb"] for leg in slip["legs"]) / len(slip["legs"])
+            if best is None or gap > best["gap"]:
+                best = {
+                    "character": cid,
+                    "tier": slip["targetLabel"],
+                    "odds": slip["actualOdds"],
+                    "outOf100": slip["outOf100"],
+                    "totalFouls": total,
+                    "gap": round(gap, 4),
+                    "legs": [
+                        {
+                            "player": leg["player"],
+                            "fouls": leg["fouls"],
+                            "market": leg["market"],
+                            "outOf100": leg["outOf100"],
+                        }
+                        for leg in slip["legs"]
+                    ],
+                }
+    return best
 
 
 def _fixture_slips(candidates: list[dict], fixtures) -> dict:
