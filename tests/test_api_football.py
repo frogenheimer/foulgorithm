@@ -124,3 +124,30 @@ class _FakeResponse:
 
     def __exit__(self, *exc):
         return False
+
+
+class TestADuplicatedName:
+    """A .env that declares a name twice is normal after a copy-paste from
+    .env.example, and reading the first match found the empty placeholder while
+    a working key sat further down the file."""
+
+    def test_the_last_non_empty_value_wins(self, monkeypatch, tmp_path):
+        monkeypatch.delenv("API_FOOTBALL_KEY", raising=False)
+        (tmp_path / ".env").write_text(
+            "API_FOOTBALL_KEY=\nOTHER=1\nAPI_FOOTBALL_KEY=the-real-one\n"
+        )
+        monkeypatch.chdir(tmp_path)
+        assert api_football._key() == "the-real-one"
+
+    def test_an_empty_later_value_does_not_erase_an_earlier_one(self, monkeypatch, tmp_path):
+        monkeypatch.delenv("API_FOOTBALL_KEY", raising=False)
+        (tmp_path / ".env").write_text("API_FOOTBALL_KEY=good\nAPI_FOOTBALL_KEY=\n")
+        monkeypatch.chdir(tmp_path)
+        assert api_football._key() == "good"
+
+    def test_all_empty_still_raises(self, monkeypatch, tmp_path):
+        monkeypatch.delenv("API_FOOTBALL_KEY", raising=False)
+        (tmp_path / ".env").write_text("API_FOOTBALL_KEY=\nAPI_FOOTBALL_KEY=\n")
+        monkeypatch.chdir(tmp_path)
+        with pytest.raises(SourceError):
+            api_football._key()

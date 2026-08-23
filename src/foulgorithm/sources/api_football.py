@@ -44,10 +44,15 @@ def _key() -> str:
         # Read .env directly rather than depending on a loader being called.
         env = Path(".env")
         if env.exists():
+            # The LAST non-empty value wins. A .env that declares a name twice
+            # is normal after a copy-paste from .env.example, and taking the
+            # first match read the empty placeholder while a perfectly good key
+            # sat twelve lines below it.
             for line in env.read_text().splitlines():
-                if line.startswith("API_FOOTBALL_KEY="):
-                    key = line.split("=", 1)[1].strip().strip("\"'")
-                    break
+                if line.strip().startswith("API_FOOTBALL_KEY="):
+                    value = line.split("=", 1)[1].strip().strip("\"'")
+                    if value:
+                        key = value
     if not key:
         raise SourceError(
             "API_FOOTBALL_KEY is empty. Paste the key from your API-Football "
