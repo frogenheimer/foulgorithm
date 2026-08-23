@@ -26,6 +26,7 @@ const GROUPS: { label: string; items: { href: string; label: string; icon: React
       { href: "/", label: "Today", icon: <IconGrid /> },
       { href: "/players", label: "Players", icon: <IconList /> },
       { href: "/stats", label: "Stats sheet", icon: <IconColumns /> },
+      { href: "/teams", label: "Teams", icon: <IconShield /> },
     ],
   },
   {
@@ -160,6 +161,7 @@ function IconGrid() { return <svg {...box} {...P}><rect x="2.5" y="2.5" width="6
 function IconList() { return <svg {...box} {...P}><path d="M7 5h10M7 10h10M7 15h10M3.5 5h.01M3.5 10h.01M3.5 15h.01"/></svg>; }
 function IconColumns() { return <svg {...box} {...P}><rect x="2.5" y="3" width="15" height="14" rx="1.5"/><path d="M10 3v14M2.5 7.5h15"/></svg>; }
 function IconUsers() { return <svg {...box} {...P}><circle cx="7.5" cy="7" r="2.6"/><path d="M2.8 16.5a4.7 4.7 0 0 1 9.4 0"/><path d="M13.2 5.2a2.6 2.6 0 0 1 0 5M14 12.4a4.7 4.7 0 0 1 3.2 4.1"/></svg>; }
+function IconShield() { return <svg {...box} {...P}><path d="M10 2.5 16.5 5v5c0 3.5-2.6 6.4-6.5 7.5C6.1 16.4 3.5 13.5 3.5 10V5z"/></svg>; }
 function IconWhistle() { return <svg {...box} {...P}><path d="M11.5 7.5h5.2a.8.8 0 0 1 .8.8v1.4a.8.8 0 0 1-.8.8H11.5"/><circle cx="7" cy="10" r="4.5"/><path d="M7 5.5V3"/></svg>; }
 function IconCheck() { return <svg {...box} {...P}><path d="M3 10.5l4 4 10-10"/></svg>; }
 function IconTrend() { return <svg {...box} {...P}><path d="M2.5 14.5l5-5 3 3 7-7"/><path d="M13 5.5h4.5V10"/></svg>; }

@@ -146,6 +146,14 @@ def run(dry_run: bool = False) -> int:
     except Exception as exc:
         print(f"season timeline not refreshed: {exc}", file=sys.stderr)
 
+    # Points and positions move when results land.
+    try:
+        from foulgorithm.publish import teams
+
+        teams.publish()
+    except Exception as exc:
+        print(f"league table not refreshed: {exc}", file=sys.stderr)
+
     TRACK_RECORD.parent.mkdir(parents=True, exist_ok=True)
     TRACK_RECORD.write_text(
         json.dumps(

@@ -503,3 +503,46 @@ export type Season = {
 };
 
 export const getSeason = () => read<Season>("season.json");
+
+/* ---------- teams ---------- */
+
+export type TeamPlayer = {
+  player: string;
+  position: string;
+  matches: number;
+  minutes: number;
+  foulsPer90: number;
+  wonPer90: number;
+  tacklesPer90: number;
+  cards: number;
+};
+
+export type TableRow = {
+  team: string;
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDifference: number;
+  points: number;
+  /** From the longer window, not the table season. */
+  foulsPerMatch: number | null;
+  foulsWonPerMatch: number | null;
+  cardsPerMatch: number | null;
+  rateMatches: number;
+  players: TeamPlayer[];
+};
+
+export type Teams = {
+  generatedAt: string;
+  seasons: string[];
+  /** The season the points and positions cover. */
+  tableSeason: string;
+  /** The window the foul rates cover, which is longer. */
+  rateSeasons: string;
+  table: TableRow[];
+};
+
+export const getTeams = () => read<Teams>("teams.json");
