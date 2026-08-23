@@ -294,15 +294,6 @@
   min-width: 0;
 }
 
-.thin {
-  font-size: var(--t-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink-3);
-  border: 1px solid var(--line);
-  border-radius: var(--r-sm);
-  padding: 0 var(--s1);
-}
 
 .pickMarket {
   font-size: var(--t-sm);
@@ -427,9 +418,6 @@ details[open] > summary .chev {
   text-align: right;
 }
 
-.thinRow td {
-  color: var(--ink-3);
-}
 
 /* ---------- machinery ---------- */
 

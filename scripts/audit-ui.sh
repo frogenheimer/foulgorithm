@@ -29,6 +29,7 @@ MODE="${1:-report}"
 # Files the rules apply to. tokens.css is exempt by design: it is the one place
 # raw values are allowed to exist.
 css_files () { find app components -name "*.css" ! -name "tokens.css" 2>/dev/null; }
+kit_free_css () { css_files | grep -v "components/kit/" || true; }
 tsx_files () { find app components -name "*.tsx" 2>/dev/null; }
 
 declare -a IDS DESCS COUNTS
@@ -86,6 +87,13 @@ hits B8 "display:flex or grid on a class named *cell* (breaks table layout)" css
 
 hits B9 "standalone .table definition (one DataTable, not nine)" css_files \
   '^\.table[[:space:]]*\{'
+
+# One idea, one implementation. Thin evidence had five: four identical row
+# mutings and three tags that disagreed on size and letter spacing, so the same
+# caveat looked like a different caveat on every page. The primitive lives in
+# components/kit and nowhere else defines it.
+hits B12 "thin-evidence style outside components/kit (use <Thin/> or thinRow)" kit_free_css \
+  '^\.thin[a-zA-Z]*[[:space:]]*(\{|[a-zA-Z. ]*\{)'
 
 hits B10 "hex colour in a component file" tsx_files \
   '#[0-9a-fA-F]{6}\b'

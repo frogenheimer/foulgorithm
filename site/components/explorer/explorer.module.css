@@ -267,20 +267,8 @@
 }
 
 /* Thin evidence keeps the pill. It is a caveat, and caveats should interrupt. */
-.thinTag {
-  font-size: var(--t-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 1px var(--s2); /* audit-ignore B2: 1px is optical on a pill */
-  border-radius: var(--r-pill);
-  border: 1px solid var(--line);
-  color: var(--ink-3);
-}
 
 /* Thin evidence is dimmed AND labelled. Colour never carries meaning alone. */
-.thinRow .name {
-  color: var(--ink-2);
-}
 
 .empty {
   padding: var(--s7) var(--s4);

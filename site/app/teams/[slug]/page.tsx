@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Card, DataTable, Metric, MetricRow, Note, PageHeader, SectionHead } from "@/components/kit";
+import { Card, DataTable, Metric, MetricRow, Note, PageHeader, SectionHead, Thin, thinRow } from "@/components/kit";
 import { getTeams } from "@/lib/data";
 import type { TeamPlayer } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
@@ -75,12 +75,12 @@ export default async function Team({ params }: { params: Promise<{ slug: string 
           <DataTable
             rows={t.players}
             rowKey={(p: TeamPlayer) => p.player}
-            rowClass={(p: TeamPlayer) => (p.thin ? s.thinRow : undefined)}
+            rowClass={(p: TeamPlayer) => (p.thin ? thinRow : undefined)}
             columns={[
               { key: "player", head: "Player", cell: (p) => (
                   <span className={s.strong}>
                     {p.player}
-                    {p.thin && <span className={s.thinMark} title="Under three full matches played">thin</span>}
+                    {p.thin && <Thin title="Under three full matches of playing time" />}
                   </span>
                 ),
               },

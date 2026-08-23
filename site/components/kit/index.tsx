@@ -344,3 +344,25 @@ export type { Option } from "./Combobox";
 export function Skeleton({ width = "100%", height = "1em" }: { width?: string; height?: string }) {
   return <span className={s.skeleton} style={{ display: "block", width, height }} aria-hidden />;
 }
+
+
+/**
+ * Not enough evidence behind this number to lean on it.
+ *
+ * Said the same way everywhere. It used to be five separate implementations
+ * that disagreed on size and spacing, so the same caveat looked like a
+ * different caveat on every page.
+ */
+export function Thin({ title }: { title?: string }) {
+  return (
+    <span
+      className={s.thinTag}
+      title={title ?? "Not much playing time behind this, so the rate is weak evidence"}
+    >
+      thin
+    </span>
+  );
+}
+
+/** Class for a table row whose numbers rest on thin evidence. */
+export const thinRow = s.thinRow;

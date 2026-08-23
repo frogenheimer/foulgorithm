@@ -32,9 +32,6 @@
   min-width: 0;
 }
 
-.thin {
-  color: var(--ink-3);
-}
 
 .good {
   color: var(--accent);

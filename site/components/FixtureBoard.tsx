@@ -6,6 +6,7 @@ import { odds } from "@/lib/format";
 import { Bars, DotArray } from "@/components/charts/pack";
 import HeadToHead from "@/components/HeadToHead";
 import { MARKET_LABEL, type Market as SharedMarket } from "@/lib/markets";
+import { thinRow } from "@/components/kit";
 import s from "./board.module.css";
 
 /** The board shows two of the three. Narrowed from the shared vocabulary
@@ -185,7 +186,7 @@ function TeamTable({
             {rows.map((p) => {
               const b = p[market];
               return (
-                <tr key={p.player} className={p.thin ? s.thinRow : undefined}>
+                <tr key={p.player} className={p.thin ? thinRow : undefined}>
                   <td>
                     {p.player}
                     {p.confirmed && <span className={s.dot} title="In the confirmed eleven" />}

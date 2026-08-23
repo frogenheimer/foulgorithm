@@ -15,7 +15,7 @@
 
 import { Fragment, useMemo, useState } from "react";
 import type { Explorer as Data, ExplorerRow } from "@/lib/data";
-import { DataTable } from "@/components/kit";
+import { DataTable , Thin } from "@/components/kit";
 import Bars from "./Bars";
 import Shape from "./Shape";
 import { MARKET_LABEL } from "@/lib/markets";
@@ -232,9 +232,7 @@ export default function Explorer({ data }: { data: Data }) {
                     </span>
                   )}
                   {r.thin && (
-                    <span className={s.thinTag} title="Too little history to be confident.">
-                      thin
-                    </span>
+                    <Thin />
                   )}
                 </span>
               </>

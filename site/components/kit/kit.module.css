@@ -469,3 +469,30 @@
     display: inline-flex;
   }
 }
+
+
+/* ---------- thin evidence ---------- */
+
+/* One idea, said one way. There were five implementations of this across the
+   record, teams, today, board and explorer stylesheets: four identical row
+   mutings and three near-identical tags that disagreed on size and letter
+   spacing. A reader met the same concept wearing different clothes on every
+   page and had no reason to think it was the same concept. */
+
+.thinTag {
+  display: inline-block;
+  margin-left: var(--s2);
+  padding: 0 var(--s2);
+  border: 1px solid var(--line);
+  border-radius: var(--r1);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.thinRow td {
+  color: var(--ink-3);
+}
