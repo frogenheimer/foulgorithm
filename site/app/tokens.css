@@ -101,6 +101,23 @@
   --on-turf: #f2f7f3;
   --on-turf-2: #b9d4c3;
   --pitch-paint: #ffffff;
+  /* Text on an accent-filled chip. The accent is dark enough in both themes
+     that this stays white in both, so it is deliberately not redefined below. */
+  --on-accent: #ffffff;
+
+  /* Kit colours for the markers on the pitch.
+     Deliberately NOT redefined per theme, like the turf and the paint above. A
+     football pitch is green at night, and the two sides have to stay told apart
+     on it. These were --surface and --rail, which are page tokens that flip
+     with the theme, and in dark mode they land within a few percent of each
+     other: both elevens turned the same colour and the fill stopped saying
+     anything about which team a player was on. */
+  --kit-home: #ffffff;
+  --kit-home-line: rgba(22, 24, 26, 0.35);
+  --kit-home-ink: #16181a;
+  --kit-away: #16181a;
+  --kit-away-line: rgba(255, 255, 255, 0.45);
+  --kit-away-ink: #f7f7f5;
 
   /* ---- radius ---- */
   --r-sm: 6px;

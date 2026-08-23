@@ -134,18 +134,18 @@
   width: var(--s8);
   height: var(--s8);
   border-radius: var(--r-pill);
-  background: var(--surface);
-  border: 2px solid var(--line-strong);
+  background: var(--kit-home);
+  border: 2px solid var(--kit-home-line);
   font-size: var(--t-sm);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  color: var(--ink);
+  color: var(--kit-home-ink);
 }
 
 .away .shirt {
-  background: var(--rail);
-  border-color: var(--on-rail-2);
-  color: var(--on-rail);
+  background: var(--kit-away);
+  border-color: var(--kit-away-line);
+  color: var(--kit-away-ink);
 }
 
 /* A player standing somewhere his position does not describe. Marked, and
@@ -159,10 +159,49 @@
   box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--warn, var(--ink-3));
 }
 
-.swapped .shirt {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  color: var(--ink);
+/* A swap is shown by the badge below, NOT by recolouring the marker.
+   It used to set `background: var(--accent-soft)`, a 10% green, which on green
+   turf is very close to no fill at all: every player you moved turned into a
+   pale ghost. Worse, this rule sits after `.away .shirt` at equal specificity,
+   so moving an away player also stripped his dark team colour and he stopped
+   looking like his own team. Team is the one thing the fill must always say. */
+
+/* Wraps the marker so the badge has something to anchor to. */
+.marker {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+}
+
+.swapMark {
+  position: absolute;
+  top: -2px;
+  right: -6px;
+  display: grid;
+  place-items: center;
+  min-width: var(--s4);
+  height: var(--s4);
+  padding: 0 2px;   /* audit-ignore B2: optical, keeps the glyph off the edge */
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 2px solid var(--pitch-paint);
+  font-size: var(--t-micro);
+  line-height: 1;
+}
+
+/* Nobody resolved to this slot. Empty has to look empty: drawing the team
+   sheet's name here put a player on the pitch who was also on the bench. */
+.vacant .shirt {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--pitch-paint);
+  opacity: 0.75;
+}
+
+.vacant .name {
+  color: var(--on-turf-2);
+  font-style: italic;
 }
 
 .picker {
@@ -371,4 +410,59 @@
   .benchList {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
+}
+
+
+/* ---------- the key ---------- */
+
+.key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s5);
+  margin: 0 0 var(--s3);
+  padding: 0;
+  list-style: none;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.keyItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.keyDot {
+  display: inline-grid;
+  place-items: center;
+  width: var(--s4);
+  height: var(--s4);
+  border-radius: var(--r-pill);
+  border: 2px solid var(--line-strong);
+  font-size: var(--t-micro);
+  line-height: 1;
+}
+
+.keyHome {
+  background: var(--kit-home);
+  border-color: var(--kit-home-line);
+}
+
+.keyAway {
+  background: var(--kit-away);
+  border-color: var(--kit-away-line);
+  margin-left: calc(-1 * var(--s2));
+}
+
+.keyMisplaced {
+  background: var(--kit-home);
+  border-color: var(--kit-home-line);
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--warn);
+}
+
+.keySwapped {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
 }

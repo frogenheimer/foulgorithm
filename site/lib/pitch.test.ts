@@ -203,3 +203,48 @@ describe("the bench", () => {
     expect(new Set(bench).size).toBe(bench.length);
   });
 });
+
+describe("a slot whose player cannot be resolved", () => {
+  /**
+   * The screenshot showed "Rio Ngumoha" on the pitch with a dash for a rate,
+   * while Ngumoha also sat in Liverpool's bench list. One player, two places.
+   *
+   * The cause: when the lookup missed, the slot fell back to the name the team
+   * sheet printed, so it drew the previous occupant as though he were standing
+   * there. He was not, which is why he was also on the bench and why he had no
+   * number. A slot nobody resolves to is empty, and has to look empty.
+   */
+  const GHOST: TeamShape = {
+    formation: "4-3-3",
+    lines: [[spot("Nick Pope", "G", 22), spot("Someone Unknown", "D", 99)]],
+    bench: [],
+  };
+
+  it("does not draw the team sheet's name when nobody matches it", () => {
+    const here = occupancy(GHOST, SQUAD, {}, findPlayer);
+    const ghost = here[1];
+    expect(ghost.row).toBeUndefined();
+    expect(ghost.name).not.toBe("Someone Unknown");
+    expect(ghost.vacant).toBe(true);
+  });
+
+  it("does not draw the previous occupant when a swap fails to resolve", () => {
+    const here = occupancy(GHOST, SQUAD, { "0": "nobody at all" }, findPlayer);
+    expect(here[0].row).toBeUndefined();
+    expect(here[0].name).not.toBe("Nick Pope");
+    expect(here[0].vacant).toBe(true);
+  });
+
+  it("leaves a resolved slot alone", () => {
+    const here = occupancy(GHOST, SQUAD, {}, findPlayer);
+    expect(here[0].row?.fullName).toBe("Nick Pope");
+    expect(here[0].vacant).toBe(false);
+  });
+
+  it("never lists a player on the pitch and on the bench at once", () => {
+    const here = occupancy(GHOST, SQUAD, {}, findPlayer);
+    const bench = benchFrom(SQUAD, here).map((r) => r.fullName);
+    const onPitch = here.filter((o) => o.row).map((o) => o.row!.fullName);
+    expect(bench.filter((n) => onPitch.includes(n))).toEqual([]);
+  });
+});

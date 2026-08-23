@@ -105,6 +105,8 @@ export default function Pitch({
         <span className={s.marketNote}>expected in this match, per player</span>
       </div>
 
+      <PitchKey />
+
       <div className={s.squad}>
         <Bench
           side={home}
@@ -271,6 +273,7 @@ function Half({
                   s.slot,
                   swapped ? s.swapped : "",
                   misplaced ? s.misplaced : "",
+                  o.vacant ? s.vacant : "",
                   isOpen ? s.slotOpen : "",
                   receiving ? s.dropTarget : "",
                 ]
@@ -287,17 +290,31 @@ function Half({
                   onDrop();
                 }}
               >
-                <span
-                  className={s.shirt}
-                  draggable
-                  onDragStart={() => onDragStart(o.key)}
-                  title={
-                    misplaced
-                      ? `${o.name} is a ${shortPosition(o.row!.position)} standing ${positionName(o.spot.position)}`
-                      : o.name
-                  }
-                >
-                  {markerFor(shirts, o.row, o.spot)}
+                {/* Three independent things to say about one marker, so three
+                    channels: the FILL is which team, the RING is out of
+                    position, the BADGE is that you changed it. They used to
+                    share fill and border, so a swapped away player lost his
+                    team colour and a swap looked identical to a misplacement. */}
+                <span className={s.marker}>
+                  <span
+                    className={s.shirt}
+                    draggable
+                    onDragStart={() => onDragStart(o.key)}
+                    title={
+                      o.vacant
+                        ? "Nobody in this position. Pick someone."
+                        : misplaced
+                          ? `${o.name} is a ${shortPosition(o.row!.position)} standing ${positionName(o.spot.position)}`
+                          : o.name
+                    }
+                  >
+                    {o.vacant ? "" : markerFor(shirts, o.row, o.spot)}
+                  </span>
+                  {swapped && !o.vacant && (
+                    <span className={s.swapMark} aria-hidden title="You changed this one">
+                      &#8646;
+                    </span>
+                  )}
                 </span>
                 <div className={s.picker}>
                   <Combobox
@@ -315,9 +332,11 @@ function Half({
                         type="button"
                         className={s.nameButton}
                         onClick={openIt}
-                        title={`${o.row?.fullName ?? o.name}. Change.`}
+                        title={
+                          o.vacant ? "Pick a player" : `${o.row?.fullName ?? o.name}. Change.`
+                        }
                       >
-                        <span className={s.name}>{o.name}</span>
+                        <span className={s.name}>{o.name || "Pick a player"}</span>
                         <Chevron />
                       </button>
                     )}
@@ -349,6 +368,35 @@ function optionsFor(rows: ExplorerRow[], spot: Spot, market: Market): Option[] {
 
 
 /** Both penalty areas, both six-yard boxes, halfway line, centre circle. */
+/**
+ * What the marks mean.
+ *
+ * Three things are being said about each marker and none of them were labelled,
+ * so an orange ring and a pale marker both read as "something is odd with this
+ * player" without saying what.
+ */
+function PitchKey() {
+  return (
+    <ul className={s.key}>
+      <li className={s.keyItem}>
+        <span className={`${s.keyDot} ${s.keyHome}`} aria-hidden />
+        <span className={`${s.keyDot} ${s.keyAway}`} aria-hidden />
+        Home and away
+      </li>
+      <li className={s.keyItem}>
+        <span className={`${s.keyDot} ${s.keyMisplaced}`} aria-hidden />
+        Out of position for this slot
+      </li>
+      <li className={s.keyItem}>
+        <span className={`${s.keyDot} ${s.keySwapped}`} aria-hidden>
+          &#8646;
+        </span>
+        Changed by you
+      </li>
+    </ul>
+  );
+}
+
 function Markings() {
   return (
     <svg className={s.markings} viewBox="0 0 1050 680" preserveAspectRatio="none" aria-hidden>

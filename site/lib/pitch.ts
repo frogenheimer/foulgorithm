@@ -23,6 +23,8 @@ export type Occupant = {
   spot: Spot;
   row: ExplorerRow | undefined;
   name: string;
+  /** Nobody resolved to this slot. It has to look empty, not occupied. */
+  vacant: boolean;
 };
 
 /**
@@ -144,7 +146,20 @@ export function occupancy(
     const row = chosen
       ? squad.find((r) => who(r.fullName) === chosen)
       : find(squad, spot.player);
-    return { key, spot, row, name: row?.player ?? spot.player };
+
+    // When nobody resolves, the slot is EMPTY. It used to fall back to the name
+    // the team sheet printed, which drew the previous occupant as though he
+    // were standing there: "Rio Ngumoha" appeared on the pitch with a dash for
+    // a rate while Ngumoha also sat in the bench list, because the bench is
+    // derived from who is actually on the pitch and he was not. One player, two
+    // places, and the pitch was the copy that was lying.
+    return {
+      key,
+      spot,
+      row,
+      name: row?.player ?? "",
+      vacant: !row,
+    };
   });
 }
 
