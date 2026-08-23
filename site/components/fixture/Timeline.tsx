@@ -204,7 +204,11 @@ function Game({
   const label = `${f.home} v ${f.away}`;
   const cls = `${s.card} ${state === "past" ? s.past : ""} ${state === "live" ? s.live : ""}`;
 
-  const body = (
+  // The heading links to the fixture. The rest does NOT, because the picks
+  // below are disclosures, and a <details> inside an <a> both swallows the
+  // click (you navigate instead of opening it) and is invalid HTML: interactive
+  // content is not allowed inside a link. That is why the cards would not open.
+  const head = (
     <>
       <div className={s.top}>
         <span>
@@ -226,7 +230,11 @@ function Game({
           {f.score && <span className={s.score}>{f.score[1]}</span>}
         </span>
       </div>
+    </>
+  );
 
+  const body = (
+    <>
       {f.result ? (
         <div className={s.result}>
           <div className={s.stats}>
@@ -301,7 +309,7 @@ function Game({
                 <span className={s.pickRow}>
                   <span className={s.pickWho}>
                     <span className={s.pickSwatch} aria-hidden />
-                    {o.character}
+                    {o.characterName ?? o.character}
                   </span>
                   <span className={s.pickSummary}>
                     {o.totalFouls} foul{o.totalFouls === 1 ? "" : "s"}
@@ -348,11 +356,16 @@ function Game({
 
   // Only this round has a page. Linking the rest would be a promise of depth
   // that is not there yet.
-  return linked ? (
-    <Link href={`/fixture/${fixtureSlug(label)}`} className={cls}>
+  return (
+    <div className={cls}>
+      {linked ? (
+        <Link href={`/fixture/${fixtureSlug(label)}`} className={s.cardLink}>
+          {head}
+        </Link>
+      ) : (
+        head
+      )}
       {body}
-    </Link>
-  ) : (
-    <div className={cls}>{body}</div>
+    </div>
   );
 }

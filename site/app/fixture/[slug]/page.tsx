@@ -71,7 +71,11 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
             published={slips}
           />
         ) : (
-          <SlipGrid slips={slips} characters={data.picks.map((p) => p.id)} />
+          <SlipGrid
+            slips={slips}
+            characters={data.picks.map((p) => p.id)}
+            names={Object.fromEntries(data.picks.map((p) => [p.id, p.name]))}
+          />
         )}
       </section>
 

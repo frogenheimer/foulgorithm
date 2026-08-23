@@ -24,9 +24,12 @@ const TIERS = ["2/1", "3/1", "5/1", "10/1", "20/1"];
 export default function SlipGrid({
   slips,
   characters,
+  names,
 }: {
   slips: Record<string, Slip[]>;
   characters: string[];
+  /** id -> name as written, so the table does not capitalise ids in CSS. */
+  names?: Record<string, string>;
 }) {
   const [open, setOpen] = useState<string | null>(null);
   const present = characters.filter((c) => slips[c]?.length);
@@ -77,7 +80,7 @@ export default function SlipGrid({
                     <td>
                       <span className={s.who}>
                         <span className={s.swatch} aria-hidden />
-                        <span className={s.name}>{cid}</span>
+                        <span className={s.name}>{names?.[cid] ?? cid}</span>
                       </span>
                     </td>
                     {TIERS.map((label) => {

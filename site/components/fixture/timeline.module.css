@@ -297,7 +297,6 @@
   align-items: center;
   gap: var(--s1);
   font-size: var(--t-xs);
-  text-transform: capitalize;
   color: var(--char);
   font-weight: 600;
 }
@@ -479,4 +478,12 @@
 
 .legOpen {
   color: var(--ink-3);
+}
+
+
+/* The linked half of a card. The picks below sit outside it, because a
+   disclosure inside an anchor navigates instead of opening. */
+.cardLink {
+  display: block;
+  color: inherit;
 }

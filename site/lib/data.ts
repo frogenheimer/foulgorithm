@@ -391,6 +391,8 @@ export type Formations = Record<string, Record<string, TeamShape>>;
 export type FixtureOption = {
   band: string;
   character: string;
+  /** The name as written. Not the id with a CSS capitalize on it. */
+  characterName: string;
   tier: string;
   odds: number;
   outOf100: number;

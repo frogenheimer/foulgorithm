@@ -1570,6 +1570,10 @@ def _fixture_options(by_character: dict, limit: int = 3) -> list[dict]:
                 best_in_band[band] = {
                     "band": band,
                     "character": cid,
+                    # The name as written, not the id with a CSS capitalize on
+                    # it. That trick breaks the moment anyone copies the text
+                    # and reads wrong to a screen reader.
+                    "characterName": characters.get(cid).name,
                     "tier": slip["targetLabel"],
                     "odds": odds,
                     "outOf100": slip["outOf100"],
