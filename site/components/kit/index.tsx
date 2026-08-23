@@ -137,6 +137,7 @@ export function DataTable<T>({
   onRowClick,
   expanded,
   renderExpanded,
+  rowClass,
   empty = "Nothing matches.",
 }: {
   rows: T[];
@@ -149,6 +150,8 @@ export function DataTable<T>({
   expanded?: string | null;
   /** What to draw underneath an open row, spanning every column. */
   renderExpanded?: (row: T) => ReactNode;
+  /** Per-row class, for rows that need muting or marking. */
+  rowClass?: (row: T) => string | undefined;
   empty?: ReactNode;
 }) {
   return (
@@ -178,7 +181,9 @@ export function DataTable<T>({
               <Fragment key={key}>
                 <tr
                   onClick={onRowClick ? () => onRowClick(row) : undefined}
-                  className={open ? s.rowOpen : undefined}
+                  className={[open ? s.rowOpen : "", rowClass?.(row) ?? ""]
+                    .filter(Boolean)
+                    .join(" ") || undefined}
                   aria-expanded={renderExpanded ? open : undefined}
                   style={onRowClick ? { cursor: "pointer" } : undefined}
                 >

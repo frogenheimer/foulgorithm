@@ -69,14 +69,21 @@ export default async function Team({ params }: { params: Promise<{ slug: string 
       <section>
         <SectionHead
           title="The squad"
-          note="Current players only, so anyone who left is not in a table about this season. Ranked by fouls conceded per 90, and anyone under three full matches of playing time is left out rather than shown as a rate built on noise."
+          note="Current players only, so anyone who left is not in a table about this season. Ranked by fouls conceded per 90. Under three full matches of playing time a rate is weak evidence, so it is marked rather than removed: absence would read as not being at the club, which is the stronger and wrong claim."
         />
         {t.players.length > 0 ? (
           <DataTable
             rows={t.players}
             rowKey={(p: TeamPlayer) => p.player}
+            rowClass={(p: TeamPlayer) => (p.thin ? s.thinRow : undefined)}
             columns={[
-              { key: "player", head: "Player", cell: (p) => <span className={s.strong}>{p.player}</span> },
+              { key: "player", head: "Player", cell: (p) => (
+                  <span className={s.strong}>
+                    {p.player}
+                    {p.thin && <span className={s.thinMark} title="Under three full matches played">thin</span>}
+                  </span>
+                ),
+              },
               { key: "pos", head: "Pos", cell: (p) => p.position || "—" },
               { key: "matches", head: "Matches", numeric: true, cell: (p) => p.matches },
               { key: "minutes", head: "Minutes", numeric: true, cell: (p) => p.minutes.toLocaleString() },

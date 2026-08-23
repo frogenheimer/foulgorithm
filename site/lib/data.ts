@@ -515,6 +515,8 @@ export type TeamPlayer = {
   wonPer90: number;
   tacklesPer90: number;
   cards: number;
+  /** Under three full matches of playing time, so the rates are weak evidence. */
+  thin: boolean;
 };
 
 export type TableRow = {
@@ -533,6 +535,8 @@ export type TableRow = {
   cardsPerMatch: number | null;
   rateMatches: number;
   players: TeamPlayer[];
+  /** Squad members with no minutes in the window, so no rate to show. */
+  noHistory: number;
 };
 
 export type Teams = {

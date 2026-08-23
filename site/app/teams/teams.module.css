@@ -43,3 +43,22 @@
   color: var(--ink);
   font-weight: 600;
 }
+
+/* A current squad member whose rates rest on under three full matches. Muted
+   and marked, not removed: absence reads as "not at this club", which is a
+   stronger claim than "not much evidence" and was the wrong one to make. */
+.thinRow td {
+  color: var(--ink-3);
+}
+
+.thinMark {
+  margin-left: var(--s2);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r1);
+  padding: 0 var(--s2);
+  vertical-align: middle;
+}

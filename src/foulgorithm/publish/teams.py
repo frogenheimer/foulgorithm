@@ -23,6 +23,11 @@ OUTPUT = Path("site/public/data/teams.json")
 
 # Real playing time, not appearances. Three outings of nine minutes is a third
 # of a match, and a per-90 rate off that is noise wearing a number.
+#
+# It flags rather than removes. Dropping the player below this floor took 78
+# current squad members off the site entirely, Rio Ngumoha among them, and a
+# reader cannot tell "no rate worth quoting" from "not at this club" when both
+# look like absence. Absence is the stronger claim and it was the wrong one.
 MIN_NINETIES = 3.0
 
 
@@ -161,12 +166,13 @@ def _players(history: pd.DataFrame, club: str, squad: set[str] | None) -> list[d
             "position": g["position"].last(),
         }
     )
-    stats = stats[stats["nineties"] >= MIN_NINETIES]
     if stats.empty:
         return []
 
     out = []
-    for player, r in stats.sort_values("fouls", ascending=False).iterrows():
+    stats["reliable"] = stats["nineties"] >= MIN_NINETIES
+    order = stats.sort_values(["reliable", "fouls"], ascending=[False, False])
+    for player, r in order.iterrows():
         n = float(r["nineties"])
         out.append(
             {
@@ -178,6 +184,7 @@ def _players(history: pd.DataFrame, club: str, squad: set[str] | None) -> list[d
                 "wonPer90": round(float(r["won"]) / n, 2),
                 "tacklesPer90": round(float(r["tackles"]) / n, 2),
                 "cards": int(r["cards"]),
+                "thin": bool(n < MIN_NINETIES),
             }
         )
     return out
@@ -221,8 +228,14 @@ def build(seasons: int = 2) -> dict:
         live = fpl.current_squads()
         everyone = [p for club in live.values() for p in club]
         resolution = identity.resolve(everyone, history["player"].unique())
+        # Anyone who has left is out of the squad, and stays in the history the
+        # models train on. FPL says which is which: "u" means gone.
         by_fpl = {
-            club: {resolution.matched[p.name] for p in members if p.name in resolution.matched}
+            club: {
+                resolution.matched[p.name]
+                for p in fpl.at_the_club(members)
+                if p.name in resolution.matched
+            }
             for club, members in live.items()
         }
     except Exception:
@@ -276,6 +289,15 @@ def build(seasons: int = 2) -> dict:
                 squad = None
         squads[club] = squad
         row["players"] = _players(history, history_name(club), squad)
+        # Squad members we resolved to a history name but who played no minutes
+        # inside the window. Counted rather than listed, because a row of blanks
+        # is not a stats row. Players we could not resolve at all are a separate
+        # and larger group that never reaches the squad set.
+        if squad is not None:
+            listed = {r["player"] for r in row["players"]}
+            row["noHistory"] = len([n for n in squad if n not in listed])
+        else:
+            row["noHistory"] = 0
 
     return {
         "generatedAt": datetime.now(timezone.utc).isoformat(),

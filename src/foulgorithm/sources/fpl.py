@@ -32,8 +32,14 @@ CACHE_TTL = timedelta(hours=6)
 
 POSITIONS = {1: "GK", 2: "DF", 3: "MF", 4: "FW"}
 
-# FPL status codes. Anything not "a" means the player is doubtful or unavailable.
+# FPL status codes. Anything not "a" means the player is doubtful or unavailable,
+# and "u" specifically means he has left: the news field on those reads "Has
+# joined X permanently" or "on loan". Worth separating, because a sold player and
+# an injured one are different facts. An injured centre back is still in the
+# squad and belongs in a squad table; a sold one belongs only in the history the
+# models train on.
 AVAILABLE = "a"
+DEPARTED = "u"
 
 
 @dataclass(frozen=True)
@@ -47,6 +53,12 @@ class SquadPlayer:
     news: str
     minutes: int
     starts: int
+    status: str = AVAILABLE
+
+    @property
+    def departed(self) -> bool:
+        """Left the club. Not selectable anywhere, still valid training data."""
+        return self.status == DEPARTED
 
     @property
     def key(self) -> str:
@@ -108,6 +120,7 @@ def current_squads() -> dict[str, list[SquadPlayer]]:
                 web_name=element.get("web_name", full),
                 team=team,
                 position=POSITIONS.get(element.get("element_type"), "?"),
+                status=(element.get("status") or AVAILABLE),
                 available=element.get("status") == AVAILABLE,
                 chance=element.get("chance_of_playing_next_round"),
                 news=(element.get("news") or "").strip(),
@@ -116,6 +129,11 @@ def current_squads() -> dict[str, list[SquadPlayer]]:
             )
         )
     return squads
+
+
+def at_the_club(players: list[SquadPlayer]) -> list[SquadPlayer]:
+    """Everyone still at the club, injured and suspended included."""
+    return [p for p in players if not p.departed]
 
 
 def likely_eleven(players: list[SquadPlayer], size: int = 14) -> list[SquadPlayer]:
