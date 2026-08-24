@@ -74,11 +74,39 @@
   font-weight: 600;
 }
 
-.input,
+/* The base block was missing: `.input,` ran straight into the focus rule, so
+   the search box rendered unstyled with a permanent focus outline. */
+.input {
+  font: inherit;
+  font-size: var(--t-sm);
+  padding: var(--s2) var(--s3);
+  background: var(--surface-sunk);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  min-width: 160px;
+}
+
+.input::placeholder {
+  color: var(--ink-3);
+}
 
 .input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
+}
+
+/* iOS zooms into any focused input computing under 16px; see tokens.css. */
+@media (pointer: coarse) {
+  .input {
+    font-size: var(--t-touch);
+    min-height: var(--tap);
+  }
+
+  .seg,
+  .segOn {
+    min-height: var(--tap);
+  }
 }
 
 .segment {

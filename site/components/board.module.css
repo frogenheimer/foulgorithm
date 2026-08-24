@@ -5,16 +5,6 @@
   gap: var(--s4); flex-wrap: wrap; margin-bottom: var(--s4);
 }
 
-.tabs { display: flex; gap: var(--s1); background: var(--surface-sunk); border-radius: var(--r-md); padding: var(--s1); }
-
-.tab, .tabOn {
-  font-size: var(--t-sm); padding: var(--s2) var(--s4); border-radius: var(--r-sm);
-  color: var(--ink-2); transition: background var(--d-fast) var(--ease), color var(--d-fast) var(--ease);
-  min-height: 34px;
-}
-.tab:hover { color: var(--ink); }
-.tabOn { background: var(--surface); color: var(--ink); font-weight: 560; }
-
 .search {
   font: inherit; font-size: var(--t-sm); padding: var(--s2) var(--s3);
   background: var(--surface-sunk); color: var(--ink);
@@ -22,6 +12,11 @@
   min-width: 180px; min-height: 34px;
 }
 .search::placeholder { color: var(--ink-3); }
+
+/* iOS zooms into any focused input computing under 16px; see tokens.css. */
+@media (pointer: coarse) {
+  .search { font-size: var(--t-touch); min-height: var(--tap); }
+}
 
 /* ---------- tickets ---------- */
 

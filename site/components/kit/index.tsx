@@ -160,7 +160,14 @@ export function DataTable<T>({
         <thead>
           <tr>
             {columns.map((c) => (
-              <th key={c.key} className={c.numeric ? s.num : undefined} scope="col">
+              <th
+                key={c.key}
+                className={c.numeric ? s.num : undefined}
+                scope="col"
+                /* Directions vary by column and the table does not know them,
+                   so "other" says "sorted by this" without guessing which way. */
+                aria-sort={sortKey === c.key ? "other" : undefined}
+              >
                 {c.sort && onSort ? (
                   <button type="button" className={s.sortable} onClick={() => onSort(c.key)}>
                     {c.head}
@@ -181,6 +188,20 @@ export function DataTable<T>({
               <Fragment key={key}>
                 <tr
                   onClick={onRowClick ? () => onRowClick(row) : undefined}
+                  /* A clickable row is reachable by keyboard too: Tab to it,
+                     Enter or Space opens it. Not a perfect control (a row is
+                     not a button), but strictly better than mouse-only. */
+                  tabIndex={onRowClick ? 0 : undefined}
+                  onKeyDown={
+                    onRowClick
+                      ? (e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            onRowClick(row);
+                          }
+                        }
+                      : undefined
+                  }
                   className={[open ? s.rowOpen : "", rowClass?.(row) ?? ""]
                     .filter(Boolean)
                     .join(" ") || undefined}
@@ -299,6 +320,11 @@ export function Badge({
  *
  * Not a checkbox: both options are always visible and named, so nobody has to
  * work out what the off state means.
+ *
+ * Not tabs either. This used to carry role="tablist" with none of the tab
+ * pattern behind it (no panel, no arrow keys, no roving tabindex), so a screen
+ * reader announced tabs whose keyboard model then did not work. Plain buttons
+ * with aria-pressed say exactly what they are, and Tab plus Enter just works.
  */
 export function Toggle<T extends string>({
   value,
@@ -317,15 +343,14 @@ export function Toggle<T extends string>({
   return (
     <div
       className={narrowOnly ? `${s.toggle} ${s.narrowOnly}` : s.toggle}
-      role="tablist"
+      role="group"
       aria-label={label}
     >
       {options.map((o) => (
         <button
           key={o.value}
           type="button"
-          role="tab"
-          aria-selected={o.value === value}
+          aria-pressed={o.value === value}
           className={o.value === value ? s.toggleOptionOn : s.toggleOption}
           onClick={() => onChange(o.value)}
         >
@@ -354,12 +379,12 @@ export function Skeleton({ width = "100%", height = "1em" }: { width?: string; h
  * different caveat on every page.
  */
 export function Thin({ title }: { title?: string }) {
+  const why = title ?? "Not much playing time behind this, so the rate is weak evidence";
   return (
-    <span
-      className={s.thinTag}
-      title={title ?? "Not much playing time behind this, so the rate is weak evidence"}
-    >
-      thin
+    // The title only ever reaches a hovering mouse. The visually hidden copy
+    // reaches everyone else.
+    <span className={s.thinTag} title={why}>
+      thin<span className="sr-only">, {why}</span>
     </span>
   );
 }
@@ -414,12 +439,10 @@ export function Select<T extends string>({
  * because both say the same thing to a reader: trust this less.
  */
 export function Estimated({ title }: { title?: string }) {
+  const why = title ?? "Estimated rather than measured";
   return (
-    <span
-      className={s.thinTag}
-      title={title ?? "Estimated rather than measured"}
-    >
-      est
+    <span className={s.thinTag} title={why}>
+      est<span className="sr-only">, {why}</span>
     </span>
   );
 }

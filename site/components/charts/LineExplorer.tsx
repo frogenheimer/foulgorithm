@@ -38,20 +38,44 @@ export default function LineExplorer({ fixture }: { fixture: FixturePrediction }
   const fairOver = probOver > 0 ? 1 / probOver : Infinity;
   const fairUnder = probOver < 1 ? 1 / (1 - probOver) : Infinity;
 
+  const lineMin = fixture.pmfFrom + 0.5;
+  const lineMax = fixture.pmfFrom + bars.length - 1.5;
+  const clamp = (v: number) => Math.min(Math.max(v, lineMin), lineMax);
+
   function moveTo(clientX: number, target: SVGSVGElement) {
     const box = target.getBoundingClientRect();
     const ratio = (clientX - box.left) / box.width;
     const fouls = fixture.pmfFrom + ratio * bars.length;
-    const snapped = Math.round(fouls) - 0.5;
-    setLine(Math.min(Math.max(snapped, fixture.pmfFrom + 0.5), fixture.pmfFrom + bars.length - 1.5));
+    setLine(clamp(Math.round(fouls) - 0.5));
+  }
+
+  // The chart is the control: a slider over the distribution's lines. Arrow
+  // keys move it a line at a time, so a keyboard prices the market too.
+  function onKey(e: React.KeyboardEvent) {
+    const step =
+      e.key === "ArrowLeft" || e.key === "ArrowDown" ? -1
+      : e.key === "ArrowRight" || e.key === "ArrowUp" ? 1
+      : null;
+    if (step !== null) setLine(clamp(line + step));
+    else if (e.key === "Home") setLine(lineMin);
+    else if (e.key === "End") setLine(lineMax);
+    else return;
+    e.preventDefault();
   }
 
   return (
     <div>
       <svg
         viewBox={`0 0 ${W} ${H}`}
-        role="img"
-        aria-label={`Predicted total fouls for ${fixture.home} against ${fixture.away}. Currently showing over ${line}: ${pct(probOver)}.`}
+        role="slider"
+        tabIndex={0}
+        aria-label={`Line for total fouls, ${fixture.home} against ${fixture.away}`}
+        aria-valuemin={lineMin}
+        aria-valuemax={lineMax}
+        aria-valuenow={line}
+        aria-valuetext={`over ${line.toFixed(1)}: ${pct(probOver)}, under: ${pct(1 - probOver)}`}
+        onKeyDown={onKey}
+        onClick={(e) => moveTo(e.clientX, e.currentTarget)}
         onMouseMove={(e) => moveTo(e.clientX, e.currentTarget)}
         onTouchMove={(e) => moveTo(e.touches[0].clientX, e.currentTarget)}
         style={{ touchAction: "pan-y" }}
@@ -66,7 +90,7 @@ export default function LineExplorer({ fixture }: { fixture: FixturePrediction }
               width={Math.max(1, bw - 1.5)}
               height={Math.max(1, M.top + ih - y(b.p))}
               rx={2}
-              fill={over ? "var(--seq-450)" : "var(--seq-100)"}
+              fill={over ? "var(--seq-3)" : "var(--seq-1)"}
               className={styles.bar}
             />
           );
@@ -77,7 +101,7 @@ export default function LineExplorer({ fixture }: { fixture: FixturePrediction }
           x2={x(line + 0.5)}
           y1={M.top - 6}
           y2={M.top + ih}
-          stroke="var(--series-2)"
+          stroke="var(--c3)"
           strokeWidth={2}
         />
 
@@ -115,7 +139,9 @@ export default function LineExplorer({ fixture }: { fixture: FixturePrediction }
           </button>
         )}
       </div>
-      <p className={styles.hint}>Move across the chart to price a different line.</p>
+      <p className={styles.hint}>
+        Move across the chart, or focus it and use the arrow keys, to price a different line.
+      </p>
     </div>
   );
 }

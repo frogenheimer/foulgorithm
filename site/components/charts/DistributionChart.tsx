@@ -52,9 +52,10 @@ export default function DistributionChart({ bins }: { bins: Bin[] }) {
               width={Math.max(1, bw - 2)}
               height={h}
               rx={3}
-              fill={on ? "var(--seq-600)" : "var(--seq-450)"}
+              fill={on ? "var(--seq-4)" : "var(--seq-3)"}
               onMouseEnter={() => setHover(b.fouls)}
               onMouseLeave={() => setHover(null)}
+              onClick={() => setHover(b.fouls)}
             />
           );
         })}
@@ -75,16 +76,17 @@ export default function DistributionChart({ bins }: { bins: Bin[] }) {
         })()}
       </svg>
 
-      <div style={{ minHeight: 34, marginTop: 8, fontSize: 13 }}>
+      <div className={styles.readout}>
         {hover !== null ? (
-          <span style={{ color: "var(--text-secondary)" }}>
-            <strong style={{ color: "var(--text-primary)" }}>{hover} fouls</strong> in{" "}
+          <span>
+            <strong>{hover} fouls</strong> in{" "}
             {(bins.find((b) => b.fouls === hover)!.share * 100).toFixed(1)}% of matches (
             {bins.find((b) => b.fouls === hover)!.matches.toLocaleString()} matches)
           </span>
         ) : (
-          <span style={{ color: "var(--text-muted)" }}>
-            Dashed line marks the mean, {mean.toFixed(1)} fouls. Hover a bar for its share.
+          <span className={styles.readoutIdle}>
+            Dashed line marks the mean, {mean.toFixed(1)} fouls. Hover or tap a bar for its
+            share.
           </span>
         )}
       </div>

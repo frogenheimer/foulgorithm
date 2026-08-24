@@ -36,13 +36,15 @@ export default function Sheet({ data }: { data: Matchday }) {
 
   return (
     <div className={s.wrap}>
-      <div className={s.picker} role="tablist" aria-label="Fixture">
+      {/* Buttons, not tabs: there is no tabpanel or arrow-key model here, and
+          claiming the tab role without them hands screen readers a keyboard
+          contract the page then breaks. */}
+      <div className={s.picker} role="group" aria-label="Fixture">
         {data.fixtures.map((f, i) => (
           <button
             key={f.home + f.away}
             type="button"
-            role="tab"
-            aria-selected={i === index}
+            aria-pressed={i === index}
             className={i === index ? s.pickOn : s.pick}
             onClick={() => setIndex(i)}
           >

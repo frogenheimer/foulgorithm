@@ -140,7 +140,7 @@ export default function History() {
             </table>
           </div>
         </Card>
-        <p className="muted" style={{ fontSize: "var(--text-sm)", marginTop: "var(--space-3)" }}>
+        <p className="muted" style={{ fontSize: "var(--t-sm)", marginTop: "var(--s3)" }}>
           Generated {shortDate(d.generatedAt)} from football-data.co.uk.
         </p>
       </section>

@@ -57,13 +57,18 @@
   --grid: #e4e4df;
   --axis: #c8c8c1;
 
-  /* ---- type. Six sizes. ---- */
-  --t-hero: 30px;
-  --t-xl: 22px;
-  --t-lg: 17px;
-  --t-md: 15px;
-  --t-sm: 13px;
-  --t-xs: 11px;
+  /* ---- type. Six sizes. ----
+     In rem so a reader's browser font-size preference scales the site instead
+     of being ignored: these are 30/22/17/15/13/11px at the 16px default. Plus
+     one input size: iOS Safari zooms the whole viewport into any focused input
+     computing under 16px, so form controls on touch screens use --t-touch. */
+  --t-hero: 1.875rem;
+  --t-xl: 1.375rem;
+  --t-lg: 1.0625rem;
+  --t-md: 0.9375rem;
+  --t-sm: 0.8125rem;
+  --t-xs: 0.6875rem;
+  --t-touch: 1rem;
 
   /* Two families, and the second is load-bearing. Inter for words, a monospace
      for figures: a price is not prose, and a mono digit reads as instrument
@@ -118,6 +123,11 @@
   --kit-away: #16181a;
   --kit-away-line: rgba(255, 255, 255, 0.45);
   --kit-away-ink: #f7f7f5;
+
+  /* Minimum touch target. 44px per Apple's guideline, comfortably above the
+     24px WCAG 2.2 floor. Applied as a min-height wherever a finger, rather
+     than a pointer, is the likely instrument. */
+  --tap: 44px;
 
   /* ---- radius ---- */
   --r-sm: 6px;

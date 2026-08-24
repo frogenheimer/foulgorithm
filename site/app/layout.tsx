@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import { Nav } from "@/components/kit/Nav";
@@ -28,6 +28,16 @@ export const metadata: Metadata = {
   icons: { icon: "/icon.svg" },
 };
 
+/* The rail's colour, so the browser chrome on a phone matches the site.
+   Literals, because a meta tag cannot read tokens.css. */
+export const viewport: Viewport = {
+  themeColor: [
+    // audit-ignore B10: theme-color meta needs literals; these are --rail from tokens.css
+    { media: "(prefers-color-scheme: light)", color: "#16181a" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0b0c" },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -45,6 +55,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        {/* First thing focus meets. Invisible until it is. */}
+        <a className="skip" href="#main">
+          Skip to content
+        </a>
         <Nav>{children}</Nav>
       </body>
     </html>

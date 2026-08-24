@@ -6,7 +6,7 @@ import { odds } from "@/lib/format";
 import { Bars, DotArray } from "@/components/charts/pack";
 import HeadToHead from "@/components/HeadToHead";
 import { MARKET_LABEL, type Market as SharedMarket } from "@/lib/markets";
-import { thinRow } from "@/components/kit";
+import { Toggle, thinRow } from "@/components/kit";
 import s from "./board.module.css";
 
 /** The board shows two of the three. Narrowed from the shared vocabulary
@@ -32,33 +32,22 @@ export default function FixtureBoard({ fixture }: { fixture: Board }) {
   return (
     <div className={s.wrap}>
       <div className={s.controls}>
-        <div className={s.tabs} role="tablist" aria-label="Market">
-          {MARKETS.map((m) => (
-            <button
-              key={m.key}
-              role="tab"
-              aria-selected={market === m.key}
-              className={market === m.key ? s.tabOn : s.tab}
-              onClick={() => setMarket(m.key)}
-            >
-              {m.label}
-            </button>
-          ))}
-        </div>
-        <div className={s.tabs} role="tablist" aria-label="View">
-          <button role="tab" aria-selected={view === "compare"}
-            className={view === "compare" ? s.tabOn : s.tab} onClick={() => setView("compare")}>
-            Compare
-          </button>
-          <button role="tab" aria-selected={view === "table"}
-            className={view === "table" ? s.tabOn : s.tab} onClick={() => setView("table")}>
-            Table
-          </button>
-          <button role="tab" aria-selected={view === "chart"}
-            className={view === "chart" ? s.tabOn : s.tab} onClick={() => setView("chart")}>
-            Chart
-          </button>
-        </div>
+        <Toggle
+          value={market}
+          onChange={setMarket}
+          label="Market"
+          options={MARKETS.map((m) => ({ value: m.key, label: m.label }))}
+        />
+        <Toggle
+          value={view}
+          onChange={setView}
+          label="View"
+          options={[
+            { value: "compare", label: "Compare" },
+            { value: "table", label: "Table" },
+            { value: "chart", label: "Chart" },
+          ]}
+        />
         <input
           className={s.search}
           type="search"
@@ -157,7 +146,10 @@ function TeamTable({
   }, [players, query, sort, market]);
 
   const head = (key: SortKey, label: string, num = true) => (
-    <th className={num ? s.num : undefined}>
+    <th
+      className={num ? s.num : undefined}
+      aria-sort={sort === key ? (key === "player" ? "ascending" : "descending") : undefined}
+    >
       <button className={sort === key ? s.sortOn : s.sort} onClick={() => onSort(key)}>
         {label}
       </button>
@@ -189,7 +181,12 @@ function TeamTable({
                 <tr key={p.player} className={p.thin ? thinRow : undefined}>
                   <td>
                     {p.player}
-                    {p.confirmed && <span className={s.dot} title="In the confirmed eleven" />}
+                    {p.confirmed && (
+                      <>
+                        <span className={s.dot} title="In the confirmed eleven" />
+                        <span className="sr-only">, in the confirmed eleven</span>
+                      </>
+                    )}
                   </td>
                   <td className="muted">{p.position ?? ""}</td>
                   <td className={s.num}>{Math.round(p.expectedMinutes)}</td>

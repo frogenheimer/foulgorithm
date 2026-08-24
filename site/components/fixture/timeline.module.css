@@ -405,10 +405,10 @@
 /* "Current" said in a word. It was a bare middle dot appended to a label. */
 .weekNow {
   padding: 0 var(--s2);
-  border-radius: var(--r1);
+  border-radius: var(--r-sm);
   background: var(--accent-soft);
   color: var(--accent);
-  font-size: var(--t-micro);
+  font-size: var(--t-xs);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }

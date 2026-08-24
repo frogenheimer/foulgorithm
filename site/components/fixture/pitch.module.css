@@ -186,7 +186,7 @@
   background: var(--accent);
   color: var(--on-accent);
   border: 2px solid var(--pitch-paint);
-  font-size: var(--t-micro);
+  font-size: var(--t-xs);
   line-height: 1;
 }
 
@@ -277,6 +277,15 @@
 @media (max-width: 760px) {
   /* A full pitch at phone width puts eight columns in 360px. Rotated, each
      line is a row and the names have somewhere to go. */
+
+  /* A name a couple of px wider than its slot spills here rather than handing
+     the page a sideways scroll. clip, not hidden: no scroll container is
+     created, and the dropdown positions itself as a fixed sheet at this width
+     anyway (see kit.module.css). */
+  .wrap {
+    overflow-x: clip;
+  }
+
   .markets {
   display: flex;
   align-items: center;
@@ -310,6 +319,20 @@
     justify-content: space-evenly;
   }
 
+  /* A slot must be able to shrink below its name here, or a five-man line
+     sets the page's width: five 14ch names came to 560px and the whole site
+     scrolled sideways at phone width. Names keep their word-boundary
+     wrapping; the longest may paint over the slot gap instead of widening
+     the page, which is the lesser harm. */
+  .slot {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .name {
+    font-size: var(--t-xs);
+  }
+
   .benches {
     grid-template-columns: 1fr;
   }
@@ -331,6 +354,11 @@
   display: grid;
   gap: var(--s2);
   align-content: start;
+  /* A grid item defaults to min-width: auto and refuses to shrink below its
+     content. On a phone that fed the bench's auto-fill column count its own
+     min-content width, the answer came back three columns at 508px, and the
+     whole page scrolled sideways. Same lesson as .scroll-x in globals.css. */
+  min-width: 0;
 }
 
 .benchList {
@@ -344,6 +372,7 @@
   justify-content: space-between;
   gap: var(--s2);
   width: 100%;
+  min-width: 0;
   padding: var(--s1) var(--s2);
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
@@ -404,7 +433,10 @@
 
 @media (max-width: 900px) {
   .squad {
-    grid-template-columns: 1fr;
+    /* minmax(0, 1fr), not 1fr: a bare 1fr's minimum is auto, so the stacked
+       track took the bench's min-content width and handed the page a sideways
+       scroll. Zero-minimum lets the viewport, not the content, set it. */
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .benchList {
@@ -440,7 +472,7 @@
   height: var(--s4);
   border-radius: var(--r-pill);
   border: 2px solid var(--line-strong);
-  font-size: var(--t-micro);
+  font-size: var(--t-xs);
   line-height: 1;
 }
 
@@ -458,7 +490,7 @@
 .keyMisplaced {
   background: var(--kit-home);
   border-color: var(--kit-home-line);
-  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--warn);
+  box-shadow: 0 0 0 2px var(--ground), 0 0 0 4px var(--warn);
 }
 
 .keySwapped {

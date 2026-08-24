@@ -187,6 +187,19 @@
     /* Scrolls inside itself rather than widening the page. */
     overflow-x: auto;
     scrollbar-width: none;
+    /* The scrollbar is hidden, so the edges have to say "there is more".
+       Two shadow layers pinned to the box, two rail-coloured covers that
+       scroll with the content and slide off the shadows at the ends. */
+    background-image:
+      linear-gradient(to right, var(--rail) 40%, rgba(0, 0, 0, 0)),
+      linear-gradient(to left, var(--rail) 40%, rgba(0, 0, 0, 0)),
+      radial-gradient(farthest-side at 0 50%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0)),
+      radial-gradient(farthest-side at 100% 50%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+    background-position: left center, right center, left center, right center;
+    background-size: var(--s8) 100%, var(--s8) 100%, var(--s4) 100%, var(--s4) 100%;
+    background-repeat: no-repeat;
+    background-attachment: local, local, scroll, scroll;
+    background-color: var(--rail);
   }
 
   .nav::-webkit-scrollbar {
@@ -198,10 +211,26 @@
     flex-shrink: 0;
   }
 
-  .mark,
+  /* The glyph stays as the wayfinding mark; only its wordmark goes. */
+  .mark .label,
   .group,
   .itemOn::before {
     display: none;
+  }
+
+  .mark {
+    flex-shrink: 0;
+    padding-inline: 0;
+  }
+
+  .item {
+    min-height: var(--tap);
+  }
+
+  /* The spine marker above is desktop geometry, so the current page keeps a
+     shape as well as a tint here too. */
+  .itemOn {
+    box-shadow: inset 0 -2px 0 var(--accent);
   }
 
   .foot {
@@ -209,7 +238,17 @@
     margin-left: auto;
   }
 
+  .iconBtn {
+    width: var(--tap);
+    height: var(--tap);
+  }
+
   .content {
     padding: var(--s6) var(--s4);
   }
+}
+
+/* The skip link lands here; the box itself is not an interaction. */
+.content:focus-visible {
+  outline: none;
 }

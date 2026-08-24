@@ -19,6 +19,7 @@ import { DataTable , Thin , Select , Estimated } from "@/components/kit";
 import Bars from "./Bars";
 import Shape from "./Shape";
 import { MARKET_LABEL } from "@/lib/markets";
+import { modelName } from "@/lib/names";
 import s from "./explorer.module.css";
 
 type Market = "committed" | "drawn" | "involvements";
@@ -89,13 +90,14 @@ export default function Explorer({ data, only }: { data: Data; only?: string }) 
 
   return (
     <div className={s.wrap}>
-      <div className={s.tabs} role="tablist" aria-label="Market">
+      {/* Buttons, not tabs: no tabpanel and no arrow-key model backs the tab
+          role here, so claiming it hands screen readers a broken contract. */}
+      <div className={s.tabs} role="group" aria-label="Market">
         {(Object.keys(MARKET_LABEL) as Market[]).map((m) => (
           <button
             key={m}
-            role="tab"
             type="button"
-            aria-selected={market === m}
+            aria-pressed={market === m}
             className={market === m ? s.tabOn : s.tab}
             onClick={() => setMarket(m)}
           >
@@ -171,7 +173,7 @@ export default function Explorer({ data, only }: { data: Data; only?: string }) 
               label="Model"
               options={data.models.map((m) => ({
                 value: m,
-                label: m === data.house ? `${m} (house)` : m,
+                label: m === data.house ? `${modelName(m)} (house)` : modelName(m),
               }))}
             />
           </label>

@@ -38,7 +38,7 @@ function Alan({ c }: { c: string }) {
   return (
     <Frame colour={c}>
       <polygon points={spikes} fill={c} opacity="0.9" />
-      <circle cx="60" cy="60" r="9" fill="var(--surface-1)" />
+      <circle cx="60" cy="60" r="9" fill="var(--surface)" />
     </Frame>
   );
 }
@@ -71,7 +71,7 @@ function Valentina({ c }: { c: string }) {
       <path d="M22 22 L98 98" stroke={c} strokeWidth="9" strokeLinecap="butt" />
       <path d="M98 22 L22 98" stroke={c} strokeWidth="9" strokeLinecap="butt" />
       <path d="M14 60 L106 60" stroke={c} strokeWidth="2.5" opacity="0.55" />
-      <circle cx="60" cy="60" r="11" fill="var(--surface-1)" stroke={c} strokeWidth="2.5" />
+      <circle cx="60" cy="60" r="11" fill="var(--surface)" stroke={c} strokeWidth="2.5" />
     </Frame>
   );
 }
@@ -106,7 +106,7 @@ function Bdog({ c }: { c: string }) {
         <rect key={i} x={22 + i * 20} y={64} width="11" height="26" rx="2.5" fill={c} opacity="0.28" />
       ))}
       <path d="M60 18 L84 56 L60 46 L36 56 Z" fill={c} />
-      <circle cx="60" cy="60" r="4" fill="var(--surface-1)" />
+      <circle cx="60" cy="60" r="4" fill="var(--surface)" />
     </Frame>
   );
 }
@@ -129,7 +129,7 @@ export default function Portrait({
   label: string;
 }) {
   const Mark = MARKS[id];
-  const colour = CHARACTER_COLOUR[id] ?? "var(--series-1)";
+  const colour = CHARACTER_COLOUR[id] ?? "var(--c1)";
   if (!Mark) return null;
   return (
     <svg

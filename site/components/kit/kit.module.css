@@ -414,6 +414,12 @@
   background: var(--surface-sunk);
 }
 
+/* The option aria-activedescendant points at. Mouse and arrow keys share it,
+   so what the screen reader announces is always what a click would pick. */
+.comboItemActive {
+  background: var(--surface-sunk);
+}
+
 .comboMeta {
   font-size: var(--t-xs);
   color: var(--ink-3);
@@ -484,8 +490,8 @@
   margin-left: var(--s2);
   padding: 0 var(--s2);
   border: 1px solid var(--line);
-  border-radius: var(--r1);
-  font-size: var(--t-micro);
+  border-radius: var(--r-sm);
+  font-size: var(--t-xs);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -520,4 +526,43 @@
 .select:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
+}
+
+
+/* ---------- touch ---------- */
+
+/* Where a finger is the instrument. Inputs at --t-touch (16px) because iOS
+   Safari zooms the viewport into any focused input computing under that, and
+   the pill-and-row controls get a --tap minimum height. */
+@media (max-width: 760px) {
+  /* Anchored under a slot at the pitch's right edge, a 260px list left its
+     own viewport. At phone width the list is a centred sheet instead: always
+     fully on screen, wherever its anchor sits. */
+  .comboList {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100vw - var(--s8));
+    max-width: 320px;
+    max-height: 60vh;
+  }
+}
+
+@media (pointer: coarse) {
+  .comboInput,
+  .select {
+    font-size: var(--t-touch);
+  }
+
+  .comboItem,
+  .comboItemOn {
+    min-height: var(--tap);
+    align-items: center;
+  }
+
+  .toggleOption,
+  .toggleOptionOn {
+    min-height: var(--tap);
+  }
 }

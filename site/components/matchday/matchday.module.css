@@ -391,3 +391,11 @@
     text-align: center;
   }
 }
+
+/* Fixture pills are the page's primary control on a phone. */
+@media (pointer: coarse) {
+  .pick,
+  .pickOn {
+    min-height: var(--tap);
+  }
+}

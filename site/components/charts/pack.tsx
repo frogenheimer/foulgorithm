@@ -16,7 +16,6 @@
 
 import s from "./pack.module.css";
 
-const INK = "var(--text-muted)";
 const GRID = "var(--grid)";
 
 /* ------------------------------------------------------------------ *
@@ -57,7 +56,7 @@ export function DotArray({
           cx={(i % columns) * (size + gap) + size / 2}
           cy={Math.floor(i / columns) * (size + gap) + size / 2}
           r={size / 2}
-          fill={i < filled ? "var(--seq-450)" : GRID}
+          fill={i < filled ? "var(--seq-3)" : GRID}
         />
       ))}
     </svg>
@@ -108,7 +107,7 @@ export function Bars({
               width={w}
               height={height - 8}
               rx={3}
-              fill={r.muted ? "var(--seq-100)" : "var(--seq-450)"}
+              fill={r.muted ? "var(--seq-1)" : "var(--seq-3)"}
             />
             <text x={labelWidth + w + 7} y={y + height / 2 + 4} className={s.value}>
               {r.value}
@@ -157,7 +156,7 @@ export function Distribution({
             width={Math.max(1, bw - 1.2)}
             height={h}
             rx={1.5}
-            fill={on ? "var(--seq-450)" : "var(--seq-100)"}
+            fill={on ? "var(--seq-3)" : "var(--seq-1)"}
           />
         );
       })}
@@ -200,12 +199,12 @@ export function Sparkline({
 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height} role="img" aria-label={label}>
-      <path d={path} fill="none" stroke="var(--seq-450)" strokeWidth={1.75} strokeLinejoin="round" />
+      <path d={path} fill="none" stroke="var(--seq-3)" strokeWidth={1.75} strokeLinejoin="round" />
       <circle
         cx={(values.length - 1) * step}
         cy={height - ((values[values.length - 1] - min) / span) * (height - 4) - 2}
         r={2.5}
-        fill="var(--seq-450)"
+        fill="var(--seq-3)"
       />
     </svg>
   );
@@ -234,13 +233,13 @@ export function VersusStrip({
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className={s.chart} role="img" aria-label={label}>
       <rect x={0} y={H / 2 - 3} width={W} height={6} rx={3} fill={GRID} />
-      <rect x={0} y={H / 2 - 3} width={x(value)} height={6} rx={3} fill="var(--seq-450)" />
+      <rect x={0} y={H / 2 - 3} width={x(value)} height={6} rx={3} fill="var(--seq-3)" />
       <line
         x1={x(reference)}
         x2={x(reference)}
         y1={2}
         y2={H - 2}
-        stroke="var(--series-2)"
+        stroke="var(--c3)"
         strokeWidth={1.75}
       />
     </svg>

@@ -47,11 +47,11 @@ export default function TrendChart({ seasons }: { seasons: SeasonRow[] }) {
   return (
     <div>
       <div className={styles.legend}>
-        <span>
-          <i className={styles.swatch} style={{ background: "var(--series-1)" }} /> Fouls per match
+        <span className={styles.legendItem}>
+          <i className={styles.swatch} style={{ background: "var(--c1)" }} /> Fouls per match
         </span>
-        <span>
-          <i className={styles.swatch} style={{ background: "var(--series-2)" }} /> Cards per match
+        <span className={styles.legendItem}>
+          <i className={styles.swatch} style={{ background: "var(--c3)" }} /> Cards per match
         </span>
       </div>
 
@@ -76,8 +76,8 @@ export default function TrendChart({ seasons }: { seasons: SeasonRow[] }) {
           ) : null
         )}
 
-        <path d={line("fouls")} fill="none" stroke="var(--series-1)" strokeWidth={2} strokeLinejoin="round" />
-        <path d={line("cards")} fill="none" stroke="var(--series-2)" strokeWidth={2} strokeLinejoin="round" />
+        <path d={line("fouls")} fill="none" stroke="var(--c1)" strokeWidth={2} strokeLinejoin="round" />
+        <path d={line("cards")} fill="none" stroke="var(--c3)" strokeWidth={2} strokeLinejoin="round" />
 
         {active && (
           <>
@@ -88,8 +88,8 @@ export default function TrendChart({ seasons }: { seasons: SeasonRow[] }) {
                 cx={x(active.i)}
                 cy={y(active[k])}
                 r={4.5}
-                fill={k === "fouls" ? "var(--series-1)" : "var(--series-2)"}
-                stroke="var(--surface-1)"
+                fill={k === "fouls" ? "var(--c1)" : "var(--c3)"}
+                stroke="var(--surface)"
                 strokeWidth={2}
               />
             ))}
@@ -106,21 +106,22 @@ export default function TrendChart({ seasons }: { seasons: SeasonRow[] }) {
             fill="transparent"
             onMouseEnter={() => setHover(p.i)}
             onMouseLeave={() => setHover(null)}
+            onClick={() => setHover(p.i)}
           />
         ))}
       </svg>
 
-      <div style={{ minHeight: 46, marginTop: 10, fontSize: 13 }}>
+      <div className={styles.readout}>
         {active ? (
-          <span style={{ color: "var(--text-secondary)" }}>
-            <strong style={{ color: "var(--text-primary)" }}>{active.season}</strong>
+          <span>
+            <strong>{active.season}</strong>
             {" · "}
             {active.foulsPerMatch} fouls per match ({active.fouls.toFixed(0)} indexed)
             {" · "}
             {active.cardsPerMatch} cards per match ({active.cards.toFixed(0)} indexed)
           </span>
         ) : (
-          <span style={{ color: "var(--text-muted)" }}>Hover a season for its numbers.</span>
+          <span className={styles.readoutIdle}>Hover or tap a season for its numbers.</span>
         )}
       </div>
     </div>

@@ -41,10 +41,19 @@
 }
 
 .readout {
-  min-height: 44px;
+  min-height: var(--tap);
   margin-top: var(--s2);
   font-size: var(--t-sm);
   color: var(--ink-2);
+}
+
+.readout strong {
+  color: var(--ink);
+}
+
+/* The idle line, before anything is picked. */
+.readoutIdle {
+  color: var(--ink-3);
 }
 
 .hint {
@@ -99,4 +108,138 @@
 .reset:hover {
   border-color: var(--line-strong);
   color: var(--ink);
+}
+
+/* ---------- dot plot ---------- */
+
+/* Label and value columns are fixed so the track, and everything positioned in
+   percentages inside it, lines up from row to row and with the grid overlay. */
+.dp {
+  --dp-label: 128px;
+  --dp-value: 52px;
+}
+
+.dpBody {
+  position: relative;
+}
+
+.dpRefHead {
+  position: relative;
+  height: var(--s5);
+  margin-left: var(--dp-label);
+  margin-right: var(--dp-value);
+  font-size: var(--t-xs);
+  color: var(--c3);
+}
+
+.dpRefHead span {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.dpGrid {
+  position: absolute;
+  top: 0;
+  bottom: var(--s5);
+  left: var(--dp-label);
+  right: var(--dp-value);
+  pointer-events: none;
+}
+
+.dpGridline,
+.dpRefLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid var(--grid);
+}
+
+.dpRefLine {
+  border-left: 2px dashed var(--c3);
+}
+
+.dpRow,
+.dpRowOn {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--dp-label) minmax(0, 1fr) var(--dp-value);
+  align-items: center;
+  width: 100%;
+  min-height: var(--s7);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  text-align: left;
+  border-radius: var(--r-sm);
+}
+
+.dpRowOn {
+  color: var(--ink);
+}
+
+.dpRow:hover {
+  color: var(--ink);
+}
+
+.dpLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: var(--s3);
+}
+
+.dpTrack {
+  position: relative;
+  height: 100%;
+  min-height: var(--s5);
+}
+
+.dpConnector {
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: var(--grid);
+}
+
+.dpDot {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  border-radius: var(--r-pill);
+  background: var(--seq-3);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+.dpRowOn .dpDot {
+  width: 12px;
+  height: 12px;
+}
+
+.dpValue {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.dpScale {
+  position: relative;
+  height: var(--s5);
+  margin-left: var(--dp-label);
+  margin-right: var(--dp-value);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.dpScale span {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 640px) {
+  .dp {
+    --dp-label: 96px;
+    --dp-value: 44px;
+  }
 }

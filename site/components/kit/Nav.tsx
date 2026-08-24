@@ -15,7 +15,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import s from "./nav.module.css";
 
@@ -44,6 +44,16 @@ export function Nav({ children, wide = false }: { children: ReactNode; wide?: bo
   const path = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark" | "system">("system");
+  const navRef = useRef<HTMLElement>(null);
+
+  // On a phone the nav is a scrolling row and five of the eight destinations
+  // start off-screen. At least the one you are on should not.
+  useEffect(() => {
+    if (!window.matchMedia("(max-width: 860px)").matches) return;
+    navRef.current
+      ?.querySelector('[aria-current="page"]')
+      ?.scrollIntoView({ inline: "center", block: "nearest" });
+  }, [path]);
 
   useEffect(() => {
     try {
@@ -78,7 +88,11 @@ export function Nav({ children, wide = false }: { children: ReactNode; wide?: bo
 
   return (
     <div className={wide ? `${s.shell} ${s.wide}` : s.shell}>
-      <nav className={collapsed ? `${s.nav} ${s.collapsed}` : s.nav} aria-label="Primary">
+      <nav
+        ref={navRef}
+        className={collapsed ? `${s.nav} ${s.collapsed}` : s.nav}
+        aria-label="Primary"
+      >
         <Link href="/" className={s.mark}>
           <span className={s.markGlyph} aria-hidden>
             F
@@ -132,7 +146,10 @@ export function Nav({ children, wide = false }: { children: ReactNode; wide?: bo
       </nav>
 
       <div className={s.main}>
-        <div className={s.content}>{children}</div>
+        {/* The skip link's landing spot. tabIndex so focus actually moves. */}
+        <div className={s.content} id="main" tabIndex={-1}>
+          {children}
+        </div>
         <footer className={s.footer}>
           <p>
             Every prediction is published before kickoff and graded afterwards, including

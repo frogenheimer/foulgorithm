@@ -113,3 +113,27 @@ svg {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* Skip link: the first tab stop, visible only while it holds focus. */
+.skip {
+  position: fixed;
+  top: var(--s3);
+  left: var(--s3);
+  z-index: 20;
+  padding: var(--s2) var(--s4);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  font-size: var(--t-sm);
+  font-weight: 600;
+}
+
+.skip:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
