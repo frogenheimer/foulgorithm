@@ -20,7 +20,6 @@ import { findPlayer, who } from "@/lib/who";
 import type { Basis } from "./Pitch";
 import Pitch from "./Pitch";
 import type { Market } from "./Pitch";
-import SlipGrid from "./SlipGrid";
 import { candidatesFor, slipAtOdds } from "./rebuild";
 import s from "./pitch.module.css";
 
@@ -123,7 +122,6 @@ export default function Lineups({
         </Callout>
       )}
 
-      <SlipGrid slips={slips} characters={explorer.models} />
     </div>
   );
 }

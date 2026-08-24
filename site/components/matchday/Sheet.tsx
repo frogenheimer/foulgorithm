@@ -29,9 +29,15 @@ const ORDER = [
   "cornersAgainst",
 ];
 
-export default function Sheet({ data }: { data: Matchday }) {
-  const [index, setIndex] = useState(0);
-  const fixture = data.fixtures[index];
+export default function Sheet({ data, only }: { data: Matchday; only?: string }) {
+  // `only` pins the sheet to one game and hides the picker, which is how it
+  // lives on a fixture page: a picker for a game you are already on is
+  // furniture.
+  const pinned = only
+    ? data.fixtures.findIndex((f) => `${f.home} v ${f.away}` === only)
+    : -1;
+  const [index, setIndex] = useState(pinned >= 0 ? pinned : 0);
+  const fixture = data.fixtures[only ? (pinned >= 0 ? pinned : -1) : index];
   if (!fixture) return null;
 
   return (
@@ -39,6 +45,7 @@ export default function Sheet({ data }: { data: Matchday }) {
       {/* Buttons, not tabs: there is no tabpanel or arrow-key model here, and
           claiming the tab role without them hands screen readers a keyboard
           contract the page then breaks. */}
+      {!only && (
       <div className={s.picker} role="group" aria-label="Fixture">
         {data.fixtures.map((f, i) => (
           <button
@@ -52,6 +59,7 @@ export default function Sheet({ data }: { data: Matchday }) {
           </button>
         ))}
       </div>
+      )}
 
       <Fixture fixture={fixture} window={data.window} />
     </div>

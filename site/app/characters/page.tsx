@@ -39,8 +39,7 @@ export default function Characters() {
           title="The table"
           note="Every gameweek all five commit to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Identical shapes, so this measures which players they pick and not how hard a bet they chose. Every leg lands is a win, all but one is a draw. FD is foul difference: a landed leg counts +1, and a miss counts how far it missed by, so a 2+ shout that never came is -2 while one foul short is -1."
         />
-        {anyPlayed ? (
-          <DataTable
+        <DataTable
             rows={standings}
             rowKey={(r) => r.id}
             columns={[
@@ -53,13 +52,12 @@ export default function Characters() {
               { key: "fd", head: "FD", numeric: true, cell: (r) => (r.difference > 0 ? `+${r.difference}` : r.difference) },
               { key: "points", head: "Pts", numeric: true, cell: (r) => r.points },
             ]}
-          />
-        ) : (
+        />
+        {!anyPlayed && (
           <Note>
-            Nothing has settled yet. A slate is only scored once every leg in it has an
-            outcome, because counting an unsettled leg as a miss would turn &ldquo;we do not
-            know&rdquo; into &ldquo;they got it wrong&rdquo;. The table fills in as rounds
-            finish.
+            All square until tonight settles. A slate is only scored once every leg in it
+            has an outcome, because counting an unsettled leg as a miss would turn
+            &ldquo;we do not know&rdquo; into &ldquo;they got it wrong&rdquo;.
           </Note>
         )}
       </section>

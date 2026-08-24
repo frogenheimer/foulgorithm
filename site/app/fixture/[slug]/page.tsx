@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Lineups from "@/components/fixture/Lineups";
 import Explorer from "@/components/explorer/Explorer";
-import SlipGrid from "@/components/fixture/SlipGrid";
-import { Card, MicroLabel, PageHeader, SectionHead } from "@/components/kit";
+import FivePicks from "@/components/fixture/FivePicks";
+import Sheet from "@/components/matchday/Sheet";
+import { PageHeader, SectionHead } from "@/components/kit";
 import { fixtureSlug, getExplorer, getMatchday, getPlayers } from "@/lib/data";
 import s from "./fixture.module.css";
 
@@ -16,16 +17,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: label ? `${label} · Foulgorithm` : "Fixture · Foulgorithm" };
 }
 
+/**
+ * One game, three questions, in the order a reader asks them: what are the
+ * five backing here, what does the model say about every player, and what
+ * have these clubs actually been doing. The odds-tier ladder that used to
+ * lead the page is gone: the committed slates are the picks that score, so
+ * they are the picks the page shows.
+ */
 export default async function Fixture({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const data = getPlayers();
   const label = Object.keys(data.fixtureSlips).find((l) => fixtureSlug(l) === slug);
   if (!label) return null;
 
-  const slips = data.fixtureSlips[label];
   const board = data.board.find((f) => `${f.home} v ${f.away}` === label);
-  const sheet = getMatchday().fixtures.find((f) => `${f.home} v ${f.away}` === label);
+  const matchday = getMatchday();
+  const sheet = matchday.fixtures.some((f) => `${f.home} v ${f.away}` === label);
   const shape = data.formations[label];
+  const confirmed = (data.slates.confirmedFixtures ?? []).includes(label);
   const [home, away] = label.split(" v ");
   const kickoff = board?.kickoff ? new Date(board.kickoff) : null;
 
@@ -54,35 +63,29 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         />
       </div>
 
-            <section>
+      <section>
         <SectionHead
-          title="The five, at matched risk"
-          note={
-            shape
-              ? "Each character builds a combination to each price, from the eleven on the pitch. Swap anyone and all five rebuild. Same ladder for all of them, so a cautious one cannot look better by picking near-certainties and a bold one cannot look better by reaching."
-              : "Each character builds a combination to each price. Same ladder for all five, so a cautious one cannot look better by picking near-certainties and a bold one cannot look better by reaching. Click any cell for its legs."
-          }
+          title={confirmed ? "The five on this game" : "The five on this game *"}
+          note="The committed picks that count for the league table, side by side. A filled cell is a pick at that line, in that character's colour; the players they agree on rise to the top."
         />
-        {shape ? (
-          <Lineups
-            fixture={label}
-            shapes={shape}
-            explorer={getExplorer()}
-            published={slips}
-          />
-        ) : (
-          <SlipGrid
-            slips={slips}
-            characters={data.picks.map((p) => p.id)}
-            names={Object.fromEntries(data.picks.map((p) => [p.id, p.name]))}
-          />
-        )}
+        <FivePicks
+          slates={data.slates}
+          fixture={label}
+          characters={data.picks.map((p) => ({ id: p.id, name: p.name }))}
+          confirmed={confirmed}
+        />
       </section>
 
-      {/* Moved here from the players page, which is gone. Every player in this
-          fixture, every market and line, with the five side by side and the
-          full shape behind any number you open. It was on a round-wide page
-          with a game filter; on a fixture page that filter is the fixture. */}
+      {shape && (
+        <section>
+          <SectionHead
+            title="The eleven on the pitch"
+            note="Drawn from the league's own formation lines, so a back three and a back four actually look different."
+          />
+          <Lineups fixture={label} shapes={shape} explorer={getExplorer()} published={data.fixtureSlips[label]} />
+        </section>
+      )}
+
       <section>
         <SectionHead
           title="Every player in this game"
@@ -95,40 +98,11 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         <section>
           <SectionHead
             title="What both clubs have actually been doing"
-            note={`Per match across ${getMatchday().seasons.join(" and ")}, with whether the line landed in each of the last ${getMatchday().window}. No model in any of these numbers.`}
+            note={`No model in any of these numbers: averages per match across ${matchday.seasons.join(" and ")}, and whether each line landed in the last ${matchday.window}, most recent on the left. Every figure can be checked against a scoreboard.`}
           />
-          <Card flush>
-            <div className={s.compare}>
-              <div className={s.compareHead}>
-                <span className={s.club}>{home}</span>
-                <span className={s.refBox}>
-                  <MicroLabel>Referee</MicroLabel>
-                  <span className={s.refName}>{sheet.referee.name ?? "Not appointed"}</span>
-                  {sheet.referee.matches > 0 && (
-                    <span className={s.refStat}>
-                      {sheet.referee.foulsPerMatch} fouls · {sheet.referee.yellowsPerMatch} cards
-                    </span>
-                  )}
-                </span>
-                <span className={`${s.club} ${s.right}`}>{away}</span>
-              </div>
-              {Object.keys(sheet.teams[home]?.averages ?? {}).map((key) => {
-                const h = sheet.teams[home]?.averages[key];
-                const a = sheet.teams[away]?.averages[key];
-                if (!h || !a) return null;
-                return (
-                  <div key={key} className={s.row}>
-                    <span className={s.val}>{h.value ?? "—"}</span>
-                    <span className={s.metric}>{h.label}</span>
-                    <span className={`${s.val} ${s.right}`}>{a.value ?? "—"}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </Card>
+          <Sheet data={matchday} only={label} />
         </section>
       )}
-
     </div>
   );
 }
