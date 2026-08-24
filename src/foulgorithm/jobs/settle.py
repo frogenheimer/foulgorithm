@@ -72,6 +72,29 @@ def outcomes(matches: dict[str, dict[str, int]]) -> dict[tuple[str, str], float]
     }
 
 
+def pending_fixtures(fixtures, now=None) -> list:
+    """Fixtures that have started but whose stats may not have posted yet.
+
+    A player's fouls are the difference between two snapshots, so a snapshot
+    taken while a match is half-posted does its damage later, not now: it
+    becomes the next run's baseline, the fouls arrive in a window where
+    appearances did not move, and the exactly-one-appearance rule discards
+    them permanently. Three fixtures graded near zero this way on 22 August,
+    all from the same 14:00 slot.
+
+    `STATS_DELAY` is shared with the history loader, which already calls three
+    hours conservative for the same publishing lag.
+    """
+    from foulgorithm.store.players import STATS_DELAY
+
+    now = now or datetime.now(timezone.utc)
+    return [
+        f
+        for f in fixtures
+        if f.kickoff_utc <= now and (now - f.kickoff_utc) < STATS_DELAY
+    ]
+
+
 def _settled_fixtures() -> set[str]:
     """Fixtures that have finished, named the way predictions record them."""
     from foulgorithm.identity.teams import from_pulselive
@@ -88,6 +111,26 @@ def run(dry_run: bool = False) -> int:
     from foulgorithm.review import grade as grading
     from foulgorithm.sources import player_season_stats
     from foulgorithm.store import predictions as pred_store
+
+    # Before anything reads or writes a snapshot: if a match is still posting,
+    # this run's reading would become the next run's baseline while half of a
+    # fixture is missing from it, and those fouls are then unrecoverable. A
+    # deferred run costs a few hours. See pending_fixtures.
+    try:
+        from foulgorithm.sources import pulselive
+
+        waiting = pending_fixtures(pulselive.fixtures())
+    except Exception as exc:  # noqa: BLE001 - reported; deciding blind is worse
+        print(f"cannot check whether fixtures have posted: {exc}", file=sys.stderr)
+        return 2
+    if waiting:
+        soonest = min(f.kickoff_utc for f in waiting)
+        print(
+            f"{len(waiting)} fixture(s) kicked off within the stats delay, earliest "
+            f"{soonest:%Y-%m-%d %H:%M}. Deferring: snapshotting now would freeze a "
+            "half-posted reading into the baseline and lose those fouls for good."
+        )
+        return 1
 
     try:
         current = player_season_stats.season_totals()
