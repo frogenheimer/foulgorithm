@@ -134,6 +134,15 @@ And the four boundaries that stay standing whatever ships:
 > **Worth stating about the day's shape:** three of the five upgrades tried
 > did not survive their gates. That is the gates working, and it is the
 > reason the two that did survive are worth believing.
+>
+> **Second wave, same day:** the calibration was refit against the current
+> model and mostly retired, three of six lines now published raw because the
+> correction there measured worse than none; and the one-command gameweek
+> updater exists (`35-weekly-updater.md`, `make gameweek`), with its
+> verification gate proven by its own first rehearsal, which it correctly
+> stopped. B2's full distributional redesign stays behind the pre-registered
+> live sample. The substitute programme and the assembled evidence pack are
+> the two big items still open.
 
 | Priority | Item | Gate |
 |---|---|---|
