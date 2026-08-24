@@ -106,3 +106,9 @@ leagues: ## Download the big-five player-match files
 
 seasons: ## Fetch twenty seasons of league player totals
 	$(PY) -m foulgorithm.sources.league_seasons
+
+team-matches: ## Fetch twenty seasons of team match stats (~18 min)
+	$(PY) -m foulgorithm.sources.team_match_stats
+
+backfill-seasons: ## Add any newly listed stats to the season files already held
+	$(PY) -m foulgorithm.sources.league_seasons --backfill
