@@ -107,7 +107,16 @@ That is the bug.
 
 ## ✅ The fix
 
-### Step 1: refuse to settle a fixture that has not settled
+### ✅ Step 1: refuse to settle a fixture that has not settled — SHIPPED 2026-08-24
+
+`jobs/settle.py:pending_fixtures()` plus a guard at the top of `run()`. One
+refinement the implementation forced, worth recording: the guard defers the
+**whole run** rather than skipping the fresh fixtures. Settling the ready ones
+and snapshotting anyway would freeze the fresh one's half-posted reading into
+the baseline, which is precisely the mechanism that loses the fouls. The
+original wording below ("left for the next run") is what that turned out to
+mean in code. `STATS_DELAY` is imported from `store/players.py` rather than
+redefined. Tested, including the boundary and the not-yet-kicked-off case.
 
 The actual bug, and the smallest fix. Before differencing, require every fixture
 in the window to have kicked off at least `STATS_DELAY` ago. One that has not is

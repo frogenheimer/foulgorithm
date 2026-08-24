@@ -18,6 +18,57 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-24 — Players in a match do not move together, measured directly this time
+
+**Question.** The shared match effect has been argued about for three rounds
+with two external advisors. The variance decomposition said there was nothing
+missing; advisor 2 accepted that but named the hole in it, and we accepted the
+naming: a fitted shared sd of zero rests on the model's own conditional
+variances being right, so overstated idiosyncratic variance could cancel
+against missing positive covariance and hide a real factor. This is the test
+that does not route through the decomposition at all.
+
+**Method.** `backtest/pairwise_dependence_study.py`. Standardise every
+residual by its own predictive spread, average the pairwise products within
+each match, teammates and opponents separately. Under independence both are
+zero. Intervals bootstrap whole matches, never rows, because rows within a
+match are the dependence being measured. Planted shared factors of 0.25 and
+0.35 are recovered by the tests, so a zero here means zero rather than a blunt
+instrument.
+
+**Result**, 2024 onward, 99,201 teammate pairs and 105,783 opponent pairs:
+
+| market | teammates | opponents |
+|---|---|---|
+| committed | **-0.0024** [-0.0089, +0.0043] | **+0.0110** [+0.0034, +0.0199] |
+| drawn | +0.0029 [-0.0030, +0.0092] | +0.0049 [-0.0029, +0.0112] |
+
+**Teammate correlation is zero in both markets.** Three of the four intervals
+span zero. The fourth, opponents on committed, does not: there is a real but
+tiny cross-team correlation of about +0.011.
+
+**That is not the signature of a shared match factor, and the distinction
+decides it.** A per-match intensity moves all twenty-two players together, so
+it lifts teammates and opponents alike, which is asserted in the tests against
+planted factors. Here teammates sit at zero while only the cross-team pairing
+lifts, and only on fouls committed. Whatever that is, and reciprocal fouling
+between two sides is the obvious candidate, it is not the missing shared
+variance the audits proposed.
+
+**And the practical size is the part that settles it.** Two-leg doubles at the
+0.5 line, priced by multiplying marginals: predicted 0.2154 against 0.2160
+observed on committed, which is 0.28% relative, and predicted 0.2012 against
+0.1972 on drawn, which is 2% in the OTHER direction. Combination tickets priced
+under independence are right, and the caveat printed under them can now quote a
+number instead of hedging.
+
+**Consequence.** The reopen condition recorded in `ideas.md` is not met, so the
+Poisson-lognormal shared-intensity model stays retired, now on direct evidence
+rather than on a decomposition with a caveat attached. The masking worry in
+`25-match-variance.md` is closed. Match-level DISCRIMINATION remains open and
+untouched by this: none of it says the match environment is unpredictable, only
+that players within a match do not move together once the model has spoken.
+
 ## 2026-08-24 — Live opponent factors: neutral on equal footing, better when the archive is frozen
 
 **Question.** The C2 stage one gate. Opponent and referee factors are computed

@@ -14,6 +14,14 @@ reading against the result.**
 > decomposition, pairwise within-match residual correlation between players,
 > is in the Phase A evidence pack (`31-next-phase-plan.md`). Match-level
 > discrimination stays an open research question either way.
+>
+> ✅ **That test has now run, 2026-08-24, and the caveat is closed.** Teammate
+> residual correlation is zero in both markets (committed -0.0024, drawn
+> +0.0029, intervals spanning zero over 99,201 pairs). A small cross-team
+> correlation exists on committed, +0.0110, which is not the signature of a
+> shared match factor: one would lift teammates and opponents alike. Doubles
+> priced under independence land within 0.3% of prediction. Nothing was being
+> masked. Full working in the modelling log, 2026-08-24.
 
 Raised from an observation on one Saturday: actual totals ran 19, 20, 26, 29, 31
 while we predicted 22, 24, 22, 22, 23. The predictions looked timid. They are,

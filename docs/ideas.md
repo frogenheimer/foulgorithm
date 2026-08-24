@@ -57,11 +57,14 @@ here. This entry holds what was judged valuable but not committed.
   information beyond the market rather than assuming the market is wrong.
   Blocked on price data: only becomes testable once the manual capture page
   has accumulated a real sample, and even then on the tracked lines only.
-- **Poisson-lognormal shared intensity, conditional reopen** (advisor 2 reply).
-  Stays retired unless the direct pairwise within-match residual correlation
-  test in the Phase A evidence pack comes back positive, in which case the
-  decomposition's zero was masking cancellation and this is the first
-  candidate back on the table.
+- ~~**Poisson-lognormal shared intensity, conditional reopen**~~ **CONDITION
+  NOT MET, 2026-08-24.** The direct test ran: teammate residual correlation is
+  zero in both markets over 99,201 pairs, and doubles priced under
+  independence land within 0.3% of prediction. The one nonzero reading,
+  cross-team on committed at +0.0110, is the wrong shape for a shared match
+  factor, which would lift teammates too. Retired on direct evidence now
+  rather than on a decomposition. Re-reopening needs a new reason, not this
+  one. See the modelling log, 2026-08-24.
 
 ---
 

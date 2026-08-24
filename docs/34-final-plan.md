@@ -107,9 +107,17 @@ And the four boundaries that stay standing whatever ships:
 
 ## 📋 Execution order
 
+> 📌 **Progress, 2026-08-24.** Shipped so far: the provider-offset measurement
+> (which found no offset, plus a 75-match archive hole and a pagination
+> truncation), PIT and interval coverage in the metrics module, the C1 season
+> total blend (78% of the stale-year gap recovered), C2 stage one opponent
+> factors (ECE down 23% and 31% under production conditions), the A3
+> dependence tripwire, and step 1 of the settle fix. Full working in the
+> modelling log under 2026-08-24.
+
 | Priority | Item | Gate |
 |---|---|---|
-| **P0** | O1 settle cadence and immutable snapshots (`33-settle-schedule.md`, extended below) | Runs after every round; anomaly alerts live |
+| **P0** | O1 settle cadence and immutable snapshots (`33-settle-schedule.md`, extended below). **Step 1 shipped 2026-08-24**; cadence and immutable records outstanding | Runs after every round; anomaly alerts live |
 | **P0** | O2 coverage-aware grading | Coverage attached to every graded claim |
 | **P0** | O3 cross-provider, cross-league identity | Zero unresolved identities, halt otherwise |
 | **P0** | O4 RapidAPI route back to per-match data | Attempt and record. £0 gate |
