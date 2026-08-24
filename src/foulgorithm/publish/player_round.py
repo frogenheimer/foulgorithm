@@ -662,6 +662,12 @@ def publish(output: Path = OUTPUT) -> dict:
     # a JSON viewer does not already give.
     output.write_text(json.dumps(payload, separators=(",", ":")))
 
+    # Each fixture's page data, separately, so the page outlives the round.
+    # See publish/archive.py.
+    from foulgorithm.publish import archive
+
+    archive.write_round(payload)
+
     # Persist the claims themselves, separately from the page they render on.
     # The JSON above is a view and gets overwritten every run; this is the
     # record, and it is append-only.

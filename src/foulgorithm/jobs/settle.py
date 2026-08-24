@@ -245,6 +245,14 @@ def run(dry_run: bool = False) -> int:
     except Exception as exc:
         print(f"league table not refreshed: {exc}", file=sys.stderr)
 
+    # Played fixtures keep their pages; mark their picks with what happened.
+    try:
+        from foulgorithm.publish import archive
+
+        archive.mark_all()
+    except Exception as exc:
+        print(f"fixture archive not marked: {exc}", file=sys.stderr)
+
     TRACK_RECORD.parent.mkdir(parents=True, exist_ok=True)
     TRACK_RECORD.write_text(
         json.dumps(
