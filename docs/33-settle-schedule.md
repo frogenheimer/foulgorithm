@@ -1,7 +1,13 @@
 # Fixing the settle job's schedule
 
-**Status: Planned 2026-08-24, not built.** Self-contained: everything needed to
-pick this up cold is here.
+**Status: Planned 2026-08-24, REVISED the same day after the scheduled job ran
+and disproved half of the original diagnosis.** Self-contained: everything needed
+to pick this up cold is here.
+
+> ⚠️ **If you adopted an earlier version of this file, re-read it.** The original
+> claimed the settle workflow had never run and put "prove it executes" first.
+> That was wrong, and the corrected first step is the opposite of harmless: doing
+> the cadence fix before it makes coverage WORSE.
 
 ---
 
@@ -59,38 +65,68 @@ Nothing in those numbers is false. The grades that exist are right; there are
 simply too few of them in half the fixtures, and a fixture graded on five players
 drags the published track record around while saying almost nothing.
 
-### Problem 2: it appears never to have run
+### ~~Problem 2: it appears never to have run~~ WRONG. It runs fine.
 
-`data/graded/` holds two files, both written by **local** runs:
+The first draft claimed the workflow had never executed, on the evidence that
+both files in `data/graded/` came from local runs. Two hours later the Monday
+schedule fired and committed `bc725f9 Grade the round` as `foulgorithm-bot`:
+977 graded claims, snapshot updated, track record refreshed.
 
-```
-413b017 Fix the scheduled jobs, which would have failed on every run
-804e862 Grade what we publish, and fix two bugs that would have faked it
-```
+Struck through rather than deleted, because the reasoning was sound and the
+conclusion was wrong. Absence of evidence in a two-day-old repository is not
+evidence of absence, and a whole step of work was nearly prescribed on it.
 
-No commit in the history came from a scheduled settle run. The lineup workflow
-HAS fired in production (`e3e3ea0 Confirmed lineups for this round`), so the
-runner and the commit permissions work. Settle specifically has not.
+### Problem 2, the real one: snapshots taken too close to full time
 
-**Confirm this before changing the cron.** Fixing a cadence on a job that never
-executes would produce no improvement and look like the fix failed. Check the
-Actions tab for `settle` runs, and if there are none, find out why: a schedule
-on a repository with no recent pushes gets disabled by GitHub after 60 days of
-inactivity, which is the most likely cause and is invisible unless looked for.
+That same run added three fixtures and reframed everything. Coverage now:
+
+| Fixture | Kickoff | Coverage |
+|---|---|---|
+| Hull v Man United | 22 Aug **11:30** | 89% |
+| Everton v Crystal Palace | 22 Aug **14:00** | **15%** |
+| Ipswich v Sunderland | 22 Aug **14:00** | **0%** |
+| Nott'm Forest v Leeds | 22 Aug **14:00** | **7%** |
+| Brentford v Tottenham | 22 Aug **16:30** | 90% |
+| Brighton v Aston Villa | 23 Aug 13:00 | 87% |
+| Man City v Bournemouth | 23 Aug 13:00 | 100% |
+| Newcastle v Liverpool | 23 Aug 15:30 | 97% |
+
+**Every poor fixture sits in the same 14:00 slot.** The games either side of it
+that day are fine, and two simultaneous kickoffs the next day are fine, so it is
+neither simultaneity nor frequency.
+
+The five Ipswich players that were captured all show **exactly zero fouls**.
+In a 26-foul match that is not a quiet afternoon, it is a stat that had not
+posted. Appearances had incremented and fouls had not, so the difference was
+real, attributable, and zero.
+
+`STATS_DELAY` in `store/players.py` is already three hours and its comment
+already says full-time stats publish shortly after the whistle. It sets
+`known_at` on history rows. **It does not gate when a snapshot may be taken.**
+That is the bug.
 
 ## ✅ The fix
 
-### Step 1: prove it runs at all
+### Step 1: refuse to settle a fixture that has not settled
 
-Trigger `settle` manually via `workflow_dispatch` and watch it. Success is a
-commit touching `data/graded/` and `data/state/player_season_totals.json`.
+The actual bug, and the smallest fix. Before differencing, require every fixture
+in the window to have kicked off at least `STATS_DELAY` ago. One that has not is
+left for the next run rather than settled against half-posted stats.
 
-If it fails, the cause is more likely credentials or a disabled schedule than
-logic: the job runs clean locally.
+**Do this before step 2.** Snapshotting more often without it makes things
+worse: it raises the chance of catching a match in the window between
+appearances posting and fouls posting, which is exactly what produced three
+fixtures graded near zero.
 
-**Do not proceed to step 2 until a scheduled or dispatched run has committed.**
+Worth a test: a player whose appearances rose but whose fouls did not move, in a
+fixture that finished twenty minutes ago, must not be recorded as having fouled
+nobody.
 
 ### Step 2: snapshot after every matchday, not twice a week
+
+Only after step 1, and it is a smaller problem than it first looked: six of nine
+fixtures already sit at 87% to 100%. Still worth doing, because a four-day window
+will eventually catch a player featuring twice, but no longer the headline.
 
 The fixture list is known in advance and the pattern already exists:
 `jobs/schedule.py` rewrites `lineups.yml`'s cron from real kickoffs. Do the same
@@ -135,10 +171,10 @@ Without this, a regression in cadence looks exactly like a quiet week.
 
 ## 📋 Order
 
-1. Confirm the workflow executes at all. Manual dispatch, watch for a commit.
-2. Generate the cron from real kickoffs, keeping Mon/Thu as a backstop.
-3. Add coverage reporting with a failure threshold.
+1. **Refuse to settle a fixture younger than `STATS_DELAY`.** An hour, and it is
+   the real bug. Doing step 2 first makes coverage worse, not better.
+2. Add coverage reporting against the league's own match totals, with a failure
+   threshold. An hour.
+3. Generate the cron from real kickoffs, keeping Mon/Thu as a backstop. Half a
+   day, with a working precedent in `jobs/schedule.py`.
 4. Only then consider whether the track record needs a caveat on the site.
-
-Steps 1 and 3 are each an hour. Step 2 is half a day and has a working precedent
-in `jobs/schedule.py`.

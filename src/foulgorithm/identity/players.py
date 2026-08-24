@@ -63,6 +63,57 @@ def load_overrides(path: Path = CROSSWALK) -> dict[str, str]:
     return {normalise(k): v for k, v in (data.get("aliases") or {}).items()}
 
 
+def resolve_names(names, history_names, overrides: dict | None = None) -> Resolution:
+    """Resolve plain name lists, with the token rule running both ways.
+
+    `resolve` checks one direction: every word of the history name appears in
+    the source name, which is the FPL case, where legal names are longer.
+    Provider joins face both cases: the league API abbreviates ("Abdul
+    Fatawu" for the archive's "Abdul Fatawu Issahaku") as often as FPL
+    lengthens. The refusal rules are unchanged in both directions: two
+    candidates is a refusal, and a lone token never matches anything, because
+    surname matching once transplanted a foul rate between two different
+    players called Dennis.
+    """
+    index = build_index(history_names)
+    overrides = load_overrides() if overrides is None else overrides
+    token_index: dict[frozenset[str], list[str]] = {}
+    for key, original in index.items():
+        token_index.setdefault(frozenset(key.split()), []).append(original)
+
+    matched: dict[str, str] = {}
+    unmatched: list[str] = []
+    ambiguous: dict[str, list[str]] = {}
+
+    for name in names:
+        key = normalise(str(name))
+        if key in overrides:
+            matched[name] = overrides[key]
+            continue
+        if key in index:
+            matched[name] = index[key]
+            continue
+
+        tokens = frozenset(key.split())
+        candidates = set()
+        for hist_tokens, originals in token_index.items():
+            forward = len(hist_tokens) >= 2 and hist_tokens <= tokens
+            reverse = len(tokens) >= 2 and tokens <= hist_tokens
+            if forward or reverse:
+                candidates.add(originals[0])
+
+        ordered = sorted(candidates)
+        if len(ordered) == 1:
+            matched[name] = ordered[0]
+        elif ordered:
+            ambiguous[name] = ordered
+            unmatched.append(name)
+        else:
+            unmatched.append(name)
+
+    return Resolution(matched=matched, unmatched=unmatched, ambiguous=ambiguous)
+
+
 def resolve(players: list[SquadPlayer], history_names, overrides: dict | None = None) -> Resolution:
     index = build_index(history_names)
     overrides = load_overrides() if overrides is None else overrides
