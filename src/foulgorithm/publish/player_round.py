@@ -586,11 +586,21 @@ def publish(output: Path = OUTPUT) -> dict:
         "oddsTiers": list(ODDS_TIERS),
         "leagueLeaders": _league_leaders(),
         "calibration": {
-            "committed3plus": calibration.factor("player_fouls_committed", 2.5),
-            "drawn3plus": calibration.factor("player_fouls_drawn", 2.5),
-            "note": "Probabilities are corrected for measured overconfidence "
-                    "before publication. A factor of 1.0 would mean no correction "
-                    "was needed.",
+            # None means that line is published raw: the refit measured the
+            # correction there costing held-out accuracy, and a correction
+            # measured to hurt does not ship. See the modelling log,
+            # 2026-08-24, and backtest/calibration_fit.py.
+            "committed": {
+                str(line): calibration.factor("player_fouls_committed", line)
+                for line in (0.5, 1.5, 2.5)
+            },
+            "drawn": {
+                str(line): calibration.factor("player_fouls_drawn", line)
+                for line in (0.5, 1.5, 2.5)
+            },
+            "note": "Probabilities are corrected only where a correction "
+                    "measurably helps held-out predictions. A missing factor "
+                    "means that line is published as the model says it.",
         },
         "squads": {
             "source": "Fantasy Premier League API",

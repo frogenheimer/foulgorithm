@@ -18,6 +18,60 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-24 — The refit calibration mostly says: stop correcting
+
+**Question.** The published correction was fitted against the model before
+today's two changes, both of which improved calibration, so it likely
+over-shrinks now. Refit against the model as it is: season evidence attached,
+match-store opponent factors on, same functional form, fit on walk-forward
+predictions to July 2024 and evaluated on August 2024 onward, 22,523 pairs a
+line (`backtest/calibration_fit.py`).
+
+**Result**, held-out log loss and ECE, raw against old correction against new:
+
+| market, line | old shrink | new shrink | held-out logloss raw / old / new | ECE raw / old / new | verdict |
+|---|---|---|---|---|---|
+| committed 0.5 | 0.9305 | 0.9282 | 0.5891 / 0.5885 / 0.5886 | 0.0246 / 0.0203 / 0.0205 | kept |
+| committed 1.5 | 0.8820 | 0.9398 | 0.4002 / **0.4016** / 0.4003 | 0.0098 / **0.0148** / 0.0087 | kept |
+| committed 2.5 | 0.7948 | 0.9039 | **0.1880** / 0.1912 / 0.1890 | **0.0055** / 0.0136 / 0.0093 | **published raw** |
+| drawn 0.5 | 0.9770 | 0.9811 | 0.5713 / 0.5714 / 0.5714 | 0.0168 / 0.0101 / 0.0114 | kept |
+| drawn 1.5 | 0.9922 | 1.0454 | 0.3719 / 0.3719 / **0.3733** | 0.0107 / 0.0101 / 0.0119 | **published raw** |
+| drawn 2.5 | 1.0394 | 1.1000 | 0.1790 / 0.1792 / 0.1795 | 0.0057 / 0.0058 / 0.0055 | **published raw** |
+
+**Three findings, in rising order of importance.**
+
+**The old correction was actively harming the site.** At committed 1.5 it cost
+0.0014 held-out log loss against raw and pushed ECE from 0.0098 to 0.0148, and
+at committed 2.5, the line the correction was originally built for, it was the
+worst of the three options on both metrics. It was fitted against a model that
+no longer exists.
+
+**The current model barely needs correcting.** Raw ECE on the held-out window
+runs 0.0055 to 0.0246 across the six lines, with the only material
+miscalibration at the 0.5 lines. This is the two shipped changes doing what
+their gates said they did.
+
+**Window drift is now bigger than the miscalibration left to correct.** The
+new fits at drawn 1.5 and 2.5 came out ABOVE one, expansion, and then hurt on
+held-out: what the 2022 to 2024 window teaches no longer holds in 2024 to
+2025. The same lesson as the game-state slope moving 2.5x between periods.
+
+**So the rule became part of the fitter: a correction earns its line or the
+line is published raw.** Kept where it does not cost held-out log loss beyond
+0.0002 and improves held-out ECE; absent otherwise, and the reader already
+treats absence as pass-through. Three of six survive, all mild shrinks near
+one. Stated plainly in `decide()`'s docstring and here: that keep-or-drop
+consults the held-out window, six binary decisions, which is mild selection on
+the test set, and the alternative was knowingly shipping two corrections
+measured to hurt.
+
+**Consequences.** Published 3+ committed probabilities RISE, since the 0.795
+shrink at that line is gone, which also points the same way as the live
+282-claim sample that suggested the old correction was aimed backwards. The
+reference file now carries provenance, fitted-at, windows, n and a version.
+The distributional redesign stays behind the pre-registered live sample, as
+the plan of record placed it.
+
 ## 2026-08-24 — Pooling six leagues works exactly as designed and changes nothing
 
 **Question.** The C3 gate. We hold 485,569 player-matches and read 81,327.
