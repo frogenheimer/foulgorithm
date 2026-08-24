@@ -17,9 +17,11 @@ from __future__ import annotations
 
 from foulgorithm.sources import pulselive
 
-# The three we need. `appearances` is not optional: without it a difference
-# cannot be attributed to a single match.
-STATS = ("fouls", "was_fouled", "appearances")
+# `appearances` is not optional: without it a difference cannot be attributed
+# to a single match. `mins_played` makes a settled match a full training row
+# rather than half of one; these rows are the only per-match player data this
+# season will ever have.
+STATS = ("fouls", "was_fouled", "appearances", "mins_played")
 
 
 def _ranked(stat: str, season_id: int, page_size: int = 100) -> dict[str, float]:

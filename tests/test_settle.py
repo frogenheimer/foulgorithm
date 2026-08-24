@@ -64,6 +64,68 @@ class TestOutcomes:
         assert out[("alice", "player_fouls_drawn")] == 1
 
 
+class TestMinutesRideAlong:
+    """A settled match without minutes is half a training row. mins_played
+    joins the snapshot so every graded round becomes training-grade data,
+    which is the retention addition docs/35-weekly-updater.md flagged."""
+
+    def test_minutes_are_differenced_like_everything_else(self):
+        before = {"alice": {"fouls": 4, "was_fouled": 2, "appearances": 3, "mins_played": 250}}
+        after = {"alice": {"fouls": 6, "was_fouled": 3, "appearances": 4, "mins_played": 328}}
+        out = settle.per_match(before, after)
+        assert out["alice"]["minutes"] == 78
+
+    def test_a_snapshot_from_before_the_migration_yields_none_not_zero(self):
+        """The old snapshot has no minutes. Zero would say he played no
+        minutes and fouled twice, which is a lie with a straight face."""
+        before = {"alice": {"fouls": 4, "was_fouled": 2, "appearances": 3}}
+        after = {"alice": {"fouls": 6, "was_fouled": 3, "appearances": 4, "mins_played": 328}}
+        out = settle.per_match(before, after)
+        assert out["alice"]["minutes"] is None
+
+    def test_the_stat_is_actually_fetched(self):
+        from foulgorithm.sources.player_season_stats import STATS
+
+        assert "mins_played" in STATS
+
+
+class TestRetention:
+    """Settled per-match rows are kept, not consumed and discarded. They are
+    the only per-match player data this season will ever have."""
+
+    def test_rows_are_appended_with_their_window(self, tmp_path):
+        path = tmp_path / "rows.jsonl"
+        matches = {
+            "alice": {"fouls_committed": 2, "fouls_drawn": 1, "minutes": 78},
+        }
+        settle.persist_matches(matches, "2026-08-22T09:00:00", "2026-08-24T21:00:00", path)
+        import json
+
+        rows = [json.loads(l) for l in path.read_text().splitlines()]
+        assert rows[0]["player"] == "alice"
+        assert rows[0]["fouls_committed"] == 2
+        assert rows[0]["minutes"] == 78
+        assert rows[0]["window_start"] == "2026-08-22T09:00:00"
+        assert rows[0]["window_end"] == "2026-08-24T21:00:00"
+
+    def test_a_second_round_appends_rather_than_overwrites(self, tmp_path):
+        path = tmp_path / "rows.jsonl"
+        settle.persist_matches({"a": {"fouls_committed": 1, "fouls_drawn": 0, "minutes": 90}},
+                               "w1", "w2", path)
+        settle.persist_matches({"b": {"fouls_committed": 0, "fouls_drawn": 2, "minutes": 45}},
+                               "w2", "w3", path)
+        assert len(path.read_text().splitlines()) == 2
+
+    def test_the_same_window_is_not_written_twice(self, tmp_path):
+        """A crashed run rerun after its snapshot failed to write would
+        otherwise double every row in the window."""
+        path = tmp_path / "rows.jsonl"
+        matches = {"a": {"fouls_committed": 1, "fouls_drawn": 0, "minutes": 90}}
+        settle.persist_matches(matches, "w1", "w2", path)
+        settle.persist_matches(matches, "w1", "w2", path)
+        assert len(path.read_text().splitlines()) == 1
+
+
 class TestWaitingForTheStatsToPost:
     """Three fixtures graded near zero, all from the same 14:00 slot, and the
     five Ipswich players captured all showed exactly zero fouls in a 26-foul

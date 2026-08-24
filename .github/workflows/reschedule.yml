@@ -39,7 +39,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
 
-      - name: Rewrite the lineup schedule
+      - name: Rewrite the lineup and settle schedules
         id: plan
         # Exit 1 means nothing changed, which is the common case midweek.
         run: |
@@ -55,8 +55,8 @@ jobs:
         run: |
           git config user.name "foulgorithm-bot"
           git config user.email "foulgorithm@users.noreply.github.com"
-          git add .github/workflows/lineups.yml data/state/fixture_state.json
+          git add .github/workflows/lineups.yml .github/workflows/settle.yml data/state/fixture_state.json
           git diff --cached --quiet && exit 0
-          git commit -m "Point the lineup cron at this fortnight's kickoffs"
+          git commit -m "Point the lineup and settle crons at this fortnight's kickoffs"
           git pull --rebase --autostash
           git push

@@ -44,6 +44,7 @@ COMMIT_PATHS = (
     "data/picks",
     "data/state",
     "data/graded",
+    "data/settled",
 )
 
 #: Verification ceilings and floors. Bounds, not targets: crossing one means

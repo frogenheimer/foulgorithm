@@ -53,11 +53,59 @@ def per_match(before: dict, after: dict) -> dict[str, dict[str, int]]:
             )
         if appearances != 1:
             continue
+        # Minutes only when BOTH snapshots carry them, or the player is a
+        # debutant absent from the earlier one entirely. The old snapshot
+        # format predates the stat, and a zero there would say he played no
+        # minutes and fouled twice, which is a lie with a straight face.
+        if "mins_played" in now and "mins_played" in was:
+            minutes = int(now["mins_played"] - was["mins_played"])
+        elif "mins_played" in now and not was:
+            minutes = int(now["mins_played"])
+        else:
+            minutes = None
         out[name] = {
             "fouls_committed": int(now.get("fouls", 0) - was.get("fouls", 0)),
             "fouls_drawn": int(now.get("was_fouled", 0) - was.get("was_fouled", 0)),
+            "minutes": minutes,
         }
     return out
+
+
+SETTLED_ROWS = Path("data/settled/player_matches.jsonl")
+
+
+def persist_matches(
+    matches: dict, window_start: str | None, window_end: str, path: Path = SETTLED_ROWS
+) -> int:
+    """Keep the settled per-match rows, not just the grades they produced.
+
+    These rows are the only per-match player data this season will ever
+    have: the archive froze, the league publishes only running totals, and a
+    difference consumed for grading and discarded is training data destroyed.
+    Append-only, one row per player per window, and a window already on file
+    is skipped whole so a rerun after a crashed snapshot write cannot double
+    a round.
+    """
+    if not matches:
+        return 0
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists() and f'"window_end": "{window_end}"' in path.read_text():
+        return 0
+    with path.open("a") as handle:
+        for name, stats in sorted(matches.items()):
+            handle.write(
+                json.dumps(
+                    {
+                        "player": name,
+                        "window_start": window_start,
+                        "window_end": window_end,
+                        **stats,
+                    },
+                    separators=(", ", ": "),
+                )
+                + "\n"
+            )
+    return len(matches)
 
 
 def outcomes(matches: dict[str, dict[str, int]]) -> dict[tuple[str, str], float]:
@@ -211,13 +259,14 @@ def run(dry_run: bool = False) -> int:
         )
         + "\n"
     )
+    taken_at = datetime.now(timezone.utc).isoformat()
+    kept = persist_matches(matches, previous.get("takenAt"), taken_at)
+    if kept:
+        print(f"kept {kept} per-match rows for training")
+
     SNAPSHOT.parent.mkdir(parents=True, exist_ok=True)
     SNAPSHOT.write_text(
-        json.dumps(
-            {"takenAt": datetime.now(timezone.utc).isoformat(), "totals": current},
-            indent=2,
-        )
-        + "\n"
+        json.dumps({"takenAt": taken_at, "totals": current}, indent=2) + "\n"
     )
     return 0
 
