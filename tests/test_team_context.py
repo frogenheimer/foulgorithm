@@ -134,6 +134,39 @@ class TestModelIntegration:
         factor = model.opponent_factor("Filler 1", AS_OF)
         assert factor > 0
 
+    def test_a_promoted_club_keeps_its_second_tier_fallback(self):
+        """The store has no top-flight rows for a promoted club, and 1.0 from
+        an empty lookup is the failure this project exists not to make. Below
+        the evidence floor the Championship prior still speaks."""
+        source = MatchContextSource(matches(league()))
+        model = PlayerFoulModel()
+        model.fit(self.history())
+        model.use_match_context(source)
+
+        called = {}
+
+        def fake_promoted(club):
+            called["club"] = club
+            return 1.04
+
+        model._promoted_opponent_factor = fake_promoted
+        assert model.opponent_factor("Coventry", AS_OF) == pytest.approx(1.04)
+        assert called["club"] == "Coventry"
+
+    def test_an_established_club_does_not_touch_the_promoted_path(self):
+        rows = league() + [
+            (f"2025-{m:02d}-14", "Magnet FC", f"Filler {m % 6}", 6.0, 16.0, "Common Ref")
+            for m in range(3, 11)
+        ]
+        source = MatchContextSource(matches(rows))
+        model = PlayerFoulModel()
+        model.fit(self.history())
+        model.use_match_context(source)
+        model._promoted_opponent_factor = lambda club: pytest.fail(
+            "an established club must not reach the promoted fallback"
+        )
+        assert model.opponent_factor("Magnet FC", AS_OF) > 1.0
+
     def test_drawn_model_reads_the_drawn_direction_through_the_same_source(self):
         rows = league() + [
             (f"2025-{m:02d}-14", "Magnet FC", f"Filler {m % 6}", 6.0, 16.0, "Common Ref")

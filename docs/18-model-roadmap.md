@@ -265,7 +265,14 @@ Two items were added after the August 2026 data survey and jump most of that
 queue, because both are free and both address the largest current weakness,
 which is coverage rather than method:
 
-0a. **Team features from the live match store** (9). Costs nothing, uses data
+0a. ~~**Team features from the live match store**~~ **SHIPPED 2026-08-24**, the
+    opponent factor half of it. Gated by `backtest/team_context_study.py`:
+    neutral on equal footing, and under production conditions, a frozen rate
+    against a live store, better on both markets with ECE falling 23% on
+    committed and 31% on drawn. The referee half was measured to add nothing
+    and stays out. See the modelling log, 2026-08-24. Original note below.
+
+    Costs nothing, uses data
     already on disk, and makes two of three prediction inputs current again.
 0b. **Pool the other big-five leagues** (8). The data is **now on disk**:
     485,569 player-matches, 8,968 players, six leagues, fetched 2026-08-24. Its

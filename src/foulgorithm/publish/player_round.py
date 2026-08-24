@@ -364,6 +364,35 @@ def _season_evidence(history: pd.DataFrame) -> pd.DataFrame | None:
     return evidence
 
 
+def _match_context():
+    """Opponent factors from the match store. The C2 stage one change.
+
+    Gated by `backtest/team_context_study.py`. On equal footing the swap is
+    neutral, which is the point: it is the same quantity from a source that
+    has not frozen. Under production conditions, a frozen rate against a
+    live store, it wins on both markets, mostly on calibration: ECE 0.0137
+    to 0.0105 on committed and 0.0108 to 0.0074 on drawn.
+
+    Referees are deliberately NOT wired. Published player predictions carry
+    no referee factor today, so that would be an addition rather than a
+    swap, and the same study measured it adding nothing. This project has
+    shipped three things that were real signal and a worse model.
+    """
+    from foulgorithm.features.team_context import MatchContextSource
+    from foulgorithm.store.matches import load_matches
+
+    try:
+        matches = load_matches()
+    except Exception as exc:  # noqa: BLE001 - degrade loudly to the archive path
+        print(f"  match store unavailable, opponent factors stay on the archive: {exc}")
+        return None
+    if matches.empty:
+        print("  match store empty, opponent factors stay on the archive")
+        return None
+    print(f"  opponent context from {len(matches):,} matches to {matches['kickoff_utc'].max():%b %Y}")
+    return MatchContextSource(matches)
+
+
 def publish(output: Path = OUTPUT) -> dict:
     history = load_player_matches()
 
@@ -423,10 +452,13 @@ def publish(output: Path = OUTPUT) -> dict:
     # exist until that season is underway.
     for model in (*committed.values(), *drawn.values()):
         model.fit_pairings(_pairing_history(), as_of)
+    context = _match_context()
     for model in list(committed.values()) + list(drawn.values()):
         model.fit(history)
         if season_evidence is not None and len(season_evidence):
             model.attach_season_evidence(season_evidence)
+        if context is not None:
+            model.use_match_context(context)
 
     house_c, house_d = committed[HOUSE_MODEL], drawn[HOUSE_MODEL]
 

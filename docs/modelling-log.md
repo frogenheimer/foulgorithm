@@ -18,6 +18,54 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-24 — Live opponent factors: neutral on equal footing, better when the archive is frozen
+
+**Question.** The C2 stage one gate. Opponent and referee factors are computed
+from the player archive, which stopped in September 2025, while the match
+store is current through May 2026. Is the swap worth making?
+
+**The first answer was no, and it was the wrong question.** Over 2024 onward,
+where both sources are contemporaneous, the swap is a wash: 13,993
+player-matches, log loss 0.3963 to 0.3960 on committed and 0.3744 to 0.3741 on
+drawn. Fourth-decimal moves. Adding the referee factor on top changed nothing
+again, 0.3959 and 0.3739.
+
+**That window cannot see the thing the swap is for.** Production runs a frozen
+rate source against fixtures a year past the freeze. So the study gained
+`run_frozen`, which reproduces exactly that: the player archive cut at
+14 September 2024, the match store left whole, predictions over October 2024 to
+February 2025.
+
+| market | variant | log loss | ECE | MAE |
+|---|---|---|---|---|
+| committed | frozen archive | 0.3918 | 0.0137 | 0.649 |
+| committed | **frozen rate, live context** | **0.3913** | **0.0105** | **0.645** |
+| drawn | frozen archive | 0.3813 | 0.0108 | 0.636 |
+| drawn | **frozen rate, live context** | **0.3807** | **0.0074** | **0.633** |
+
+**Both markets improve, and the calibration gain is the real one**: ECE falls
+23% on committed and 31% on drawn. Log loss moves 0.0005, about 11% of the
+0.0046 that staleness costs in total, which sits sensibly beside C1's 78% of
+the same gap. They fix different inputs and they add up.
+
+So the currency argument stopped being an argument. It is a measurement, which
+is what the release gate demanded.
+
+**Shipped: the opponent factor only.** `publish/player_round.py` attaches a
+`MatchContextSource` to all ten models. Live divergence is material where you
+would expect: Tottenham 1.154 on the archive against 1.050 on the store,
+Man United 0.902 against 0.947, Sunderland 1.000 against 1.046, all driven by a
+2025/26 season the archive does not contain. Promoted clubs still fall to their
+Championship prior below five effective matches, tested both ways, because a
+club with no top-flight rows reading 1.0 is the failure this project exists not
+to make.
+
+**Not shipped: the referee factor.** Published player predictions carry no
+referee factor at all today, so wiring one is an addition rather than a swap,
+and the equal-footing test measured it adding nothing. Three things have now
+shipped here that were real signal and a worse model. This one stays out until
+something measures it in.
+
 ## 2026-08-24 — Season totals recover most of the stale year, so they ship
 
 **Question.** The C1 gate from `34-final-plan.md`: how much of what staleness
