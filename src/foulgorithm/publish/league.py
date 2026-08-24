@@ -95,8 +95,22 @@ def build_slates(candidates: list[dict], character_ids: list[str]) -> dict:
     return out
 
 
+def round_id(row: dict) -> str:
+    """Which round a slate version belongs to: the date of its own first
+    kickoff, never the stored label.
+
+    The stored round label was week-based, and week keys collide: the night
+    of 2026-08-24 a round finished on the Monday and the next was published
+    under the same key two hours later, superseding picks nobody ever
+    re-made. The kickoff each row carries identifies its round unambiguously.
+    Rows from before the field existed fall back to the label.
+    """
+    kickoff = row.get("first_kickoff") or ""
+    return kickoff[:10] or row.get("round", "")
+
+
 def binding_versions(committed: list[dict]) -> list[dict]:
-    """One row per slate key: the latest version published before kickoff.
+    """One row per slate per round: the latest version published before kickoff.
 
     Slates version rather than mutate, so a lineup-time re-publish appends a
     fresh row for the same key. The one that counts is the last committed
@@ -104,7 +118,8 @@ def binding_versions(committed: list[dict]) -> list[dict]:
     arriving, and a version published then is recorded and ignored, because
     replacing a slate once outcomes exist is cherry-picking with extra steps.
     Rows written before the field existed were all pre-kickoff by
-    construction and stay eligible.
+    construction and stay eligible. Rounds are told apart by round_id, not by
+    the stored key, so a new round never supersedes the old one's picks.
     """
     eligible: dict[str, dict] = {}
     for row in committed:
@@ -112,7 +127,7 @@ def binding_versions(committed: list[dict]) -> list[dict]:
         published = row.get("published_at", "")
         if first_kickoff and published > first_kickoff:
             continue
-        key = row.get("key") or f"{row.get('round', '')}|{row['character']}|{row['slate']}"
+        key = f"{round_id(row)}|{row['character']}|{row['slate']}"
         held = eligible.get(key)
         if held is None or published > held.get("published_at", ""):
             eligible[key] = row
@@ -159,7 +174,7 @@ def join_slates(graded: list[dict], committed: list[dict]) -> list[dict]:
                     "model_id": slate["character"],
                     "landed": graded_leg["landed"],
                     "deficit": graded_leg["deficit"],
-                    "extra": {"slate": slate["slate"], "round": slate.get("round")},
+                    "extra": {"slate": slate["slate"], "round": round_id(slate)},
                 }
             )
     return out

@@ -715,7 +715,7 @@ def _commit_slates(slates: dict, published: str) -> dict:
             committed.append(
                 slate_store.Committed(
                     published_at=published,
-                    round=slate_store.round_of(built["legs"][0]["kickoff"]),
+                    round=slate_store.round_of(first_kickoff or built["legs"][0]["kickoff"]),
                     character=cid,
                     slate=slate_key,
                     claim_keys=keys,

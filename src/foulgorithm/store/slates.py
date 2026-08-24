@@ -32,7 +32,7 @@ class Committed:
     """One character's bet at one fixed shape, for one round."""
 
     published_at: str
-    round: str                 # the Monday of the round, as an ISO date
+    round: str                 # the date of the round's first kickoff, ISO
     character: str
     slate: str
     claim_keys: list[str] = field(default_factory=list)
@@ -52,9 +52,15 @@ class Committed:
 
 
 def round_of(kickoff_iso: str) -> str:
-    day = datetime.fromisoformat(kickoff_iso.replace("Z", "+00:00")).date()
-    monday = day.fromordinal(day.toordinal() - day.weekday())
-    return monday.isoformat()
+    """The round key: the date of the round's first kickoff.
+
+    Was the week's Monday until 2026-08-24, when a round ending on a Monday
+    and the next beginning that Friday shared a week, collided on the key,
+    and the new round's picks superseded picks nobody ever re-made. Kickoff
+    dates cannot collide that way. publish/league.py reads old rows by their
+    own first_kickoff, so the two generations of key coexist.
+    """
+    return datetime.fromisoformat(kickoff_iso.replace("Z", "+00:00")).date().isoformat()
 
 
 def path_for(round_key: str, root: Path = STORE) -> Path:

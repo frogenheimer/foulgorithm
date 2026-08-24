@@ -242,11 +242,15 @@ class TestTheSlateStore:
         )
         assert result["written"] == 2
 
-    def test_rounds_are_separate_files(self, tmp_path):
+    def test_rounds_are_keyed_by_their_first_kickoff_date(self, tmp_path):
+        """Not by the week's Monday. Week keys collided the night a round
+        finished on a Monday and the next began that Friday: same week, same
+        key, and the new round's picks superseded picks nobody ever re-made."""
         from foulgorithm.store import slates as store
 
         assert store.round_of("2026-08-24T14:00:00+00:00") == "2026-08-24"
-        assert store.round_of("2026-08-22T14:00:00+00:00") == "2026-08-17"
+        assert store.round_of("2026-08-22T14:00:00+00:00") == "2026-08-22"
+        assert store.round_of("2026-08-28T19:00:00+00:00") == "2026-08-28"
 
     def test_empty_input_is_safe(self, tmp_path):
         from foulgorithm.store import slates as store
@@ -339,6 +343,51 @@ class TestBindingVersions:
         del old["first_kickoff"]
         old["key"] = "2026-08-17|alan|three-twos"
         assert league.binding_versions([old]) == [old]
+
+    def test_a_new_round_filed_under_the_same_key_does_not_supersede(self):
+        """The 24 Aug incident: a round ended on a Monday night and the next
+        was published two hours later under the same week key. The new round
+        must not replace picks that were never re-made; each round binds its
+        own last pre-kickoff version."""
+        tonight = self.slate("2026-08-24T17:19:00+00:00", ["tonight1"])
+        next_round = self.slate(
+            "2026-08-24T19:51:00+00:00",
+            ["next1"],
+            first_kickoff="2026-08-28T19:00:00+00:00",
+        )
+        binding = league.binding_versions([tonight, next_round])
+        assert len(binding) == 2
+        assert {tuple(b["claim_keys"]) for b in binding} == {("tonight1",), ("next1",)}
+
+    def test_the_stored_round_label_is_ignored_when_the_kickoff_is_known(self):
+        """One publish filed four characters under one week label and the
+        fifth under another. Same first kickoff means same round, whatever
+        the label says, so the later version supersedes across labels."""
+        a = self.slate(
+            "2026-08-24T19:51:00+00:00", ["a1"],
+            first_kickoff="2026-08-28T19:00:00+00:00",
+        )
+        b = dict(
+            self.slate(
+                "2026-08-24T19:52:00+00:00", ["b1"],
+                first_kickoff="2026-08-28T19:00:00+00:00",
+            ),
+            key="2026-08-31|alan|three-twos",
+            round="2026-08-31",
+        )
+        binding = league.binding_versions([a, b])
+        assert len(binding) == 1
+        assert binding[0]["claim_keys"] == ["b1"]
+
+    def test_the_joined_round_is_the_kickoff_date_not_the_filed_label(self):
+        committed = [
+            self.slate(
+                "2026-08-24T19:51:00+00:00", ["k1"],
+                first_kickoff="2026-08-28T19:00:00+00:00",
+            )
+        ]
+        joined = league.join_slates([{"key": "k1", "won": True}], committed)
+        assert joined[0]["extra"]["round"] == "2026-08-28"
 
     def test_only_the_binding_versions_legs_reach_the_join(self):
         committed = [
