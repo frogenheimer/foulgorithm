@@ -566,11 +566,9 @@ def publish(output: Path = OUTPUT) -> dict:
         for label, by_character in fixture_slips.items()
         if (pick := _best_pick(by_character))
     }
-    fixture_options = {
-        label: options
-        for label, by_character in fixture_slips.items()
-        if (options := _fixture_options(by_character))
-    }
+    # The card, the matrix and the league table now trace to the same picks:
+    # the committed slates, not the display ladders. See _fixture_options.
+    fixture_options = _fixture_options(slates, candidates)
     confirmed_fixtures = {key.split("|", 1)[-1] for key in lineups}
     for label, options in fixture_options.items():
         for option in options:
@@ -1647,31 +1645,45 @@ MIN_TOTAL_FOULS = 6
 MIN_PICK_PROBABILITY = 0.10
 
 
-def _fixture_options(by_character: dict, limit: int = 5) -> list[dict]:
-    """The crossover call: the legs the five most agree on, as one card.
+def _fixture_options(slates: dict, candidates: list[dict], limit: int = 5) -> dict[str, list[dict]]:
+    """The crossover call per fixture: the legs the five most agree on, as one card.
 
-    Replaces the per-band boldest-character options, Oliver's call 2026-08-24:
-    the card should show what the five most cross over on rather than one
-    temperament's reach at a price. A leg counts a backer once per character
-    however many tiers of his ladder it appears in, legs rank by how many of
-    the five back them and then by the house number, and the card never
-    represents a specific model: the probability shown per leg is the house
-    blend, and the header says how many of the five are behind each pick.
+    Derived from the COMMITTED slates, Oliver's call 2026-08-24, evening: the
+    card, the matrix and the league table trace to the same picks, the ones
+    that score, so backing here means a character actually committed to the
+    leg rather than holding it somewhere in a display ladder. A leg counts a
+    backer once per character however many of his three shapes repeat it,
+    legs rank by how many of the five back them and then by the house number,
+    and the card never represents a specific model: the probability shown per
+    leg is the house blend, the unweighted mean of every character's number
+    for that leg from the candidate table.
     """
-    count = max(len(by_character), 1)
+    count = max(len(slates), 1)
 
-    legs: dict[tuple, dict] = {}
-    for cid, tiers in by_character.items():
+    house_by_leg = {
+        (r["fullName"], r["market"], r["line"]): sum(r["probs"].values()) / len(r["probs"])
+        for r in candidates
+        if r.get("probs")
+    }
+
+    by_fixture: dict[str, dict[tuple, dict]] = {}
+    for cid, built_shapes in slates.items():
         seen: set[tuple] = set()
-        for slip in tiers:
-            for l in slip.get("legs") or []:
-                key = (l["player"], l["market"], l["fouls"])
+        for built in (built_shapes or {}).values():
+            for l in (built or {}).get("legs") or []:
+                key = (l["fullName"], l["market"], l["fouls"])
                 if key in seen:
                     continue
                 seen.add(key)
-                house = (l["prob"] + l["packProb"] * (count - 1)) / count
+                legs = by_fixture.setdefault(l["fixture"], {})
                 held = legs.get(key)
                 if held is None:
+                    # Slate legs come from the candidate table in the same
+                    # publish, so the blend is always there; the fallback to
+                    # the character's own number only guards a stale caller.
+                    house = house_by_leg.get(
+                        (l["fullName"], l["market"], l["line"]), l["prob"]
+                    )
                     legs[key] = {
                         "player": l["player"],
                         "fouls": l["fouls"],
@@ -1682,39 +1694,37 @@ def _fixture_options(by_character: dict, limit: int = 5) -> list[dict]:
                 else:
                     held["backers"] += 1
 
-    if not legs:
-        return []
-
-    ranked = sorted(legs.values(), key=lambda l: (-l["backers"], -l["_house"]))[:limit]
-
-    combined = 1.0
-    for l in ranked:
-        combined *= l["_house"]
-
-    return [
-        {
-            "band": "Consensus",
-            "character": "consensus",
-            "characterName": "The five",
-            "tier": "",
-            "odds": round(1.0 / combined, 2) if combined > 0 else 0.0,
-            "outOf100": round(combined * 100),
-            "houseOutOf100": round(combined * 100),
-            "totalFouls": sum(l["fouls"] for l in ranked),
-            "gap": 0.0,
-            "backers": count,
-            "legs": [
-                {
-                    "player": l["player"],
-                    "fouls": l["fouls"],
-                    "market": l["market"],
-                    "outOf100": round(l["_house"] * 100),
-                    "backers": l["backers"],
-                }
-                for l in ranked
-            ],
-        }
-    ]
+    out: dict[str, list[dict]] = {}
+    for label, legs in by_fixture.items():
+        ranked = sorted(legs.values(), key=lambda l: (-l["backers"], -l["_house"]))[:limit]
+        combined = 1.0
+        for l in ranked:
+            combined *= l["_house"]
+        out[label] = [
+            {
+                "band": "Consensus",
+                "character": "consensus",
+                "characterName": "The five",
+                "tier": "",
+                "odds": round(1.0 / combined, 2) if combined > 0 else 0.0,
+                "outOf100": round(combined * 100),
+                "houseOutOf100": round(combined * 100),
+                "totalFouls": sum(l["fouls"] for l in ranked),
+                "gap": 0.0,
+                "backers": count,
+                "legs": [
+                    {
+                        "player": l["player"],
+                        "fouls": l["fouls"],
+                        "market": l["market"],
+                        "outOf100": round(l["_house"] * 100),
+                        "backers": l["backers"],
+                    }
+                    for l in ranked
+                ],
+            }
+        ]
+    return out
 
 
 def _best_pick(by_character: dict) -> dict | None:
