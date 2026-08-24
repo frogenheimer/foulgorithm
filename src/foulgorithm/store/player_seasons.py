@@ -77,7 +77,21 @@ def load(root: Path = STORE) -> pd.DataFrame:
 
         _check(path, held)
         if held["players"]:
-            frames.append(pd.DataFrame(held["players"]))
+            frame = pd.DataFrame(held["players"])
+            # When this reading was taken, per row, because an in-progress
+            # season's totals were knowable only at that moment. The latest
+            # touch wins: a repaired or backfilled file's values are that
+            # pass's reading, not the original fetch's.
+            frame["fetchedAt"] = max(
+                stamp
+                for stamp in (
+                    held.get("fetchedAt"),
+                    held.get("backfilledAt"),
+                    held.get("repairedAt"),
+                )
+                if stamp
+            )
+            frames.append(frame)
 
     if not frames:
         return pd.DataFrame(columns=EMPTY)

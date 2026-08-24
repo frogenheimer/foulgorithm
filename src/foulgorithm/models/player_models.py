@@ -98,6 +98,19 @@ class PlayerFoulModel:
         self._history: pd.DataFrame | None = None
         self._league_rate = 1.0
         self._visible_cache: dict = {}
+        # Season-total pseudo-evidence, kept apart from match history so it can
+        # never leak into minutes, opponent factors or the published plain
+        # rate. See features/season_totals.py and docs/34-final-plan.md, C1.
+        # The weight is the aggregation discount, fitted by the gate study
+        # rather than guessed; 1.0 until a measurement says otherwise.
+        self._season_evidence: pd.DataFrame | None = None
+        self._season_cache: dict = {}
+        self.season_evidence_weight = 1.0
+        # When set, opponent factors come from the match store rather than the
+        # player archive. Survives refits on purpose: the source gates every
+        # lookup by as_of internally, so there is nothing to leak, and a
+        # walk-forward run attaches it once.
+        self._context_source = None
         self._position_rate: dict[str, float] = {}
         self._player_position: dict[str, str] = {}
         self._default_minutes = 70.0
@@ -125,12 +138,17 @@ class PlayerFoulModel:
             "dispersion": self.dispersion,
             "amplify": self.amplify,
             "readsHeadToHead": self.reads_head_to_head,
+            "seasonEvidenceWeight": self.season_evidence_weight,
         }
 
     def fit(self, history: pd.DataFrame) -> None:
         self._history = history
-        # Never survives a refit. See _visible.
+        # Never survives a refit. See _visible. Season evidence goes with it,
+        # because evidence attached against one fit answering questions about
+        # the next is the same leakage with a different face.
         self._visible_cache: dict = {}
+        self._season_evidence = None
+        self._season_cache = {}
         minutes = float(history["minutes"].sum())
         # A history with no minutes in it divides by zero and makes the league
         # rate NaN, which then silently poisons every prior and every shrunk
@@ -243,22 +261,62 @@ class PlayerFoulModel:
             self._visible_cache[key] = cached
         return cached
 
+    def attach_season_evidence(self, frame: pd.DataFrame) -> None:
+        """Season-total pseudo-evidence from `features/season_totals.py`.
+
+        Attached after fit and cleared by the next one. It feeds ONLY the
+        rate: minutes profiles, opponent factors and the published plain rate
+        keep reading real matches, because a month-slice of a season total is
+        not an appearance and must never look like one.
+        """
+        self._season_evidence = frame
+        self._season_cache = {}
+
+    def _season_rows(self, player: str, as_of) -> pd.DataFrame | None:
+        """This player's knowable season evidence, cached per timestamp."""
+        if self._season_evidence is None or self._season_evidence.empty:
+            return None
+        key = pd.Timestamp(as_of)
+        visible = self._season_cache.get(key)
+        if visible is None:
+            visible = self._season_evidence[self._season_evidence["known_at"] <= key]
+            self._season_cache[key] = visible
+        mine = visible[visible["player"] == player]
+        return mine if len(mine) else None
+
     def player_rate(
         self, player: str, as_of, club_factor: float | None = None
     ) -> tuple[float, float]:
-        """Shrunk, time-decayed rate per 90. Returns (rate, effective matches)."""
+        """Shrunk, time-decayed rate per 90. Returns (rate, effective matches).
+
+        Two evidence streams share the ledger: archive match rows, and season
+        total pseudo-rows decayed by their EVENT date, the middle of the month
+        slice they describe, not by when we read them. A completed season read
+        today still decays as last spring's football, which it is.
+        """
         past = self._visible(as_of)
         rows = past[past["player"] == player]
         prior = self.prior_rate(player, club_factor)
-        if rows.empty:
+
+        season_events = season_nineties = 0.0
+        season = self._season_rows(player, as_of)
+        if season is not None:
+            w_season = _weights(season["event_at"], as_of, self.half_life_days)
+            scale = w_season * self.season_evidence_weight
+            season_nineties = float(((season["minutes"].to_numpy() / 90.0) * scale).sum())
+            season_events = float((season[self.stat].to_numpy() * scale).sum())
+
+        if rows.empty and season_nineties == 0.0:
             return prior, 0.0
 
         w = _weights(rows["known_at"], as_of, self.half_life_days)
         nineties = (rows["minutes"].to_numpy() / 90.0) * w
         events = rows[self.stat].to_numpy() * w
         prior90 = self.prior_matches
-        rate = (events.sum() + prior90 * prior) / (nineties.sum() + prior90)
-        return float(rate), float(w.sum())
+        rate = (events.sum() + season_events + prior90 * prior) / (
+            nineties.sum() + season_nineties + prior90
+        )
+        return float(rate), float(w.sum() + season_nineties)
 
     def expected_minutes(self, player: str, as_of, starter: bool = True) -> float:
         """Recent minutes, time-decayed, with a fallback for unseen players.
@@ -361,7 +419,33 @@ class PlayerFoulModel:
 
     MIN_OPPONENT_ROWS = 200
 
+    #: Below this many effective matches in the match store, a club is new to
+    #: the division and its second-tier record says more than the prior does.
+    MIN_CONTEXT_MATCHES = 5.0
+
+    def use_match_context(self, source) -> None:
+        """Point opponent factors at the match store. See features/team_context.
+
+        The player-archive path froze in September 2025; the match store is
+        current through the latest round. The character's opponent weight
+        still scales the deviation here, so the five keep disagreeing about
+        one measurement.
+        """
+        self._context_source = source
+
     def opponent_factor(self, opponent: str, as_of) -> float:
+        if self._context_source is not None:
+            raw, effective = self._context_source.opponent_factor(
+                opponent, as_of, self.market
+            )
+            if effective < self.MIN_CONTEXT_MATCHES:
+                promoted = self._promoted_opponent_factor(opponent)
+                if promoted != 1.0:
+                    return promoted
+            return 1.0 + (raw - 1.0) * self.opponent_weight
+        return self._archive_opponent_factor(opponent, as_of)
+
+    def _archive_opponent_factor(self, opponent: str, as_of) -> float:
         """How many fouls this opponent draws out of teams, relative to league.
 
         The name is resolved before the lookup, because it was not. Fixtures say

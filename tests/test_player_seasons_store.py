@@ -50,6 +50,21 @@ class TestLoading:
         season_file(tmp_path, "2023-24", [player(season="2023/24")])
         assert len(ps.load(tmp_path)) == 2
 
+    def test_every_row_carries_when_its_reading_was_taken(self, tmp_path):
+        """An in-progress season's totals were knowable only at the moment we
+        read them. The evidence builder needs that moment per row, and the
+        latest touch wins: a repaired file's values are the repair's reading."""
+        season_file(tmp_path, players=[player()])
+        assert ps.load(tmp_path).iloc[0]["fetchedAt"] == "2026-08-24T00:00:00+00:00"
+
+    def test_a_repair_moves_the_reading_time_forward(self, tmp_path):
+        season_file(
+            tmp_path,
+            players=[player()],
+            repairedAt="2026-08-25T09:00:00+00:00",
+        )
+        assert ps.load(tmp_path).iloc[0]["fetchedAt"] == "2026-08-25T09:00:00+00:00"
+
     def test_an_empty_directory_is_an_empty_frame_not_a_crash(self, tmp_path):
         d = ps.load(tmp_path)
         assert len(d) == 0
