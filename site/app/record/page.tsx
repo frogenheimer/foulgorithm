@@ -1,7 +1,8 @@
 import Reliability from "@/components/record/Reliability";
+import Standings from "@/components/record/Standings";
 import { DataTable } from "@/components/kit";
 import { Callout, Card, Metric, MetricRow } from "@/components/kit";
-import { getTrackRecord } from "@/lib/data";
+import { getCharacters, getPlayers, getTrackRecord } from "@/lib/data";
 import { modelName } from "@/lib/names";
 import styles from "../round.module.css";
 import t from "./record.module.css";
@@ -16,6 +17,8 @@ const signed = (n: number) => `${n >= 0 ? "+" : ""}${(n * 100).toFixed(1)}%`;
 
 export default function Record() {
   const d = getTrackRecord();
+  const standings = getPlayers().standings ?? [];
+  const names = Object.fromEntries(getCharacters().characters.map((c) => [c.id, c.name]));
 
   if (!d || Object.keys(d.models).length === 0) {
     return (
@@ -31,6 +34,7 @@ export default function Record() {
           <strong>Nothing graded yet.</strong> The first round has not settled. This page
           will fill itself in rather than being written, and the losing weeks stay on it.
         </Callout>
+        <Standings standings={standings} names={names} />
       </div>
     );
   }
@@ -71,6 +75,8 @@ export default function Record() {
           />
         </MetricRow>
       </section>
+
+      <Standings standings={standings} names={names} />
 
       {thin > 0 && (
         <Callout>
