@@ -267,6 +267,13 @@ evidence feeds ONLY the rate: minutes, opponent factors and the published
 plain rate still read real matches. `season_evidence_weight` stays 1.0, the
 value the gate run used; anyone refitting it does so through the study.
 
+**The size of it in the current round, measured after the fact.** Of 609
+players in the twenty squads, 396 resolved to a record before this and **505
+do now**: 109 players who were being priced at their position's average have
+a real one. Adding the evidence names to the resolution universe cost nothing
+at the join, checked rather than assumed: zero previously-resolving players
+became ambiguous, which was the obvious way this could have gone wrong.
+
 **Not done here.** The character parameter sets were not re-run through the
 gate individually; the house result carried the decision. If a character's
 live behaviour looks wrong after this lands, that is the first place to look.
