@@ -3,6 +3,7 @@ import Signature from "@/components/characters/Signature";
 import type { Settings } from "@/components/characters/Signature";
 import { Callout, DataTable, Note, PageHeader, SectionHead } from "@/components/kit";
 import { getCharacters, getPlayers } from "@/lib/data";
+import { modelName } from "@/lib/names";
 import c from "./characters.module.css";
 
 export const metadata = { title: "The five · Foulgorithm" };
@@ -14,7 +15,7 @@ export default function Characters() {
   const standings = players.standings ?? [];
   const slates = players.slates;
   const confirmed = new Set(slates.confirmedFixtures ?? []);
-  const named = (id: string) => d.characters.find((c) => c.id === id)?.name ?? id;
+  const named = (id: string) => d.characters.find((c) => c.id === id)?.name ?? modelName(id);
   const anyPlayed = standings.some((r) => r.played > 0);
   const peers = settings.map((p) => p.settings as unknown as Settings);
 

@@ -17,6 +17,7 @@
 import { useState } from "react";
 import type { Slip } from "@/lib/data";
 import { MicroLabel } from "@/components/kit";
+import { modelName } from "@/lib/names";
 import s from "./slips.module.css";
 
 const TIERS = ["2/1", "3/1", "5/1", "10/1", "20/1"];
@@ -80,7 +81,7 @@ export default function SlipGrid({
                     <td>
                       <span className={s.who}>
                         <span className={s.swatch} aria-hidden />
-                        <span className={s.name}>{names?.[cid] ?? cid}</span>
+                        <span className={s.name}>{modelName(cid, names)}</span>
                       </span>
                     </td>
                     {TIERS.map((label) => {
@@ -126,8 +127,8 @@ export default function SlipGrid({
               style={{ ["--char" as string]: `var(--ch-${boldest.cid})` }}
             >
               <MicroLabel>Boldest read</MicroLabel>
-              <strong style={{ textTransform: "capitalize" }}>
-                {boldest.cid} · {boldest.slip.targetLabel}
+              <strong>
+                {modelName(boldest.cid, names)} · {boldest.slip.targetLabel}
               </strong>
               <p className={s.pickWhy}>
                 Sits {Math.round(boldest.gap * 100)} points clear of what the other four
@@ -142,8 +143,8 @@ export default function SlipGrid({
               style={{ ["--char" as string]: `var(--ch-${leanest.cid})` }}
             >
               <MicroLabel>Least margin lost</MicroLabel>
-              <strong style={{ textTransform: "capitalize" }}>
-                {leanest.cid} · {leanest.slip.targetLabel}
+              <strong>
+                {modelName(leanest.cid, names)} · {leanest.slip.targetLabel}
               </strong>
               <p className={s.pickWhy}>
                 Reaches the tier in {leanest.slip.legCount} legs, so a bookmaker&apos;s

@@ -2,6 +2,7 @@ import Reliability from "@/components/record/Reliability";
 import { DataTable } from "@/components/kit";
 import { Callout, Card, Metric, MetricRow } from "@/components/kit";
 import { getTrackRecord } from "@/lib/data";
+import { modelName } from "@/lib/names";
 import styles from "../round.module.css";
 import t from "./record.module.css";
 
@@ -89,7 +90,7 @@ export default function Record() {
           rows={models}
           rowKey={([id]) => id}
           columns={[
-            { key: "model", head: "Model", cell: ([id]) => id },
+            { key: "model", head: "Model", cell: ([id]) => modelName(id) },
             { key: "n", head: "Claims", numeric: true, cell: ([, m]) => m.n },
             { key: "said", head: "We said", numeric: true, cell: ([, m]) => pct(m.claimed) },
             { key: "got", head: "It happened", numeric: true, cell: ([, m]) => pct(m.actual) },
