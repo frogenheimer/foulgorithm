@@ -122,12 +122,18 @@ And the four boundaries that stay standing whatever ships:
 > teammate residual correlation is zero and doubles priced under independence
 > land within 0.3%.
 >
-> **Measured and not shipped:** take-ons are the drawn market's strongest
-> correlate but worth one point of out-of-sample variance as a prior, and the
-> referee factor added nothing.
+> **Measured and not shipped:** C3 league pooling, where the offsets and the
+> +0.689 rank transfer are both sound but the paired gate does not clear zero,
+> on the average or on the arrivals from abroad it was built for; take-ons,
+> the drawn market's strongest correlate, worth one point of out-of-sample
+> variance as a prior; and the referee factor, which added nothing.
 >
-> **Built, not yet wired:** PIT and interval coverage in the metrics module,
-> the A3 dependence study, and the C3 league pooling with its gate study.
+> **Built and available:** PIT and interval coverage in the metrics module,
+> the A3 dependence study, and the C3 pooling machinery with its gate study.
+>
+> **Worth stating about the day's shape:** three of the five upgrades tried
+> did not survive their gates. That is the gates working, and it is the
+> reason the two that did survive are worth believing.
 
 | Priority | Item | Gate |
 |---|---|---|

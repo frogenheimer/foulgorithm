@@ -162,7 +162,18 @@ framework already resembles without the fitted weights.
 
 ### 8. Pool the other big-five leagues, with a league offset
 
-**Not yet built. The data is verified as obtainable and free.** See
+> 🛑 **Built, gated and NOT shipped, 2026-08-24.** The offsets are right, ESP
+> 1.246 and ITA 1.232 against the independently measured 25% and 23%, and
+> rank transfers across leagues at +0.689 over 1,020 movers. But pooled
+> against england-only, paired over 21,738 observations, is +0.00022
+> [-0.00043, +0.00085] and does not clear zero, and the 312 arrivals from
+> abroad it was designed for are null too. Unadjusted pooling is actively
+> worse, so the offset machinery earns its place even though the pooling buys
+> nothing. Most likely cause and the follow-up test are in `ideas.md`: one
+> intercept per league moves the position priors about 5%. Full working in
+> the modelling log, 2026-08-24. The plan below is kept as written.
+
+**Data now on disk, machinery built and tested.** See
 `28-foul-data-sources.md` for how it was checked.
 
 The same archive we already read holds `misc` files for Italy, Spain, Germany,

@@ -18,6 +18,61 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-24 — Pooling six leagues works exactly as designed and changes nothing
+
+**Question.** The C3 gate. We hold 485,569 player-matches and read 81,327.
+Does pooling the other five leagues, on one scale, improve predictions about
+England? The gate is advisor 2's and it is strict: foreign data may not help
+by sample size alone, it has to improve England out-of-sample scoring with the
+offsets fitted only on what was knowable at each timestamp.
+
+**Everything upstream of the answer checks out.** The fitted offsets are ESP
+1.246, ITA 1.232, FRA 1.186, GER 1.132, USA 1.123, landing on top of the 23%
+and 25% measured independently in `29-why-leagues-differ.md`. Across 1,020
+players who changed league the rank correlation is **+0.689**, and applying
+the offset shrinks the rate discontinuity at the border from -0.0467 to
+-0.0295. Foul propensity travels with the player, which is what made this
+worth trying.
+
+**Result**, 7,246 English player-matches, August 2024 to February 2025:
+
+| variant | log loss | ECE | thin n | thin log loss |
+|---|---|---|---|---|
+| england-only | 0.3905 | 0.0077 | 1,158 | 0.3666 |
+| pooled-raw | 0.3911 | **0.0167** | 780 | 0.3524 |
+| pooled-adjusted | **0.3902** | **0.0064** | 780 | 0.3528 |
+
+Paired over the same 21,738 observations, pooled-adjusted against
+england-only: **+0.00022 [-0.00043, +0.00085]** on committed and **+0.00020
+[-0.00050, +0.00087]** on drawn. **Neither clears zero.** The gate fails.
+
+**Two things are worth keeping out of that table.** Unadjusted pooling is
+actively worse, and worst on calibration, ECE 0.0167 against 0.0077, so the
+offset is doing real work even though the work buys nothing. And the mechanism
+visibly operates: the thin bucket falls from 1,158 player-matches to 780,
+meaning a third of thin players gain a real record from abroad.
+
+**So the average was tested where it could not show anything, and then the
+narrow case was tested too.** Most English player-matches belong to players
+with a full English record, where pooling changes nothing by construction.
+Restricted to arrivals from abroad, ten or fewer English matches and a real
+record elsewhere: **312 player-matches, -0.00028 [-0.01033, +0.00930] on
+committed and -0.00237 [-0.01498, +0.00954] on drawn.** Also null, point
+estimates slightly negative, and with 312 rows the test has little power.
+Stated plainly rather than read as a result in either direction.
+
+**Not shipped.** The data stays on disk, the machinery stays tested, and the
+rank-transfer number stands on its own as something worth knowing.
+
+**The most likely reason it is null, and it is testable.** A single
+multiplicative intercept moves the position priors: fitted on 2024-10-01, the
+DM prior is 1.423 england-only against 1.345 pooled-adjusted, and FW 1.276
+against 1.238, about 5% in both cases even though the league rate matches
+England exactly at 0.970. The intercept is right for the league as a whole and
+slightly wrong per position, which is precisely the league-by-position
+interaction `29-why-leagues-differ.md` said to test rather than assume.
+Registered in `ideas.md`.
+
 ## 2026-08-24 — Take-ons are the drawn market's real correlate, and worth about one point
 
 **Question.** Fouls drawn is the market we model worst, and every feature it

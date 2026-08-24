@@ -6,6 +6,32 @@ Append new ideas at the top with a date. When an idea gets picked up it moves to
 
 ---
 
+## 2026-08-24 — League by position, the interaction the pooling gate did not have
+
+Pooling six leagues was tested and is null (modelling log, 2026-08-24):
++0.0002 log loss, interval straddling zero, and null again on the 312
+arrivals from abroad it was designed for. The offsets themselves are right,
+matching the independently measured 23% and 25%, and rank transfers across
+leagues at +0.689.
+
+**The most likely reason it bought nothing, and it is measurable.** One
+multiplicative intercept per league moves the position priors by about 5%:
+fitted on 2024-10-01 the DM prior is 1.423 england-only against 1.345
+pooled-adjusted, FW 1.276 against 1.238, while the overall league rate
+matches England exactly. So the intercept is right for the league and
+slightly wrong for each position inside it, and 5% of prior error is roughly
+the size of whatever the extra data was going to buy.
+
+`29-why-leagues-differ.md` measured the gap at 16% to 23% across positions
+and concluded a single intercept was probably enough, worth testing and not
+worth assuming. This is that test, and it now has a reason to run: fit
+league-by-position offsets, check whether the pooled position priors then
+land on the England-only ones, and re-run the gate. If they do and the gate
+still fails, pooling is genuinely worth nothing here and that is worth
+knowing too.
+
+---
+
 ## 2026-08-24 — Take-ons as a thin-player feature, not as a prior
 
 Measured 2026-08-24 (modelling log): take-on volume is the strongest correlate

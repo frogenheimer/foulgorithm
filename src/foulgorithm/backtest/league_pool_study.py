@@ -178,6 +178,92 @@ def run(
     return results
 
 
+def run_newcomers(
+    pool: pd.DataFrame,
+    market: str = "player_fouls_committed",
+    start: str = EVAL_START,
+    end: str = EVAL_END,
+    lines: tuple[float, ...] = LINES,
+    max_english_matches: int = 10,
+) -> dict:
+    """The narrow question the averaged gate cannot answer.
+
+    Most English player-matches belong to players with a full English record,
+    where pooling changes nothing by construction, so an average over all of
+    them dilutes whatever effect exists toward zero. The population pooling is
+    FOR is the arrival from abroad: little or no English history, a real
+    record somewhere else, and today a position average standing in for both.
+
+    Scored on exactly those rows, paired, england-only against
+    pooled-adjusted.
+    """
+    pool = pool.sort_values("kickoff_utc").reset_index(drop=True)
+    stat = "fouls_committed" if market.endswith("committed") else "fouls_drawn"
+
+    english = pool[pool["league"] == "ENG"]
+    evaluation = english[
+        (english["kickoff_utc"] >= pd.Timestamp(start, tz="UTC"))
+        & (english["kickoff_utc"] < pd.Timestamp(end, tz="UTC"))
+    ]
+    week = (evaluation["kickoff_utc"] - evaluation["kickoff_utc"].min()).dt.days // 7
+    batches = list(evaluation.groupby(week))
+
+    losses: dict[str, list[float]] = {"england-only": [], "pooled-adjusted": []}
+    qualifying: set[tuple[str, pd.Timestamp]] = set()
+
+    for variant in ("england-only", "pooled-adjusted"):
+        model = (
+            pm.PlayerFoulModel() if stat == "fouls_committed" else pm.PlayerFouledModel()
+        )
+        for _, batch in batches:
+            as_of = batch["kickoff_utc"].min()
+            visible = pool[pool["known_at"] <= as_of]
+            model.fit(_training_frame(variant, pool, as_of, stat))
+
+            if variant == "england-only":
+                # Decide who qualifies once, on the england-only pass, so both
+                # variants score an identical set of rows.
+                counts = visible[visible["league"] == "ENG"]["player"].value_counts()
+                abroad = set(visible[visible["league"] != "ENG"]["player"].unique())
+                for row in batch.itertuples():
+                    if (
+                        counts.get(row.player, 0) <= max_english_matches
+                        and row.player in abroad
+                    ):
+                        qualifying.add((row.player, row.kickoff_utc))
+
+            for row in batch.itertuples():
+                if (row.player, row.kickoff_utc) not in qualifying:
+                    continue
+                rate, _ = model.player_rate(row.player, as_of)
+                opp = model.opponent_factor(row.opponent, as_of)
+                mean = max(rate * (row.minutes / 90.0) * opp, 0.02)
+                dist = pm.negbin_pmf(mean, mean * max(model.dispersion, 1.02))
+                observed = float(getattr(row, stat))
+                for line in lines:
+                    losses[variant].append(mx.log_loss_at_line(dist, observed, line))
+
+    a = np.array(losses["england-only"])
+    b = np.array(losses["pooled-adjusted"])
+    if not len(a):
+        return {"rows": 0}
+
+    diff = a - b
+    rng = np.random.default_rng(7)
+    draws = rng.integers(0, len(diff), size=(2000, len(diff)))
+    means = diff[draws].mean(axis=1)
+    lo, hi = float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))
+    return {
+        "rows": len(a) // len(lines),
+        "england_only": float(a.mean()),
+        "pooled": float(b.mean()),
+        "improvement": float(diff.mean()),
+        "lo": lo,
+        "hi": hi,
+        "clears_zero": lo > 0,
+    }
+
+
 def report(results: list[PoolResult]) -> str:
     lines = [
         f"{'variant':<18}{'n':>8}{'MAE':>8}{'logloss':>10}{'ECE':>8}"
