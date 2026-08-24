@@ -22,9 +22,11 @@ import sys
 import time
 from datetime import datetime, timedelta, timezone
 
-# Lineups are due at T-60. Start looking a little early, because "due" is a
-# policy and not a guarantee.
-LOOK_FROM = timedelta(minutes=75)
+# Lineups land at T-60, and in practice exactly T-60: Oliver's observation,
+# 2026-08-24, is that they are never early. So the watch opens at T-65, a
+# small buffer for a clock being what it is, rather than the old T-75, which
+# spent ten polls a fixture asking a question whose answer was known.
+LOOK_FROM = timedelta(minutes=65)
 # Give up on a fixture at kickoff: a lineup that has not appeared by then is
 # not going to be useful, and the match is under way.
 GIVE_UP_AT = timedelta(minutes=0)
