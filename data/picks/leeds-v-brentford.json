@@ -1,0 +1,62 @@
+{
+ "fixture": "Leeds v Brentford",
+ "kickoff": "2026-08-30T13:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-08-24T19:50:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 45.92,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Thiago",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 4
+      },
+      {
+       "player": "Thiago",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 39,
+       "backers": 3
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 55,
+       "backers": 2
+      },
+      {
+       "player": "Justin",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 2
+      },
+      {
+       "player": "Wilson",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 31,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

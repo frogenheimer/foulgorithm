@@ -1,0 +1,62 @@
+{
+ "fixture": "Chelsea v Brighton",
+ "kickoff": "2026-08-30T13:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-08-24T19:50:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 9.78,
+     "outOf100": 10,
+     "houseOutOf100": 10,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Jo\u00e3o Pedro",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 73,
+       "backers": 3
+      },
+      {
+       "player": "Caicedo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 68,
+       "backers": 3
+      },
+      {
+       "player": "Costinha",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 2
+      },
+      {
+       "player": "Delap",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 2
+      },
+      {
+       "player": "Gomez",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 47,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

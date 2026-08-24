@@ -1,0 +1,62 @@
+{
+ "fixture": "Sunderland v Fulham",
+ "kickoff": "2026-08-30T13:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-08-24T19:50:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 21.14,
+     "outOf100": 5,
+     "houseOutOf100": 5,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 3
+      },
+      {
+       "player": "Diarra",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 3
+      },
+      {
+       "player": "King",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 3
+      },
+      {
+       "player": "Berge",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 2
+      },
+      {
+       "player": "King",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 35,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

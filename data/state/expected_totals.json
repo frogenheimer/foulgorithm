@@ -1,4 +1,20 @@
 {
+ "Aston Villa v Arsenal": {
+  "expected": 19.5,
+  "publishedAt": "2026-08-24T19:50:13+00:00"
+ },
+ "Bournemouth v Everton": {
+  "expected": 18.4,
+  "publishedAt": "2026-08-24T19:50:13+00:00"
+ },
+ "Chelsea v Brighton": {
+  "expected": 20.3,
+  "publishedAt": "2026-08-24T19:50:13+00:00"
+ },
+ "Coventry v Hull": {
+  "expected": 16.3,
+  "publishedAt": "2026-08-24T19:50:13+00:00"
+ },
  "Crystal Palace v Man City": {
   "expected": 19.9,
   "publishedAt": "2026-08-23T19:03:33+00:00"
@@ -6,5 +22,25 @@
  "Fulham v Chelsea": {
   "expected": 19.7,
   "publishedAt": "2026-08-23T19:03:33+00:00"
+ },
+ "Leeds v Brentford": {
+  "expected": 17.3,
+  "publishedAt": "2026-08-24T19:50:13+00:00"
+ },
+ "Liverpool v Nott'm Forest": {
+  "expected": 18.5,
+  "publishedAt": "2026-08-24T19:50:13+00:00"
+ },
+ "Man United v Ipswich": {
+  "expected": 18.9,
+  "publishedAt": "2026-08-24T19:50:13+00:00"
+ },
+ "Sunderland v Fulham": {
+  "expected": 17.9,
+  "publishedAt": "2026-08-24T19:50:13+00:00"
+ },
+ "Tottenham v Newcastle": {
+  "expected": 19.2,
+  "publishedAt": "2026-08-24T19:50:13+00:00"
  }
 }

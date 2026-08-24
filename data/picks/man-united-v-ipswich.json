@@ -1,0 +1,62 @@
+{
+ "fixture": "Man United v Ipswich",
+ "kickoff": "2026-08-30T15:30:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-08-24T19:50:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 9.37,
+     "outOf100": 11,
+     "houseOutOf100": 11,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Tielemans",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 67,
+       "backers": 5
+      },
+      {
+       "player": "Luki\u0107",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 71,
+       "backers": 3
+      },
+      {
+       "player": "Cunha",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 70,
+       "backers": 2
+      },
+      {
+       "player": "Ogbene",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 58,
+       "backers": 2
+      },
+      {
+       "player": "Mbeumo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 56,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

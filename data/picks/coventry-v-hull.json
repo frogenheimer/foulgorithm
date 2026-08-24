@@ -1,0 +1,62 @@
+{
+ "fixture": "Coventry v Hull",
+ "kickoff": "2026-08-29T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-08-24T19:50:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 57.16,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Hamer",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 4
+      },
+      {
+       "player": "McNair",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 3
+      },
+      {
+       "player": "Belloumi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 2
+      },
+      {
+       "player": "Onyeka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 38,
+       "backers": 2
+      },
+      {
+       "player": "Dowell",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 34,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

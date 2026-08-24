@@ -1,0 +1,62 @@
+{
+ "fixture": "Aston Villa v Arsenal",
+ "kickoff": "2026-08-31T19:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-08-24T19:50:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 9.51,
+     "outOf100": 11,
+     "houseOutOf100": 11,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Saka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 69,
+       "backers": 2
+      },
+      {
+       "player": "Buend\u00eda",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 65,
+       "backers": 2
+      },
+      {
+       "player": "Eze",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 2
+      },
+      {
+       "player": "Buend\u00eda",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 62,
+       "backers": 2
+      },
+      {
+       "player": "Kamara",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

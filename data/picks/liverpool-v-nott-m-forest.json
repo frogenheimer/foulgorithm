@@ -1,0 +1,62 @@
+{
+ "fixture": "Liverpool v Nott'm Forest",
+ "kickoff": "2026-08-29T11:30:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-08-24T19:50:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 15.02,
+     "outOf100": 7,
+     "houseOutOf100": 7,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Gakpo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 64,
+       "backers": 2
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 2
+      },
+      {
+       "player": "Mac Allister",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 2
+      },
+      {
+       "player": "Szoboszlai",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 2
+      },
+      {
+       "player": "Bakwa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

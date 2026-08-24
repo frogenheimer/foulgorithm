@@ -1,0 +1,62 @@
+{
+ "fixture": "Tottenham v Newcastle",
+ "kickoff": "2026-08-29T16:30:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-08-24T19:50:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.6,
+     "outOf100": 9,
+     "houseOutOf100": 9,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Gallagher",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 69,
+       "backers": 3
+      },
+      {
+       "player": "Fernandes",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 3
+      },
+      {
+       "player": "Bergvall",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 58,
+       "backers": 3
+      },
+      {
+       "player": "Maddison",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 2
+      },
+      {
+       "player": "Wissa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}
