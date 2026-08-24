@@ -74,6 +74,65 @@ def expected_calibration_error(pairs: list[tuple[float, bool]], n_buckets: int =
     )
 
 
+def pit(dist: CountDistribution, observed: float, rng: np.random.Generator) -> float:
+    """Randomised probability integral transform for a count outcome.
+
+    From a correct model these are uniform on [0, 1]. Mass piling into the
+    tails means outcomes run wider than the model says; mass piling into the
+    middle means the model is too wide. This is the whole-distribution view
+    of calibration the per-line corrections cannot give, and the
+    randomisation is what makes PIT exact for discrete outcomes, so the
+    generator is passed in rather than created here: the evidence pack has to
+    reproduce.
+    """
+    k = int(observed)
+    lower = dist.cdf(k - 1) if k > 0 else 0.0
+    return float(min(max(lower + rng.uniform() * dist.pmf(k), 0.0), 1.0))
+
+
+def interval_coverage(
+    pairs: list[tuple[CountDistribution, float]], level: float = 0.9
+) -> dict:
+    """Did the stated central interval hold its stated share of outcomes?
+
+    Discrete support makes an exact 90% interval impossible, so the interval
+    is the tightest one holding AT LEAST the level, and `nominal` reports the
+    probability it actually holds. Achieved is judged against nominal, never
+    against the requested level, so the discreteness gap cannot be mistaken
+    for miscalibration.
+    """
+    tail = (1.0 - level) / 2.0
+    inside = below = above = 0
+    nominal_total = 0.0
+
+    for dist, observed in pairs:
+        p = dist.probabilities()
+        cdf = np.cumsum(p)
+        # The epsilon settles exact boundaries: a lower region holding exactly
+        # the tail mass is dropped, which keeps the interval the tightest one
+        # holding at least the level rather than drifting a bin wide on
+        # floating-point noise.
+        lo = int(np.searchsorted(cdf, tail + 1e-9, side="right"))
+        hi = int(np.searchsorted(cdf, 1.0 - tail - 1e-9, side="left"))
+        nominal_total += float(cdf[hi] - (cdf[lo - 1] if lo > 0 else 0.0))
+        if observed < lo:
+            below += 1
+        elif observed > hi:
+            above += 1
+        else:
+            inside += 1
+
+    n = len(pairs)
+    return {
+        "level": level,
+        "nominal": round(nominal_total / n, 4) if n else float("nan"),
+        "achieved": round(inside / n, 4) if n else float("nan"),
+        "below": round(below / n, 4) if n else float("nan"),
+        "above": round(above / n, 4) if n else float("nan"),
+        "n": n,
+    }
+
+
 def bootstrap_ci(values: list[float], n: int = 2000, seed: int = 7) -> tuple[float, float]:
     """95% interval for a mean. Every headline number gets one of these.
 
