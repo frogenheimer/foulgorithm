@@ -353,3 +353,54 @@ class TestBindingVersions:
         assert len(joined) == 1
         assert joined[0]["key"] == "late1"
         assert joined[0]["extra"]["round"] == "2026-08-24"
+
+
+class TestFoulDifference:
+    """The difference column carries the size of a miss. A 2+ shout where he
+    never fouled counts -2; missed by one counts -1; a landed leg +1. A near
+    miss and a nowhere miss stop looking the same."""
+
+    @staticmethod
+    def leg(landed, deficit=0):
+        return {
+            "model_id": "alan",
+            "extra": {"slate": "three-twos", "round": "2026-08-24"},
+            "landed": landed,
+            "deficit": deficit,
+        }
+
+    def test_a_two_plus_miss_by_two_costs_two(self):
+        rows = [self.leg(True), self.leg(False, 2), self.leg(False, 1)]
+        row = next(r for r in league.table(rows, FIVE) if r["id"] == "alan")
+        assert row["difference"] == 1 - 2 - 1
+        assert row["lost"] == 1
+
+    def test_the_join_computes_the_deficit_from_the_graded_counts(self):
+        committed = [{
+            "key": "2026-08-24|alan|three-twos", "published_at": "a",
+            "round": "2026-08-24", "character": "alan", "slate": "three-twos",
+            "claim_keys": ["k1", "k2"],
+        }]
+        graded = [
+            {"key": "k1", "won": False, "line": 1.5, "observed": 0.0},
+            {"key": "k2", "won": False, "line": 1.5, "observed": 1.0},
+        ]
+        joined = league.join_slates(graded, committed)
+        assert [r["deficit"] for r in joined] == [2, 1]
+
+    def test_a_graded_row_without_counts_falls_back_to_one(self):
+        committed = [{
+            "key": "2026-08-24|alan|three-twos", "published_at": "a",
+            "round": "2026-08-24", "character": "alan", "slate": "three-twos",
+            "claim_keys": ["k1"],
+        }]
+        joined = league.join_slates([{"key": "k1", "won": False}], committed)
+        assert joined[0]["deficit"] == 1
+
+    def test_the_result_is_still_decided_by_leg_count_not_deficit(self):
+        """A heavy miss costs difference, never extra losses: one missed leg
+        of three is still a draw however far it missed by."""
+        rows = [self.leg(True), self.leg(True), self.leg(False, 2)]
+        row = next(r for r in league.table(rows, FIVE) if r["id"] == "alan")
+        assert row["drawn"] == 1
+        assert row["difference"] == 0

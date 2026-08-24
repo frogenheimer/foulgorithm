@@ -34,7 +34,7 @@ export default function Characters() {
       <section>
         <SectionHead
           title="The table"
-          note="Every gameweek all five commit to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Identical shapes, so this measures which players they pick and not how hard a bet they chose. Every leg lands is a win, all but one is a draw, and goal difference is legs landed minus legs missed."
+          note="Every gameweek all five commit to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Identical shapes, so this measures which players they pick and not how hard a bet they chose. Every leg lands is a win, all but one is a draw. FD is foul difference: a landed leg counts +1, and a miss counts how far it missed by, so a 2+ shout that never came is -2 while one foul short is -1."
         />
         {anyPlayed ? (
           <DataTable
@@ -47,7 +47,7 @@ export default function Characters() {
               { key: "drawn", head: "D", numeric: true, cell: (r) => r.drawn },
               { key: "lost", head: "L", numeric: true, cell: (r) => r.lost },
               { key: "landed", head: "Legs", numeric: true, cell: (r) => `${r.legsLanded}/${r.legsLanded + r.legsMissed}` },
-              { key: "gd", head: "GD", numeric: true, cell: (r) => (r.difference > 0 ? `+${r.difference}` : r.difference) },
+              { key: "fd", head: "FD", numeric: true, cell: (r) => (r.difference > 0 ? `+${r.difference}` : r.difference) },
               { key: "points", head: "Pts", numeric: true, cell: (r) => r.points },
             ]}
           />

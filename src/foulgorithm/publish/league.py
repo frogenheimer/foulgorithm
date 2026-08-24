@@ -14,8 +14,10 @@ five commit to the same three shapes, and the only thing that varies is which
 players they pick. That is the thing worth measuring.
 
 Scored as football, which is the right metaphor for a site about football:
-every leg lands is a win, all but one is a draw, anything worse is a loss, and
-goal difference is legs landed minus legs missed.
+every leg lands is a win, all but one is a draw, anything worse is a loss. The
+difference column is FOUL difference, and it carries the size of a miss: a 2+
+shout where he never fouled counts -2, missed by one counts -1, and a landed
+leg counts +1. A near miss and a nowhere miss stop looking the same.
 """
 
 from __future__ import annotations
@@ -128,18 +130,35 @@ def join_slates(graded: list[dict], committed: list[dict]) -> list[dict]:
     Also normalises `won` to `landed`. Two names for one fact is how a table
     ends up silently empty.
     """
-    outcome = {row["key"]: bool(row.get("won")) for row in graded if "key" in row}
+    outcome: dict[str, dict] = {}
+    for row in graded:
+        if "key" not in row:
+            continue
+        landed = bool(row.get("won"))
+        # How far a miss missed by, in fouls. A 2+ shout where he never
+        # fouled is a worse read than one where he fouled once, and the
+        # difference column should say so. Landed legs carry zero; a graded
+        # row without its counts falls back to one, the old flat scoring.
+        deficit = 0
+        if not landed and row.get("line") is not None and row.get("observed") is not None:
+            needed = int(float(row["line"]) + 0.5)
+            deficit = max(needed - int(float(row["observed"])), 1)
+        elif not landed:
+            deficit = 1
+        outcome[row["key"]] = {"landed": landed, "deficit": deficit}
 
     out = []
     for slate in binding_versions(committed):
         for claim_key in slate.get("claim_keys", []):
             if claim_key not in outcome:
                 continue  # not settled yet, and an unsettled leg is not a miss
+            graded_leg = outcome[claim_key]
             out.append(
                 {
                     "key": claim_key,
                     "model_id": slate["character"],
-                    "landed": outcome[claim_key],
+                    "landed": graded_leg["landed"],
+                    "deficit": graded_leg["deficit"],
                     "extra": {"slate": slate["slate"], "round": slate.get("round")},
                 }
             )
@@ -169,8 +188,8 @@ def table(
     different weeks pooled into one bucket, and three legs settling across two
     rounds could score as one slate that nobody ever committed.
     """
-    # (round, character, slate) -> the legs graded so far
-    by_slate: dict[tuple[str, str, str], list[bool]] = {}
+    # (round, character, slate) -> (landed, deficit) per leg graded so far
+    by_slate: dict[tuple[str, str, str], list[tuple[bool, int]]] = {}
     for row in graded:
         cid = row.get("model_id")
         extra = row.get("extra") or {}
@@ -180,7 +199,9 @@ def table(
             continue
         if round_key and round_key < since:
             continue
-        by_slate.setdefault((round_key, cid, slate), []).append(bool(row["landed"]))
+        landed = bool(row["landed"])
+        deficit = int(row.get("deficit") or (0 if landed else 1))
+        by_slate.setdefault((round_key, cid, slate), []).append((landed, deficit))
 
     rounds = {round_key for round_key, _, _ in by_slate}
 
@@ -191,14 +212,18 @@ def table(
 
         for round_key in rounds:
             for slate in ensemble.SLATES:
-                legs = by_slate.get((round_key, cid, slate.key))
-                if not legs or len(legs) != slate.legs:
+                pairs = by_slate.get((round_key, cid, slate.key))
+                if not pairs or len(pairs) != slate.legs:
                     continue  # not every leg has settled, so it is not a result yet
 
-                score = ensemble.score_slate(legs)
+                score = ensemble.score_slate([landed for landed, _ in pairs])
                 played += 1
                 points += score["points"]
-                difference += score["difference"]
+                # Foul difference: +1 per landed leg, minus the size of each
+                # miss. score_slate still decides the RESULT from the leg
+                # count alone, so a heavy miss costs difference, never extra
+                # points.
+                difference += sum(1 if landed else -deficit for landed, deficit in pairs)
                 landed_total += score["landed"]
                 missed_total += score["missed"]
                 won += score["result"] == "won"

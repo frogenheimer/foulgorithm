@@ -31,6 +31,18 @@ GIVE_UP_AT = timedelta(minutes=0)
 POLL_SECONDS = 60
 MAX_RUNTIME = timedelta(hours=5, minutes=30)
 
+# A failed poll backs off and keeps going, up to this long between attempts.
+# One transient API failure used to end the whole afternoon's watch, which
+# for a job whose entire purpose is being present at T-60 is the worst
+# possible response to a hiccup.
+MAX_BACKOFF_SECONDS = 300
+
+# The fixture list at startup gets this many attempts before the run declares
+# the source dead. Thirty seconds apart: a real outage fails all of them, a
+# blip fails one.
+STARTUP_ATTEMPTS = 3
+STARTUP_RETRY_SECONDS = 30
+
 
 def _now() -> datetime:
     return datetime.now(timezone.utc)
@@ -77,10 +89,20 @@ def run(poll_seconds: int = POLL_SECONDS, once: bool = False) -> int:
     except Exception as exc:
         print(f"change check skipped: {exc}", file=sys.stderr)
 
-    try:
-        fixtures = upcoming()
-    except Exception as exc:
-        print(f"fixture list unavailable: {exc}", file=sys.stderr)
+    fixtures = None
+    for attempt in range(STARTUP_ATTEMPTS):
+        try:
+            fixtures = upcoming()
+            break
+        except Exception as exc:  # noqa: BLE001 - retried, then loud
+            print(
+                f"fixture list unavailable (attempt {attempt + 1} of "
+                f"{STARTUP_ATTEMPTS}): {exc}",
+                file=sys.stderr,
+            )
+            if attempt + 1 < STARTUP_ATTEMPTS:
+                time.sleep(STARTUP_RETRY_SECONDS)
+    if fixtures is None:
         return 2
 
     if not fixtures:
@@ -93,6 +115,8 @@ def run(poll_seconds: int = POLL_SECONDS, once: bool = False) -> int:
         print(f"  {f.home} v {f.away}  kickoff {f.kickoff_utc:%H:%M}  watching from {due:%H:%M}")
 
     published = False
+    failures = 0
+    lost_during_outage = False
     outstanding = {f"{f.home}|{f.away}": f for f in fixtures}
 
     while outstanding and _now() - started < MAX_RUNTIME:
@@ -102,6 +126,7 @@ def run(poll_seconds: int = POLL_SECONDS, once: bool = False) -> int:
         for key, f in list(outstanding.items()):
             if now >= f.kickoff_utc + GIVE_UP_AT:
                 print(f"  {f.home} v {f.away}: kicked off without a lineup we could use")
+                lost_during_outage = lost_during_outage or failures > 0
                 del outstanding[key]
         if not outstanding:
             break
@@ -118,9 +143,20 @@ def run(poll_seconds: int = POLL_SECONDS, once: bool = False) -> int:
             time.sleep(min(wait, MAX_RUNTIME.total_seconds()))
             continue
 
-        code = lineup_watch.run()
+        # A failed poll is a failed POLL, never a failed afternoon. The job's
+        # entire purpose is being present when the team sheets land, so a
+        # transient source error or a publish crash backs off and tries
+        # again while any fixture is still ahead of kickoff. Giving up is
+        # reserved for the window actually ending.
+        try:
+            code = lineup_watch.run()
+        except Exception as exc:  # noqa: BLE001 - a crash mid-publish must not end the watch
+            print(f"  poll crashed, retrying: {exc}", file=sys.stderr)
+            code = 2
+
         if code == 0:
             published = True
+            failures = 0
             print(f"  {_now():%H:%M} published")
             # Which of the ones we are waiting on now have a team list.
             for key, f in list(outstanding.items()):
@@ -128,13 +164,28 @@ def run(poll_seconds: int = POLL_SECONDS, once: bool = False) -> int:
                     print(f"  {f.home} v {f.away}: lineup in, {(f.kickoff_utc - _now()).total_seconds() / 60:.0f} min before kickoff")
                     del outstanding[key]
         elif code == 2:
-            print("  source failed", file=sys.stderr)
-            return 2
+            failures += 1
+            backoff = min(poll_seconds * (2 ** (failures - 1)), MAX_BACKOFF_SECONDS)
+            print(
+                f"  source failed, {failures} in a row, retrying in {backoff:.0f}s",
+                file=sys.stderr,
+            )
+            if once:
+                break
+            time.sleep(backoff)
+            continue
+        else:
+            failures = 0
 
         if once:
             break
         time.sleep(poll_seconds)
 
+    if lost_during_outage and not published:
+        # A fixture kicked off unpublished while the source was down. That is
+        # the one outcome that must read as a failure rather than a quiet
+        # afternoon, because it is the exact event this job exists to prevent.
+        return 2
     return 0 if published else 1
 
 
