@@ -182,6 +182,47 @@ class TestRepairingTruncatedStats:
         assert called == []
 
 
+class TestRefreshingTheCurrentSeason:
+    """fetch_all skips files on disk, which is right for finished seasons and
+    wrong for the running one: an August reading serving May predictions is
+    the staleness C1 exists to fix, one file down."""
+
+    def write(self, tmp_path, label):
+        (tmp_path / f"{label.replace('/', '-')}.json").write_text(
+            json.dumps(
+                {
+                    "season": label,
+                    "seasonId": 999,
+                    "source": "http://test",
+                    "fetchedAt": "2026-08-01T00:00:00+00:00",
+                    "stats": ["fouls"],
+                    "rows": 1,
+                    "players": [{"player": "Old Reading", "season": label, "fouls": 1.0}],
+                }
+            )
+        )
+
+    def test_a_season_in_progress_is_refetched(self, tmp_path, monkeypatch):
+        import datetime
+
+        self.write(tmp_path, "2026/27")
+        monkeypatch.setattr(ls, "fetch_stat", lambda s, i: {"Fresh Reading": 5.0})
+        got = ls.refresh_current(tmp_path, stats=("fouls",), today=datetime.date(2026, 8, 24))
+        assert got == {"refreshed": ["2026/27"]}
+        held = json.loads((tmp_path / "2026-27.json").read_text())
+        assert held["players"][0]["player"] == "Fresh Reading"
+
+    def test_a_completed_season_is_left_alone(self, tmp_path, monkeypatch):
+        import datetime
+
+        self.write(tmp_path, "2020/21")
+        called = []
+        monkeypatch.setattr(ls, "fetch_stat", lambda s, i: called.append(s) or {})
+        got = ls.refresh_current(tmp_path, stats=("fouls",), today=datetime.date(2026, 8, 24))
+        assert got == {"refreshed": []}
+        assert called == []
+
+
 class TestSeasonLabels:
     """The current season is labelled in full and every other one is not."""
 

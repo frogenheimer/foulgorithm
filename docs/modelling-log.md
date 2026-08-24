@@ -18,6 +18,49 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-24 — Season totals recover most of the stale year, so they ship
+
+**Question.** The C1 gate from `34-final-plan.md`: how much of what staleness
+costs do season totals actually recover? Answered by replaying the live
+situation one year earlier, where per-match truth exists: archive cut at
+14 September 2024, predictions over October 2024 to 3 February 2025, four
+evidence variants on identical player-matches
+(`backtest/season_total_study.py`).
+
+**Result**, house model, 5,408 player-matches per variant:
+
+| variant | committed log loss | ECE | drawn log loss | recovered |
+|---|---|---|---|---|
+| stale (today's live situation) | 0.3918 | 0.0137 | 0.3813 | 0% |
+| deep-history (completed seasons only) | 0.3915 | 0.0119 | 0.3811 | 3 to 6% |
+| **running-totals** | **0.3882** | **0.0092** | **0.3759** | **78 to 87%** |
+| oracle (never froze) | 0.3872 | 0.0104 | 0.3751 | 100% |
+
+**The blend recovers 78% of the stale-to-oracle gap on committed and 87% on
+drawn, and calibration IMPROVES** (ECE 0.0137 to 0.0092 on committed), so the
+gate's second condition, no calibration damage, is met with room. Deep
+history alone is worth little, 3 to 6%, exactly as the decay maths predicts:
+what matters is the running reading of the season in progress, which is what
+production holds through the complete 2025/26 totals plus refreshed 2026/27
+fetches. The running totals in the study are reconstructed from withheld
+archive rows, which is stated in the study docstring: the league genuinely
+published those numbers at the time, we replay what a settle job would have
+held.
+
+**Shipped.** `publish/player_round.py` now refreshes the in-progress season
+file, builds the evidence, attaches it to all ten models and extends the
+squad-resolution universe with evidence-only names, so a 2025/26 arrival
+resolves to the name his evidence is filed under. Every prediction's `why`
+carries `seasonEvidenceNineties` and `priorFrom` gains a `season-totals`
+state, because a totals-only player must not read as a watched record. The
+evidence feeds ONLY the rate: minutes, opponent factors and the published
+plain rate still read real matches. `season_evidence_weight` stays 1.0, the
+value the gate run used; anyone refitting it does so through the study.
+
+**Not done here.** The character parameter sets were not re-run through the
+gate individually; the house result carried the decision. If a character's
+live behaviour looks wrong after this lands, that is the first place to look.
+
 ## 2026-08-24 — The provider offset is not real, and the archive has a hole nobody knew about
 
 **Question.** Both external reviews demanded the FORM of the +4.6% provider

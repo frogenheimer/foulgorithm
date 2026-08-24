@@ -325,6 +325,45 @@ def _pairing_history(seasons: int = 12) -> pd.DataFrame:
     return out
 
 
+def _season_evidence(history: pd.DataFrame) -> pd.DataFrame | None:
+    """Season-total evidence for the rate blend. The C1 change.
+
+    Gated by `backtest/season_total_study.py`: with running totals attached,
+    the blend recovered 78% of the stale-to-oracle log loss gap on committed
+    and 87% on drawn, with calibration improving. The in-progress season is
+    refreshed first so today's predictions read today's totals; a failed
+    refresh degrades to the reading on disk, said out loud, because a stale
+    reading beats no reading and silence beats neither.
+    """
+    from foulgorithm.features import season_totals
+    from foulgorithm.sources import league_seasons
+    from foulgorithm.store import player_seasons
+
+    try:
+        league_seasons.refresh_current()
+    except Exception as exc:  # noqa: BLE001 - degrade loudly, never silently
+        print(f"  current-season refresh failed, using the reading on disk: {exc}")
+
+    try:
+        api = player_seasons.load()
+    except Exception as exc:  # noqa: BLE001 - reported; the blend is optional, lying is not
+        print(f"  season totals unreadable, predicting without them: {exc}")
+        return None
+
+    api = api[api["season"].astype(str).str.match(r"\d{4}/\d{2}")]
+    if api.empty:
+        print("  no season totals on disk, predicting without them")
+        return None
+
+    evidence = season_totals.evidence(api, history)
+    report = season_totals.last_report()
+    print(
+        f"  season evidence: {report['rows']:,} rows for {report['players']:,} "
+        f"players, {report['anomalies']} anomalies, {report['unresolved']} unresolved"
+    )
+    return evidence
+
+
 def publish(output: Path = OUTPUT) -> dict:
     history = load_player_matches()
 
@@ -360,9 +399,18 @@ def publish(output: Path = OUTPUT) -> dict:
             {f"{row.home_team_raw} v {row.away_team_raw}" for row in fixtures.itertuples()},
         )
 
+    season_evidence = _season_evidence(history)
+
     squads = fpl.current_squads()
     everyone = [p for club in squads.values() for p in club]
-    resolution = identity.resolve(everyone, history["player"].unique())
+    # The resolution universe includes evidence-only names, so a player the
+    # archive has never seen but the league's totals have, a 2025/26 arrival
+    # say, resolves to the name his evidence is filed under rather than to
+    # nothing.
+    names = pd.Index(history["player"].unique())
+    if season_evidence is not None and len(season_evidence):
+        names = names.union(pd.Index(season_evidence["player"].unique()))
+    resolution = identity.resolve(everyone, names)
 
     committed = {c: pm.build(c, "player_fouls_committed") for c in pm.CHARACTER_SETTINGS}
     drawn = {c: pm.build(c, "player_fouls_drawn") for c in pm.CHARACTER_SETTINGS}
@@ -377,6 +425,8 @@ def publish(output: Path = OUTPUT) -> dict:
         model.fit_pairings(_pairing_history(), as_of)
     for model in list(committed.values()) + list(drawn.values()):
         model.fit(history)
+        if season_evidence is not None and len(season_evidence):
+            model.attach_season_evidence(season_evidence)
 
     house_c, house_d = committed[HOUSE_MODEL], drawn[HOUSE_MODEL]
 

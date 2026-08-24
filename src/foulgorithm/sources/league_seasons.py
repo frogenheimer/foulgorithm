@@ -318,6 +318,44 @@ def backfill_stats(root: Path = CACHE, stats: tuple[str, ...] = STATS) -> dict:
     return {"seasons_updated": touched}
 
 
+def refresh_current(root: Path = CACHE, stats: tuple[str, ...] = STATS, today=None) -> dict:
+    """Refetch any season still in progress, so its totals are today's.
+
+    `fetch_all` skips files already on disk, which is right for completed
+    seasons and wrong for the running one: an August reading serving May
+    predictions is the staleness C1 exists to fix, one file down. A season is
+    in progress until the June after its start year.
+    """
+    from datetime import date
+
+    today = today or datetime.now(timezone.utc).date()
+    refreshed = []
+
+    for path in sorted(root.glob("*.json")):
+        held = json.loads(path.read_text())
+        label = str(held.get("season") or "")
+        if "/" not in label:
+            continue
+        season_end = date(int(label[:4]) + 1, 6, 1)
+        if today >= season_end:
+            continue
+
+        raw = {}
+        for stat in stats:
+            try:
+                raw[stat] = fetch_stat(stat, int(held["seasonId"]))
+            except Exception as exc:  # noqa: BLE001 - reported per stat, never silent
+                print(f"  {label} {stat}: {exc}")
+                raw[stat] = {}
+        rows = assemble(label, int(held["seasonId"]), raw)
+        if rows:
+            write_season(root, label, int(held["seasonId"]), rows, stats)
+            refreshed.append(label)
+            print(f"  {label:<10}refreshed, {len(rows)} players")
+
+    return {"refreshed": refreshed}
+
+
 def repair_truncated(root: Path = CACHE, page_size: int = PAGE_SIZE) -> dict:
     """Refetch the stats the capped fetch cut short, and only those.
 

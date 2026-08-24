@@ -210,6 +210,25 @@ class TestTheBlend:
         rate, _ = model.player_rate("Novel Signing", before_it_was_knowable)
         assert rate == model.prior_rate("Novel Signing")
 
+    def test_the_why_dict_says_where_the_evidence_came_from(self):
+        """A totals-only player must not read as a watched record. priorFrom
+        distinguishes them and the nineties split is stated, because an
+        estimate beside a measurement looking identical is the failure this
+        repo keeps writing down."""
+        model = PlayerFoulModel(half_life_days=400, prior_matches=6)
+        model.fit(self.history())
+        api = pd.DataFrame([api_row("Novel Signing", "2025/26", 2700.0, 90.0)])
+        model.attach_season_evidence(st.evidence(api, self.history(), offset=NEUTRAL))
+
+        as_of = pd.Timestamp("2026-08-24T12:00:00", tz="UTC")
+        _, why = model.predict_one("Novel Signing", "Rivals", as_of)
+        assert why["priorFrom"] == "season-totals"
+        assert why["seasonEvidenceNineties"] > 0
+
+        _, why_watched = model.predict_one("DM Filler 0", "Rivals", as_of)
+        assert why_watched["priorFrom"] == "own-record"
+        assert why_watched["seasonEvidenceNineties"] == 0.0
+
     def test_old_evidence_decays_like_any_other(self):
         """A 2006/07 total under a 70-day half-life is history, not evidence.
         Decay runs on the event date, so ancient seasons move nothing."""

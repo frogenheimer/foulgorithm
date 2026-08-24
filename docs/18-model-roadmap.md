@@ -290,7 +290,15 @@ which is coverage rather than method:
     from a dirty one, which is the whole of what can honestly be said about a
     player nobody has seen in this division. Free, uses data on disk.
 
-0c. **A season-total prior for thin players** (new, from the same work). Twenty
+0c. ~~**A season-total prior for thin players**~~ **SHIPPED 2026-08-24**, and
+    it grew into more than a prior: season totals enter the rate as dated
+    pseudo-evidence for every player the archive undercovers, which is the C1
+    blend of `34-final-plan.md`. Gated by
+    `backtest/season_total_study.py`: 78% of the stale-to-oracle log loss gap
+    recovered on committed, 87% on drawn, calibration improved. See the
+    modelling log, 2026-08-24. Original note kept below.
+
+    Twenty
     seasons of official per-player totals, 2006/07 onward, free. A player with a
     long career and no rows in our match archive is currently priced as his
     position's average. This is the cheapest correction available to the largest

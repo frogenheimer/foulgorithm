@@ -547,6 +547,22 @@ class PlayerFoulModel:
         dist = CountDistribution(stacked)
 
         minutes = profile.mean_minutes()
+
+        # How much of the evidence is season totals rather than watched
+        # matches. An estimate sitting beside a measurement looking identical
+        # is the failure this repo keeps writing down, so the split is stated
+        # and priorFrom distinguishes a per-match record from a totals-only
+        # one.
+        season_nineties = 0.0
+        season = self._season_rows(player, as_of)
+        if season is not None:
+            w_season = _weights(season["event_at"], as_of, self.half_life_days)
+            season_nineties = float(
+                ((season["minutes"].to_numpy() / 90.0) * w_season).sum()
+                * self.season_evidence_weight
+            )
+        watched = effective - season_nineties
+
         return dist, {
             "ratePer90": round(rate, 3),
             "expectedMinutes": round(minutes, 1),
@@ -555,15 +571,18 @@ class PlayerFoulModel:
             "headToHeadFactor": round(h2h, 3),
             "refereeFactor": round(referee_factor, 3),
             "effectiveMatches": round(effective, 1),
+            "seasonEvidenceNineties": round(season_nineties, 1),
             "startProbability": round(profile.p_start, 3),
             "minutesIfStarting": round(profile.minutes_if_start, 1),
             # Where the number mostly comes from, so the site can say so rather
             # than presenting an estimate and a record identically.
-            # Any history at all means the number is anchored to him. An
-            # arbitrary threshold here would call a real record an estimate.
+            # Any per-match history at all means the number is anchored to him.
+            # An arbitrary threshold here would call a real record an estimate.
             "priorFrom": (
                 "own-record"
-                if effective > 0
+                if watched > 1e-9
+                else "season-totals"
+                if season_nineties > 0
                 else "promoted-club"
                 if club_factor
                 else "position"
