@@ -153,18 +153,34 @@ def seasons() -> list[tuple[str, int]]:
 
 
 def fetch_stat(stat: str, season_id: int) -> dict[str, float]:
-    """One stat for one season, keyed by player name."""
-    payload = pulselive._get(
-        f"stats/ranked/players/{stat}?comps={pulselive.COMPETITION}"
-        f"&compSeasons={season_id}&pageSize={PAGE_SIZE}&page=0"
-    )
+    """One stat for one season, keyed by player name. Reads EVERY page.
+
+    A single page at `pageSize=500` silently truncates any stat more than 500
+    players hold, and minutes is exactly such a stat: 537 players featured in
+    2021/22 and the last 37 vanished. That truncation is why "absent from the
+    fouls table" could not be read as "zero fouls". The loop is bounded by the
+    API's own page count, so a season that fits one page still costs one call.
+    """
     out: dict[str, float] = {}
-    for row in ((payload.get("stats") or {}).get("content") or []):
-        owner = row.get("owner") or {}
-        name = ((owner.get("name") or {}).get("display") or "").strip()
-        if name:
-            out[name] = float(row.get("value") or 0)
-    return out
+    page = 0
+    while True:
+        payload = pulselive._get(
+            f"stats/ranked/players/{stat}?comps={pulselive.COMPETITION}"
+            f"&compSeasons={season_id}&pageSize={PAGE_SIZE}&page={page}"
+        )
+        block = payload.get("stats") or {}
+        content = block.get("content") or []
+        for row in content:
+            owner = row.get("owner") or {}
+            name = ((owner.get("name") or {}).get("display") or "").strip()
+            if name:
+                out[name] = float(row.get("value") or 0)
+
+        info = block.get("pageInfo") or payload.get("pageInfo") or {}
+        pages = int(info.get("numPages") or 1)
+        page += 1
+        if page >= pages or not content:
+            return out
 
 
 def assemble(label: str, season_id: int, raw: dict[str, dict[str, float]]) -> list[dict]:
@@ -302,11 +318,75 @@ def backfill_stats(root: Path = CACHE, stats: tuple[str, ...] = STATS) -> dict:
     return {"seasons_updated": touched}
 
 
+def repair_truncated(root: Path = CACHE, page_size: int = PAGE_SIZE) -> dict:
+    """Refetch the stats the capped fetch cut short, and only those.
+
+    A non-null count sitting exactly at the old page cap is the fingerprint of
+    truncation: real season counts land on the cap about never. Refetching all
+    twenty seasons costs forty minutes; refetching the fingerprinted stats
+    costs a few. Merging follows `backfill_stats`: existing players gain the
+    corrected value, players the cap cut off entirely join the file.
+    """
+    repaired, refetched = 0, 0
+
+    for path in sorted(root.glob("*.json")):
+        held = json.loads(path.read_text())
+        players = held["players"]
+        suspect = [
+            stat
+            for stat in held.get("stats") or []
+            if sum(1 for row in players if row.get(stat) is not None) == page_size
+        ]
+        if not suspect:
+            continue
+
+        by_player = {row["player"]: row for row in players}
+        fixed = 0
+        for stat in suspect:
+            try:
+                values = fetch_stat(stat, int(held["seasonId"]))
+            except Exception as exc:  # noqa: BLE001 - reported, never silent
+                print(f"  {held['season']} {stat}: {exc}")
+                continue
+            for name, row in by_player.items():
+                if name in values:
+                    row[stat] = values[name]
+            for name, value in values.items():
+                if name not in by_player:
+                    # A player the cap cut off entirely. He gets every stat the
+                    # file holds, None where the league did not rank him, so a
+                    # repaired row reads exactly like an assembled one.
+                    by_player[name] = {
+                        "player": name,
+                        "season": held["season"],
+                        "seasonId": held["seasonId"],
+                        **{s: None for s in held.get("stats") or []},
+                        stat: value,
+                    }
+            fixed += 1
+
+        if fixed:
+            held["players"] = list(by_player.values())
+            held["rows"] = len(held["players"])
+            held["repairedAt"] = (
+                datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+            )
+            path.write_text(json.dumps(held, separators=(",", ":")))
+            repaired += 1
+            refetched += fixed
+            print(f"  {held['season']:<10}refetched {fixed} truncated stats, {held['rows']} players")
+
+    return {"seasons_repaired": repaired, "stats_refetched": refetched}
+
+
 def main() -> None:
     import sys
 
     if "--backfill" in sys.argv:
         print(backfill_stats())
+        return
+    if "--repair" in sys.argv:
+        print(repair_truncated())
         return
     result = fetch_all()
     print()

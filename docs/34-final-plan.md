@@ -164,6 +164,15 @@ tabulated by stat, league, position, season and player volume decile, with an
 explicit test of multiplicative against additive form. The correction ships in
 whatever form the measurement supports.
 
+*Resolved 2026-08-24, first item off this plan:* the measurement ran and the
+form question dissolved. Matched player by player, the ratio is 1.0002, flat
+across seasons, volume and position; the +4.6% was a composition artifact of
+the API fouls table omitting zero-foul players. The blend reads
+`data/reference/provider_offset.json` and applies what it finds, which is
+currently nothing. The same study exposed a 75-match archive hole in April to
+May 2022 and a pagination truncation in the season fetch, both now repaired.
+Modelling log, 2026-08-24.
+
 **Gate.** Per-player-season accounting (source, matches represented, exposure,
 overlap, eligibility), then four models compared on identical held-out data:
 archive-only, season-totals-only, combined, and the full-data oracle where it

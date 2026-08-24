@@ -18,6 +18,55 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-24 — The provider offset is not real, and the archive has a hole nobody knew about
+
+**Question.** Both external reviews demanded the FORM of the +4.6% provider
+offset be measured before the C1 blend applies it: a multiplicative gap and an
+additive one distort different players differently. So: how big is the gap per
+player, in what form, and is it stable across seasons, positions and volume?
+
+**Method.** `backtest/provider_offset_study.py`. League API season totals
+joined to archive player-seasons through the identity rules (`resolve_names`,
+token-subset both directions, ambiguity refused), never by raw name. 3,133
+pairs across seven complete archive seasons. Pairs whose minutes disagree by
+more than 5% are excluded from the form fit and counted.
+
+**Result 1: there is no provider offset at player level.** The matched-pair
+ratio is **1.0002 globally** and 0.9997 to 0.9998 in every season where the
+archive is complete, flat across volume quintiles (0.999 to 1.001) and
+positions. The two providers count the same player's fouls identically.
+
+**The +4.6% was a composition artifact.** The league's fouls table only
+carries players with at least 1 foul. In 2023/24 the archive has 76 zero-foul
+players holding 37,227 minutes; drop them and the archive aggregate rate is
+1.0601 against the API's 1.0558. The published league-level offset compared
+each provider's own player set, and the sets differ by exactly the zero-foul
+tail. Consequence: **the C1 blend needs no counting correction**, and any
+league-AGGREGATE rate computed from the API fouls table overstates by about
+5% unless the zero-foul minutes are restored.
+
+**Result 2: the archive has a third hole.** The minutes-disagreement filter
+lit up on 2021/22: 347 of 432 pairs disagreed, API always higher, Ramsdale
+3,060 minutes against the archive's 2,340. The API is right. **The archive is
+missing 75 of 380 matches of 2021/22, nearly all of April and May 2022**, and
+7 matches of 2022/23. The gap table in `28-foul-data-sources.md` listed
+neither. Season totals therefore patch three holes, not one.
+
+**Result 3: the fetch was truncating at the page cap.** Exactly 500 rows of
+minutes in season after season is not a coincidence, it is `pageSize=500`
+with no pagination. `fetch_stat` now reads every page, and
+`repair_truncated` refetched every stat whose count sat exactly on the cap:
+**141 stats across 23 season files**. After repair, "in the minutes table but
+absent from the fouls table" is testable as "zero fouls": 67 of the 69
+determinable archive zero-foul players read exactly that way, with 2
+anomalies (API shows 1 to 2 fouls where the archive shows 0) left excluded
+and flagged rather than explained away.
+
+**Consequences.** `data/reference/provider_offset.json` carries the measured
+ratios with provenance and the blend reads it rather than a constant. The C1
+eligibility rule gains a zero-foul branch: minutes present, fouls absent,
+season repaired, reads as zero with a flag. The 2 anomalous pairs stay out.
+
 ## 2026-08-23 — Our predicted eleven is 63% right, and that is the real problem
 
 **Question.** Every player bet depends on the player playing. Before confirmed

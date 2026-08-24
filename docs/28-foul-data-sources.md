@@ -45,6 +45,8 @@ The gaps in our file are therefore two different things, and only one is a fault
 | May to Aug, every year | Close season. Not a gap |
 | Mar to Jun 2020 | COVID suspension. Not a gap |
 | Nov to Dec 2022 | Qatar World Cup break. Not a gap |
+| **Apr to May 2022** | **A real hole: 75 of 380 matches of 2021/22 missing. Found 2026-08-24 by the provider study, when the league's own totals read consistently higher than ours for that season alone** |
+| 2022/23 | 7 matches missing. Same discovery |
 | **Feb to May 2025** | **A real hole in the upstream collection, ~141 matches** |
 | **After 14 Sep 2025** | **The archive stopped. ~340 matches and counting** |
 
@@ -414,6 +416,18 @@ and appearances but no fouls, which is why they are on disk and why they cannot
 be used for this.
 
 ### The provider offset, measured rather than assumed
+
+> ⚠️ **Superseded 2026-08-24, same day, by the player-level measurement.** The
+> table below compares each provider's aggregate over its OWN player set, and
+> the sets differ: the league's fouls table omits zero-foul players, whose
+> minutes (37,227 in 2023/24 alone) dilute the archive aggregate by about 5%.
+> Joined player by player through the identity rules, the ratio is **1.0002
+> globally and 0.9997 to 0.9998 in every complete season**, flat across volume
+> and position. There is no counting difference to correct; there is a
+> zero-truncation rule to remember whenever an aggregate rate is computed from
+> the API fouls table. The same study exposed the 2021/22 archive hole above.
+> Full working in the modelling log, 2026-08-24, and
+> `data/reference/provider_offset.json`.
 
 Roadmap item 9 warns that the league API and the FBref archive count fouls
 differently and that the offset must be measured before mixing them. Same

@@ -82,6 +82,106 @@ class TestProvenance:
         assert list(tmp_path.glob("*.json")) == []
 
 
+class TestPagination:
+    """The cap was the bug. `pageSize=500` silently truncates any stat more
+    than 500 players hold, and minutes is exactly such a stat: 537 players
+    played in 2021/22 and the last 37 vanished. That is how "absent from the
+    fouls table" stopped being readable as "zero fouls"."""
+
+    def fake_get(self, pages):
+        calls = []
+
+        def _get(path):
+            page = int(path.split("page=")[1].split("&")[0])
+            calls.append(page)
+            content = [
+                {"owner": {"name": {"display": name}}, "value": value}
+                for name, value in pages[page]
+            ]
+            return {
+                "stats": {
+                    "content": content,
+                    "pageInfo": {"page": page, "numPages": len(pages)},
+                }
+            }
+
+        return _get, calls
+
+    def test_every_page_is_read(self, monkeypatch):
+        from foulgorithm.sources import pulselive
+
+        _get, calls = self.fake_get(
+            [[("A", 900.0), ("B", 800.0)], [("C", 700.0)]]
+        )
+        monkeypatch.setattr(pulselive, "_get", _get)
+        got = ls.fetch_stat("mins_played", 418)
+        assert got == {"A": 900.0, "B": 800.0, "C": 700.0}
+        assert calls == [0, 1]
+
+    def test_a_single_page_makes_a_single_request(self, monkeypatch):
+        from foulgorithm.sources import pulselive
+
+        _get, calls = self.fake_get([[("A", 900.0)]])
+        monkeypatch.setattr(pulselive, "_get", _get)
+        got = ls.fetch_stat("fouls", 418)
+        assert got == {"A": 900.0}
+        assert calls == [0]
+
+
+class TestRepairingTruncatedStats:
+    """Files already on disk were written by the capped fetch. Refetching all
+    twenty seasons costs forty minutes; refetching only the stats whose count
+    sits exactly at the cap costs a few, and the cap is the fingerprint."""
+
+    def season_file(self, tmp_path, stat_counts, page_size):
+        players = {}
+        for stat, count in stat_counts.items():
+            for i in range(count):
+                players.setdefault(f"P{i}", {"player": f"P{i}", "season": "2021/22", "seasonId": 418})
+                players[f"P{i}"][stat] = float(i)
+        rows = list(players.values())
+        for row in rows:
+            for stat in stat_counts:
+                row.setdefault(stat, None)
+        path = tmp_path / "2021-22.json"
+        path.write_text(
+            json.dumps(
+                {
+                    "season": "2021/22",
+                    "seasonId": 418,
+                    "source": "http://test",
+                    "fetchedAt": "2026-08-24T00:00:00+00:00",
+                    "stats": sorted(stat_counts),
+                    "rows": len(rows),
+                    "players": rows,
+                }
+            )
+        )
+        return path
+
+    def test_a_stat_at_the_cap_is_refetched_and_merged(self, tmp_path, monkeypatch):
+        path = self.season_file(tmp_path, {"mins_played": 3, "fouls": 2}, page_size=3)
+        monkeypatch.setattr(
+            ls, "fetch_stat", lambda stat, sid: {f"P{i}": float(i) for i in range(5)}
+        )
+        result = ls.repair_truncated(tmp_path, page_size=3)
+        held = json.loads(path.read_text())
+        assert result == {"seasons_repaired": 1, "stats_refetched": 1}
+        assert held["rows"] == 5
+        by = {r["player"]: r for r in held["players"]}
+        assert by["P4"]["mins_played"] == 4.0
+        assert by["P4"]["fouls"] is None
+        assert held["repairedAt"]
+
+    def test_a_stat_below_the_cap_is_left_alone(self, tmp_path, monkeypatch):
+        self.season_file(tmp_path, {"fouls": 2}, page_size=3)
+        called = []
+        monkeypatch.setattr(ls, "fetch_stat", lambda s, i: called.append(s) or {})
+        result = ls.repair_truncated(tmp_path, page_size=3)
+        assert result == {"seasons_repaired": 0, "stats_refetched": 0}
+        assert called == []
+
+
 class TestSeasonLabels:
     """The current season is labelled in full and every other one is not."""
 

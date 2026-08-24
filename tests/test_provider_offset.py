@@ -54,29 +54,33 @@ class TestNameResolutionBothWays:
     """
 
     def test_exact_match_still_works(self):
-        got = resolve_names(["Emmanuel Dennis"], ["Emmanuel Dennis", "Will Dennis"])
+        got = resolve_names(["Emmanuel Dennis"], ["Emmanuel Dennis", "Will Dennis"], overrides={})
         assert got.matched == {"Emmanuel Dennis": "Emmanuel Dennis"}
 
     def test_source_shorter_than_history_resolves(self):
-        got = resolve_names(["Abdul Fatawu"], ["Abdul Fatawu Issahaku", "Alex Palmer"])
+        got = resolve_names(["Abdul Fatawu"], ["Abdul Fatawu Issahaku", "Alex Palmer"], overrides={})
         assert got.matched == {"Abdul Fatawu": "Abdul Fatawu Issahaku"}
 
     def test_source_longer_than_history_resolves(self):
         got = resolve_names(
-            ["Gabriel Dos Santos Magalhaes"], ["Gabriel Magalhaes", "Gabriel Jesus"]
+            ["Gabriel Dos Santos Magalhaes"],
+            ["Gabriel Magalhaes", "Gabriel Jesus"],
+            overrides={},
         )
         assert got.matched == {"Gabriel Dos Santos Magalhaes": "Gabriel Magalhaes"}
 
     def test_a_lone_surname_never_matches(self):
         """"Dennis" fits two people. Surname matching transplanted foul rates
         between different players once already; it stays banned."""
-        got = resolve_names(["Dennis"], ["Emmanuel Dennis", "Will Dennis"])
+        got = resolve_names(["Dennis"], ["Emmanuel Dennis", "Will Dennis"], overrides={})
         assert got.matched == {}
         assert "Dennis" in got.unmatched
 
     def test_two_candidates_is_a_refusal_not_a_choice(self):
         got = resolve_names(
-            ["Danilo Silva"], ["Danilo Silva Santos", "Danilo Silva Pereira"]
+            ["Danilo Silva"],
+            ["Danilo Silva Santos", "Danilo Silva Pereira"],
+            overrides={},
         )
         assert got.matched == {}
         assert got.ambiguous["Danilo Silva"] == [
@@ -85,7 +89,7 @@ class TestNameResolutionBothWays:
         ]
 
     def test_accents_and_spacing_do_not_block_a_match(self):
-        got = resolve_names(["Ali Alhamadi"], ["Ali Al Hamadi"])
+        got = resolve_names(["Ali Alhamadi"], ["Ali Al Hamadi"], overrides={})
         # Normalisation strips case and accents but keeps word boundaries, so
         # "alhamadi" against "al hamadi" is a genuinely different token set.
         # It must therefore NOT match automatically; the crosswalk settles it.
