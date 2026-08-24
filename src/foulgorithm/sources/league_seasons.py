@@ -72,9 +72,50 @@ STATS: tuple[str, ...] = (
     "touches_in_opp_box",
     # Defending.
     "interception",
+    "interception_won",
+    "interceptions_in_box",
     "total_clearance",
+    "effective_clearance",
+    "head_clearance",
+    "effective_head_clearance",
+    "clearance_off_line",
     "ball_recovery",
+    # Losing the ball, which is what invites the counter-pressing foul.
+    "poss_lost_all",
+    "poss_lost_ctrl",
+    "losses",
+    "unsuccessful_touch",
+    "touches_in_final_third",
+    # Blocking. Weaker link to fouling than the rest, kept because the marginal
+    # cost of one more stat is one request per season.
+    "outfielder_block",
+    "blocked_cross",
+    "effective_blocked_cross",
+    "blocked_pass",
+    "blocked_scoring_att",
+    "att_ibox_blocked",
+    "att_obox_blocked",
 )
+
+#: Available at player level and deliberately NOT fetched, recorded so the next
+#: person does not have to rediscover them. 158 stats respond in total; these
+#: are the roughly 120 left, almost entirely passing and shooting.
+#:
+#: They were skipped on relevance, not cost: a foul model has little use for
+#: `accurate_back_zone_pass` or `att_obox_blocked`. Adding any of them is one
+#: `backfill_stats()` run, about a minute per stat across all seasons.
+#:
+#: Groups, by how they looked in the sweep of 2026-08-24:
+#:   passing   ~36  total_pass, accurate_pass, fwd_pass, long_pass_own_to_opp,
+#:                  total_final_third_passes, passes_left, crosses_18yard, ...
+#:   shooting  ~68  att_ibox_target, total_scoring_att, goals_conceded_ibox,
+#:                  attempts_conceded_obox, big_chance_missed, ...
+#:   other     ~46  final_third_entries, pen_area_entries, wins, formation_used,
+#:                  total_offside, goals, appearances_sub, ...
+#:
+#: The two most plausible future additions, if a model wants attacking volume:
+#: `final_third_entries` and `pen_area_entries`.
+FUTURE_STATS_NOTE = "see docs/28-foul-data-sources.md"
 
 
 def source_url(stat: str, season_id: int) -> str:
@@ -208,7 +249,65 @@ def fetch_all(root: Path = CACHE, stats: tuple[str, ...] = STATS) -> dict:
     return {"written": written, "skipped": skipped, "empty": empty}
 
 
+def backfill_stats(root: Path = CACHE, stats: tuple[str, ...] = STATS) -> dict:
+    """Add stats missing from season files already on disk.
+
+    Re-fetching whole seasons to add a column costs an hour; fetching only what
+    is absent costs a few minutes. Files record which stats they hold, so the
+    difference is knowable rather than guessed.
+    """
+    root.mkdir(parents=True, exist_ok=True)
+    touched = 0
+
+    for path in sorted(root.glob("*.json")):
+        held = json.loads(path.read_text())
+        have = set(held.get("stats") or [])
+        missing = [s for s in stats if s not in have]
+        if not missing:
+            continue
+
+        season_id = held["seasonId"]
+        by_player = {row["player"]: row for row in held["players"]}
+        added = 0
+        for stat in missing:
+            try:
+                values = fetch_stat(stat, int(season_id))
+            except Exception as exc:  # noqa: BLE001 - reported, never silent
+                print(f"  {held['season']} {stat}: {exc}")
+                continue
+            for name, row in by_player.items():
+                row[stat] = values.get(name)
+            # A player only in the NEW stat still belongs in the file.
+            for name, value in values.items():
+                if name not in by_player:
+                    by_player[name] = {
+                        "player": name,
+                        "season": held["season"],
+                        "seasonId": season_id,
+                        stat: value,
+                    }
+            added += 1
+
+        if added:
+            held["players"] = list(by_player.values())
+            held["rows"] = len(held["players"])
+            held["stats"] = sorted(have | set(missing))
+            held["backfilledAt"] = (
+                datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+            )
+            path.write_text(json.dumps(held, separators=(",", ":")))
+            touched += 1
+            print(f"  {held['season']:<10}+{added} stats, {held['rows']} players")
+
+    return {"seasons_updated": touched}
+
+
 def main() -> None:
+    import sys
+
+    if "--backfill" in sys.argv:
+        print(backfill_stats())
+        return
     result = fetch_all()
     print()
     print(f"written {len(result['written'])} seasons, "

@@ -229,6 +229,33 @@ moving the opponent and referee factors onto live team data. With this the
 opponent model could use how a side actually plays rather than how many fouls it
 concedes.
 
+### What was deliberately NOT fetched, and how to add it
+
+A sweep of all 185 team-level stat names against the player endpoint found
+**158 respond at player level**. We fetch 45. The remaining ~113 were skipped on
+relevance rather than cost, and are recorded here so nobody has to rediscover
+them.
+
+| Group | Roughly | Examples | Why skipped |
+|---|---|---|---|
+| Shooting | 68 | `att_ibox_target`, `total_scoring_att`, `goals_conceded_ibox`, `big_chance_missed` | A foul model has little use for shot placement |
+| Passing | 36 | `total_pass`, `accurate_pass`, `fwd_pass`, `passes_left`, `crosses_18yard` | Style proxies at best, and we already hold `touches` |
+| Other | ~46 | `final_third_entries`, `pen_area_entries`, `wins`, `formation_used`, `total_offside` | Mixed. The first two are the most plausible future additions |
+
+**Adding any of them costs about a minute per stat**, across every season:
+
+```
+python -m foulgorithm.sources.league_seasons --backfill
+```
+
+`backfill_stats()` reads which stats each season file already holds and fetches
+only what is absent, so adding one column does not mean re-fetching twenty
+seasons. Add the name to `STATS` in `sources/league_seasons.py` and run it.
+
+**The two worth adding first**, if a model ever wants attacking volume rather
+than defensive: `final_third_entries` and `pen_area_entries`. Both plausibly
+drive fouls WON, which is the market we model worst.
+
 ### Other competitions, and the one that is missing
 
 The API exposes twelve competitions: Premier League, Champions League, Europa
