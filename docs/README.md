@@ -36,10 +36,11 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [27-how-it-works.md](27-how-it-works.md) | **The model as built, short version and full, and how the five branch off it** |
 | [28-foul-data-sources.md](28-foul-data-sources.md) | **Where foul data can actually be obtained. Every figure fetched, not recalled** |
 | [29-why-leagues-differ.md](29-why-leagues-differ.md) | Why England fouls least, and why it is not about tackling |
-| [30-settle-schedule.md](30-settle-schedule.md) | **Fixing the settle cadence. Every week it does not run is data lost forever** |
 | [30-external-audit-review.md](30-external-audit-review.md) | The two external audits reviewed against the code, with dispositions |
-| [31-next-phase-plan.md](31-next-phase-plan.md) | **The committed prove-then-build phase plan that came out of the audit cycle** |
-| [32-data-upgrade-plan.md](32-data-upgrade-plan.md) | **The revised plan: feeding the 2026-08-24 data expansion into the models** |
+| [31-next-phase-plan.md](31-next-phase-plan.md) | The prove-then-build phase plan that came out of the audit cycle |
+| [32-data-upgrade-plan.md](32-data-upgrade-plan.md) | The revision feeding the 2026-08-24 data expansion into the models |
+| [33-settle-schedule.md](33-settle-schedule.md) | **Fixing the settle cadence. Every week it does not run is data lost forever** |
+| [34-final-plan.md](34-final-plan.md) | **The plan of record: consolidated order and hard release gates. Start here** |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
 | [ideas.md](ideas.md) | Ideas not committed to. Nothing here is being built |
 | [modelling-log.md](modelling-log.md) | **Append-only record of every modelling decision, experiment and result** |

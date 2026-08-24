@@ -1,6 +1,9 @@
 # Feeding the new data into the models: the revised plan
 
-**Status: Proposed 2026-08-24. Written for external review.** This document
+**Status: Proposed 2026-08-24, written for external review. Reviewed by both
+advisors the same day; the consolidated plan of record, with their asks folded
+in and the execution order settled, is `34-final-plan.md`, which supersedes
+this document for execution.** This document
 reviews the 2026-08-24 data expansion (`28-foul-data-sources.md`,
 `29-why-leagues-differ.md`, the addendum in `audit-responses/`) side by side
 with the committed phase plan (`31-next-phase-plan.md`), and revises that plan.

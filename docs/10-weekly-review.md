@@ -39,7 +39,7 @@ So the fix is operational, not logical: **the settle job has to run after every
 round completes.** It has never done so reliably, and there is a second problem
 underneath: no commit in the history came from a scheduled settle run at all.
 
-**The plan is [30-settle-schedule.md](30-settle-schedule.md).** Confirm the
+**The plan is [33-settle-schedule.md](33-settle-schedule.md).** Confirm the
 workflow executes before touching the cadence, because fixing a schedule on a job
 that never fires produces no improvement and reads as a failed fix.
 
