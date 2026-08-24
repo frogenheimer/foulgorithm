@@ -57,7 +57,7 @@ pushback was right.
 
 | Set | Size | Span |
 |---|---|---|
-| Player-matches, six leagues | 485,569 rows, 8,968 players | 2017 to Sep 2025 |
+| Player-matches, six leagues | 485,569 rows, 8,968 players (was 81,327 and 1,671) | 2017 to Sep 2025 |
 | Player-seasons, league API | 18,143 rows, **67 columns** | 2001/02 to 2026/27 |
 | **Team matches, league API** | **15,200 rows, 269 columns, 7,600 fixtures** | **2006/07 to 2025/26** |
 | Championship team data | 26 seasons | already in use |
@@ -78,10 +78,14 @@ All under `data/raw/`, all gitignored and refetchable, all with provenance.
 
 ## 🛑 What did NOT change
 
-- Per-match player fouls still stop on 14 September 2025 and **cannot be
-  recovered backwards**. Every gameweek filter the API accepts is silently
-  discarded. Only seasons we snapshot through will ever have match detail, so
-  every week the settle job does not run is lost permanently.
+- **The TIME gap, not the volume.** Per-match player data improved a great deal:
+  81,327 rows to 485,569, and 376 to 432 of the 570 current Premier League
+  squad players now have a per-match record, 57 of them gained from their time
+  abroad. What did not move is the calendar. All six league files stop on 14
+  September 2025, so nothing covers October 2025 onwards, and that window
+  **cannot be recovered backwards**: every gameweek filter the API accepts is
+  silently discarded. Only seasons we snapshot through will ever have match
+  detail, so every week the settle job does not run is lost permanently.
 - Second-tier player data still does not exist free, confirmed from two
   directions. Promoted-club squads remain roughly three quarters invisible, now
   partly mitigated by the club-relative prior shipped 2026-08-24.

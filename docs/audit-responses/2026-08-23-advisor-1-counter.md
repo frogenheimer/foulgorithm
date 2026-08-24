@@ -6,7 +6,7 @@
 
 An adversarial pass is welcome and this one changed the plan in two places: the
 odds capture protocol and a character calibration contingency, both now in
-`29-next-phase-plan.md`. The other two claims are rejected, and the rejections
+`31-next-phase-plan.md`. The other two claims are rejected, and the rejections
 rest on identifiable technical errors in the counter-audit rather than on
 preference. Taking the four in order.
 

@@ -1,11 +1,15 @@
 # Next phase: prove, then build
 
 **Status: Proposed 2026-08-23, after both advisor replies to
-`28-external-audit-review.md`. This operationalises and supersedes the phase 1
+`30-external-audit-review.md`. This operationalises and supersedes the phase 1
 sketch in 28. Addendum: advisor 1 followed with an adversarial counter-audit
 the same day. Two of its four claims hardened items A4 and B5 below, and two
 were rejected on technical grounds. Full disposition in
-`audit-responses/2026-08-23-advisor-1-counter.md`.**
+`audit-responses/2026-08-23-advisor-1-counter.md`. Second addendum 2026-08-24:
+the data expansion recorded in `28-foul-data-sources.md` amends items A2 and
+A5, adds integrity gates and a Phase C of data-fed upgrades. See
+`32-data-upgrade-plan.md`, which revises this plan without replacing its
+structure.**
 
 Both advisors replied to our responses (`audit-responses/`). Advisor 1 accepted
 every disposition and added nothing new. Advisor 2 scored the response 8/10 and
@@ -234,7 +238,7 @@ with the same prominence a positive one would have got.
 
 ## 🔗 Related
 
-- `28-external-audit-review.md`, the review both advisors replied to
+- `30-external-audit-review.md`, the review both advisors replied to
 - `audit-responses/`, the correspondence
 - `25-match-variance.md`, which gains the agreed phrasing
 - `decisions/ADR-009-fair-odds-only.md`, the claim boundary

@@ -12,7 +12,7 @@ reading against the result.**
 > idiosyncratic variance could cancel against missing positive covariance and
 > hide a real shared factor. The direct test that does not route through the
 > decomposition, pairwise within-match residual correlation between players,
-> is in the Phase A evidence pack (`29-next-phase-plan.md`). Match-level
+> is in the Phase A evidence pack (`31-next-phase-plan.md`). Match-level
 > discrimination stays an open research question either way.
 
 Raised from an observation on one Saturday: actual totals ran 19, 20, 26, 29, 31

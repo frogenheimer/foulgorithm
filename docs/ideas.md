@@ -8,7 +8,7 @@ Append new ideas at the top with a date. When an idea gets picked up it moves to
 
 ## 2026-08-23 — Ideas from the two external audits
 
-Source and full reasoning in [28-external-audit-review.md](28-external-audit-review.md).
+Source and full reasoning in [30-external-audit-review.md](30-external-audit-review.md).
 The phase 1 items (substitute programme, calibration apparatus, thin-evidence
 widening, house-beside-character, manual odds capture) are proposed there, not
 here. This entry holds what was judged valuable but not committed.
