@@ -104,6 +104,9 @@ hits B13 "raw <select> outside components/kit (use Select or Combobox)" kit_free
 hits B10 "hex colour in a component file" tsx_files \
   '#[0-9a-fA-F]{6}\b'
 
+hits B15 "raw fontSize in a component file (tokens exist)" tsx_files \
+  'fontSize:[[:space:]]*"?[0-9]'
+
 # ---- an overflow-x box must carry min-width: 0, or it widens the page ----
 missing=0
 while IFS= read -r f; do
@@ -113,6 +116,28 @@ while IFS= read -r f; do
   [ "$o" -gt "$m" ] && missing=$((missing + o - m))
 done < <(css_files)
 IDS+=("B11"); DESCS+=("overflow-x box without min-width: 0"); COUNTS+=("$missing")
+
+# ---- every var(--x) must resolve to a definition, or the property silently
+# falls back: an SVG fill to black, a font-size to inherit. A token rename
+# missed the chart layer and shipped fourteen of these; every rule above
+# polices raw values and none of them could see it. ----
+unresolved=0
+UNRESOLVED_LIST=""
+defs=$( find app components -name "*.css" -exec grep -hoE -- '--[a-z0-9-]+[[:space:]]*:' {} + 2>/dev/null \
+        | grep -oE -- '--[a-z0-9-]+' | sort -u )
+used=$( find app components \( -name "*.css" -o -name "*.tsx" -o -name "*.ts" \) -exec \
+          grep -hoE 'var\(--[a-z0-9-]+' {} + 2>/dev/null | sed 's/var(//' | sort -u )
+for t in $used; do
+  # --font-* arrive from next/font; --char is set per element in TSX and the
+  # scan sees the template literal truncated to its prefix.
+  case "$t" in --font-inter|--font-geist-mono|--char|--ch-) continue;; esac
+  if ! printf '%s\n' "$defs" | grep -qx -- "$t"; then
+    unresolved=$((unresolved + 1))
+    UNRESOLVED_LIST="${UNRESOLVED_LIST}${t}"$'\n'
+  fi
+done
+IDS+=("B14"); DESCS+=("var() reference with no definition behind it"); COUNTS+=("$unresolved")
+FOUND="${FOUND}### B14"$'\n'"${UNRESOLVED_LIST}"
 
 # ---- report ----
 if [ "$MODE" = "--list" ]; then
