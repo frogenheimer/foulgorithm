@@ -107,13 +107,27 @@ And the four boundaries that stay standing whatever ships:
 
 ## 📋 Execution order
 
-> 📌 **Progress, 2026-08-24.** Shipped so far: the provider-offset measurement
-> (which found no offset, plus a 75-match archive hole and a pagination
-> truncation), PIT and interval coverage in the metrics module, the C1 season
-> total blend (78% of the stale-year gap recovered), C2 stage one opponent
-> factors (ECE down 23% and 31% under production conditions), the A3
-> dependence tripwire, and step 1 of the settle fix. Full working in the
-> modelling log under 2026-08-24.
+> 📌 **Progress, 2026-08-24.** Working in the modelling log under that date.
+>
+> **Shipped into production:** the C1 season-total blend, which recovers 78%
+> of what a stale year costs on committed and 87% on drawn and gives 1,847
+> players a record the archive never had; C2 stage one opponent factors, ECE
+> down 23% and 31% under production conditions; and step 1 of the settle fix,
+> which stops a half-posted snapshot destroying a round's data.
+>
+> **Measured and closed:** the provider offset does not exist at player level
+> (the +4.6% was a composition artifact), and the same study found a 75-match
+> hole in the archive and a pagination truncation now repaired across 23
+> season files. The shared match effect is closed on direct evidence:
+> teammate residual correlation is zero and doubles priced under independence
+> land within 0.3%.
+>
+> **Measured and not shipped:** take-ons are the drawn market's strongest
+> correlate but worth one point of out-of-sample variance as a prior, and the
+> referee factor added nothing.
+>
+> **Built, not yet wired:** PIT and interval coverage in the metrics module,
+> the A3 dependence study, and the C3 league pooling with its gate study.
 
 | Priority | Item | Gate |
 |---|---|---|
