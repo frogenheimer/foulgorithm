@@ -160,6 +160,62 @@
      ]
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-08-24T17:18:29+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 13.29,
+     "outOf100": 8,
+     "houseOutOf100": 8,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "King",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 3
+      },
+      {
+       "player": "Jo\u00e3o Pedro",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 2
+      },
+      {
+       "player": "Caicedo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 67,
+       "backers": 2
+      },
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 66,
+       "backers": 2
+      },
+      {
+       "player": "Marc Guiu",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 38,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

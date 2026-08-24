@@ -154,6 +154,62 @@
      ]
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-08-24T17:18:29+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 13.42,
+     "outOf100": 7,
+     "houseOutOf100": 7,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Hughes",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 66,
+       "backers": 4
+      },
+      {
+       "player": "Semenyo",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 66,
+       "backers": 2
+      },
+      {
+       "player": "Foden",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 58,
+       "backers": 2
+      },
+      {
+       "player": "A\u00eft-Nouri",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 56,
+       "backers": 2
+      },
+      {
+       "player": "Lewis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }
