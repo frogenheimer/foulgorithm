@@ -23,9 +23,28 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [16-design-direction.md](16-design-direction.md) | **How the site should look, read and move, with the evidence** |
 | [15-next-phase.md](15-next-phase.md) | **The plan to turn this from machinery into a product** |
 | [14-extending.md](14-extending.md) | How to add a market, source, model or league without touching shared logic |
+| [17-critical-gaps.md](17-critical-gaps.md) | What was missing when the machinery first ran end to end |
+| [18-model-roadmap.md](18-model-roadmap.md) | **Every model idea, in build order, with what changed each one** |
+| [19-page-structure.md](19-page-structure.md) | What lives on each page and why |
+| [20-visual-language.md](20-visual-language.md) | Charts, colour, motion |
+| [21-implementation-review.md](21-implementation-review.md) | What was actually built against what was designed |
+| [22-design-rebuild.md](22-design-rebuild.md) | The layout as rebuilt |
+| [23-idea-register.md](23-idea-register.md) | Ideas with no commitment attached |
+| [24-ui-audit.md](24-ui-audit.md) | The interface audit and the rules it produced |
+| [25-match-variance.md](25-match-variance.md) | The under-dispersion diagnosis, **and the measurement that retired it** |
+| [26-data-sources.md](26-data-sources.md) | What each matchday source gives us |
+| [27-how-it-works.md](27-how-it-works.md) | **The model as built, short version and full, and how the five branch off it** |
+| [28-foul-data-sources.md](28-foul-data-sources.md) | **Where foul data can actually be obtained. Every figure fetched, not recalled** |
+| [29-why-leagues-differ.md](29-why-leagues-differ.md) | Why England fouls least, and why it is not about tackling |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
 | [ideas.md](ideas.md) | Ideas not committed to. Nothing here is being built |
 | [modelling-log.md](modelling-log.md) | **Append-only record of every modelling decision, experiment and result** |
+
+## Audit responses
+
+External audits and our replies live in [audit-responses/](audit-responses/).
+Start with [the 2026-08-24 addendum](audit-responses/2026-08-24-data-addendum.md),
+which retires one of the blockers the earlier replies were written against.
 
 ## Decision records
 
