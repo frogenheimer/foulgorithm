@@ -267,6 +267,16 @@ which is coverage rather than method:
     set**, including Oscar Mingueza at 128 matches in Spain and Borna Sosa at
     110 in Germany. Those records are being thrown away every publish.
 
+0d. **A club-relative prior for promoted-club players** (new). Three quarters of
+    a promoted squad has no Premier League record, against three percent of
+    Arsenal's, so every Coventry defender is currently priced identically. We
+    already hold each promoted club's Championship team foul rate and already
+    turn it into a club prior; it is simply never applied to that club's own
+    players. Scaling the position average by the club's Championship rate
+    relative to the Championship mean distinguishes a disciplined promoted side
+    from a dirty one, which is the whole of what can honestly be said about a
+    player nobody has seen in this division. Free, uses data on disk.
+
 0c. **A season-total prior for thin players** (new, from the same work). Twenty
     seasons of official per-player totals, 2006/07 onward, free. A player with a
     long career and no rows in our match archive is currently priced as his

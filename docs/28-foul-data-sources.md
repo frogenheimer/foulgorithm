@@ -236,6 +236,45 @@ Per-player, per-match foul data does not exist in this API at any depth.
 
 ---
 
+## 🏟️ The Championship, and the promoted clubs
+
+**Team level: already held and already used.** 26 seasons of `E1` sit in
+`data/raw/football_data/`, and `features/promotion.py` turns them into a prior
+for each promoted club. It works: Coventry 10.41, Hull 11.08 and Ipswich 10.98
+fouls per match against a league mean of 10.82.
+
+**Player level: does not exist for free.** The archive release holds `_1st` tier
+files only, for all six leagues. There is no `ENG_M_2nd`, and FBref, where such
+data would come from, is walled.
+
+The cost of that gap is not small:
+
+| Club | Squad | With a PL record | Without |
+|---|---|---|---|
+| Arsenal | 29 | 28 | **1** |
+| Liverpool | 34 | 23 | 11 |
+| Ipswich | 31 | 15 | 16 |
+| Hull | 31 | 8 | **23** |
+| Coventry | 31 | 7 | **24** |
+
+**Roughly three quarters of a promoted club's squad is invisible at player
+level**, against three percent of Arsenal's. Those players fall back to a
+position average, so every Coventry defender is currently priced identically.
+
+### A free improvement nobody has taken
+
+We hold each promoted club's **team** foul rate from the Championship, and it
+already produces a club-level prior. It is not used on that club's own players.
+
+A Coventry defender could be priced as *the position average, scaled by how
+Coventry's Championship foul rate compares to the Championship average*, rather
+than as the bare position average. It distinguishes a disciplined promoted side
+from a dirty one, which is the whole of what we can honestly say about a player
+we have never seen.
+
+Cheap, uses only data on disk, and strictly better than treating three squads as
+interchangeable. Worth a measurement before belief, like everything else here.
+
 ## 🗃️ The old foulgorithm repository
 
 Checked at `~/Documents/Foulgorithm`. 250 CSVs, and the answer is: marginal.
