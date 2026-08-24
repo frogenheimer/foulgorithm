@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Lineups from "@/components/fixture/Lineups";
 import Explorer from "@/components/explorer/Explorer";
-import FivePicks from "@/components/fixture/FivePicks";
 import Sheet from "@/components/matchday/Sheet";
 import { PageHeader, SectionHead } from "@/components/kit";
 import { fixtureSlug, getExplorer, getMatchday, getPlayers } from "@/lib/data";
@@ -18,11 +17,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 /**
- * One game, three questions, in the order a reader asks them: what are the
- * five backing here, what does the model say about every player, and what
- * have these clubs actually been doing. The odds-tier ladder that used to
- * lead the page is gone: the committed slates are the picks that score, so
- * they are the picks the page shows.
+ * One game, in the order a reader asks about it: who is on the pitch, what
+ * does the model say about every player, and what have these clubs actually
+ * been doing. The five's committed picks live on The five page as a matrix,
+ * side by side across the whole round, rather than being repeated here.
  */
 export default async function Fixture({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -34,7 +32,6 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
   const matchday = getMatchday();
   const sheet = matchday.fixtures.some((f) => `${f.home} v ${f.away}` === label);
   const shape = data.formations[label];
-  const confirmed = (data.slates.confirmedFixtures ?? []).includes(label);
   const [home, away] = label.split(" v ");
   const kickoff = board?.kickoff ? new Date(board.kickoff) : null;
 
@@ -62,19 +59,6 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
           }
         />
       </div>
-
-      <section>
-        <SectionHead
-          title={confirmed ? "The five on this game" : "The five on this game *"}
-          note="The committed picks that count for the league table, side by side. A filled cell is a pick at that line, in that character's colour; the players they agree on rise to the top."
-        />
-        <FivePicks
-          slates={data.slates}
-          fixture={label}
-          characters={data.picks.map((p) => ({ id: p.id, name: p.name }))}
-          confirmed={confirmed}
-        />
-      </section>
 
       {shape && (
         <section>

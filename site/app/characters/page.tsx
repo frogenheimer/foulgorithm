@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Signature from "@/components/characters/Signature";
 import type { Settings } from "@/components/characters/Signature";
+import FivePicks from "@/components/fixture/FivePicks";
 import { Callout, DataTable, Note, PageHeader, SectionHead } from "@/components/kit";
 import { getCharacters, getPlayers } from "@/lib/data";
+import { slateFixtures } from "@/lib/fivepicks";
 import { modelName } from "@/lib/names";
 import c from "./characters.module.css";
 
@@ -18,6 +20,8 @@ export default function Characters() {
   const named = (id: string) => d.characters.find((c) => c.id === id)?.name ?? modelName(id);
   const anyPlayed = standings.some((r) => r.played > 0);
   const peers = settings.map((p) => p.settings as unknown as Settings);
+  const games = slateFixtures(slates, players.board);
+  const columns = d.characters.map((ch) => ({ id: ch.id, name: ch.name }));
 
   return (
     <div className="stack">
@@ -58,6 +62,31 @@ export default function Characters() {
             All square until tonight settles. A slate is only scored once every leg in it
             has an outcome, because counting an unsettled leg as a miss would turn
             &ldquo;we do not know&rdquo; into &ldquo;they got it wrong&rdquo;.
+          </Note>
+        )}
+      </section>
+
+      <section>
+        <SectionHead
+          title="Side by side"
+          note="The same committed picks as a matrix, one game at a time in kickoff order: rows are players, columns are the five, and a filled cell is a pick at that line in that character's colour. The players they agree on rise to the top. A game marked * has no confirmed eleven yet."
+        />
+        {games.length ? (
+          <div className={c.matrixGames}>
+            {games.map((g) => (
+              <div key={g}>
+                <div className={c.gameLabel}>
+                  {g}
+                  {!confirmed.has(g) ? " *" : ""}
+                </div>
+                <FivePicks slates={slates} fixture={g} characters={columns} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <Note>
+            No committed picks are on the board yet. The matrix appears when the
+            round&rsquo;s slates are published.
           </Note>
         )}
       </section>

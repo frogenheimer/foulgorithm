@@ -158,6 +158,12 @@
   text-align: right;
 }
 
+/* Side by side: one matrix per game, kickoff order. */
+.matrixGames {
+  display: grid;
+  gap: var(--s6);
+}
+
 /* This week's picks: one disclosure per character, games grouped inside. */
 .slates {
   display: grid;
