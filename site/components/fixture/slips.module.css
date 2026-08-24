@@ -190,3 +190,25 @@
   color: var(--ink-3);
   text-wrap: pretty;
 }
+
+/* Marks for a played fixture. Colour never stands alone: the word is the
+   meaning and the tint just makes it findable at a glance. */
+.markWon,
+.markLost,
+.markOpen {
+  display: block;
+  font-size: var(--t-xs);
+  font-weight: 600;
+}
+
+.markWon {
+  color: var(--good);
+}
+
+.markLost {
+  color: var(--bad);
+}
+
+.markOpen {
+  color: var(--ink-3);
+}

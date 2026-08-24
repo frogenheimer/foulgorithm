@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Timeline from "@/components/fixture/Timeline";
 import { Card, Metric, MetricRow, PageHeader, SectionHead } from "@/components/kit";
-import { getPlayers, getSeason, getTrackRecord } from "@/lib/data";
+import { getArchivedFixtures, getPlayers, getSeason, getTrackRecord } from "@/lib/data";
 import { count } from "@/lib/format";
 
 export default function Today() {
@@ -48,7 +48,14 @@ export default function Today() {
           matchweeks={season.matchweeks}
           currentMatchweek={season.currentMatchweek}
           expected={expected}
-          hasPage={new Set(Object.keys(d.fixtureSlips))}
+          hasPage={
+            // The current round's pages, plus every played game the archive
+            // kept a page for. See publish/archive.py.
+            new Set([
+              ...Object.keys(d.fixtureSlips),
+              ...Object.values(getArchivedFixtures()).map((a) => a.label),
+            ])
+          }
           options={d.fixtureOptions}
           settled={d.settledCards ?? {}}
         />

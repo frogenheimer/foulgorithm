@@ -77,11 +77,13 @@ pages exist.
 ## ⚠️ Deliberately left for later
 
 - **Teams and referees pages**: audited, proposal pending. Nothing deleted.
-- **Past and live fixtures are not clickable** because pages only exist for
-  the round in the current payload (`generateStaticParams` reads
-  `fixtureSlips`). Making the played rounds clickable, with each pick marked
-  against what happened, is scoped but not built: the grading joins exist
-  (slate claim keys to `data/graded`), the pages do not.
+- ~~Past and live fixtures are not clickable~~ **Built, 25 Aug**: every
+  publish archives each fixture's page data (`publish/archive.py`), settle
+  marks the legs with outcomes, and played games keep a page with the ladder
+  at the top marked came in / no / open. Only pre-kickoff publishes land in
+  the archive, mirroring the slates' binding rule. Games from before the
+  payload history began have no pre-kickoff snapshot and honestly get no
+  page.
 - **The fivepicks token debt** (nine undefined `var()` references, one red
   vitest, four UI-audit regressions) belongs to in-flight chart work and was
   deliberately not touched.

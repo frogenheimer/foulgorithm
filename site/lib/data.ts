@@ -640,3 +640,45 @@ export type Teams = {
 };
 
 export const getTeams = () => read<Teams>("teams.json");
+
+/* ---------- the fixture archive ---------- */
+
+/** One played (or pending) fixture's page data, frozen at its last
+ *  pre-kickoff publish. Written by the pipeline's publish/archive.py;
+ *  outcomes and the result arrive when settle runs after the game. */
+export type ArchivedFixture = {
+  label: string;
+  slug: string;
+  publishedAt: string;
+  kickoff: string;
+  referee: string | null;
+  characters: { id: string; name: string }[];
+  ladder: Record<string, Slip[]>;
+  formations: Record<string, TeamShape> | null;
+  explorer: Explorer;
+  matchday: {
+    window: number;
+    seasons: string[];
+    note: string;
+    fixture: MatchdayFixture;
+  } | null;
+  outcomes?: Record<string, { won: boolean; observed?: number | null }>;
+  result?: {
+    score: [number, number] | null;
+    result: Record<string, { fouls?: number; won?: number; cards?: number } | null> | null;
+    matchweek?: number | null;
+  } | null;
+};
+
+/** slug -> archived fixture. Empty when the pipeline has archived nothing. */
+export function getArchivedFixtures(): Record<string, ArchivedFixture> {
+  const dir = path.join(process.cwd(), "public/data/fixtures");
+  if (!fs.existsSync(dir)) return {};
+  const out: Record<string, ArchivedFixture> = {};
+  for (const file of fs.readdirSync(dir)) {
+    if (!file.endsWith(".json")) continue;
+    const held = JSON.parse(fs.readFileSync(path.join(dir, file), "utf8")) as ArchivedFixture;
+    out[held.slug] = held;
+  }
+  return out;
+}

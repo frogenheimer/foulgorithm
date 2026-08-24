@@ -16,6 +16,8 @@
 
 import { Fragment, useState } from "react";
 import type { Slip } from "@/lib/data";
+import type { Outcomes } from "@/lib/graded";
+import { legMark, slipVerdict } from "@/lib/graded";
 import { MicroLabel } from "@/components/kit";
 import { modelName } from "@/lib/names";
 import s from "./slips.module.css";
@@ -26,11 +28,15 @@ export default function SlipGrid({
   slips,
   characters,
   names,
+  outcomes,
 }: {
   slips: Record<string, Slip[]>;
   characters: string[];
   /** id -> name as written, so the table does not capitalise ids in CSS. */
   names?: Record<string, string>;
+  /** Present on a played fixture: marks every slip and leg against what
+   *  happened. Colour never stands alone, the word rides along. */
+  outcomes?: Outcomes;
 }) {
   const [open, setOpen] = useState<string | null>(null);
   const present = characters.filter((c) => slips[c]?.length);
@@ -100,6 +106,7 @@ export default function SlipGrid({
                             <span className={s.sub}>
                               {slip.outOf100}/100 · {slip.legCount} legs
                             </span>
+                            {outcomes && <VerdictWord verdict={slipVerdict(slip, outcomes)} />}
                           </button>
                         </td>
                       );
@@ -108,7 +115,7 @@ export default function SlipGrid({
                   {openSlip && (
                     <tr className={s.legsRow}>
                       <td colSpan={TIERS.length + 1}>
-                        <Legs slip={openSlip} />
+                        <Legs slip={openSlip} outcomes={outcomes} />
                       </td>
                     </tr>
                   )}
@@ -168,23 +175,35 @@ export default function SlipGrid({
   );
 }
 
-function Legs({ slip }: { slip: Slip }) {
+function VerdictWord({ verdict }: { verdict: "came in" | "no" | "open" }) {
+  const cls =
+    verdict === "came in" ? s.markWon : verdict === "no" ? s.markLost : s.markOpen;
+  return <span className={cls}>{verdict}</span>;
+}
+
+function Legs({ slip, outcomes }: { slip: Slip; outcomes?: Outcomes }) {
   return (
     <div className={s.legs}>
       <ul className={s.legList}>
-        {slip.legs.map((l) => (
-          <li key={l.player + l.market} className={s.leg}>
-            <span className={s.legPlayer}>{l.player}</span>
-            <span className={s.legWhat}>
-              {l.fouls}+ {l.market === "drawn" ? "fouls won" : "fouls"}
-              {l.thin && " · thin evidence"}
-            </span>
-            <span className={s.legProb}>
-              {l.outOf100}/100
-            </span>
-            {l.reason && <p className={s.legReason}>{l.reason}</p>}
-          </li>
-        ))}
+        {slip.legs.map((l) => {
+          const mark = outcomes ? legMark(l, outcomes) : null;
+          return (
+            <li key={l.player + l.market} className={s.leg}>
+              <span className={s.legPlayer}>{l.player}</span>
+              <span className={s.legWhat}>
+                {l.fouls}+ {l.market === "drawn" ? "fouls won" : "fouls"}
+                {l.thin && " · thin evidence"}
+              </span>
+              <span className={s.legProb}>
+                {l.outOf100}/100
+              </span>
+              {outcomes && (
+                <VerdictWord verdict={mark === true ? "came in" : mark === false ? "no" : "open"} />
+              )}
+              {l.reason && <p className={s.legReason}>{l.reason}</p>}
+            </li>
+          );
+        })}
       </ul>
       <div className={s.maths}>
         <div className={s.mathsItem}>
