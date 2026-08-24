@@ -36,7 +36,12 @@ runs, most players show two new appearances and are correctly skipped, so the
 fixture settles with a handful of players or none.
 
 So the fix is operational, not logical: **the settle job has to run after every
-round completes.** It has never done so reliably.
+round completes.** It has never done so reliably, and there is a second problem
+underneath: no commit in the history came from a scheduled settle run at all.
+
+**The plan is [30-settle-schedule.md](30-settle-schedule.md).** Confirm the
+workflow executes before touching the cadence, because fixing a schedule on a job
+that never fires produces no improvement and reads as a failed fix.
 
 Two consequences worth stating plainly:
 
