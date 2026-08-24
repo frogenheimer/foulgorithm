@@ -129,6 +129,44 @@ def fetch(season: str, division: str = "E0", cache_root: Path | None = None) -> 
     return raw
 
 
+#: How old the running season's file may be before a refresh refetches it.
+#: A day covers every publish cadence without hammering a free service.
+IN_PROGRESS_MAX_AGE_HOURS = 24
+
+
+def refresh_in_progress(
+    cache_root: Path | None = None,
+    division: str = "E0",
+    today: datetime | None = None,
+) -> list[str]:
+    """Refetch the running season's file when its cache has gone stale.
+
+    `fetch` serves any cached file forever, which is right for settled
+    seasons, they never change, and wrong for the one in progress: the moment
+    its file first lands on disk, the match store freezes at that day's
+    rounds, and with it everything reading it, the live opponent factors
+    included. A season runs August to May, so from August to June the current
+    label is checked and refetched when older than a day. Returns the labels
+    refreshed, empty when nothing needed doing.
+    """
+    today = today or utcnow()
+    if today.month in (6, 7):
+        return []
+    start_year = today.year if today.month >= 8 else today.year - 1
+    label = f"{start_year}-{(start_year + 1) % 100:02d}"
+
+    cache_root = cache_root or Path("data/raw")
+    cached = cache_root / SOURCE / f"{season_code(label)}_{division}.csv"
+    if cached.exists():
+        age = today - datetime.fromtimestamp(cached.stat().st_mtime, tz=timezone.utc)
+        if age.total_seconds() < IN_PROGRESS_MAX_AGE_HOURS * 3600:
+            return []
+        cached.unlink()
+
+    fetch(label, division, cache_root=cache_root)
+    return [label]
+
+
 FIXTURES_URL = "https://www.football-data.co.uk/fixtures.csv"
 
 

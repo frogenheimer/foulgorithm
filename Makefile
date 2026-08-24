@@ -58,6 +58,30 @@ audit: ## Report exactly what data we hold and whether it is enough
 characters: ## Publish every character's view of the upcoming round
 	$(PY) -m foulgorithm.publish.character_round
 
+gameweek: ## The whole round: refresh, settle, predict, verify, commit. DRY=1 rehearses, PUSH=1 pushes
+	$(PY) -m foulgorithm.jobs.gameweek
+
+# ---- offline study re-runs. Each prints its tables and needs no network and
+# ---- no session. Rough runtimes on this machine are in the comment.
+
+study-season-totals: ## C1 gate: how much of a stale year season totals recover (~10 min)
+	$(PY) -u -m foulgorithm.backtest.season_total_study
+
+study-team-context: ## C2 gate: archive against match-store context, both footings (~20 min)
+	$(PY) -u -m foulgorithm.backtest.team_context_study
+
+study-league-pool: ## C3 gate: six leagues on one scale, scored on England (~15 min)
+	$(PY) -u -m foulgorithm.backtest.league_pool_study
+
+study-dependence: ## Do players in a match move together? The reopen tripwire (~10 min)
+	$(PY) -u -m foulgorithm.backtest.pairwise_dependence_study
+
+study-provider-offset: ## The two providers compared player by player (~2 min)
+	$(PY) -u -m foulgorithm.backtest.provider_offset_study
+
+fit-calibration: ## Refit the published correction against the current model (~25 min)
+	$(PY) -u -m foulgorithm.backtest.calibration_fit
+
 players: ## Publish player predictions and character picks
 	$(PY) -m foulgorithm.publish.player_round
 

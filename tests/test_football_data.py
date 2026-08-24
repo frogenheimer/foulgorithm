@@ -150,3 +150,92 @@ class TestKnownAt:
         no_time = ROW.replace(",15:00,", ",,")
         m = parse(raw(f"{HEADER}\n{no_time}"))[0]
         assert m["known_at"].hour >= 22
+
+
+class TestRefreshingTheSeasonInProgress:
+    """`fetch` serves any cached file forever, which is right for settled
+    seasons and wrong for the running one: the moment the current season's
+    file first lands on disk, the match store freezes, and with it the live
+    opponent factors. Found designing the gameweek updater, before it bit.
+
+    These use the real clock throughout: a fixed today against real file
+    mtimes makes ages negative, which is its own little leakage lesson.
+    """
+
+    def label_now(self):
+        from foulgorithm.sources import football_data as fd
+
+        now = datetime.now(timezone.utc)
+        start = now.year if now.month >= 8 else now.year - 1
+        return now, f"{start}-{(start + 1) % 100:02d}", fd
+
+    def test_the_running_season_is_refetched_when_stale(self, tmp_path, monkeypatch):
+        import os
+        import time
+
+        now, label, fd = self.label_now()
+        if now.month in (6, 7):
+            pytest.skip("close season: nothing is in progress to refresh")
+
+        cached = tmp_path / "football_data" / f"{fd.season_code(label)}_E0.csv"
+        cached.parent.mkdir(parents=True)
+        cached.write_text("old")
+        stale = time.time() - 3 * 86400
+        os.utime(cached, (stale, stale))
+
+        fetched = []
+        monkeypatch.setattr(
+            fd, "fetch", lambda season, division="E0", cache_root=None: fetched.append(season)
+        )
+        got = fd.refresh_in_progress(cache_root=tmp_path)
+        assert got == [label]
+        assert fetched == [label]
+        assert not cached.exists()
+
+    def test_a_fresh_file_is_left_alone(self, tmp_path, monkeypatch):
+        now, label, fd = self.label_now()
+        if now.month in (6, 7):
+            pytest.skip("close season: nothing is in progress to refresh")
+
+        cached = tmp_path / "football_data" / f"{fd.season_code(label)}_E0.csv"
+        cached.parent.mkdir(parents=True)
+        cached.write_text("fresh just now")
+
+        monkeypatch.setattr(
+            fd, "fetch", lambda *a, **k: pytest.fail("a fresh file must not refetch")
+        )
+        assert fd.refresh_in_progress(cache_root=tmp_path) == []
+        assert cached.exists()
+
+    def test_settled_seasons_are_never_touched(self, tmp_path, monkeypatch):
+        import os
+        import time
+
+        now, label, fd = self.label_now()
+        if now.month in (6, 7):
+            pytest.skip("close season: nothing is in progress to refresh")
+
+        cached = tmp_path / "football_data" / "1819_E0.csv"
+        cached.parent.mkdir(parents=True)
+        cached.write_text("settled")
+        stale = time.time() - 300 * 86400
+        os.utime(cached, (stale, stale))
+
+        # The current season has no file at all, so the refresh fetches it and
+        # must fetch ONLY it: the settled file stays exactly as it was.
+        fetched = []
+        monkeypatch.setattr(
+            fd, "fetch", lambda season, division="E0", cache_root=None: fetched.append(season)
+        )
+        got = fd.refresh_in_progress(cache_root=tmp_path)
+        assert got == [label]
+        assert fetched == [label]
+        assert cached.read_text() == "settled"
+
+    def test_close_season_has_nothing_in_progress(self, tmp_path):
+        from foulgorithm.sources import football_data as fd
+
+        got = fd.refresh_in_progress(
+            cache_root=tmp_path, today=datetime(2025, 7, 1, tzinfo=timezone.utc)
+        )
+        assert got == []

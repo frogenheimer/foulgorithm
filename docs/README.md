@@ -41,6 +41,7 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [32-data-upgrade-plan.md](32-data-upgrade-plan.md) | The revision feeding the 2026-08-24 data expansion into the models |
 | [33-settle-schedule.md](33-settle-schedule.md) | **Fixing the settle cadence. Every week it does not run is data lost forever** |
 | [34-final-plan.md](34-final-plan.md) | **The plan of record: consolidated order and hard release gates. Start here** |
+| [35-weekly-updater.md](35-weekly-updater.md) | **One command per gameweek: refresh, settle, predict, verify, commit, push** |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
 | [ideas.md](ideas.md) | Ideas not committed to. Nothing here is being built |
 | [modelling-log.md](modelling-log.md) | **Append-only record of every modelling decision, experiment and result** |
