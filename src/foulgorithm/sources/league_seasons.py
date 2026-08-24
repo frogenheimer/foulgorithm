@@ -65,6 +65,12 @@ STATS: tuple[str, ...] = (
     "total_contest",
     "won_contest",
     "dispossessed",
+    # Attacking volume. The drawn market is the one we model worst and every
+    # feature it had described defending; these describe getting into the
+    # places where a defender has to commit. Named in the survey as the two
+    # most plausible additions and added 2026-08-24 for exactly that.
+    "final_third_entries",
+    "pen_area_entries",
     # Where on the pitch a player operates.
     "poss_won_def_3rd",
     "poss_won_mid_3rd",
