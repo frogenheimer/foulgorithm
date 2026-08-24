@@ -98,6 +98,7 @@ class PlayerFoulModel:
         self._history: pd.DataFrame | None = None
         self._league_rate = 1.0
         self._visible_cache: dict = {}
+        self._player_index: dict = {}
         # Season-total pseudo-evidence, kept apart from match history so it can
         # never leak into minutes, opponent factors or the published plain
         # rate. See features/season_totals.py and docs/34-final-plan.md, C1.
@@ -147,6 +148,7 @@ class PlayerFoulModel:
         # because evidence attached against one fit answering questions about
         # the next is the same leakage with a different face.
         self._visible_cache: dict = {}
+        self._player_index = {}
         self._season_evidence = None
         self._season_cache = {}
         minutes = float(history["minutes"].sum())
@@ -261,6 +263,27 @@ class PlayerFoulModel:
             self._visible_cache[key] = cached
         return cached
 
+    def _rows_for(self, player: str, as_of) -> pd.DataFrame:
+        """One player's visible history, without rescanning the frame.
+
+        `past[past["player"] == player]` compares every row every time, which
+        is tolerable on 81,000 rows and is not on the 485,000 of the pooled
+        set: a fold's predictions turned into billions of comparisons. The
+        row positions per player are computed once per timestamp instead,
+        alongside the visible frame and dropped with it, so the leakage
+        property is unchanged.
+        """
+        past = self._visible(as_of)
+        key = pd.Timestamp(as_of)
+        index = self._player_index.get(key)
+        if index is None:
+            index = past.groupby("player").indices
+            self._player_index[key] = index
+        positions = index.get(player)
+        if positions is None:
+            return past.iloc[:0]
+        return past.take(positions)
+
     def attach_season_evidence(self, frame: pd.DataFrame) -> None:
         """Season-total pseudo-evidence from `features/season_totals.py`.
 
@@ -294,8 +317,7 @@ class PlayerFoulModel:
         slice they describe, not by when we read them. A completed season read
         today still decays as last spring's football, which it is.
         """
-        past = self._visible(as_of)
-        rows = past[past["player"] == player]
+        rows = self._rows_for(player, as_of)
         prior = self.prior_rate(player, club_factor)
 
         season_events = season_nineties = 0.0
@@ -331,8 +353,7 @@ class PlayerFoulModel:
         uncertainty is expressed by marking his evidence thin, not by pretending
         he will not play.
         """
-        past = self._visible(as_of)
-        rows = past[past["player"] == player].tail(10)
+        rows = self._rows_for(player, as_of).tail(10)
         if rows.empty:
             return self._default_minutes if starter else self._default_minutes * 0.35
         w = _weights(rows["known_at"], as_of, self.half_life_days)
@@ -352,8 +373,7 @@ class PlayerFoulModel:
         Returns (rate, nineties). None when he has never played, rather than a
         zero that reads as "never fouls anyone".
         """
-        rows = self._visible(as_of)
-        rows = rows[rows["player"] == player]
+        rows = self._rows_for(player, as_of)
         if rows.empty:
             return None, 0.0
 
@@ -369,8 +389,7 @@ class PlayerFoulModel:
         "start", "bench" or "out". Before that it is estimated from how often he
         has recently started, benched and gone unused.
         """
-        past = self._visible(as_of)
-        rows = past[past["player"] == player].tail(12)
+        rows = self._rows_for(player, as_of).tail(12)
 
         if rows.empty:
             # An unseen player who is expected to feature. Returning nothing for
