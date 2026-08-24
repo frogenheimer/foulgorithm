@@ -60,6 +60,35 @@ class PoolResult:
     ece: float
     thin_log_loss: float
     thin_n: int
+    #: Per-observation losses, in a fixed order across variants, so two
+    #: variants can be compared as a PAIRED difference. Unpaired intervals on
+    #: two highly correlated models say almost nothing about which is better.
+    losses: np.ndarray | None = None
+
+
+def paired_difference(
+    a: PoolResult, b: PoolResult, n: int = 2000, seed: int = 7
+) -> dict:
+    """Is `b` better than `a`, on the same observations, beyond noise?
+
+    Both variants score the identical rows in the identical order, so the
+    difference is taken per observation before resampling. That matters here:
+    the two models agree about almost every prediction, and comparing their
+    separate intervals would hide a real, small, consistent gap inside two
+    large overlapping ones.
+    """
+    diff = a.losses - b.losses
+    rng = np.random.default_rng(seed)
+    draws = rng.integers(0, len(diff), size=(n, len(diff)))
+    means = diff[draws].mean(axis=1)
+    lo, hi = float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))
+    return {
+        "improvement": float(diff.mean()),
+        "lo": lo,
+        "hi": hi,
+        "clears_zero": lo > 0,
+        "n": len(diff),
+    }
 
 
 def _training_frame(variant: str, pool: pd.DataFrame, as_of, stat: str) -> pd.DataFrame:
@@ -143,6 +172,7 @@ def run(
                 ece=mx.expected_calibration_error(calib),
                 thin_log_loss=float(np.mean(thin)) if thin else float("nan"),
                 thin_n=len(thin) // len(lines),
+                losses=np.array(all_losses),
             )
         )
     return results
@@ -178,7 +208,18 @@ def main() -> None:
 
     for market in ("player_fouls_committed", "player_fouls_drawn"):
         print(f"\n== {market}, scored on England only ==")
-        print(report(run(pool, market)))
+        results = run(pool, market)
+        print(report(results))
+
+        by = {r.variant: r for r in results}
+        paired = paired_difference(by["england-only"], by["pooled-adjusted"])
+        verdict = "clears zero" if paired["clears_zero"] else "does NOT clear zero"
+        print(
+            f"\n  pooled-adjusted against england-only, paired over "
+            f"{paired['n']:,} observations:\n"
+            f"    {paired['improvement']:+.5f} log loss "
+            f"[{paired['lo']:+.5f}, {paired['hi']:+.5f}], {verdict}"
+        )
 
 
 if __name__ == "__main__":
