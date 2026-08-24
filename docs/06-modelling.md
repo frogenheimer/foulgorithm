@@ -63,6 +63,21 @@ Weighted blend of the survivors, weights fitted on held-out gameweeks. Usually a
 
 All computed as of a timestamp, all derived from facts with `known_at <= as_of`.
 
+**Prior, where a player has no record here**
+
+- A promoted club's players are mostly unseen in this division: Coventry have a
+  Premier League record for 7 of 31 and Hull for 8 of 31, against Arsenal's 28
+  of 29. Those players take the position prior **scaled by how their club fouled
+  in the Championship**, relative to the Championship mean. Currently Coventry
+  0.962, Hull 1.024, Ipswich 1.015.
+- It scales the position prior rather than replacing it: a defender at a dirty
+  promoted club is still a defender.
+- Every prediction reports `priorFrom` as one of `own-record`, `position` or
+  `promoted-club`, so an estimate never sits beside a measurement looking
+  identical. The site marks the third case `est`.
+- Second-tier PLAYER data does not exist free anywhere, so this is the most that
+  can honestly be said about someone nobody has seen at this level.
+
 **Player form and ability**
 - Per-90 rate for the target stat, exponentially time-decayed, shrunk by minutes
 - Same for closely related stats (tackles, take-ons attempted, duels)

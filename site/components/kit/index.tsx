@@ -404,3 +404,22 @@ export function Select<T extends string>({
     </select>
   );
 }
+
+
+/**
+ * This number is a stand-in, not a record.
+ *
+ * Used where a player has never appeared in this division and is priced from
+ * his club's rate in the one below. Deliberately worded and styled like Thin,
+ * because both say the same thing to a reader: trust this less.
+ */
+export function Estimated({ title }: { title?: string }) {
+  return (
+    <span
+      className={s.thinTag}
+      title={title ?? "Estimated rather than measured"}
+    >
+      est
+    </span>
+  );
+}

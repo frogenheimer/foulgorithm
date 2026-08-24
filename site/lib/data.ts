@@ -120,6 +120,15 @@ export type ExplorerRow = {
   thin: boolean;
   /** What the model expects in THIS match. Not an average of anything. */
   expected: { committed: number; drawn: number; involvements: number };
+  /**
+   * Where the number mostly comes from.
+   *
+   * "promoted-club" means we have never seen this player in this division and
+   * are leaning on how his club fouled in the one below. That is an estimate
+   * and must not sit beside a real record looking identical.
+   */
+  priorFrom?: "own-record" | "position" | "promoted-club" | null;
+  clubFactor?: number | null;
   /** His plain per-90 across everything we hold. Null if he has never played. */
   career: {
     committed: number | null;

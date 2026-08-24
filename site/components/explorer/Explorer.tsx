@@ -15,7 +15,7 @@
 
 import { Fragment, useMemo, useState } from "react";
 import type { Explorer as Data, ExplorerRow } from "@/lib/data";
-import { DataTable , Thin , Select } from "@/components/kit";
+import { DataTable , Thin , Select , Estimated } from "@/components/kit";
 import Bars from "./Bars";
 import Shape from "./Shape";
 import { MARKET_LABEL } from "@/lib/markets";
@@ -243,6 +243,9 @@ export default function Explorer({ data, only }: { data: Data; only?: string }) 
                   )}
                   {r.thin && (
                     <Thin />
+                  )}
+                  {r.priorFrom === "promoted-club" && (
+                    <Estimated title="Never seen in this division. Priced from how his club fouled in the one below." />
                   )}
                 </span>
               </>

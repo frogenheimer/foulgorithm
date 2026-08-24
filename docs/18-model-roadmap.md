@@ -267,7 +267,13 @@ which is coverage rather than method:
     set**, including Oscar Mingueza at 128 matches in Spain and Borna Sosa at
     110 in Germany. Those records are being thrown away every publish.
 
-0d. **A club-relative prior for promoted-club players** (new). Three quarters of
+0d. ~~**A club-relative prior for promoted-club players**~~ **SHIPPED
+    2026-08-24.** Coventry 0.962, Hull 1.024, Ipswich 1.015 against the league
+    mean, applied to the position prior and marked in `why` as `priorFrom:
+    promoted-club` so the site can show it as an estimate. Original note kept
+    below for the reasoning.
+
+    Three quarters of
     a promoted squad has no Premier League record, against three percent of
     Arsenal's, so every Coventry defender is currently priced identically. We
     already hold each promoted club's Championship team foul rate and already

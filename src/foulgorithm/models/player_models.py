@@ -185,12 +185,45 @@ class PlayerFoulModel:
         """
         return max(self.dispersion, 1.0001)
 
-    def prior_rate(self, player: str) -> float:
-        """The rate we assume before seeing this player's own record."""
+    def prior_rate(self, player: str, club_factor: float | None = None) -> float:
+        """The rate we assume before seeing this player's own record.
+
+        `club_factor` scales it for a promoted club, whose players we have
+        mostly never seen in this division: Coventry have a record for 7 of 31
+        and Hull for 8 of 31, against Arsenal's 28 of 29. Without it every
+        Coventry defender is priced identically to every other.
+
+        It scales the POSITION prior rather than replacing it. A defender at a
+        dirty promoted club is still a defender.
+        """
         pos = self._player_position.get(player)
-        if pos and pos in self._position_rate:
-            return self._position_rate[pos]
-        return self._league_rate
+        base = self._position_rate[pos] if pos and pos in self._position_rate else self._league_rate
+        if club_factor and club_factor != 1.0:
+            return base * club_factor
+        return base
+
+    def promoted_factor(self, club: str | None, as_of) -> float | None:
+        """How this club fouled in the division below, relative to this one.
+
+        None for an established club, which has its own history and needs no
+        help, and None for a promoted club we cannot place either.
+
+        The second tier has no free player-level data anywhere, so this is the
+        most that can honestly be said about a player nobody has seen up here:
+        the club he plays for fouled at about this rate one division down.
+        """
+        if not club:
+            return None
+        try:
+            from foulgorithm.features import promotion
+
+            prior = promotion.team_prior(club, promotion.current_season())
+            if not prior:
+                return None
+            mean = promotion.league_mean()
+            return float(prior / mean) if mean else None
+        except Exception:  # noqa: BLE001 - an absent prior is not a failure
+            return None
 
     def _visible(self, as_of) -> pd.DataFrame:
         """History known by `as_of`, cached for the fit it belongs to.
@@ -210,11 +243,13 @@ class PlayerFoulModel:
             self._visible_cache[key] = cached
         return cached
 
-    def player_rate(self, player: str, as_of) -> tuple[float, float]:
+    def player_rate(
+        self, player: str, as_of, club_factor: float | None = None
+    ) -> tuple[float, float]:
         """Shrunk, time-decayed rate per 90. Returns (rate, effective matches)."""
         past = self._visible(as_of)
         rows = past[past["player"] == player]
-        prior = self.prior_rate(player)
+        prior = self.prior_rate(player, club_factor)
         if rows.empty:
             return prior, 0.0
 
@@ -394,7 +429,11 @@ class PlayerFoulModel:
         confirmed: str | None = None,
         team: str | None = None,
     ) -> tuple[CountDistribution, dict]:
-        rate, effective = self.player_rate(player, as_of)
+        # A promoted club's players are mostly unseen in this division, so the
+        # prior leans on how that club fouled in the one below. Marked in `why`
+        # as an estimate, because it is one.
+        club_factor = self.promoted_factor(team, as_of)
+        rate, effective = self.player_rate(player, as_of, club_factor)
         profile = self.minutes_profile(player, as_of, confirmed=confirmed)
         opp = self.opponent_factor(opponent, as_of)
         h2h = self.head_to_head_factor(team, opponent) if team else 1.0
@@ -434,6 +473,18 @@ class PlayerFoulModel:
             "effectiveMatches": round(effective, 1),
             "startProbability": round(profile.p_start, 3),
             "minutesIfStarting": round(profile.minutes_if_start, 1),
+            # Where the number mostly comes from, so the site can say so rather
+            # than presenting an estimate and a record identically.
+            # Any history at all means the number is anchored to him. An
+            # arbitrary threshold here would call a real record an estimate.
+            "priorFrom": (
+                "own-record"
+                if effective > 0
+                else "promoted-club"
+                if club_factor
+                else "position"
+            ),
+            "clubFactor": round(club_factor, 3) if club_factor else None,
         }
 
 

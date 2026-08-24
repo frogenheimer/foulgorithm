@@ -1135,6 +1135,12 @@ def _explorer_row(sel, team: str, opponent: str, fx, by_market: dict, career=Non
         # everything we hold, unshrunk and undecayed. Where the two disagree the
         # difference IS the model's opinion, and a reader should see its size.
         "career": career,
+        # Where the number mostly comes from. "promoted-club" means we have
+        # never seen this player in this division and are leaning on how his
+        # club fouled in the one below, which is an estimate and has to be
+        # shown as one rather than sat next to a real record looking identical.
+        "priorFrom": committed_w[HOUSE_MODEL].get("priorFrom"),
+        "clubFactor": committed_w[HOUSE_MODEL].get("clubFactor"),
         # Involvements are not calibration-corrected: the correction was fitted
         # on the two component markets and does not transfer to their sum.
         "committed": grid(committed_d, "player_fouls_committed"),
