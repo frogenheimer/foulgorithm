@@ -21,6 +21,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { FixtureOption, SettledOption, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
+import { cardKind } from "@/lib/timeline";
 import { Combobox } from "@/components/kit";
 import s from "./timeline.module.css";
 
@@ -203,11 +204,12 @@ function Game({
 }) {
   const label = `${f.home} v ${f.away}`;
   const cls = `${s.card} ${state === "past" ? s.past : ""} ${state === "live" ? s.live : ""}`;
+  const kind = cardKind(state, Boolean(f.result), Boolean(options?.length));
 
-  // The heading links to the fixture. The rest does NOT, because the picks
-  // below are disclosures, and a <details> inside an <a> both swallows the
-  // click (you navigate instead of opening it) and is invalid HTML: interactive
-  // content is not allowed inside a link. That is why the cards would not open.
+  // The diet: kickoff, teams, expected fouls, the crossover as one line, one
+  // link. The referee, the per-leg detail and the method sentence are one
+  // click in. A played card keeps its result and the settled card, because a
+  // loss must stay as visible as a win and past fixtures have no page yet.
   const head = (
     <>
       <div className={s.top}>
@@ -217,7 +219,6 @@ function Game({
             minute: "2-digit",
           })}
         </span>
-        <span>{f.referee ?? "No referee yet"}</span>
       </div>
 
       <div className={s.teams}>
@@ -235,7 +236,7 @@ function Game({
 
   const body = (
     <>
-      {f.result ? (
+      {kind === "played" && f.result ? (
         <div className={s.result}>
           <div className={s.stats}>
             <span>
@@ -297,47 +298,30 @@ function Game({
             </ul>
           ) : null}
         </div>
-      ) : options?.length && state === "upcoming" ? (
+      ) : kind === "crossover" && options?.length ? (
         <div className={s.picks}>
           {options.map((o) => (
-            <details key={o.band} className={s.pick}>
-              <summary className={s.pickHead}>
-                <span className={s.pickRow}>
-                  <span className={s.pickWho}>
-                    The five&rsquo;s crossover
-                    {o.lineupsConfirmed === false ? "\u2009*" : ""}
-                  </span>
-                  <span className={s.pickSummary}>
-                    {o.legs.length} pick{o.legs.length === 1 ? "" : "s"}
-                  </span>
-                  <span className={s.pickOdds}>{o.outOf100}/100</span>
+            <div key={o.band} className={s.pick}>
+              <span className={s.pickRow}>
+                <span className={s.pickWho}>
+                  The five&rsquo;s crossover
+                  {o.lineupsConfirmed === false ? "\u2009*" : ""}
                 </span>
-              </summary>
-
-              <ul className={s.pickLegs}>
-                {o.legs.map((l) => (
-                  <li key={`${l.player}-${l.market}-${l.fouls}`} className={s.pickLeg}>
-                    <span className={s.pickPlayer}>{l.player}</span>
-                    <span className={s.pickWhat}>
-                      {l.fouls}+ {l.market === "drawn" ? "won" : "fouls"}
-                    </span>
-                    <span className={s.pickLegProb}>
-                      {l.backers != null ? `${l.backers} of ${o.backers ?? 5} · ` : ""}
-                      {l.outOf100}/100
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <span className={s.pickMeta}>
-                The picks the five models most cross over on, priced by the house
-                blend, no one temperament&rsquo;s reach
-                {o.lineupsConfirmed === false
-                  ? " · * built before the team sheets: these regenerate automatically when lineups land, an hour before kickoff"
-                  : ""}
-                {linked ? " · see all five" : ""}
+                <span className={s.pickSummary}>
+                  {o.legs.length} pick{o.legs.length === 1 ? "" : "s"}
+                </span>
+                <span className={s.pickOdds}>{o.outOf100}/100</span>
               </span>
-            </details>
+              {expected ? (
+                <span className={s.expected}>{expected.toFixed(1)} fouls expected</span>
+              ) : null}
+              {o.lineupsConfirmed === false && (
+                <span className={s.pickMeta}>
+                  * built before the team sheets: regenerates automatically when the
+                  lineups land, an hour before kickoff
+                </span>
+              )}
+            </div>
           ))}
         </div>
       ) : (
@@ -359,16 +343,18 @@ function Game({
   );
 
   // Only this round has a page. Linking the rest would be a promise of depth
-  // that is not there yet.
-  return (
+  // that is not there yet. With the disclosures gone the card holds no
+  // interactive content, so the whole card is the link; reintroducing a
+  // <details> inside it would mean splitting the link up again, because
+  // interactive content inside an <a> is invalid and swallows the click.
+  return linked ? (
+    <Link href={`/fixture/${fixtureSlug(label)}`} className={`${cls} ${s.cardLink}`}>
+      {head}
+      {body}
+    </Link>
+  ) : (
     <div className={cls}>
-      {linked ? (
-        <Link href={`/fixture/${fixtureSlug(label)}`} className={s.cardLink}>
-          {head}
-        </Link>
-      ) : (
-        head
-      )}
+      {head}
       {body}
     </div>
   );

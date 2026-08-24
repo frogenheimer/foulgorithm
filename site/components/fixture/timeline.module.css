@@ -276,20 +276,11 @@
   border-top: 1px solid var(--line);
 }
 
-/* A <summary> must NOT be display:flex. Safari drops its click-to-toggle when
-   the display type changes, which is exactly how three pick cards ended up
-   rendering their headings and refusing to open. The flex lives on a span
-   inside it instead. */
-
 .pickRow {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--s2);
-}
-
-.pickHead:hover .pickRow {
-  color: var(--ink);
 }
 
 .pickWho {
@@ -301,28 +292,10 @@
   font-weight: 600;
 }
 
-.pickSwatch {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--r-pill);
-  background: currentColor;
-}
-
 .pickOdds {
   font-family: var(--font-mono);
   font-size: var(--t-sm);
   color: var(--ink);
-}
-
-/* Now a list, not a joined sentence. */
-.pickLegs {
-  margin: var(--s2) 0 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--line);
-  font-size: var(--t-xs);
-  color: var(--ink-2);
-  line-height: 1.5;
 }
 
 .pickMeta {
@@ -331,43 +304,10 @@
 }
 
 
-/* ---------- the house pick, as a disclosure ---------- */
-
-.pickHead {
-  cursor: pointer;
-  list-style: none;
-}
-
-.pickHead::-webkit-details-marker {
-  display: none;
-}
-
 .pickSummary {
   margin-left: auto;
   font-size: var(--t-xs);
   color: var(--ink-3);
-}
-
-.pickLeg {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s2);
-  padding: var(--s1) 0;
-  font-size: var(--t-xs);
-}
-
-.pickPlayer {
-  color: var(--ink);
-}
-
-.pickWhat {
-  color: var(--ink-3);
-}
-
-.pickLegProb {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  color: var(--ink-2);
 }
 
 
@@ -483,7 +423,7 @@
 
 /* The linked half of a card. The picks below sit outside it, because a
    disclosure inside an anchor navigates instead of opening. */
+/* The whole card is the link. No display here: the anchor takes .card's grid. */
 .cardLink {
-  display: block;
   color: inherit;
 }
