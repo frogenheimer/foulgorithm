@@ -12,6 +12,8 @@ export default function Characters() {
   const players = getPlayers();
   const settings = players.picks;
   const standings = players.standings ?? [];
+  const slates = players.slates;
+  const confirmed = new Set(slates.confirmedFixtures ?? []);
   const named = (id: string) => d.characters.find((c) => c.id === id)?.name ?? id;
   const anyPlayed = standings.some((r) => r.played > 0);
   const peers = settings.map((p) => p.settings as unknown as Settings);
@@ -59,6 +61,82 @@ export default function Characters() {
             finish.
           </Note>
         )}
+      </section>
+
+      <section>
+        <SectionHead
+          title="This week's picks"
+          note="Every committed slate for the current round, in full. A game marked * has no confirmed eleven yet: those picks regenerate automatically when the team sheets land, an hour before kickoff, and the version on the board at the round's first kickoff is the one that scores."
+        />
+        <div className={c.slates}>
+          {d.characters.map((ch) => {
+            const own = slates.byCharacter[ch.id];
+            if (!own) return null;
+            const allLegs = slates.shapes.flatMap((sh) => own[sh.key]?.legs ?? []);
+            const games = Array.from(new Set(allLegs.map((l) => l.fixture)));
+            const provisional = games.some((g) => !confirmed.has(g));
+            return (
+              <details
+                key={ch.id}
+                className={c.slate}
+                style={{ ["--char" as string]: `var(--ch-${ch.id})` }}
+              >
+                <summary className={c.slateHead}>
+                  <span className={c.slateWho}>
+                    <span className={c.slateSwatch} aria-hidden />
+                    {ch.name}
+                  </span>
+                  <span className={c.slateMeta}>
+                    {allLegs.length} legs across {games.length} game
+                    {games.length === 1 ? "" : "s"}
+                    {provisional ? "\u2009*" : ""}
+                  </span>
+                </summary>
+
+                {slates.shapes.map((sh) => {
+                  const built = own[sh.key];
+                  const shapeGames = built
+                    ? Array.from(new Set(built.legs.map((l) => l.fixture)))
+                    : [];
+                  return (
+                    <div key={sh.key} className={c.shape}>
+                      <div className={c.shapeLabel}>
+                        {sh.label}
+                        {!built && (
+                          <span className={c.passed}> — passed, could not fill the shape</span>
+                        )}
+                      </div>
+                      {shapeGames.map((g) => (
+                        <div key={g} className={c.slateGame}>
+                          <div className={c.gameLabel}>
+                            {g}
+                            {!confirmed.has(g) ? "\u2009*" : ""}
+                          </div>
+                          <ul className={c.slateLegs}>
+                            {built!.legs
+                              .filter((l) => l.fixture === g)
+                              .map((l) => (
+                                <li
+                                  key={`${l.fullName ?? l.player}-${l.market}-${l.fouls}`}
+                                  className={c.slateLeg}
+                                >
+                                  <span className={c.legPlayer}>{l.player}</span>
+                                  <span className={c.legWhat}>
+                                    {l.fouls}+ {l.market === "drawn" ? "won" : "fouls"}
+                                  </span>
+                                  <span className={c.legProb}>{l.outOf100}/100</span>
+                                </li>
+                              ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })}
+              </details>
+            );
+          })}
+        </div>
       </section>
 
       <section>

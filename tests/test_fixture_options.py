@@ -1,13 +1,12 @@
-"""Two or three calls per fixture, at different prices, not one or nothing.
+"""The fixture card shows the crossover, not one temperament's reach.
 
-One pick at a fixed foul total is over-constrained. Requiring six total fouls
-AND better than ten in a hundred is satisfiable once a lineup is confirmed and
-almost never before it, so the homepage showed eight picks on a Sunday and none
-on a Monday. The bar was not wrong; asking one combination to clear both was.
-
-So each fixture offers a short, a middle and a long option, each the boldest
-read available at that price, with the foul total it reaches stated rather than
-fixed. A reader can see that the long one is long.
+Oliver's call, 2026-08-24: the card carries the picks the five most agree
+on, ranked by how many of them back each leg, priced by the house blend, and
+representing no specific model. These tests pin the counting rules that make
+"4 of 5 back this" mean what it says: a character backs a leg once however
+many tiers of his ladder repeat it, ranking is backers first and house
+number second, and the card says plainly when it was built before the team
+sheets landed.
 """
 
 import pytest
@@ -41,82 +40,59 @@ def slip(target, label, legs, prob):
 
 
 def by_character():
+    """Two characters. A is backed by both; B only by alan, and twice over
+    in alan's ladder, which must still count him once."""
     return {
         "alan": [
-            slip(2.0, "2/1", [leg("A", 1, 0.62)], 0.34),
-            slip(5.0, "5/1", [leg("A", 2, 0.4), leg("B", 2, 0.35)], 0.14),
-            slip(20.0, "20/1", [leg("A", 2, 0.4), leg("B", 2, 0.35), leg("C", 2, 0.3)], 0.05),
+            slip(2.0, "2/1", [leg("A", 1, 0.62), leg("B", 2, 0.40)], 0.25),
+            slip(5.0, "5/1", [leg("B", 2, 0.40), leg("C", 2, 0.35)], 0.14),
         ],
         "bdog": [
-            slip(3.0, "3/1", [leg("D", 1, 0.7), leg("E", 1, 0.5)], 0.25),
-            slip(10.0, "10/1", [leg("D", 2, 0.4), leg("E", 2, 0.3), leg("F", 2, 0.3)], 0.09),
+            slip(3.0, "3/1", [leg("A", 1, 0.58), leg("D", 1, 0.50)], 0.29),
         ],
     }
 
 
-class TestItAlwaysOffersSomething:
-    def test_a_fixture_with_slips_gets_options(self):
+class TestTheCrossover:
+    def test_one_card_never_a_specific_character(self):
         options = pr._fixture_options(by_character())
-        assert options, "a fixture with slips must offer at least one call"
+        assert len(options) == 1
+        assert options[0]["character"] == "consensus"
+        assert options[0]["characterName"] == "The five"
 
-    def test_it_offers_more_than_one_price(self):
-        options = pr._fixture_options(by_character())
-        prices = {o["odds"] for o in options}
-        assert len(prices) > 1, "two options at the same price is one option"
+    def test_legs_rank_by_backers_then_house(self):
+        legs = pr._fixture_options(by_character())[0]["legs"]
+        assert legs[0]["player"] == "A"
+        assert legs[0]["backers"] == 2
+        assert [l["backers"] for l in legs] == sorted(
+            [l["backers"] for l in legs], reverse=True
+        )
 
-    def test_it_caps_at_three(self):
-        assert len(pr._fixture_options(by_character())) <= 3
+    def test_a_ladder_repeating_a_leg_backs_it_once(self):
+        """Alan holds B in two tiers. Two of his tiers is one of him."""
+        legs = pr._fixture_options(by_character())[0]["legs"]
+        b = next(l for l in legs if l["player"] == "B")
+        assert b["backers"] == 1
 
-    def test_an_empty_fixture_offers_nothing_rather_than_a_blank(self):
+    def test_leg_probabilities_are_the_house_blend(self):
+        legs = pr._fixture_options(by_character())[0]["legs"]
+        a = next(l for l in legs if l["player"] == "A")
+        # Two characters in the pool: alan's copy of A blends his 0.62 with a
+        # 0.57 pack mean. The first copy seen fixes the number.
+        assert a["outOf100"] == round((0.62 + 0.57) / 2 * 100)
+
+    def test_the_card_caps_its_legs(self):
+        pool = {
+            "alan": [slip(9.0, "8/1", [leg(f"P{i}", 1, 0.5) for i in range(8)], 0.01)]
+        }
+        assert len(pr._fixture_options(pool, limit=5)[0]["legs"]) == 5
+
+    def test_an_empty_pool_offers_nothing_rather_than_a_blank(self):
         assert pr._fixture_options({}) == []
 
-    def test_options_run_short_price_to_long(self):
-        options = pr._fixture_options(by_character())
-        assert options == sorted(options, key=lambda o: o["odds"])
-
-
-class TestEachOptionIsHonest:
-    def test_every_option_states_its_foul_total(self):
-        for option in pr._fixture_options(by_character()):
-            assert option["totalFouls"] == sum(l["fouls"] for l in option["legs"])
-
-    def test_every_option_names_who_made_it(self):
-        for option in pr._fixture_options(by_character()):
-            assert option["character"] in ("alan", "bdog")
-
-    def test_the_price_matches_the_probability(self):
-        for option in pr._fixture_options(by_character()):
-            assert option["odds"] == pytest.approx(100 / option["outOf100"], rel=0.2)
-
-    def test_no_option_repeats_another_exactly(self):
-        options = pr._fixture_options(by_character())
-        seen = {tuple(sorted(l["player"] for l in o["legs"])) + (o["totalFouls"],) for o in options}
-        assert len(seen) == len(options)
-
-
-class TestTheHouseNumberRidesAlong:
-    """A character's number is an opinion on purpose. The house number beside
-    it is the stated baseline, so a reader never has to guess which of the
-    two carries the calibration."""
-
-    def test_every_option_carries_the_house_number(self):
-        options = pr._fixture_options(by_character())
-        assert all("houseOutOf100" in o for o in options)
-
-    def test_it_is_the_blend_of_the_pack_not_the_character_again(self):
-        pool = by_character()
-        options = pr._fixture_options(pool)
-        source = {
-            tuple(sorted(l["player"] for l in slip["legs"])): slip
-            for tiers in pool.values()
-            for slip in tiers
-        }
-        for option in options:
-            slip = source[tuple(sorted(l["player"] for l in option["legs"]))]
-            # Two characters in the pool, so each leg's blend is the mean of
-            # the character's own view and the pack mean of the other one.
-            expected = 1.0
-            for l in slip["legs"]:
-                expected *= (l["prob"] + l["packProb"]) / 2
-            assert option["houseOutOf100"] == round(expected * 100)
-            assert option["houseOutOf100"] != option["outOf100"]
+    def test_the_combined_number_is_the_product_of_the_house_legs(self):
+        option = pr._fixture_options(by_character())[0]
+        product = 1.0
+        for l in option["legs"]:
+            product *= l["outOf100"] / 100
+        assert option["outOf100"] == pytest.approx(round(product * 100), abs=1)

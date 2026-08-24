@@ -21,6 +21,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { FixtureOption, SettledOption, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
+import { modelName } from "@/lib/names";
 import { Combobox } from "@/components/kit";
 import s from "./timeline.module.css";
 
@@ -300,21 +301,17 @@ function Game({
       ) : options?.length && state === "upcoming" ? (
         <div className={s.picks}>
           {options.map((o) => (
-            <details
-              key={o.band}
-              className={s.pick}
-              style={{ ["--char" as string]: `var(--ch-${o.character})` }}
-            >
+            <details key={o.band} className={s.pick}>
               <summary className={s.pickHead}>
                 <span className={s.pickRow}>
                   <span className={s.pickWho}>
-                    <span className={s.pickSwatch} aria-hidden />
-                    {o.characterName ?? o.character}
+                    The five&rsquo;s crossover
+                    {o.lineupsConfirmed === false ? "\u2009*" : ""}
                   </span>
                   <span className={s.pickSummary}>
-                    {o.totalFouls} foul{o.totalFouls === 1 ? "" : "s"}
+                    {o.legs.length} pick{o.legs.length === 1 ? "" : "s"}
                   </span>
-                  <span className={s.pickOdds}>{o.odds.toFixed(2)}</span>
+                  <span className={s.pickOdds}>{o.outOf100}/100</span>
                 </span>
               </summary>
 
@@ -325,14 +322,20 @@ function Game({
                     <span className={s.pickWhat}>
                       {l.fouls}+ {l.market === "drawn" ? "won" : "fouls"}
                     </span>
-                    <span className={s.pickLegProb}>{l.outOf100}/100</span>
+                    <span className={s.pickLegProb}>
+                      {l.backers != null ? `${l.backers} of ${o.backers ?? 5} · ` : ""}
+                      {l.outOf100}/100
+                    </span>
                   </li>
                 ))}
               </ul>
 
               <span className={s.pickMeta}>
-                {o.outOf100}/100 all together
-                {o.houseOutOf100 != null ? ` · house says ${o.houseOutOf100}/100` : ""}
+                The picks the five models most cross over on, priced by the house
+                blend, no one temperament&rsquo;s reach
+                {o.lineupsConfirmed === false
+                  ? " · * built before the team sheets: these regenerate automatically when lineups land, an hour before kickoff"
+                  : ""}
                 {linked ? " · see all five" : ""}
               </span>
             </details>

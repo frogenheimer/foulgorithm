@@ -416,7 +416,12 @@ export type FixtureOption = {
   houseOutOf100?: number;
   totalFouls: number;
   gap: number;
-  legs: { player: string; fouls: number; market: string; outOf100: number }[];
+  /** How many of the five models sit behind the card. */
+  backers?: number;
+  /** False while this card was built on a predicted eleven; the picks
+   *  regenerate automatically when the team sheets land at T-60. */
+  lineupsConfirmed?: boolean;
+  legs: { player: string; fouls: number; market: string; outOf100: number; backers?: number }[];
 };
 
 export type SettledOption = Omit<FixtureOption, "legs"> & {
@@ -618,6 +623,9 @@ export type SlateShape = { key: string; label: string; legs: number };
 export type Slates = {
   shapes: SlateShape[];
   byCharacter: Record<string, Record<string, { legs: SlipLeg[]; label: string } | null>>;
+  /** Fixtures whose confirmed elevens are in. Slates for the rest regenerate
+   *  automatically when the team sheets land, an hour before kickoff. */
+  confirmedFixtures?: string[];
   note: string;
 };
 

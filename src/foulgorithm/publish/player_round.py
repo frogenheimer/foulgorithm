@@ -571,6 +571,11 @@ def publish(output: Path = OUTPUT) -> dict:
         for label, by_character in fixture_slips.items()
         if (options := _fixture_options(by_character))
     }
+    confirmed_fixtures = {key.split("|", 1)[-1] for key in lineups}
+    for label, options in fixture_options.items():
+        for option in options:
+            option["lineupsConfirmed"] = label in confirmed_fixtures
+
     # Keep what each card says, so it can be marked right or wrong afterwards.
     _record_cards(fixture_options, fixtures, as_of)
 
@@ -632,6 +637,7 @@ def publish(output: Path = OUTPUT) -> dict:
                 for sl in ensemble.SLATES
             ],
             "byCharacter": slates,
+            "confirmedFixtures": sorted(confirmed_fixtures),
             "note": "Identical shapes for all five, so the table measures which "
                     "players they pick rather than how hard a bet they chose.",
         },
@@ -1641,91 +1647,74 @@ MIN_TOTAL_FOULS = 6
 MIN_PICK_PROBABILITY = 0.10
 
 
-#: The price bands a fixture card offers. Short, middle and long, so a reader
-#: can see what reaching further costs rather than being handed one number.
-OPTION_BANDS: tuple[tuple[str, float, float], ...] = (
-    ("Short", 0.0, 4.5),
-    ("Middle", 4.5, 9.0),
-    ("Long", 9.0, float("inf")),
-)
+def _fixture_options(by_character: dict, limit: int = 5) -> list[dict]:
+    """The crossover call: the legs the five most agree on, as one card.
 
-
-def _fixture_options(by_character: dict, limit: int = 3) -> list[dict]:
-    """Two or three calls per fixture, at different prices.
-
-    One pick at a fixed foul total is over-constrained. Requiring six total
-    fouls AND better than ten in a hundred is satisfiable once a lineup is
-    confirmed and almost never before it, so the homepage carried eight picks on
-    a Sunday and none on a Monday. The bar was not wrong; asking a single
-    combination to clear both was.
-
-    Each band offers the boldest read available at that price, and the foul
-    total it reaches is reported rather than required. Boldest means furthest
-    from what the other four say, for the same reason it does everywhere else:
-    a number they all agree on gives no reason to prefer whoever offered it.
+    Replaces the per-band boldest-character options, Oliver's call 2026-08-24:
+    the card should show what the five most cross over on rather than one
+    temperament's reach at a price. A leg counts a backer once per character
+    however many tiers of his ladder it appears in, legs rank by how many of
+    the five back them and then by the house number, and the card never
+    represents a specific model: the probability shown per leg is the house
+    blend, and the header says how many of the five are behind each pick.
     """
-    best_in_band: dict[str, dict] = {}
+    count = max(len(by_character), 1)
 
+    legs: dict[tuple, dict] = {}
     for cid, tiers in by_character.items():
+        seen: set[tuple] = set()
         for slip in tiers:
-            if not slip.get("legs"):
-                continue
-            odds = slip["actualOdds"]
-            band = next((name for name, low, high in OPTION_BANDS if low <= odds < high), None)
-            if band is None:
-                continue
+            for l in slip.get("legs") or []:
+                key = (l["player"], l["market"], l["fouls"])
+                if key in seen:
+                    continue
+                seen.add(key)
+                house = (l["prob"] + l["packProb"] * (count - 1)) / count
+                held = legs.get(key)
+                if held is None:
+                    legs[key] = {
+                        "player": l["player"],
+                        "fouls": l["fouls"],
+                        "market": l["market"],
+                        "_house": house,
+                        "backers": 1,
+                    }
+                else:
+                    held["backers"] += 1
 
-            gap = sum(l["prob"] - l["packProb"] for l in slip["legs"]) / len(slip["legs"])
+    if not legs:
+        return []
 
-            # The house number for the same combination, so the character's
-            # opinion is visibly an opinion about a stated baseline rather
-            # than a number with the same standing as the calibrated one.
-            # Each leg's blend recovers from what the leg already carries:
-            # his own probability plus the pack mean of the other four.
-            count = max(len(by_character), 1)
-            house = 1.0
-            for l in slip["legs"]:
-                house *= (l["prob"] + l["packProb"] * (count - 1)) / count
+    ranked = sorted(legs.values(), key=lambda l: (-l["backers"], -l["_house"]))[:limit]
 
-            held = best_in_band.get(band)
-            if held is None or gap > held["gap"]:
-                best_in_band[band] = {
-                    "band": band,
-                    "character": cid,
-                    # The name as written, not the id with a CSS capitalize on
-                    # it. That trick breaks the moment anyone copies the text
-                    # and reads wrong to a screen reader.
-                    "characterName": characters.get(cid).name,
-                    "tier": slip["targetLabel"],
-                    "odds": odds,
-                    "outOf100": slip["outOf100"],
-                    "houseOutOf100": round(house * 100),
-                    "totalFouls": sum(l["fouls"] for l in slip["legs"]),
-                    "gap": round(gap, 4),
-                    "legs": [
-                        {
-                            "player": l["player"],
-                            "fouls": l["fouls"],
-                            "market": l["market"],
-                            "outOf100": l["outOf100"],
-                        }
-                        for l in slip["legs"]
-                    ],
+    combined = 1.0
+    for l in ranked:
+        combined *= l["_house"]
+
+    return [
+        {
+            "band": "Consensus",
+            "character": "consensus",
+            "characterName": "The five",
+            "tier": "",
+            "odds": round(1.0 / combined, 2) if combined > 0 else 0.0,
+            "outOf100": round(combined * 100),
+            "houseOutOf100": round(combined * 100),
+            "totalFouls": sum(l["fouls"] for l in ranked),
+            "gap": 0.0,
+            "backers": count,
+            "legs": [
+                {
+                    "player": l["player"],
+                    "fouls": l["fouls"],
+                    "market": l["market"],
+                    "outOf100": round(l["_house"] * 100),
+                    "backers": l["backers"],
                 }
-
-    options = sorted(best_in_band.values(), key=lambda o: o["odds"])[:limit]
-
-    # Two bands can land on the same combination when a character's ladder
-    # repeats itself. Showing it twice is not two options.
-    seen: set[tuple] = set()
-    unique = []
-    for option in options:
-        key = tuple(sorted(l["player"] for l in option["legs"])) + (option["totalFouls"],)
-        if key in seen:
-            continue
-        seen.add(key)
-        unique.append(option)
-    return unique
+                for l in ranked
+            ],
+        }
+    ]
 
 
 def _best_pick(by_character: dict) -> dict | None:

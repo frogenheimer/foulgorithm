@@ -157,3 +157,104 @@
   color: var(--ink-3);
   text-align: right;
 }
+
+/* This week's picks: one disclosure per character, games grouped inside. */
+.slates {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.slate {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+
+.slateHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  cursor: pointer;
+  list-style: none;
+}
+
+.slateHead::-webkit-details-marker {
+  display: none;
+}
+
+.slateWho {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.slateSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--char, var(--series-1));
+}
+
+.slateMeta {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.shape {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+}
+
+.shapeLabel {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.passed {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.slateGame + .slateGame {
+  margin-top: var(--space-2);
+}
+
+.gameLabel {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.slateLegs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.slateLeg {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.legPlayer {
+  color: var(--text-primary);
+}
+
+.legProb {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
