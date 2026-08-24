@@ -220,6 +220,13 @@ discontinuity once the offset is applied.
 
 ### 9. Team-level features from the live match store
 
+> 📈 **And the data available for it is far larger than this item assumes.**
+> `stats/match/{id}` works on historical fixtures, giving about 180 team stats
+> per team per match back to 2006/07 for roughly eighteen minutes of fetching.
+> We currently hold six. That turns this item from "move two factors onto live
+> data" into "model the opponent on how it actually plays". Details in
+> `28-foul-data-sources.md`.
+>
 > ✅ **The offset this item demanded be measured has now been measured.**
 > Same competition, same seasons, England only: the league API reads **3.4% to
 > 6.4% higher than the FBref archive, every season, never once lower**, averaging

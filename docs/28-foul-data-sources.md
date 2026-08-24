@@ -199,6 +199,47 @@ The 2025-26 season is therefore permanently unrecoverable at match level, and so
 is every season before it. Only 2026-27 onwards can be built, one round at a
 time, by a settle job that actually runs.
 
+### Still available and not taken: 180 team stats a match, twenty seasons
+
+**The largest unclaimed thing found.** `stats/match/{id}` works for historical
+fixtures, not just current ones, and the fixture list is available per season.
+
+| Season | Stats across both teams | Fouls present |
+|---|---|---|
+| 2006/07 | 212 | yes |
+| 2012/13 | 250 | yes |
+| 2016/17 | 303 | yes |
+| 2024/25 | ~340 | yes |
+
+Around 180 stats per team per match, back to the same 2006/07 boundary, and it
+carries `fk_foul_lost`, `fk_foul_won`, `attempted_tackle_foul` and
+`fouled_final_third` throughout.
+
+**We currently hold about six team stats a match** from football-data.co.uk:
+fouls, cards, shots, shots on target, corners, goals. This is roughly thirty
+times richer, adding possession, touches by third, duels, aerials, tackles,
+clearances, recoveries and where on the pitch possession changed hands.
+
+**Cost: about eighteen minutes.** 20 seasons times 380 fixtures is 7,600
+requests at 0.14 seconds each, which is ten times faster per call than the
+ranked-player endpoint. A one-off background job.
+
+This would substantially expand roadmap item 9, which currently proposes only
+moving the opponent and referee factors onto live team data. With this the
+opponent model could use how a side actually plays rather than how many fouls it
+concedes.
+
+### Other competitions, and the one that is missing
+
+The API exposes twelve competitions: Premier League, Champions League, Europa
+League, FA Cup, EFL Cup, Premier League 2 and various youth leagues.
+
+**There is no Championship**, which belongs to the EFL rather than the Premier
+League, confirming from a second direction that second-tier player data has no
+free route. Cup competitions are available and deliberately not taken: mixed-tier
+opposition would need its own handling and is more likely to pollute a foul model
+than improve it.
+
 ### What the league does NOT publish
 
 Checked, so nobody checks again:
