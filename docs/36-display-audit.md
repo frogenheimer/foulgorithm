@@ -1,9 +1,11 @@
 # The display audit: one set of picks, shown three ways
 
-**Status: Written 2026-08-24, changes shipped the same evening.** Oliver asked
-for a critical audit of how the site displays information, with
-simplification as the goal. This is the audit, what changed on the back of
-it, and what is deliberately left for later.
+**Status: Written 2026-08-24, changes shipped the same evening. Partly
+revised the same day: Oliver ratified each change individually, and two came
+out differently. [37-display-decisions.md](37-display-decisions.md) is the
+record of what stands.** Oliver asked for a critical audit of how the site
+displays information, with simplification as the goal. This is the audit,
+what changed on the back of it, and what is deliberately left for later.
 
 ---
 
