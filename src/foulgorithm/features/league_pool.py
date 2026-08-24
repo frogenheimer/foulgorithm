@@ -129,18 +129,18 @@ def rank_transfer(
         return {"movers": 0, "rank_correlation": float("nan"),
                 "raw_rate_change": float("nan"), "adjusted_rate_change": float("nan")}
 
+    # When each spell started, computed once. Looking it up inside the loop
+    # meant refiltering the whole history per mover per league, which is a
+    # billion row comparisons on the real file.
+    started = history.groupby(["player", "league"])["kickoff_utc"].min()
+
     before, after, raw, adjusted = [], [], [], []
-    for _, group in movers.groupby("player"):
+    for player, group in movers.groupby("player"):
         # Order by when each spell happened, so "before" and "after" mean it.
-        spells = []
-        for league, rows in group.groupby("league"):
-            first = history[
-                (history["player"] == rows["player"].iloc[0])
-                & (history["league"] == league)
-            ]["kickoff_utc"].min()
-            spells.append((first, league, float(rows["rate"].iloc[0]),
-                           float(rows["percentile"].iloc[0])))
-        spells.sort()
+        spells = sorted(
+            (started.get((player, row.league)), row.league, float(row.rate), float(row.percentile))
+            for row in group.itertuples()
+        )
         (_, league_a, rate_a, pct_a), (_, league_b, rate_b, pct_b) = spells[0], spells[-1]
 
         before.append(pct_a)
