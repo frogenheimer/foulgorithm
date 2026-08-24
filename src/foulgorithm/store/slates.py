@@ -36,6 +36,11 @@ class Committed:
     character: str
     slate: str
     claim_keys: list[str] = field(default_factory=list)
+    # The round's earliest kickoff. A slate may be re-committed with confirmed
+    # lineups only BEFORE this moment; the binding rule in publish/league.py
+    # reads it. Absent on rows written before 2026-08-24, which were all
+    # published pre-kickoff by construction.
+    first_kickoff: str | None = None
 
     @property
     def key(self) -> str:
@@ -56,22 +61,28 @@ def path_for(round_key: str, root: Path = STORE) -> Path:
     return root / f"{round_key}.jsonl"
 
 
-def existing_keys(path: Path) -> set[str]:
+def existing_keys(path: Path) -> set[tuple[str, str]]:
+    """(key, published_at) pairs already on file. Versions are distinct."""
     if not path.exists():
         return set()
-    return {
-        json.loads(line)["key"]
-        for line in path.read_text().splitlines()
-        if line.strip()
-    }
+    out = set()
+    for line in path.read_text().splitlines():
+        if line.strip():
+            held = json.loads(line)
+            out.add((held["key"], held.get("published_at", "")))
+    return out
 
 
 def append(slates: list[Committed], root: Path = STORE) -> dict:
-    """Write anything not already committed. Never rewrites a committed slate.
+    """Write anything not already on file. Never rewrites a committed slate.
 
-    A slate is a promise made before kickoff. Letting a later run replace it
-    would make the table meaningless, so the first one recorded for a round
-    stands.
+    A slate is a promise, and promises version rather than mutate: a
+    re-publish at lineup time appends a NEW row for the same key with its own
+    published_at, and nothing here ever deletes or edits an old one. Which
+    version binds is a scoring question, answered in publish/league.py: the
+    latest version published before the round's first kickoff. Anything after
+    that moment is recorded and ignored, because replacing a slate once
+    results have started arriving is cherry-picking with extra steps.
     """
     if not slates:
         return {"written": 0, "skipped": 0, "files": []}
@@ -87,10 +98,10 @@ def append(slates: list[Committed], root: Path = STORE) -> dict:
         seen = existing_keys(path)
         fresh = []
         for item in items:
-            if item.key in seen:
+            if (item.key, item.published_at) in seen:
                 skipped += 1
                 continue
-            seen.add(item.key)
+            seen.add((item.key, item.published_at))
             fresh.append(item)
         if not fresh:
             continue

@@ -211,7 +211,12 @@ def verify_stage(run_start: datetime, fixtures: list[dict]) -> Stage:
 
 
 def commit_stage(fixtures: list[dict], skipped: list[str]) -> Stage:
-    subprocess.run(["git", "add", "--", *COMMIT_PATHS], check=True)
+    # Only paths that exist: git add fails whole on a pathspec that matches
+    # nothing, and data/settled does not exist until the first settle run
+    # after the retention change writes it. That exact case failed a publish
+    # at the last stage on 2026-08-24, after every gate had passed.
+    present = [p for p in COMMIT_PATHS if Path(p).exists()]
+    subprocess.run(["git", "add", "--", *present], check=True)
     staged = subprocess.run(["git", "diff", "--cached", "--quiet"], check=False)
     if staged.returncode == 0:
         return Stage("commit", True, "nothing changed, nothing to commit")

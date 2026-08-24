@@ -93,13 +93,37 @@ def build_slates(candidates: list[dict], character_ids: list[str]) -> dict:
     return out
 
 
+def binding_versions(committed: list[dict]) -> list[dict]:
+    """One row per slate key: the latest version published before kickoff.
+
+    Slates version rather than mutate, so a lineup-time re-publish appends a
+    fresh row for the same key. The one that counts is the last committed
+    before the round's first kickoff: after that moment results have started
+    arriving, and a version published then is recorded and ignored, because
+    replacing a slate once outcomes exist is cherry-picking with extra steps.
+    Rows written before the field existed were all pre-kickoff by
+    construction and stay eligible.
+    """
+    eligible: dict[str, dict] = {}
+    for row in committed:
+        first_kickoff = row.get("first_kickoff")
+        published = row.get("published_at", "")
+        if first_kickoff and published > first_kickoff:
+            continue
+        key = row.get("key") or f"{row.get('round', '')}|{row['character']}|{row['slate']}"
+        held = eligible.get(key)
+        if held is None or published > held.get("published_at", ""):
+            eligible[key] = row
+    return list(eligible.values())
+
+
 def join_slates(graded: list[dict], committed: list[dict]) -> list[dict]:
     """Pair graded claims with the slates that selected them.
 
     Grading keeps what it needs to score a probability and drops the rest, so a
     graded row cannot say which slate it belonged to. The slate store holds the
     claim keys it selected, and graded rows carry the same key, so the two join
-    on it.
+    on it. Only the binding version of each slate joins; see binding_versions.
 
     Also normalises `won` to `landed`. Two names for one fact is how a table
     ends up silently empty.
@@ -107,7 +131,7 @@ def join_slates(graded: list[dict], committed: list[dict]) -> list[dict]:
     outcome = {row["key"]: bool(row.get("won")) for row in graded if "key" in row}
 
     out = []
-    for slate in committed:
+    for slate in binding_versions(committed):
         for claim_key in slate.get("claim_keys", []):
             if claim_key not in outcome:
                 continue  # not settled yet, and an unsettled leg is not a miss
@@ -116,48 +140,70 @@ def join_slates(graded: list[dict], committed: list[dict]) -> list[dict]:
                     "key": claim_key,
                     "model_id": slate["character"],
                     "landed": outcome[claim_key],
-                    "extra": {"slate": slate["slate"]},
+                    "extra": {"slate": slate["slate"], "round": slate.get("round")},
                 }
             )
     return out
 
 
-def table(graded: list[dict], character_ids: list[str]) -> list[dict]:
+#: The league's first round. Slates committed before this exist on file and
+#: stay graded in the raw record, but the table starts here: the season opens
+#: with the first round committed under the upgraded models, so every entry in
+#: it was produced by the same generation of machinery. Oliver's call,
+#: 2026-08-24.
+SEASON_START = "2026-08-24"
+
+
+def table(
+    graded: list[dict], character_ids: list[str], since: str = SEASON_START
+) -> list[dict]:
     """Standings from graded slate legs.
 
     A slate is only scored once EVERY leg has an outcome. Grading a half-settled
     slate would count its unsettled legs as misses, turning "we do not know yet"
     into "they got it wrong", which is the single easiest way to publish a track
     record that is quietly false.
+
+    Grouped by ROUND as well as shape, because the same character plays the
+    same three shapes every week: without the round in the key, legs from two
+    different weeks pooled into one bucket, and three legs settling across two
+    rounds could score as one slate that nobody ever committed.
     """
-    # (character, slate) -> the legs graded so far
-    by_slate: dict[tuple[str, str], list[bool]] = {}
+    # (round, character, slate) -> the legs graded so far
+    by_slate: dict[tuple[str, str, str], list[bool]] = {}
     for row in graded:
         cid = row.get("model_id")
-        slate = (row.get("extra") or {}).get("slate")
+        extra = row.get("extra") or {}
+        slate = extra.get("slate")
+        round_key = extra.get("round") or ""
         if not cid or not slate or "landed" not in row:
             continue
-        by_slate.setdefault((cid, slate), []).append(bool(row["landed"]))
+        if round_key and round_key < since:
+            continue
+        by_slate.setdefault((round_key, cid, slate), []).append(bool(row["landed"]))
+
+    rounds = {round_key for round_key, _, _ in by_slate}
 
     rows = []
     for cid in character_ids:
         played = won = drawn = lost = points = difference = 0
         landed_total = missed_total = 0
 
-        for slate in ensemble.SLATES:
-            legs = by_slate.get((cid, slate.key))
-            if not legs or len(legs) != slate.legs:
-                continue  # not every leg has settled, so it is not a result yet
+        for round_key in rounds:
+            for slate in ensemble.SLATES:
+                legs = by_slate.get((round_key, cid, slate.key))
+                if not legs or len(legs) != slate.legs:
+                    continue  # not every leg has settled, so it is not a result yet
 
-            score = ensemble.score_slate(legs)
-            played += 1
-            points += score["points"]
-            difference += score["difference"]
-            landed_total += score["landed"]
-            missed_total += score["missed"]
-            won += score["result"] == "won"
-            drawn += score["result"] == "drawn"
-            lost += score["result"] == "lost"
+                score = ensemble.score_slate(legs)
+                played += 1
+                points += score["points"]
+                difference += score["difference"]
+                landed_total += score["landed"]
+                missed_total += score["missed"]
+                won += score["result"] == "won"
+                drawn += score["result"] == "drawn"
+                lost += score["result"] == "lost"
 
         rows.append(
             {

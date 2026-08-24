@@ -238,3 +238,31 @@ class TestRefreshSoftness:
         monkeypatch.setattr(football_data, "refresh_in_progress", broken)
         stage = gw.refresh_stage()
         assert not stage.ok
+
+
+class TestCommitPathsThatDoNotExistYet:
+    def test_only_present_paths_reach_git_add(self, monkeypatch, tmp_path):
+        """git add fails whole on a pathspec matching nothing, and
+        data/settled does not exist until the first settle run writes it.
+        That combination failed a publish at the last stage after every gate
+        had passed."""
+        import subprocess as sp
+
+        calls = []
+
+        def fake_run(cmd, check=False, capture_output=False, text=False):
+            calls.append(cmd)
+            class R:
+                returncode = 0
+                stdout = ""
+            return R()
+
+        monkeypatch.setattr(sp, "run", fake_run)
+        monkeypatch.setattr(gw, "subprocess", sp)
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / "data" / "graded").mkdir(parents=True)
+
+        gw.commit_stage(FIXTURES, [])
+        add_cmd = calls[0]
+        assert "data/graded" in add_cmd
+        assert "data/settled" not in add_cmd

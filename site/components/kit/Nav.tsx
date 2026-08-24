@@ -24,7 +24,6 @@ const GROUPS: { label: string; items: { href: string; label: string; icon: React
     label: "This round",
     items: [
       { href: "/", label: "Today", icon: <IconGrid /> },
-      { href: "/players", label: "Players", icon: <IconList /> },
       { href: "/stats", label: "Stats sheet", icon: <IconColumns /> },
       { href: "/teams", label: "Teams", icon: <IconShield /> },
     ],

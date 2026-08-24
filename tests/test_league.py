@@ -252,3 +252,104 @@ class TestTheSlateStore:
         from foulgorithm.store import slates as store
 
         assert store.append([], tmp_path)["written"] == 0
+
+
+class TestRoundsStaySeparate:
+    """The same character plays the same three shapes every week. Without the
+    round in the grouping key, legs from two different weeks pooled into one
+    bucket, and three legs settling across two rounds could score as one
+    slate nobody ever committed. Found live on 2026-08-24, when last week's
+    half-settled slates and this week's fresh ones shared a table."""
+
+    @staticmethod
+    def graded(cid, slate, round_key, landed, missed):
+        return [
+            {"model_id": cid, "extra": {"slate": slate, "round": round_key}, "landed": True}
+            for _ in range(landed)
+        ] + [
+            {"model_id": cid, "extra": {"slate": slate, "round": round_key}, "landed": False}
+            for _ in range(missed)
+        ]
+
+    def test_two_settled_rounds_are_two_results(self):
+        rows = self.graded("alan", "three-twos", "2026-08-24", 3, 0) + self.graded(
+            "alan", "three-twos", "2026-08-31", 2, 1
+        )
+        row = next(r for r in league.table(rows, FIVE, since="2026-08-24") if r["id"] == "alan")
+        assert row["played"] == 2
+        assert (row["won"], row["drawn"]) == (1, 1)
+
+    def test_partial_legs_from_two_rounds_never_merge_into_one_slate(self):
+        rows = self.graded("alan", "three-twos", "2026-08-24", 1, 0) + self.graded(
+            "alan", "three-twos", "2026-08-31", 1, 1
+        )
+        row = next(r for r in league.table(rows, FIVE, since="2026-08-24") if r["id"] == "alan")
+        assert row["played"] == 0
+
+    def test_the_season_starts_where_it_says(self):
+        """Slates from before the season stay on file and graded, and the
+        table does not count them: the league opens with the first round
+        committed under the upgraded models, so every entry in it came from
+        the same generation of machinery."""
+        rows = self.graded("alan", "three-twos", "2026-08-17", 3, 0) + self.graded(
+            "alan", "three-twos", "2026-08-24", 2, 1
+        )
+        row = next(r for r in league.table(rows, FIVE, since="2026-08-24") if r["id"] == "alan")
+        assert row["played"] == 1
+        assert row["drawn"] == 1
+        assert row["won"] == 0
+
+
+class TestBindingVersions:
+    """Slates version at lineup time rather than mutate. The one that counts
+    is the last committed before the round's first kickoff: after that,
+    results are arriving and a replacement would be cherry-picking."""
+
+    @staticmethod
+    def slate(published, keys, first_kickoff="2026-08-24T19:00:00+00:00"):
+        return {
+            "key": "2026-08-24|alan|three-twos",
+            "published_at": published,
+            "round": "2026-08-24",
+            "character": "alan",
+            "slate": "three-twos",
+            "claim_keys": keys,
+            "first_kickoff": first_kickoff,
+        }
+
+    def test_the_lineup_time_version_supersedes_the_early_one(self):
+        committed = [
+            self.slate("2026-08-23T18:00:00+00:00", ["early1", "early2"]),
+            self.slate("2026-08-24T18:05:00+00:00", ["late1", "late2"]),
+        ]
+        binding = league.binding_versions(committed)
+        assert len(binding) == 1
+        assert binding[0]["claim_keys"] == ["late1", "late2"]
+
+    def test_a_version_published_after_kickoff_is_ignored(self):
+        committed = [
+            self.slate("2026-08-23T18:00:00+00:00", ["early1"]),
+            self.slate("2026-08-24T21:00:00+00:00", ["cheeky1"]),
+        ]
+        binding = league.binding_versions(committed)
+        assert binding[0]["claim_keys"] == ["early1"]
+
+    def test_rows_from_before_the_field_existed_stay_eligible(self):
+        old = self.slate("2026-08-17T18:00:00+00:00", ["old1"])
+        del old["first_kickoff"]
+        old["key"] = "2026-08-17|alan|three-twos"
+        assert league.binding_versions([old]) == [old]
+
+    def test_only_the_binding_versions_legs_reach_the_join(self):
+        committed = [
+            self.slate("2026-08-23T18:00:00+00:00", ["early1"]),
+            self.slate("2026-08-24T18:05:00+00:00", ["late1"]),
+        ]
+        graded = [
+            {"key": "early1", "won": True},
+            {"key": "late1", "won": False},
+        ]
+        joined = league.join_slates(graded, committed)
+        assert len(joined) == 1
+        assert joined[0]["key"] == "late1"
+        assert joined[0]["extra"]["round"] == "2026-08-24"

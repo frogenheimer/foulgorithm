@@ -670,6 +670,18 @@ def _commit_slates(slates: dict, published: str) -> dict:
     """
     from foulgorithm.store import slates as slate_store
 
+    # The round's earliest kickoff, from the legs themselves. A slate may be
+    # re-committed with confirmed lineups only before this moment; the binding
+    # rule in publish/league.py reads it.
+    kickoffs = [
+        leg["kickoff"]
+        for by_slate in (slates or {}).values()
+        for built in (by_slate or {}).values()
+        if built and built.get("legs")
+        for leg in built["legs"]
+    ]
+    first_kickoff = min(kickoffs) if kickoffs else None
+
     committed = []
     for cid, by_slate in (slates or {}).items():
         for slate_key, built in (by_slate or {}).items():
@@ -703,6 +715,7 @@ def _commit_slates(slates: dict, published: str) -> dict:
                     character=cid,
                     slate=slate_key,
                     claim_keys=keys,
+                    first_kickoff=first_kickoff,
                 )
             )
     return slate_store.append(committed)
