@@ -21,7 +21,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { FixtureOption, SettledOption, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
-import { modelName } from "@/lib/names";
 import { Combobox } from "@/components/kit";
 import s from "./timeline.module.css";
 
