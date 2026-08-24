@@ -21,6 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
+from foulgorithm.store import positions as positions_store
 
 # Committed, not cached. This lives outside data/raw/ because that directory is
 # gitignored as reproducible cache, and this is a record of what the job has
@@ -50,6 +51,9 @@ def run(force: bool = False) -> int:
         # while labelling them confirmed would be the worst possible failure.
         print(f"lineup source failed: {exc}", file=sys.stderr)
         return 2
+    # Every confirmed sheet teaches the next predicted pitch where people
+    # actually play. See store/positions.py.
+    positions_store.remember(lineups)
 
     current = fingerprint(lineups)
     previous = json.loads(STATE.read_text()) if STATE.exists() else {}

@@ -26,6 +26,7 @@ from foulgorithm.markets import odds as odds_math
 from foulgorithm.models import calibration, involvement, player_models as pm
 from foulgorithm.sources import football_data, fpl, league_stats
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
+from foulgorithm.store import positions as positions_store
 from foulgorithm.store import predictions as pred_store
 from foulgorithm.store.players import load_player_matches
 
@@ -412,6 +413,10 @@ def publish(output: Path = OUTPUT) -> dict:
     except Exception as exc:  # noqa: BLE001 - reported, never silently empty
         print(f"  confirmed lineups unavailable: {exc}")
         lineups = {}
+    # Remember where the team sheets actually put people, then read the memory
+    # back for the predicted pitches. See store/positions.py.
+    positions_store.remember(lineups)
+    seen_roles = positions_store.load()
 
     # Only the ones for fixtures we are actually predicting.
     #
@@ -520,7 +525,7 @@ def publish(output: Path = OUTPUT) -> dict:
                 players.append(row)
                 all_rows.append(row)
             if not any(sel.confirmed for sel in selections):
-                shape = _predicted_shape(selections)
+                shape = _predicted_shape(selections, roles=seen_roles)
                 if shape:
                     predicted_shapes.setdefault(label, {})[team] = shape
 
@@ -1545,7 +1550,13 @@ def _character_picks(cid, candidates) -> dict:
     }
 
 
-def _predicted_shape(selections: list) -> dict | None:
+# A predicted back line never exceeds this. FPL codes wing-backs and pushed-up
+# full-backs as defenders, and a back seven drawn from those codes is a shape
+# no team has ever played.
+MAX_PREDICTED_DEFENDERS = 5
+
+
+def _predicted_shape(selections: list, roles: dict | None = None) -> dict | None:
     """A pitch for a fixture whose eleven has not been confirmed.
 
     Grouped from the predicted eleven's own positions rather than from a
@@ -1558,7 +1569,16 @@ def _predicted_shape(selections: list) -> dict | None:
     "6-4". Printing that as a formation would be inventing a shape the league
     has not published. The eleven itself is right about 78% of the time; the
     arrangement is only ever "these are the defenders".
+
+    The defensive line is capped at MAX_PREDICTED_DEFENDERS: overflow moves
+    into midfield, preferring whoever the league's team sheets last showed
+    actually playing there (see store/positions.py), then the wide players,
+    and a known centre-back only when nobody else is left. A promoted player
+    keeps his D badge, because he is still a defender, just not in a back
+    seven.
     """
+    from foulgorithm.store import positions
+
     def code_for(sel) -> str:
         # FPL codes GKP/DEF/MID/FWD; anything unrecognised sits in midfield,
         # which is where an unknown is least wrong.
@@ -1578,12 +1598,34 @@ def _predicted_shape(selections: list) -> dict | None:
     for sel in outfield[:10]:
         lines[code_for(sel)].append(sel)
 
+    def promotion_rank(sel) -> int:
+        # Lower moves up sooner. 0 = the league last saw him in midfield,
+        # 1 = last seen wide, 2 = never seen, 3 = a known centre-back.
+        role = positions.role_for(roles or {}, getattr(sel, "full", None) or sel.display)
+        role = role.lower()
+        if "midfield" in role:
+            return 0
+        if "wing" in role or "full back" in role or "fullback" in role:
+            return 1
+        return 3 if role else 2
+
+    overflow = len(lines["D"]) - MAX_PREDICTED_DEFENDERS
+    if overflow > 0:
+        ranked = sorted(
+            enumerate(lines["D"]), key=lambda pair: (promotion_rank(pair[1]), -pair[0])
+        )
+        moving = {index for index, _ in ranked[:overflow]}
+        lines["M"].extend(sel for i, sel in enumerate(lines["D"]) if i in moving)
+        lines["D"] = [sel for i, sel in enumerate(lines["D"]) if i not in moving]
+
     order = ["G", "D", "M", "F"]
     out = [
         [
             {
                 "player": sel.display,
-                "position": code,
+                # The sel's own code, not the line it sits in: a defender
+                # promoted into the midfield row keeps his D badge.
+                "position": code_for(sel) if code != "G" else "G",
                 "detail": sel.position or "",
                 "shirt": None,
                 "captain": False,
