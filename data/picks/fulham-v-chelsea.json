@@ -76,6 +76,90 @@
      ]
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-08-24T14:02:12+00:00",
+   "options": [
+    {
+     "band": "Short",
+     "character": "bdog",
+     "characterName": "Bdog",
+     "tier": "2/1",
+     "odds": 3.45,
+     "outOf100": 29,
+     "totalFouls": 3,
+     "gap": 0.1541,
+     "legs": [
+      {
+       "player": "Kusi-Asare",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 46
+      },
+      {
+       "player": "D.Essugo",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 62
+      }
+     ]
+    },
+    {
+     "band": "Middle",
+     "character": "bdog",
+     "characterName": "Bdog",
+     "tier": "5/1",
+     "odds": 6.09,
+     "outOf100": 16,
+     "totalFouls": 4,
+     "gap": 0.1603,
+     "legs": [
+      {
+       "player": "Kusi-Asare",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 46
+      },
+      {
+       "player": "D.Essugo",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 35
+      }
+     ]
+    },
+    {
+     "band": "Long",
+     "character": "bdog",
+     "characterName": "Bdog",
+     "tier": "10/1",
+     "odds": 13.53,
+     "outOf100": 7,
+     "totalFouls": 6,
+     "gap": 0.1432,
+     "legs": [
+      {
+       "player": "Kusi-Asare",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 46
+      },
+      {
+       "player": "D.Essugo",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 35
+      },
+      {
+       "player": "King",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 45
+      }
+     ]
+    }
+   ]
   }
  ]
 }

@@ -76,6 +76,84 @@
      ]
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-08-24T14:02:12+00:00",
+   "options": [
+    {
+     "band": "Short",
+     "character": "alan",
+     "characterName": "Alan",
+     "tier": "3/1",
+     "odds": 3.44,
+     "outOf100": 29,
+     "totalFouls": 1,
+     "gap": 0.1148,
+     "legs": [
+      {
+       "player": "Devenny",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 29
+      }
+     ]
+    },
+    {
+     "band": "Middle",
+     "character": "bdog",
+     "characterName": "Bdog",
+     "tier": "3/1",
+     "odds": 4.65,
+     "outOf100": 22,
+     "totalFouls": 3,
+     "gap": 0.1112,
+     "legs": [
+      {
+       "player": "Sosa",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 36
+      },
+      {
+       "player": "Monga",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59
+      }
+     ]
+    },
+    {
+     "band": "Long",
+     "character": "bdog",
+     "characterName": "Bdog",
+     "tier": "10/1",
+     "odds": 13.86,
+     "outOf100": 7,
+     "totalFouls": 5,
+     "gap": 0.1029,
+     "legs": [
+      {
+       "player": "Sosa",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 36
+      },
+      {
+       "player": "Monga",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59
+      },
+      {
+       "player": "Lewis",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 34
+      }
+     ]
+    }
+   ]
   }
  ]
 }
