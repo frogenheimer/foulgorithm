@@ -69,14 +69,6 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         published={data.fixtureSlips[label] ?? {}}
         characters={data.picks.map((p) => ({ id: p.id, name: p.name }))}
       >
-        <section>
-          <SectionHead
-            title="Every player in this game"
-            note="Fouls conceded, fouls won, and both together. Open a row for the whole distribution behind the number, not just the headline."
-          />
-          <Explorer data={getExplorer()} only={`${home} v ${away}`} />
-        </section>
-
         {sheet && (
           <section>
             <SectionHead
@@ -86,6 +78,14 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
             <Sheet data={matchday} only={label} />
           </section>
         )}
+
+        <section>
+          <SectionHead
+            title="Every player in this game"
+            note="Fouls conceded, fouls won, and both together. The most likely foulers lead; open the rest if you want the full squads. Open a row for the whole distribution behind the number."
+          />
+          <Explorer data={getExplorer()} only={`${home} v ${away}`} collapsedTo={10} />
+        </section>
       </FixtureLive>
     </div>
   );

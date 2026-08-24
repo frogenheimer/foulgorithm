@@ -14,6 +14,7 @@
  */
 
 import { Fragment, useMemo, useState } from "react";
+import { capped } from "@/lib/explorer";
 import type { Explorer as Data, ExplorerRow } from "@/lib/data";
 import { DataTable , Thin , Select , Estimated } from "@/components/kit";
 import Bars from "./Bars";
@@ -48,7 +49,16 @@ const POSITIONS = ["GK", "DF", "MF", "FW"];
  * is gone, and searching across fixtures went with it deliberately, because a
  * table filtered to a game you are already looking at needs no game filter.
  */
-export default function Explorer({ data, only }: { data: Data; only?: string }) {
+export default function Explorer({
+  data,
+  only,
+  collapsedTo,
+}: {
+  data: Data;
+  only?: string;
+  /** Show only the top rows until the reader asks for the rest. */
+  collapsedTo?: number;
+}) {
   const [market, setMarket] = useState<Market>("committed");
   const [line, setLine] = useState(0);
   const [model, setModel] = useState(data.house);
@@ -59,6 +69,7 @@ export default function Explorer({ data, only }: { data: Data; only?: string }) 
   const [sort, setSort] = useState<Sort>("prob");
   const [simple, setSimple] = useState(true);
   const [open, setOpen] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   const modelIndex = Math.max(0, data.models.indexOf(simple ? data.house : model));
   const fixtures = useMemo(
@@ -207,7 +218,7 @@ export default function Explorer({ data, only }: { data: Data; only?: string }) 
       </p>
 
       <DataTable
-        rows={rows}
+        rows={capped(rows, collapsedTo, showAll, query.trim().length > 0)}
         rowKey={(r) => r.fullName + r.fixture}
         sortKey={sort}
         onSort={(k) => setSort(k as Sort)}
@@ -297,6 +308,14 @@ export default function Explorer({ data, only }: { data: Data; only?: string }) 
           },
         ]}
       />
+
+      {collapsedTo != null && rows.length > collapsedTo && !query.trim() && (
+        <button type="button" className={s.showMore} onClick={() => setShowAll(!showAll)}>
+          {showAll
+            ? `Show the top ${collapsedTo} only`
+            : `Show all ${rows.length} players`}
+        </button>
+      )}
     </div>
   );
 }

@@ -418,3 +418,14 @@
 .shapeRow:hover td {
   background: var(--surface-sunk);
 }
+
+/* The cap's release. Text, not a control bar: one action, said plainly. */
+.showMore {
+  justify-self: start;
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+
+.showMore:hover {
+  color: var(--accent);
+}
