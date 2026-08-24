@@ -185,12 +185,15 @@ class TestRefreshingTheSeasonInProgress:
 
         fetched = []
         monkeypatch.setattr(
-            fd, "fetch", lambda season, division="E0", cache_root=None: fetched.append(season)
+            fd, "fetch", lambda season, division="E0", cache_root=None, force=False: fetched.append(season)
         )
         got = fd.refresh_in_progress(cache_root=tmp_path)
         assert got == [label]
         assert fetched == [label]
-        assert not cached.exists()
+        # The stale file survives until a validated replacement lands, so a
+        # transient failure can never destroy a usable cache. Overwriting is
+        # fetch's job, after validate, not the refresher's.
+        assert cached.exists()
 
     def test_a_fresh_file_is_left_alone(self, tmp_path, monkeypatch):
         now, label, fd = self.label_now()
@@ -225,7 +228,7 @@ class TestRefreshingTheSeasonInProgress:
         # must fetch ONLY it: the settled file stays exactly as it was.
         fetched = []
         monkeypatch.setattr(
-            fd, "fetch", lambda season, division="E0", cache_root=None: fetched.append(season)
+            fd, "fetch", lambda season, division="E0", cache_root=None, force=False: fetched.append(season)
         )
         got = fd.refresh_in_progress(cache_root=tmp_path)
         assert got == [label]
@@ -239,3 +242,27 @@ class TestRefreshingTheSeasonInProgress:
             cache_root=tmp_path, today=datetime(2025, 7, 1, tzinfo=timezone.utc)
         )
         assert got == []
+
+    def test_a_failed_refetch_leaves_the_stale_file_standing(self, tmp_path, monkeypatch):
+        import os
+        import time
+
+        from foulgorithm.sources.base import SourceError
+
+        now, label, fd = self.label_now()
+        if now.month in (6, 7):
+            pytest.skip("close season: nothing is in progress to refresh")
+
+        cached = tmp_path / "football_data" / f"{fd.season_code(label)}_E0.csv"
+        cached.parent.mkdir(parents=True)
+        cached.write_text("stale but usable")
+        stale = time.time() - 3 * 86400
+        os.utime(cached, (stale, stale))
+
+        def dies(*a, **k):
+            raise SourceError("HTTP 300")
+
+        monkeypatch.setattr(fd, "fetch", dies)
+        with pytest.raises(SourceError):
+            fd.refresh_in_progress(cache_root=tmp_path)
+        assert cached.read_text() == "stale but usable"

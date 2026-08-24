@@ -210,3 +210,31 @@ class TestOrchestration:
         calls = self.wire(monkeypatch)
         assert gw.run(push=True) == 0
         assert "push" in calls
+
+
+class TestRefreshSoftness:
+    """Upstream not having published the current season's file is loud and
+    soft, never a stop: halting the gameweek over HTTP 300 means no
+    predictions in August. The dry rehearsal of 2026-08-24 hit exactly this."""
+
+    def test_upstream_unavailability_continues_with_a_named_summary(self, monkeypatch):
+        from foulgorithm.sources import football_data
+        from foulgorithm.sources.base import SourceError
+
+        def unavailable(*a, **k):
+            raise SourceError("E0.csv returned HTTP 300")
+
+        monkeypatch.setattr(football_data, "refresh_in_progress", unavailable)
+        stage = gw.refresh_stage()
+        assert stage.ok
+        assert "upstream has no current file yet" in stage.summary
+
+    def test_anything_else_still_stops_the_run(self, monkeypatch):
+        from foulgorithm.sources import football_data
+
+        def broken(*a, **k):
+            raise RuntimeError("disk full")
+
+        monkeypatch.setattr(football_data, "refresh_in_progress", broken)
+        stage = gw.refresh_stage()
+        assert not stage.ok

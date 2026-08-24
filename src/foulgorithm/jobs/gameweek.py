@@ -134,11 +134,28 @@ def commit_message(fixtures: list[dict], skipped: list[str]) -> str:
 
 
 def refresh_stage() -> Stage:
+    """Refresh the running season's match file, and never block on upstream.
+
+    Early in a season football-data has not published the file yet, HTTP 300,
+    and no run of ours changes that. Halting the whole gameweek over it would
+    mean no predictions at all in August, which is worse than opponent
+    context running to the newest file on disk. So upstream unavailability is
+    loud and soft: named in every run summary, never a stop. The dry run of
+    2026-08-24 hit exactly this and was, correctly, stopped by the old
+    behaviour; this is the correction.
+    """
     from foulgorithm.sources import football_data
+    from foulgorithm.sources.base import SourceError
 
     try:
         refreshed = football_data.refresh_in_progress()
-    except Exception as exc:  # noqa: BLE001 - a dead source must stop the run
+    except SourceError as exc:
+        return Stage(
+            "refresh", True,
+            f"upstream has no current file yet ({exc}); opponent context runs "
+            "to the newest file on disk",
+        )
+    except Exception as exc:  # noqa: BLE001 - anything else is genuinely broken
         return Stage("refresh", False, f"match data refresh failed: {exc}")
     label = ", ".join(refreshed) if refreshed else "already fresh"
     return Stage("refresh", True, f"match data {label}")

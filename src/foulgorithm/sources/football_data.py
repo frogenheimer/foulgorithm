@@ -88,17 +88,26 @@ def url_for(season: str, division: str = "E0") -> str:
     return f"{BASE_URL}/{season_code(season)}/{division}.csv"
 
 
-def fetch(season: str, division: str = "E0", cache_root: Path | None = None) -> RawResponse:
+def fetch(
+    season: str,
+    division: str = "E0",
+    cache_root: Path | None = None,
+    force: bool = False,
+) -> RawResponse:
     """Fetch a season file, serving from the local cache when present.
 
     A settled season never changes, so it is fetched once and read from disk
     forever after. That keeps development offline and keeps us off the site.
+
+    `force` refetches past the cache, for the season in progress. The cached
+    file is only overwritten AFTER the new response validates, so a transient
+    failure can never destroy a stale-but-usable cache: stale beats gone.
     """
     url = url_for(season, division)
     cache_root = cache_root or Path("data/raw")
     cached = cache_root / SOURCE / f"{season_code(season)}_{division}.csv"
 
-    if cached.exists():
+    if cached.exists() and not force:
         return RawResponse(
             source=SOURCE,
             url=url,
@@ -161,9 +170,8 @@ def refresh_in_progress(
         age = today - datetime.fromtimestamp(cached.stat().st_mtime, tz=timezone.utc)
         if age.total_seconds() < IN_PROGRESS_MAX_AGE_HOURS * 3600:
             return []
-        cached.unlink()
 
-    fetch(label, division, cache_root=cache_root)
+    fetch(label, division, cache_root=cache_root, force=True)
     return [label]
 
 
