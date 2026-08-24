@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Lineups from "@/components/fixture/Lineups";
+import FixtureLive from "@/components/fixture/FixtureLive";
 import Explorer from "@/components/explorer/Explorer";
 import Sheet from "@/components/matchday/Sheet";
 import { PageHeader, SectionHead } from "@/components/kit";
@@ -18,9 +18,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 /**
  * One game, in the order a reader asks about it: who is on the pitch, what
- * does the model say about every player, and what have these clubs actually
- * been doing. The five's committed picks live on The five page as a matrix,
- * side by side across the whole round, rather than being repeated here.
+ * does the model say about every player, what have these clubs actually been
+ * doing, and, at the foot, the ladder of what each character would combine at
+ * each price. Swaps on the pitch rebuild that ladder, so both ends of the page
+ * share state through FixtureLive. The five's committed picks live on The five
+ * page as a matrix, side by side across the whole round, not repeated here.
  */
 export default async function Fixture({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -60,33 +62,31 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         />
       </div>
 
-      {shape && (
+      <FixtureLive
+        fixture={label}
+        shapes={shape}
+        explorer={getExplorer()}
+        published={data.fixtureSlips[label] ?? {}}
+        characters={data.picks.map((p) => ({ id: p.id, name: p.name }))}
+      >
         <section>
           <SectionHead
-            title="The eleven on the pitch"
-            note="Drawn from the league's own formation lines, so a back three and a back four actually look different."
+            title="Every player in this game"
+            note="Fouls conceded, fouls won, and both together. Open a row for the whole distribution behind the number, not just the headline."
           />
-          <Lineups fixture={label} shapes={shape} explorer={getExplorer()} published={data.fixtureSlips[label]} />
+          <Explorer data={getExplorer()} only={`${home} v ${away}`} />
         </section>
-      )}
 
-      <section>
-        <SectionHead
-          title="Every player in this game"
-          note="Fouls conceded, fouls won, and both together. Open a row for the whole distribution behind the number, not just the headline."
-        />
-        <Explorer data={getExplorer()} only={`${home} v ${away}`} />
-      </section>
-
-      {sheet && (
-        <section>
-          <SectionHead
-            title="What both clubs have actually been doing"
-            note={`No model in any of these numbers: averages per match across ${matchday.seasons.join(" and ")}, and whether each line landed in the last ${matchday.window}, most recent on the left. Every figure can be checked against a scoreboard.`}
-          />
-          <Sheet data={matchday} only={label} />
-        </section>
-      )}
+        {sheet && (
+          <section>
+            <SectionHead
+              title="What both clubs have actually been doing"
+              note={`No model in any of these numbers: averages per match across ${matchday.seasons.join(" and ")}, and whether each line landed in the last ${matchday.window}, most recent on the left. Every figure can be checked against a scoreboard.`}
+            />
+            <Sheet data={matchday} only={label} />
+          </section>
+        )}
+      </FixtureLive>
     </div>
   );
 }

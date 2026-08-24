@@ -14,7 +14,7 @@
  * that is shown per cell.
  */
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import type { Slip } from "@/lib/data";
 import { MicroLabel } from "@/components/kit";
 import { modelName } from "@/lib/names";
@@ -76,8 +76,8 @@ export default function SlipGrid({
                 ? ladder.find((x) => `${cid}|${x.targetLabel}` === open)
                 : undefined;
               return (
-                <>
-                  <tr key={cid} style={{ ["--char" as string]: `var(--ch-${cid})` }}>
+                <Fragment key={cid}>
+                  <tr style={{ ["--char" as string]: `var(--ch-${cid})` }}>
                     <td>
                       <span className={s.who}>
                         <span className={s.swatch} aria-hidden />
@@ -106,13 +106,13 @@ export default function SlipGrid({
                     })}
                   </tr>
                   {openSlip && (
-                    <tr key={`${cid}-legs`} className={s.legsRow}>
+                    <tr className={s.legsRow}>
                       <td colSpan={TIERS.length + 1}>
                         <Legs slip={openSlip} />
                       </td>
                     </tr>
                   )}
-                </>
+                </Fragment>
               );
             })}
           </tbody>

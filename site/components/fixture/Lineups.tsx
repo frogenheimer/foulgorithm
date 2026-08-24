@@ -1,49 +1,39 @@
 "use client";
 
 /**
- * Both elevens on pitches, and the five characters rebuilt from them.
+ * Both elevens on pitches.
  *
  * The point of the swap is not the pitch. It is that a reader can ask "what if
  * he is rested" and get an answer, instead of being told to wait for team news.
- * Change a slot and every combination on the page is recomputed from the eleven
- * now standing on it.
+ * Change a slot and the ladder at the foot of the page is recomputed from the
+ * eleven now standing on it.
  *
- * Recomputed, not re-requested: within one fixture the opponent and
- * head-to-head factors are settled, so each player's probability per market and
- * line is already shipped. A swap swaps one contribution.
+ * The swap state itself lives in FixtureLive, because the ladder that consumes
+ * it sits at the other end of the page. This component only draws the pitches
+ * and reports changes upward.
  */
 
 import { useMemo, useState } from "react";
-import type { Explorer, ExplorerRow, Formations, Slip } from "@/lib/data";
+import type { Explorer, ExplorerRow, Formations } from "@/lib/data";
 import { Callout } from "@/components/kit";
-import { findPlayer, who } from "@/lib/who";
 import type { Basis } from "./Pitch";
 import Pitch from "./Pitch";
 import type { Market } from "./Pitch";
-import { candidatesFor, slipAtOdds } from "./rebuild";
-import s from "./pitch.module.css";
-
-const TIERS: [number, string][] = [
-  [3, "2/1"],
-  [4, "3/1"],
-  [6, "5/1"],
-  [11, "10/1"],
-  [21, "20/1"],
-];
 
 export default function Lineups({
   fixture,
   shapes,
   explorer,
-  published,
+  selected,
+  onChange,
 }: {
   fixture: string;
   shapes: Formations[string];
   explorer: Explorer;
-  /** What the pipeline published, used until a reader changes something. */
-  published: Record<string, Slip[]>;
+  /** slot key -> canonical player key, owned by FixtureLive. */
+  selected: Record<string, string>;
+  onChange: (next: Record<string, string>) => void;
 }) {
-  const [selected, setSelected] = useState<Record<string, string>>({});
   const [market, setMarket] = useState<Market>("committed");
   const [basis, setBasis] = useState<Basis>("match");
   // Narrow screens show one side at a time; both fit side by side above 900px.
@@ -60,45 +50,7 @@ export default function Lineups({
     return out;
   }, [explorer.rows, fixture, clubs]);
 
-  // Who is on the pitch right now, published eleven with any swaps applied.
-  const onPitch = useMemo(() => {
-    const names = new Set<string>();
-    for (const club of clubs) {
-      shapes[club]?.lines.forEach((line, i) =>
-        line.forEach((spot, j) => {
-          // Slots hold a canonical key once swapped and a lineup-feed name
-          // before that. Both resolve to the same row, and the candidate list
-          // keys on that row's own short name.
-          const chosen = selected[`${club}|${i}|${j}`];
-          const row = chosen
-            ? (squads[club] ?? []).find((r) => who(r.fullName) === chosen)
-            : findPlayer(squads[club] ?? [], spot.player);
-          if (row) names.add(row.player);
-        })
-      );
-    }
-    return names;
-  }, [shapes, selected, clubs, squads]);
-
   const changed = Object.keys(selected).length > 0;
-
-  const slips = useMemo(() => {
-    if (!changed) return published;
-    const rows = clubs.flatMap((c) => squads[c]);
-    const candidates = candidatesFor(rows, explorer.lines, onPitch);
-    const out: Record<string, Slip[]> = {};
-    explorer.models.forEach((model, i) => {
-      const ladder = TIERS.map(([t, label]) => slipAtOdds(candidates, i, t, label)).filter(
-        (x): x is Slip => x !== null
-      );
-      if (ladder.length) out[model] = ladder;
-    });
-    return out;
-  }, [changed, published, clubs, squads, explorer.lines, explorer.models, onPitch]);
-
-  // Three sources, three spellings. See lib/who.ts.
-  const findRow = (club: string, player: string) =>
-    findPlayer(squads[club] ?? [], player);
 
   return (
     <div style={{ display: "grid", gap: "var(--s6)" }}>
@@ -106,8 +58,8 @@ export default function Lineups({
         home={{ club: homeClub, shape: shapes[homeClub], squad: squads[homeClub] ?? [] }}
         away={{ club: awayClub, shape: shapes[awayClub], squad: squads[awayClub] ?? [] }}
         selected={selected}
-        onChange={setSelected}
-        onReset={() => setSelected({})}
+        onChange={onChange}
+        onReset={() => onChange({})}
         market={market}
         onMarket={setMarket}
         basis={basis}
@@ -116,9 +68,10 @@ export default function Lineups({
 
       {changed && (
         <Callout>
-          <strong>Rebuilt from your eleven.</strong> Every combination below now uses the
-          players on those pitches, not the published lineup. Nothing here is graded: the
-          record only ever contains what we actually published before kickoff.
+          <strong>Rebuilt from your eleven.</strong> The ladder at the foot of the page
+          now uses the players on those pitches, not the published lineup. Nothing here
+          is graded: the record only ever contains what we actually published before
+          kickoff.
         </Callout>
       )}
 
