@@ -247,6 +247,9 @@ export default function Explorer({ data, only }: { data: Data; only?: string }) 
                   {r.priorFrom === "promoted-club" && (
                     <Estimated title="Never seen in this division. Priced from how his club fouled in the one below." />
                   )}
+                  {r.priorFrom === "season-totals" && (
+                    <Estimated title="No watched matches behind this number yet. Priced from his official season totals." />
+                  )}
                 </span>
               </>
             ),

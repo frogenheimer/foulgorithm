@@ -23,9 +23,11 @@ export default function Methodology() {
         <SectionHead title="What we predict" />
         <div className={prose.body}>
           <p>
-            One market so far: <strong>total fouls in a match</strong>, both teams combined. The
-            model returns a full probability distribution rather than a single number, so every line
-            is priced from one fit and the answers cannot contradict each other across lines.
+            Three markets: <strong>total fouls in a match</strong>, and per player,{" "}
+            <strong>fouls committed</strong> and <strong>fouls won</strong>, plus their sum as
+            involvements. Every model returns a full probability distribution rather than a single
+            number, so every line is priced from one fit and the answers cannot contradict each
+            other across lines.
           </p>
           <p>
             Prices shown are <strong>fair odds</strong>: the reciprocal of our probability, with no
@@ -40,15 +42,32 @@ export default function Methodology() {
         <SectionHead title="How it works" />
         <div className={prose.body}>
           <p>
-            Each team carries two rates: how many fouls they commit, and how many they draw. Both are
-            weighted so recent matches count more, with a 400 day half-life, and both are shrunk
-            toward the league average in proportion to how little we know about that team. A club
-            with three appearances is pulled almost entirely to the league mean, which is why
-            promoted sides are shown with a thin-evidence flag rather than a confident number.
+            For a player, four things go into the number. His own rate per 90 minutes, with recent
+            matches counting more and thin records pulled toward what players in his position do.
+            How long he is likely to play, split into starting, coming off the bench and not
+            featuring, because those are three different matches. Who he is playing, measured from
+            match data that is current to the latest round. And around the resulting average, a
+            spread, because the honest answer to how many fouls is never one number.
           </p>
           <p>
-            The referee adds a further factor, shrunk hard. Predictions come out as a negative
-            binomial, because foul counts are overdispersed and the tails are exactly what a line is
+            Where we have not watched a player&rsquo;s matches, his rate leans on the league&rsquo;s
+            own official season totals, and the site marks those numbers as estimates rather than
+            letting them sit beside a watched record looking identical. Published probabilities are
+            corrected only at the lines where a correction measurably helps held-out predictions;
+            the rest are published exactly as the model says them.
+          </p>
+          <p>
+            Then five characters read the same evidence and disagree on purpose: different memory
+            lengths, different trust in thin samples, different faith in the matchup. Their numbers
+            are opinions by design, which is why the house figure, the five blended, is shown
+            beside every pick. Each gameweek all five commit to the same fixed slates and are
+            scored like a league: every leg lands is a win, all but one a draw, anything worse a
+            loss.
+          </p>
+          <p>
+            Match totals work the same way at team level: committed and drawn rates per club,
+            recent form weighted, a hard-shrunk referee factor, and a negative binomial over the
+            result, because foul counts are overdispersed and the tails are exactly what a line is
             priced on.
           </p>
         </div>
@@ -114,21 +133,24 @@ export default function Methodology() {
         <div className={prose.body}>
           <ul className={prose.list}>
             <li>
-              <strong>No player markets yet.</strong> Fouls committed and fouls drawn per player are
-              defined and waiting, but need player-level match data our only viable free source
-              cannot currently supply.
-            </li>
-            <li>
               <strong>No value claims.</strong> We cannot systematically compare our probabilities
-              against bookmaker prices, so we do not claim an edge over them.
+              against bookmaker prices, so we do not claim an edge over them. Calibration, whether
+              the things we call 60% happen 60% of the time, is the measure we hold ourselves to.
             </li>
             <li>
-              <strong>No track record yet.</strong> The first predictions were published for the round
-              beginning 21 August 2026. Until enough have settled, there is nothing honest to report.
+              <strong>Per-match player history has a gap.</strong> The archive behind player rates
+              stops in September 2025. The league&rsquo;s official season totals fill most of what
+              that costs, measured at 78% on committed and 87% on won, and every settled round now
+              adds real per-match rows, but the gap itself cannot be recovered.
             </li>
             <li>
-              <strong>A lot of irreducible noise.</strong> Mean error is about 3.9 fouls against an
-              average of 22. Most of that gap is not going away.
+              <strong>The track record is young.</strong> The first predictions were published for
+              the round beginning 21 August 2026, and the site says plainly when a sample is too
+              small to mean anything.
+            </li>
+            <li>
+              <strong>A lot of irreducible noise.</strong> Mean error on match totals is about 3.9
+              fouls against an average of 22. Most of that gap is not going away.
             </li>
           </ul>
         </div>

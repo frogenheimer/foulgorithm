@@ -92,3 +92,31 @@ class TestEachOptionIsHonest:
         options = pr._fixture_options(by_character())
         seen = {tuple(sorted(l["player"] for l in o["legs"])) + (o["totalFouls"],) for o in options}
         assert len(seen) == len(options)
+
+
+class TestTheHouseNumberRidesAlong:
+    """A character's number is an opinion on purpose. The house number beside
+    it is the stated baseline, so a reader never has to guess which of the
+    two carries the calibration."""
+
+    def test_every_option_carries_the_house_number(self):
+        options = pr._fixture_options(by_character())
+        assert all("houseOutOf100" in o for o in options)
+
+    def test_it_is_the_blend_of_the_pack_not_the_character_again(self):
+        pool = by_character()
+        options = pr._fixture_options(pool)
+        source = {
+            tuple(sorted(l["player"] for l in slip["legs"])): slip
+            for tiers in pool.values()
+            for slip in tiers
+        }
+        for option in options:
+            slip = source[tuple(sorted(l["player"] for l in option["legs"]))]
+            # Two characters in the pool, so each leg's blend is the mean of
+            # the character's own view and the pack mean of the other one.
+            expected = 1.0
+            for l in slip["legs"]:
+                expected *= (l["prob"] + l["packProb"]) / 2
+            assert option["houseOutOf100"] == round(expected * 100)
+            assert option["houseOutOf100"] != option["outOf100"]

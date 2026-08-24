@@ -124,10 +124,12 @@ export type ExplorerRow = {
    * Where the number mostly comes from.
    *
    * "promoted-club" means we have never seen this player in this division and
-   * are leaning on how his club fouled in the one below. That is an estimate
-   * and must not sit beside a real record looking identical.
+   * are leaning on how his club fouled in the one below. "season-totals"
+   * means no watched matches sit behind the number yet, only the league's
+   * official totals for him. Both are estimates and must not sit beside a
+   * real record looking identical.
    */
-  priorFrom?: "own-record" | "position" | "promoted-club" | null;
+  priorFrom?: "own-record" | "position" | "promoted-club" | "season-totals" | null;
   clubFactor?: number | null;
   /** His plain per-90 across everything we hold. Null if he has never played. */
   career: {
@@ -405,6 +407,13 @@ export type FixtureOption = {
   tier: string;
   odds: number;
   outOf100: number;
+  /**
+   * The blended five-model number for the same combination. The character's
+   * figure is an opinion on purpose; this is the stated baseline beside it,
+   * so a reader never has to guess which of the two carries the calibration.
+   * Absent on cards versioned before 2026-08-24.
+   */
+  houseOutOf100?: number;
   totalFouls: number;
   gap: number;
   legs: { player: string; fouls: number; market: string; outOf100: number }[];

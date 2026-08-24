@@ -331,7 +331,9 @@ function Game({
               </ul>
 
               <span className={s.pickMeta}>
-                {o.outOf100}/100 all together{linked ? " · see all five" : ""}
+                {o.outOf100}/100 all together
+                {o.houseOutOf100 != null ? ` · house says ${o.houseOutOf100}/100` : ""}
+                {linked ? " · see all five" : ""}
               </span>
             </details>
           ))}

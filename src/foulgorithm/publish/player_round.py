@@ -1663,6 +1663,17 @@ def _fixture_options(by_character: dict, limit: int = 3) -> list[dict]:
                 continue
 
             gap = sum(l["prob"] - l["packProb"] for l in slip["legs"]) / len(slip["legs"])
+
+            # The house number for the same combination, so the character's
+            # opinion is visibly an opinion about a stated baseline rather
+            # than a number with the same standing as the calibrated one.
+            # Each leg's blend recovers from what the leg already carries:
+            # his own probability plus the pack mean of the other four.
+            count = max(len(by_character), 1)
+            house = 1.0
+            for l in slip["legs"]:
+                house *= (l["prob"] + l["packProb"] * (count - 1)) / count
+
             held = best_in_band.get(band)
             if held is None or gap > held["gap"]:
                 best_in_band[band] = {
@@ -1675,6 +1686,7 @@ def _fixture_options(by_character: dict, limit: int = 3) -> list[dict]:
                     "tier": slip["targetLabel"],
                     "odds": odds,
                     "outOf100": slip["outOf100"],
+                    "houseOutOf100": round(house * 100),
                     "totalFouls": sum(l["fouls"] for l in slip["legs"]),
                     "gap": round(gap, 4),
                     "legs": [
