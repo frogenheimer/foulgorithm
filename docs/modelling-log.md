@@ -18,6 +18,62 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-24 — Take-ons are the drawn market's real correlate, and worth about one point
+
+**Question.** Fouls drawn is the market we model worst, and every feature it
+has describes defending. The data survey named `final_third_entries` and
+`pen_area_entries` as the two most plausible additions, so both were fetched
+across 34 seasons. Do they help?
+
+**They are not the ones that matter.** Across 6,549 player-seasons with 900+
+minutes:
+
+| feature per 90 | corr with drawn | corr with committed |
+|---|---|---|
+| **take-ons attempted** (`total_contest`) | **+0.523** | +0.116 |
+| penalty-area entries | +0.235 | -0.001 |
+| touches in opposition box | +0.225 | -0.001 |
+| final-third entries | **-0.182** | -0.060 |
+| touches | +0.032 | -0.025 |
+
+**The strongest signal was already on disk and the two just fetched are the
+weak ones**, one of them pointing the wrong way. Worth recording plainly: the
+survey's reasoning was that entering dangerous areas draws fouls, and the data
+says what draws fouls is running at a defender with the ball, which is a
+different thing.
+
+Take-ons are also specific in the right direction: +0.523 on drawn against
++0.116 on committed, which is what the mechanism predicts and a good sign the
+correlation is not just "busy players do more of everything".
+
+**And it survives position.** Within every position group the relationship
+holds, from +0.205 for forwards to +0.428 for right wingers, so take-on volume
+is a genuinely separate axis from what position already tells us.
+
+**Which made the out-of-sample result disappointing.** Fitting priors on
+seasons to 2021/22 and scoring on 2022/23 onward, 1,159 held-out
+player-seasons:
+
+| prior | variance explained |
+|---|---|
+| grand mean | 0% |
+| position mean, what ships today | 28% |
+| take-ons alone | 26% |
+| position and take-ons together | **29%** |
+
+**One point.** The within-position correlations promised more than the
+combination delivers, because the take-on slope is itself noisy out of sample.
+And a prior only binds for thin players, so one point of variance on the
+minority of predictions that use it will not survive contact with the full
+pipeline.
+
+**Not shipped.** The mechanism is real and the number is too small, which is a
+different verdict from the three "real signal, worse model" results already in
+this log and deserves its own wording: real signal, marginal model. The
+fetched columns stay, since they cost a minute and the negative result is
+worth keeping visible. Take-ons as a thin-player feature rather than a prior
+is registered in `ideas.md` as the version that has not been tested.
+
 ## 2026-08-24 — Players in a match do not move together, measured directly this time
 
 **Question.** The shared match effect has been argued about for three rounds

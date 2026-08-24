@@ -6,6 +6,26 @@ Append new ideas at the top with a date. When an idea gets picked up it moves to
 
 ---
 
+## 2026-08-24 — Take-ons as a thin-player feature, not as a prior
+
+Measured 2026-08-24 (modelling log): take-on volume is the strongest correlate
+of fouls drawn we hold, +0.523, specific to that market, and it holds within
+every position group. As a replacement for the position PRIOR it adds one
+point of out-of-sample explained variance, 28% to 29%, which is not worth
+shipping.
+
+**The version not tested**: take-ons as a feature for players who have a
+take-on record but little foul record, rather than as a blanket prior
+adjustment. A summer signing with two Premier League matches and a full season
+of take-on volume behind him is the case where it could matter, and the test
+above averaged him in with established players who need no help. Cheap to run
+once someone wants it: the data is on disk and the study pattern exists.
+
+Also worth a look if that goes anywhere: whether take-ons FACED is the mirror
+feature for the committed market, which the same tables would answer.
+
+---
+
 ## 2026-08-23 — Ideas from the two external audits
 
 Source and full reasoning in [30-external-audit-review.md](30-external-audit-review.md).
