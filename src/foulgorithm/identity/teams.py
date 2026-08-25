@@ -64,6 +64,25 @@ PULSELIVE_TO_FIXTURE = {
 }
 
 
+def to_fixture_name(name: str) -> str | None:
+    """Any source's club spelling to the fixture-source name, or None.
+
+    API-Football spells the same twenty clubs a fourth way, mostly matching
+    either the league API's full names or the fixture source's short ones.
+    None, never a guess: the caller decides whether an unknown club is an
+    error (our own cup tie failing to match) or just another team in the
+    competition (Wrexham are not a problem, they are a third-round draw).
+    """
+    if name in FIXTURE_TO_FPL:
+        return name
+    if name in PULSELIVE_TO_FIXTURE:
+        return PULSELIVE_TO_FIXTURE[name]
+    fpl = {v: k for k, v in FIXTURE_TO_FPL.items()}
+    if name in fpl:
+        return fpl[name]
+    return None
+
+
 def from_pulselive(name: str) -> str:
     if name not in PULSELIVE_TO_FIXTURE:
         raise SourceError(

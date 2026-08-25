@@ -139,6 +139,19 @@ def run(path: Path = WORKFLOW) -> int:
         print(f"fixture list unavailable: {exc}", file=sys.stderr)
         return 2
 
+    # Cup ties wake the watchers too. Lineup wakes only: the settle block
+    # below never sees them, because an exhibition has nothing to settle.
+    try:
+        from types import SimpleNamespace
+
+        from foulgorithm.publish import cup
+
+        fixtures = fixtures + [
+            SimpleNamespace(kickoff_utc=r["kickoff_utc"]) for r in cup.load_fixtures()
+        ]
+    except Exception as exc:  # noqa: BLE001 - a broken cup slate must not cost the league its wakes
+        print(f"cup slate unreadable for wakes: {exc}", file=sys.stderr)
+
     times = windows(fixtures)
     if not times:
         print("no fixtures in the horizon")

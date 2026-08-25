@@ -399,6 +399,8 @@ def publish(
     fixtures_override: list[dict] | None = None,
     record: bool = True,
     competition: str | None = None,
+    lineups_override: dict | None = None,
+    lineups_source: str | None = None,
 ) -> dict:
     """Predict a round and write the payload.
 
@@ -425,11 +427,17 @@ def publish(
     if fixtures.empty:
         print("  no upcoming fixtures, nothing to predict")
 
-    try:
-        lineups = confirmed_lineups()
-    except Exception as exc:  # noqa: BLE001 - reported, never silently empty
-        print(f"  confirmed lineups unavailable: {exc}")
-        lineups = {}
+    if fixtures_override is not None:
+        # A hand-fed slate never asks the league's feed: cup elevens come from
+        # their own source (jobs/cup_watch.py) or nowhere. Asking the league
+        # for a cup tie returns nothing while looking like 'not out yet'.
+        lineups = lineups_override or {}
+    else:
+        try:
+            lineups = confirmed_lineups()
+        except Exception as exc:  # noqa: BLE001 - reported, never silently empty
+            print(f"  confirmed lineups unavailable: {exc}")
+            lineups = {}
     # Remember where the team sheets actually put people, then read the memory
     # back for the predicted pitches. See store/positions.py.
     positions_store.remember(lineups)
@@ -641,7 +649,7 @@ def publish(
             "unresolved": len(resolution.unmatched),
         },
         "lineups": {
-            "source": "Premier League API",
+            "source": lineups_source or "Premier League API",
             "confirmed": len(lineups),
             "note": "Confirmed elevens appear about an hour before kickoff. "
                     "Until then these are predicted from current squads.",

@@ -199,3 +199,108 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# ---- cup ties (docs: publish/cup.py) ----------------------------------------
+#
+# The league API knows nothing outside the Premier League, so a cup tie's
+# confirmed eleven has to come from here. Beta scope on purpose: both clubs
+# must be Premier League sides we hold data for, and only the two domestic
+# cups are searched.
+
+CUP_LEAGUES = {45: "FA Cup", 48: "League Cup"}
+
+
+def _season_for(kickoff) -> int:
+    """API-Football keys a season by its starting year."""
+    return kickoff.year if kickoff.month >= 7 else kickoff.year - 1
+
+
+def cup_fixture_id(home: str, away: str, kickoff) -> int | None:
+    """This tie's API-Football fixture id, or None if no cup lists it.
+
+    `home` and `away` are fixture-source names. Clubs outside our twenty
+    resolve to None and simply never match, which is correct: a cup round is
+    full of teams that are not our problem.
+    """
+    from foulgorithm.identity.teams import to_fixture_name
+
+    date = kickoff.date().isoformat()
+    for league_id in CUP_LEAGUES:
+        rows = _get(
+            "fixtures",
+            {"league": league_id, "season": _season_for(kickoff), "date": date},
+        ).get("response") or []
+        for row in rows:
+            teams = row.get("teams") or {}
+            h = to_fixture_name((teams.get("home") or {}).get("name") or "")
+            a = to_fixture_name((teams.get("away") or {}).get("name") or "")
+            if h == home and a == away:
+                return (row.get("fixture") or {}).get("id")
+    return None
+
+
+def shape_lineups(response: list, label: str):
+    """API-Football's lineup payload in the league feed's ConfirmedLineup shape.
+
+    Keyed "{team}|{label}" exactly like sources/lineups.py, so publish()
+    cannot tell which source a sheet came from. The grid ("row:col",
+    goalkeeper row first) gives the real lines; a payload without grids
+    still yields starters and bench, and the pitch falls back to the
+    predicted shape.
+    """
+    from foulgorithm.identity.teams import to_fixture_name
+    from foulgorithm.sources.lineups import ConfirmedLineup, Spot
+
+    out = {}
+    for side in response:
+        raw_name = (side.get("team") or {}).get("name") or ""
+        team = to_fixture_name(raw_name)
+        if team is None:
+            raise SourceError(
+                f"cup lineup names {raw_name!r}, which maps to none of our clubs. "
+                "Either the tie was matched wrongly or identity/teams.py needs "
+                "this spelling."
+            )
+
+        def spot(entry) -> Spot:
+            p = entry.get("player") or {}
+            return Spot(
+                name=p.get("name") or "",
+                position=p.get("pos") or "",
+                detail="",
+                shirt=p.get("number"),
+                captain=False,
+            )
+
+        rows: dict[int, list] = {}
+        starters = []
+        for entry in side.get("startXI") or []:
+            held = spot(entry)
+            starters.append(held.name)
+            grid = (entry.get("player") or {}).get("grid")
+            if grid and ":" in str(grid):
+                row, col = (int(x) for x in str(grid).split(":"))
+                rows.setdefault(row, []).append((col, held))
+
+        lines = [
+            [held for _, held in sorted(rows[row])] for row in sorted(rows)
+        ]
+        bench = [spot(entry) for entry in side.get("substitutes") or []]
+
+        out[f"{team}|{label}"] = ConfirmedLineup(
+            fixture=label,
+            team=team,
+            formation=side.get("formation"),
+            starters=starters,
+            substitutes=[s.name for s in bench],
+            lines=lines,
+            bench=bench,
+        )
+    return out
+
+
+def cup_lineups(fixture_id: int, label: str):
+    """Confirmed elevens for one cup tie, empty until they post."""
+    payload = _get("fixtures/lineups", {"fixture": fixture_id})
+    return shape_lineups(payload.get("response") or [], label)

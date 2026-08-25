@@ -67,8 +67,12 @@ def load_fixtures(path: Path = FIXTURES_FILE, now: datetime | None = None) -> li
     return out
 
 
-def publish_cup(output: Path = OUTPUT) -> dict:
-    """Predict the hand-fed slate. An empty slate still writes an honest file."""
+def publish_cup(output: Path = OUTPUT, lineups: dict | None = None) -> dict:
+    """Predict the hand-fed slate. An empty slate still writes an honest file.
+
+    `lineups` are ConfirmedLineup objects keyed "{team}|{label}" from
+    API-Football (jobs/cup_watch.py); absent, every eleven is predicted.
+    """
     fixtures = load_fixtures()
     if not fixtures:
         payload = {
@@ -88,7 +92,12 @@ def publish_cup(output: Path = OUTPUT) -> dict:
     from foulgorithm.publish import player_round
 
     return player_round.publish(
-        output=output, fixtures_override=fixtures, record=False, competition="cup"
+        output=output,
+        fixtures_override=fixtures,
+        record=False,
+        competition="cup",
+        lineups_override=lineups,
+        lineups_source="API-Football",
     )
 
 

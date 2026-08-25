@@ -67,3 +67,94 @@ class TestLoadFixtures:
 
     def test_a_missing_file_is_an_empty_slate(self, tmp_path):
         assert cup.load_fixtures(tmp_path / "absent.json", now=NOW) == []
+
+
+class TestToFixtureName:
+    """API-Football spells clubs a fourth way, so every spelling any source
+    uses must resolve to the fixture-source name or to None, never to a
+    guess."""
+
+    def test_full_names_resolve(self):
+        from foulgorithm.identity.teams import to_fixture_name
+        assert to_fixture_name("Nottingham Forest") == "Nott'm Forest"
+        assert to_fixture_name("Manchester United") == "Man United"
+        assert to_fixture_name("Leeds United") == "Leeds"
+
+    def test_fixture_and_fpl_spellings_resolve_too(self):
+        from foulgorithm.identity.teams import to_fixture_name
+        assert to_fixture_name("Leeds") == "Leeds"
+        assert to_fixture_name("Nott'm Forest") == "Nott'm Forest"
+        assert to_fixture_name("Man Utd") == "Man United"
+        assert to_fixture_name("Spurs") == "Tottenham"
+
+    def test_an_unknown_club_is_none_not_a_guess(self):
+        from foulgorithm.identity.teams import to_fixture_name
+        assert to_fixture_name("Wrexham") is None
+
+
+class TestShapeLineups:
+    """API-Football's lineup payload becomes the same ConfirmedLineup shape
+    the league feed produces, so publish() cannot tell the sources apart."""
+
+    RESPONSE = [
+        {
+            "team": {"name": "Nottingham Forest"},
+            "formation": "4-2-3-1",
+            "startXI": [
+                {"player": {"name": "M.Turner", "number": 1, "pos": "G", "grid": "1:1"}},
+                {"player": {"name": "O.Aina", "number": 43, "pos": "D", "grid": "2:1"}},
+                {"player": {"name": "Murillo", "number": 40, "pos": "D", "grid": "2:2"}},
+                {"player": {"name": "I.Sangare", "number": 6, "pos": "M", "grid": "3:1"}},
+                {"player": {"name": "C.Wood", "number": 11, "pos": "F", "grid": "4:1"}},
+            ],
+            "substitutes": [
+                {"player": {"name": "C.Hutchinson", "number": 30, "pos": "F", "grid": None}}
+            ],
+        },
+        {
+            "team": {"name": "Leeds"},
+            "formation": "4-1-4-1",
+            "startXI": [
+                {"player": {"name": "L.Perri", "number": 1, "pos": "G", "grid": "1:1"}}
+            ],
+            "substitutes": [],
+        },
+    ]
+
+    def test_keyed_and_shaped_like_the_league_feed(self):
+        from foulgorithm.sources import api_football
+        label = "Nott'm Forest v Leeds"
+        out = api_football.shape_lineups(self.RESPONSE, label)
+        assert set(out) == {f"Nott'm Forest|{label}", f"Leeds|{label}"}
+        forest = out[f"Nott'm Forest|{label}"]
+        assert forest.formation == "4-2-3-1"
+        assert forest.starters[0] == "M.Turner"
+        assert len(forest.lines) == 4
+        assert [s.name for s in forest.lines[0]] == ["M.Turner"]
+        assert [s.name for s in forest.lines[1]] == ["O.Aina", "Murillo"]
+        assert forest.bench[0].name == "C.Hutchinson"
+
+    def test_a_team_we_cannot_name_raises(self):
+        from foulgorithm.sources import api_football
+        from foulgorithm.sources.base import SourceError
+        broken = [{"team": {"name": "Wrexham"}, "formation": None, "startXI": [], "substitutes": []}]
+        with pytest.raises(SourceError, match="Wrexham"):
+            api_football.shape_lineups(broken, "Nott'm Forest v Leeds")
+
+
+class TestCupWakes:
+    """The lineup wakes cover cup kickoffs too; the settle wakes never do,
+    because an exhibition has nothing to settle."""
+
+    def test_cup_kickoffs_join_the_lineup_windows(self):
+        from types import SimpleNamespace
+        from datetime import timedelta
+        from foulgorithm.jobs import schedule
+
+        # windows() reads the real clock, so the kickoffs are placed relative
+        # to it: one league game in four days, one cup tie tomorrow night.
+        now = datetime.now(timezone.utc)
+        league = [SimpleNamespace(kickoff_utc=now + timedelta(days=4))]
+        cup = [SimpleNamespace(kickoff_utc=now + timedelta(days=1))]
+        times = schedule.windows(league + cup)
+        assert len(times) == 2

@@ -20,10 +20,11 @@ from pathlib import Path
 
 import pytest
 
-from foulgorithm.jobs import lineup_watch, settle
+from foulgorithm.jobs import cup_watch, lineup_watch, settle
 
 STATE_PATHS = [
     lineup_watch.STATE,
+    cup_watch.STATE,
     settle.SNAPSHOT,
 ]
 
@@ -59,6 +60,7 @@ def test_the_workflows_commit_the_paths_the_jobs_write():
     root = Path(__file__).resolve().parent.parent
     for name, expected in (
         ("lineups.yml", lineup_watch.STATE),
+        ("lineups.yml", cup_watch.STATE),
         ("settle.yml", settle.SNAPSHOT),
     ):
         text = (root / ".github" / "workflows" / name).read_text()
