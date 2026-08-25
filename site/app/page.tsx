@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Timeline from "@/components/fixture/Timeline";
+import Vidiprinter from "@/components/home/Vidiprinter";
 import { Card, Metric, MetricRow, PageHeader, SectionHead } from "@/components/kit";
 import { getArchivedFixtures, getPlayers, getSeason, getTrackRecord } from "@/lib/data";
 import { count } from "@/lib/format";
+import { vidiprinterLines } from "@/lib/vidiprinter";
 
 export default function Today() {
   const d = getPlayers();
@@ -29,6 +31,17 @@ export default function Today() {
 
   const house = record?.models?.house;
 
+  // The house engine's strongest single call per fixture, for the card front.
+  const houseCalls = Object.fromEntries(
+    d.board
+      .filter((f) => f.summary?.topFouler)
+      .map((f) => [
+        `${f.home} v ${f.away}`,
+        { player: f.summary!.topFouler.player, outOf100: f.summary!.topFouler.outOf100 },
+      ])
+  );
+  const printer = vidiprinterLines(getArchivedFixtures());
+
   return (
     <div className="stack">
       <PageHeader
@@ -42,12 +55,15 @@ export default function Today() {
         }
       />
 
+      {printer.length > 0 && <Vidiprinter lines={printer} />}
+
       <section>
         <Timeline
           fixtures={season.fixtures}
           matchweeks={season.matchweeks}
           currentMatchweek={season.currentMatchweek}
           expected={expected}
+          house={houseCalls}
           hasPage={
             // The current round's pages, plus every played game the archive
             // kept a page for. See publish/archive.py.

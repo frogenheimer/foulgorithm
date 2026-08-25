@@ -66,12 +66,16 @@
   color: var(--on-rail-2);
   font-size: var(--t-sm);
   white-space: nowrap;
-  transition: color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
+  transition:
+    color var(--d-fast) var(--ease),
+    background var(--d-fast) var(--ease),
+    transform var(--d-base) var(--ease-snap);
 }
 
 .item:hover {
   color: var(--on-rail);
   background: rgba(255, 255, 255, 0.06);
+  transform: translateX(2px);
 }
 
 .itemOn {
@@ -80,14 +84,13 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* The active marker is a shape as well as a colour. */
+/* The active marker is a shape as well as a colour. Square, per docs/39. */
 .itemOn::before {
   content: "";
   position: absolute;
   margin-left: calc(var(--s3) * -1);
   width: var(--s1);
   height: var(--s5);
-  border-radius: var(--r-pill);
   background: var(--accent);
 }
 

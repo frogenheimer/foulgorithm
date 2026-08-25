@@ -22,6 +22,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { FixtureOption, SettledOption, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
 import { cardKind } from "@/lib/timeline";
+import ClubChip from "@/components/kit/ClubChip";
 import { Combobox } from "@/components/kit";
 import s from "./timeline.module.css";
 
@@ -35,6 +36,7 @@ export default function Timeline({
   matchweeks,
   currentMatchweek,
   expected,
+  house,
   hasPage,
   options,
   settled,
@@ -44,6 +46,8 @@ export default function Timeline({
   currentMatchweek: number;
   /** fixture label -> expected total fouls, for the round we have modelled */
   expected: Record<string, number>;
+  /** fixture label -> the house engine's strongest single call. */
+  house?: Record<string, { player: string; outOf100: number } | undefined>;
   /** Fixtures with a page of their own. Only this round has one. */
   hasPage: Set<string>;
   /** One call per fixture, five fouls or more. */
@@ -98,7 +102,7 @@ export default function Timeline({
         });
 
   return (
-    <div>
+    <div data-snap-weeks>
       {/* A dropdown, not a scrolling row of thirty-eight buttons. The row put
           the whole season in a horizontally scrolling box where the current
           matchweek was usually off-screen, and marked it with a bare middle dot
@@ -158,6 +162,7 @@ export default function Timeline({
                     fixture={f}
                     state={stateOf(f)}
                     expected={expected[`${f.home} v ${f.away}`]}
+                    houseCall={house?.[`${f.home} v ${f.away}`]}
                     linked={hasPage.has(`${f.home} v ${f.away}`)}
                     options={options[`${f.home} v ${f.away}`]}
                     settled={settled[`${f.home} v ${f.away}`]}
@@ -191,6 +196,7 @@ function Game({
   fixture: f,
   state,
   expected,
+  houseCall,
   linked,
   options,
   settled,
@@ -198,6 +204,7 @@ function Game({
   fixture: SeasonFixture;
   state: State;
   expected?: number;
+  houseCall?: { player: string; outOf100: number };
   linked: boolean;
   options?: FixtureOption[];
   settled?: { version: number; options: SettledOption[] };
@@ -223,11 +230,17 @@ function Game({
 
       <div className={s.teams}>
         <span className={s.row}>
-          {f.home}
+          <span className={s.side}>
+            <ClubChip name={f.home} size="sm" />
+            {f.home}
+          </span>
           {f.score && <span className={s.score}>{f.score[0]}</span>}
         </span>
         <span className={s.row}>
-          {f.away}
+          <span className={s.side}>
+            <ClubChip name={f.away} size="sm" />
+            {f.away}
+          </span>
           {f.score && <span className={s.score}>{f.score[1]}</span>}
         </span>
       </div>
@@ -299,30 +312,28 @@ function Game({
           ) : null}
         </div>
       ) : kind === "crossover" && options?.length ? (
-        <div className={s.picks}>
-          {options.map((o) => (
-            <div key={o.band} className={s.pick}>
-              <span className={s.pickRow}>
-                <span className={s.pickWho}>
-                  The crossover
-                  {o.lineupsConfirmed === false ? "\u2009*" : ""}
-                </span>
-                <span className={s.pickSummary}>
-                  {o.legs.length} pick{o.legs.length === 1 ? "" : "s"}
-                </span>
-                <span className={s.pickOdds}>{o.outOf100}/100</span>
-              </span>
-              {expected ? (
-                <span className={s.expected}>{expected.toFixed(1)} fouls expected</span>
-              ) : null}
-              {o.lineupsConfirmed === false && (
-                <span className={s.pickMeta}>
-                  * built before the team sheets: regenerates automatically when the
-                  lineups land, an hour before kickoff
-                </span>
-              )}
+        <div className={s.beats}>
+          {expected ? (
+            <div className={s.headline}>
+              <span className={s.big}>{expected.toFixed(1)}</span>
+              <span className={s.bigLabel}>fouls expected</span>
             </div>
-          ))}
+          ) : null}
+          {houseCall && (
+            <span className={s.houseLine}>
+              {houseCall.player} 1+ fouls · {houseCall.outOf100}/100
+            </span>
+          )}
+          <span className={s.pickRow}>
+            <span className={s.pickWho}>
+              The crossover
+              {options[0].lineupsConfirmed === false ? "\u2009*" : ""}
+            </span>
+            <span className={s.pickOdds}>
+              {options[0].legs.length} pick{options[0].legs.length === 1 ? "" : "s"} ·{" "}
+              {options[0].outOf100}/100
+            </span>
+          </span>
         </div>
       ) : (
         <div className={s.foot}>
@@ -342,15 +353,44 @@ function Game({
     </>
   );
 
+  // The back of an upcoming card: the picks, revealed on hover by a flip.
+  const back =
+    kind === "crossover" && options?.length ? (
+      <div className={s.backFace} aria-hidden>
+        <span className={s.backTitle}>The picks</span>
+        <ul className={s.backLegs}>
+          {options[0].legs.slice(0, 5).map((l) => (
+            <li key={`${l.player}-${l.market}-${l.fouls}`} className={s.backLeg}>
+              <span className={s.backPlayer}>{l.player}</span>
+              <span className={s.backWhat}>
+                {l.fouls}+ {l.market === "drawn" ? "won" : "fouls"}
+              </span>
+              <span className={s.backProb}>
+                {l.backers != null ? `${l.backers}/${options[0].backers ?? 11} · ` : ""}
+                {l.outOf100}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <span className={s.backFoot}>open the game &rarr;</span>
+      </div>
+    ) : null;
+
   // Only this round has a page. Linking the rest would be a promise of depth
   // that is not there yet. With the disclosures gone the card holds no
   // interactive content, so the whole card is the link; reintroducing a
   // <details> inside it would mean splitting the link up again, because
   // interactive content inside an <a> is invalid and swallows the click.
   return linked ? (
-    <Link href={`/fixture/${fixtureSlug(label)}`} className={`${cls} ${s.cardLink}`}>
-      {head}
-      {body}
+    <Link
+      href={`/fixture/${fixtureSlug(label)}`}
+      className={`${cls} ${s.cardLink} ${back ? s.flippable : ""}`}
+    >
+      <span className={s.front}>
+        {head}
+        {body}
+      </span>
+      {back}
     </Link>
   ) : (
     <div className={cls}>

@@ -1,0 +1,32 @@
+/* The teletype: mono, uppercase, quiet until a verdict lands. */
+
+.printer {
+  display: grid;
+  gap: var(--s1);
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--line);
+  background: var(--surface-sunk);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.03em;
+  color: var(--ink-2);
+  max-height: 132px;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.won {
+  color: var(--good);
+}
+
+.lost {
+  color: var(--ink-3);
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  vertical-align: text-bottom;
+  background: var(--accent);
+}

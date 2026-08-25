@@ -427,3 +427,179 @@
 .cardLink {
   color: inherit;
 }
+
+/* ---------- the three-beat face and the flip (docs/39) ---------- */
+
+.side {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.beats {
+  display: grid;
+  gap: var(--s1);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}
+
+.headline {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+}
+
+.big {
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.bigLabel {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.houseLine {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+/* The flip: front face in normal flow so the card keeps its height; the
+   picks face sits over it and the hover turns the card. Interaction chrome
+   only, and none of it under reduced motion. */
+.flippable {
+  position: relative;
+  perspective: 900px;
+}
+
+.front,
+.backFace {
+  backface-visibility: hidden;
+  transition: transform var(--d-base) var(--ease-snap);
+}
+
+.front {
+  display: grid;
+  gap: var(--s3);
+}
+
+.backFace {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: start;
+  gap: var(--s2);
+  padding: var(--s4);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  transform: rotateY(180deg);
+  overflow: hidden;
+}
+
+@media (hover: hover) {
+  .flippable:hover .front,
+  .flippable:focus-visible .front {
+    transform: rotateY(180deg);
+  }
+
+  .flippable:hover .backFace,
+  .flippable:focus-visible .backFace {
+    transform: rotateY(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .front,
+  .backFace {
+    transition: none;
+  }
+
+  .flippable:hover .front {
+    transform: none;
+    visibility: hidden;
+  }
+
+  .flippable:hover .backFace {
+    transform: none;
+  }
+}
+
+.backTitle {
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.backLegs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s1);
+}
+
+.backLeg {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+.backPlayer {
+  color: var(--ink);
+}
+
+.backWhat {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.backProb {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+}
+
+.backFoot {
+  margin-top: auto;
+  font-size: var(--t-xs);
+  color: var(--accent);
+}
+
+/* ---------- the week scroll (docs/39): snap and the dealt stagger ---------- */
+
+.day {
+  scroll-snap-align: start;
+  scroll-margin-top: var(--s6);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .games > * {
+    animation: dealt var(--d-slow) var(--ease-snap) both;
+  }
+
+  .games > :nth-child(1) { animation-delay: 0ms; }
+  .games > :nth-child(2) { animation-delay: 60ms; }
+  .games > :nth-child(3) { animation-delay: 120ms; }
+  .games > :nth-child(4) { animation-delay: 180ms; }
+  .games > :nth-child(5) { animation-delay: 240ms; }
+  .games > :nth-child(n + 6) { animation-delay: 300ms; }
+}
+
+@keyframes dealt {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s2));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
