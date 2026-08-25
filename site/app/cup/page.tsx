@@ -1,7 +1,6 @@
-import Link from "next/link";
 import CompetitionSwitcher from "@/components/home/CompetitionSwitcher";
+import CupCard from "@/components/home/CupCard";
 import { Callout, PageHeader } from "@/components/kit";
-import ClubChip from "@/components/kit/ClubChip";
 import { fixtureSlug, getCup } from "@/lib/data";
 import s from "./cup.module.css";
 
@@ -44,74 +43,33 @@ export default function Cup() {
           {board.map((f) => {
             const label = `${f.home} v ${f.away}`;
             const kickoff = new Date(f.kickoff);
-            const expected =
-              d?.expectedTotals?.[`${label} (${f.competition ?? "Cup"})`]?.expected ??
-              d?.expectedTotals?.[label]?.expected;
-            const call = f.summary?.topFouler;
-            // The house sheet's starred picks: the card's flip side, the same
-            // quick glance the league cards carry on the homepage.
             const stars = (f.houseSheet?.groups ?? []).flatMap((g) =>
               g.picks
                 .filter((p) => p.star)
-                .map((p) => ({ ...p, line: g.line, market: g.market }))
+                .map((p) => ({ player: p.player, outOf100: p.outOf100, line: g.line, market: g.market }))
             );
             return (
-              <Link
+              <CupCard
                 key={f.key}
+                label={label}
                 href={`/fixture/${fixtureSlug(label)}-cup`}
-                className={stars.length ? `${s.card} ${s.flippable}` : s.card}
-              >
-                <span className={s.front}>
-                <span className={s.day}>
-                  {f.competition ?? "Cup"}
-                  {" · "}
-                  {kickoff.toLocaleString("en-GB", {
-                    weekday: "short",
-                    day: "numeric",
-                    month: "short",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    timeZone: "Europe/London",
-                  })}
-                </span>
-                <span className={s.clubs} aria-hidden>
-                  <ClubChip name={f.home} />
-                  <ClubChip name={f.away} />
-                </span>
-                <span className={s.title}>{label}</span>
-                {expected != null && (
-                  <span className={s.fouls}>
-                    {Math.round(expected)}
-                    <em>expected fouls</em>
-                  </span>
-                )}
-                {call && (
-                  <span className={s.call}>
-                    {call.player} commits 1+ · {call.outOf100}/100
-                  </span>
-                )}
-                <span className={s.note}>
-                  {f.lineupConfirmed ? "XI confirmed" : "XI predicted from current squads"}
-                </span>
-                </span>
-                {stars.length > 0 && (
-                  <span className={s.backFace} aria-hidden>
-                    <span className={s.backTitle}>The house</span>
-                    <span className={s.backLegs}>
-                      {stars.slice(0, 5).map((l) => (
-                        <span key={`${l.player}-${l.market}-${l.line}`} className={s.backLeg}>
-                          <span className={s.backPlayer}>{l.player}</span>
-                          <span className={s.backWhat}>
-                            {l.line}+ {l.market === "drawn" ? "won" : "fouls"}
-                          </span>
-                          <span className={s.backProb}>{l.outOf100}</span>
-                        </span>
-                      ))}
-                    </span>
-                    <span className={s.backFoot}>open the game &rarr;</span>
-                  </span>
-                )}
-              </Link>
+                competition={f.competition ?? "Cup"}
+                kickoffLine={kickoff.toLocaleString("en-GB", {
+                  weekday: "short",
+                  day: "numeric",
+                  month: "short",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  timeZone: "Europe/London",
+                })}
+                expected={
+                  d?.expectedTotals?.[`${label} (${f.competition ?? "Cup"})`]?.expected ??
+                  d?.expectedTotals?.[label]?.expected
+                }
+                call={f.summary?.topFouler ?? null}
+                lineupConfirmed={f.lineupConfirmed}
+                stars={stars}
+              />
             );
           })}
         </div>
