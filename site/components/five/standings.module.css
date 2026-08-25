@@ -1,0 +1,29 @@
+/* The position column: a plain number until games settle, then the top
+   three wear their metals, in the same chip language as the slips. */
+
+.pos {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+
+.pos1,
+.pos2,
+.pos3 {
+  display: inline-block;
+  min-width: var(--s5);
+  text-align: center;
+  font-weight: 600;
+  color: var(--accent-object-ink);
+}
+
+.pos1 {
+  background: var(--gold);
+}
+
+.pos2 {
+  background: var(--silver);
+}
+
+.pos3 {
+  background: var(--bronze);
+}

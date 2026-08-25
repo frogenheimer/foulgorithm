@@ -7,6 +7,7 @@
  */
 
 import { Card, DataTable, Note } from "@/components/kit";
+import m from "./standings.module.css";
 import type { Standing } from "@/lib/data";
 import { anyPlayed } from "@/lib/standings";
 import { modelName } from "@/lib/names";
@@ -19,6 +20,8 @@ export default function Standings({
   /** id -> name as written, so the table never capitalises ids in CSS. */
   names?: Record<string, string>;
 }) {
+  const played = anyPlayed(standings);
+  const position = new Map(standings.map((r, i) => [r.id, i + 1]));
   return (
     <Card
       title="The table"
@@ -29,6 +32,15 @@ export default function Standings({
         rows={standings}
         rowKey={(r) => r.id}
         columns={[
+          {
+            key: "pos",
+            head: "",
+            cell: (r) => {
+              const p = position.get(r.id) ?? 0;
+              const medal = played && p <= 3 ? m[`pos${p}` as keyof typeof m] : "";
+              return <span className={`${m.pos} ${medal}`}>{p}</span>;
+            },
+          },
           { key: "name", head: "", cell: (r) => modelName(r.id, names) },
           { key: "played", head: "P", numeric: true, cell: (r) => r.played },
           { key: "won", head: "W", numeric: true, cell: (r) => r.won },
@@ -61,7 +73,7 @@ export default function Standings({
           { key: "points", head: "Pts", numeric: true, cell: (r) => r.points },
         ]}
       />
-      {!anyPlayed(standings) && (
+      {!played && (
         <Note>
           All square until the first round settles. A slate is only scored once every
           leg in it has an outcome, because counting an unsettled leg as a miss would
