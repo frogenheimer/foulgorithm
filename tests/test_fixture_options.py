@@ -66,14 +66,16 @@ CANDIDATES = [
 
 
 def slates():
-    """Two characters. A is backed by both; B only by alan, and in two of
-    alan's shapes, which must still count him once."""
+    """Two characters betting on one game. A is backed by both; B only by
+    alan, and in two of alan's shapes, which must still count him once."""
     return {
-        "alan": shapes(
-            six_ones=[leg("A", 1, 0.62), leg("B", 2, 0.40)],
-            two_and_two=[leg("B", 2, 0.40), leg("C", 2, 0.35)],
-        ),
-        "bdog": shapes(six_ones=[leg("A", 1, 0.58), leg("D", 1, 0.50)]),
+        GAME: {
+            "alan": shapes(
+                six_ones=[leg("A", 1, 0.62), leg("B", 2, 0.40)],
+                two_and_two=[leg("B", 2, 0.40), leg("C", 2, 0.35)],
+            ),
+            "bdog": shapes(six_ones=[leg("A", 1, 0.58), leg("D", 1, 0.50)]),
+        }
     }
 
 
@@ -106,7 +108,7 @@ class TestTheCrossover:
         assert a["outOf100"] == round((0.62 + 0.58) / 2 * 100)
 
     def test_the_card_caps_its_legs(self):
-        pool = {"alan": shapes(six_ones=[leg(f"P{i}", 1, 0.5) for i in range(8)])}
+        pool = {GAME: {"alan": shapes(six_ones=[leg(f"P{i}", 1, 0.5) for i in range(8)])}}
         cands = [cand(f"P{i}", 1, {"alan": 0.5}) for i in range(8)]
         assert len(pr._fixture_options(pool, cands, limit=5)[GAME][0]["legs"]) == 5
 
@@ -114,7 +116,7 @@ class TestTheCrossover:
         assert pr._fixture_options({}, CANDIDATES) == {}
 
     def test_a_passed_shape_is_skipped_not_crashed_on(self):
-        assert pr._fixture_options({"alan": shapes(six_ones=None)}, CANDIDATES) == {}
+        assert pr._fixture_options({GAME: {"alan": shapes(six_ones=None)}}, CANDIDATES) == {}
 
     def test_the_combined_number_is_the_product_of_the_house_legs(self):
         option = pr._fixture_options(slates(), CANDIDATES)[GAME][0]
@@ -125,9 +127,8 @@ class TestTheCrossover:
 
     def test_each_fixture_card_holds_only_its_own_legs(self):
         pool = {
-            "alan": shapes(
-                six_ones=[leg("A", 1, 0.62), leg("X", 1, 0.55, fixture=OTHER)]
-            )
+            GAME: {"alan": shapes(six_ones=[leg("A", 1, 0.62)])},
+            OTHER: {"alan": shapes(six_ones=[leg("X", 1, 0.55, fixture=OTHER)])},
         }
         cands = CANDIDATES + [cand("X", 1, {"alan": 0.55, "bdog": 0.45}, fixture=OTHER)]
         options = pr._fixture_options(pool, cands)

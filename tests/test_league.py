@@ -46,6 +46,22 @@ def candidate(player, cid_probs, market="committed", line=0.5, fixture="A v B"):
 FIVE = ["alan", "lily", "valentina", "tayler", "bdog"]
 
 
+def pool_other_game(n=20):
+    out = []
+    for i in range(n):
+        for line in (0.5, 1.5):
+            base = 0.88 - i * 0.02 - (0.3 if line > 1 else 0)
+            out.append(
+                candidate(
+                    f"Q{i}",
+                    {c: max(0.05, base + (0.02 if c == "lily" else 0)) for c in FIVE},
+                    line=line,
+                    fixture="C v D",
+                )
+            )
+    return out
+
+
 def pool(n=20):
     """Enough candidates at both lines for every slate to be fillable."""
     out = []
@@ -63,35 +79,48 @@ def pool(n=20):
 
 
 class TestBuildingSlates:
-    def test_every_character_produces_every_slate(self):
-        built = league.build_slates(pool(), FIVE)
-        for cid in FIVE:
-            assert set(built[cid]) == {s.key for s in ensemble.SLATES}
+    """Three bets per character PER GAME (docs/38), built only from that
+    game's players."""
+
+    def test_every_character_produces_every_slate_for_every_game(self):
+        built = league.build_slates(pool() + pool_other_game(), FIVE)
+        assert set(built) == {"A v B", "C v D"}
+        for game in built:
+            for cid in FIVE:
+                assert set(built[game][cid]) == {s.key for s in ensemble.SLATES}
 
     def test_each_slate_has_exactly_the_shape_it_promises(self):
         built = league.build_slates(pool(), FIVE)
         for slate in ensemble.SLATES:
-            legs = built["alan"][slate.key]["legs"]
+            legs = built["A v B"]["alan"][slate.key]["legs"]
             assert len(legs) == slate.legs
             for line, count in slate.shape:
                 assert sum(1 for leg in legs if leg["line"] == line) == count
+
+    def test_a_bet_never_leaves_its_own_game(self):
+        built = league.build_slates(pool() + pool_other_game(), FIVE)
+        for game in built:
+            for cid in FIVE:
+                for slate in ensemble.SLATES:
+                    for leg in built[game][cid][slate.key]["legs"]:
+                        assert leg["fixture"] == game
 
     def test_a_player_is_never_used_twice_in_one_slate(self):
         built = league.build_slates(pool(), FIVE)
         for cid in FIVE:
             for slate in ensemble.SLATES:
-                names = [leg["fullName"] for leg in built[cid][slate.key]["legs"]]
+                names = [leg["fullName"] for leg in built["A v B"][cid][slate.key]["legs"]]
                 assert len(set(names)) == len(names)
 
     def test_a_character_that_cannot_fill_a_slate_returns_nothing_for_it(self):
         """Committing to a slate you cannot build is worse than passing."""
         built = league.build_slates([candidate("Solo", {c: 0.8 for c in FIVE})], FIVE)
-        assert built["alan"]["six-ones"] is None
+        assert built["A v B"]["alan"]["six-ones"] is None
 
     def test_the_five_do_not_all_pick_the_same_players(self):
         built = league.build_slates(pool(), FIVE)
         picked = {
-            cid: tuple(leg["fullName"] for leg in built[cid]["six-ones"]["legs"])
+            cid: tuple(leg["fullName"] for leg in built["A v B"][cid]["six-ones"]["legs"])
             for cid in FIVE
         }
         assert len(set(picked.values())) > 1, "if they agree entirely there is no contest"
@@ -276,18 +305,18 @@ class TestRoundsStaySeparate:
         ]
 
     def test_two_settled_rounds_are_two_results(self):
-        rows = self.graded("alan", "three-twos", "2026-08-24", 3, 0) + self.graded(
-            "alan", "three-twos", "2026-08-31", 2, 1
+        rows = self.graded("alan", "three-twos", "2026-08-28", 3, 0) + self.graded(
+            "alan", "three-twos", "2026-09-04", 2, 1
         )
-        row = next(r for r in league.table(rows, FIVE, since="2026-08-24") if r["id"] == "alan")
+        row = next(r for r in league.table(rows, FIVE, since="2026-08-28") if r["id"] == "alan")
         assert row["played"] == 2
         assert (row["won"], row["drawn"]) == (1, 1)
 
     def test_partial_legs_from_two_rounds_never_merge_into_one_slate(self):
-        rows = self.graded("alan", "three-twos", "2026-08-24", 1, 0) + self.graded(
-            "alan", "three-twos", "2026-08-31", 1, 1
+        rows = self.graded("alan", "three-twos", "2026-08-28", 1, 0) + self.graded(
+            "alan", "three-twos", "2026-09-04", 1, 1
         )
-        row = next(r for r in league.table(rows, FIVE, since="2026-08-24") if r["id"] == "alan")
+        row = next(r for r in league.table(rows, FIVE, since="2026-08-28") if r["id"] == "alan")
         assert row["played"] == 0
 
     def test_the_season_starts_where_it_says(self):
@@ -296,9 +325,9 @@ class TestRoundsStaySeparate:
         committed under the upgraded models, so every entry in it came from
         the same generation of machinery."""
         rows = self.graded("alan", "three-twos", "2026-08-17", 3, 0) + self.graded(
-            "alan", "three-twos", "2026-08-24", 2, 1
+            "alan", "three-twos", "2026-08-28", 2, 1
         )
-        row = next(r for r in league.table(rows, FIVE, since="2026-08-24") if r["id"] == "alan")
+        row = next(r for r in league.table(rows, FIVE, since="2026-08-28") if r["id"] == "alan")
         assert row["played"] == 1
         assert row["drawn"] == 1
         assert row["won"] == 0
@@ -413,7 +442,7 @@ class TestFoulDifference:
     def leg(landed, deficit=0):
         return {
             "model_id": "alan",
-            "extra": {"slate": "three-twos", "round": "2026-08-24"},
+            "extra": {"slate": "three-twos", "round": "2026-08-28"},
             "landed": landed,
             "deficit": deficit,
         }

@@ -29,23 +29,32 @@ STORE = Path("data/slates")
 
 @dataclass(frozen=True)
 class Committed:
-    """One character's bet at one fixed shape, for one round."""
+    """One character's bet at one fixed shape, for one game. See docs/38.
+
+    Rows written before 2026-08-25 were round-wide (no fixture, no kickoff):
+    a different shape of bet, kept in the record as what they were and
+    scored under the rules of their day.
+    """
 
     published_at: str
     round: str                 # the date of the round's first kickoff, ISO
     character: str
     slate: str
     claim_keys: list[str] = field(default_factory=list)
-    # The round's earliest kickoff. A slate may be re-committed with confirmed
-    # lineups only BEFORE this moment; the binding rule in publish/league.py
-    # reads it. Absent on rows written before 2026-08-24, which were all
-    # published pre-kickoff by construction.
+    # The round's earliest kickoff. Absent on rows written before 2026-08-24,
+    # which were all published pre-kickoff by construction.
     first_kickoff: str | None = None
+    # The game this bet is on, and its own kickoff: the binding rule in
+    # publish/league.py cuts off at THIS kickoff, so a Saturday bet can still
+    # regenerate at T-60 after Friday's game has started.
+    fixture: str | None = None
+    kickoff: str | None = None
 
     @property
     def key(self) -> str:
-        """One slate per character per shape per round."""
-        return f"{self.round}|{self.character}|{self.slate}"
+        """One slate per character per shape per round, and per game."""
+        base = f"{self.round}|{self.character}|{self.slate}"
+        return f"{base}|{self.fixture}" if self.fixture else base
 
     def to_json(self) -> dict:
         return {"key": self.key, **self.__dict__}

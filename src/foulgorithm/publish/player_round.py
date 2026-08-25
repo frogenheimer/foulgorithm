@@ -639,10 +639,11 @@ def publish(output: Path = OUTPUT) -> dict:
                 {"key": sl.key, "label": sl.label, "legs": sl.legs}
                 for sl in ensemble.SLATES
             ],
-            "byCharacter": slates,
+            "byGame": slates,
             "confirmedFixtures": sorted(confirmed_fixtures),
-            "note": "Identical shapes for all five, so the table measures which "
-                    "players they pick rather than how hard a bet they chose.",
+            "note": "Identical shapes for all five on every game, so the table "
+                    "measures which players they pick rather than how hard a "
+                    "bet they chose.",
         },
         "standings": standings,
         # Confirmed shapes win; a predicted one fills a fixture the league has
@@ -690,7 +691,8 @@ def _commit_slates(slates: dict, published: str) -> dict:
     # rule in publish/league.py reads it.
     kickoffs = [
         leg["kickoff"]
-        for by_slate in (slates or {}).values()
+        for by_character in (slates or {}).values()
+        for by_slate in (by_character or {}).values()
         for built in (by_slate or {}).values()
         if built and built.get("legs")
         for leg in built["legs"]
@@ -698,41 +700,46 @@ def _commit_slates(slates: dict, published: str) -> dict:
     first_kickoff = min(kickoffs) if kickoffs else None
 
     committed = []
-    for cid, by_slate in (slates or {}).items():
-        for slate_key, built in (by_slate or {}).items():
-            if not built or not built["legs"]:
-                continue
-            keys = []
-            for leg in built["legs"]:
-                keys.append(
-                    pred_store.Prediction(
+    for label, by_character in (slates or {}).items():
+        for cid, by_slate in (by_character or {}).items():
+            for slate_key, built in (by_slate or {}).items():
+                if not built or not built["legs"]:
+                    continue
+                keys = []
+                for leg in built["legs"]:
+                    keys.append(
+                        pred_store.Prediction(
+                            published_at=published,
+                            kickoff=leg["kickoff"],
+                            fixture=leg["fixture"],
+                            entity=leg.get("fullName") or leg["player"],
+                            market=(
+                                "player_fouls_committed"
+                                if leg["market"] == "committed"
+                                else "player_fouls_drawn"
+                            ),
+                            line=leg["line"],
+                            probability=leg["prob"],
+                            model_id=cid,
+                            model_version="1.0.0",
+                            lineup_confirmed=False,
+                            thin=bool(leg.get("thin")),
+                        ).key
+                    )
+                committed.append(
+                    slate_store.Committed(
                         published_at=published,
-                        kickoff=leg["kickoff"],
-                        fixture=leg["fixture"],
-                        entity=leg.get("fullName") or leg["player"],
-                        market=(
-                            "player_fouls_committed"
-                            if leg["market"] == "committed"
-                            else "player_fouls_drawn"
+                        round=slate_store.round_of(
+                            first_kickoff or built["legs"][0]["kickoff"]
                         ),
-                        line=leg["line"],
-                        probability=leg["prob"],
-                        model_id=cid,
-                        model_version="1.0.0",
-                        lineup_confirmed=False,
-                        thin=bool(leg.get("thin")),
-                    ).key
+                        character=cid,
+                        slate=slate_key,
+                        claim_keys=keys,
+                        first_kickoff=first_kickoff,
+                        fixture=label,
+                        kickoff=built["legs"][0]["kickoff"],
+                    )
                 )
-            committed.append(
-                slate_store.Committed(
-                    published_at=published,
-                    round=slate_store.round_of(first_kickoff or built["legs"][0]["kickoff"]),
-                    character=cid,
-                    slate=slate_key,
-                    claim_keys=keys,
-                    first_kickoff=first_kickoff,
-                )
-            )
     return slate_store.append(committed)
 
 
@@ -853,7 +860,22 @@ def _standings(character_ids: list[str]) -> list[dict]:
         return league.table([], character_ids)
     from foulgorithm.store import slates as slate_store
 
-    joined = league.join_slates(graded, slate_store.load_all())
+    # Completed games, for the void backstop: a leg with no outcome once its
+    # game is over voids rather than blocking the bet forever.
+    completed: set[str] = set()
+    season_path = Path("site/public/data/season.json")
+    if season_path.exists():
+        try:
+            season = json.loads(season_path.read_text())
+            completed = {
+                f"{f.get('home')} v {f.get('away')}"
+                for f in season.get("fixtures", [])
+                if f.get("status") == "C"
+            }
+        except (OSError, json.JSONDecodeError):
+            completed = set()
+
+    joined = league.join_slates(graded, slate_store.load_all(), completed=completed)
     return league.table(joined, character_ids)
 
 
@@ -1706,7 +1728,10 @@ def _fixture_options(slates: dict, candidates: list[dict], limit: int = 5) -> di
     leg is the house blend, the unweighted mean of every character's number
     for that leg from the candidate table.
     """
-    count = max(len(slates), 1)
+    character_ids = {
+        cid for by_character in (slates or {}).values() for cid in (by_character or {})
+    }
+    count = max(len(character_ids), 1)
 
     house_by_leg = {
         (r["fullName"], r["market"], r["line"]): sum(r["probs"].values()) / len(r["probs"])
@@ -1715,35 +1740,38 @@ def _fixture_options(slates: dict, candidates: list[dict], limit: int = 5) -> di
     }
 
     by_fixture: dict[str, dict[tuple, dict]] = {}
-    for cid, built_shapes in slates.items():
-        seen: set[tuple] = set()
-        for built in (built_shapes or {}).values():
-            for l in (built or {}).get("legs") or []:
-                key = (l["fullName"], l["market"], l["fouls"])
-                if key in seen:
-                    continue
-                seen.add(key)
-                legs = by_fixture.setdefault(l["fixture"], {})
-                held = legs.get(key)
-                if held is None:
-                    # Slate legs come from the candidate table in the same
-                    # publish, so the blend is always there; the fallback to
-                    # the character's own number only guards a stale caller.
-                    house = house_by_leg.get(
-                        (l["fullName"], l["market"], l["line"]), l["prob"]
-                    )
-                    legs[key] = {
-                        "player": l["player"],
-                        "fouls": l["fouls"],
-                        "market": l["market"],
-                        "_house": house,
-                        "backers": 1,
-                    }
-                else:
-                    held["backers"] += 1
+    for label, by_character in (slates or {}).items():
+        legs = by_fixture.setdefault(label, {})
+        for cid, built_shapes in (by_character or {}).items():
+            seen: set[tuple] = set()
+            for built in (built_shapes or {}).values():
+                for l in (built or {}).get("legs") or []:
+                    key = (l["fullName"], l["market"], l["fouls"])
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    held = legs.get(key)
+                    if held is None:
+                        # Slate legs come from the candidate table in the same
+                        # publish, so the blend is always there; the fallback to
+                        # the character's own number only guards a stale caller.
+                        house = house_by_leg.get(
+                            (l["fullName"], l["market"], l["line"]), l["prob"]
+                        )
+                        legs[key] = {
+                            "player": l["player"],
+                            "fouls": l["fouls"],
+                            "market": l["market"],
+                            "_house": house,
+                            "backers": 1,
+                        }
+                    else:
+                        held["backers"] += 1
 
     out: dict[str, list[dict]] = {}
     for label, legs in by_fixture.items():
+        if not legs:
+            continue  # every shape passed on this game: no card, not a blank one
         ranked = sorted(legs.values(), key=lambda l: (-l["backers"], -l["_house"]))[:limit]
         combined = 1.0
         for l in ranked:

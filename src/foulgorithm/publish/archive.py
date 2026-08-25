@@ -57,6 +57,10 @@ def slice_payload(payload: dict, label: str) -> dict | None:
             {"id": p.get("id"), "name": p.get("name")} for p in payload.get("picks") or []
         ],
         "ladder": ladder,
+        # The five's three bets each on this game (docs/38), when the payload
+        # carries the per-game shape. Round-wide payloads from before leave
+        # this empty and the page copes.
+        "bets": ((payload.get("slates") or {}).get("byGame") or {}).get(label),
         "formations": (payload.get("formations") or {}).get(label),
         "explorer": {
             "models": explorer.get("models", []),
