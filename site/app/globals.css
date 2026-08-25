@@ -137,9 +137,3 @@ svg {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-
-/* The timeline page asks the viewport to snap between its days; nothing else
-   does. Proximity, never mandatory: a reader can always stop mid-scroll. */
-html:has([data-snap-weeks]) {
-  scroll-snap-type: y proximity;
-}

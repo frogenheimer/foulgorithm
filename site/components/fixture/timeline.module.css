@@ -574,11 +574,6 @@
 
 /* ---------- the week scroll (docs/39): snap and the dealt stagger ---------- */
 
-.day {
-  scroll-snap-align: start;
-  scroll-margin-top: var(--s6);
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .games > * {
     animation: dealt var(--d-slow) var(--ease-snap) both;

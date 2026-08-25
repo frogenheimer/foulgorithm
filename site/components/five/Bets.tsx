@@ -75,7 +75,9 @@ export default function Bets({
                         <div className={s.total}>
                           <span className={s.totalLabel}>we make it</span>
                           <span className={s.dots} aria-hidden />
-                          <span className={s.price}>{price}/100</span>
+                          <span className={s.price}>
+                            {price < 1 ? "<1" : price}/100
+                          </span>
                         </div>
                       )}
                     </>

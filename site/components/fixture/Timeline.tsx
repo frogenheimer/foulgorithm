@@ -102,7 +102,7 @@ export default function Timeline({
         });
 
   return (
-    <div data-snap-weeks>
+    <div>
       {/* A dropdown, not a scrolling row of thirty-eight buttons. The row put
           the whole season in a horizontally scrolling box where the current
           matchweek was usually off-screen, and marked it with a bare middle dot
