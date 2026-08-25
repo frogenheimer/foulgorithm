@@ -37,7 +37,7 @@ export default function Today() {
           <>
             Calibrated probabilities for Premier League fouls, published before kickoff and
             graded afterwards. Pick a fixture for both clubs&apos; records side by side and
-            what each of the five makes of it.
+            what each of the eleven makes of it.
           </>
         }
       />
@@ -121,9 +121,9 @@ export default function Today() {
             </p>
             <p>
               The competitors see identical evidence and separate by about{" "}
-              <strong>2%</strong> on player markets. They are five slightly different
-              readings, not five sharply different opinions, and we would rather say so
-              than let five portraits imply otherwise.
+              <strong>2%</strong> on player markets. They are slightly different
+              readings, not sharply different opinions, and we would rather say so
+              than let eleven portraits imply otherwise.
             </p>
             <p>
               Every prediction is graded once the match settles and{" "}

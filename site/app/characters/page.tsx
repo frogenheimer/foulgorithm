@@ -36,10 +36,11 @@ export default function Characters() {
 
       <Callout>
         <strong>They separate by about 2%.</strong> Backtested over 13,993 predictions on
-        fouls committed, the gap between best and worst is two points. All five beat a model
-        knowing nothing but position and minutes, by roughly 4%, so the history genuinely
-        matters. But these are five slightly different readings, not five sharply different
-        opinions, and the league below is where the difference shows.
+        fouls committed, the gap between the five's best and worst is two points, and all
+        of them beat a model knowing nothing but position and minutes by roughly 4%, so
+        the history genuinely matters. The challengers run the same evidence through new
+        dials and stricter betting rules, and the league below is the test of whether
+        that helps.
       </Callout>
 
       <Standings standings={players.standings ?? []} names={names} />
