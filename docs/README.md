@@ -43,7 +43,8 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [34-final-plan.md](34-final-plan.md) | **The plan of record: consolidated order and hard release gates. Start here** |
 | [35-weekly-updater.md](35-weekly-updater.md) | **One command per gameweek: refresh, settle, predict, verify, commit, push** |
 | [36-display-audit.md](36-display-audit.md) | The display audit: one set of picks, shown three ways |
-| [37-display-decisions.md](37-display-decisions.md) | **The ratification round: what stayed, what moved, what came back** |
+| [37-display-decisions.md](37-display-decisions.md) | The ratification round: what stayed, what moved, what came back |
+| [38-the-contract.md](38-the-contract.md) | **Three bets per model per game. The plan of record; supersedes 36 and 37 on the bets** |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
 | [ideas.md](ideas.md) | Ideas not committed to. Nothing here is being built |
 | [modelling-log.md](modelling-log.md) | **Append-only record of every modelling decision, experiment and result** |
