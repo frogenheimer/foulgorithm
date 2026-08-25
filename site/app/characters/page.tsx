@@ -24,14 +24,14 @@ export default function Characters() {
   const confirmed = new Set(slates.confirmedFixtures ?? []);
   const peers = settings.map((p) => p.settings as unknown as Settings);
   const games = gameOrder(Object.keys(slates.byGame ?? {}), players.board);
-  const columns = d.characters.map((ch) => ({ id: ch.id, name: ch.name }));
+  const columns = d.characters.map((ch) => ({ id: ch.id, name: ch.name, generation: ch.generation }));
   const names = Object.fromEntries(columns.map((ch) => [ch.id, ch.name]));
 
   return (
     <div className="stack">
       <PageHeader
         title="The five"
-        lede="Five ways of reading the same match, playing the same game: three bets each, on every fixture, scored like a league. They see identical evidence and differ only in how far they trust it."
+        lede="The five, and the 6~7 who joined to beat them. Eleven readings of the same match, playing the same game: three bets each, on every fixture, scored like a league. Generation 1 bets on pure temperament; generation 2 on bounded logic with one guaranteed hot take."
       />
 
       <Callout>

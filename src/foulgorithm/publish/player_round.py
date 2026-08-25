@@ -1611,6 +1611,7 @@ def _character_picks(cid, candidates) -> dict:
     return {
         "id": c.id,
         "name": c.name,
+        "generation": c.generation,
         "emotion": c.emotion,
         "tagline": c.tagline,
         "settings": pm.CHARACTER_SETTINGS[cid],

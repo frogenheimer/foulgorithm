@@ -54,7 +54,8 @@ def slice_payload(payload: dict, label: str) -> dict | None:
         "kickoff": board.get("kickoff", ""),
         "referee": board.get("referee"),
         "characters": [
-            {"id": p.get("id"), "name": p.get("name")} for p in payload.get("picks") or []
+            {"id": p.get("id"), "name": p.get("name"), "generation": p.get("generation")}
+            for p in payload.get("picks") or []
         ],
         "ladder": ladder,
         # The five's three bets each on this game (docs/38), when the payload

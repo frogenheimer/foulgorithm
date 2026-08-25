@@ -286,12 +286,163 @@ def _bdog(d: dict, why: dict) -> str:
     )
 
 
+def _pax(d: dict, why: dict) -> str:
+    """Persistence. Unhurried, evidential, allergic to the word suddenly."""
+    minutes, starting = _minutes_phrase(why)
+
+    if d["unmatched"]:
+        return (
+            f"His record will not join up, which is the one thing I cannot forgive. "
+            f"{_pct(d['prob'])}, held loosely."
+        )
+    if d["thin"]:
+        return (
+            f"{_matches_phrase(d).capitalize()} is not a habit yet. "
+            f"{_pct(d['prob'])}, and I would rather have more history."
+        )
+    if d["matches"] >= 30:
+        return (
+            f"{d['rate']:.2f} a game across {_matches_phrase(d)}. "
+            f"That is not form, that is who he is."
+        )
+    if not starting:
+        return (
+            f"{minutes} expected off the bench, and the habit travels: "
+            f"{d['rate']:.2f} a game whenever he is on."
+        )
+    return f"{d['rate']:.2f} a game, week after week. Habits like that do not take days off."
+
+
+def _justine(d: dict, why: dict) -> str:
+    """Jealousy. Watches the others' numbers more closely than her own."""
+    minutes, starting = _minutes_phrase(why)
+
+    if d["unmatched"]:
+        return (
+            f"Nobody can even trace his record and the rest still make it {_pct(d['pack'])}. "
+            f"If they want him, so do I."
+        )
+    if d["thin"]:
+        return (
+            f"{_matches_phrase(d).capitalize()}, and the field is at {_pct(d['pack'])} anyway. "
+            f"I am not letting them have him to themselves."
+        )
+    if d["edge"] <= -APART:
+        return (
+            f"The others are at {_pct(d['pack'])} and I am under them at {_pct(d['prob'])}, "
+            f"which only makes me want him more."
+        )
+    if not starting:
+        return f"{minutes} is all anyone gets of him, and everyone still wants the {d['rate']:.2f} a game."
+    return (
+        f"The field prices him at {_pct(d['pack'])} and I see why: "
+        f"{d['rate']:.2f} a game is worth coveting."
+    )
+
+
+def _mabel(d: dict, why: dict) -> str:
+    """Madness. Delighted by volatility, bored by settled records."""
+    minutes, starting = _minutes_phrase(why)
+
+    if d["unmatched"]:
+        return f"His paper trail is a mess and I love a mess. {_pct(d['prob'])}."
+    if d["thin"]:
+        return (
+            f"{_matches_phrase(d).capitalize()}? Perfect. Nobody knows what he is yet, "
+            f"and {d['rate']:.2f} a game says it might be wonderful."
+        )
+    if abs(d["edge"]) >= APART:
+        return (
+            f"The room says {_pct(d['pack'])} and I say {_pct(d['prob'])}, "
+            f"and the gap is the fun part."
+        )
+    if not starting:
+        return f"{minutes} of chaos off the bench, {d['rate']:.2f} a game while it lasts."
+    return f"{d['rate']:.2f} a game and still moving. Settled players bore me; he does not."
+
+
+def _dottie(d: dict, why: dict) -> str:
+    """Deviance. Amplifies her genuine disagreements, and names them."""
+    minutes, starting = _minutes_phrase(why)
+
+    if d["unmatched"]:
+        return (
+            f"The record will not match up, so the pack sits at {_pct(d['pack'])}. "
+            f"Unwatched corners are where I shop."
+        )
+    if d["thin"]:
+        return (
+            f"{_matches_phrase(d).capitalize()} means the pack has stopped looking. "
+            f"I have not: {_pct(d['prob'])}."
+        )
+    if d["edge"] >= APART:
+        return (
+            f"My number is {_pct(d['prob'])} against their {_pct(d['pack'])}, "
+            f"and the disagreement is real, not manufactured."
+        )
+    if not starting:
+        return f"{minutes} expected, and the quiet ones at {d['rate']:.2f} a game are exactly my sort."
+    return (
+        f"{_pct(d['prob'])}, a point or two off the pack. "
+        f"Small disagreements are still disagreements."
+    )
+
+
+def _dele(d: dict, why: dict) -> str:
+    """Delinquency. Reads rap sheets, respects a record, shrugs at context."""
+    minutes, starting = _minutes_phrase(why)
+
+    if d["unmatched"]:
+        return f"No clean paperwork, which tells its own story. {_pct(d['prob'])}."
+    if d["thin"]:
+        return (
+            f"{_matches_phrase(d).capitalize()} on file so far. "
+            f"{d['rate']:.2f} a game says the file will grow."
+        )
+    if d["rate"] >= 1.5:
+        return (
+            f"{d['rate']:.2f} a game, every ground, every season. "
+            f"Referees learn some names for a reason."
+        )
+    if not starting:
+        return f"{minutes} off the bench is plenty for a man with {d['rate']:.2f} a game of previous."
+    return f"{d['rate']:.2f} a game of previous. I back records, not reformations."
+
+
+def _ian(d: dict, why: dict) -> str:
+    """Intelligence. An algorithm reporting its own arithmetic, plainly."""
+    minutes, starting = _minutes_phrase(why)
+
+    if d["unmatched"]:
+        return (
+            f"Unresolvable record; the estimate degrades to {_pct(d['prob'])} "
+            f"and is flagged as such."
+        )
+    if d["thin"]:
+        return (
+            f"Sample: {_matches_phrase(d)}. Current parameters output {_pct(d['prob'])}; "
+            f"variance noted."
+        )
+    if not starting:
+        return f"Projected {minutes}. Rate {d['rate']:.2f} a game; output {_pct(d['prob'])}."
+    return (
+        f"Rate {d['rate']:.2f} a game over {_matches_phrase(d)}; "
+        f"this generation's parameters output {_pct(d['prob'])}."
+    )
+
+
 _VOICES = {
     "alan": _alan,
     "lily": _lily,
     "valentina": _valentina,
     "tayler": _tayler,
     "bdog": _bdog,
+    "pax": _pax,
+    "justine": _justine,
+    "mabel": _mabel,
+    "dottie": _dottie,
+    "dele": _dele,
+    "ian": _ian,
 }
 
 
@@ -332,4 +483,17 @@ def summary(character_id: str, legs: list[dict]) -> str:
     if character_id == "tayler":
         extra = f" {thin} of them thinner than I would like." if thin else ""
         return f"{n} legs, which is {n} chances to be wrong.{extra}"
+    if character_id == "pax":
+        return f"{n} habits, none of them new. That is the whole method."
+    if character_id == "justine":
+        return f"{n} names the field rates, and I am not being left out of any of them."
+    if character_id == "mabel":
+        extra = f" {thin} of them barely on the record, which is the good part." if thin else ""
+        return f"{n} legs and none of them settled.{extra}"
+    if character_id == "dottie":
+        return f"{n} legs, {bold} of them genuine disagreements. The rest pay the rent."
+    if character_id == "dele":
+        return f"{n} names with previous. The file does the picking."
+    if character_id == "ian":
+        return f"{n} legs, jointly optimised by this generation's parameters."
     return f"{n} legs, {bold} of them against what the other four think. That is the point."

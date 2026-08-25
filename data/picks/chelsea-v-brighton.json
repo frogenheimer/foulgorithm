@@ -113,6 +113,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-08-25T02:42:56+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 11.43,
+     "outOf100": 9,
+     "houseOutOf100": 9,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Jo\u00e3o Pedro",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 75,
+       "backers": 8
+      },
+      {
+       "player": "Costinha",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 74,
+       "backers": 8
+      },
+      {
+       "player": "Jo\u00e3o Pedro",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 8
+      },
+      {
+       "player": "Costinha",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 48,
+       "backers": 8
+      },
+      {
+       "player": "Enzo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 65,
+       "backers": 7
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

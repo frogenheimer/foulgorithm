@@ -179,3 +179,13 @@
   font-size: var(--t-xs);
   color: var(--ink-3);
 }
+
+/* A hot take: the character genuinely parts company with the pack here.
+   A word in the warning tone, never colour alone. */
+.hot {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--warn);
+}

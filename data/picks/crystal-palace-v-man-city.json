@@ -266,6 +266,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 5,
+   "publishedAt": "2026-08-25T02:42:56+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 18.09,
+     "outOf100": 6,
+     "houseOutOf100": 6,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Semenyo",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 69,
+       "backers": 8
+      },
+      {
+       "player": "Hughes",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 68,
+       "backers": 7
+      },
+      {
+       "player": "Strand Larsen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 66,
+       "backers": 7
+      },
+      {
+       "player": "Grealish",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 7
+      },
+      {
+       "player": "Hughes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 39,
+       "backers": 7
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

@@ -75,7 +75,7 @@ class TestTheSlice:
         assert list(s["ladder"]) == ["alan"]
         rows = s["explorer"]["rows"]
         assert [r["player"] for r in rows] == ["Berge"]
-        assert s["characters"] == [{"id": "alan", "name": "Alan"}]
+        assert s["characters"] == [{"id": "alan", "name": "Alan", "generation": None}]
 
     def test_a_missing_fixture_slices_to_nothing(self):
         assert archive.slice_payload(payload(), "A v B") is None

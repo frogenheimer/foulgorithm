@@ -120,7 +120,7 @@ export default function Today() {
               shown it is an estimate with the margin stated.
             </p>
             <p>
-              The five characters see identical evidence and separate by about{" "}
+              The competitors see identical evidence and separate by about{" "}
               <strong>2%</strong> on player markets. They are five slightly different
               readings, not five sharply different opinions, and we would rather say so
               than let five portraits imply otherwise.

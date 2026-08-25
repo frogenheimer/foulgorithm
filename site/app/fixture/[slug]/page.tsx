@@ -108,14 +108,14 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
             <SectionHead
               title={
                 (data.slates.confirmedFixtures ?? []).includes(label)
-                  ? "The five's bets on this game"
-                  : "The five's bets on this game *"
+                  ? "The bets on this game"
+                  : "The bets on this game *"
               }
-              note="Three bets per character, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet's last version before kickoff is the one that counts."
+              note="Three bets from every competitor, the five and the challengers alike, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet's last version before kickoff is the one that counts."
             />
             <Bets
               bets={data.slates.byGame[label]}
-              characters={data.picks.map((p) => ({ id: p.id, name: p.name }))}
+              characters={data.picks.map((p) => ({ id: p.id, name: p.name, generation: p.generation }))}
               shapes={data.slates.shapes}
             />
           </section>

@@ -220,7 +220,10 @@ export type CharacterBlock = {
   onLosing: string;
   weakness: string;
   edge: string;
-  model: { id: string; version: string; config: Record<string, number> };
+  /** 1 = the five (pure temperament); 2 = the challengers (docs/38). */
+  generation?: number;
+  /** The bespoke match-level model, where one exists (the five). */
+  model: { id: string; version: string; config: Record<string, number> } | null;
   fixtures: CharacterFixture[];
 };
 
@@ -299,6 +302,7 @@ export type OddsTier = {
 
 export type CharacterPicks = {
   id: string; name: string; emotion: string; tagline: string;
+  generation?: number;
   settings: Record<string, number>;
   picks: Pick[];
   combinedProb: number; combinedFair: number | null; averageProb: number;
@@ -339,6 +343,8 @@ export type LeagueLeaders = Record<
 >;
 
 export type SlipLeg = {
+  /** Generation 2 only: this leg genuinely parts company with the pack. */
+  hotTake?: boolean;
   player: string;
   fullName?: string;
   team: string;
@@ -669,7 +675,7 @@ export type ArchivedFixture = {
   publishedAt: string;
   kickoff: string;
   referee: string | null;
-  characters: { id: string; name: string }[];
+  characters: { id: string; name: string; generation?: number }[];
   ladder: Record<string, Slip[]>;
   /** This game's fifteen bets (character id -> slate key -> bet), when the
    *  payload was per-game. Absent on archives from the round-wide era. */

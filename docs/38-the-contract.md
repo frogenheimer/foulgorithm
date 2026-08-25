@@ -60,3 +60,27 @@ a different shape, and a table mixing the two would mean nothing.
 Enterprise-grade calm. Bets render as **slips**, the object a reader
 recognises from any sportsbook, never as sparse spreadsheet grids. One
 accent, tokens only, losses styled with the same care as wins.
+
+---
+
+## 🚦 Amendment, 2026-08-25: the 6~7
+
+Six generation-2 challengers joined for the 28 Aug round: **Pax**
+(Persistence), **Justine** (Jealousy), **Mabel** (Madness), **Dottie**
+(Deviance), **Dele** (Delinquency) and **magicIan** (Intelligence, a genetic
+algorithm whose dials evolve after every settle, lineage committed
+append-only). The five stay on generation-1 selection as the control group;
+the challengers bet under bounded rules:
+
+- **Bounded temperament**: preference = own probability plus a temperament
+  term clamped to `TEMPERAMENT_SWAY` (8 points). An obvious pick cannot be
+  vetoed by a personality.
+- **The hot-take floor**: every slip set carries at least one leg where the
+  character beats the pack by `HOT_TAKE_MARGIN` (6 points), swapped in only
+  when a draft came out all-consensus. A floor, never a cap.
+
+Eleven competitors, 33 bets per game, one league. The character palette was
+extended to eleven colours and validated 2026-08-25 (chroma floor, normal
+vision ΔE ≥ 15 on adjacent pairs, 3:1 contrast, both themes; CVD pairs in
+the 6-8 band rely on the site-wide rule that a swatch never appears without
+its name).

@@ -113,6 +113,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-08-25T02:42:56+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 16.11,
+     "outOf100": 6,
+     "houseOutOf100": 6,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 67,
+       "backers": 8
+      },
+      {
+       "player": "King",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 7
+      },
+      {
+       "player": "Tete",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 37,
+       "backers": 7
+      },
+      {
+       "player": "Diarra",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 6
+      },
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 6
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

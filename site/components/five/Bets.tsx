@@ -1,5 +1,5 @@
 /**
- * The five's bets on one game, as betting slips.
+ * The competitors' bets on one game, as betting slips.
  *
  * Styled after the paper object: a stub header with the character's name, a
  * perforation between bets, dotted leaders running each leg out to its
@@ -13,6 +13,7 @@ import type { Bet, SlateShape, SlipLeg } from "@/lib/data";
 import type { BetVerdict, Outcomes } from "@/lib/graded";
 import { betVerdict, legMark } from "@/lib/graded";
 import { betOutOf100 } from "@/lib/bets";
+import { Badge } from "@/components/kit";
 import s from "./bets.module.css";
 
 export default function Bets({
@@ -24,7 +25,7 @@ export default function Bets({
 }: {
   /** character id -> slate key -> the bet. One game's fifteen. */
   bets: Record<string, Record<string, Bet>>;
-  characters: { id: string; name: string }[];
+  characters: { id: string; name: string; generation?: number }[];
   shapes: SlateShape[];
   /** Present on a played game: marks every bet and leg. */
   outcomes?: Outcomes;
@@ -45,6 +46,7 @@ export default function Bets({
             <header className={s.head}>
               <span className={s.swatch} aria-hidden />
               {ch.name}
+              {ch.generation === 2 && <Badge>v2</Badge>}
             </header>
             {shapes.map((sh) => {
               const bet = own[sh.key];
@@ -119,6 +121,7 @@ function Leg({
       <span className={s.legWhat}>
         {leg.fouls}+ {leg.market === "drawn" ? "won" : "fouls"}
       </span>
+      {leg.hotTake && <span className={s.hot}>hot</span>}
       <span className={s.dots} aria-hidden />
       <span className={s.legProb}>{leg.outOf100}</span>
       {outcomes && (

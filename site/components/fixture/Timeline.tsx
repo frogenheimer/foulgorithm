@@ -304,7 +304,7 @@ function Game({
             <div key={o.band} className={s.pick}>
               <span className={s.pickRow}>
                 <span className={s.pickWho}>
-                  The five&rsquo;s crossover
+                  The crossover
                   {o.lineupsConfirmed === false ? "\u2009*" : ""}
                 </span>
                 <span className={s.pickSummary}>

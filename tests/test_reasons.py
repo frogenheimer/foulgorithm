@@ -19,7 +19,10 @@ import pytest
 
 from foulgorithm.characters import reasons
 
-CIDS = ["alan", "lily", "valentina", "tayler", "bdog"]
+CIDS = [
+    "alan", "lily", "valentina", "tayler", "bdog",
+    "pax", "justine", "mabel", "dottie", "dele", "ian",
+]
 
 
 def leg(**kw):
@@ -76,7 +79,7 @@ class TestEveryVoiceSpeaks:
 
     def test_the_five_do_not_say_the_same_thing(self):
         said = {reasons.reason(cid, leg(), why()) for cid in CIDS}
-        assert len(said) == 5, "if the voices collapse, the characters are decoration"
+        assert len(said) == len(CIDS), "if the voices collapse, the characters are decoration"
 
     @pytest.mark.parametrize("cid", CIDS)
     def test_no_em_dashes(self, cid):

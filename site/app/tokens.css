@@ -46,12 +46,18 @@
   --warn: #c77a0a;
   --bad: #b23a34;
 
-  /* ---- the five. Data, not brand. ---- */
+  /* ---- the competitors. Data, not brand. Validated 2026-08-25; see docs/38. ---- */
   --ch-alan: #2563c9;
   --ch-lily: #d2691e;
-  --ch-valentina: #1b7f4b;
+  --ch-valentina: #12805f;
   --ch-tayler: #b8860b;
   --ch-bdog: #a8497f;
+  --ch-pax: #7d9204;
+  --ch-justine: #0891a5;
+  --ch-mabel: #d6336c;
+  --ch-dottie: #0a7fc4;
+  --ch-dele: #b34a1e;
+  --ch-ian: #6d4fc4;
 
   /* ---- chart chrome ---- */
   --grid: #e4e4df;
@@ -186,9 +192,15 @@
 
     --ch-alan: #5b9bf5;
     --ch-lily: #e8944d;
-    --ch-valentina: #3fbf77;
+    --ch-valentina: #37b183;
     --ch-tayler: #e0b83d;
     --ch-bdog: #d47ab0;
+    --ch-pax: #a8c437;
+    --ch-justine: #2fb8cc;
+    --ch-mabel: #ef5d90;
+    --ch-dottie: #4aa8e8;
+    --ch-dele: #d97742;
+    --ch-ian: #9b85e8;
 
     --grid: #2a2d30;
     --axis: #3a3e42;
@@ -231,9 +243,15 @@
 
   --ch-alan: #5b9bf5;
   --ch-lily: #e8944d;
-  --ch-valentina: #3fbf77;
+  --ch-valentina: #37b183;
   --ch-tayler: #e0b83d;
   --ch-bdog: #d47ab0;
+  --ch-pax: #a8c437;
+  --ch-justine: #2fb8cc;
+  --ch-mabel: #ef5d90;
+  --ch-dottie: #4aa8e8;
+  --ch-dele: #d97742;
+  --ch-ian: #9b85e8;
 
   --grid: #2a2d30;
   --axis: #3a3e42;
