@@ -27,6 +27,9 @@ import s from "./sliprail.module.css";
  *  sideways fling that dips should never tear the paper. */
 const TEAR_PX = 96;
 
+/** Feed speed of the idle crawl. Slow enough to read a slip as it passes. */
+const FEED_PX_PER_S = 14;
+
 type RailProps = {
   bets: Record<string, Record<string, Bet>>;
   characters: SlipCharacter[];
@@ -61,6 +64,38 @@ function Receipt({ bets, characters, shapes, outcomes, gameOver = false, medals 
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, [hung.length]);
+
+  // The receipt feeds itself: a slow crawl leftward once it renders, like
+  // paper coming off the printer, so a long rail advertises that it scrolls.
+  // The FIRST touch of any kind hands control over and the crawl never
+  // returns; a feed that fights the reader is worse than no feed.
+  const fed = useRef(false);
+  useEffect(() => {
+    if (range <= 0) return;
+    const frame = frameRef.current;
+    if (!frame) return;
+    let raf = 0;
+    let last = performance.now();
+    const crawl = (now: number) => {
+      const step = ((now - last) / 1000) * FEED_PX_PER_S;
+      last = now;
+      const next = Math.max(-range, x.get() - step);
+      x.set(next);
+      if (!fed.current && next > -range) raf = requestAnimationFrame(crawl);
+    };
+    const stop = () => {
+      fed.current = true;
+      cancelAnimationFrame(raf);
+    };
+    if (!fed.current) raf = requestAnimationFrame(crawl);
+    frame.addEventListener("pointerdown", stop);
+    frame.addEventListener("wheel", stop, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      frame.removeEventListener("pointerdown", stop);
+      frame.removeEventListener("wheel", stop);
+    };
+  }, [range, x]);
 
   // Trackpads and wheels scroll the receipt too; the listener is registered
   // by hand because React's onWheel is passive and cannot preventDefault.
