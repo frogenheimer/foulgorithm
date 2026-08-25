@@ -71,6 +71,7 @@ export default function Cup() {
                     month: "short",
                     hour: "2-digit",
                     minute: "2-digit",
+                    timeZone: "Europe/London",
                   })}
                 </span>
                 <span className={s.clubs} aria-hidden>

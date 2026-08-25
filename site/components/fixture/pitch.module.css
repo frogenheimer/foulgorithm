@@ -298,11 +298,19 @@
   color: var(--ink-3);
 }
 
-.pitch {
-    aspect-ratio: 68 / 105;
+  .pitch {
+    /* Content sizes the rotated pitch. A fixed 68/105 aspect gave eight
+       rows of markers about 600px, they needed 750, and with overflow
+       visible the away defence and keeper painted over the bench below.
+       A slightly long pitch is a style choice; players on the bench table
+       is a bug. */
+    aspect-ratio: auto;
+    height: auto;
+    min-height: 0;
     flex-direction: column;
-    min-height: 520px;
     overflow: visible;
+    padding-top: var(--s3);
+    padding-bottom: var(--s3);
     background: repeating-linear-gradient(
       to bottom,
       var(--turf-a) 0 5%,
@@ -315,8 +323,10 @@
   }
 
   .line {
+    flex: none;
     flex-direction: row;
     justify-content: space-evenly;
+    padding: var(--s2) 0;
   }
 
   /* A slot must be able to shrink below its name here, or a five-man line
@@ -335,6 +345,22 @@
 
   .benches {
     grid-template-columns: 1fr;
+  }
+
+  /* The head above the pitch: three columns wrapped into soup at phone
+     width. Stack it: home line, away line, the note beneath. */
+  .head {
+    grid-template-columns: 1fr;
+    gap: var(--s1);
+  }
+
+  .clubAway {
+    text-align: left;
+  }
+
+  .versus {
+    text-align: left;
+    order: 3;
   }
 }
 
