@@ -45,6 +45,7 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [36-display-audit.md](36-display-audit.md) | The display audit: one set of picks, shown three ways |
 | [37-display-decisions.md](37-display-decisions.md) | The ratification round: what stayed, what moved, what came back |
 | [38-the-contract.md](38-the-contract.md) | **Three bets per model per game. The plan of record; supersedes 36 and 37 on the bets** |
+| [39-instrument-grade.md](39-instrument-grade.md) | **The visual redesign: dark-first modules, the chart vocabulary, the temper-ring badges** |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
 | [ideas.md](ideas.md) | Ideas not committed to. Nothing here is being built |
 | [modelling-log.md](modelling-log.md) | **Append-only record of every modelling decision, experiment and result** |

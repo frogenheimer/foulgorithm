@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { DataTable, PageHeader, Note } from "@/components/kit";
 import type { TableRow, Teams } from "@/lib/data";
+import ClubChip from "@/components/kit/ClubChip";
 import { fixtureSlug } from "@/lib/slug";
 import s from "./teams.module.css";
 
@@ -25,6 +26,16 @@ export function TeamsTable({ data }: { data: Teams }) {
       .map((r, i) => [r.team, i + 1])
   );
 
+  // The temper ring's scale: every ring is this club's share of the hottest
+  // fouls-per-match rate in the league, so the league leader wears a full arc.
+  const rated = rows.filter((r) => r.foulsPerMatch != null);
+  const temperMax = Math.max(...rated.map((r) => r.foulsPerMatch as number), 0);
+  const temperRank = new Map(
+    [...rated]
+      .sort((a, b) => (b.foulsPerMatch as number) - (a.foulsPerMatch as number))
+      .map((r, i) => [r.team, i + 1])
+  );
+
   return (
     <div className="stack">
       <PageHeader
@@ -42,7 +53,29 @@ export function TeamsTable({ data }: { data: Teams }) {
         }}
         columns={[
           { key: "pos", head: "#", numeric: true, cell: (r) => <span className={s.pos}>{position.get(r.team)}</span> },
-          { key: "team", head: "Club", cell: (r) => <span className={s.club}>{r.team}</span> },
+          {
+            key: "team",
+            head: "Club",
+            cell: (r) => (
+              <span className={s.club}>
+                {r.foulsPerMatch != null ? (
+                  <ClubChip
+                    name={r.team}
+                    size="sm"
+                    temper={{
+                      value: r.foulsPerMatch,
+                      max: temperMax,
+                      rank: temperRank.get(r.team) ?? 0,
+                      of: rows.length,
+                    }}
+                  />
+                ) : (
+                  <ClubChip name={r.team} size="sm" />
+                )}
+                {r.team}
+              </span>
+            ),
+          },
           { key: "played", head: "Pl", numeric: true, cell: (r) => r.played },
           { key: "record", head: "W-D-L", cell: (r) => <span className={s.form}>{r.won}-{r.drawn}-{r.lost}</span> },
           { key: "gd", head: "GD", numeric: true, cell: (r) => (r.goalDifference > 0 ? `+${r.goalDifference}` : r.goalDifference) },

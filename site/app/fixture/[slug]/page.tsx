@@ -5,6 +5,7 @@ import Bets from "@/components/five/Bets";
 import Sheet from "@/components/matchday/Sheet";
 import SlipGrid from "@/components/fixture/SlipGrid";
 import { PageHeader, SectionHead } from "@/components/kit";
+import ClubChip from "@/components/kit/ClubChip";
 import type { ArchivedFixture } from "@/lib/data";
 import {
   fixtureSlug,
@@ -59,6 +60,10 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         <Link href="/" className={s.back}>
           &larr; Today
         </Link>
+        <div className={s.clubs} aria-hidden>
+          <ClubChip name={home} size="lg" />
+          <ClubChip name={away} size="lg" />
+        </div>
         <PageHeader
           title={label}
           lede={
@@ -145,6 +150,10 @@ function PastFixture({ a }: { a: ArchivedFixture }) {
         <Link href="/" className={s.back}>
           &larr; Today
         </Link>
+        <div className={s.clubs} aria-hidden>
+          <ClubChip name={home} size="lg" />
+          <ClubChip name={away} size="lg" />
+        </div>
         <PageHeader
           title={a.label}
           lede={

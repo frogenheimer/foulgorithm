@@ -98,3 +98,13 @@
     font-size: var(--t-xs);
   }
 }
+
+/* The badge pair above the title: slight overlap, home in front. */
+.clubs {
+  display: flex;
+  margin-bottom: var(--s3);
+}
+
+.clubs > :last-child {
+  margin-left: calc(var(--s2) * -1);
+}

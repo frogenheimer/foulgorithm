@@ -4,6 +4,9 @@
 }
 
 .club {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
   font-weight: 500;
   color: var(--ink);
 }
