@@ -1,6 +1,7 @@
-/* The club badge. Kit colours arrive as data on the SVG itself; only the
-   chrome lives here. The temper ring is a magnitude gauge, so it takes one
-   hue and always travels with the words in the chip's title. */
+/* The club badge, kit-block cut. Kit colours arrive as data on the SVG
+   itself; only the chrome lives here. The temper gauge is a magnitude
+   readout, so it takes the object yellow and always travels with the words
+   in the chip's title. */
 
 .chip {
   display: inline-flex;
@@ -28,27 +29,23 @@
   height: 44px;
 }
 
-.track {
-  fill: none;
-  stroke: var(--line);
-  stroke-width: 2;
-}
-
-.arc {
-  fill: none;
-  stroke: var(--warn);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
 .face {
   stroke: var(--line-strong);
-  stroke-width: 0.5;
+  stroke-width: 1;
+}
+
+.gaugeTrack {
+  fill: rgba(0, 0, 0, 0.35);
+}
+
+.gaugeFill {
+  fill: var(--accent-object);
 }
 
 /* The code's size is an SVG attribute in viewBox units, so it scales with
    the chip; CSS carries only weight and tracking. */
 .code {
+  font-family: var(--font-mono);
   font-weight: 600;
   letter-spacing: 0.04em;
 }

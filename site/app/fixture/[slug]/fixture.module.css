@@ -111,11 +111,8 @@
 /* The badge pair above the title: slight overlap, home in front. */
 .clubs {
   display: flex;
+  gap: var(--s2);
   margin-bottom: var(--s3);
-}
-
-.clubs > :last-child {
-  margin-left: calc(var(--s2) * -1);
 }
 
 /* Full time: the result beside what we said, in the display voice. */
