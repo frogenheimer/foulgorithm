@@ -2,7 +2,7 @@ import Link from "next/link";
 import FixtureLive from "@/components/fixture/FixtureLive";
 import Explorer from "@/components/explorer/Explorer";
 import Bets from "@/components/five/Bets";
-import Sheet from "@/components/matchday/Sheet";
+import GameSheet from "@/components/matchday/GameSheet";
 import SlipGrid from "@/components/fixture/SlipGrid";
 import { PageHeader, SectionHead } from "@/components/kit";
 import ClubChip from "@/components/kit/ClubChip";
@@ -93,10 +93,13 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         {sheet && (
           <section>
             <SectionHead
-              title="What both clubs have actually been doing"
-              note={`No model in any of these numbers: averages per match across ${matchday.seasons.join(" and ")}, and whether each line landed in the last ${matchday.window}, most recent on the left. Every figure can be checked against a scoreboard.`}
+              title="The game sheet"
+              note={`Both clubs face to face on everything we hold, averages across ${matchday.seasons.join(" and ")} with league ranks, then the players likely to be on the pitch. Actual numbers can be checked against a scoreboard; Expected ones are our model's, and the sheet says which is showing.`}
             />
-            <Sheet data={matchday} only={label} />
+            <GameSheet
+              fixture={matchday.fixtures.find((fx) => `${fx.home} v ${fx.away}` === label)!}
+              rows={getExplorer().rows.filter((r) => r.fixture === label)}
+            />
           </section>
         )}
 
@@ -214,19 +217,10 @@ function PastFixture({ a }: { a: ArchivedFixture }) {
       {a.matchday && (
         <section>
           <SectionHead
-            title="What both clubs had been doing"
-            note={`No model in any of these numbers: averages per match across ${a.matchday.seasons.join(" and ")}, as they stood before this game. Every figure can be checked against a scoreboard.`}
+            title="The game sheet, as it stood"
+            note={`Both clubs face to face on everything we held before kickoff, averages across ${a.matchday.seasons.join(" and ")}, then the players as we rated them. Actual numbers were checkable against a scoreboard; Expected ones were our model's.`}
           />
-          <Sheet
-            data={{
-              generatedAt: a.publishedAt,
-              window: a.matchday.window,
-              seasons: a.matchday.seasons,
-              note: a.matchday.note,
-              fixtures: [a.matchday.fixture],
-            }}
-            only={a.label}
-          />
+          <GameSheet fixture={a.matchday.fixture} rows={a.explorer.rows} />
         </section>
       )}
     </div>

@@ -1,0 +1,158 @@
+/* The structured game sheet: mirrored club bars, then the likely eleven. */
+
+.sheet {
+  display: grid;
+  gap: var(--s5);
+  min-width: 0;
+}
+
+.refStrip {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.mirror {
+  display: grid;
+  gap: var(--s2);
+}
+
+.metricRow {
+  display: grid;
+  grid-template-columns: minmax(64px, auto) 1fr minmax(64px, auto);
+  align-items: center;
+  gap: var(--s3);
+  font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.val {
+  white-space: nowrap;
+}
+
+.right {
+  text-align: right;
+}
+
+.rank {
+  margin-left: var(--s1);
+  margin-right: var(--s1);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.bars {
+  display: grid;
+  grid-template-columns: 1fr minmax(96px, auto) 1fr;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.metricLabel {
+  font-size: var(--t-xs);
+  text-align: center;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.trackLeft,
+.trackRight {
+  height: var(--s2);
+  background: var(--surface-sunk);
+  overflow: hidden;
+  display: flex;
+}
+
+.trackLeft {
+  justify-content: flex-end;
+}
+
+.barLeft,
+.barRight {
+  height: 100%;
+}
+
+.playerTier {
+  display: grid;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+
+.tierTitle {
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.toggle {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+}
+
+.toggleOn,
+.toggleOff {
+  padding: var(--s1) var(--s3);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background var(--d-fast) var(--ease), color var(--d-fast) var(--ease);
+}
+
+.toggleOn {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.toggleOff {
+  color: var(--ink-2);
+}
+
+.toggleOff:hover {
+  color: var(--ink);
+}
+
+.modeNote {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.playerCell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.doubt {
+  font-size: var(--t-xs);
+  color: var(--warn);
+  font-weight: 600;
+}
+
+.drawer {
+  border-top: 1px dashed var(--line-strong);
+  padding-top: var(--s2);
+}
+
+.drawerHead {
+  cursor: pointer;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  list-style: none;
+}
+
+.drawerHead::-webkit-details-marker {
+  display: none;
+}
+
+.drawerHead:hover {
+  color: var(--accent);
+}
