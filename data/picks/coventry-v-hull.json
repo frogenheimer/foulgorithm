@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-08-25T00:18:25+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 675.3,
+     "outOf100": 0,
+     "houseOutOf100": 0,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Dowell",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 35,
+       "backers": 3
+      },
+      {
+       "player": "Onyeka",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 14,
+       "backers": 3
+      },
+      {
+       "player": "Dowell",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 14,
+       "backers": 3
+      },
+      {
+       "player": "Hamer",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 2
+      },
+      {
+       "player": "Onyeka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 38,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

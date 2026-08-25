@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-08-25T00:18:25+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 8.0,
+     "outOf100": 12,
+     "houseOutOf100": 12,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Saka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 69,
+       "backers": 2
+      },
+      {
+       "player": "Havertz",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 67,
+       "backers": 2
+      },
+      {
+       "player": "McGinn",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 66,
+       "backers": 2
+      },
+      {
+       "player": "Buend\u00eda",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 64,
+       "backers": 2
+      },
+      {
+       "player": "Eze",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

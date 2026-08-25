@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-08-25T00:18:25+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 24.0,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 5,
+     "legs": [
+      {
+       "player": "Gallagher",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 69,
+       "backers": 3
+      },
+      {
+       "player": "Maddison",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 3
+      },
+      {
+       "player": "Bergvall",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 58,
+       "backers": 3
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 45,
+       "backers": 3
+      },
+      {
+       "player": "Maddison",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 37,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

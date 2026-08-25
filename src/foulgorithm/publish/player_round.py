@@ -957,31 +957,32 @@ def _record(board: list[dict], picks: list[dict], as_of, slates: dict | None = N
             )
         )
 
-    for cid, by_slate in (slates or {}).items():
-        for built in (by_slate or {}).values():
-            if not built:
-                continue
-            for leg in built["legs"]:
-                rows.append(
-                    pred_store.Prediction(
-                        published_at=published,
-                        kickoff=leg["kickoff"],
-                        fixture=leg["fixture"],
-                        entity=leg.get("fullName") or leg["player"],
-                        market=(
-                            "player_fouls_committed"
-                            if leg["market"] == "committed"
-                            else "player_fouls_drawn"
-                        ),
-                        line=leg["line"],
-                        probability=leg["prob"],
-                        model_id=cid,
-                        model_version="1.0.0",
-                        lineup_confirmed=False,
-                        thin=bool(leg.get("thin")),
-                        extra={},
+    for by_character in (slates or {}).values():
+        for cid, by_slate in (by_character or {}).items():
+            for built in (by_slate or {}).values():
+                if not built:
+                    continue
+                for leg in built["legs"]:
+                    rows.append(
+                        pred_store.Prediction(
+                            published_at=published,
+                            kickoff=leg["kickoff"],
+                            fixture=leg["fixture"],
+                            entity=leg.get("fullName") or leg["player"],
+                            market=(
+                                "player_fouls_committed"
+                                if leg["market"] == "committed"
+                                else "player_fouls_drawn"
+                            ),
+                            line=leg["line"],
+                            probability=leg["prob"],
+                            model_id=cid,
+                            model_version="1.0.0",
+                            lineup_confirmed=False,
+                            thin=bool(leg.get("thin")),
+                            extra={},
+                        )
                     )
-                )
 
     written = pred_store.append(rows)
     written["slates"] = _commit_slates(slates, published)
