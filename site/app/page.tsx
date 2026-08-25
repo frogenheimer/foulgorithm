@@ -90,7 +90,12 @@ export default function Today() {
             // kept a page for. See publish/archive.py.
             new Set([
               ...Object.keys(d.fixtureSlips),
-              ...Object.values(getArchivedFixtures()).map((a) => a.label),
+              // Cup archives share a league fixture's label but live at their
+              // own slug; linking a league card to a cup page misfiled a
+              // played league game once already.
+              ...Object.values(getArchivedFixtures())
+                .filter((a) => !a.competition)
+                .map((a) => a.label),
             ])
           }
           options={d.fixtureOptions}

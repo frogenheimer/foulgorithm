@@ -869,6 +869,12 @@ def _keep_expected_totals(board: list[dict], as_of) -> dict:
     totals = {}
     for fixture in board:
         label = f"{fixture['home']} v {fixture['away']}"
+        # A cup tie shares the league fixture's label, and this store keys by
+        # label. Unqualified, the cup's claim files under the league game's
+        # identity, which reads as a post-hoc claim on a played match: the
+        # exact thing this store exists to make impossible.
+        if fixture.get("competition"):
+            label = f"{label} ({fixture['competition']})"
         totals[label] = sum(
             sum((p.get("committed", {}).get("why", {}).get("expected_fouls") or 0)
                 for p in squad[:11])

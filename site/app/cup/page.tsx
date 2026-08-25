@@ -44,7 +44,9 @@ export default function Cup() {
           {board.map((f) => {
             const label = `${f.home} v ${f.away}`;
             const kickoff = new Date(f.kickoff);
-            const expected = d?.expectedTotals?.[label]?.expected;
+            const expected =
+              d?.expectedTotals?.[`${label} (${f.competition ?? "Cup"})`]?.expected ??
+              d?.expectedTotals?.[label]?.expected;
             const call = f.summary?.topFouler;
             // The house sheet's starred picks: the card's flip side, the same
             // quick glance the league cards carry on the homepage.
@@ -56,7 +58,7 @@ export default function Cup() {
             return (
               <Link
                 key={f.key}
-                href={`/fixture/${fixtureSlug(label)}`}
+                href={`/fixture/${fixtureSlug(label)}-cup`}
                 className={stars.length ? `${s.card} ${s.flippable}` : s.card}
               >
                 <span className={s.front}>

@@ -158,3 +158,31 @@ class TestCupWakes:
         cup = [SimpleNamespace(kickoff_utc=now + timedelta(days=1))]
         times = schedule.windows(league + cup)
         assert len(times) == 2
+
+
+class TestCupIdentity:
+    """A cup tie between the same two clubs shares the league fixture's
+    label. On 25 Aug 2026 the League Cup's Nott'm Forest v Leeds silently
+    took over the league game's page and filed its expected-fouls claim
+    under the played league match. Cup identity is qualified everywhere."""
+
+    def test_a_cup_slice_gets_its_own_slug(self):
+        from foulgorithm.publish import archive
+        payload = {
+            "generatedAt": "2026-08-25T17:00:00+00:00",
+            "fixtureSlips": {"A v B": {"alan": [{"legs": []}]}},
+            "board": [{"home": "A", "away": "B", "kickoff": "k", "competition": "League Cup"}],
+            "picks": [],
+        }
+        held = archive.slice_payload(payload, "A v B")
+        assert held["slug"] == "a-v-b-cup"
+
+    def test_a_league_slice_keeps_the_plain_slug(self):
+        from foulgorithm.publish import archive
+        payload = {
+            "generatedAt": "2026-08-25T17:00:00+00:00",
+            "fixtureSlips": {"A v B": {"alan": [{"legs": []}]}},
+            "board": [{"home": "A", "away": "B", "kickoff": "k", "competition": None}],
+            "picks": [],
+        }
+        assert archive.slice_payload(payload, "A v B")["slug"] == "a-v-b"

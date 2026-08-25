@@ -47,9 +47,14 @@ def slice_payload(payload: dict, label: str) -> dict | None:
         {},
     )
     explorer = payload.get("explorer") or {}
+    # A cup tie between the same two clubs shares the league fixture's LABEL,
+    # and on 25 Aug 2026 the League Cup's Nott'm Forest v Leeds silently took
+    # over the league game's page: same label, same slug, one file. Cup
+    # archives carry a suffixed slug so the two can never collide again.
+    competition = board.get("competition")
     return {
         "label": label,
-        "slug": fixture_slug(label),
+        "slug": fixture_slug(label) + ("-cup" if competition else ""),
         "publishedAt": payload.get("generatedAt", ""),
         "kickoff": board.get("kickoff", ""),
         "referee": board.get("referee"),
