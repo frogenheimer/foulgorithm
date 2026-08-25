@@ -18,7 +18,7 @@
  */
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { FixtureOption, SettledOption, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
 import { cardKind } from "@/lib/timeline";
@@ -413,6 +413,28 @@ function Game({
 
   const back = houseBack ?? crossoverBack ?? settledBack;
 
+  // Touch has no hover, so the flip did not exist there at all. First tap
+  // turns the card over instead of navigating; a tap on the turned card
+  // follows the link (its back foot says so), and a tap anywhere else turns
+  // it back. Pointer devices never enter this path: hover already flips.
+  const [tapped, setTapped] = useState(false);
+  const cardRef = useRef<HTMLAnchorElement>(null);
+  useEffect(() => {
+    if (!tapped) return;
+    const off = (e: PointerEvent) => {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) setTapped(false);
+    };
+    document.addEventListener("pointerdown", off);
+    return () => document.removeEventListener("pointerdown", off);
+  }, [tapped]);
+  const tapToFlip = (e: React.MouseEvent) => {
+    if (!back || tapped) return;
+    if (window.matchMedia("(hover: none)").matches) {
+      e.preventDefault();
+      setTapped(true);
+    }
+  };
+
   // Only this round has a page. Linking the rest would be a promise of depth
   // that is not there yet. With the disclosures gone the card holds no
   // interactive content, so the whole card is the link; reintroducing a
@@ -420,8 +442,10 @@ function Game({
   // interactive content inside an <a> is invalid and swallows the click.
   return linked ? (
     <Link
+      ref={cardRef}
       href={`/fixture/${fixtureSlug(label)}`}
-      className={`${cls} ${s.cardLink} ${back ? s.flippable : ""}`}
+      className={`${cls} ${s.cardLink} ${back ? s.flippable : ""} ${tapped ? s.tapped : ""}`}
+      onClick={tapToFlip}
     >
       <span className={s.front}>
         {head}

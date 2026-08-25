@@ -540,18 +540,30 @@
   }
 }
 
+/* The tap flip: same turn as hover, driven by a class, because touch has no
+   hover. Lives outside the hover media query on purpose. */
+.flippable.tapped .front {
+  transform: rotateY(180deg);
+}
+
+.flippable.tapped .backFace {
+  transform: rotateY(0deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .front,
   .backFace {
     transition: none;
   }
 
-  .flippable:hover .front {
+  .flippable:hover .front,
+  .flippable.tapped .front {
     transform: none;
     visibility: hidden;
   }
 
-  .flippable:hover .backFace {
+  .flippable:hover .backFace,
+  .flippable.tapped .backFace {
     transform: none;
   }
 }
