@@ -127,6 +127,12 @@ match*, rather than pretending the three are unrelated events.
 
 ### 5. Two-stage minutes and fouls
 
+> 🛑 **Already shipped.** `MinutesProfile` in `models/player_models.py` models
+> P(start), P(sub), P(unused) with minutes per branch, and `predict_one`
+> mixes the foul distribution over those branches, spike-at-zero included.
+> Found stale here 2026-08-25 while hunting an engine edge for generation 2.
+> The plan below is kept as written.
+
 **Technical.** Model P(start), then minutes given selection, then fouls given
 minutes, propagating uncertainty through all three rather than plugging in a
 point estimate for minutes.
@@ -265,7 +271,7 @@ the swap, not assumed to be zero.
 ## Recommended order
 
 1. **Count-specific dispersion** (3). Small, fixes a known defect, no new data.
-2. **Two-stage minutes** (5). Largest driver, currently crudest.
+2. ~~**Two-stage minutes** (5)~~ **shipped**; see the item's note.
 3. **Hierarchical Bayesian** (2). Replaces our guessed constants with derived
    ones and gives per-player uncertainty.
 4. **Joint match model** (4). Makes combination tickets honest.
