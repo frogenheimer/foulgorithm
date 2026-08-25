@@ -54,3 +54,34 @@
 .list strong {
   color: var(--ink);
 }
+
+/* Technical figure left, plain terms right. */
+.twin {
+  display: grid;
+  grid-template-columns: minmax(120px, auto) 1fr;
+  gap: var(--s2) var(--s5);
+  margin: 0;
+  font-size: var(--t-sm);
+}
+
+.twin dt {
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+
+.twin dd {
+  margin: 0;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .twin {
+    grid-template-columns: 1fr;
+    gap: var(--s1);
+  }
+
+  .twin dd {
+    margin-bottom: var(--s2);
+  }
+}

@@ -130,32 +130,26 @@ export default function Record() {
       )}
 
       <Card
-        title="What these columns mean"
-        subtitle="Because a hit rate on its own is the number a tipster shows you."
+        title="What the numbers mean"
+        subtitle="The technical figure on the left, plain terms on the right. A hit rate on its own is the number a tipster shows you; these are the ones that keep us honest."
       >
-        <ul className={t.list}>
-          <li>
-            <strong>We said</strong>, the average probability across every claim. If we
-            call twenty things at 30%, this reads 30%.
-          </li>
-          <li>
-            <strong>It happened</strong>, how often those things actually occurred. Six of
-            those twenty reads 30%, and that is a model working.
-          </li>
-          <li>
-            <strong>Gap</strong>, the distance between the two. Near zero is the goal.
-            Negative means we were overconfident.
-          </li>
-          <li>
-            <strong>Log loss</strong>, how costly the misses were. It punishes being
-            confident and wrong far harder than being unsure and wrong.
-          </li>
-          <li>
-            <strong>Calibration error</strong>, the same gap measured within each
-            confidence band rather than pooled, so being too high in one band and too low
-            in another cannot cancel out and look correct.
-          </li>
-        </ul>
+        <dl className={t.twin}>
+          <dt>We said 22.5%</dt>
+          <dd>Across every bet we published, on average we claimed a 22.5% chance.</dd>
+          <dt>It happened 22.0%</dt>
+          <dd>Those things actually occurred 22.0% of the time. The closer these two
+          sit, the more our numbers mean what they say.</dd>
+          <dt>Gap</dt>
+          <dd>The distance between the two. Near zero is the goal; negative means we
+          were overconfident.</dd>
+          <dt>Log loss</dt>
+          <dd>How expensive our misses were. Being confident and wrong costs far more
+          than being unsure and wrong, which is exactly how it should sting.</dd>
+          <dt>Calibration error</dt>
+          <dd>The same honesty check, band by band: when we say 30% it should happen
+          about 30% of the time, and being too high in one band cannot hide behind
+          being too low in another.</dd>
+        </dl>
       </Card>
     </div>
   );
