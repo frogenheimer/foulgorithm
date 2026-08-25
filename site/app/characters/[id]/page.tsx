@@ -3,7 +3,6 @@ import Signature from "@/components/characters/Signature";
 import type { Settings } from "@/components/characters/Signature";
 import { Callout, Card, MicroLabel, SectionHead } from "@/components/kit";
 import { getCharacters, getPlayers, getTrackRecord } from "@/lib/data";
-import { fixtureSlug } from "@/lib/slug";
 import c from "../characters.module.css";
 
 export function generateStaticParams() {
@@ -26,11 +25,6 @@ export default async function Character({ params }: { params: Promise<{ id: stri
   const peers = data.picks.map((p) => p.settings as unknown as Settings);
   const record = getTrackRecord()?.models?.[id];
 
-  // This character's ladder for the first fixture that has one, so the page
-  // shows what it actually does rather than only what it believes.
-  const found = Object.entries(data.fixtureSlips).find(([, byChar]) => byChar[id]?.length);
-  const fixture = found?.[0];
-  const ladder = found?.[1][id];
 
   return (
     <div className="stack" style={{ ["--char" as string]: `var(--ch-${id})` }}>
@@ -68,35 +62,6 @@ export default async function Character({ params }: { params: Promise<{ id: stri
       <Callout>
         <strong>Where it is wrong.</strong> {ch.weakness}
       </Callout>
-
-      {ladder && fixture && (
-        <section>
-          <SectionHead
-            title={`What it likes in ${fixture}`}
-            note={
-              <>
-                Its own ladder, built inside one fixture.{" "}
-                <Link href={`/fixture/${fixtureSlug(fixture)}`}>See all five side by side</Link>.
-              </>
-            }
-          />
-          <Card>
-            <div className={c.tiers}>
-              {ladder.map((t) => (
-                <div key={t.targetLabel} className={c.tier}>
-                  <span className={c.tierPrice}>{t.targetLabel}</span>
-                  <span className={c.tierLegs}>
-                    {t.legs
-                      .map((l) => `${l.player} ${l.fouls}+ ${l.market === "drawn" ? "won" : "fouls"}`)
-                      .join(" + ")}
-                  </span>
-                  <span className={c.tierOdds}>{t.outOf100}/100</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </section>
-      )}
 
       <section>
         <SectionHead title="Its record" />
