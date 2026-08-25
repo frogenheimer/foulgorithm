@@ -5,10 +5,10 @@
  *
  * The point of the swap is not the pitch. It is that a reader can ask "what if
  * he is rested" and get an answer, instead of being told to wait for team news.
- * Change a slot and the ladder at the foot of the page is recomputed from the
- * eleven now standing on it.
+ * Change a slot and the house sheet at the top is recomputed from the eleven
+ * now standing on it.
  *
- * The swap state itself lives in FixtureLive, because the ladder that consumes
+ * The swap state itself lives in FixtureLive, because the sheet that consumes
  * it sits at the other end of the page. This component only draws the pitches
  * and reports changes upward.
  */
@@ -68,9 +68,9 @@ export default function Lineups({
 
       {changed && (
         <Callout>
-          <strong>Rebuilt from your eleven.</strong> The ladder at the foot of the page
-          now uses the players on those pitches, not the published lineup. Nothing here
-          is graded: the record only ever contains what we actually published before
+          <strong>Rebuilt from your eleven.</strong> The house sheet at the top now
+          uses the players on those pitches, not the published lineup. Nothing here is
+          graded: the record only ever contains what we actually published before
           kickoff.
         </Callout>
       )}

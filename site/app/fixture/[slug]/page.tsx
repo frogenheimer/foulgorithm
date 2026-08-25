@@ -1,6 +1,5 @@
 import Link from "next/link";
 import FixtureLive from "@/components/fixture/FixtureLive";
-import HouseSheet from "@/components/fixture/HouseSheet";
 import Explorer from "@/components/explorer/Explorer";
 import SlipRail from "@/components/five/SlipRail";
 import GameSheet from "@/components/matchday/GameSheet";
@@ -201,9 +200,12 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         </div>
       )}
 
-      {v.houseSheet && <HouseSheet sheet={v.houseSheet} />}
-
-      <FixtureLive fixture={v.label} shapes={v.formations} explorer={v.explorer}>
+      <FixtureLive
+        fixture={v.label}
+        shapes={v.formations}
+        explorer={v.explorer}
+        houseSheet={v.houseSheet}
+      >
         {v.sheetFixture && (
           <section>
             <SectionHead

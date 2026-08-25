@@ -133,15 +133,24 @@ export function lines(shape: TeamShape, here: Occupant[], mirrored: boolean): Oc
   return mirrored ? [...out].reverse() : out;
 }
 
-/** Who is standing in each slot right now. */
+/**
+ * Who is standing in each slot right now.
+ *
+ * `scope` is the club, and it is load-bearing: slot keys used to be the bare
+ * index, so both teams shared keys "0" to "10" in the one selection map.
+ * Swapping into Forest's slot 3 silently claimed Liverpool's slot 3 too, the
+ * away lookup failed against the home name, and a player on the OTHER pitch
+ * vanished. One selection map, two teams, scoped keys.
+ */
 export function occupancy(
   shape: TeamShape,
   squad: ExplorerRow[],
   selected: Selected,
-  find: (rows: ExplorerRow[], name: string) => ExplorerRow | undefined
+  find: (rows: ExplorerRow[], name: string) => ExplorerRow | undefined,
+  scope: string
 ): Occupant[] {
   return shape.lines.flat().map((spot, index) => {
-    const key = `${index}`;
+    const key = `${scope}|${index}`;
     const chosen = selected[key];
     const row = chosen
       ? squad.find((r) => who(r.fullName) === chosen)
@@ -167,4 +176,28 @@ export function occupancy(
 export function benchFrom(squad: ExplorerRow[], here: Occupant[]): ExplorerRow[] {
   const onPitch = new Set(here.filter((o) => o.row).map((o) => who(o.row!.fullName)));
   return squad.filter((r) => !onPitch.has(who(r.fullName)));
+}
+
+/**
+ * Everyone standing on either pitch, as canonical `who()` keys: the published
+ * elevens with the reader's swaps applied. The house sheet rebuilds from
+ * exactly this set, through the same occupancy resolution the pitch draws
+ * with, so the sheet and the pitch can never disagree about who is playing.
+ */
+export function onPitchWho(
+  shapes: Record<string, TeamShape>,
+  clubs: string[],
+  selected: Selected,
+  squads: Record<string, ExplorerRow[]>,
+  find: (rows: ExplorerRow[], name: string) => ExplorerRow | undefined
+): Set<string> {
+  const names = new Set<string>();
+  for (const club of clubs) {
+    const shape = shapes[club];
+    if (!shape) continue;
+    for (const o of occupancy(shape, squads[club] ?? [], selected, find, club)) {
+      if (o.row) names.add(who(o.row.fullName));
+    }
+  }
+  return names;
 }

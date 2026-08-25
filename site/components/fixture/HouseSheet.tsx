@@ -17,11 +17,18 @@ const MARKETS = [
   { key: "drawn", label: "Fouls won" },
 ] as const;
 
-export default function HouseSheet({ sheet }: { sheet: Sheet }) {
+export default function HouseSheet({
+  sheet,
+  rebuilt = false,
+}: {
+  sheet: Sheet;
+  /** True once a reader has swapped the pitch and the sheet is recomputed live. */
+  rebuilt?: boolean;
+}) {
   if (!sheet.groups.length) return null;
   return (
     <div className={s.panel}>
-      <span className={s.kicker}>The house</span>
+      <span className={s.kicker}>{rebuilt ? "The house · your eleven" : "The house"}</span>
       <div className={s.columns}>
         {MARKETS.map((m) => {
           const groups = sheet.groups.filter((g) => g.market === m.key);
@@ -52,9 +59,9 @@ export default function HouseSheet({ sheet }: { sheet: Sheet }) {
         })}
       </div>
       <span className={s.foot}>
-        The model&rsquo;s shouts, priced by its own numbers. Starred is the
-        sheet&rsquo;s best, one line per player. Nothing here is a bet; the
-        eleven&rsquo;s committed bets are further down.
+        {rebuilt
+          ? "Recomputed live from the eleven you chose on the pitches below. Reset the pitch to see the published sheet again."
+          : "The model’s shouts, priced by its own numbers. Starred is the sheet’s best, one line per player. Nothing here is a bet; the eleven’s committed bets are further down."}
       </span>
     </div>
   );

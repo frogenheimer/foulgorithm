@@ -225,7 +225,7 @@ function Bench({
   // whether the league named them substitutes or a swap put them there.
   const off = benchFrom(
     side.squad,
-    occupancyOf(side.shape, side.squad, selected, findPlayer)
+    occupancyOf(side.shape, side.squad, selected, findPlayer, side.club)
   );
 
   return (
@@ -281,7 +281,7 @@ function Half({
   mirrored?: boolean;
 }) {
   const [open, setOpen] = useState<string | null>(null);
-  const here = occupancyOf(side.shape, side.squad, selected, findPlayer);
+  const here = occupancyOf(side.shape, side.squad, selected, findPlayer, side.club);
   const byKey = new Map(here.map((o) => [o.key, o]));
   const shirts = useMemo(() => shirtIndex(side.shape), [side.shape]);
 
