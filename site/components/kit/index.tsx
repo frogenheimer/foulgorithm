@@ -19,7 +19,8 @@ export function PageHeader({
   lede,
   kicker,
 }: {
-  title: string;
+  /** A string on most pages; the fixture page passes a matchup lockup. */
+  title: ReactNode;
   lede?: ReactNode;
   /** The transmission line above the title: "TODAY · MATCHWEEK 2". */
   kicker?: string;

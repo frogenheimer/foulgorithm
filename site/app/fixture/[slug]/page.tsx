@@ -141,10 +141,6 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         <Link href={v.competition ? "/cup" : "/"} className={s.back}>
           &larr; {v.competition ? "The cups" : "Today"}
         </Link>
-        <div className={s.clubs} aria-hidden>
-          <ClubChip name={home} size="lg" temper={temperOf(v.sheetFixture, home)} />
-          <ClubChip name={away} size="lg" temper={temperOf(v.sheetFixture, away)} />
-        </div>
         <PageHeader
           kicker={
             played
@@ -153,7 +149,21 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
                 ? `${v.competition} · exhibition`
                 : "Fixture"
           }
-          title={v.label}
+          title={
+            <span className={s.matchup}>
+              <span className={s.matchupSide}>
+                <ClubChip name={home} size="lg" temper={temperOf(v.sheetFixture, home)} />
+                <span className={s.matchupName}>{home}</span>
+              </span>
+              <span className={s.matchupV} aria-hidden>
+                v
+              </span>
+              <span className={s.matchupSide}>
+                <ClubChip name={away} size="lg" temper={temperOf(v.sheetFixture, away)} />
+                <span className={s.matchupName}>{away}</span>
+              </span>
+            </span>
+          }
           lede={
             <>
               {kickoff &&
@@ -163,6 +173,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
                   month: "long",
                   hour: "2-digit",
                   minute: "2-digit",
+                  timeZone: "Europe/London",
                 })}`}
               {v.referee && ` · ${v.referee}`}
               {!played && v.lineupNote && ` · ${v.lineupNote}`}
@@ -224,7 +235,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         <section>
           <SectionHead
             title="Every player in this game"
-            note="Fouls conceded, fouls won, and both together. The most likely foulers lead; open the rest if you want the full squads. Open a row for the whole distribution behind the number."
+            note="Fouls committed, fouls won, and both together. The most likely foulers lead; open the rest if you want the full squads. Open a row for the whole distribution behind the number."
           />
           <Explorer data={v.explorer} only={v.label} collapsedTo={10} />
         </section>

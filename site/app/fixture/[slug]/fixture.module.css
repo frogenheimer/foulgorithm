@@ -109,10 +109,39 @@
 }
 
 /* The badge pair above the title: slight overlap, home in front. */
-.clubs {
+/* The matchup lockup: box v box, names underneath in the mono voice. It IS
+   the h1, so the page title and the badges stop being two separate objects
+   drifting apart. */
+.matchup {
   display: flex;
+  align-items: flex-start;
+  gap: var(--s5);
+}
+
+.matchupSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: var(--s2);
-  margin-bottom: var(--s3);
+  min-width: 0;
+}
+
+.matchupName {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.matchupV {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-top: var(--s3);
 }
 
 /* Full time: the result beside what we said, in the display voice. */
