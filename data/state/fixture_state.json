@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-23T12:51:37.159181+00:00",
+  "checkedAt": "2026-08-25T05:49:42.250637+00:00",
   "fixtures": {
     "128923": {
       "fixture": "Arsenal v Coventry City",
@@ -41,25 +41,25 @@
       "fixture": "Brighton & Hove Albion v Aston Villa",
       "kickoff": "2026-08-23T13:00:00+00:00",
       "referee": null,
-      "status": "U"
+      "status": "C"
     },
     "128930": {
       "fixture": "Manchester City v Bournemouth",
       "kickoff": "2026-08-23T13:00:00+00:00",
       "referee": null,
-      "status": "U"
+      "status": "C"
     },
     "128931": {
       "fixture": "Newcastle United v Liverpool",
       "kickoff": "2026-08-23T15:30:00+00:00",
       "referee": null,
-      "status": "U"
+      "status": "C"
     },
     "128932": {
       "fixture": "Fulham v Chelsea",
       "kickoff": "2026-08-24T19:00:00+00:00",
       "referee": null,
-      "status": "U"
+      "status": "C"
     },
     "128937": {
       "fixture": "Crystal Palace v Manchester City",
@@ -602,5 +602,30 @@
       "status": "U"
     }
   },
-  "lastChanges": []
+  "lastChanges": [
+    {
+      "fixture": "Brighton & Hove Albion v Aston Villa",
+      "change": "status",
+      "from": "U",
+      "to": "C"
+    },
+    {
+      "fixture": "Manchester City v Bournemouth",
+      "change": "status",
+      "from": "U",
+      "to": "C"
+    },
+    {
+      "fixture": "Newcastle United v Liverpool",
+      "change": "status",
+      "from": "U",
+      "to": "C"
+    },
+    {
+      "fixture": "Fulham v Chelsea",
+      "change": "status",
+      "from": "U",
+      "to": "C"
+    }
+  ]
 }
