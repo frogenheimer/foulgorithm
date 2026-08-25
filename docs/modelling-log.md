@@ -18,6 +18,32 @@ Every modelling decision lands here: what was tried, what the numbers were, what
 
 ---
 
+## 2026-08-26 — Fixture congestion: a small old effect that no longer exists
+
+**Question.** Oliver's angle: do tired teams foul differently? Days since the
+previous match is free, computable from fixture lists already on disk, and
+untested.
+
+**Method.** 19,164 team-matches across 20 seasons of league data. Rest days
+per team within a season, fouls demeaned per season (fouls fell 20% over the
+window, so raw means would measure the era, not the rest).
+
+**Result.** Over the full window, monotonic and small: 2-3 days' rest runs
+0.15 fouls below the season mean, 8+ days runs 0.12 above, correlation 0.024.
+In the modern era (2019 onward, 5,114 team-matches) it vanishes: correlation
+0.0017 and the buckets are not even ordered.
+
+**Conclusion.** Not a factor. Whatever squad rotation and sports science were
+doing to tired legs in 2005, they have finished doing. A player-level version
+(minutes accumulated in the last N days) is still untested, but the team-level
+null lowers expectations, and it should wait behind ideas with measured
+upside.
+
+**Caveats.** League fixtures only: cup midweeks are invisible, so some
+measured long rests were real short ones, which attenuates the effect toward
+zero. That bias existed in both eras, and the old era still showed the
+effect through it.
+
 ## 2026-08-24 — The refit calibration mostly says: stop correcting
 
 **Question.** The published correction was fitted against the model before
