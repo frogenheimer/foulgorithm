@@ -438,6 +438,49 @@ class TestBindingVersions:
         assert joined[0]["extra"]["round"] == "2026-08-24"
 
 
+class TestRoundsAreGameweeks:
+    """A round is the league's gameweek, and a bet's identity never depends
+    on WHEN it was published. Before this, a Saturday republish computed a
+    fresh first-kickoff date and the same game's bet landed under a second
+    round key: two binding versions of one bet, scored twice. Binding now
+    groups per game, so republishing mid-gameweek updates the bet instead
+    of duplicating it."""
+
+    @staticmethod
+    def slate(published, keys, fixture="C v D", round_key="2026-08-28",
+              kickoff="2026-08-30T15:00:00+00:00", matchweek=None):
+        return {
+            "key": f"{round_key}|alan|three-twos|{fixture}",
+            "published_at": published,
+            "round": round_key,
+            "character": "alan",
+            "slate": "three-twos",
+            "fixture": fixture,
+            "kickoff": kickoff,
+            "first_kickoff": "2026-08-28T19:00:00+00:00",
+            "claim_keys": keys,
+            "matchweek": matchweek,
+        }
+
+    def test_a_mid_gameweek_republish_updates_the_bet_never_duplicates_it(self):
+        friday = self.slate("2026-08-28T17:00:00+00:00", ["fri1"], round_key="2026-08-28")
+        saturday = self.slate("2026-08-29T13:00:00+00:00", ["sat1"], round_key="2026-08-29")
+        saturday["first_kickoff"] = "2026-08-29T14:00:00+00:00"
+        binding = league.binding_versions([friday, saturday])
+        assert len(binding) == 1
+        assert binding[0]["claim_keys"] == ["sat1"]
+
+    def test_matchweek_rows_carry_a_gameweek_round_id(self):
+        row = self.slate("2026-08-28T17:00:00+00:00", ["k"], matchweek=2)
+        assert league.round_id(row) == "mw02"
+
+    def test_the_season_filter_excludes_legacy_dates_and_keeps_gameweeks(self):
+        assert league.round_before("2026-08-17", "2026-08-28") is True
+        assert league.round_before("2026-08-28", "2026-08-28") is False
+        assert league.round_before("mw02", "2026-08-28") is False
+        assert league.round_before("mw38", "2026-08-28") is False
+
+
 class TestFoulDifference:
     """The difference column carries the size of a miss. A 2+ shout where he
     never fouled counts -2; missed by one counts -1; a landed leg +1. A near

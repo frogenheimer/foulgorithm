@@ -185,17 +185,30 @@ def build_slates(
 
 
 def round_id(row: dict) -> str:
-    """Which round a slate version belongs to: the date of its own first
-    kickoff, never the stored label.
+    """Which round a bet belongs to: the league's own gameweek.
 
-    The stored round label was week-based, and week keys collide: the night
-    of 2026-08-24 a round finished on the Monday and the next was published
-    under the same key two hours later, superseding picks nobody ever
-    re-made. The kickoff each row carries identifies its round unambiguously.
-    Rows from before the field existed fall back to the label.
+    Rows committed since 2026-08-25 carry the fixture's matchweek and get a
+    gameweek id ("mw02"). Older rows fall back to the date of their round's
+    first kickoff, and the oldest to their stored label. Never trust the
+    stored label alone: week-based labels collided on 2026-08-24 and a new
+    round superseded picks nobody ever re-made.
     """
+    matchweek = row.get("matchweek")
+    if matchweek:
+        return f"mw{int(matchweek):02d}"
     kickoff = row.get("first_kickoff") or ""
     return kickoff[:10] or row.get("round", "")
+
+
+def round_before(round_key: str, since: str) -> bool:
+    """The season filter, across both round-id generations.
+
+    Gameweek ids ("mw02") only exist under the docs/38 contract and are
+    never before the season start; legacy date ids compare as dates.
+    """
+    if round_key.startswith("mw"):
+        return False
+    return bool(round_key) and round_key < since
 
 
 def binding_versions(committed: list[dict]) -> list[dict]:
@@ -219,9 +232,16 @@ def binding_versions(committed: list[dict]) -> list[dict]:
         published = row.get("published_at", "")
         if cutoff and published > cutoff:
             continue
-        key = (
-            f"{round_id(row)}|{row['character']}|{row['slate']}|{row.get('fixture') or ''}"
-        )
+        # A per-game bet's identity is the game itself (unique within a
+        # season), never the publish moment: a Saturday republish used to
+        # mint a fresh round key and the same bet bound twice. The kickoff
+        # year keeps identities apart across seasons.
+        fixture = row.get("fixture")
+        if fixture:
+            year = (row.get("kickoff") or row.get("first_kickoff") or "")[:4]
+            key = f"{row['character']}|{row['slate']}|{fixture}|{year}"
+        else:
+            key = f"{round_id(row)}|{row['character']}|{row['slate']}|"
         held = eligible.get(key)
         if held is None or published > held.get("published_at", ""):
             eligible[key] = row
@@ -327,7 +347,7 @@ def table(
         round_key = extra.get("round") or ""
         if not cid or not slate or "landed" not in row:
             continue
-        if round_key and round_key < since:
+        if round_before(round_key, since):
             continue
         landed = bool(row["landed"])
         deficit = int(row.get("deficit") or (0 if landed else 1))

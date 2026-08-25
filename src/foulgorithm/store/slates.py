@@ -49,6 +49,8 @@ class Committed:
     # regenerate at T-60 after Friday's game has started.
     fixture: str | None = None
     kickoff: str | None = None
+    # The league's own gameweek, the round's true identity (docs/38).
+    matchweek: int | None = None
 
     @property
     def key(self) -> str:

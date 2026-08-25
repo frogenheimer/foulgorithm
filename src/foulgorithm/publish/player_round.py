@@ -701,6 +701,18 @@ def _commit_slates(slates: dict, published: str) -> dict:
     ]
     first_kickoff = min(kickoffs) if kickoffs else None
 
+    # Each game's gameweek, from the season export: the round's true
+    # identity, stable however many times a gameweek is republished.
+    matchweeks: dict[str, int] = {}
+    season_path = Path("site/public/data/season.json")
+    if season_path.exists():
+        try:
+            for fx in json.loads(season_path.read_text()).get("fixtures", []):
+                if fx.get("matchweek"):
+                    matchweeks[f"{fx.get('home')} v {fx.get('away')}"] = int(fx["matchweek"])
+        except (OSError, json.JSONDecodeError, ValueError):
+            matchweeks = {}
+
     committed = []
     for label, by_character in (slates or {}).items():
         for cid, by_slate in (by_character or {}).items():
@@ -740,6 +752,7 @@ def _commit_slates(slates: dict, published: str) -> dict:
                         first_kickoff=first_kickoff,
                         fixture=label,
                         kickoff=built["legs"][0]["kickoff"],
+                        matchweek=matchweeks.get(label),
                     )
                 )
     return slate_store.append(committed)
