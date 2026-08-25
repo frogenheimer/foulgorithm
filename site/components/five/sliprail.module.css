@@ -7,6 +7,8 @@
   overflow: hidden;
   min-width: 0;
   padding: var(--s5) 0 var(--s7);
+  /* Full bleed: out of the centered column to the main area's edges. */
+  margin-inline: calc((100% - 100cqw) / 2);
 }
 
 .wire {

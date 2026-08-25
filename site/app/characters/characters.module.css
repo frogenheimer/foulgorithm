@@ -189,6 +189,8 @@
 .betsGame {
   border: 1px solid var(--line);
   background: var(--surface);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .betsGame[open] {

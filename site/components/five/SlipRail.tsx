@@ -35,8 +35,9 @@ import s from "./sliprail.module.css";
 
 /** Pivot to centre of mass, px. Sets the swing period; taste, not physics. */
 const LENGTH = 130;
-/** How far a slip travels down before it tears off the rail. */
-const TEAR_PX = 64;
+/** How far a slip travels down before it tears off the rail. Deliberate:
+ *  a horizontal fling that dips should never rip a sheet. */
+const TEAR_PX = 96;
 /** Ambient drift, px/s. Slow enough to read; pauses under any pointer. */
 const DRIFT = 14;
 
@@ -86,8 +87,9 @@ function Rail({ bets, characters, shapes, outcomes, gameOver = false, medals }: 
     if (dt <= 0) return;
 
     // The drift: the wire wanders until a pointer claims it, ping-ponging
-    // at the ends so the whole set passes a patient reader.
-    if (restingRef.current && range > 0) {
+    // at the ends so the whole set passes a patient reader. It also yields
+    // to a thrown rail: stamping on the inertia every frame read as jitter.
+    if (restingRef.current && range > 0 && !x.isAnimating()) {
       let next = x.get() + driftDir.current * DRIFT * dt;
       if (next < -range) {
         next = -range;
@@ -216,13 +218,16 @@ function Hanger({
         className={s.paper}
         drag="y"
         dragPropagation
-        dragConstraints={{ top: 0, bottom: TEAR_PX + 26 }}
+        dragConstraints={{ top: 0, bottom: TEAR_PX + 30 }}
         dragElastic={0.06}
         dragSnapToOrigin
         onDragStart={() => setGripped(true)}
         onDragEnd={(_, info) => {
           setGripped(false);
-          if (info.offset.y > TEAR_PX || info.velocity.y > 620) onOpen();
+          // Downward, dominant and deliberate: a sideways fling that dips
+          // does not count, and neither does a slow sag.
+          const dominant = info.offset.y > Math.abs(info.offset.x) * 1.5;
+          if (dominant && (info.offset.y > TEAR_PX || info.velocity.y > 900)) onOpen();
         }}
         onTap={onOpen}
         whileDrag={{ cursor: "grabbing" }}
