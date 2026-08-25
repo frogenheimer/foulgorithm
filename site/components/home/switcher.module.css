@@ -1,0 +1,41 @@
+.row {
+  display: flex;
+  gap: var(--s2);
+  flex-wrap: wrap;
+}
+
+.chip,
+.on {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: var(--s1) var(--s3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  color: var(--ink-3);
+  white-space: nowrap;
+  transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
+}
+
+.chip:hover {
+  color: var(--ink);
+  border-color: var(--ink-3);
+  text-decoration: none;
+}
+
+.on {
+  background: var(--accent-object);
+  border-color: var(--accent-object);
+  color: var(--accent-object-ink);
+}
+
+.on:hover {
+  text-decoration: none;
+}
+
+.beta {
+  font-weight: 500;
+  opacity: 0.7;
+}

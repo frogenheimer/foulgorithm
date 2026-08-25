@@ -394,16 +394,33 @@ def _match_context():
     return MatchContextSource(matches)
 
 
-def publish(output: Path = OUTPUT) -> dict:
+def publish(
+    output: Path = OUTPUT,
+    fixtures_override: list[dict] | None = None,
+    record: bool = True,
+    competition: str | None = None,
+) -> dict:
+    """Predict a round and write the payload.
+
+    `fixtures_override` feeds the engine a hand-picked slate instead of the
+    league's next round, and `record=False` makes the run an EXHIBITION:
+    the payload and fixture pages are written but nothing enters the
+    append-only stores, so nothing is graded and nothing scores in the
+    league. Both exist for cup ties (publish/cup.py); a league publish
+    passes neither.
+    """
     history = load_player_matches()
 
-    # The league's list decides what is next; football-data supplies the referee
-    # and the odds. Reading the round from football-data meant predicting games
-    # already played, because that file holds one round and does not roll over
-    # until midweek. See features/next_round.py.
-    from foulgorithm.features import next_round
+    if fixtures_override is not None:
+        fixtures = pd.DataFrame(fixtures_override)
+    else:
+        # The league's list decides what is next; football-data supplies the
+        # referee and the odds. Reading the round from football-data meant
+        # predicting games already played, because that file holds one round
+        # and does not roll over until midweek. See features/next_round.py.
+        from foulgorithm.features import next_round
 
-    fixtures = pd.DataFrame(next_round.fetch())
+        fixtures = pd.DataFrame(next_round.fetch())
     as_of = datetime.now(timezone.utc)
     if fixtures.empty:
         print("  no upcoming fixtures, nothing to predict")
@@ -477,6 +494,9 @@ def publish(output: Path = OUTPUT) -> dict:
             "home": fx.home_team_raw,
             "away": fx.away_team_raw,
             "kickoff": fx.kickoff_utc.isoformat(),
+            # Absent on league rows; a hand-fed cup row names its competition
+            # and the fixture page shows it. See publish/cup.py.
+            "competition": getattr(fx, "competition", None),
             # NaN, not None, is what a missing referee becomes once the rows go
             # through pandas, and NaN is not JSON. It reached the site as a
             # literal `NaN` token and broke the build. A fixture with no
@@ -582,10 +602,12 @@ def publish(output: Path = OUTPUT) -> dict:
             option["lineupsConfirmed"] = label in confirmed_fixtures
 
     # Keep what each card says, so it can be marked right or wrong afterwards.
-    _record_cards(fixture_options, fixtures, as_of)
+    if record:
+        _record_cards(fixture_options, fixtures, as_of)
 
     payload = {
         "generatedAt": as_of.replace(microsecond=0).isoformat(),
+        "competition": competition,
         "trainedOn": {
             "playerMatches": len(history),
             "players": int(history["player"].nunique()),
@@ -674,7 +696,14 @@ def publish(output: Path = OUTPUT) -> dict:
     # Persist the claims themselves, separately from the page they render on.
     # The JSON above is a view and gets overwritten every run; this is the
     # record, and it is append-only.
-    payload["recorded"] = _record(board, picks, as_of, slates)
+    if record:
+        payload["recorded"] = _record(board, picks, as_of, slates)
+    else:
+        payload["recorded"] = {
+            "written": 0,
+            "skipped": 0,
+            "note": "exhibition: nothing enters the record",
+        }
     return payload
 
 

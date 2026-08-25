@@ -1,0 +1,71 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--s4);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  min-width: 0;
+  padding: var(--s5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  color: inherit;
+  transition: border-color var(--d-fast) var(--ease);
+}
+
+.card:hover {
+  border-color: var(--accent-object);
+  text-decoration: none;
+}
+
+.day {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+}
+
+.clubs {
+  display: flex;
+  gap: var(--s2);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--t-lg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.fouls {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.fouls em {
+  font-family: var(--font);
+  font-style: normal;
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+
+.call {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+.note {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}

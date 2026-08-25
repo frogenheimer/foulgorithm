@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CompetitionSwitcher from "@/components/home/CompetitionSwitcher";
 import Timeline from "@/components/fixture/Timeline";
 import Vidiprinter from "@/components/home/Vidiprinter";
 import { Card, Metric, MetricRow, PageHeader, SectionHead } from "@/components/kit";
@@ -44,6 +45,7 @@ export default function Today() {
 
   return (
     <div className="stack">
+      <CompetitionSwitcher active="league" />
       <PageHeader
         kicker={`Today · Matchweek ${season.currentMatchweek}`}
         title="Today"

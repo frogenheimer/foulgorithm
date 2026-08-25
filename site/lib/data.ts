@@ -321,6 +321,8 @@ export type Ticket = {
 
 export type FixtureBoard = {
   key: string; home: string; away: string; kickoff: string; referee: string | null;
+  /** Named on hand-fed cup rows; null on league fixtures. */
+  competition?: string | null;
   lineupConfirmed?: boolean;
   teams: Record<string, PlayerRow[]>;
   tickets?: Record<string, Ticket[]>;
@@ -480,6 +482,16 @@ export const fixtureSlug = (label: string) =>
   label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 export const getPlayers = () => read<PlayersData>("players.json");
+
+/** The hand-fed cup slate, or null before the first cup publish. Exhibition
+ *  only: nothing in it is recorded or scored. See publish/cup.py. */
+export function getCup(): PlayersData | null {
+  try {
+    return read<PlayersData>("cup.json");
+  } catch {
+    return null;
+  }
+}
 export const getExplorer = (): Explorer => getPlayers().explorer;
 
 /* ---------- the stats sheet ---------- */
@@ -679,6 +691,7 @@ export type ArchivedFixture = {
   publishedAt: string;
   kickoff: string;
   referee: string | null;
+  competition?: string | null;
   characters: { id: string; name: string; generation?: number }[];
   ladder: Record<string, Slip[]>;
   /** This game's fifteen bets (character id -> slate key -> bet), when the

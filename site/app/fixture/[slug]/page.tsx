@@ -35,6 +35,8 @@ type FixtureView = {
   label: string;
   kickoff: string | null;
   referee: string | null;
+  /** Named on hand-fed cup ties; null on league games. */
+  competition: string | null;
   lineupNote: string | null;
   ladder: Record<string, Slip[]>;
   bets: Record<string, Record<string, Bet>> | null;
@@ -58,6 +60,7 @@ function liveView(label: string): FixtureView {
     label,
     kickoff: board?.kickoff ?? null,
     referee: board?.referee ?? null,
+    competition: board?.competition ?? null,
     lineupNote: board?.lineupConfirmed
       ? "XI confirmed"
       : "XI predicted from current squads",
@@ -81,6 +84,7 @@ function archivedView(slug: string): FixtureView | null {
     label: a.label,
     kickoff: a.kickoff || null,
     referee: a.referee,
+    competition: a.competition ?? null,
     lineupNote: null,
     ladder: a.ladder,
     bets: a.bets ?? null,
@@ -134,15 +138,21 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
   return (
     <div className="stack">
       <div>
-        <Link href="/" className={s.back}>
-          &larr; Today
+        <Link href={v.competition ? "/cup" : "/"} className={s.back}>
+          &larr; {v.competition ? "The cups" : "Today"}
         </Link>
         <div className={s.clubs} aria-hidden>
           <ClubChip name={home} size="lg" temper={temperOf(v.sheetFixture, home)} />
           <ClubChip name={away} size="lg" temper={temperOf(v.sheetFixture, away)} />
         </div>
         <PageHeader
-          kicker={played ? "Full time" : "Fixture"}
+          kicker={
+            played
+              ? "Full time"
+              : v.competition
+                ? `${v.competition} · exhibition`
+                : "Fixture"
+          }
           title={v.label}
           lede={
             <>
@@ -234,7 +244,9 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
               note={
                 played
                   ? "Three bets from every competitor, exactly as committed before kickoff. A tick landed, a cross did not, and a struck-through leg is void: its player had no graded outcome, so the bet settled on its remaining legs."
-                  : "Three bets from every competitor, the five and the challengers alike, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet\u2019s last version before kickoff is the one that counts."
+                  : v.competition
+                    ? "Exhibition. The same three bets from every competitor, published for the ride: nothing here is recorded, graded or scored in the league table. The team-sheet feed is league-only, so these are built from predicted elevens."
+                    : "Three bets from every competitor, the five and the challengers alike, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet\u2019s last version before kickoff is the one that counts."
               }
             />
             <SlipRail
