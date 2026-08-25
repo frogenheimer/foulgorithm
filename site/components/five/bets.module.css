@@ -1,0 +1,139 @@
+/* The five's bets on one game, as slips: one card per character, three bets
+   inside. Marks pair colour with a sign or a word, never colour alone. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--s3);
+}
+
+.card {
+  display: grid;
+  gap: var(--s3);
+  align-content: start;
+  padding: var(--s4);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--char, var(--line-strong));
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-pill);
+  background: var(--char, var(--line-strong));
+}
+
+.bet {
+  display: grid;
+  gap: var(--s1);
+  padding-top: var(--s2);
+  border-top: 1px solid var(--line);
+}
+
+.betHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+}
+
+.betLabel {
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+
+.price {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+}
+
+.verdictWon,
+.verdictLost,
+.verdictOpen {
+  font-size: var(--t-xs);
+  font-weight: 600;
+}
+
+.verdictWon {
+  color: var(--good);
+}
+
+.verdictLost {
+  color: var(--bad);
+}
+
+.verdictOpen {
+  color: var(--ink-3);
+}
+
+.legs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s1);
+}
+
+.leg,
+.legWon,
+.legLost,
+.legVoid {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+.legPlayer {
+  color: var(--ink);
+}
+
+.legWhat {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.sign {
+  margin-left: auto;
+  font-size: var(--t-xs);
+  font-weight: 600;
+}
+
+.legWon .sign {
+  color: var(--good);
+}
+
+.legLost .sign {
+  color: var(--bad);
+}
+
+/* A void leg was never settled: struck through, faded, and it says so. */
+.legVoid .legPlayer {
+  color: var(--ink-3);
+  text-decoration: line-through;
+}
+
+.legVoid .sign {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.passed {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}

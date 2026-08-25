@@ -1,6 +1,7 @@
 import Link from "next/link";
 import FixtureLive from "@/components/fixture/FixtureLive";
 import Explorer from "@/components/explorer/Explorer";
+import Bets from "@/components/five/Bets";
 import Sheet from "@/components/matchday/Sheet";
 import SlipGrid from "@/components/fixture/SlipGrid";
 import { PageHeader, SectionHead } from "@/components/kit";
@@ -101,6 +102,24 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
           />
           <Explorer data={getExplorer()} only={`${home} v ${away}`} collapsedTo={10} />
         </section>
+
+        {data.slates.byGame?.[label] && (
+          <section>
+            <SectionHead
+              title={
+                (data.slates.confirmedFixtures ?? []).includes(label)
+                  ? "The five's bets on this game"
+                  : "The five's bets on this game *"
+              }
+              note="Three bets per character, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet's last version before kickoff is the one that counts."
+            />
+            <Bets
+              bets={data.slates.byGame[label]}
+              characters={data.picks.map((p) => ({ id: p.id, name: p.name }))}
+              shapes={data.slates.shapes}
+            />
+          </section>
+        )}
       </FixtureLive>
     </div>
   );
@@ -145,6 +164,22 @@ function PastFixture({ a }: { a: ArchivedFixture }) {
           }
         />
       </div>
+
+      {a.bets && (
+        <section>
+          <SectionHead
+            title="The bets, marked"
+            note="Three bets per character, the ones the league table scores, exactly as committed before kickoff. A tick is a leg that landed, a cross one that did not, and a struck-through leg is void: its player had no graded outcome, so the bet settled on its remaining legs."
+          />
+          <Bets
+            bets={a.bets}
+            characters={a.characters}
+            shapes={getPlayers().slates.shapes}
+            outcomes={a.outcomes ?? {}}
+            gameOver={Boolean(a.result)}
+          />
+        </section>
+      )}
 
       <section>
         <SectionHead

@@ -28,3 +28,26 @@ export function slipVerdict(slip: Slip, outcomes: Outcomes | undefined): Verdict
   if (marks.length && marks.every((m) => m === true)) return "came in";
   return "open";
 }
+
+export type BetVerdict = Verdict | "void";
+
+/**
+ * A committed bet's verdict, void backstop included: once the game is over,
+ * a leg with no graded outcome voids and the bet settles on its remaining
+ * legs (docs/38). Before the game is over an ungraded leg keeps the bet
+ * open, exactly like slipVerdict.
+ */
+export function betVerdict(
+  legs: SlipLeg[],
+  outcomes: Outcomes | undefined,
+  gameOver: boolean
+): BetVerdict {
+  const marks = legs.map((l) => legMark(l, outcomes));
+  if (marks.some((m) => m === false)) return "no";
+  if (!gameOver) {
+    return marks.length && marks.every((m) => m === true) ? "came in" : "open";
+  }
+  const settled = marks.filter((m) => m !== null);
+  if (!settled.length) return "void";
+  return "came in";
+}

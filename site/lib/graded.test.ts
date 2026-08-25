@@ -8,7 +8,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { legKey, legMark, slipVerdict } from "./graded";
+import { betVerdict, legKey, legMark, slipVerdict } from "./graded";
 import type { Slip, SlipLeg } from "./data";
 
 function leg(fullName: string, line = 0.5, market = "committed"): SlipLeg {
@@ -52,5 +52,26 @@ describe("slipVerdict", () => {
     expect(
       slipVerdict(slip(leg("Kevin Schade"), leg("Nobody Here")), OUTCOMES)
     ).toBe("open");
+  });
+});
+
+describe("betVerdict", () => {
+  it("voids an ungraded leg once the game is over, and settles on the rest", () => {
+    expect(betVerdict([leg("Kevin Schade"), leg("Nobody Here")], OUTCOMES, true)).toBe(
+      "came in"
+    );
+    expect(betVerdict([leg("Sander Berge"), leg("Nobody Here")], OUTCOMES, true)).toBe(
+      "no"
+    );
+  });
+
+  it("a bet whose every leg voids is void, not a win", () => {
+    expect(betVerdict([leg("Nobody Here")], OUTCOMES, true)).toBe("void");
+  });
+
+  it("keeps a bet open before the game is over", () => {
+    expect(betVerdict([leg("Kevin Schade"), leg("Nobody Here")], OUTCOMES, false)).toBe(
+      "open"
+    );
   });
 });

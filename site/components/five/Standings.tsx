@@ -1,11 +1,9 @@
 /**
- * The five's league table, on the page that answers "how have you done".
- *
- * Moved here from The five page so the record has one home: the weekly game
- * the five play against each other sits beside the calibration record of the
- * claims behind it. Zeros are a state, not an absence: the table renders at
- * 0-0-0 with a one-line note until the first round settles, because a table
- * that vanishes reads as a bug and was reported as one.
+ * The five's league table. It lives on The five page, which IS the league:
+ * who is winning the game between the models is that page's whole question
+ * (docs/38). Zeros are a state, not an absence: the table renders at 0-0-0
+ * with a one-line note until the first round settles, because a table that
+ * vanishes reads as a bug and was reported as one.
  */
 
 import { Card, DataTable, Note } from "@/components/kit";
@@ -23,8 +21,8 @@ export default function Standings({
 }) {
   return (
     <Card
-      title="The five's table"
-      subtitle="Every gameweek all five commit to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Identical shapes, so this measures which players they pick and not how hard a bet they chose. Every leg lands is a win, all but one is a draw. FD is foul difference: a landed leg counts +1, and a miss counts how far it missed by."
+      title="The table"
+      subtitle="On every game, all five commit to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Identical shapes, so this measures which players they pick and not how hard a bet they chose. Every leg lands is a win, all but one is a draw. FD is foul difference: a landed leg counts +1, and a miss counts how far it missed by."
       flush
     >
       <DataTable

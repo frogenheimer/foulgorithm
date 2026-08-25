@@ -620,10 +620,16 @@ export type Standing = {
 
 export type SlateShape = { key: string; label: string; legs: number };
 
+/** One committed bet: a shape filled with legs, or null where the character
+ *  passed because the game's pool could not fill it. */
+export type Bet = { legs: SlipLeg[]; label: string } | null;
+
 export type Slates = {
   shapes: SlateShape[];
-  byCharacter: Record<string, Record<string, { legs: SlipLeg[]; label: string } | null>>;
-  /** Fixtures whose confirmed elevens are in. Slates for the rest regenerate
+  /** fixture label -> character id -> slate key -> the bet. Three bets per
+   *  character per game; the contract, see docs/38. */
+  byGame: Record<string, Record<string, Record<string, Bet>>>;
+  /** Fixtures whose confirmed elevens are in. Bets for the rest regenerate
    *  automatically when the team sheets land, an hour before kickoff. */
   confirmedFixtures?: string[];
   note: string;
@@ -654,6 +660,9 @@ export type ArchivedFixture = {
   referee: string | null;
   characters: { id: string; name: string }[];
   ladder: Record<string, Slip[]>;
+  /** This game's fifteen bets (character id -> slate key -> bet), when the
+   *  payload was per-game. Absent on archives from the round-wide era. */
+  bets?: Record<string, Record<string, Bet>> | null;
   formations: Record<string, TeamShape> | null;
   explorer: Explorer;
   matchday: {

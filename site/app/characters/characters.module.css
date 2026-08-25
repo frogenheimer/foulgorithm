@@ -158,86 +158,14 @@
   text-align: right;
 }
 
-/* Side by side: one matrix per game, kickoff order. min-width: 0 on the
-   items, or the matrix's scroll container cannot shrink below its table and
-   the whole page scrolls sideways on a phone instead. */
-.matrixGames {
+/* This week's bets: one block of slips per game, kickoff order. */
+.betGames {
   display: grid;
   gap: var(--s6);
 }
 
-.matrixGames > div {
+.betGames > div {
   min-width: 0;
-}
-
-/* This week's picks: one disclosure per character, games grouped inside. */
-.slates {
-  display: grid;
-  gap: var(--s2);
-}
-
-.slate {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: var(--s3) var(--s4);
-}
-
-.slateHead {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--s3);
-  cursor: pointer;
-  list-style: none;
-}
-
-.slateHead::-webkit-details-marker {
-  display: none;
-}
-
-.slateWho {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s2);
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.slateSwatch {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--char, var(--c1));
-}
-
-.slateMeta {
-  font-size: var(--t-sm);
-  color: var(--ink-3);
-  font-variant-numeric: tabular-nums;
-}
-
-.shape {
-  margin-top: var(--s3);
-  padding-top: var(--s3);
-  border-top: 1px solid var(--line);
-}
-
-.shapeLabel {
-  font-size: var(--t-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ink-3);
-  margin-bottom: var(--s2);
-}
-
-.passed {
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.slateGame + .slateGame {
-  margin-top: var(--s2);
 }
 
 .gameLabel {
@@ -246,28 +174,3 @@
   margin-bottom: var(--s1);
 }
 
-.slateLegs {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  /* audit-ignore B2: optical gap between slate legs; --s1 reads as separate cards */
-  gap: 2px;
-}
-
-.slateLeg {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  gap: var(--s3);
-  font-size: var(--t-sm);
-  color: var(--ink-2);
-}
-
-.legPlayer {
-  color: var(--ink);
-}
-
-.legProb {
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-3);
-}
