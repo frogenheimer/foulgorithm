@@ -319,10 +319,25 @@ export type Ticket = {
   legs: TicketLeg[];
 };
 
+/** One pick on the house sheet: the model's flat shout, no character. */
+export type HousePick = {
+  player: string;
+  fullName: string;
+  outOf100: number;
+  /** The sheet's best. A player stars at most once, at his rarest line. */
+  star: boolean;
+};
+
+export type HouseSheet = {
+  groups: { market: "committed" | "drawn"; line: number; picks: HousePick[] }[];
+};
+
 export type FixtureBoard = {
   key: string; home: string; away: string; kickoff: string; referee: string | null;
   /** Named on hand-fed cup rows; null on league fixtures. */
   competition?: string | null;
+  /** The house model's shouts for this game. See publish/player_round.py. */
+  houseSheet?: HouseSheet | null;
   lineupConfirmed?: boolean;
   teams: Record<string, PlayerRow[]>;
   tickets?: Record<string, Ticket[]>;
@@ -692,6 +707,7 @@ export type ArchivedFixture = {
   kickoff: string;
   referee: string | null;
   competition?: string | null;
+  houseSheet?: HouseSheet | null;
   characters: { id: string; name: string; generation?: number }[];
   ladder: Record<string, Slip[]>;
   /** This game's fifteen bets (character id -> slate key -> bet), when the

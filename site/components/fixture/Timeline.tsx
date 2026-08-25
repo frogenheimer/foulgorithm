@@ -22,6 +22,9 @@ import { useEffect, useMemo, useState } from "react";
 import type { FixtureOption, SettledOption, SeasonFixture } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
 import { cardKind } from "@/lib/timeline";
+
+/** One starred pick off the house sheet, flattened for the card back. */
+type HouseStar = { player: string; outOf100: number; line: number; market: string };
 import ClubChip from "@/components/kit/ClubChip";
 import { Combobox } from "@/components/kit";
 import s from "./timeline.module.css";
@@ -40,6 +43,7 @@ export default function Timeline({
   hasPage,
   options,
   settled,
+  sheets,
 }: {
   fixtures: SeasonFixture[];
   matchweeks: number[];
@@ -53,6 +57,8 @@ export default function Timeline({
   /** One call per fixture, five fouls or more. */
   options: Record<string, FixtureOption[]>;
   settled: Record<string, { version: number; options: SettledOption[] }>;
+  /** fixture label -> the house sheet's starred picks, for the card back. */
+  sheets?: Record<string, HouseStar[]>;
 }) {
   const [week, setWeek] = useState<number | "all">("all");
 
@@ -166,6 +172,7 @@ export default function Timeline({
                     linked={hasPage.has(`${f.home} v ${f.away}`)}
                     options={options[`${f.home} v ${f.away}`]}
                     settled={settled[`${f.home} v ${f.away}`]}
+                    stars={sheets?.[`${f.home} v ${f.away}`]}
                   />
                 ))}
               </div>
@@ -200,6 +207,7 @@ function Game({
   linked,
   options,
   settled,
+  stars,
 }: {
   fixture: SeasonFixture;
   state: State;
@@ -208,6 +216,7 @@ function Game({
   linked: boolean;
   options?: FixtureOption[];
   settled?: { version: number; options: SettledOption[] };
+  stars?: HouseStar[];
 }) {
   const label = `${f.home} v ${f.away}`;
   const cls = `${s.card} ${state === "past" ? s.past : ""} ${state === "live" ? s.live : ""}`;
@@ -359,7 +368,27 @@ function Game({
       </div>
     ) : null;
 
-  // The back of an upcoming card: the picks, revealed on hover by a flip.
+  // The back of an upcoming card: the house sheet's starred picks, the
+  // quick glance. Payloads without a sheet fall back to the crossover.
+  const houseBack =
+    kind === "crossover" && stars?.length ? (
+      <div className={s.backFace} aria-hidden>
+        <span className={s.backTitle}>The house</span>
+        <ul className={s.backLegs}>
+          {stars.slice(0, 5).map((l) => (
+            <li key={`${l.player}-${l.market}-${l.line}`} className={s.backLeg}>
+              <span className={s.backPlayer}>{l.player}</span>
+              <span className={s.backWhat}>
+                {l.line}+ {l.market === "drawn" ? "won" : "fouls"}
+              </span>
+              <span className={s.backProb}>{l.outOf100}</span>
+            </li>
+          ))}
+        </ul>
+        <span className={s.backFoot}>open the game &rarr;</span>
+      </div>
+    ) : null;
+
   const crossoverBack =
     kind === "crossover" && options?.length ? (
       <div className={s.backFace} aria-hidden>
@@ -382,7 +411,7 @@ function Game({
       </div>
     ) : null;
 
-  const back = crossoverBack ?? settledBack;
+  const back = houseBack ?? crossoverBack ?? settledBack;
 
   // Only this round has a page. Linking the rest would be a promise of depth
   // that is not there yet. With the disclosures gone the card holds no

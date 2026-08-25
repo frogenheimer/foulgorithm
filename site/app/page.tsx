@@ -41,7 +41,24 @@ export default function Today() {
         { player: f.summary!.topFouler.player, outOf100: f.summary!.topFouler.outOf100 },
       ])
   );
-  const printer = vidiprinterLines(getArchivedFixtures());
+  // The house sheet's starred picks per fixture, for the card backs.
+  const sheets = Object.fromEntries(
+    d.board
+      .map((f) => [
+        `${f.home} v ${f.away}`,
+        (f.houseSheet?.groups ?? []).flatMap((g) =>
+          g.picks
+            .filter((p) => p.star)
+            .map((p) => ({ player: p.player, outOf100: p.outOf100, line: g.line, market: g.market }))
+        ),
+      ])
+      .filter(([, stars]) => (stars as unknown[]).length > 0)
+  );
+
+  const settledLines = vidiprinterLines(getArchivedFixtures());
+  // TEMPORARY, remove next deploy: sample lines so the vidiprinter can be
+  // seen in place before the first per-game round settles this weekend.
+  const printer = settledLines.length > 0 ? settledLines : SAMPLE_PRINTER;
 
   return (
     <div className="stack">
@@ -67,6 +84,7 @@ export default function Today() {
           currentMatchweek={season.currentMatchweek}
           expected={expected}
           house={houseCalls}
+          sheets={sheets}
           hasPage={
             // The current round's pages, plus every played game the archive
             // kept a page for. See publish/archive.py.
@@ -155,3 +173,18 @@ export default function Today() {
     </div>
   );
 }
+
+// TEMPORARY, remove next deploy: a realistic feed so the vidiprinter is
+// visible in place before anything has settled under the contract.
+const SAMPLE_PRINTER = [
+  { text: "NFO v LEE \u00b7 MAGICIAN \u00b7 SIX AT 1+ \u00b7 ALL SIX (6) LANDED", tone: "won" as const },
+  { text: "NFO v LEE \u00b7 ALAN \u00b7 THREE AT 2+ \u00b7 NO", tone: "lost" as const },
+  { text: "NFO v LEE \u00b7 JUSTINE \u00b7 TWO AND TWO \u00b7 CAME IN", tone: "won" as const },
+  { text: "ARS v CHE \u00b7 BDOG \u00b7 SIX AT 1+ \u00b7 NO", tone: "lost" as const },
+  { text: "ARS v CHE \u00b7 LILY \u00b7 TWO AND TWO \u00b7 CAME IN", tone: "won" as const },
+  { text: "ARS v CHE \u00b7 MABEL \u00b7 THREE AT 2+ \u00b7 CAME IN", tone: "won" as const },
+  { text: "LIV v EVE \u00b7 TAYLER \u00b7 SIX AT 1+ \u00b7 ALL SIX (6) LANDED", tone: "won" as const },
+  { text: "LIV v EVE \u00b7 DOTTIE \u00b7 THREE AT 2+ \u00b7 NO", tone: "lost" as const },
+  { text: "MCI v NEW \u00b7 PAX \u00b7 SIX AT 1+ \u00b7 CAME IN", tone: "won" as const },
+  { text: "MCI v NEW \u00b7 DELE \u00b7 TWO AND TWO \u00b7 NO", tone: "lost" as const },
+];

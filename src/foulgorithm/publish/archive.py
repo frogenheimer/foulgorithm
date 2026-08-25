@@ -54,6 +54,7 @@ def slice_payload(payload: dict, label: str) -> dict | None:
         "kickoff": board.get("kickoff", ""),
         "referee": board.get("referee"),
         "competition": board.get("competition"),
+        "houseSheet": board.get("houseSheet"),
         "characters": [
             {"id": p.get("id"), "name": p.get("name"), "generation": p.get("generation")}
             for p in payload.get("picks") or []

@@ -1,0 +1,122 @@
+/* The house sheet: a graphite hero panel with the yellow edge-light, the
+   same treatment as the homepage hero cards, so "the house speaking" has one
+   look everywhere. Ink tokens flip locally; the panel is dark in both
+   themes on purpose. */
+
+.panel {
+  display: grid;
+  gap: var(--s4);
+  padding: var(--s5);
+  border-radius: var(--r-lg);
+  background: linear-gradient(135deg, var(--hero-a), var(--hero-b));
+  box-shadow: inset 0 1px 0 rgba(255, 214, 10, 0.35), var(--lift);
+  --ink: var(--on-hero);
+  --ink-2: var(--on-hero-2);
+  --ink-3: var(--on-hero-2);
+  --line: rgba(255, 255, 255, 0.12);
+  color: var(--ink);
+  min-width: 0;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+}
+
+.kicker::before {
+  content: "";
+  display: inline-block;
+  width: var(--s2);
+  height: var(--s2);
+  margin-right: var(--s2);
+  background: var(--accent-object);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--s5);
+}
+
+.market {
+  display: grid;
+  gap: var(--s3);
+  align-content: start;
+  min-width: 0;
+}
+
+.marketLabel {
+  font-family: var(--font-display);
+  font-size: var(--t-md);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.group {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s3);
+  align-items: start;
+  border-top: 1px solid var(--line);
+  padding-top: var(--s3);
+}
+
+.line {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  padding-top: var(--s1);
+}
+
+.picks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s1);
+  min-width: 0;
+}
+
+.pick {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-size: var(--t-sm);
+}
+
+.player {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The star: the medal-chip language from the rail, gold with chip ink, so
+   "the best" reads identically everywhere. */
+.star {
+  padding: 0 var(--s2);
+  background: var(--gold);
+  color: var(--accent-object-ink);
+  font-size: var(--t-xs);
+  line-height: 1.5;
+}
+
+.price {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--t-sm);
+  white-space: nowrap;
+}
+
+.foot {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  max-width: 60ch;
+}

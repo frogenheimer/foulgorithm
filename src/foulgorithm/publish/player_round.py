@@ -562,6 +562,7 @@ def publish(
             )
         fixture_block["compare"] = _compare(history, fixture_block, as_of)
         fixture_block["summary"] = _summary(fixture_block)
+        fixture_block["houseSheet"] = _house_sheet(fixture_block)
         fixture_block["stats"] = {
             market: {
                 team: [
@@ -1065,6 +1066,59 @@ def _league_leaders() -> dict:
     except Exception as exc:  # noqa: BLE001 - reported, never silently empty
         print(f"  league leaders unavailable: {exc}")
         return {}
+
+
+#: The house sheet shows this many players per line group.
+HOUSE_SHEET_PICKS = 3
+#: A 3+ group appears only when its best price clears this. Below it the
+#: group is a list of longshots pretending to be shouts.
+HOUSE_SHEET_3PLUS_FLOOR = 0.20
+
+
+def _house_sheet(fixture: dict) -> dict:
+    """The house model's flat shouts for one fixture, no character attached.
+
+    Grouped by market and line, top three by the house's own price from the
+    likely eleven a side. Stars mark the sheet's best, and a player stars at
+    most ONCE, at his rarest worthwhile line: starring the same player at
+    1+ and 2+ is one opinion dressed as two, and the two could never sit in
+    the same bet anyway (Oliver, 2026-08-25). Fouls conceded takes star
+    precedence over fouls won at the same line, being the headline market.
+    """
+    eleven = [p for squad in fixture["teams"].values() for p in squad[:11]]
+
+    groups = []
+    for market in ("committed", "drawn"):
+        for line in (1, 2, 3):
+            ranked = sorted(
+                eleven, key=lambda p: p[market].get(f"p{line}plus") or 0.0, reverse=True
+            )[:HOUSE_SHEET_PICKS]
+            picks = [
+                {
+                    "player": p["player"],
+                    "fullName": p.get("fullName") or p["player"],
+                    "outOf100": round((p[market].get(f"p{line}plus") or 0.0) * 100),
+                    "star": False,
+                }
+                for p in ranked
+                if (p[market].get(f"p{line}plus") or 0.0) > 0
+            ]
+            if line == 3 and (
+                not picks or picks[0]["outOf100"] < HOUSE_SHEET_3PLUS_FLOOR * 100
+            ):
+                continue
+            if picks:
+                groups.append({"market": market, "line": line, "picks": picks})
+
+    starred: set[str] = set()
+    for group in sorted(groups, key=lambda g: (g["market"] != "committed", -g["line"])):
+        for pick in group["picks"]:
+            if pick["player"] not in starred:
+                pick["star"] = True
+                starred.add(pick["player"])
+                break
+
+    return {"groups": groups}
 
 
 def _summary(fixture: dict) -> dict:

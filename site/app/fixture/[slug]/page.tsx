@@ -1,11 +1,12 @@
 import Link from "next/link";
 import FixtureLive from "@/components/fixture/FixtureLive";
+import HouseSheet from "@/components/fixture/HouseSheet";
 import Explorer from "@/components/explorer/Explorer";
 import SlipRail from "@/components/five/SlipRail";
 import GameSheet from "@/components/matchday/GameSheet";
 import { PageHeader, SectionHead } from "@/components/kit";
 import ClubChip from "@/components/kit/ClubChip";
-import type { Bet, Explorer as ExplorerData, Formations, MatchdayFixture } from "@/lib/data";
+import type { Bet, Explorer as ExplorerData, Formations, HouseSheet as Sheet, MatchdayFixture } from "@/lib/data";
 import type { Outcomes } from "@/lib/graded";
 import {
   fixtureSlug,
@@ -38,6 +39,7 @@ type FixtureView = {
   /** Named on hand-fed cup ties; null on league games. */
   competition: string | null;
   lineupNote: string | null;
+  houseSheet: Sheet | null;
   bets: Record<string, Record<string, Bet>> | null;
   characters: { id: string; name: string; generation?: number }[];
   explorer: ExplorerData;
@@ -63,6 +65,7 @@ function liveView(label: string): FixtureView {
     lineupNote: board?.lineupConfirmed
       ? "XI confirmed"
       : "XI predicted from current squads",
+    houseSheet: board?.houseSheet ?? null,
     bets: data.slates.byGame?.[label] ?? null,
     characters: data.picks.map((p) => ({ id: p.id, name: p.name, generation: p.generation })),
     explorer: getExplorer(),
@@ -84,6 +87,7 @@ function archivedView(slug: string): FixtureView | null {
     referee: a.referee,
     competition: a.competition ?? null,
     lineupNote: null,
+    houseSheet: a.houseSheet ?? null,
     bets: a.bets ?? null,
     characters: a.characters,
     explorer: a.explorer,
@@ -196,6 +200,8 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
           )}
         </div>
       )}
+
+      {v.houseSheet && <HouseSheet sheet={v.houseSheet} />}
 
       <FixtureLive fixture={v.label} shapes={v.formations} explorer={v.explorer}>
         {v.sheetFixture && (
