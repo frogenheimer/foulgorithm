@@ -20,25 +20,32 @@ export type SlipCharacter = { id: string; name: string; generation?: number };
 
 /** One character's slip for one game: the unit the grid, the rail and the
  *  focused overlay all render. */
+const MEDALS = ["", "1st", "2nd", "3rd"] as const;
+
 export function SlipCard({
   character: ch,
   own,
   shapes,
   outcomes,
   gameOver = false,
+  medal,
 }: {
   character: SlipCharacter;
   own: Record<string, Bet>;
   shapes: SlateShape[];
   outcomes?: Outcomes;
   gameOver?: boolean;
+  /** League position 1-3: the slip wears its medal, word included. */
+  medal?: 1 | 2 | 3;
 }) {
+  const medalClass = medal === 1 ? s.medal1 : medal === 2 ? s.medal2 : s.medal3;
   return (
     <article className={s.slip} style={{ ["--char" as string]: `var(--ch-${ch.id})` }}>
       <header className={s.head}>
         <span className={s.swatch} aria-hidden />
         {ch.name}
         {ch.generation === 2 && <Badge>v2</Badge>}
+        {medal && <span className={medalClass}>{MEDALS[medal]}</span>}
       </header>
       {shapes.map((sh) => {
         const bet = own[sh.key];
@@ -89,6 +96,7 @@ export default function Bets({
   shapes,
   outcomes,
   gameOver = false,
+  medals,
 }: {
   /** character id -> slate key -> the bet. One game's fifteen. */
   bets: Record<string, Record<string, Bet>>;
@@ -98,6 +106,8 @@ export default function Bets({
   outcomes?: Outcomes;
   /** Once true, an unmarked leg is void rather than open. */
   gameOver?: boolean;
+  /** character id -> league position, for the top three's medals. */
+  medals?: Record<string, 1 | 2 | 3>;
 }) {
   return (
     <div className={s.grid}>
@@ -112,6 +122,7 @@ export default function Bets({
             shapes={shapes}
             outcomes={outcomes}
             gameOver={gameOver}
+            medal={medals?.[ch.id]}
           />
         );
       })}

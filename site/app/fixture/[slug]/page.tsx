@@ -120,6 +120,12 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
   const outcomes = v.outcomes ?? undefined;
   const weSaid = data.expectedTotals?.[v.label]?.expected;
   const confirmedSet = new Set(data.slates.confirmedFixtures ?? []);
+  const medals = Object.fromEntries(
+    (data.standings ?? [])
+      .filter((r) => r.played > 0)
+      .slice(0, 3)
+      .map((r, i) => [r.id, (i + 1) as 1 | 2 | 3])
+  );
   const totalFouls =
     v.result && v.result.fouls[0] != null && v.result.fouls[1] != null
       ? (v.result.fouls[0] ?? 0) + (v.result.fouls[1] ?? 0)
@@ -163,13 +169,17 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
           <span className={s.resultStat}>
             Fouls{" "}
             <strong>
-              {v.result.fouls[0] ?? "\u2014"}\u2013{v.result.fouls[1] ?? "\u2014"}
+              {v.result.fouls[0] ?? "\u2014"}
+              {"\u2013"}
+              {v.result.fouls[1] ?? "\u2014"}
             </strong>
           </span>
           <span className={s.resultStat}>
             Cards{" "}
             <strong>
-              {v.result.cards[0] ?? "\u2014"}\u2013{v.result.cards[1] ?? "\u2014"}
+              {v.result.cards[0] ?? "\u2014"}
+              {"\u2013"}
+              {v.result.cards[1] ?? "\u2014"}
             </strong>
           </span>
           {weSaid != null && totalFouls != null && (
@@ -197,6 +207,8 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
             <GameSheet
               fixture={v.sheetFixture}
               rows={v.explorer.rows.filter((r) => r.fixture === v.label)}
+              outcomes={outcomes}
+              gameOver={played}
             />
           </section>
         )}
@@ -231,6 +243,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
               shapes={data.slates.shapes}
               outcomes={outcomes}
               gameOver={played}
+              medals={medals}
             />
           </section>
         )}

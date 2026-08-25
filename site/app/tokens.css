@@ -72,6 +72,22 @@
   --on-hero: #f5f5f3;
   --on-hero-2: #a6abaf;
 
+  /* ---- paper. A real betting slip is paper, whatever the hour: these do
+     not flip with the theme, which is what makes the slips read as objects
+     lying ON the interface rather than part of it. ---- */
+  --paper: #faf8f2;
+  --paper-sunk: #f0ede4;
+  --paper-ink: #17181a;
+  --paper-ink-2: #4c4e50;
+  --paper-ink-3: #7a7b7d;
+  --paper-line: rgba(23, 24, 26, 0.14);
+  --paper-line-strong: rgba(23, 24, 26, 0.32);
+
+  /* ---- medals, for the top of the table. Paired with the word, always. ---- */
+  --gold: #d4a017;
+  --silver: #97a0a9;
+  --bronze: #b0703c;
+
   /* ---- chart chrome ---- */
   --grid: #e4e4df;
   --axis: #c8c8c1;

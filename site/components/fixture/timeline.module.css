@@ -85,8 +85,15 @@
   transform: translateY(-2px);
 }
 
-/* Played. Still readable, clearly behind you. */
+/* Played. Still readable, clearly behind you. On a flippable card the tone
+   rides the faces, because the container is transparent. */
 .past {
+  background: var(--surface-sunk);
+  box-shadow: none;
+}
+
+.past .front,
+.past .backFace {
   background: var(--surface-sunk);
   box-shadow: none;
 }
@@ -473,20 +480,41 @@
 /* The flip: front face in normal flow so the card keeps its height; the
    picks face sits over it and the hover turns the card. Interaction chrome
    only, and none of it under reduced motion. */
+/* The flip carries the whole card: the link itself goes transparent and
+   each face wears the card's own chrome, so nothing sits underneath while
+   the sheet turns. */
 .flippable {
   position: relative;
-  perspective: 900px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.flippable:hover {
+  border-color: transparent;
 }
 
 .front,
 .backFace {
   backface-visibility: hidden;
-  transition: transform var(--d-base) var(--ease-snap);
+  transition: transform var(--d-slow) var(--ease-snap);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--lift);
 }
 
 .front {
   display: grid;
   gap: var(--s3);
+  padding: var(--s4);
+}
+
+.flippable:hover .front,
+.flippable:hover .backFace {
+  border-color: var(--line-strong);
 }
 
 .backFace {
@@ -496,8 +524,6 @@
   align-content: start;
   gap: var(--s2);
   padding: var(--s4);
-  background: var(--surface);
-  border: 1px solid var(--line-strong);
   transform: rotateY(180deg);
   overflow: hidden;
 }

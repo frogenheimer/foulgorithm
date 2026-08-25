@@ -1,17 +1,26 @@
 "use client";
 
 /**
- * The slip rail: the competitors' slips hang from a wire, pegged by square
- * clips, and swing like the physics says they should (lib/pendulum, ported
- * from the ENVRT passport rail). Scroll or flick the rail and every slip
- * trails and settles; pull one DOWN and it tears off at the perforation and
- * expands into a focused view for proper reading. Clicking does the same
- * without the ceremony. Reduced motion gets the plain grid and a plain
- * click, no physics anywhere.
+ * The slip rail, second cut: a contained carousel in the ENVRT manner.
+ *
+ * The wire holds paper slips, real paper whatever the theme, each hung
+ * through a punched hole on a square peg with a ragged tear-off bottom.
+ * The rail drifts slowly on its own, pauses the moment a pointer arrives,
+ * drags with momentum, and every slip trails and settles on the ported
+ * pendulum (lib/pendulum, from the ENVRT passport rail). Pull a slip down
+ * and it tears off at the perforation into a focused reading view; a plain
+ * click does the same. Reduced motion gets the grid and a click.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useMotionValue, useAnimationFrame, useReducedMotion, type MotionValue } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useAnimationFrame,
+  useReducedMotion,
+  type MotionValue,
+} from "framer-motion";
 import type { Bet, SlateShape } from "@/lib/data";
 import type { Outcomes } from "@/lib/graded";
 import {
@@ -28,47 +37,69 @@ import s from "./sliprail.module.css";
 const LENGTH = 130;
 /** How far a slip travels down before it tears off the rail. */
 const TEAR_PX = 64;
+/** Ambient drift, px/s. Slow enough to read; pauses under any pointer. */
+const DRIFT = 14;
 
-export default function SlipRail(props: {
+type RailProps = {
   bets: Record<string, Record<string, Bet>>;
   characters: SlipCharacter[];
   shapes: SlateShape[];
   outcomes?: Outcomes;
   gameOver?: boolean;
-}) {
+  medals?: Record<string, 1 | 2 | 3>;
+};
+
+export default function SlipRail(props: RailProps) {
   const reduced = useReducedMotion();
   if (reduced) return <Bets {...props} />;
   return <Rail {...props} />;
 }
 
-function Rail({
-  bets,
-  characters,
-  shapes,
-  outcomes,
-  gameOver = false,
-}: {
-  bets: Record<string, Record<string, Bet>>;
-  characters: SlipCharacter[];
-  shapes: SlateShape[];
-  outcomes?: Outcomes;
-  gameOver?: boolean;
-}) {
+function Rail({ bets, characters, shapes, outcomes, gameOver = false, medals }: RailProps) {
   const hung = characters.filter((ch) => bets[ch.id]);
-  const scrollerRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
   const lagRef = useRef<LagState | null>(null);
   const statesRef = useRef<PendulumState[]>(hung.map(() => ({ theta: 0, omega: 0 })));
   const rotates = useRef<MotionValue<number>[]>([]);
+  const restingRef = useRef(true);
+  const driftDir = useRef(-1);
+  const [range, setRange] = useState(0);
   const [open, setOpen] = useState<string | null>(null);
 
+  // The drag range: how far the track may travel inside its frame.
+  useEffect(() => {
+    const measure = () => {
+      const frame = frameRef.current;
+      const track = trackRef.current;
+      if (!frame || !track) return;
+      setRange(Math.max(0, track.scrollWidth - frame.clientWidth));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [hung.length]);
+
   useAnimationFrame((_, delta) => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
     const dt = Math.min(delta / 1000, 1 / 20);
     if (dt <= 0) return;
-    // The pivot is the content: scrolling right moves it left under the
-    // slips, so the rail's travel is the negative of scrollLeft.
-    const position = -scroller.scrollLeft;
+
+    // The drift: the wire wanders until a pointer claims it, ping-ponging
+    // at the ends so the whole set passes a patient reader.
+    if (restingRef.current && range > 0) {
+      let next = x.get() + driftDir.current * DRIFT * dt;
+      if (next < -range) {
+        next = -range;
+        driftDir.current = 1;
+      } else if (next > 0) {
+        next = 0;
+        driftDir.current = -1;
+      }
+      x.set(next);
+    }
+
+    const position = x.get();
     if (!lagRef.current) lagRef.current = { fast: position, slow: position };
     const { lag, drive } = driveFromLag(lagRef.current, position, dt);
     lagRef.current = lag;
@@ -93,25 +124,34 @@ function Rail({
 
   return (
     <>
-      <div ref={scrollerRef} className={s.scroller}>
-        <div className={s.track}>
+      <div
+        ref={frameRef}
+        className={s.frame}
+        onPointerEnter={() => (restingRef.current = false)}
+        onPointerLeave={() => (restingRef.current = true)}
+      >
+        <span className={s.wire} aria-hidden />
+        <motion.div
+          ref={trackRef}
+          className={s.track}
+          style={{ x }}
+          drag="x"
+          dragConstraints={{ left: -range, right: 0 }}
+          dragElastic={0.06}
+        >
           {hung.map((ch, i) => (
-            <Hanger
-              key={ch.id}
-              index={i}
-              rotates={rotates}
-              onOpen={() => setOpen(ch.id)}
-            >
+            <Hanger key={ch.id} index={i} rotates={rotates} onOpen={() => setOpen(ch.id)}>
               <SlipCard
                 character={ch}
                 own={bets[ch.id]}
                 shapes={shapes}
                 outcomes={outcomes}
                 gameOver={gameOver}
+                medal={medals?.[ch.id]}
               />
             </Hanger>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       <AnimatePresence>
@@ -144,6 +184,7 @@ function Rail({
                 shapes={shapes}
                 outcomes={outcomes}
                 gameOver={gameOver}
+                medal={medals?.[focused.id]}
               />
             </motion.div>
           </motion.div>
@@ -170,10 +211,11 @@ function Hanger({
 
   return (
     <motion.div className={s.hanger} style={{ rotate }}>
-      <span className={gripped ? `${s.clip} ${s.clipGripped}` : s.clip} aria-hidden />
+      <span className={gripped ? `${s.peg} ${s.pegGripped}` : s.peg} aria-hidden />
       <motion.div
-        className={s.sheet}
+        className={s.paper}
         drag="y"
+        dragPropagation
         dragConstraints={{ top: 0, bottom: TEAR_PX + 26 }}
         dragElastic={0.06}
         dragSnapToOrigin
@@ -185,7 +227,9 @@ function Hanger({
         onTap={onOpen}
         whileDrag={{ cursor: "grabbing" }}
       >
+        <span className={s.hole} aria-hidden />
         {children}
+        <span className={s.barcode} aria-hidden />
       </motion.div>
     </motion.div>
   );

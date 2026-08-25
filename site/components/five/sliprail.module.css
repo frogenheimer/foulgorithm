@@ -1,53 +1,121 @@
-/* The rail: a hard wire, square clips, slips that swing and tear. */
+/* The rail: one wire inside the frame, paper slips pegged through punched
+   holes, ragged tear-off bottoms. The paper tokens hold in both themes,
+   which is what makes a slip read as an object ON the interface. */
 
-.scroller {
-  overflow-x: auto;
+.frame {
+  position: relative;
+  overflow: hidden;
   min-width: 0;
-  scrollbar-width: thin;
-  padding-bottom: var(--s3);
+  padding: var(--s5) 0 var(--s7);
+}
+
+.wire {
+  position: absolute;
+  top: var(--s5);
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--line-strong);
 }
 
 .track {
   display: flex;
   align-items: flex-start;
   gap: var(--s6);
-  padding: var(--s5) var(--s3) var(--s7);
-  border-top: 2px solid var(--line-strong);
   width: max-content;
-  min-width: 100%;
+  padding: 0 var(--s3);
+  cursor: grab;
+}
+
+.track:active {
+  cursor: grabbing;
 }
 
 .hanger {
   flex-shrink: 0;
   width: 250px;
   transform-origin: top center;
-  margin-top: calc(var(--s4) * -1);
 }
 
-/* The peg: a square clip straddling the wire; yellow while gripped. */
-.clip {
+/* The peg sits on the wire; the slip hangs through its punched hole. */
+.peg {
   display: block;
   width: 10px;
-  height: 16px;
-  margin: 0 auto;
+  height: 12px;
+  margin: calc(var(--s1) * -1) auto 0;
   background: var(--surface);
   border: 1px solid var(--line-strong);
   transition: background var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
 }
 
-.clipGripped {
+.pegGripped {
   background: var(--accent-object);
   border-color: var(--accent-object);
 }
 
-/* The sheet below the peg: the tear line is real, and it is where it rips. */
-.sheet {
-  border-top: 1px dashed var(--line-strong);
-  padding-top: var(--s1);
+/* Paper: local tokens flip so everything inside reads as printed. The
+   ragged bottom is the tear-off edge every real slip carries. */
+.paper {
+  position: relative;
+  margin-top: calc(var(--s2) * -1);
+  padding-top: var(--s4);
+  background: var(--paper);
+  box-shadow: var(--lift);
+  clip-path: polygon(
+    0 0, 100% 0, 100% calc(100% - 6px),
+    95% 100%, 90% calc(100% - 6px), 85% 100%, 80% calc(100% - 6px),
+    75% 100%, 70% calc(100% - 6px), 65% 100%, 60% calc(100% - 6px),
+    55% 100%, 50% calc(100% - 6px), 45% 100%, 40% calc(100% - 6px),
+    35% 100%, 30% calc(100% - 6px), 25% 100%, 20% calc(100% - 6px),
+    15% 100%, 10% calc(100% - 6px), 5% 100%, 0 calc(100% - 6px)
+  );
   cursor: grab;
+  --surface: var(--paper);
+  --surface-sunk: var(--paper-sunk);
+  --ink: var(--paper-ink);
+  --ink-2: var(--paper-ink-2);
+  --ink-3: var(--paper-ink-3);
+  --line: var(--paper-line);
+  --line-strong: var(--paper-line-strong);
 }
 
-/* The focused view: one slip, big enough to actually read. */
+/* The slip card inside loses its own frame: the paper IS the frame. */
+.paper > article {
+  border: 0;
+  border-top: 3px solid var(--char, var(--paper-line-strong));
+  box-shadow: none;
+  background: transparent;
+}
+
+/* The punched hole: the wire shows through it. */
+.hole {
+  position: absolute;
+  top: var(--s1);
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translateX(-50%);
+  border-radius: var(--r-pill);
+  background: var(--ground);
+  border: 1px solid var(--paper-line-strong);
+}
+
+/* The barcode: genre texture on the tear-off strip, meaning nothing. */
+.barcode {
+  display: block;
+  height: var(--s4);
+  margin: var(--s2) var(--s4) var(--s3);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--paper-ink-3) 0 2px,
+    transparent 2px 5px,
+    var(--paper-ink-3) 5px 6px,
+    transparent 6px 10px
+  );
+  opacity: 0.55;
+}
+
+/* The focused view: one slip, big enough to actually read. Paper too. */
 .overlay {
   position: fixed;
   inset: 0;
@@ -63,15 +131,24 @@
   width: min(420px, 94vw);
   max-height: 86vh;
   overflow-y: auto;
-  background: var(--surface);
-  border: 1px solid var(--line-strong);
-  padding: var(--s5);
+  background: var(--paper);
+  padding: var(--s6) var(--s5) var(--s5);
   box-shadow: var(--lift);
+  --surface: var(--paper);
+  --surface-sunk: var(--paper-sunk);
+  --ink: var(--paper-ink);
+  --ink-2: var(--paper-ink-2);
+  --ink-3: var(--paper-ink-3);
+  --line: var(--paper-line);
+  --line-strong: var(--paper-line-strong);
 }
 
 .focus > article {
   border: 0;
-  padding: 0;
+  border-top: 3px solid var(--char, var(--paper-line-strong));
+  box-shadow: none;
+  background: transparent;
+  padding: var(--s3) 0 0;
 }
 
 .close {
@@ -83,9 +160,9 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--ink-3);
+  color: var(--paper-ink-3);
 }
 
 .close:hover {
-  color: var(--ink);
+  color: var(--paper-ink);
 }

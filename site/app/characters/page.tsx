@@ -42,6 +42,13 @@ export default function Characters() {
     return { bets, hot };
   };
   const columns = d.characters.map((ch) => ({ id: ch.id, name: ch.name, generation: ch.generation }));
+  // The top three of the table wear their medals on every slip.
+  const medals = Object.fromEntries(
+    (players.standings ?? [])
+      .filter((r) => r.played > 0)
+      .slice(0, 3)
+      .map((r, i) => [r.id, (i + 1) as 1 | 2 | 3])
+  );
   const names = Object.fromEntries(columns.map((ch) => [ch.id, ch.name]));
 
   return (
@@ -93,7 +100,7 @@ export default function Characters() {
                       {meta.bets} bets · {meta.hot} hot
                     </span>
                   </summary>
-                  <SlipRail bets={slates.byGame[g]} characters={columns} shapes={slates.shapes} />
+                  <SlipRail bets={slates.byGame[g]} characters={columns} shapes={slates.shapes} medals={medals} />
                 </details>
               );
             })}

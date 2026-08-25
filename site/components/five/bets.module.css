@@ -189,3 +189,28 @@
   letter-spacing: 0.04em;
   color: var(--warn);
 }
+
+/* The medals: word plus metal, for the top of the table. */
+.medal1,
+.medal2,
+.medal3 {
+  margin-left: auto;
+  padding: 0 var(--s2);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent-object-ink);
+}
+
+.medal1 {
+  background: var(--gold);
+}
+
+.medal2 {
+  background: var(--silver);
+}
+
+.medal3 {
+  background: var(--bronze);
+}

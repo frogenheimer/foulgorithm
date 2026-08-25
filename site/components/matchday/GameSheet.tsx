@@ -15,6 +15,7 @@
 
 import { useState } from "react";
 import type { ExplorerRow, MatchdayFixture } from "@/lib/data";
+import type { Outcomes } from "@/lib/graded";
 import { clubIdentity } from "@/lib/clubs";
 import { mirrorShares, xiSplit } from "@/lib/gamesheet";
 import { DataTable, Dots } from "@/components/kit";
@@ -29,9 +30,14 @@ const METRIC_ORDER = [
 export default function GameSheet({
   fixture,
   rows,
+  outcomes,
+  gameOver = false,
 }: {
   fixture: MatchdayFixture;
   rows: ExplorerRow[];
+  /** Present on a played game: per-player actuals come from the grading. */
+  outcomes?: Outcomes;
+  gameOver?: boolean;
 }) {
   const [mode, setMode] = useState<"expected" | "actual">("expected");
   const home = fixture.home;
@@ -43,8 +49,23 @@ export default function GameSheet({
   const homeForm = (key: string) => homeSheet?.form?.[key] ?? null;
   const awayForm = (key: string) => awaySheet?.form?.[key] ?? null;
 
+  const played = gameOver && outcomes != null;
+
+  const observed = (r: ExplorerRow, market: "committed" | "drawn") =>
+    outcomes?.[`${r.fullName}|${market}|0.5`]?.observed ?? null;
+
   const value = (r: ExplorerRow, market: "committed" | "drawn" | "involvements") => {
     if (mode === "expected") return r.expected[market].toFixed(2);
+    if (played) {
+      // What actually happened in THIS match, from the graded record.
+      if (market === "involvements") {
+        const c = observed(r, "committed");
+        const d = observed(r, "drawn");
+        return c == null && d == null ? "—" : String((c ?? 0) + (d ?? 0));
+      }
+      const held = observed(r, market);
+      return held == null ? "—" : String(held);
+    }
     const held = r.career?.[market];
     return held == null ? "—" : held.toFixed(2);
   };
@@ -170,8 +191,12 @@ export default function GameSheet({
         </div>
         <p className={s.modeNote}>
           {mode === "expected"
-            ? "Our model's numbers for THIS match: fouls, fouls won, and both together."
-            : "Their history, per 90 minutes, checkable against a scoreboard. No model in these numbers."}
+            ? played
+              ? "What our model said before kickoff: fouls, fouls won, and both together."
+              : "Our model's numbers for THIS match: fouls, fouls won, and both together."
+            : played
+              ? "What actually happened in this match, per player, from the graded record. No model in these numbers."
+              : "Their history, per 90 minutes, checkable against a scoreboard. No model in these numbers."}
         </p>
         <DataTable rows={eleven} rowKey={(r) => r.fullName + r.team} columns={columns} />
         {drawer.length > 0 && (
