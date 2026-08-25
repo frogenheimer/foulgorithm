@@ -530,3 +530,52 @@ class TestFoulDifference:
         row = next(r for r in league.table(rows, FIVE) if r["id"] == "alan")
         assert row["drawn"] == 1
         assert row["difference"] == 0
+
+
+class TestBoldness:
+    """Boldness rewards rarity by the house's own price: a landed 30-in-100
+    call banks 0.70, a banker banks almost nothing. Overall boldness is the
+    average rarity of every binding pick, settled or not, so a timid book
+    reads timid even while it waits; win boldness banks rarity only when a
+    pick lands, and breaks ties behind foul difference."""
+
+    PREDICTIONS = [
+        {"key": "h1", "model_id": "house", "fixture": "A v B", "entity": "X One",
+         "market": "player_fouls_committed", "line": 0.5, "probability": 0.30,
+         "published_at": "2026-08-28T10:00:00+00:00"},
+        {"key": "h2", "model_id": "house", "fixture": "A v B", "entity": "Y Two",
+         "market": "player_fouls_committed", "line": 0.5, "probability": 0.80,
+         "published_at": "2026-08-28T10:00:00+00:00"},
+        {"key": "c1", "model_id": "alan", "fixture": "A v B", "entity": "X One",
+         "market": "player_fouls_committed", "line": 0.5, "probability": 0.45,
+         "published_at": "2026-08-28T10:00:00+00:00"},
+        {"key": "c2", "model_id": "alan", "fixture": "A v B", "entity": "Y Two",
+         "market": "player_fouls_committed", "line": 0.5, "probability": 0.75,
+         "published_at": "2026-08-28T10:00:00+00:00"},
+    ]
+    COMMITTED = [{
+        "key": "mw02|alan|three-twos|A v B",
+        "round": "2026-08-28",
+        "matchweek": 2,
+        "character": "alan",
+        "slate": "three-twos",
+        "fixture": "A v B",
+        "kickoff": "2026-08-28T19:00:00+00:00",
+        "first_kickoff": "2026-08-28T19:00:00+00:00",
+        "published_at": "2026-08-28T10:00:00+00:00",
+        "claim_keys": ["c1", "c2"],
+    }]
+
+    def test_overall_is_the_average_rarity_of_every_pick(self):
+        held = league.boldness(self.COMMITTED, [], self.PREDICTIONS, ["alan"])
+        # Rarity by the HOUSE price: (0.70 + 0.20) / 2.
+        assert held["alan"]["boldness"] == 0.45
+
+    def test_wins_bank_rarity_only_when_the_pick_lands(self):
+        graded = [{"key": "c1", "won": True}, {"key": "c2", "won": False}]
+        held = league.boldness(self.COMMITTED, graded, self.PREDICTIONS, ["alan"])
+        assert held["alan"]["winBoldness"] == 0.7
+
+    def test_a_character_with_nothing_committed_reads_zero(self):
+        held = league.boldness([], [], self.PREDICTIONS, ["alan"])
+        assert held["alan"] == {"boldness": 0.0, "winBoldness": 0.0}

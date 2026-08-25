@@ -312,6 +312,69 @@ def join_slates(
     return out
 
 
+def boldness(
+    committed: list[dict],
+    graded: list[dict],
+    predictions: list[dict],
+    character_ids: list[str],
+    since: str = None,
+) -> dict[str, dict]:
+    """How rare each character's picks are, by the house's own price.
+
+    Oliver's call, 2026-08-26: a landed longshot deserves more credit than a
+    landed banker, and the judge of rarity is the house number published
+    before kickoff, never the character's own. Two figures per character:
+    `boldness`, the average rarity of every BINDING pick this season,
+    settled or not, so a timid book reads timid while it waits; and
+    `winBoldness`, rarity banked only when the pick lands, which breaks
+    league-table ties behind foul difference. Neither ever awards points:
+    the shape of the league stays wins, draws and losses.
+    """
+    since = since if since is not None else SEASON_START
+    by_key = {p["key"]: p for p in predictions if "key" in p}
+
+    house: dict[tuple, dict] = {}
+    for p in predictions:
+        if p.get("model_id") != "house":
+            continue
+        ident = (p.get("fixture"), p.get("entity"), p.get("market"), p.get("line"))
+        held = house.get(ident)
+        if held is None or p.get("published_at", "") > held.get("published_at", ""):
+            house[ident] = p
+
+    landed = {g["key"] for g in graded if g.get("won")}
+
+    tally = {cid: {"n": 0, "total": 0.0, "wins": 0.0} for cid in character_ids}
+    for slate in binding_versions(committed):
+        if round_before(round_id(slate), since):
+            continue
+        cid = slate.get("character")
+        if cid not in tally:
+            continue
+        for key in slate.get("claim_keys", []):
+            claim = by_key.get(key)
+            if not claim:
+                continue
+            priced = house.get(
+                (claim.get("fixture"), claim.get("entity"), claim.get("market"), claim.get("line"))
+            )
+            if not priced:
+                continue
+            rarity = 1.0 - float(priced.get("probability") or 0.0)
+            tally[cid]["n"] += 1
+            tally[cid]["total"] += rarity
+            if key in landed:
+                tally[cid]["wins"] += rarity
+
+    return {
+        cid: {
+            "boldness": round(v["total"] / v["n"], 3) if v["n"] else 0.0,
+            "winBoldness": round(v["wins"], 2),
+        }
+        for cid, v in tally.items()
+    }
+
+
 #: The league's first round: the first one played under the three-bets-per-
 #: game contract (docs/38). Everything committed before exists on file and
 #: stays graded in the raw record, but it was a different shape of bet

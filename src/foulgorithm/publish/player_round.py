@@ -890,8 +890,25 @@ def _standings(character_ids: list[str]) -> list[dict]:
         except (OSError, json.JSONDecodeError):
             completed = set()
 
-    joined = league.join_slates(graded, slate_store.load_all(), completed=completed)
-    return league.table(joined, character_ids)
+    committed = slate_store.load_all()
+    joined = league.join_slates(graded, committed, completed=completed)
+    rows = league.table(joined, character_ids)
+
+    # Boldness: rarity by the house's own price, as columns and as the
+    # tie-breaker behind foul difference. See league.boldness.
+    bold = league.boldness(committed, graded, pred_store.load_all(), character_ids)
+    for row in rows:
+        row.update(bold.get(row["id"], {"boldness": 0.0, "winBoldness": 0.0}))
+    rows.sort(
+        key=lambda r: (
+            -r["points"],
+            -r["difference"],
+            -r.get("winBoldness", 0.0),
+            -r["legsLanded"],
+            r["id"],
+        )
+    )
+    return rows
 
 
 def _record(board: list[dict], picks: list[dict], as_of, slates: dict | None = None) -> dict:

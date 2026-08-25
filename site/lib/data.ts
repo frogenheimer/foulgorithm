@@ -633,6 +633,10 @@ export type Standing = {
   legsMissed: number;
   difference: number;
   points: number;
+  /** Average rarity of every binding pick, by the house's price. 0-1. */
+  boldness?: number;
+  /** Rarity banked on landed picks; the tie-breaker behind FD. */
+  winBoldness?: number;
 };
 
 export type SlateShape = { key: string; label: string; legs: number };
