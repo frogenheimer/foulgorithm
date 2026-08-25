@@ -174,3 +174,68 @@
   margin-bottom: var(--s1);
 }
 
+
+/* Compact-then-expand: a closed game is one sharp strip that still says
+   what it holds; open, the full grid of slips deals out. */
+.betsGame {
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.betsGame[open] {
+  border-color: var(--line-strong);
+}
+
+.betsSummary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s3);
+  padding: var(--s3) var(--s4);
+  cursor: pointer;
+  list-style: none;
+  min-width: 0;
+  transition: background var(--d-fast) var(--ease);
+}
+
+.betsSummary::-webkit-details-marker {
+  display: none;
+}
+
+.betsSummary:hover {
+  background: var(--surface-sunk);
+}
+
+.betsGame[open] .betsSummary {
+  border-bottom: 1px dashed var(--line-strong);
+}
+
+.betsGame .gameLabel {
+  margin-bottom: 0;
+}
+
+.swatchRow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+  margin-left: auto;
+  min-width: 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--char, var(--line-strong));
+}
+
+.betsMeta {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.betsGame > :last-child:not(summary) {
+  padding: var(--s4);
+}

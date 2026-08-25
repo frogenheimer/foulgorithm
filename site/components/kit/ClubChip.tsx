@@ -9,7 +9,7 @@
  * carries the number and rank in words.
  */
 
-import { clubIdentity, temperFraction } from "@/lib/clubs";
+import { clubIdentity, rankFraction, temperFraction } from "@/lib/clubs";
 import s from "./club.module.css";
 
 const R = 19;
@@ -22,11 +22,16 @@ export default function ClubChip({
 }: {
   name: string;
   size?: "sm" | "md" | "lg";
-  /** Fouls per match, the league's hottest rate, and this club's rank. */
-  temper?: { value: number; max: number; rank: number; of: number };
+  /** Fouls per match and this club's rank; max scales the ring exactly,
+   *  and the rank approximates it when no scale is at hand. */
+  temper?: { value: number; max?: number; rank: number; of: number };
 }) {
   const c = clubIdentity(name);
-  const frac = temper ? temperFraction(temper.value, temper.max) : null;
+  const frac = temper
+    ? temper.max != null
+      ? temperFraction(temper.value, temper.max)
+      : rankFraction(temper.rank, temper.of)
+    : null;
   const title = temper
     ? `${name}: ${temper.value} fouls per match, ${temper.rank} of ${temper.of}`
     : name;

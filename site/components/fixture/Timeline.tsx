@@ -271,45 +271,6 @@ function Game({
             ) : null}
           </div>
 
-          {/* What the card said, marked against what happened. Only fixtures we
-              recorded a card for before kickoff appear here. */}
-          {settled?.options.length ? (
-            <ul className={s.settled}>
-              {settled.options.map((o) => (
-                <li
-                  key={o.band}
-                  className={[
-                    s.settledRow,
-                    o.landed === true ? s.landed : "",
-                    o.landed === false ? s.missed : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
-                >
-                  <span className={s.settledOdds}>{o.odds.toFixed(2)}</span>
-                  <span className={s.settledLegs}>
-                    {o.legs.map((l) => (
-                      <span
-                        key={`${l.player}-${l.fouls}`}
-                        className={
-                          l.landed === true
-                            ? s.legLanded
-                            : l.landed === false
-                              ? s.legMissed
-                              : s.legOpen
-                        }
-                      >
-                        {l.player} {l.fouls}+
-                      </span>
-                    ))}
-                  </span>
-                  <span className={s.settledMark}>
-                    {o.landed === true ? "came in" : o.landed === false ? "no" : "open"}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
         </div>
       ) : kind === "crossover" && options?.length ? (
         <div className={s.beats}>
@@ -353,8 +314,53 @@ function Game({
     </>
   );
 
+  // The back of a played card: what the card said, marked against what
+  // happened. Same flip, other direction in time.
+  const settledBack =
+    kind === "played" && settled?.options.length ? (
+      <div className={s.backFace} aria-hidden>
+        <span className={s.backTitle}>The card, marked</span>
+        <ul className={s.settled}>
+          {settled.options.map((o) => (
+            <li
+              key={o.band}
+              className={[
+                s.settledRow,
+                o.landed === true ? s.landed : "",
+                o.landed === false ? s.missed : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              <span className={s.settledOdds}>{o.odds.toFixed(2)}</span>
+              <span className={s.settledLegs}>
+                {o.legs.map((l) => (
+                  <span
+                    key={`${l.player}-${l.fouls}`}
+                    className={
+                      l.landed === true
+                        ? s.legLanded
+                        : l.landed === false
+                          ? s.legMissed
+                          : s.legOpen
+                    }
+                  >
+                    {l.player} {l.fouls}+
+                  </span>
+                ))}
+              </span>
+              <span className={s.settledMark}>
+                {o.landed === true ? "came in" : o.landed === false ? "no" : "open"}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <span className={s.backFoot}>open the game &rarr;</span>
+      </div>
+    ) : null;
+
   // The back of an upcoming card: the picks, revealed on hover by a flip.
-  const back =
+  const crossoverBack =
     kind === "crossover" && options?.length ? (
       <div className={s.backFace} aria-hidden>
         <span className={s.backTitle}>The picks</span>
@@ -375,6 +381,8 @@ function Game({
         <span className={s.backFoot}>open the game &rarr;</span>
       </div>
     ) : null;
+
+  const back = crossoverBack ?? settledBack;
 
   // Only this round has a page. Linking the rest would be a promise of depth
   // that is not there yet. With the disclosures gone the card holds no

@@ -2,10 +2,12 @@ import Link from "next/link";
 import Signature from "@/components/characters/Signature";
 import type { Settings } from "@/components/characters/Signature";
 import Bets from "@/components/five/Bets";
+import Vidiprinter from "@/components/home/Vidiprinter";
 import Standings from "@/components/five/Standings";
 import { Callout, Note, PageHeader, SectionHead } from "@/components/kit";
-import { getCharacters, getPlayers } from "@/lib/data";
+import { getArchivedFixtures, getCharacters, getPlayers } from "@/lib/data";
 import { gameOrder } from "@/lib/bets";
+import { vidiprinterLines } from "@/lib/vidiprinter";
 import c from "./characters.module.css";
 
 export const metadata = { title: "The five · Foulgorithm" };
@@ -24,6 +26,21 @@ export default function Characters() {
   const confirmed = new Set(slates.confirmedFixtures ?? []);
   const peers = settings.map((p) => p.settings as unknown as Settings);
   const games = gameOrder(Object.keys(slates.byGame ?? {}), players.board);
+  const printer = vidiprinterLines(getArchivedFixtures(), 12);
+
+  // The summary strip's numbers, so a closed game still says what it holds.
+  const gameMeta = (g: string) => {
+    let bets = 0;
+    let hot = 0;
+    for (const shapes of Object.values(slates.byGame[g] ?? {})) {
+      for (const bet of Object.values(shapes ?? {})) {
+        if (!bet) continue;
+        bets += 1;
+        hot += bet.legs.filter((l) => l.hotTake).length;
+      }
+    }
+    return { bets, hot };
+  };
   const columns = d.characters.map((ch) => ({ id: ch.id, name: ch.name, generation: ch.generation }));
   const names = Object.fromEntries(columns.map((ch) => [ch.id, ch.name]));
 
@@ -45,6 +62,8 @@ export default function Characters() {
 
       <Standings standings={players.standings ?? []} names={names} />
 
+      {printer.length > 0 && <Vidiprinter lines={printer} />}
+
       <section>
         <SectionHead
           title="This week's bets"
@@ -52,15 +71,32 @@ export default function Characters() {
         />
         {games.length ? (
           <div className={c.betGames}>
-            {games.map((g) => (
-              <div key={g}>
-                <div className={c.gameLabel}>
-                  {g}
-                  {!confirmed.has(g) ? " *" : ""}
-                </div>
-                <Bets bets={slates.byGame[g]} characters={columns} shapes={slates.shapes} />
-              </div>
-            ))}
+            {games.map((g) => {
+              const meta = gameMeta(g);
+              return (
+                <details key={g} className={c.betsGame}>
+                  <summary className={c.betsSummary}>
+                    <span className={c.gameLabel}>
+                      {g}
+                      {!confirmed.has(g) ? " *" : ""}
+                    </span>
+                    <span className={c.swatchRow} aria-hidden>
+                      {columns.map((ch) => (
+                        <span
+                          key={ch.id}
+                          className={c.dot}
+                          style={{ ["--char" as string]: `var(--ch-${ch.id})` }}
+                        />
+                      ))}
+                    </span>
+                    <span className={c.betsMeta}>
+                      {meta.bets} bets · {meta.hot} hot
+                    </span>
+                  </summary>
+                  <Bets bets={slates.byGame[g]} characters={columns} shapes={slates.shapes} />
+                </details>
+              );
+            })}
           </div>
         ) : (
           <Note>

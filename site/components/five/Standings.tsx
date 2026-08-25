@@ -22,7 +22,8 @@ export default function Standings({
   return (
     <Card
       title="The table"
-      subtitle="On every game, all five commit to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Identical shapes, so this measures which players they pick and not how hard a bet they chose. Every leg lands is a win, all but one is a draw. FD is foul difference: a landed leg counts +1, and a miss counts how far it missed by."
+      hero
+      subtitle="On every game, every competitor commits to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Identical shapes, so this measures which players they pick and not how hard a bet they chose. Every leg lands is a win, all but one is a draw. FD is foul difference: a landed leg counts +1, and a miss counts how far it missed by."
       flush
     >
       <DataTable

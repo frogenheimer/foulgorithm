@@ -59,6 +59,13 @@
   --ch-dele: #b34a1e;
   --ch-ian: #6d4fc4;
 
+  /* ---- the hero module (docs/39): one deep panel per page, the same in
+     both themes, like a dark instrument face set into any dashboard. ---- */
+  --hero-a: #0c2930;
+  --hero-b: #114049;
+  --on-hero: #f2fbfc;
+  --on-hero-2: #9fc4cb;
+
   /* ---- chart chrome ---- */
   --grid: #e4e4df;
   --axis: #c8c8c1;

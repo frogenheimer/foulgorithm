@@ -49,7 +49,8 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
 
   const board = data.board.find((f) => `${f.home} v ${f.away}` === label);
   const matchday = getMatchday();
-  const sheet = matchday.fixtures.some((f) => `${f.home} v ${f.away}` === label);
+  const sheetFixture = matchday.fixtures.find((f) => `${f.home} v ${f.away}` === label);
+  const sheet = Boolean(sheetFixture);
   const shape = data.formations[label];
   const [home, away] = label.split(" v ");
   const kickoff = board?.kickoff ? new Date(board.kickoff) : null;
@@ -61,8 +62,8 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
           &larr; Today
         </Link>
         <div className={s.clubs} aria-hidden>
-          <ClubChip name={home} size="lg" />
-          <ClubChip name={away} size="lg" />
+          <ClubChip name={home} size="lg" temper={temperOf(sheetFixture, home)} />
+          <ClubChip name={away} size="lg" temper={temperOf(sheetFixture, away)} />
         </div>
         <PageHeader
           title={label}
@@ -97,7 +98,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
               note={`Both clubs face to face on everything we hold, averages across ${matchday.seasons.join(" and ")} with league ranks, then the players likely to be on the pitch. Actual numbers can be checked against a scoreboard; Expected ones are our model's, and the sheet says which is showing.`}
             />
             <GameSheet
-              fixture={matchday.fixtures.find((fx) => `${fx.home} v ${fx.away}` === label)!}
+              fixture={sheetFixture!}
               rows={getExplorer().rows.filter((r) => r.fixture === label)}
             />
           </section>
@@ -154,8 +155,8 @@ function PastFixture({ a }: { a: ArchivedFixture }) {
           &larr; Today
         </Link>
         <div className={s.clubs} aria-hidden>
-          <ClubChip name={home} size="lg" />
-          <ClubChip name={away} size="lg" />
+          <ClubChip name={home} size="lg" temper={temperOf(a.matchday?.fixture, home)} />
+          <ClubChip name={away} size="lg" temper={temperOf(a.matchday?.fixture, away)} />
         </div>
         <PageHeader
           title={a.label}
@@ -225,4 +226,11 @@ function PastFixture({ a }: { a: ArchivedFixture }) {
       )}
     </div>
   );
+}
+
+/** The temper ring's inputs for one club, from a matchday sheet if present. */
+function temperOf(fixture: { teams: Record<string, { averages: Record<string, { value: number | null; rank?: number; rankOf?: number }> }> } | null | undefined, club: string) {
+  const held = fixture?.teams?.[club]?.averages?.foulsFor;
+  if (!held || held.value == null || held.rank == null || held.rankOf == null) return undefined;
+  return { value: held.value, rank: held.rank, of: held.rankOf };
 }

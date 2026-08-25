@@ -462,6 +462,23 @@
   color: var(--ink);
 }
 
+/* A segmented control never widens the page: on the narrowest screens the
+   segments tighten, and past that the track scrolls inside itself. */
+.toggle {
+  max-width: 100%;
+  overflow-x: auto;
+  min-width: 0;
+  scrollbar-width: none;
+}
+
+@media (max-width: 380px) {
+  .toggleOption,
+  .toggleOptionOn {
+    padding: var(--s1) var(--s2);
+    font-size: var(--t-xs);
+  }
+}
+
 .toggleOptionOn {
   background: var(--surface);
   color: var(--ink);
@@ -568,4 +585,18 @@
   .toggleOptionOn {
     min-height: var(--tap);
   }
+}
+
+/* The hero: a deep panel whose local ink tokens flip, so tables and notes
+   inside it read correctly without knowing where they are. */
+.cardHero {
+  background: linear-gradient(135deg, var(--hero-a), var(--hero-b));
+  border-color: transparent;
+  --ink: var(--on-hero);
+  --ink-2: var(--on-hero-2);
+  --ink-3: var(--on-hero-2);
+  --line: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.24);
+  --surface-sunk: rgba(255, 255, 255, 0.05);
+  --surface: rgba(255, 255, 255, 0.03);
 }

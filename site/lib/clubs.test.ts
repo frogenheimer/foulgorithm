@@ -10,7 +10,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { clubIdentity, temperFraction } from "./clubs";
+import { clubIdentity, rankFraction, temperFraction } from "./clubs";
 import CLUBS from "./clubs.json";
 
 describe("clubIdentity", () => {
@@ -50,5 +50,17 @@ describe("temperFraction", () => {
     expect(temperFraction(99, 12)).toBe(1);
     expect(temperFraction(-1, 12)).toBe(0);
     expect(temperFraction(5, 0)).toBe(0);
+  });
+});
+
+describe("rankFraction", () => {
+  it("first place fills the ring, last barely marks it", () => {
+    expect(rankFraction(1, 20)).toBe(1);
+    expect(rankFraction(20, 20)).toBeCloseTo(0.05);
+  });
+
+  it("nonsense ranks fill nothing", () => {
+    expect(rankFraction(0, 20)).toBe(0);
+    expect(rankFraction(3, 0)).toBe(0);
   });
 });

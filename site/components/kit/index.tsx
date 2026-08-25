@@ -54,15 +54,20 @@ export function Card({
   title,
   subtitle,
   flush = false,
+  hero = false,
 }: {
   children: ReactNode;
   title?: string;
   subtitle?: ReactNode;
   /** No padding, for a card whose whole body is a table. */
   flush?: boolean;
+  /** The page's one deep panel (docs/39). One per page, maximum. */
+  hero?: boolean;
 }) {
   return (
-    <section className={flush ? s.cardFlush : s.card}>
+    <section
+      className={`${flush ? s.cardFlush : s.card} ${hero ? s.cardHero : ""}`}
+    >
       {title && (
         <header className={s.cardHead}>
           <h3 className={s.cardTitle}>{title}</h3>

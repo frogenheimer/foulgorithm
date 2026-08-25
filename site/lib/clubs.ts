@@ -34,3 +34,9 @@ export function temperFraction(value: number, leagueMax: number): number {
   if (!leagueMax || leagueMax <= 0) return 0;
   return Math.min(Math.max(value / leagueMax, 0), 1);
 }
+
+/** Ring fill from a league rank when no scale is at hand: 1st fills fully. */
+export function rankFraction(rank: number, of: number): number {
+  if (!of || of <= 0 || !rank || rank <= 0) return 0;
+  return Math.min(Math.max((of - rank + 1) / of, 0), 1);
+}
