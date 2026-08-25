@@ -557,11 +557,13 @@ def publish(output: Path = OUTPUT) -> dict:
     )
     picks = [_character_picks(cid, candidates) for cid in pm.CHARACTER_SETTINGS]
 
-    # The five committed to identical shapes, so the table measures judgement
-    # rather than difficulty. See publish/league.py.
+    # Identical shapes for every character, so the table measures judgement
+    # rather than difficulty. See publish/league.py. Standings come first
+    # because Justine's selection covets the current leader's numbers.
     character_ids = list(pm.CHARACTER_SETTINGS)
-    slates = league.build_slates(candidates, character_ids)
     standings = _standings(character_ids)
+    leader = standings[0]["id"] if standings and standings[0]["played"] > 0 else None
+    slates = league.build_slates(candidates, character_ids, context={"leader": leader})
 
     top = sorted(all_rows, key=lambda r: -r["committed"]["p1plus"])[:12]
 
@@ -1312,18 +1314,65 @@ def _pmf(dist, cutoff: float = 0.995, cap: int = 9) -> list[float]:
     return out
 
 
-def _preference(cid: str, row: dict) -> float:
+# Generation 2's bounds (docs/38). The sway is the most a temperament can
+# move a pick's rank: anything clearer than that on raw probability is an
+# obvious pick and every challenger takes it. The margin is what counts as a
+# hot take: a leg where the character beats the pack's view by this much.
+TEMPERAMENT_SWAY = 0.08
+HOT_TAKE_MARGIN = 0.06
+
+
+def _v2_temperament(cid: str, row: dict, edge: float, pack: float, context: dict | None) -> float:
+    """The challengers' personalities, expressed inside the band only."""
+    own = row["probs"][cid]
+    why = row["whys"][cid]
+    evidence = min(why["effectiveMatches"], 40) / 40
+
+    if cid == "pax":
+        # Persistence trusts the accumulated record and dislikes drama.
+        return evidence * 0.05 - abs(edge) * 0.3
+    if cid == "justine":
+        # Jealousy covets the leader's number; the consensus when there is
+        # no leader yet, which is the same instinct pointed at the crowd.
+        leader = (context or {}).get("leader")
+        target = row["probs"].get(leader) if leader else None
+        return ((target if target is not None else pack) - own) * 0.8
+    if cid == "mabel":
+        # Madness wants the thin samples and the disagreements, any direction.
+        return (1 - evidence) * 0.05 + abs(edge) * 0.6
+    if cid == "dottie":
+        # Deviance amplifies her genuine disagreements, and only those.
+        return edge * 0.9
+    if cid == "dele":
+        # Delinquency backs the raw rate: the players referees know by name.
+        return min(why["ratePer90"], 3.0) * 0.03
+    # magicIan: the algorithm IS the personality. Pure belief.
+    return 0.0
+
+
+def _preference(cid: str, row: dict, context: dict | None = None) -> float:
     """How much this character wants this bet. Higher is keener.
 
-    Boldness is deviation from the pack, NOT low probability. A character
-    backing a 70% shot the others price at 55% is being bold; one backing a
-    45% shot everybody agrees on is just accepting a longer price.
+    Generation 1 (the five): boldness is deviation from the pack, NOT low
+    probability. A character backing a 70% shot the others price at 55% is
+    being bold; one backing a 45% shot everybody agrees on is just accepting
+    a longer price.
+
+    Generation 2 (the challengers): own probability plus a temperament term
+    clamped to TEMPERAMENT_SWAY, so logic leads and personality decides only
+    the close calls (docs/38).
     """
     own = row["probs"][cid]
     others = [p for c, p in row["probs"].items() if c != cid]
     pack = sum(others) / len(others)
     edge = own - pack
     why = row["whys"][cid]
+
+    from foulgorithm.characters.base import V2_IDS
+
+    if cid in V2_IDS:
+        sway = _v2_temperament(cid, row, edge, pack, context)
+        return own + max(-TEMPERAMENT_SWAY, min(TEMPERAMENT_SWAY, sway))
 
     if cid == "tayler":
         # Terror wants agreement and evidence, and dislikes standing out.

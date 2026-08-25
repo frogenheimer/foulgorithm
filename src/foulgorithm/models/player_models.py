@@ -636,6 +636,22 @@ CHARACTER_SETTINGS: dict[str, dict] = {
     "tayler": dict(half_life_days=1000, prior_matches=30, opponent_weight=0.4, dispersion=1.25, amplify=1.0),
     # Bravery: short-to-medium memory, trusts thin evidence others shrink away.
     "bdog": dict(half_life_days=300, prior_matches=2, opponent_weight=1.1, dispersion=1.02, amplify=1.2),
+    # ---- generation 2, the challengers (docs/38) ----
+    # Persistence: long memory, heavy evidence requirement, unmoved by form.
+    "pax": dict(half_life_days=900, prior_matches=14, opponent_weight=0.7, dispersion=1.12, amplify=1.05),
+    # Jealousy: middle of the road on purpose; her lean lives in selection,
+    # where she covets whatever the league leader's numbers say.
+    "justine": dict(half_life_days=500, prior_matches=6, opponent_weight=1.0, dispersion=1.08, amplify=1.15),
+    # Madness: short memory, barely shrinks, exaggerates. The chaos is the signal.
+    "mabel": dict(half_life_days=120, prior_matches=1, opponent_weight=1.4, dispersion=0.98, amplify=1.35),
+    # Deviance: medium memory, low shrinkage, reads the matchup, pushes deviations.
+    "dottie": dict(half_life_days=350, prior_matches=3, opponent_weight=1.2, dispersion=1.04, amplify=1.25),
+    # Delinquency: long memory for repeat offenders, shrugs at context.
+    "dele": dict(half_life_days=950, prior_matches=4, opponent_weight=0.6, dispersion=1.02, amplify=1.3),
+    # Intelligence: a genetic algorithm. These are seed dials only; from the
+    # first settle onward models/evolve.py breeds a new generation every
+    # matchday and this entry is overwritten at import from his lineage.
+    "ian": dict(half_life_days=500, prior_matches=8, opponent_weight=1.0, dispersion=1.10, amplify=1.10),
 }
 
 

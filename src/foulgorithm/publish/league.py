@@ -31,20 +31,105 @@ def house_probability(row: dict, character_ids: list[str]) -> float:
     return ensemble.blend(probs)
 
 
-def _preference(cid: str, row: dict) -> float:
+def _preference(cid: str, row: dict, context: dict | None = None) -> float:
     """How much this character wants this bet.
 
-    Deliberately the same idea as the slip builder: boldness is distance from
-    what the other four think, never a lower probability. A character backing a
-    70% shot the rest price at 55% is being bold; one backing a 45% shot
-    everybody agrees on has only accepted a longer price.
+    Deliberately the same function as the slip builder, so a character's
+    taste is one thing everywhere: generation 1 on pure temperament,
+    generation 2 on bounded temperament (docs/38).
     """
     from foulgorithm.publish.player_round import _preference as slip_preference
 
-    return slip_preference(cid, row)
+    return slip_preference(cid, row, context)
 
 
-def build_slates(candidates: list[dict], character_ids: list[str]) -> dict:
+def _edge(cid: str, row: dict) -> float:
+    """How far this character's number sits above the pack's on one leg."""
+    own = row["probs"][cid]
+    others = [p for c, p in row["probs"].items() if c != cid]
+    return own - (sum(others) / len(others)) if others else 0.0
+
+
+def _leg_from_row(row: dict, cid: str, hot: bool | None = None) -> dict:
+    leg = {
+        "player": row["player"],
+        "fullName": row["fullName"],
+        "team": row["team"],
+        "fixture": row["fixture"],
+        "kickoff": row["kickoff"],
+        "market": row["market"],
+        "line": row["line"],
+        "fouls": int(row["line"] + 0.5),
+        "prob": round(row["probs"][cid], 4),
+        "outOf100": round(row["probs"][cid] * 100),
+        "thin": bool(row.get("thin")),
+    }
+    if hot is not None:
+        leg["hotTake"] = hot
+    return leg
+
+
+def _hot_take_floor(cid: str, own: dict, pool: list[dict], context: dict | None) -> None:
+    """Guarantee generation 2's one genuine disagreement per game (docs/38).
+
+    A floor, never a cap: a draft already carrying a hot take is untouched,
+    and extra hot takes are welcome. Only when every leg across the three
+    bets is consensus does the character's single strongest disagreement
+    swap in, replacing the least-wanted leg at the same line in the same
+    bet, so the shapes stay exactly what they promise.
+    """
+    from foulgorithm.publish.player_round import HOT_TAKE_MARGIN
+
+    if any(
+        leg.get("hotTake")
+        for built in own.values()
+        if built
+        for leg in built["legs"]
+    ):
+        return
+
+    mavericks = sorted(
+        (r for r in pool if r.get("probs", {}).get(cid) is not None and _edge(cid, r) >= HOT_TAKE_MARGIN),
+        key=lambda r: -_edge(cid, r),
+    )
+    for row in mavericks:
+        for built in own.values():
+            if not built:
+                continue
+            used = {leg["fullName"] for leg in built["legs"]}
+            if row["fullName"] in used:
+                continue
+            replaceable = [
+                i
+                for i, leg in enumerate(built["legs"])
+                if leg["line"] == row["line"]
+            ]
+            if not replaceable:
+                continue
+            weakest = min(
+                replaceable,
+                key=lambda i: _preference(cid, _row_for(built["legs"][i], pool, cid), context)
+                if _row_for(built["legs"][i], pool, cid)
+                else 0.0,
+            )
+            built["legs"][weakest] = _leg_from_row(row, cid, hot=True)
+            return
+
+
+def _row_for(leg: dict, pool: list[dict], cid: str) -> dict | None:
+    for row in pool:
+        if (
+            row["fullName"] == leg["fullName"]
+            and row["market"] == leg["market"]
+            and row["line"] == leg["line"]
+        ):
+            return row
+    return None
+
+
+def build_slates(
+    candidates: list[dict], character_ids: list[str], context: dict | None = None
+) -> dict:
     """Each character's three bets, per game. The contract; see docs/38.
 
     Returns `{fixture: {character: {slate_key: {"legs": [...]} | None}}}`.
@@ -53,8 +138,12 @@ def build_slates(candidates: list[dict], character_ids: list[str]) -> dict:
     slate that cannot be filled from one game's pool comes back as None
     rather than short: committing to a shape you could not build is worse
     than passing, because it would be scored against everyone else's full
-    one.
+    one. Generation 2 characters additionally carry the hot-take floor, and
+    their legs are flagged where they genuinely part company with the pack.
     """
+    from foulgorithm.characters.base import V2_IDS
+    from foulgorithm.publish.player_round import HOT_TAKE_MARGIN
+
     by_game: dict[str, list[dict]] = {}
     for row in candidates:
         by_game.setdefault(row["fixture"], []).append(row)
@@ -64,7 +153,8 @@ def build_slates(candidates: list[dict], character_ids: list[str]) -> dict:
         pool = by_game[label]
         out[label] = {}
         for cid in character_ids:
-            ranked = sorted(pool, key=lambda r: -_preference(cid, r))
+            v2 = cid in V2_IDS
+            ranked = sorted(pool, key=lambda r: -_preference(cid, r, context))
             own: dict[str, dict | None] = {}
 
             for slate in ensemble.SLATES:
@@ -84,22 +174,17 @@ def build_slates(candidates: list[dict], character_ids: list[str]) -> dict:
                     for row in at_line[:count]:
                         used.add(row["fullName"])
                         legs.append(
-                            {
-                                "player": row["player"],
-                                "fullName": row["fullName"],
-                                "team": row["team"],
-                                "fixture": row["fixture"],
-                                "kickoff": row["kickoff"],
-                                "market": row["market"],
-                                "line": row["line"],
-                                "fouls": int(row["line"] + 0.5),
-                                "prob": round(row["probs"][cid], 4),
-                                "outOf100": round(row["probs"][cid] * 100),
-                                "thin": bool(row.get("thin")),
-                            }
+                            _leg_from_row(
+                                row,
+                                cid,
+                                hot=(_edge(cid, row) >= HOT_TAKE_MARGIN) if v2 else None,
+                            )
                         )
 
                 own[slate.key] = {"legs": legs, "label": slate.label} if ok else None
+
+            if v2:
+                _hot_take_floor(cid, own, pool, context)
             out[label][cid] = own
 
     return out
