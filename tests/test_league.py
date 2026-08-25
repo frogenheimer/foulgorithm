@@ -117,13 +117,18 @@ class TestBuildingSlates:
         built = league.build_slates([candidate("Solo", {c: 0.8 for c in FIVE})], FIVE)
         assert built["A v B"]["alan"]["six-ones"] is None
 
-    def test_the_five_do_not_all_pick_the_same_players(self):
-        built = league.build_slates(pool(), FIVE)
-        picked = {
-            cid: tuple(leg["fullName"] for leg in built["A v B"][cid]["six-ones"]["legs"])
-            for cid in FIVE
-        }
-        assert len(set(picked.values())) > 1, "if they agree entirely there is no contest"
+    def test_genuine_disagreement_still_separates_the_picks(self):
+        """Selection is logic-first for everyone now (docs/38, 2026-08-25), so
+        with near-identical beliefs the slates legitimately converge. The
+        contest lives where beliefs genuinely differ: a character who truly
+        rates a player the pack does not must pick differently."""
+        maverick = candidate("Maverick", {c: 0.79 for c in FIVE})
+        maverick["probs"]["bdog"] = 0.93
+        built = league.build_slates(pool() + [maverick], FIVE)
+        bdog = {leg["fullName"] for leg in built["A v B"]["bdog"]["six-ones"]["legs"]}
+        tayler = {leg["fullName"] for leg in built["A v B"]["tayler"]["six-ones"]["legs"]}
+        assert "Maverick Full" in bdog
+        assert bdog != tayler
 
 
 class TestTheHouseNumber:

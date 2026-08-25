@@ -84,3 +84,26 @@ extended to eleven colours and validated 2026-08-25 (chroma floor, normal
 vision ΔE ≥ 15 on adjacent pairs, 3:1 contrast, both themes; CVD pairs in
 the 6-8 band rely on the site-wide rule that a swatch never appears without
 its name).
+
+---
+
+## 🚦 Amendment, 2026-08-25 (later): selection unifies, the engine is the edge
+
+The generation split as first built made SELECTION the six's edge, which was
+the wrong variable: the intent was always engine upgrades. Two changes:
+
+- **Every competitor now bets logic-first**: own probability plus a
+  temperament clamped to that character's own sway (`CHARACTER_SWAY`), and
+  the hot-take floor applies to all eleven. The sway widths are the
+  personality: Tayler 3 points, most 7-10, B-Dog 12, magicIan 2. The old
+  pure-temperament formulas made the five rogue; refusing your own best
+  numbers under win/draw/loss scoring was points thrown away.
+- **Generation now means ENGINE.** The five stay frozen on the 24 Aug
+  engine; the six take gated upgrades as they clear their backtests. Both
+  cheap candidates are already dead by measurement (big-five pooling gated
+  null 24 Aug; count-specific dispersion tried and deleted as noise), so
+  the first live candidate is two-stage minutes, built with its gate, never
+  rushed.
+
+Rounds also re-key to the league's own gameweeks in an upcoming change; the
+table already fills game by game as bets settle.

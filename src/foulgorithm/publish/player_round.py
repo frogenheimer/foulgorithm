@@ -1314,20 +1314,51 @@ def _pmf(dist, cutoff: float = 0.995, cap: int = 9) -> list[float]:
     return out
 
 
-# Generation 2's bounds (docs/38). The sway is the most a temperament can
-# move a pick's rank: anything clearer than that on raw probability is an
-# obvious pick and every challenger takes it. The margin is what counts as a
-# hot take: a leg where the character beats the pack's view by this much.
-TEMPERAMENT_SWAY = 0.08
+# The selection bounds (docs/38, unified 2026-08-25). Every competitor bets
+# logic-first: preference is their own probability plus a temperament term
+# clamped to THEIR sway. The sway widths ARE the personality now: Tayler's
+# band is tight, B-Dog's is the widest, and nobody can veto arithmetic. The
+# margin is what counts as a hot take: a leg where the character beats the
+# pack's view by this much.
+CHARACTER_SWAY: dict[str, float] = {
+    "alan": 0.08,
+    "lily": 0.07,
+    "valentina": 0.08,
+    "tayler": 0.03,
+    "bdog": 0.12,
+    "pax": 0.05,
+    "justine": 0.08,
+    "mabel": 0.10,
+    "dottie": 0.10,
+    "dele": 0.08,
+    "ian": 0.02,
+}
 HOT_TAKE_MARGIN = 0.06
 
 
-def _v2_temperament(cid: str, row: dict, edge: float, pack: float, context: dict | None) -> float:
-    """The challengers' personalities, expressed inside the band only."""
+def _temperament(cid: str, row: dict, edge: float, pack: float, context: dict | None) -> float:
+    """Each personality, expressed inside its band only. Same ingredients the
+    old rogue formulas used, rescaled into probability units so the clamp
+    means something."""
     own = row["probs"][cid]
     why = row["whys"][cid]
     evidence = min(why["effectiveMatches"], 40) / 40
 
+    if cid == "alan":
+        # Anger backs whatever it has most recently seen, hardest.
+        return edge * 1.5 + min(why["ratePer90"], 3.0) * 0.02
+    if cid == "lily":
+        # Lust chases the biggest raw numbers and the biggest names.
+        return min(why["ratePer90"], 3.0) * 0.04 + edge * 0.3
+    if cid == "valentina":
+        # Violence reads the matchup above all else.
+        return (why["opponentFactor"] - 1.0) * 0.6 + edge * 0.4
+    if cid == "tayler":
+        # Terror wants agreement and evidence, and dislikes standing out.
+        return evidence * 0.03 - abs(edge) * 0.6
+    if cid == "bdog":
+        # Bravery amplifies his own disagreements and tolerates thin evidence.
+        return edge * 1.5 - evidence * 0.02
     if cid == "pax":
         # Persistence trusts the accumulated record and dislikes drama.
         return evidence * 0.05 - abs(edge) * 0.3
@@ -1346,48 +1377,29 @@ def _v2_temperament(cid: str, row: dict, edge: float, pack: float, context: dict
     if cid == "dele":
         # Delinquency backs the raw rate: the players referees know by name.
         return min(why["ratePer90"], 3.0) * 0.03
-    # magicIan: the algorithm IS the personality. Pure belief.
+    # magicIan: the algorithm IS the personality. Near-pure belief.
     return 0.0
 
 
 def _preference(cid: str, row: dict, context: dict | None = None) -> float:
     """How much this character wants this bet. Higher is keener.
 
-    Generation 1 (the five): boldness is deviation from the pack, NOT low
-    probability. A character backing a 70% shot the others price at 55% is
-    being bold; one backing a 45% shot everybody agrees on is just accepting
-    a longer price.
-
-    Generation 2 (the challengers): own probability plus a temperament term
-    clamped to TEMPERAMENT_SWAY, so logic leads and personality decides only
-    the close calls (docs/38).
+    Logic first for everyone (docs/38, unified 2026-08-25): the character's
+    own probability, plus a temperament clamped to their sway. An obvious
+    pick cannot be vetoed by a personality; the close calls are where the
+    eleven stop looking like each other. The old pure-temperament formulas
+    made the five rogue: refusing your own best numbers under win/draw/loss
+    scoring was points thrown away, and B-Dog was structurally punished for
+    his own convictions.
     """
     own = row["probs"][cid]
     others = [p for c, p in row["probs"].items() if c != cid]
-    pack = sum(others) / len(others)
+    pack = sum(others) / len(others) if others else own
     edge = own - pack
-    why = row["whys"][cid]
 
-    from foulgorithm.characters.base import V2_IDS
-
-    if cid in V2_IDS:
-        sway = _v2_temperament(cid, row, edge, pack, context)
-        return own + max(-TEMPERAMENT_SWAY, min(TEMPERAMENT_SWAY, sway))
-
-    if cid == "tayler":
-        # Terror wants agreement and evidence, and dislikes standing out.
-        return own - abs(edge) * 2.0 + min(why["effectiveMatches"], 40) / 200
-    if cid == "alan":
-        # Anger backs whatever it has most recently seen, hardest.
-        return edge * 3.0 + why["ratePer90"] * 0.2
-    if cid == "bdog":
-        # Bravery goes where the pack is not, and tolerates thin evidence.
-        return edge * 4.0 - min(why["effectiveMatches"], 40) / 400
-    if cid == "valentina":
-        # Violence reads the matchup above all else.
-        return (why["opponentFactor"] - 1.0) * 4.0 + edge * 1.5
-    # Lust chases the biggest raw numbers and the biggest names.
-    return why["ratePer90"] * 1.5 + edge
+    sway = CHARACTER_SWAY.get(cid, 0.08)
+    lean = _temperament(cid, row, edge, pack, context)
+    return own + max(-sway, min(sway, lean))
 
 
 def _equal_risk_slip(cid: str, candidates: list[dict], target=(0.10, 0.20)) -> list[dict]:

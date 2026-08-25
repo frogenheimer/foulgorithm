@@ -35,8 +35,8 @@ def _preference(cid: str, row: dict, context: dict | None = None) -> float:
     """How much this character wants this bet.
 
     Deliberately the same function as the slip builder, so a character's
-    taste is one thing everywhere: generation 1 on pure temperament,
-    generation 2 on bounded temperament (docs/38).
+    taste is one thing everywhere: logic first, temperament clamped to each
+    character's sway (docs/38, unified 2026-08-25).
     """
     from foulgorithm.publish.player_round import _preference as slip_preference
 
@@ -70,7 +70,7 @@ def _leg_from_row(row: dict, cid: str, hot: bool | None = None) -> dict:
 
 
 def _hot_take_floor(cid: str, own: dict, pool: list[dict], context: dict | None) -> None:
-    """Guarantee generation 2's one genuine disagreement per game (docs/38).
+    """Guarantee every character's one genuine disagreement per game (docs/38).
 
     A floor, never a cap: a draft already carrying a hot take is untouched,
     and extra hot takes are welcome. Only when every leg across the three
@@ -138,10 +138,10 @@ def build_slates(
     slate that cannot be filled from one game's pool comes back as None
     rather than short: committing to a shape you could not build is worse
     than passing, because it would be scored against everyone else's full
-    one. Generation 2 characters additionally carry the hot-take floor, and
-    their legs are flagged where they genuinely part company with the pack.
+    one. Every character carries the hot-take floor (docs/38, unified
+    2026-08-25), and legs are flagged wherever a character genuinely parts
+    company with the pack.
     """
-    from foulgorithm.characters.base import V2_IDS
     from foulgorithm.publish.player_round import HOT_TAKE_MARGIN
 
     by_game: dict[str, list[dict]] = {}
@@ -153,7 +153,6 @@ def build_slates(
         pool = by_game[label]
         out[label] = {}
         for cid in character_ids:
-            v2 = cid in V2_IDS
             ranked = sorted(pool, key=lambda r: -_preference(cid, r, context))
             own: dict[str, dict | None] = {}
 
@@ -174,17 +173,12 @@ def build_slates(
                     for row in at_line[:count]:
                         used.add(row["fullName"])
                         legs.append(
-                            _leg_from_row(
-                                row,
-                                cid,
-                                hot=(_edge(cid, row) >= HOT_TAKE_MARGIN) if v2 else None,
-                            )
+                            _leg_from_row(row, cid, hot=_edge(cid, row) >= HOT_TAKE_MARGIN)
                         )
 
                 own[slate.key] = {"legs": legs, "label": slate.label} if ok else None
 
-            if v2:
-                _hot_take_floor(cid, own, pool, context)
+            _hot_take_floor(cid, own, pool, context)
             out[label][cid] = own
 
     return out
