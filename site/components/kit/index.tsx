@@ -14,9 +14,19 @@ import s from "./kit.module.css";
 
 /* ---------- headers ---------- */
 
-export function PageHeader({ title, lede }: { title: string; lede?: ReactNode }) {
+export function PageHeader({
+  title,
+  lede,
+  kicker,
+}: {
+  title: string;
+  lede?: ReactNode;
+  /** The transmission line above the title: "TODAY · MATCHWEEK 2". */
+  kicker?: string;
+}) {
   return (
     <header className={s.page}>
+      {kicker && <p className={s.kicker}>{kicker}</p>}
       <h1 className={s.h1}>{title}</h1>
       {lede && <p className={s.lede}>{lede}</p>}
     </header>

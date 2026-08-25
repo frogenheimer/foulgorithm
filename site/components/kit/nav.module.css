@@ -84,14 +84,31 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* The active marker is a shape as well as a colour. Square, per docs/39. */
-.itemOn::before {
-  content: "";
+/* The pip: one square, gliding. It rests beside the active page and chases
+   the hover, arriving with the snap. */
+.pip {
   position: absolute;
-  margin-left: calc(var(--s3) * -1);
-  width: var(--s1);
-  height: var(--s5);
-  background: var(--accent);
+  top: 0;
+  left: var(--s2);
+  width: var(--s2);
+  height: var(--s2);
+  margin-top: calc(var(--s1) * -1);
+  background: var(--accent-object);
+  pointer-events: none;
+  transition: transform var(--d-base) var(--ease-snap);
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pip {
+    transition: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .pip {
+    display: none;
+  }
 }
 
 .label {

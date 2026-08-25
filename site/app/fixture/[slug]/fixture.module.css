@@ -1,12 +1,21 @@
 .back {
-  display: inline-block;
-  margin-bottom: var(--s3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s1) var(--s3);
+  border: 1px solid var(--line-strong);
   font-size: var(--t-sm);
-  color: var(--ink-3);
+  color: var(--ink-2);
+  transition:
+    transform var(--d-base) var(--ease-snap),
+    border-color var(--d-fast) var(--ease),
+    color var(--d-fast) var(--ease);
 }
 
 .back:hover {
-  color: var(--accent);
+  color: var(--ink);
+  border-color: var(--accent-object);
+  transform: translateX(-3px);
 }
 
 .compare {

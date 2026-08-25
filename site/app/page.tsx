@@ -45,6 +45,7 @@ export default function Today() {
   return (
     <div className="stack">
       <PageHeader
+        kicker={`Today · Matchweek ${season.currentMatchweek}`}
         title="Today"
         lede={
           <>

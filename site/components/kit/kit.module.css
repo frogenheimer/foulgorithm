@@ -29,7 +29,11 @@
 }
 
 .h2 {
-  font-size: var(--t-lg);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
   color: var(--ink);
 }
 
@@ -80,7 +84,11 @@
 }
 
 .cardTitle {
-  font-size: var(--t-lg);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
   color: var(--ink);
 }
 
@@ -592,6 +600,7 @@
 .cardHero {
   background: linear-gradient(135deg, var(--hero-a), var(--hero-b));
   border-color: transparent;
+  box-shadow: inset 0 1px 0 rgba(255, 214, 10, 0.35), var(--lift);
   --ink: var(--on-hero);
   --ink-2: var(--on-hero-2);
   --ink-3: var(--on-hero-2);
@@ -599,4 +608,24 @@
   --line-strong: rgba(255, 255, 255, 0.24);
   --surface-sunk: rgba(255, 255, 255, 0.05);
   --surface: rgba(255, 255, 255, 0.03);
+}
+
+/* The kicker: the transmission voice above a page title. */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+  margin-bottom: var(--s2);
+}
+
+.kicker::before {
+  content: "";
+  display: inline-block;
+  width: var(--s2);
+  height: var(--s2);
+  margin-right: var(--s2);
+  background: var(--accent-object);
 }

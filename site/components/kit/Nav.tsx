@@ -15,7 +15,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import s from "./nav.module.css";
 
@@ -43,6 +43,26 @@ export function Nav({ children, wide = false }: { children: ReactNode; wide?: bo
   const [collapsed, setCollapsed] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark" | "system">("system");
   const navRef = useRef<HTMLElement>(null);
+
+  // The pip: one yellow square that glides to wherever the reader hovers
+  // and rests beside the page they are on.
+  const [pipTop, setPipTop] = useState<number | null>(null);
+  const placePip = useCallback((el: Element | null) => {
+    const nav = navRef.current;
+    if (!nav || !el) {
+      setPipTop(null);
+      return;
+    }
+    const navBox = nav.getBoundingClientRect();
+    const box = el.getBoundingClientRect();
+    setPipTop(box.top - navBox.top + nav.scrollTop + box.height / 2);
+  }, []);
+  const pipHome = useCallback(() => {
+    placePip(navRef.current?.querySelector('[aria-current="page"]') ?? null);
+  }, [placePip]);
+  useEffect(() => {
+    pipHome();
+  }, [path, collapsed, pipHome]);
 
   // On a phone the nav is a scrolling row and five of the eight destinations
   // start off-screen. At least the one you are on should not.
@@ -90,7 +110,15 @@ export function Nav({ children, wide = false }: { children: ReactNode; wide?: bo
         ref={navRef}
         className={collapsed ? `${s.nav} ${s.collapsed}` : s.nav}
         aria-label="Primary"
+        onMouseLeave={pipHome}
       >
+        {pipTop != null && (
+          <span
+            className={s.pip}
+            style={{ transform: `translateY(${Math.round(pipTop)}px)` }}
+            aria-hidden
+          />
+        )}
         <Link href="/" className={s.mark}>
           <span className={s.markGlyph} aria-hidden>
             F
@@ -111,6 +139,7 @@ export function Nav({ children, wide = false }: { children: ReactNode; wide?: bo
                       className={on ? s.itemOn : s.item}
                       aria-current={on ? "page" : undefined}
                       title={collapsed ? label : undefined}
+                      onMouseEnter={(e) => placePip(e.currentTarget)}
                     >
                       {icon}
                       <span className={s.label}>{label}</span>
