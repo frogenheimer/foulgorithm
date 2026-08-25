@@ -1,7 +1,7 @@
 /**
  * What we call the things we predict, in one place.
  *
- * The same market was called "Fouls conceded" on the pitch and in the explorer,
+ * The same market was called "Fouls committed" on the pitch and in the explorer,
  * "Fouls committed" on the fixture board and in the methodology, and "fouls
  * committed" in prose. `MARKET_LABEL` was defined twice, once here and once in
  * the explorer, and the fixture board had a third set inline. A reader moving
@@ -15,14 +15,14 @@ export type Market = "committed" | "drawn" | "involvements";
 
 /** The name on a tab, a toggle or a column head. */
 export const MARKET_LABEL: Record<Market, string> = {
-  committed: "Fouls conceded",
+  committed: "Fouls committed",
   drawn: "Fouls won",
   involvements: "Involvements",
 };
 
 /** The name inside a sentence, where the tab label would read oddly. */
 export const MARKET_PROSE: Record<Market, string> = {
-  committed: "fouls conceded",
+  committed: "fouls committed",
   drawn: "fouls won",
   involvements: "foul involvements",
 };

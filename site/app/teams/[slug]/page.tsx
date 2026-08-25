@@ -47,7 +47,7 @@ export default async function Team({ params }: { params: Promise<{ slug: string 
 
       <MetricRow>
         <Metric
-          label="Fouls conceded"
+          label="Fouls committed"
           value={t.foulsPerMatch !== null ? t.foulsPerMatch.toFixed(2) : "—"}
           tone={1}
           note={t.foulsPerMatch !== null ? `${rankOn("foulsPerMatch")} in the league` : "No top-flight record yet"}
@@ -69,7 +69,7 @@ export default async function Team({ params }: { params: Promise<{ slug: string 
       <section>
         <SectionHead
           title="The squad"
-          note="Current players only, so anyone who left is not in a table about this season. Ranked by fouls conceded per 90. Under three full matches of playing time a rate is weak evidence, so it is marked rather than removed: absence would read as not being at the club, which is the stronger and wrong claim."
+          note="Current players only, so anyone who left is not in a table about this season. Ranked by fouls committed per 90. Under three full matches of playing time a rate is weak evidence, so it is marked rather than removed: absence would read as not being at the club, which is the stronger and wrong claim."
         />
         {t.players.length > 0 ? (
           <DataTable

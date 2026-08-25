@@ -1088,7 +1088,7 @@ def _house_sheet(fixture: dict) -> dict:
     likely eleven a side. Stars mark the sheet's best, and a player stars at
     most ONCE, at his rarest worthwhile line: starring the same player at
     1+ and 2+ is one opinion dressed as two, and the two could never sit in
-    the same bet anyway (Oliver, 2026-08-25). Fouls conceded takes star
+    the same bet anyway (Oliver, 2026-08-25). Fouls committed takes star
     precedence over fouls won at the same line, being the headline market.
     """
     eleven = [p for squad in fixture["teams"].values() for p in squad[:11]]

@@ -4,7 +4,7 @@
  * A PORT of the pipeline's `_house_sheet` (publish/player_round.py) and it
  * has to stay one: same top-three ranking by the house's own price, same
  * 20/100 floor before a 3+ group earns its place, same one-star-per-player
- * rule with conceded taking precedence at the same line. The published sheet
+ * rule with committed taking precedence at the same line. The published sheet
  * is shown verbatim until a reader swaps someone; from the first swap this
  * recomputes from the elevens now standing on the pitches.
  */

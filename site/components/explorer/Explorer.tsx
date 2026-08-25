@@ -29,7 +29,7 @@ type Sort = "prob" | "expected" | "minutes" | "name";
 
 const MARKET_HINT: Record<Market, string> = {
   committed: "Fouls he gives away",
-  drawn: "Fouls he draws out of opponents",
+  drawn: "Fouls he wins off opponents",
   involvements: "Both together, how often he is in the middle of one",
 };
 

@@ -107,7 +107,7 @@ export default function History() {
 
       <section>
         <SectionHead title={`Teams, ${d.recentWindow}`}>
-          Fouls committed and fouls drawn per match, minimum 20 matches. These are separate
+          Fouls committed and fouls won per match, minimum 20 matches. These are separate
           behaviours, not one number: defenders and holding midfielders commit fouls, while dribblers
           and forwards draw them.
         </SectionHead>

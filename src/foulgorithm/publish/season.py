@@ -4,7 +4,7 @@ The site showed one round. A reader arriving mid-season wants to move through
 the campaign, see what has already happened, and check what a finished match
 actually produced against what we said it would.
 
-Results carry the three numbers this site is about: fouls conceded, fouls won
+Results carry the three numbers this site is about: fouls committed, fouls won
 and cards, per club. They come from the league's own match stats, which report
 at team level, so this is what happened and not an estimate of it.
 

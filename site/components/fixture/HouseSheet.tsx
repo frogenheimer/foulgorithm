@@ -13,7 +13,7 @@ import type { HouseSheet as Sheet } from "@/lib/data";
 import s from "./housesheet.module.css";
 
 const MARKETS = [
-  { key: "committed", label: "Fouls conceded" },
+  { key: "committed", label: "Fouls committed" },
   { key: "drawn", label: "Fouls won" },
 ] as const;
 
