@@ -137,3 +137,14 @@ svg {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* The marker pen: selection and focus are yellow objects with dark ink. */
+::selection {
+  background: var(--accent-object);
+  color: var(--accent-object-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-object);
+  outline-offset: 2px;
+}

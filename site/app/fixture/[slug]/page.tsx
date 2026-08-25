@@ -3,10 +3,10 @@ import FixtureLive from "@/components/fixture/FixtureLive";
 import Explorer from "@/components/explorer/Explorer";
 import Bets from "@/components/five/Bets";
 import GameSheet from "@/components/matchday/GameSheet";
-import SlipGrid from "@/components/fixture/SlipGrid";
 import { PageHeader, SectionHead } from "@/components/kit";
 import ClubChip from "@/components/kit/ClubChip";
-import type { ArchivedFixture } from "@/lib/data";
+import type { Bet, Explorer as ExplorerData, Formations, MatchdayFixture, Slip } from "@/lib/data";
+import type { Outcomes } from "@/lib/graded";
 import {
   fixtureSlug,
   getArchivedFixtures,
@@ -30,30 +30,100 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: label ? `${label} · Foulgorithm` : "Fixture · Foulgorithm" };
 }
 
+/** Everything one fixture page needs, whichever store it came from. */
+type FixtureView = {
+  label: string;
+  kickoff: string | null;
+  referee: string | null;
+  lineupNote: string | null;
+  ladder: Record<string, Slip[]>;
+  bets: Record<string, Record<string, Bet>> | null;
+  characters: { id: string; name: string; generation?: number }[];
+  explorer: ExplorerData;
+  formations: Formations[string] | undefined;
+  sheetFixture: MatchdayFixture | null;
+  outcomes: Outcomes | null;
+  result: {
+    score: [number, number] | null;
+    fouls: [number | null, number | null];
+    cards: [number | null, number | null];
+  } | null;
+};
+
+function liveView(label: string): FixtureView {
+  const data = getPlayers();
+  const board = data.board.find((f) => `${f.home} v ${f.away}` === label);
+  const matchday = getMatchday();
+  return {
+    label,
+    kickoff: board?.kickoff ?? null,
+    referee: board?.referee ?? null,
+    lineupNote: board?.lineupConfirmed
+      ? "XI confirmed"
+      : "XI predicted from current squads",
+    ladder: data.fixtureSlips[label] ?? {},
+    bets: data.slates.byGame?.[label] ?? null,
+    characters: data.picks.map((p) => ({ id: p.id, name: p.name, generation: p.generation })),
+    explorer: getExplorer(),
+    formations: data.formations[label],
+    sheetFixture:
+      matchday.fixtures.find((f) => `${f.home} v ${f.away}` === label) ?? null,
+    outcomes: null,
+    result: null,
+  };
+}
+
+function archivedView(slug: string): FixtureView | null {
+  const a = getArchivedFixtures()[slug];
+  if (!a) return null;
+  const r = a.result?.result;
+  return {
+    label: a.label,
+    kickoff: a.kickoff || null,
+    referee: a.referee,
+    lineupNote: null,
+    ladder: a.ladder,
+    bets: a.bets ?? null,
+    characters: a.characters,
+    explorer: a.explorer,
+    formations: a.formations ?? undefined,
+    sheetFixture: a.matchday?.fixture ?? null,
+    outcomes: a.outcomes ?? {},
+    result: a.result
+      ? {
+          score: a.result.score,
+          fouls: [r?.home?.fouls ?? null, r?.away?.fouls ?? null],
+          cards: [r?.home?.cards ?? null, r?.away?.cards ?? null],
+        }
+      : null,
+  };
+}
+
 /**
- * One game, in the order a reader asks about it: who is on the pitch, what
- * does the model say about every player, what have these clubs actually been
- * doing, and, at the foot, the ladder of what each character would combine at
- * each price. Swaps on the pitch rebuild that ladder, so both ends of the page
- * share state through FixtureLive. The five's committed picks live on The five
- * page as a matrix, side by side across the whole round, not repeated here.
+ * ONE template for every state of a game (docs/39): upcoming, live and
+ * played render the same page in the same order. The only thing a result
+ * changes is the results strip at the top, actual beside what we said, and
+ * the outcome marks that flow through the bets and the ladder. The data
+ * arrives from the live payload while the round is on and from the frozen
+ * archive afterwards; the reader never needs to know which.
  */
 export default async function Fixture({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const data = getPlayers();
-  const label = Object.keys(data.fixtureSlips).find((l) => fixtureSlug(l) === slug);
-  if (!label) {
-    const archived = getArchivedFixtures()[slug];
-    return archived ? <PastFixture a={archived} /> : null;
-  }
+  const liveLabel = Object.keys(data.fixtureSlips).find((l) => fixtureSlug(l) === slug);
+  const v = liveLabel ? liveView(liveLabel) : archivedView(slug);
+  if (!v) return null;
 
-  const board = data.board.find((f) => `${f.home} v ${f.away}` === label);
-  const matchday = getMatchday();
-  const sheetFixture = matchday.fixtures.find((f) => `${f.home} v ${f.away}` === label);
-  const sheet = Boolean(sheetFixture);
-  const shape = data.formations[label];
-  const [home, away] = label.split(" v ");
-  const kickoff = board?.kickoff ? new Date(board.kickoff) : null;
+  const [home, away] = v.label.split(" v ");
+  const kickoff = v.kickoff ? new Date(v.kickoff) : null;
+  const played = Boolean(v.result);
+  const outcomes = v.outcomes ?? undefined;
+  const weSaid = data.expectedTotals?.[v.label]?.expected;
+  const confirmedSet = new Set(data.slates.confirmedFixtures ?? []);
+  const totalFouls =
+    v.result && v.result.fouls[0] != null && v.result.fouls[1] != null
+      ? (v.result.fouls[0] ?? 0) + (v.result.fouls[1] ?? 0)
+      : null;
 
   return (
     <div className="stack">
@@ -62,44 +132,71 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
           &larr; Today
         </Link>
         <div className={s.clubs} aria-hidden>
-          <ClubChip name={home} size="lg" temper={temperOf(sheetFixture, home)} />
-          <ClubChip name={away} size="lg" temper={temperOf(sheetFixture, away)} />
+          <ClubChip name={home} size="lg" temper={temperOf(v.sheetFixture, home)} />
+          <ClubChip name={away} size="lg" temper={temperOf(v.sheetFixture, away)} />
         </div>
         <PageHeader
-          title={label}
+          kicker={played ? "Full time" : "Fixture"}
+          title={v.label}
           lede={
             <>
               {kickoff &&
-                kickoff.toLocaleString("en-GB", {
+                `${played ? "Played " : ""}${kickoff.toLocaleString("en-GB", {
                   weekday: "long",
                   day: "numeric",
                   month: "long",
                   hour: "2-digit",
                   minute: "2-digit",
-                })}
-              {board?.referee && ` · ${board.referee}`}
-              {board?.lineupConfirmed ? " · XI confirmed" : " · XI predicted from current squads"}
+                })}`}
+              {v.referee && ` · ${v.referee}`}
+              {!played && v.lineupNote && ` · ${v.lineupNote}`}
             </>
           }
         />
       </div>
 
+      {played && v.result && (
+        <div className={s.resultStrip}>
+          <span className={s.resultScore}>
+            {v.result.score ? `${v.result.score[0]}\u2013${v.result.score[1]}` : "\u2014"}
+          </span>
+          <span className={s.resultStat}>
+            Fouls{" "}
+            <strong>
+              {v.result.fouls[0] ?? "\u2014"}\u2013{v.result.fouls[1] ?? "\u2014"}
+            </strong>
+          </span>
+          <span className={s.resultStat}>
+            Cards{" "}
+            <strong>
+              {v.result.cards[0] ?? "\u2014"}\u2013{v.result.cards[1] ?? "\u2014"}
+            </strong>
+          </span>
+          {weSaid != null && totalFouls != null && (
+            <span className={s.resultStat}>
+              We said <strong>{weSaid.toFixed(0)}</strong>, it was <strong>{totalFouls}</strong>
+            </span>
+          )}
+        </div>
+      )}
+
       <FixtureLive
-        fixture={label}
-        shapes={shape}
-        explorer={getExplorer()}
-        published={data.fixtureSlips[label] ?? {}}
-        characters={data.picks.map((p) => ({ id: p.id, name: p.name }))}
+        fixture={v.label}
+        shapes={v.formations}
+        explorer={v.explorer}
+        published={v.ladder}
+        characters={v.characters}
+        outcomes={outcomes}
       >
-        {sheet && (
+        {v.sheetFixture && (
           <section>
             <SectionHead
-              title="The game sheet"
-              note={`Both clubs face to face on everything we hold, averages across ${matchday.seasons.join(" and ")} with league ranks, then the players likely to be on the pitch. Actual numbers can be checked against a scoreboard; Expected ones are our model's, and the sheet says which is showing.`}
+              title={played ? "The game sheet, as it stood" : "The game sheet"}
+              note="Both clubs face to face on everything we hold, with league ranks and recent form, then the players likely to be on the pitch. Actual numbers can be checked against a scoreboard; Expected ones are our model's, and the sheet says which is showing."
             />
             <GameSheet
-              fixture={sheetFixture!}
-              rows={getExplorer().rows.filter((r) => r.fixture === label)}
+              fixture={v.sheetFixture}
+              rows={v.explorer.rows.filter((r) => r.fixture === v.label)}
             />
           </section>
         )}
@@ -109,23 +206,31 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
             title="Every player in this game"
             note="Fouls conceded, fouls won, and both together. The most likely foulers lead; open the rest if you want the full squads. Open a row for the whole distribution behind the number."
           />
-          <Explorer data={getExplorer()} only={`${home} v ${away}`} collapsedTo={10} />
+          <Explorer data={v.explorer} only={v.label} collapsedTo={10} />
         </section>
 
-        {data.slates.byGame?.[label] && (
+        {v.bets && (
           <section>
             <SectionHead
               title={
-                (data.slates.confirmedFixtures ?? []).includes(label)
-                  ? "The bets on this game"
-                  : "The bets on this game *"
+                played
+                  ? "The bets, marked"
+                  : confirmedSet.has(v.label)
+                    ? "The bets on this game"
+                    : "The bets on this game *"
               }
-              note="Three bets from every competitor, the five and the challengers alike, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet's last version before kickoff is the one that counts."
+              note={
+                played
+                  ? "Three bets from every competitor, exactly as committed before kickoff. A tick landed, a cross did not, and a struck-through leg is void: its player had no graded outcome, so the bet settled on its remaining legs."
+                  : "Three bets from every competitor, the five and the challengers alike, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet\u2019s last version before kickoff is the one that counts."
+              }
             />
             <Bets
-              bets={data.slates.byGame[label]}
-              characters={data.picks.map((p) => ({ id: p.id, name: p.name, generation: p.generation }))}
+              bets={v.bets}
+              characters={v.characters}
               shapes={data.slates.shapes}
+              outcomes={outcomes}
+              gameOver={played}
             />
           </section>
         )}
@@ -134,102 +239,19 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
   );
 }
 
-/**
- * A played fixture, from the archive: what was on the board when the game
- * started, marked against what happened. The ladder leads, because the
- * reader's question changed at full time from "what would they combine" to
- * "and did it come in". Nothing here regenerates; the page is the record.
- */
-function PastFixture({ a }: { a: ArchivedFixture }) {
-  const kickoff = a.kickoff ? new Date(a.kickoff) : null;
-  const score = a.result?.score;
-  const fouls = a.result?.result;
-  const [home, away] = a.label.split(" v ");
-  const homeFouls = fouls?.home?.fouls;
-  const awayFouls = fouls?.away?.fouls;
-
-  return (
-    <div className="stack">
-      <div>
-        <Link href="/" className={s.back}>
-          &larr; Today
-        </Link>
-        <div className={s.clubs} aria-hidden>
-          <ClubChip name={home} size="lg" temper={temperOf(a.matchday?.fixture, home)} />
-          <ClubChip name={away} size="lg" temper={temperOf(a.matchday?.fixture, away)} />
-        </div>
-        <PageHeader
-          title={a.label}
-          lede={
-            <>
-              {kickoff &&
-                `Played ${kickoff.toLocaleString("en-GB", {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}`}
-              {a.referee && ` · ${a.referee}`}
-              {score && ` · ${home} ${score[0]}–${score[1]} ${away}`}
-              {homeFouls != null && awayFouls != null && ` · Fouls ${homeFouls}–${awayFouls}`}
-            </>
-          }
-        />
-      </div>
-
-      {a.bets && (
-        <section>
-          <SectionHead
-            title="The bets, marked"
-            note="Three bets per character, the ones the league table scores, exactly as committed before kickoff. A tick is a leg that landed, a cross one that did not, and a struck-through leg is void: its player had no graded outcome, so the bet settled on its remaining legs."
-          />
-          <Bets
-            bets={a.bets}
-            characters={a.characters}
-            shapes={getPlayers().slates.shapes}
-            outcomes={a.outcomes ?? {}}
-            gameOver={Boolean(a.result)}
-          />
-        </section>
-      )}
-
-      <section>
-        <SectionHead
-          title="The ladder, marked"
-          note="The prices exactly as published before kickoff, never rebuilt, with every combination and leg marked against what happened. Came in means every leg landed; no means at least one did not; open means a leg has no graded outcome yet."
-        />
-        <SlipGrid
-          slips={a.ladder}
-          characters={a.characters.map((c) => c.id)}
-          names={Object.fromEntries(a.characters.map((c) => [c.id, c.name]))}
-          outcomes={a.outcomes ?? {}}
-        />
-      </section>
-
-      <section>
-        <SectionHead
-          title="Every player in this game"
-          note="The numbers as published before kickoff. The most likely foulers lead; open the rest for the full squads."
-        />
-        <Explorer data={a.explorer} only={a.label} collapsedTo={10} />
-      </section>
-
-      {a.matchday && (
-        <section>
-          <SectionHead
-            title="The game sheet, as it stood"
-            note={`Both clubs face to face on everything we held before kickoff, averages across ${a.matchday.seasons.join(" and ")}, then the players as we rated them. Actual numbers were checkable against a scoreboard; Expected ones were our model's.`}
-          />
-          <GameSheet fixture={a.matchday.fixture} rows={a.explorer.rows} />
-        </section>
-      )}
-    </div>
-  );
-}
-
-/** The temper ring's inputs for one club, from a matchday sheet if present. */
-function temperOf(fixture: { teams: Record<string, { averages: Record<string, { value: number | null; rank?: number; rankOf?: number }> }> } | null | undefined, club: string) {
+/** The temper ring\u2019s inputs for one club, from a matchday sheet if present. */
+function temperOf(
+  fixture:
+    | {
+        teams: Record<
+          string,
+          { averages: Record<string, { value: number | null; rank?: number; rankOf?: number }> }
+        >;
+      }
+    | null
+    | undefined,
+  club: string
+) {
   const held = fixture?.teams?.[club]?.averages?.foulsFor;
   if (!held || held.value == null || held.rank == null || held.rankOf == null) return undefined;
   return { value: held.value, rank: held.rank, of: held.rankOf };

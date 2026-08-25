@@ -156,3 +156,24 @@
 .drawerHead:hover {
   color: var(--accent);
 }
+
+/* The recent form, back where it belongs: filled is over the line, hollow
+   is under, most recent first, words carrying the line. */
+.formRow {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s3);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.formSide {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.formLine {
+  white-space: nowrap;
+}

@@ -303,7 +303,7 @@
 /* One thing the reader must know before the rest. Used sparingly: a page with
    three callouts has none. */
 .callout {
-  border-left: 3px solid var(--c1);
+  border-left: 3px solid var(--accent-object);
   padding: var(--s1) 0 var(--s1) var(--s4);
   max-width: var(--w-prose);
   font-size: var(--t-md);

@@ -117,3 +117,30 @@
 .clubs > :last-child {
   margin-left: calc(var(--s2) * -1);
 }
+
+/* Full time: the result beside what we said, in the display voice. */
+.resultStrip {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--s3) var(--s5);
+  padding: var(--s4) var(--s5);
+  background: linear-gradient(135deg, var(--hero-a), var(--hero-b));
+  box-shadow: inset 0 1px 0 rgba(255, 214, 10, 0.35), var(--lift);
+  color: var(--on-hero-2);
+  font-size: var(--t-sm);
+  min-width: 0;
+}
+
+.resultScore {
+  font-family: var(--font-display);
+  font-size: var(--t-hero);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--on-hero);
+}
+
+.resultStat strong {
+  color: var(--on-hero);
+  font-variant-numeric: tabular-nums;
+}

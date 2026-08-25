@@ -178,10 +178,10 @@
   :root:where(:not([data-theme="light"])) {
     color-scheme: dark;
 
-    --ground: #0e0f10;
-    --surface: #17191b;
-    --surface-sunk: #101214;
-    --rail: #0a0b0c;
+    --ground: #0a0b0d;
+    --surface: #121417;
+    --surface-sunk: #0d0f11;
+    --rail: #060708;
     --line: rgba(255, 255, 255, 0.1);
     --line-strong: rgba(255, 255, 255, 0.2);
 
@@ -231,10 +231,10 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --ground: #0e0f10;
-  --surface: #17191b;
-  --surface-sunk: #101214;
-  --rail: #0a0b0c;
+  --ground: #0a0b0d;
+  --surface: #121417;
+  --surface-sunk: #0d0f11;
+  --rail: #060708;
   --line: rgba(255, 255, 255, 0.1);
   --line-strong: rgba(255, 255, 255, 0.2);
 

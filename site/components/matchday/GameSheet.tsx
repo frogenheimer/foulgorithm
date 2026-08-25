@@ -17,7 +17,7 @@ import { useState } from "react";
 import type { ExplorerRow, MatchdayFixture } from "@/lib/data";
 import { clubIdentity } from "@/lib/clubs";
 import { mirrorShares, xiSplit } from "@/lib/gamesheet";
-import { DataTable } from "@/components/kit";
+import { DataTable, Dots } from "@/components/kit";
 import ClubChip from "@/components/kit/ClubChip";
 import s from "./gamesheet.module.css";
 
@@ -40,6 +40,8 @@ export default function GameSheet({
   const awaySheet = fixture.teams[away];
   const ref = fixture.referee;
   const { eleven, drawer } = xiSplit(rows);
+  const homeForm = (key: string) => homeSheet?.form?.[key] ?? null;
+  const awayForm = (key: string) => awaySheet?.form?.[key] ?? null;
 
   const value = (r: ExplorerRow, market: "committed" | "drawn" | "involvements") => {
     if (mode === "expected") return r.expected[market].toFixed(2);
@@ -112,6 +114,34 @@ export default function GameSheet({
                   {a.rank != null && <span className={s.rank}>{a.rank}/{a.rankOf}</span>}
                   {a.value ?? "—"}
                 </span>
+                {key.startsWith("fouls") && (homeForm(key) || awayForm(key)) && (
+                  <span className={s.formRow}>
+                    <span className={s.formSide}>
+                      {homeForm(key) && (
+                        <>
+                          <Dots
+                            hits={homeForm(key)!.hits}
+                            window={5}
+                            label={`${h.label} over ${homeForm(key)!.line}`}
+                          />
+                          <span className={s.formLine}>over {homeForm(key)!.line}</span>
+                        </>
+                      )}
+                    </span>
+                    <span className={`${s.formSide} ${s.right}`}>
+                      {awayForm(key) && (
+                        <>
+                          <span className={s.formLine}>over {awayForm(key)!.line}</span>
+                          <Dots
+                            hits={awayForm(key)!.hits}
+                            window={5}
+                            label={`${a.label} over ${awayForm(key)!.line}`}
+                          />
+                        </>
+                      )}
+                    </span>
+                  </span>
+                )}
               </div>
             );
           })}

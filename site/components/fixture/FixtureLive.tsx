@@ -13,6 +13,7 @@
 
 import { useMemo, useState } from "react";
 import type { Explorer, Formations, Slip } from "@/lib/data";
+import type { Outcomes } from "@/lib/graded";
 import { SectionHead } from "@/components/kit";
 import { ladderFor, onPitchFrom, squadsFor } from "@/lib/ladder";
 import Lineups from "./Lineups";
@@ -24,6 +25,7 @@ export default function FixtureLive({
   explorer,
   published,
   characters,
+  outcomes,
   children,
 }: {
   fixture: string;
@@ -33,6 +35,8 @@ export default function FixtureLive({
   /** The pipeline's ladder, shown until a reader changes something. */
   published: Record<string, Slip[]>;
   characters: { id: string; name: string }[];
+  /** Present on a played game: the ladder's legs settle against these. */
+  outcomes?: Outcomes;
   children: React.ReactNode;
 }) {
   const [selected, setSelected] = useState<Record<string, string>>({});
@@ -69,13 +73,20 @@ export default function FixtureLive({
 
       <section>
         <SectionHead
-          title={changed ? "The ladder, rebuilt from your eleven" : "The ladder"}
+          title={
+            changed
+              ? "The ladder, rebuilt from your eleven"
+              : outcomes
+                ? "The ladder, marked"
+                : "The ladder"
+          }
           note="What each character would combine to reach each target price, 2/1 out to 20/1. Working combinations, not the committed picks: nothing here is graded, and the picks that score for the league table live on The five."
         />
         <SlipGrid
           slips={slips}
           characters={characters.map((ch) => ch.id)}
           names={Object.fromEntries(characters.map((ch) => [ch.id, ch.name]))}
+          outcomes={outcomes}
         />
       </section>
     </>
