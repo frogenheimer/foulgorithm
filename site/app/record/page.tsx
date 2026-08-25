@@ -134,11 +134,11 @@ export default function Record() {
         subtitle="The technical figure on the left, plain terms on the right. A hit rate on its own is the number a tipster shows you; these are the ones that keep us honest."
       >
         <dl className={t.twin}>
-          <dt>We said 22.5%</dt>
-          <dd>Across every bet we published, on average we claimed a 22.5% chance.</dd>
-          <dt>It happened 22.0%</dt>
-          <dd>Those things actually occurred 22.0% of the time. The closer these two
-          sit, the more our numbers mean what they say.</dd>
+          <dt>We said {pct(house.claimed)}</dt>
+          <dd>Across every bet we published, on average we claimed this chance.</dd>
+          <dt>It happened {pct(house.actual)}</dt>
+          <dd>Those things actually occurred this often. The closer these two sit,
+          the more our numbers mean what they say.</dd>
           <dt>Gap</dt>
           <dd>The distance between the two. Near zero is the goal; negative means we
           were overconfident.</dd>
