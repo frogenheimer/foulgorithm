@@ -46,8 +46,20 @@ export default function Cup() {
             const kickoff = new Date(f.kickoff);
             const expected = d?.expectedTotals?.[label]?.expected;
             const call = f.summary?.topFouler;
+            // The house sheet's starred picks: the card's flip side, the same
+            // quick glance the league cards carry on the homepage.
+            const stars = (f.houseSheet?.groups ?? []).flatMap((g) =>
+              g.picks
+                .filter((p) => p.star)
+                .map((p) => ({ ...p, line: g.line, market: g.market }))
+            );
             return (
-              <Link key={f.key} href={`/fixture/${fixtureSlug(label)}`} className={s.card}>
+              <Link
+                key={f.key}
+                href={`/fixture/${fixtureSlug(label)}`}
+                className={stars.length ? `${s.card} ${s.flippable}` : s.card}
+              >
+                <span className={s.front}>
                 <span className={s.day}>
                   {f.competition ?? "Cup"}
                   {" · "}
@@ -78,6 +90,24 @@ export default function Cup() {
                 <span className={s.note}>
                   {f.lineupConfirmed ? "XI confirmed" : "XI predicted from current squads"}
                 </span>
+                </span>
+                {stars.length > 0 && (
+                  <span className={s.backFace} aria-hidden>
+                    <span className={s.backTitle}>The house</span>
+                    <span className={s.backLegs}>
+                      {stars.slice(0, 5).map((l) => (
+                        <span key={`${l.player}-${l.market}-${l.line}`} className={s.backLeg}>
+                          <span className={s.backPlayer}>{l.player}</span>
+                          <span className={s.backWhat}>
+                            {l.line}+ {l.market === "drawn" ? "won" : "fouls"}
+                          </span>
+                          <span className={s.backProb}>{l.outOf100}</span>
+                        </span>
+                      ))}
+                    </span>
+                    <span className={s.backFoot}>open the game &rarr;</span>
+                  </span>
+                )}
               </Link>
             );
           })}
