@@ -1,15 +1,14 @@
 "use client";
 
 /**
- * The slip rail, second cut: a contained carousel in the ENVRT manner.
+ * The receipt: third cut, and the one that matches its use case.
  *
- * The wire holds paper slips, real paper whatever the theme, each hung
- * through a punched hole on a square peg with a ragged tear-off bottom.
- * The rail drifts slowly on its own, pauses the moment a pointer arrives,
- * drags with momentum, and every slip trails and settles on the ported
- * pendulum (lib/pendulum, from the ENVRT passport rail). Pull a slip down
- * and it tears off at the perforation into a focused reading view; a plain
- * click does the same. Reduced motion gets the grid and a click.
+ * The competitors' slips print as one continuous receipt, full width of its
+ * container, each slip a perforated segment of the same paper. The receipt
+ * scrolls plainly: wheel, touch, or grab-and-drag to move faster. No
+ * physics, no drift; paper on a spool does not swing. Pulling a segment
+ * DOWN rips it off along the perforation into a focused reading view; a
+ * plain click does the same. Reduced motion gets the grid and a click.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -17,29 +16,16 @@ import {
   AnimatePresence,
   motion,
   useMotionValue,
-  useAnimationFrame,
   useReducedMotion,
-  type MotionValue,
 } from "framer-motion";
 import type { Bet, SlateShape } from "@/lib/data";
 import type { Outcomes } from "@/lib/graded";
-import {
-  cssRotationFor,
-  driveFromLag,
-  stepPendulum,
-  type LagState,
-  type PendulumState,
-} from "@/lib/pendulum";
 import Bets, { SlipCard, type SlipCharacter } from "./Bets";
 import s from "./sliprail.module.css";
 
-/** Pivot to centre of mass, px. Sets the swing period; taste, not physics. */
-const LENGTH = 130;
-/** How far a slip travels down before it tears off the rail. Deliberate:
- *  a horizontal fling that dips should never rip a sheet. */
+/** How far a segment travels down before it rips off. Deliberate: a
+ *  sideways fling that dips should never tear the paper. */
 const TEAR_PX = 96;
-/** Ambient drift, px/s. Slow enough to read; pauses under any pointer. */
-const DRIFT = 14;
 
 type RailProps = {
   bets: Record<string, Record<string, Bet>>;
@@ -53,64 +39,46 @@ type RailProps = {
 export default function SlipRail(props: RailProps) {
   const reduced = useReducedMotion();
   if (reduced) return <Bets {...props} />;
-  return <Rail {...props} />;
+  return <Receipt {...props} />;
 }
 
-function Rail({ bets, characters, shapes, outcomes, gameOver = false, medals }: RailProps) {
+function Receipt({ bets, characters, shapes, outcomes, gameOver = false, medals }: RailProps) {
   const hung = characters.filter((ch) => bets[ch.id]);
   const frameRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const paperRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
-  const lagRef = useRef<LagState | null>(null);
-  const statesRef = useRef<PendulumState[]>(hung.map(() => ({ theta: 0, omega: 0 })));
-  const rotates = useRef<MotionValue<number>[]>([]);
-  const restingRef = useRef(true);
-  const driftDir = useRef(-1);
   const [range, setRange] = useState(0);
   const [open, setOpen] = useState<string | null>(null);
 
-  // The drag range: how far the track may travel inside its frame.
   useEffect(() => {
     const measure = () => {
       const frame = frameRef.current;
-      const track = trackRef.current;
-      if (!frame || !track) return;
-      setRange(Math.max(0, track.scrollWidth - frame.clientWidth));
+      const paper = paperRef.current;
+      if (!frame || !paper) return;
+      setRange(Math.max(0, paper.scrollWidth - frame.clientWidth));
     };
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, [hung.length]);
 
-  useAnimationFrame((_, delta) => {
-    const dt = Math.min(delta / 1000, 1 / 20);
-    if (dt <= 0) return;
-
-    // The drift: the wire wanders until a pointer claims it, ping-ponging
-    // at the ends so the whole set passes a patient reader. It also yields
-    // to a thrown rail: stamping on the inertia every frame read as jitter.
-    if (restingRef.current && range > 0 && !x.isAnimating()) {
-      let next = x.get() + driftDir.current * DRIFT * dt;
-      if (next < -range) {
-        next = -range;
-        driftDir.current = 1;
-      } else if (next > 0) {
-        next = 0;
-        driftDir.current = -1;
+  // Trackpads and wheels scroll the receipt too; the listener is registered
+  // by hand because React's onWheel is passive and cannot preventDefault.
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const onWheel = (e: WheelEvent) => {
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (delta === 0) return;
+      const next = Math.min(0, Math.max(-range, x.get() - delta));
+      if (next !== x.get()) {
+        x.set(next);
+        e.preventDefault();
       }
-      x.set(next);
-    }
-
-    const position = x.get();
-    if (!lagRef.current) lagRef.current = { fast: position, slow: position };
-    const { lag, drive } = driveFromLag(lagRef.current, position, dt);
-    lagRef.current = lag;
-    statesRef.current = statesRef.current.map((state, i) => {
-      const next = stepPendulum(state, dt, drive, LENGTH);
-      rotates.current[i]?.set(cssRotationFor(next.theta));
-      return next;
-    });
-  });
+    };
+    frame.addEventListener("wheel", onWheel, { passive: false });
+    return () => frame.removeEventListener("wheel", onWheel);
+  }, [range, x]);
 
   const close = useCallback(() => setOpen(null), []);
   useEffect(() => {
@@ -126,23 +94,17 @@ function Rail({ bets, characters, shapes, outcomes, gameOver = false, medals }: 
 
   return (
     <>
-      <div
-        ref={frameRef}
-        className={s.frame}
-        onPointerEnter={() => (restingRef.current = false)}
-        onPointerLeave={() => (restingRef.current = true)}
-      >
-        <span className={s.wire} aria-hidden />
+      <div ref={frameRef} className={s.frame}>
         <motion.div
-          ref={trackRef}
-          className={s.track}
+          ref={paperRef}
+          className={s.receipt}
           style={{ x }}
           drag="x"
           dragConstraints={{ left: -range, right: 0 }}
-          dragElastic={0.06}
+          dragElastic={0.05}
         >
-          {hung.map((ch, i) => (
-            <Hanger key={ch.id} index={i} rotates={rotates} onOpen={() => setOpen(ch.id)}>
+          {hung.map((ch) => (
+            <Segment key={ch.id} onOpen={() => setOpen(ch.id)}>
               <SlipCard
                 character={ch}
                 own={bets[ch.id]}
@@ -151,7 +113,7 @@ function Rail({ bets, characters, shapes, outcomes, gameOver = false, medals }: 
                 gameOver={gameOver}
                 medal={medals?.[ch.id]}
               />
-            </Hanger>
+            </Segment>
           ))}
         </motion.div>
       </div>
@@ -196,46 +158,24 @@ function Rail({ bets, characters, shapes, outcomes, gameOver = false, medals }: 
   );
 }
 
-function Hanger({
-  index,
-  rotates,
-  onOpen,
-  children,
-}: {
-  index: number;
-  rotates: React.MutableRefObject<MotionValue<number>[]>;
-  onOpen: () => void;
-  children: React.ReactNode;
-}) {
-  const rotate = useMotionValue(0);
-  rotates.current[index] = rotate;
-  const [gripped, setGripped] = useState(false);
-
+function Segment({ onOpen, children }: { onOpen: () => void; children: React.ReactNode }) {
   return (
-    <motion.div className={s.hanger} style={{ rotate }}>
-      <span className={gripped ? `${s.peg} ${s.pegGripped}` : s.peg} aria-hidden />
-      <motion.div
-        className={s.paper}
-        drag="y"
-        dragPropagation
-        dragConstraints={{ top: 0, bottom: TEAR_PX + 30 }}
-        dragElastic={0.06}
-        dragSnapToOrigin
-        onDragStart={() => setGripped(true)}
-        onDragEnd={(_, info) => {
-          setGripped(false);
-          // Downward, dominant and deliberate: a sideways fling that dips
-          // does not count, and neither does a slow sag.
-          const dominant = info.offset.y > Math.abs(info.offset.x) * 1.5;
-          if (dominant && (info.offset.y > TEAR_PX || info.velocity.y > 900)) onOpen();
-        }}
-        onTap={onOpen}
-        whileDrag={{ cursor: "grabbing" }}
-      >
-        <span className={s.hole} aria-hidden />
-        {children}
-        <span className={s.barcode} aria-hidden />
-      </motion.div>
+    <motion.div
+      className={s.segment}
+      drag="y"
+      dragPropagation
+      dragConstraints={{ top: 0, bottom: TEAR_PX + 30 }}
+      dragElastic={0.06}
+      dragSnapToOrigin
+      whileDrag={{ rotate: 1.5, cursor: "grabbing" }}
+      onDragEnd={(_, info) => {
+        // Downward, dominant and deliberate.
+        const dominant = info.offset.y > Math.abs(info.offset.x) * 1.5;
+        if (dominant && (info.offset.y > TEAR_PX || info.velocity.y > 900)) onOpen();
+      }}
+      onTap={onOpen}
+    >
+      {children}
     </motion.div>
   );
 }
