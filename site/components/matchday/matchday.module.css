@@ -399,3 +399,13 @@
     min-height: var(--tap);
   }
 }
+
+/* Rank context beside a club average: "3/20", most first. Context, not a
+   verdict: most fouls is not worse, it is just most. */
+.rank {
+  margin-left: var(--s1);
+  margin-right: var(--s1);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}

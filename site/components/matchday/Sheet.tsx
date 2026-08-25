@@ -90,6 +90,9 @@ function Fixture({ fixture, window }: { fixture: MatchdayFixture; window: number
           {ref.matches > 0 && (
             <span className={s.refStats}>
               {ref.foulsPerMatch} fouls · {ref.yellowsPerMatch} cards · {ref.matches} matches
+              {ref.foulsVsLeague != null &&
+                ` · ${ref.foulsVsLeague >= 0 ? "+" : ""}${ref.foulsVsLeague}% vs league`}
+              {ref.foulsBooked != null && ` · books ${ref.foulsBooked}% of fouls`}
             </span>
           )}
         </div>
@@ -166,6 +169,11 @@ function Row({
     <tr>
       <td className={`${s.val} ${lead === "home" ? s.lead : ""}`}>
         {h.value ?? "—"}
+        {h.rank != null && (
+          <span className={s.rank}>
+            {h.rank}/{h.rankOf}
+          </span>
+        )}
       </td>
       <td className={s.formCell}>
         <span className={s.form}>
@@ -183,6 +191,11 @@ function Row({
         </span>
       </td>
       <td className={`${s.val} ${s.right} ${lead === "away" ? s.lead : ""}`}>
+        {a.rank != null && (
+          <span className={s.rank}>
+            {a.rank}/{a.rankOf}
+          </span>
+        )}
         {a.value ?? "—"}
       </td>
     </tr>

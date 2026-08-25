@@ -101,7 +101,41 @@ def _team_series(matches: pd.DataFrame, team: str) -> dict[str, list[float]]:
     return out
 
 
-def _team_block(matches: pd.DataFrame, team: str, second_tier: pd.DataFrame | None = None) -> dict:
+def _league_ranks(matches: pd.DataFrame, clubs: list[str] | None = None) -> dict:
+    """Every club's rank on every mirrored metric, most first.
+
+    Computed once per sheet so each club's average can carry its context
+    ("3 of 20") where the reader is already looking. Rank 1 is the highest
+    value: most fouls is not worse, it is just most, and which end a reader
+    wants depends on what they came for. `clubs` restricts the ranking to
+    the current league: the match window spans two seasons, and without the
+    restriction relegated clubs pad the field to "18 of 23".
+    """
+    pool = sorted(
+        set(matches["home_team_raw"].dropna()) | set(matches["away_team_raw"].dropna())
+    )
+    clubs = sorted(set(clubs) & set(pool)) if clubs is not None else pool
+    means: dict[str, dict[str, float]] = {}
+    for club in clubs:
+        series = _team_series(matches, club)
+        for key, _, stat, direction in TEAM_METRICS:
+            values = series.get(f"{stat}_{direction}", [])
+            if values:
+                means.setdefault(key, {})[club] = statistics.fmean(values)
+
+    by_metric: dict[str, dict[str, int]] = {}
+    for key, per_club in means.items():
+        ordered = sorted(per_club, key=lambda c: -per_club[c])
+        by_metric[key] = {club: i + 1 for i, club in enumerate(ordered)}
+    return {"clubs": len(clubs), "byMetric": by_metric}
+
+
+def _team_block(
+    matches: pd.DataFrame,
+    team: str,
+    second_tier: pd.DataFrame | None = None,
+    ranks: dict | None = None,
+) -> dict:
     """One club's averages and recent form.
 
     A promoted club has no top-flight history and would otherwise show an empty
@@ -128,6 +162,16 @@ def _team_block(matches: pd.DataFrame, team: str, second_tier: pd.DataFrame | No
             "value": round(statistics.fmean(values), 2) if values else None,
             "matches": len(values),
         }
+        # Rank context, top-flight records only: ranking a Championship
+        # average against Premier League ones would compare across leagues.
+        rank = (
+            ((ranks or {}).get("byMetric") or {}).get(key, {}).get(team)
+            if division == "Premier League"
+            else None
+        )
+        if rank is not None:
+            averages[key]["rank"] = rank
+            averages[key]["rankOf"] = (ranks or {}).get("clubs")
         line = line_for(values)
         form[key] = hit_rate(values, line) if line is not None else None
     return {"averages": averages, "form": form, "division": division}
@@ -146,6 +190,8 @@ def _referee_block(name: str | None, matches: pd.DataFrame) -> dict:
         "foulsPerMatch": None,
         "yellowsPerMatch": None,
         "redsPerMatch": None,
+        "foulsVsLeague": None,
+        "foulsBooked": None,
     }
     if not name:
         return empty
@@ -157,12 +203,25 @@ def _referee_block(name: str | None, matches: pd.DataFrame) -> dict:
     def per_match(a: str, b: str) -> float:
         return round(float((rows[a].fillna(0) + rows[b].fillna(0)).mean()), 2)
 
+    fouls = per_match("home_fouls", "away_fouls")
+    league_fouls = float((matches["home_fouls"].fillna(0) + matches["away_fouls"].fillna(0)).mean())
+    cards = float(
+        rows[["home_yellows", "away_yellows", "home_reds", "away_reds"]]
+        .fillna(0)
+        .sum(axis=1)
+        .mean()
+    )
+
     return {
         "name": name,
         "matches": int(len(rows)),
-        "foulsPerMatch": per_match("home_fouls", "away_fouls"),
+        "foulsPerMatch": fouls,
         "yellowsPerMatch": per_match("home_yellows", "away_yellows"),
         "redsPerMatch": per_match("home_reds", "away_reds"),
+        # The two numbers a reader acts on, from the retired referees page:
+        # how he sits against the league, and what share of fouls he books.
+        "foulsVsLeague": round((fouls / league_fouls - 1) * 100) if league_fouls else None,
+        "foulsBooked": round(cards / fouls * 100) if fouls else None,
     }
 
 
@@ -309,6 +368,12 @@ def build(seasons: int = FORM_SEASONS) -> dict:
     history = history[history["kickoff_utc"] >= cutoff]
 
     fixtures = pd.DataFrame(football_data.fetch_fixtures())
+    league_ranks = _league_ranks(
+        matches,
+        clubs=sorted(
+            set(fixtures["home_team_raw"].dropna()) | set(fixtures["away_team_raw"].dropna())
+        ),
+    )
     lookup = _current_squads(history)
     by_club, to_fpl = lookup.get("__fpl__"), lookup.get("__to_fpl__")
 
@@ -336,13 +401,13 @@ def build(seasons: int = FORM_SEASONS) -> dict:
                 "referee": _referee_block(fx.referee_raw, matches),
                 "teams": {
                     home: {
-                        **_team_block(matches, home, championship),
+                        **_team_block(matches, home, championship, ranks=league_ranks),
                         "players": _players(
                             history, history_name(home), winners[away], squads_here[home]
                         ),
                     },
                     away: {
-                        **_team_block(matches, away, championship),
+                        **_team_block(matches, away, championship, ranks=league_ranks),
                         "players": _players(
                             history, history_name(away), winners[home], squads_here[away]
                         ),

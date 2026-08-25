@@ -491,7 +491,14 @@ export type HitRate = {
   rate: number | null;
 };
 
-export type TeamAverage = { label: string; value: number | null; matches: number };
+export type TeamAverage = {
+  label: string;
+  value: number | null;
+  matches: number;
+  /** League rank on this metric, 1 = most. Absent on second-tier records. */
+  rank?: number;
+  rankOf?: number;
+};
 
 export type DefensiveRow = {
   player: string;
@@ -531,6 +538,10 @@ export type MatchdayFixture = {
     foulsPerMatch: number | null;
     yellowsPerMatch: number | null;
     redsPerMatch: number | null;
+    /** Percent against the league's fouls per match, signed. */
+    foulsVsLeague?: number | null;
+    /** Share of fouls that draw a card, percent. */
+    foulsBooked?: number | null;
   };
   teams: Record<string, TeamSheet>;
 };
