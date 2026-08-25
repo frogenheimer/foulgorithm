@@ -1,8 +1,9 @@
 /**
- * The five's bets on one game, as slips.
+ * The five's bets on one game, as betting slips.
  *
- * One card per character, three bets inside, the object a reader recognises
- * from any sportsbook: the shape's name, the legs, our price. On a played
+ * Styled after the paper object: a stub header with the character's name, a
+ * perforation between bets, dotted leaders running each leg out to its
+ * number, and a "we make it" total at the foot of every bet. On a played
  * game every bet carries its verdict and every leg its mark, colour always
  * paired with a word or a sign, and a voided leg is struck through rather
  * than pretending it was ever settled.
@@ -38,7 +39,7 @@ export default function Bets({
         return (
           <article
             key={ch.id}
-            className={s.card}
+            className={s.slip}
             style={{ ["--char" as string]: `var(--ch-${ch.id})` }}
           >
             <header className={s.head}>
@@ -54,20 +55,28 @@ export default function Bets({
                 <div key={sh.key} className={s.bet}>
                   <div className={s.betHead}>
                     <span className={s.betLabel}>{sh.label}</span>
-                    {price != null && <span className={s.price}>{price}/100</span>}
                     {verdict && <VerdictWord verdict={verdict} />}
                   </div>
                   {bet ? (
-                    <ul className={s.legs}>
-                      {bet.legs.map((l) => (
-                        <Leg
-                          key={`${l.fullName ?? l.player}|${l.market}|${l.line}`}
-                          leg={l}
-                          outcomes={outcomes}
-                          gameOver={gameOver}
-                        />
-                      ))}
-                    </ul>
+                    <>
+                      <ul className={s.legs}>
+                        {bet.legs.map((l) => (
+                          <Leg
+                            key={`${l.fullName ?? l.player}|${l.market}|${l.line}`}
+                            leg={l}
+                            outcomes={outcomes}
+                            gameOver={gameOver}
+                          />
+                        ))}
+                      </ul>
+                      {price != null && (
+                        <div className={s.total}>
+                          <span className={s.totalLabel}>we make it</span>
+                          <span className={s.dots} aria-hidden />
+                          <span className={s.price}>{price}/100</span>
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <p className={s.passed}>passed, could not fill the shape</p>
                   )}
@@ -110,6 +119,8 @@ function Leg({
       <span className={s.legWhat}>
         {leg.fouls}+ {leg.market === "drawn" ? "won" : "fouls"}
       </span>
+      <span className={s.dots} aria-hidden />
+      <span className={s.legProb}>{leg.outOf100}</span>
       {outcomes && (
         <span className={s.sign} aria-hidden={mark === null && !voided}>
           {mark === true ? "✓" : mark === false ? "✗" : voided ? "void" : ""}

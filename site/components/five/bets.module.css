@@ -1,28 +1,34 @@
-/* The five's bets on one game, as slips: one card per character, three bets
-   inside. Marks pair colour with a sign or a word, never colour alone. */
+/* The five's bets on one game, styled after the paper slip: a stub header,
+   a perforation between bets, dotted leaders out to each number, and a
+   total at the foot of every bet. Marks pair colour with a sign or a word,
+   never colour alone. */
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--s3);
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: var(--s4);
+  align-items: start;
 }
 
-.card {
+.slip {
   display: grid;
-  gap: var(--s3);
   align-content: start;
-  padding: var(--s4);
+  padding: var(--s4) var(--s4) var(--s5);
   border: 1px solid var(--line);
   border-top: 3px solid var(--char, var(--line-strong));
-  border-radius: var(--r-md);
+  border-radius: var(--r-sm);
   background: var(--surface);
+  box-shadow: var(--lift);
 }
 
+/* The stub: who the slip belongs to, cut off by the first perforation. */
 .head {
   display: flex;
   align-items: center;
   gap: var(--s2);
+  padding-bottom: var(--s3);
   font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--ink);
 }
 
@@ -33,32 +39,30 @@
   background: var(--char, var(--line-strong));
 }
 
+/* A perforation between bets, the tear line on the paper object. */
 .bet {
   display: grid;
-  gap: var(--s1);
-  padding-top: var(--s2);
-  border-top: 1px solid var(--line);
+  gap: var(--s2);
+  padding-top: var(--s3);
+  border-top: 1px dashed var(--line-strong);
+}
+
+.bet + .bet {
+  margin-top: var(--s3);
 }
 
 .betHead {
   display: flex;
   align-items: baseline;
+  justify-content: space-between;
   gap: var(--s2);
 }
 
 .betLabel {
   font-size: var(--t-xs);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--ink-3);
-}
-
-.price {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  font-size: var(--t-sm);
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-2);
 }
 
 .verdictWon,
@@ -66,6 +70,8 @@
 .verdictOpen {
   font-size: var(--t-xs);
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .verdictWon {
@@ -106,10 +112,24 @@
 .legWhat {
   font-size: var(--t-xs);
   color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* The dotted leader that walks a line out to its number, as on a receipt. */
+.dots {
+  flex: 1;
+  align-self: center;
+  border-bottom: 1px dotted var(--line-strong);
+  min-width: var(--s3);
+}
+
+.legProb {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
 }
 
 .sign {
-  margin-left: auto;
   font-size: var(--t-xs);
   font-weight: 600;
 }
@@ -131,6 +151,28 @@
 .legVoid .sign {
   color: var(--ink-3);
   font-weight: 400;
+}
+
+/* The slip's total line: what the bet pays in our own numbers. */
+.total {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  padding-top: var(--s1);
+}
+
+.totalLabel {
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+}
+
+.price {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
 }
 
 .passed {
