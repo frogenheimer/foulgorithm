@@ -94,8 +94,13 @@ export default function Pitch({
   const swaps = Object.keys(selected).length;
   const confirmed = !(home.shape.predicted || away.shape.predicted);
 
+  // Phones show one team at a time, goalkeeper at the foot, striker at the
+  // top: a map, not a squeezed broadcast graphic. Desktop never reads this;
+  // both halves render side by side there regardless.
+  const [shown, setShown] = useState<"home" | "away">("home");
+
   return (
-    <div className={s.wrap}>
+    <div className={`${s.wrap} ${shown === "home" ? s.showHome : s.showAway}`}>
       <div className={s.head}>
         <span className={s.club}>
           {home.club} <span className={s.formation}>{home.shape.formation ?? "by position"}</span>
@@ -147,7 +152,23 @@ export default function Pitch({
 
       <PitchKey />
 
+      <div className={s.sideToggle} role="tablist" aria-label="Which team to show">
+        {([["home", home.club], ["away", away.club]] as const).map(([key, club]) => (
+          <button
+            key={key}
+            type="button"
+            role="tab"
+            aria-selected={shown === key}
+            className={shown === key ? s.sideOn : s.sideOff}
+            onClick={() => setShown(key)}
+          >
+            {club}
+          </button>
+        ))}
+      </div>
+
       <div className={s.squad}>
+        <div className={s.homeSide}>
         <Bench
           side={home}
           selected={selected}
@@ -157,6 +178,7 @@ export default function Pitch({
           onDragStart={(key) => setDragging({ club: home.club, key })}
           onDragEnd={() => setDragging(null)}
         />
+        </div>
 
         <div className={s.pitch}>
           {/* The grass is a layer of its own so the pitch itself can let an
@@ -165,6 +187,7 @@ export default function Pitch({
             <Markings />
           </div>
           <Half
+            className={s.homeSide}
             side={home}
             selected={selected}
             onChange={onChange}
@@ -175,6 +198,7 @@ export default function Pitch({
             onDragStart={(key) => setDragging({ club: home.club, key })}
           />
           <Half
+            className={s.awaySide}
             side={away}
             selected={selected}
             onChange={onChange}
@@ -187,6 +211,7 @@ export default function Pitch({
           />
         </div>
 
+        <div className={s.awaySide}>
         <Bench
           side={away}
           selected={selected}
@@ -196,6 +221,7 @@ export default function Pitch({
           onDragStart={(key) => setDragging({ club: away.club, key })}
           onDragEnd={() => setDragging(null)}
         />
+        </div>
       </div>
     </div>
   );
@@ -269,8 +295,10 @@ function Half({
   onDrop,
   onDragStart,
   mirrored = false,
+  className = "",
 }: {
   side: Side;
+  className?: string;
   selected: Selected;
   onChange: (next: Selected) => void;
   market: Market;
@@ -315,7 +343,7 @@ function Half({
   );
 
   return (
-    <div className={mirrored ? `${s.half} ${s.away}` : s.half}>
+    <div className={`${mirrored ? `${s.half} ${s.away}` : s.half} ${className}`}>
       {shape.map((line, i) => (
         <div key={i} className={s.line}>
           {line.map((o) => {

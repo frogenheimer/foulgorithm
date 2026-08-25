@@ -274,6 +274,31 @@
   line-height: 1.6;
 }
 
+/* The one-team toggle. Display: none above 760px; on phones it decides
+   which club's half and bench render. */
+.sideToggle {
+  display: none;
+}
+
+.sideOn,
+.sideOff {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: var(--s2) var(--s3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  color: var(--ink-3);
+}
+
+.sideOn {
+  background: var(--accent-object);
+  border-color: var(--accent-object);
+  color: var(--accent-object-ink);
+}
+
 @media (max-width: 760px) {
   /* A full pitch at phone width puts eight columns in 360px. Rotated, each
      line is a row and the names have somewhere to go. */
@@ -345,6 +370,25 @@
 
   .benches {
     grid-template-columns: 1fr;
+  }
+
+  /* One team at a time: a map, not a squeezed broadcast graphic. The pitch
+     draws the CHOSEN half only, goalkeeper at the foot and the front line
+     at the top, and the toggle above it swaps club. The home half's lines
+     arrive goalkeeper-first, so it reverses; the away half's arrive
+     mirrored, already keeper-last. */
+  .sideToggle {
+    display: flex;
+    gap: var(--s2);
+  }
+
+  .showHome .awaySide,
+  .showAway .homeSide {
+    display: none;
+  }
+
+  .showHome .half.homeSide {
+    flex-direction: column-reverse;
   }
 
   /* The head above the pitch: three columns wrapped into soup at phone
