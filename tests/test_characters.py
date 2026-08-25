@@ -1,4 +1,4 @@
-"""The five characters must be genuinely different, and none may be stupid.
+"""The characters must be genuinely different, and none may be stupid.
 
 These tests enforce the rule that keeps the bake-off honest: a character may be
 wrong, but never deliberately bad. If a personality stops being a defensible
@@ -16,12 +16,20 @@ from tests.test_leakage import synthetic
 
 
 class TestCast:
-    def test_five_characters(self):
-        assert len(characters.ALL) == 5
+    def test_the_field_is_eleven(self):
+        assert len(characters.ALL) == 11
 
     def test_ids_are_unique_and_stable(self):
         ids = [c.id for c in characters.ALL]
-        assert ids == ["alan", "lily", "valentina", "tayler", "bdog"]
+        assert ids == [
+            "alan", "lily", "valentina", "tayler", "bdog",
+            "pax", "justine", "mabel", "dottie", "dele", "ian",
+        ]
+
+    def test_generations_split_the_five_and_the_challengers(self):
+        gen1 = {c.id for c in characters.ALL if c.generation == 1}
+        assert gen1 == {"alan", "lily", "valentina", "tayler", "bdog"}
+        assert characters.V2_IDS == {"pax", "justine", "mabel", "dottie", "dele", "ian"}
 
     def test_every_character_declares_a_weakness(self):
         # The site states each one's blind spot. A character without a named
@@ -37,9 +45,12 @@ class TestCast:
 
 
 class TestModels:
-    def test_one_model_per_character(self):
+    def test_one_match_model_per_generation_one_character(self):
+        # The five carry bespoke match-level models. The challengers compete
+        # through the player models (and, for ian, evolution); their match
+        # view is the house's until they earn their own.
         model_ids = {m.character_id for m in cm.build_all()}
-        assert model_ids == {c.id for c in characters.ALL}
+        assert model_ids == {c.id for c in characters.ALL if c.generation == 1}
 
     def test_each_has_its_own_configuration(self):
         # If two characters share every parameter they are not competing, they

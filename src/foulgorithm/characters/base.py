@@ -1,11 +1,13 @@
-"""The five competitors.
+"""The competitors: the five, and the 6~7 who joined to beat them.
 
 Each character is a research philosophy with a temperament attached, not a
 handicap. Every one is a position a real analyst could defend, which is what
-makes the competition worth running: any of them could win.
+makes the competition worth running: any of them could win. Generation 1
+(the five) bets on pure temperament; generation 2 (the challengers) bets
+under the bounded rules in docs/38, and the league is the experiment.
 
-Read docs/characters.md before changing any of this. The rule that matters:
-a character may be wrong, but a character may never be deliberately stupid.
+The rule that matters: a character may be wrong, but a character may never
+be deliberately stupid.
 """
 
 from __future__ import annotations
@@ -27,6 +29,10 @@ class Character:
     weakness: str
     #: Which market signal it leans on hardest.
     edge: str
+    #: Which selection rules the character bets under. Generation 1 is pure
+    #: temperament; generation 2 is bounded temperament with a guaranteed hot
+    #: take (docs/38). The league runs both side by side, which is the test.
+    generation: int = 1
 
 
 ALAN = Character(
@@ -145,8 +151,163 @@ BDOG = Character(
     edge="Overreaction. Fixtures the crowd has collectively mispriced.",
 )
 
-ALL: tuple[Character, ...] = (ALAN, LILY, VALENTINA, TAYLER, BDOG)
+PAX = Character(
+    id="pax",
+    name="Pax",
+    emotion="Persistence",
+    tagline="Form is loud. Habit is true.",
+    philosophy=(
+        "Persistence believes people are what they repeatedly do. Pax keeps a "
+        "long memory, demands a body of evidence before trusting a number, and "
+        "is unmoved by a hot fortnight in either direction. He backs the "
+        "players who foul every week because they have always fouled every "
+        "week, and he is suspicious of any story that requires the word "
+        "'suddenly'."
+    ),
+    on_losing=(
+        "Changes nothing, on principle. A bad week is exactly what variance is "
+        "supposed to look like, and reacting to it would be the mistake."
+    ),
+    weakness=(
+        "Slow to everything. A genuine change, a new role, a new manager, a "
+        "lost yard of pace, takes Pax months to believe."
+    ),
+    edge="Stability. The bankers everyone else talks themselves out of.",
+    generation=2,
+)
+
+JUSTINE = Character(
+    id="justine",
+    name="Justine",
+    emotion="Jealousy",
+    tagline="Whatever the leader has, she wants.",
+    philosophy=(
+        "Jealousy studies the winner. Justine reads the league table before "
+        "she reads the fixtures, and inside the close calls she leans toward "
+        "whatever the current leader's numbers say, on the argument that "
+        "success is evidence. When the table has no leader yet she covets the "
+        "consensus instead, which is the same instinct pointed at the crowd."
+    ),
+    on_losing=(
+        "Concludes she copied the wrong rival and switches allegiance to "
+        "whoever has just overtaken them."
+    ),
+    weakness=(
+        "Always one step behind. She inherits the leader's mistakes at "
+        "exactly the moment the leader starts making them."
+    ),
+    edge="Free-riding on whoever is genuinely in form, without their blind spots.",
+    generation=2,
+)
+
+MABEL = Character(
+    id="mabel",
+    name="Mabel",
+    emotion="Madness",
+    tagline="The chaos is the signal.",
+    philosophy=(
+        "Madness trusts what just happened and nothing else. Mabel runs a "
+        "short memory, barely shrinks, and is drawn to exactly the players "
+        "the others smooth away: the erratic ones, the thin samples, the "
+        "numbers still moving. Where the field sees noise she sees a player "
+        "mid-transformation, and she would rather be early and wrong than "
+        "late and right."
+    ),
+    on_losing=(
+        "Delighted. A loss proves the world is as unstable as she said, and "
+        "she doubles her appetite for the volatile."
+    ),
+    weakness=(
+        "Most of the chaos is just chaos. Mabel pays the variance tax weekly "
+        "and calls it tuition."
+    ),
+    edge="Genuine breakouts, role changes and new signings, caught first.",
+    generation=2,
+)
+
+DOTTIE = Character(
+    id="dottie",
+    name="Dottie",
+    emotion="Deviance",
+    tagline="The obvious pick is priced. The odd one is free.",
+    philosophy=(
+        "Deviance is disagreement with a method. Dottie takes the pack's view "
+        "as her starting point and looks for the places her own numbers "
+        "genuinely part company with it, then leans that way inside the close "
+        "calls. Unlike Bravery, she never manufactures a disagreement: she "
+        "amplifies the real ones."
+    ),
+    on_losing=(
+        "Checks whether the disagreement was hers or the data's. If it was "
+        "genuinely hers, she keeps it; a position abandoned on one loss was "
+        "never a position."
+    ),
+    weakness=(
+        "Her edge cases are by definition the thinnest evidence on the "
+        "board, and a hot take pays a cold price more often than not."
+    ),
+    edge="The mispriced middle: players the pack has quietly stopped watching.",
+    generation=2,
+)
+
+DELE = Character(
+    id="dele",
+    name="Dele",
+    emotion="Delinquency",
+    tagline="Backs the players referees already know by name.",
+    philosophy=(
+        "Delinquency respects a record. Dele reads raw foul rates the way "
+        "others read form: a player who commits, and keeps committing, is "
+        "his kind of player, whatever the matchup says. He keeps a long "
+        "memory for repeat offenders and shrugs at context, because the "
+        "career recidivist does not need a reason."
+    ),
+    on_losing=(
+        "Blames the referee for going soft and backs the same names again, "
+        "harder."
+    ),
+    weakness=(
+        "Reputation outlives behaviour. A reformed midfielder stays on "
+        "Dele's list a season too long."
+    ),
+    edge="The persistent foulers whose rates survive every change of scenery.",
+    generation=2,
+)
+
+IAN = Character(
+    id="ian",
+    name="magicIan",
+    emotion="Intelligence",
+    tagline="Whatever loses, he stops being.",
+    philosophy=(
+        "Intelligence here is a genetic algorithm, not a temperament. Every "
+        "matchday magicIan reads the whole field's graded results, breeds a "
+        "population of candidate settings from the winners, mutates them, "
+        "and becomes whichever candidate scores best on what actually "
+        "happened. His dials are different every week by construction, and "
+        "his entire lineage is committed to the record, so his evolution can "
+        "be audited like everything else."
+    ),
+    on_losing=(
+        "Losing IS his method: a bad week is selection pressure, and the "
+        "next generation is bred from whatever beat him."
+    ),
+    weakness=(
+        "Overfits the recent past by design. Whatever worked last month is "
+        "what he has evolved into, exactly in time for it to stop working."
+    ),
+    edge="Never married to an idea. The only competitor guaranteed to change.",
+    generation=2,
+)
+
+ALL: tuple[Character, ...] = (
+    ALAN, LILY, VALENTINA, TAYLER, BDOG,
+    PAX, JUSTINE, MABEL, DOTTIE, DELE, IAN,
+)
 BY_ID: dict[str, Character] = {c.id: c for c in ALL}
+
+#: Generation 2, the challengers: bounded temperament, guaranteed hot take.
+V2_IDS: frozenset[str] = frozenset(c.id for c in ALL if c.generation == 2)
 
 
 def get(character_id: str) -> Character:

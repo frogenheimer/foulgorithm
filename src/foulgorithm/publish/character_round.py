@@ -45,10 +45,15 @@ def publish(output: Path = OUTPUT) -> dict:
         for row in fixtures.itertuples()
     ]
 
+    by_model = {m.character_id: m for m in models}
+
+    # Every character gets an identity block; match-level predictions only
+    # where a bespoke match model exists (the five). The challengers compete
+    # through the player models, and their pages say who they are either way.
     character_blocks = []
-    for model in models:
-        c = characters.get(model.character_id)
-        dists = per_character[c.id]
+    for c in characters.ALL:
+        model = by_model.get(c.id)
+        dists = per_character.get(c.id, [])
         character_blocks.append(
             {
                 "id": c.id,
@@ -59,11 +64,14 @@ def publish(output: Path = OUTPUT) -> dict:
                 "onLosing": c.on_losing,
                 "weakness": c.weakness,
                 "edge": c.edge,
+                "generation": c.generation,
                 "model": {
                     "id": model.id,
                     "version": model.version,
                     "config": {k: float(v) for k, v in model.config().items()},
-                },
+                }
+                if model
+                else None,
                 "fixtures": [
                     {
                         **fixture_keys[i],
@@ -88,7 +96,9 @@ def publish(output: Path = OUTPUT) -> dict:
     # asking the site to work it out.
     disagreement = []
     for i, fx in enumerate(fixture_keys):
-        means = {c.id: per_character[c.id][i].mean() for c in characters.ALL}
+        means = {
+            cid: dists[i].mean() for cid, dists in per_character.items() if len(dists) > i
+        }
         values = np.array(list(means.values()))
         boldest = max(means, key=lambda k: abs(means[k] - values.mean()))
         disagreement.append(
