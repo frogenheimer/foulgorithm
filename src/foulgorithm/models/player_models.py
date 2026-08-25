@@ -654,6 +654,13 @@ CHARACTER_SETTINGS: dict[str, dict] = {
     "ian": dict(half_life_days=500, prior_matches=8, opponent_weight=1.0, dispersion=1.10, amplify=1.10),
 }
 
+try:  # magicIan's dials come from his lineage once evolution has run.
+    from foulgorithm.models import evolve as _evolve
+
+    CHARACTER_SETTINGS["ian"] = _evolve.current_genome()
+except Exception:  # noqa: BLE001 - the seed above stands if the lineage is unreadable
+    pass
+
 
 def build(character_id: str, market: str = "player_fouls_committed") -> PlayerFoulModel:
     settings = CHARACTER_SETTINGS[character_id]

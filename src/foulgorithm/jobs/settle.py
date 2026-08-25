@@ -253,6 +253,19 @@ def run(dry_run: bool = False) -> int:
     except Exception as exc:
         print(f"fixture archive not marked: {exc}", file=sys.stderr)
 
+    # Results are selection pressure: magicIan breeds his next generation
+    # from whatever the field's graded record now says works. See docs/38.
+    try:
+        from foulgorithm.models import evolve
+
+        bred = evolve.step()
+        print(
+            f"magicIan generation {bred['generation']}: {bred['origin']} won "
+            f"(fitness {bred['fitness']})"
+        )
+    except Exception as exc:
+        print(f"magicIan did not evolve: {exc}", file=sys.stderr)
+
     TRACK_RECORD.parent.mkdir(parents=True, exist_ok=True)
     TRACK_RECORD.write_text(
         json.dumps(

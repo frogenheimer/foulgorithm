@@ -96,7 +96,7 @@ jobs:
         run: |
           git config user.name "foulgorithm-bot"
           git config user.email "foulgorithm@users.noreply.github.com"
-          git add site/public/data data/state/lineups_seen.json data/predictions
+          git add site/public/data data/state data/predictions data/slates data/picks
           git diff --cached --quiet && exit 0
           git commit -m "Confirmed lineups for this round"
           git pull --rebase --autostash
