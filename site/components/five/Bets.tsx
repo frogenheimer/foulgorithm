@@ -16,6 +16,73 @@ import { betOutOf100 } from "@/lib/bets";
 import { Badge } from "@/components/kit";
 import s from "./bets.module.css";
 
+export type SlipCharacter = { id: string; name: string; generation?: number };
+
+/** One character's slip for one game: the unit the grid, the rail and the
+ *  focused overlay all render. */
+export function SlipCard({
+  character: ch,
+  own,
+  shapes,
+  outcomes,
+  gameOver = false,
+}: {
+  character: SlipCharacter;
+  own: Record<string, Bet>;
+  shapes: SlateShape[];
+  outcomes?: Outcomes;
+  gameOver?: boolean;
+}) {
+  return (
+    <article className={s.slip} style={{ ["--char" as string]: `var(--ch-${ch.id})` }}>
+      <header className={s.head}>
+        <span className={s.swatch} aria-hidden />
+        {ch.name}
+        {ch.generation === 2 && <Badge>v2</Badge>}
+      </header>
+      {shapes.map((sh) => {
+        const bet = own[sh.key];
+        const price = bet ? betOutOf100(bet.legs) : null;
+        const verdict =
+          outcomes && bet ? betVerdict(bet.legs, outcomes, gameOver) : null;
+        return (
+          <div key={sh.key} className={s.bet}>
+            <div className={s.betHead}>
+              <span className={s.betLabel}>{sh.label}</span>
+              {verdict && <VerdictWord verdict={verdict} />}
+            </div>
+            {bet ? (
+              <>
+                <ul className={s.legs}>
+                  {bet.legs.map((l) => (
+                    <Leg
+                      key={`${l.fullName ?? l.player}|${l.market}|${l.line}`}
+                      leg={l}
+                      outcomes={outcomes}
+                      gameOver={gameOver}
+                    />
+                  ))}
+                </ul>
+                {price != null && (
+                  <div className={s.total}>
+                    <span className={s.totalLabel}>we make it</span>
+                    <span className={s.dots} aria-hidden />
+                    <span className={s.price}>
+                      {price < 1 ? "<1" : price}/100
+                    </span>
+                  </div>
+                )}
+              </>
+            ) : (
+              <p className={s.passed}>passed, could not fill the shape</p>
+            )}
+          </div>
+        );
+      })}
+    </article>
+  );
+}
+
 export default function Bets({
   bets,
   characters,
@@ -25,7 +92,7 @@ export default function Bets({
 }: {
   /** character id -> slate key -> the bet. One game's fifteen. */
   bets: Record<string, Record<string, Bet>>;
-  characters: { id: string; name: string; generation?: number }[];
+  characters: SlipCharacter[];
   shapes: SlateShape[];
   /** Present on a played game: marks every bet and leg. */
   outcomes?: Outcomes;
@@ -38,56 +105,14 @@ export default function Bets({
         const own = bets[ch.id];
         if (!own) return null;
         return (
-          <article
+          <SlipCard
             key={ch.id}
-            className={s.slip}
-            style={{ ["--char" as string]: `var(--ch-${ch.id})` }}
-          >
-            <header className={s.head}>
-              <span className={s.swatch} aria-hidden />
-              {ch.name}
-              {ch.generation === 2 && <Badge>v2</Badge>}
-            </header>
-            {shapes.map((sh) => {
-              const bet = own[sh.key];
-              const price = bet ? betOutOf100(bet.legs) : null;
-              const verdict =
-                outcomes && bet ? betVerdict(bet.legs, outcomes, gameOver) : null;
-              return (
-                <div key={sh.key} className={s.bet}>
-                  <div className={s.betHead}>
-                    <span className={s.betLabel}>{sh.label}</span>
-                    {verdict && <VerdictWord verdict={verdict} />}
-                  </div>
-                  {bet ? (
-                    <>
-                      <ul className={s.legs}>
-                        {bet.legs.map((l) => (
-                          <Leg
-                            key={`${l.fullName ?? l.player}|${l.market}|${l.line}`}
-                            leg={l}
-                            outcomes={outcomes}
-                            gameOver={gameOver}
-                          />
-                        ))}
-                      </ul>
-                      {price != null && (
-                        <div className={s.total}>
-                          <span className={s.totalLabel}>we make it</span>
-                          <span className={s.dots} aria-hidden />
-                          <span className={s.price}>
-                            {price < 1 ? "<1" : price}/100
-                          </span>
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <p className={s.passed}>passed, could not fill the shape</p>
-                  )}
-                </div>
-              );
-            })}
-          </article>
+            character={ch}
+            own={own}
+            shapes={shapes}
+            outcomes={outcomes}
+            gameOver={gameOver}
+          />
         );
       })}
     </div>

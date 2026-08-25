@@ -1,7 +1,7 @@
 import Link from "next/link";
 import FixtureLive from "@/components/fixture/FixtureLive";
 import Explorer from "@/components/explorer/Explorer";
-import Bets from "@/components/five/Bets";
+import SlipRail from "@/components/five/SlipRail";
 import GameSheet from "@/components/matchday/GameSheet";
 import { PageHeader, SectionHead } from "@/components/kit";
 import ClubChip from "@/components/kit/ClubChip";
@@ -225,7 +225,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
                   : "Three bets from every competitor, the five and the challengers alike, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet\u2019s last version before kickoff is the one that counts."
               }
             />
-            <Bets
+            <SlipRail
               bets={v.bets}
               characters={v.characters}
               shapes={data.slates.shapes}

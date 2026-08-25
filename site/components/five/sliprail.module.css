@@ -1,0 +1,91 @@
+/* The rail: a hard wire, square clips, slips that swing and tear. */
+
+.scroller {
+  overflow-x: auto;
+  min-width: 0;
+  scrollbar-width: thin;
+  padding-bottom: var(--s3);
+}
+
+.track {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s6);
+  padding: var(--s5) var(--s3) var(--s7);
+  border-top: 2px solid var(--line-strong);
+  width: max-content;
+  min-width: 100%;
+}
+
+.hanger {
+  flex-shrink: 0;
+  width: 250px;
+  transform-origin: top center;
+  margin-top: calc(var(--s4) * -1);
+}
+
+/* The peg: a square clip straddling the wire; yellow while gripped. */
+.clip {
+  display: block;
+  width: 10px;
+  height: 16px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  transition: background var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
+}
+
+.clipGripped {
+  background: var(--accent-object);
+  border-color: var(--accent-object);
+}
+
+/* The sheet below the peg: the tear line is real, and it is where it rips. */
+.sheet {
+  border-top: 1px dashed var(--line-strong);
+  padding-top: var(--s1);
+  cursor: grab;
+}
+
+/* The focused view: one slip, big enough to actually read. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: var(--s5);
+  background: rgba(6, 7, 8, 0.6);
+}
+
+.focus {
+  position: relative;
+  width: min(420px, 94vw);
+  max-height: 86vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  padding: var(--s5);
+  box-shadow: var(--lift);
+}
+
+.focus > article {
+  border: 0;
+  padding: 0;
+}
+
+.close {
+  position: absolute;
+  top: var(--s3);
+  right: var(--s4);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.close:hover {
+  color: var(--ink);
+}

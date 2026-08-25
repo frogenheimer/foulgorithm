@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Signature from "@/components/characters/Signature";
 import type { Settings } from "@/components/characters/Signature";
-import Bets from "@/components/five/Bets";
+import SlipRail from "@/components/five/SlipRail";
 import Vidiprinter from "@/components/home/Vidiprinter";
 import Standings from "@/components/five/Standings";
 import { Callout, Note, PageHeader, SectionHead } from "@/components/kit";
@@ -93,7 +93,7 @@ export default function Characters() {
                       {meta.bets} bets · {meta.hot} hot
                     </span>
                   </summary>
-                  <Bets bets={slates.byGame[g]} characters={columns} shapes={slates.shapes} />
+                  <SlipRail bets={slates.byGame[g]} characters={columns} shapes={slates.shapes} />
                 </details>
               );
             })}
