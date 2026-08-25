@@ -1,12 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import { Nav } from "@/components/kit/Nav";
 import "./tokens.css";
 import "./globals.css";
 
 /**
- * Two families. Inter for words, Geist Mono for figures.
+ * Three families, each load-bearing. Inter for words, Geist Mono for
+ * figures, Space Grotesk for display: page titles and hero numbers, the
+ * instrument-panel voice of the redesign (docs/39). All self-hosted through
+ * next/font.
  *
  * `cv05` gives Inter a single-storey `a` and `tnum` turns on tabular figures
  * globally, so no component has to remember to align a column of numbers.
@@ -19,6 +22,13 @@ const inter = Inter({
   display: "swap",
   variable: "--font-inter",
   axes: ["opsz"],
+});
+
+const display = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-space",
+  weight: ["500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -42,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-GB"
-      className={`${inter.variable} ${GeistMono.variable}`}
+      className={`${inter.variable} ${GeistMono.variable} ${display.variable}`}
       suppressHydrationWarning
     >
       <head>

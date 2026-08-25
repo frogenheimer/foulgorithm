@@ -47,9 +47,15 @@ One `Module` primitive: header (title, context chip, one action), body,
 footer. One gradient hero module per page, maximum. Inside modules, a small
 vocabulary: stat tile (display number, delta chip, sparkline), meter (label,
 bar, value/target), slip (built), chips (status, v2, hot, delta), club
-badge, DataTable v2 (borderless, hover raise). Radius steps up to ~16px on
-modules; depth comes from layered surfaces and soft wide shadows rather
-than borders.
+badge, DataTable v2 (borderless, hover raise).
+
+**Amended 2026-08-25, Oliver's call: SHARP.** Radius goes to zero, boxes are
+boxes, contrast carries the depth, and the personality lives in snap-eased
+hover states (--ease-snap) rather than rounded softness. Only the pill
+survives, because a swatch is a circle, not a box. The accent is electric
+cyan (#0b7e90 light / #21c7dc dark, both clearing AA), and green retires to
+purely semantic good/won duty. Space Grotesk joins as the display face for
+titles and hero numbers.
 
 ## 📊 The chart vocabulary (build order 4-5)
 

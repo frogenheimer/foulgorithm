@@ -24,10 +24,10 @@
   --on-rail: #f7f7f5;
   --on-rail-2: #9aa0a4;
 
-  /* ---- accent. One. ---- */
-  --accent: #1b7f4b;
+  /* ---- accent. One. Electric cyan (docs/39); green is semantics only. ---- */
+  --accent: #0b7e90;
   --accent-ink: #ffffff;
-  --accent-soft: rgba(27, 127, 75, 0.1);
+  --accent-soft: rgba(11, 126, 144, 0.1);
 
   /* ---- chart categoricals, fixed order, never cycled ---- */
   --c1: #2563c9;
@@ -82,6 +82,7 @@
      and no layout shift. */
   --font: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", "Cascadia Mono", monospace;
+  --font-display: var(--font-space), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   /* ---- space. Ten steps on a 4px base. ---- */
   --s1: 4px;
@@ -135,10 +136,11 @@
      than a pointer, is the likely instrument. */
   --tap: 44px;
 
-  /* ---- radius ---- */
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 14px;
+  /* ---- radius. Sharp (docs/39): boxes are boxes. Pill survives because a
+     swatch is a circle, not a box. ---- */
+  --r-sm: 0px;
+  --r-md: 0px;
+  --r-lg: 0px;
   --r-pill: 999px;
 
   /* ---- elevation. One shadow, used once. ---- */
@@ -149,6 +151,8 @@
      400ms, and --d-fast sits under it deliberately because a hover state is
      feedback rather than motion. */
   --ease: cubic-bezier(0.2, 0, 0.13, 1);
+  /* The snap: a slight overshoot for interactions only, never for data. */
+  --ease-snap: cubic-bezier(0.2, 1.35, 0.35, 1);
   --d-fast: 120ms;
   --d-base: 220ms;
   --d-slow: 380ms;
@@ -172,9 +176,9 @@
     --ink-2: #b9bdc0;
     --ink-3: #8b9094;
 
-    --accent: #3fbf77;
+    --accent: #21c7dc;
     --accent-ink: #0e0f10;
-    --accent-soft: rgba(63, 191, 119, 0.14);
+    --accent-soft: rgba(33, 199, 220, 0.14);
 
     --c1: #5b9bf5;
     --c2: #3fbf77;
@@ -223,9 +227,9 @@
   --ink-2: #b9bdc0;
   --ink-3: #8b9094;
 
-  --accent: #3fbf77;
+  --accent: #21c7dc;
   --accent-ink: #0e0f10;
-  --accent-soft: rgba(63, 191, 119, 0.14);
+  --accent-soft: rgba(33, 199, 220, 0.14);
 
   --c1: #5b9bf5;
   --c2: #3fbf77;
