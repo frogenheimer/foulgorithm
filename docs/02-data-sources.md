@@ -72,7 +72,25 @@ Backfill is therefore a slow background activity measured in days, not a one-off
 
 **Lineups appear 20 to 40 minutes before kickoff** where the competition supports it. Check the `coverage` field on `/leagues` rather than assuming. This is later than the "about an hour" the earlier plan assumed, which tightens the matchday polling window.
 
-⚠️ **Unverified and important**: the free plan reportedly restricts which seasons are available, and no source states which. If the current season is excluded, the free tier is useless to us. **Test this with a real key before building anything on it.** The `/status` endpoint returns plan and remaining quota and is not Cloudflare-blocked.
+🛑 **Verified 26 August 2026, and it is the bad answer.** The free plan restricts
+which seasons are available, and the current one is not among them:
+
+```
+fixtures: {'plan': 'Free plans do not have access to this season,
+                    try from 2022 to 2024.'}
+```
+
+**The free tier cannot see 2026/27 at all.** Not fixtures, and so not lineups
+either. Everything built on this source is correct and tested and returns
+nothing until the account changes: the cup slate comes back empty, both cup
+pages write an honest "no ties on the slate", and the lineup watch has nothing
+to watch. A paid plan, or a different source, is the only way through.
+
+The `/status` endpoint answered `Your account is suspended, check on
+dashboard.api-football.com` on the same day, which may be the same problem
+wearing a different message or may be a second one. Both need looking at.
+
+This warning stood in this file, unverified, since 21 August. It was right.
 
 ## football-data.co.uk
 
