@@ -30,9 +30,24 @@ happens silently.
 
 ---
 
-## 🚦 Where the data comes from
+## 🔌 Where the data comes from
 
-**Both sides come from football-data.co.uk**, E0 and E1 alike. This is the
+**The slate, the referee and the elevens** come from the Premier League's own
+API, which carries the FA Cup (competition 4) and the EFL Cup (competition 5)
+alongside its own league. Free, no key, no card, no daily quota, and already
+this project's lineup source, so the cups add no new account to keep alive.
+
+Two things it will not give us:
+
+- **The referee before kickoff.** `matchOfficials` is empty on an upcoming
+  fixture and populated from kickoff onward. So most tie pages carry no
+  official, and they say "not appointed yet" rather than dropping the block: a
+  missing block reads as "we hold nothing on this referee", and we hold 48 of
+  them back to 2000/01.
+- **`teamLists` as an empty list.** Before the sheets land it is
+  `[null, null]`, two placeholders. Calling `.get()` on those raises.
+
+**Both clubs' records come from football-data.co.uk**, E0 and E1 alike. This is the
 whole reason the comparison is honest: a page half built from API-Football
 player rows and half from a CSV would not be a comparison. Six team stats a
 match plus the referee, back to 2000/01 in both divisions.
@@ -112,28 +127,22 @@ The fixture key is `(home, away, competition, kickoff)`, never the label.
 
 ---
 
-## 🔌 The request budget
+## 🚦 The lineup watch
 
-API-Football's free plan meters **100 requests a day**, reset at midnight UTC,
-no rollover. It is the project's only metered source and the cup watch is the
-biggest spender.
+`jobs/cup_watch.py`, on the same weekly reschedule as the league's. Opens at
+T-70 because cup elevens are no more punctual than the league's T-60, gives up
+at kickoff, and polls every three minutes.
 
-The watcher used to poll per fixture every 90 seconds, which cost about 47
-requests for the single hand-fed tie it was written for. Ten qualifying ties on
-one afternoon would have been **470 requests**: the watch would have died four
-fifths of the way through the round and produced no elevens at all.
+The old version of this job had a request-budget problem worth remembering,
+because the fix was to change source rather than to optimise. It polled
+API-Football per fixture every 90 seconds: about 47 requests for the single
+hand-fed tie it was written for, and roughly **470 for a ten-tie round against
+a free cap of 100 a day**. It would have died four fifths of the way through
+and produced no elevens at all, which is worse than producing them for one tie.
 
-- One request per batch of twenty (`fixtures?ids=`), never one per tie.
-- Five-minute cadence. Cup elevens land 40 to 70 minutes out and nobody is
-  betting these pages.
-- A full 22-tie slate now costs about **14 requests**, plus 2 to pull the
-  slates. `tests/test_cup_lineup_budget.py` holds it there.
-
-> ⚠️ **`cup_lineups_batch` is unverified.** The API-Football account was
-> suspended when this was written, so the documented response shape has not
-> been seen against a live key. It fails loudly rather than falling back to
-> per-fixture polling: a silent fallback would spend the day's whole quota in
-> twenty minutes and then look like "no elevens posted".
+The league's API needs no key and meters no daily quota, so that whole problem
+is gone rather than solved. Polling stays gentle anyway, because the source is
+free and somebody else pays to run it.
 
 ---
 

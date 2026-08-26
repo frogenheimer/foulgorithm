@@ -92,6 +92,54 @@ wearing a different message or may be a second one. Both need looking at.
 
 This warning stood in this file, unverified, since 21 August. It was right.
 
+**Resolved 26 August 2026 by not needing it.** The cups moved to the Premier
+League's own API, which carries them. See the section below.
+
+## The Premier League API also carries both domestic cups
+
+**Role: the cup slate, referees and cup lineups.** Verified 26 August 2026.
+
+`footballapi.pulselive.com` is not restricted to competition 1. It knows 115
+competitions, including **FA Cup (id 4)** and **EFL Cup (id 5)**, with 2,730
+and 1,676 fixtures respectively.
+
+| What | Where | Notes |
+|---|---|---|
+| Fixtures | `fixtures?comps=4` / `comps=5` | Whole season, current one included |
+| Round name | `gameweek.competitionPhase.label` | "2nd Round". The sibling `gameweek` field is a number |
+| Referee | `fixtures/{id}` → `matchOfficials`, role `MAIN` | **Only from kickoff onward**, never before |
+| Confirmed elevens | `fixtures/{id}` → `teamLists` | Same shape as a league fixture, so one shaper reads both |
+
+⚠️ **`teamLists` is `[null, null]` before the sheets land**, not an empty list.
+Two null placeholders where the elevens will go.
+
+All 44 clubs we hold resolve from its cup spellings through the maps already in
+`identity/teams.py`. The 80 names that do not resolve are exactly the lower-tier
+clubs we drop.
+
+The same terms caveat applies as for the league: non-commercial use only, and it
+must be revisited before any monetisation. See `13-legal-and-ethics.md`.
+
+## Sources evaluated for the cups and rejected
+
+Verified 26 August 2026. Recorded so nobody re-treads this.
+
+| Source | Cups | Free | Why not |
+|---|---|---|---|
+| **API-Football** | Yes | Capped | **Free plan cannot see the current season.** Paid tiers want a card |
+| **BBC sports API** | Yes, plus **per-player fouls in both divisions** | Yes, no key | 🛑 `web-cdn.api.bbci.co.uk/robots.txt` is `User-agent: * / Disallow: /` |
+| **TheSportsDB** | League Cup yes, FA Cup coverage broken | Test key only | Free key caps every list at 5 results; a real key is $9 a month |
+| **football-data.org** | Yes | No | FA Cup is `TIER_TWO`, League Cup `TIER_THREE`. Free tier is `TIER_ONE` only |
+| **football-data.co.uk** | **No** | Yes | Leagues only. Still the spine for team match history |
+| **openfootball** | No | Yes | Leagues only |
+
+> 🛑 **The BBC one is worth stating plainly, because the data was ideal.**
+> `match-lineups` returns per-player `fouls` and `wasFouled` with minutes, for
+> Championship players as well as Premier League ones, which would have
+> overturned "Championship player data does not exist at any price". Its API
+> host disallows all crawling, so it falls under principle 4 exactly as FBref
+> and FotMob do. Not used, and not to be used without written permission.
+
 ## football-data.co.uk
 
 **Role: the backtest spine.** Built first, because it needs no account, no key and no scraping.
