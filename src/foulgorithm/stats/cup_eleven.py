@@ -32,6 +32,30 @@ ROTATION_NOTE = (
 )
 
 
+#: A back seven is not a formation, it is a grouping artefact. Position codes
+#: cannot tell a wing-back from a centre-back, so the defensive line is capped
+#: and the overflow moves up the pitch. Carried from
+#: publish/player_round._predicted_shape, which learned it first.
+MAX_DEFENDERS = 5
+
+
+@dataclass(frozen=True)
+class Shape:
+    """The eleven as lines, goalkeeper first, for drawing a pitch.
+
+    `formation` is only ever set from a club's own published team sheet.
+    `grouping` is what we produce ourselves, and it is a different claim:
+    grouping by position code cannot distinguish a back three with wing-backs
+    from a back five, so it says "these are the defenders" and nothing more.
+    Printing it as a formation would be inventing a shape nobody published.
+    """
+
+    lines: list[list[PlayerStats]]
+    bench: list[PlayerStats]
+    formation: str | None = None
+    grouping: str | None = None
+
+
 @dataclass(frozen=True)
 class Eleven:
     players: list[PlayerStats]
@@ -39,6 +63,41 @@ class Eleven:
     note: str | None = None
     #: True when the squad could not field eleven, rather than silently short.
     short: bool = False
+    #: The club's own formation label, only ever from a real team sheet.
+    formation: str | None = None
+    #: The team sheet's own lines, when it published them.
+    published_lines: list[list[str]] | None = None
+    #: Everyone in the squad, so a bench can be worked out.
+    squad: list[PlayerStats] = field(default_factory=list)
+
+    def shape(self) -> Shape:
+        """Lines for a pitch, plus whoever is not on it."""
+        lines = (
+            self._published()
+            if self.published_lines
+            else _grouped(self.players)
+        )
+        on = {p.player for p in self.players}
+        bench = sorted(
+            (p for p in self.squad if p.player not in on), key=lambda p: -p.minutes
+        )
+        return Shape(
+            lines=lines,
+            bench=bench,
+            formation=self.formation,
+            grouping=None if self.formation else "-".join(
+                str(len(line)) for line in lines[1:]
+            ),
+        )
+
+    def _published(self) -> list[list[PlayerStats]]:
+        by_name = {p.player: p for p in self.players}
+        out = []
+        for line in self.published_lines or []:
+            spots = [by_name[n] for n in line if n in by_name]
+            if spots:
+                out.append(spots)
+        return out or _grouped(self.players)
 
 
 def _name_key(name: str) -> tuple[str, ...]:
@@ -106,10 +165,16 @@ def predict(squad: list[PlayerStats]) -> Eleven:
         confirmed=False,
         note=ROTATION_NOTE,
         short=len(chosen) < 11,
+        squad=list(squad),
     )
 
 
-def confirm(squad: list[PlayerStats], names: list[str]) -> Eleven:
+def confirm(
+    squad: list[PlayerStats],
+    names: list[str],
+    formation: str | None = None,
+    lines: list[list[str]] | None = None,
+) -> Eleven:
     """The real eleven, in the order the team sheet gave it.
 
     Order is kept rather than re-sorted: a team sheet runs goalkeeper first and
@@ -121,7 +186,15 @@ def confirm(squad: list[PlayerStats], names: list[str]) -> Eleven:
     for name in names:
         found = next((p for p in squad if _matches(p.player, name)), None)
         players.append(found or _unknown(name))
-    return Eleven(players=players, confirmed=True, note=None, short=len(players) < 11)
+    return Eleven(
+        players=players,
+        confirmed=True,
+        note=None,
+        short=len(players) < 11,
+        formation=formation,
+        published_lines=lines,
+        squad=list(squad),
+    )
 
 
 def _unknown(name: str) -> PlayerStats:
@@ -133,3 +206,27 @@ def _unknown(name: str) -> PlayerStats:
         fouls_per_90=None, fouls_won_per_90=None, tackles_per_90=None,
         minutes_by_division={},
     )
+
+
+def _grouped(players: list[PlayerStats]) -> list[list[PlayerStats]]:
+    """Lines from position codes: one keeper, then defence, midfield, attack.
+
+    ⚠️ A GROUPING, not a formation, and `Shape` labels it as one. A wing-back
+    codes as a defender, so a side playing three at the back with two wing-backs
+    comes out as five defenders. The eleven is right; the arrangement is only
+    ever "these are the defenders".
+    """
+    buckets: dict[str, list[PlayerStats]] = {"G": [], "D": [], "M": [], "F": []}
+    for p in players:
+        code = (p.position or "").strip().upper()[:1]
+        buckets[code if code in buckets else "M"].append(p)
+
+    # Overflow moves UP the pitch, never off it. A back seven is a grouping
+    # artefact and a reader would read it as a tactic.
+    overflow = len(buckets["D"]) - MAX_DEFENDERS
+    if overflow > 0:
+        moved = buckets["D"][MAX_DEFENDERS:]
+        buckets["D"] = buckets["D"][:MAX_DEFENDERS]
+        buckets["M"] = moved + buckets["M"]
+
+    return [line for line in (buckets[c] for c in "GDMF") if line]

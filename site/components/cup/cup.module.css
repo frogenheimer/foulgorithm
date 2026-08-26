@@ -81,3 +81,55 @@
   letter-spacing: 0.1em;
   color: var(--ink-3);
 }
+
+/* ---------- the pitch ---------- */
+
+.pitchKey {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  padding: var(--s3) 0;
+}
+
+.pitchKeyText {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+
+/* Surnames under the shirts. The league's pitch puts a control here; this one
+   is read-only, so it is a label. */
+.pitchName {
+  display: block;
+  max-width: 88px;
+  margin-top: var(--s1);
+  font-size: var(--t-xs);
+  line-height: 1.2;
+  text-align: center;
+  color: var(--ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.benchRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  padding: var(--s1) 0;
+  font-size: var(--t-xs);
+  min-width: 0;
+}
+
+.benchName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+
+.benchValue {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}

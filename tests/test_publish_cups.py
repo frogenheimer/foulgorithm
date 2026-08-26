@@ -372,3 +372,44 @@ class TestPlayers:
         assert TestNoPlayerNumbers.carrying(leaky, self.NO_PRICES) == [
             "payload.players[0].outOf100"
         ]
+
+
+class TestPitchShape:
+    """Each eleven arrives as lines, so the page can draw a pitch."""
+
+    def test_both_sides_carry_lines(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=TestPlayers.squads(), now=NOW)
+        for side in ("home", "away"):
+            lines = payload["ties"][0]["players"][side]["lines"]
+            assert sum(len(l) for l in lines) == 11
+            assert len(lines[0]) == 1          # the keeper, alone
+
+    def test_a_predicted_shape_is_a_grouping_and_says_so(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=TestPlayers.squads(), now=NOW)
+        block = payload["ties"][0]["players"]["home"]
+        assert block["formation"] is None
+        assert block["grouping"] is not None
+
+    def test_a_confirmed_sheet_carries_the_clubs_real_formation(self):
+        from types import SimpleNamespace
+        spot = lambda n: SimpleNamespace(name=n)
+        sheets = {"Arsenal|Arsenal v Wrexham": SimpleNamespace(
+            formation="4-3-3",
+            starters=["Keep Arsenal"] + [f"Gunner {i}" for i in range(10)],
+            lines=[[spot("Keep Arsenal")], [spot(f"Gunner {i}") for i in range(4)]],
+            bench=[])}
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=TestPlayers.squads(), lineups=sheets, now=NOW)
+        block = payload["ties"][0]["players"]["home"]
+        assert block["formation"] == "4-3-3"
+        assert block["grouping"] is None
+        assert [len(l) for l in block["lines"]][:2] == [1, 4]
+
+    def test_the_bench_holds_nobody_who_is_on_the_pitch(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=TestPlayers.squads(), now=NOW)
+        block = payload["ties"][0]["players"]["home"]
+        on = {p["player"] for line in block["lines"] for p in line}
+        assert all(p["player"] not in on for p in block["bench"])

@@ -15,6 +15,7 @@
 
 import { Card, DataTable, MicroLabel, Note, Thin, thinRow } from "@/components/kit";
 import type { Column } from "@/components/kit";
+import CupPitch from "./CupPitch";
 import type { CupEleven, CupPlayer, CupTie } from "@/lib/cups";
 import s from "./stats.module.css";
 
@@ -30,10 +31,30 @@ export default function TiePlayers({ tie }: { tie: CupTie }) {
     );
   }
 
+  const { home, away } = tie.players;
+  const predicted = [home, away].filter((e) => e.note);
+
   return (
     <div className="stack">
-      <ElevenCard eleven={tie.players.home} />
-      <ElevenCard eleven={tie.players.away} />
+      <Card title="The elevens" flush>
+        <CupPitch home={home} away={away} />
+      </Card>
+
+      {/* One caveat for the tie, not one per side. It sits under the pitch
+          because that is the thing it is a caveat about, and it is never
+          optional while an eleven is still a guess. */}
+      {predicted.length > 0 && (
+        <div className={s.warnStandalone}>
+          <MicroLabel>Read this first</MicroLabel>
+          <p className={s.warnText}>{predicted[0].note}</p>
+        </div>
+      )}
+
+      {/* Side by side, because the whole point is comparing the two elevens. */}
+      <div className={s.sideBySide}>
+        <ElevenCard eleven={home} />
+        <ElevenCard eleven={away} />
+      </div>
     </div>
   );
 }
@@ -45,20 +66,10 @@ function ElevenCard({ eleven }: { eleven: CupEleven }) {
     eleven.formation,
   ]
     .filter(Boolean)
-    .join(" · ");
+    .join(" \u00b7 ");
 
   return (
     <Card title={`${eleven.team} · ${heading}`} subtitle={subtitle} flush>
-      {/* The rotation caveat travels with every predicted eleven and is never
-          optional: cup sides change eight or nine players and a tidy-looking
-          table is exactly what makes that easy to forget. */}
-      {eleven.note && (
-        <div className={s.warnBox}>
-          <MicroLabel>Read this first</MicroLabel>
-          <p className={s.warnText}>{eleven.note}</p>
-        </div>
-      )}
-
       {eleven.players.length === 0 ? (
         <p className={s.noneInset}>
           No squad record for {eleven.team}. That is a gap in what we hold, not
@@ -83,12 +94,18 @@ function ElevenCard({ eleven }: { eleven: CupEleven }) {
   );
 }
 
+/**
+ * Deliberately narrow. Two tables sit side by side now, so nine columns would
+ * scroll horizontally on every screen and the comparison would be lost. The
+ * long tail (raw totals, where the minutes were played) lives in each row's
+ * title attribute rather than in a column nobody can see.
+ */
 const PLAYER_COLUMNS: Column<CupPlayer>[] = [
   {
     key: "player",
     head: "Player",
     cell: (p) => (
-      <span className={s.playerCell}>
+      <span className={s.playerCell} title={`${p.spell}. ${p.fouls} fouls, ${p.foulsWon} won, ${p.tackles} tackles, ${p.yellows} yellow, ${p.reds} red.`}>
         <span>{p.player}</span>
         {/* Under 450 minutes the rate is mostly noise. Marked rather than
             hidden, so the reader discounts it himself. The kit owns this mark
@@ -100,15 +117,9 @@ const PLAYER_COLUMNS: Column<CupPlayer>[] = [
     ),
   },
   { key: "position", head: "Pos", cell: (p) => p.position },
-  { key: "fouls", head: "Fouls / 90", numeric: true, cell: (p) => p.foulsPer90 ?? "—" },
-  { key: "won", head: "Won / 90", numeric: true, cell: (p) => p.foulsWonPer90 ?? "—" },
-  { key: "tackles", head: "Tackles / 90", numeric: true, cell: (p) => p.tacklesPer90 ?? "—" },
-  { key: "yellows", head: "Yellows", numeric: true, cell: (p) => p.yellows },
-  { key: "reds", head: "Reds", numeric: true, cell: (p) => p.reds },
+  { key: "fouls", head: "Fouls / 90", numeric: true, cell: (p) => p.foulsPer90 ?? "\u2014" },
+  { key: "won", head: "Won / 90", numeric: true, cell: (p) => p.foulsWonPer90 ?? "\u2014" },
+  { key: "tackles", head: "Tkl / 90", numeric: true, cell: (p) => p.tacklesPer90 ?? "\u2014" },
+  { key: "yellows", head: "Yel", numeric: true, cell: (p) => p.yellows },
   { key: "apps", head: "Apps", numeric: true, cell: (p) => p.appearances },
-  {
-    key: "spell",
-    head: "Where those minutes were",
-    cell: (p) => <span className={s.quiet}>{p.spell}</span>,
-  },
 ];

@@ -107,7 +107,14 @@ export type CupEleven = {
   /** The rotation warning. Present on every predicted eleven, absent on a real one. */
   note: string | null;
   short: boolean;
+  /** The club's own formation, only ever from a real team sheet. */
   formation: string | null;
+  /** Our own arrangement from position codes. Never a formation, and the page
+   *  must not print it as one: a wing-back codes as a defender. */
+  grouping: string | null;
+  /** Goalkeeper first, then each line up the pitch. */
+  lines: CupPlayer[][];
+  bench: CupPlayer[];
   players: CupPlayer[];
 };
 

@@ -182,16 +182,33 @@ def _players(squads, lineups: dict, home: str, away: str) -> dict | None:
         squad = squads.get(team) or []
         sheet = lineups.get(f"{team}|{label}")
         starters = list(getattr(sheet, "starters", []) or []) if sheet else []
-        eleven = (
-            cup_eleven.confirm(squad, starters) if starters
-            else cup_eleven.predict(squad)
-        )
+        if starters:
+            # The club's own lines when it published them, so the pitch draws
+            # the real shape rather than one grouped from position codes.
+            published = [
+                [spot.name for spot in line] for line in getattr(sheet, "lines", []) or []
+            ]
+            eleven = cup_eleven.confirm(
+                squad, starters,
+                formation=getattr(sheet, "formation", None),
+                lines=published or None,
+            )
+        else:
+            eleven = cup_eleven.predict(squad)
+
+        shape = eleven.shape()
         return {
             "team": team,
             "confirmed": eleven.confirmed,
             "note": eleven.note,
             "short": eleven.short,
-            "formation": getattr(sheet, "formation", None) if sheet else None,
+            "formation": shape.formation,
+            # Never presented as a formation. See stats/cup_eleven.Shape: a
+            # grouping cannot tell a back three with wing-backs from a back
+            # five, and printing it as a formation invents a shape.
+            "grouping": shape.grouping,
+            "lines": [[_player_row(p) for p in line] for line in shape.lines],
+            "bench": [_player_row(p) for p in shape.bench[:9]],
             "players": [_player_row(p) for p in eleven.players],
         }
 

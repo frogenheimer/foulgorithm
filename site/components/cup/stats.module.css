@@ -189,3 +189,29 @@
   color: var(--ink-3);
   padding: var(--s4) var(--s5);
 }
+
+/* Two elevens, side by side, because comparing them is the point. Stacked
+   below 1100px, where two tables of six columns stop being readable. */
+.sideBySide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s4);
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .sideBySide {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* One caveat for the tie, under the pitch it qualifies. */
+.warnStandalone {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  padding: var(--s4);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+}

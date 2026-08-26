@@ -144,3 +144,68 @@ class TestNameMatching:
 
     def test_a_hyphenated_name_resolves_either_way(self):
         assert cup_eleven._matches("Trent Alexander-Arnold", "Alexander Arnold Trent")
+
+
+class TestShape:
+    """The eleven arranged as lines, so a pitch can be drawn from it.
+
+    Carried from publish/player_round._predicted_shape, including its warning:
+    this is a GROUPING, not a formation. Grouping by position code cannot tell a
+    back three with wing-backs from a back five, so the label is only ever
+    "these are the defenders" and the page says so.
+    """
+
+    def test_the_keeper_is_the_first_line_alone(self):
+        shape = cup_eleven.predict(squad()).shape()
+        assert len(shape.lines[0]) == 1
+        assert shape.lines[0][0].position == "G"
+
+    def test_every_player_appears_exactly_once(self):
+        xi = cup_eleven.predict(squad())
+        flat = [p for line in xi.shape().lines for p in line]
+        assert len(flat) == len(xi.players)
+        assert len({p.player for p in flat}) == len(flat)
+
+    def test_lines_run_from_the_goal_forward(self):
+        shape = cup_eleven.predict(squad()).shape()
+        codes = [{p.position for p in line} for line in shape.lines]
+        assert codes[0] == {"G"}
+        # Defenders before midfielders before forwards.
+        order = [next(iter(c)) for c in codes if len(c) == 1]
+        assert order == sorted(order, key=lambda c: "GDMF".index(c))
+
+    def test_the_defensive_line_is_capped(self):
+        # Position codes call a wing-back a defender, so an uncapped grouping
+        # draws a back seven. Overflow moves up rather than out.
+        heavy = [player("Keeper", "G", 2000)] + [
+            player(f"Def {i}", "D", 1900 - i) for i in range(10)
+        ]
+        shape = cup_eleven.predict(heavy).shape()
+        assert len(shape.lines[1]) <= cup_eleven.MAX_DEFENDERS
+
+    def test_the_label_is_marked_as_a_grouping_not_a_formation(self):
+        shape = cup_eleven.predict(squad()).shape()
+        assert shape.formation is None
+        assert shape.grouping is not None
+
+    def test_a_confirmed_sheet_keeps_the_clubs_own_formation(self):
+        names = [f"Player {i}" for i in range(10)] + ["Keeper A"]
+        xi = cup_eleven.confirm(squad(), names, formation="4-2-3-1")
+        assert xi.shape().formation == "4-2-3-1"
+
+    def test_a_confirmed_sheet_uses_the_published_lines_when_it_has_them(self):
+        names = ["Keeper A", "Player 0", "Player 1", "Player 2"]
+        xi = cup_eleven.confirm(squad(), names, formation="1-3",
+                                lines=[["Keeper A"], ["Player 0", "Player 1", "Player 2"]])
+        shape = xi.shape()
+        assert [len(l) for l in shape.lines] == [1, 3]
+        assert shape.lines[1][0].player == "Player 0"
+
+    def test_a_bench_is_whoever_is_in_the_squad_and_not_on_the_pitch(self):
+        xi = cup_eleven.predict(squad())
+        on = {p.player for p in xi.players}
+        assert all(p.player not in on for p in xi.shape().bench)
+
+    def test_the_bench_is_ordered_by_minutes(self):
+        bench = cup_eleven.predict(squad()).shape().bench
+        assert bench == sorted(bench, key=lambda p: -p.minutes)
