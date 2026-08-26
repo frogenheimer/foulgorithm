@@ -194,3 +194,52 @@ class TestHouseSheetGating:
         )
         assert payload["ties"][0]["kind"] == "total"
         assert payload["ties"][0]["houseSheet"] is None
+
+
+class TestLineups:
+    """Confirmed elevens, shown as names and nothing else.
+
+    A Premier League XI could carry each player's foul rate and a Championship
+    one could not, so showing rates would make the two sides of a cross-division
+    tie asymmetric in exactly the way the rest of the page refuses to be. Names
+    on both sides, and the picks live in the house sheet where they belong.
+    """
+
+    def test_a_confirmed_eleven_reaches_its_tie(self):
+        sheets = {"Arsenal|Arsenal v Wrexham": _lineup("4-3-3", ["Raya", "Saliba"]),
+                  "Wrexham|Arsenal v Wrexham": _lineup("4-4-2", ["Okonkwo", "O'Connor"])}
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             lineups=sheets, now=NOW)
+        lu = payload["ties"][0]["lineups"]
+        assert lu["home"]["formation"] == "4-3-3"
+        assert lu["away"]["starters"] == ["Okonkwo", "O'Connor"]
+
+    def test_a_tie_with_no_eleven_yet_says_so(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {}, now=NOW)
+        assert payload["ties"][0]["lineups"] is None
+
+    def test_one_side_confirmed_is_not_pretended_to_be_both(self):
+        sheets = {"Arsenal|Arsenal v Wrexham": _lineup("4-3-3", ["Raya"])}
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             lineups=sheets, now=NOW)
+        lu = payload["ties"][0]["lineups"]
+        assert lu["home"] is not None
+        assert lu["away"] is None
+
+    def test_another_ties_eleven_does_not_leak_in(self):
+        sheets = {"Chelsea|Chelsea v Burnley": _lineup("4-3-3", ["Sanchez"])}
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             lineups=sheets, now=NOW)
+        assert payload["ties"][0]["lineups"] is None
+
+    def test_no_player_rate_travels_with_an_eleven(self):
+        sheets = {"Arsenal|Arsenal v Wrexham": _lineup("4-3-3", ["Raya"])}
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             lineups=sheets, now=NOW)
+        assert TestNoPlayerNumbers.carrying(payload, TestNoPlayerNumbers.FORBIDDEN) == []
+
+
+def _lineup(formation, starters):
+    from types import SimpleNamespace
+    return SimpleNamespace(formation=formation, starters=starters,
+                           lines=[], bench=[])

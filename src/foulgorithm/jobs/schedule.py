@@ -144,10 +144,10 @@ def run(path: Path = WORKFLOW) -> int:
     try:
         from types import SimpleNamespace
 
-        from foulgorithm.publish import cup
+        from foulgorithm.sources import cup_slate
 
         fixtures = fixtures + [
-            SimpleNamespace(kickoff_utc=r["kickoff_utc"]) for r in cup.load_fixtures()
+            SimpleNamespace(kickoff_utc=r["kickoff_utc"]) for r in cup_slate.fetch()
         ]
     except Exception as exc:  # noqa: BLE001 - a broken cup slate must not cost the league its wakes
         print(f"cup slate unreadable for wakes: {exc}", file=sys.stderr)

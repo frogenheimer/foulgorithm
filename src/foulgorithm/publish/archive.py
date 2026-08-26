@@ -28,6 +28,22 @@ def fixture_slug(label: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
 
 
+def _cup_slug(label: str, competition: str | None) -> str:
+    """The archived page's slug, qualified by competition.
+
+    An unrecognised competition still gets separated from the league rather
+    than falling through to the plain slug: whatever it is, it is not the
+    league game, and quietly overwriting that page is the exact failure this
+    function exists to prevent.
+    """
+    base = fixture_slug(label)
+    if not competition:
+        return base
+    from foulgorithm.sources.cup_slate import COMPETITION_SLUGS
+
+    return f"{base}-{COMPETITION_SLUGS.get(competition) or fixture_slug(competition)}"
+
+
 def _short_market(market: str) -> str:
     return "drawn" if market.endswith("drawn") else "committed"
 
@@ -49,12 +65,15 @@ def slice_payload(payload: dict, label: str) -> dict | None:
     explorer = payload.get("explorer") or {}
     # A cup tie between the same two clubs shares the league fixture's LABEL,
     # and on 25 Aug 2026 the League Cup's Nott'm Forest v Leeds silently took
-    # over the league game's page: same label, same slug, one file. Cup
-    # archives carry a suffixed slug so the two can never collide again.
+    # over the league game's page: same label, same slug, one file.
+    #
+    # A bare '-cup' suffix fixed that and created a smaller version of it: two
+    # domestic cups means the same pairing can happen in both, and both landed
+    # on one page again. The competition is named in the slug now.
     competition = board.get("competition")
     return {
         "label": label,
-        "slug": fixture_slug(label) + ("-cup" if competition else ""),
+        "slug": _cup_slug(label, competition),
         "publishedAt": payload.get("generatedAt", ""),
         "kickoff": board.get("kickoff", ""),
         "referee": board.get("referee"),

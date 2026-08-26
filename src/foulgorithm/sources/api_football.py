@@ -201,12 +201,12 @@ if __name__ == "__main__":
     main()
 
 
-# ---- cup ties (docs: publish/cup.py) ----------------------------------------
+# ---- cup ties (docs: publish/cups.py) ----------------------------------------
 #
 # The league API knows nothing outside the Premier League, so a cup tie's
-# confirmed eleven has to come from here. Beta scope on purpose: both clubs
-# must be Premier League sides we hold data for, and only the two domestic
-# cups are searched.
+# confirmed eleven has to come from here, and so does the slate itself. Both
+# domestic cups are searched; a tie is kept when we hold match history for
+# both clubs, which now means the Championship as well as the top flight.
 
 CUP_LEAGUES = {45: "FA Cup", 48: "League Cup"}
 
@@ -304,3 +304,48 @@ def cup_lineups(fixture_id: int, label: str):
     """Confirmed elevens for one cup tie, empty until they post."""
     payload = _get("fixtures/lineups", {"fixture": fixture_id})
     return shape_lineups(payload.get("response") or [], label)
+
+
+def cup_lineups_batch(fixture_ids: list[int], labels: dict[int, str]) -> dict:
+    """Confirmed elevens for up to twenty ties in ONE request.
+
+    `fixtures?ids=` returns full fixture objects, lineups included, for up to
+    twenty ids. That is the difference between a cup round costing 14 requests
+    and costing 470 against a cap of 100, so the watch depends on it.
+
+    **Unverified against a live key.** The account was suspended when this was
+    written, so the shape below follows the documented response and has not
+    been seen. It fails LOUDLY rather than falling back to per-fixture polling:
+    a silent fallback would spend the day's whole quota in twenty minutes and
+    then stop, which looks like "no elevens posted" rather than like a bug.
+    Same reasoning as the season-restriction warning in docs/02-data-sources.
+    """
+    if not fixture_ids:
+        return {}
+    if len(fixture_ids) > 20:
+        raise SourceError(
+            f"fixtures?ids= takes at most 20 ids, given {len(fixture_ids)}. "
+            "Batch with jobs.cup_watch.batches() rather than widening this."
+        )
+
+    payload = _get("fixtures", {"ids": "-".join(str(i) for i in fixture_ids)})
+    rows = payload.get("response") or []
+    if not rows:
+        return {}
+
+    out: dict = {}
+    for row in rows:
+        fixture_id = (row.get("fixture") or {}).get("id")
+        label = labels.get(fixture_id)
+        if label is None:
+            continue
+        if "lineups" not in row:
+            raise SourceError(
+                "fixtures?ids= returned no lineups block. The batched call is "
+                "what keeps a cup round inside the 100-request daily cap; if "
+                "this plan does not carry lineups on that endpoint, the watch "
+                "needs rethinking rather than silently reverting to one "
+                "request per fixture. See jobs/cup_watch."
+            )
+        out.update(shape_lineups(row.get("lineups") or [], label))
+    return out

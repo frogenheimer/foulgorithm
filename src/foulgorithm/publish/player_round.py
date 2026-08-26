@@ -408,7 +408,7 @@ def publish(
     league's next round, and `record=False` makes the run an EXHIBITION:
     the payload and fixture pages are written but nothing enters the
     append-only stores, so nothing is graded and nothing scores in the
-    league. Both exist for cup ties (publish/cup.py); a league publish
+    league. Both exist for cup ties (publish/cups.py); a league publish
     passes neither.
     """
     history = load_player_matches()
@@ -503,7 +503,7 @@ def publish(
             "away": fx.away_team_raw,
             "kickoff": fx.kickoff_utc.isoformat(),
             # Absent on league rows; a hand-fed cup row names its competition
-            # and the fixture page shows it. See publish/cup.py.
+            # and the fixture page shows it. See publish/cups.py.
             "competition": getattr(fx, "competition", None),
             # NaN, not None, is what a missing referee becomes once the rows go
             # through pandas, and NaN is not JSON. It reached the site as a

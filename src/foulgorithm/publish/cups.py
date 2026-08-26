@@ -104,7 +104,7 @@ def _tie(tie, matches, baselines, rates, totals, lineups, sheets) -> dict:
         "headToHead": _head_to_head(home, away, matches),
         "houseSheet": sheet,
         "total": totals.get(tie["slug"]),
-        "lineups": lineups.get(tie["slug"]),
+        "lineups": _lineups(lineups, home, away),
     }
     return block
 
@@ -150,6 +150,34 @@ def _referee(tie, matches, home, away) -> dict | None:
                 "derbies shows more of everything without being stricter. "
                 "Cards per foul is the column worth reading.",
     }
+
+
+def _lineups(lineups: dict, home: str, away: str) -> dict | None:
+    """The two confirmed elevens, as names.
+
+    `lineups` arrives keyed "{team}|{home} v {away}", which is the shape both
+    the league feed and API-Football are reshaped into, so a tie picks out its
+    own two entries and cannot pick up anybody else's.
+
+    Names only, deliberately. A Premier League eleven could carry each player's
+    foul rate and a Championship one could not, and showing rates on one side
+    would make the tie asymmetric in exactly the way the rest of the page
+    refuses to be.
+    """
+    label = f"{home} v {away}"
+
+    def side(team):
+        sheet = lineups.get(f"{team}|{label}")
+        if sheet is None:
+            return None
+        return {
+            "team": team,
+            "formation": getattr(sheet, "formation", None),
+            "starters": list(getattr(sheet, "starters", []) or []),
+        }
+
+    found = {"home": side(home), "away": side(away)}
+    return found if any(found.values()) else None
 
 
 def _head_to_head(home, away, matches) -> dict:
