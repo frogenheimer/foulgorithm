@@ -42,6 +42,13 @@ HEADERS = {
 # version every August.
 COMPETITION = 1
 
+# The league's API is not only the league's. It carries the FA Cup and the EFL
+# Cup too, with the referee and the confirmed elevens attached, which is how the
+# cup pages run without a second account to keep alive. Names on the right are
+# OURS: Pulselive says "EFL Cup" and every slug, file and page here says
+# "League Cup", so one spelling has to win and it is this one.
+CUP_COMPETITIONS = {4: "FA Cup", 5: "League Cup"}
+
 STATUS_COMPLETE = "C"
 STATUS_UPCOMING = "U"
 STATUS_LIVE = "L"
@@ -155,6 +162,30 @@ def fixtures(season_id: int | None = None, page_size: int = 100) -> list[Fixture
                 referee=referee,
             )
         )
+    return out
+
+
+def cup_fixtures(competition: int, page_size: int = 100, pages: int = 3) -> list[dict]:
+    """Raw cup fixtures, newest first.
+
+    Sorted descending because the cups run for a season and we only ever want
+    the near end of it: three pages of 100 covers a whole season's ties
+    comfortably and never walks 2,700 rows of FA Cup history to find next
+    week's fourth round.
+
+    Returned raw rather than as `Fixture`, because a cup tie needs two fields
+    the league's own list does not carry into that dataclass: the referee and
+    the round.
+    """
+    out: list[dict] = []
+    for page in range(pages):
+        data = _get(
+            f"fixtures?comps={competition}&pageSize={page_size}&sort=desc&page={page}"
+        )
+        content = data.get("content") or []
+        if not content:
+            break
+        out.extend(content)
     return out
 
 

@@ -1,30 +1,26 @@
-"""Poll for cup lineups from API-Football and republish the cup slate.
+"""Poll for cup lineups and republish the cup slates.
 
-The league watcher (lineup_watch_live.py) cannot do this: its source is the
-Premier League API, which does not know cup games exist. This is the same
-watch pattern against the source that does, kept SEPARATE on purpose so a
-cup problem can never take the league's own lineups down with it.
+The league watcher (lineup_watch_live.py) covers the league's own round. This
+is kept SEPARATE on purpose so a cup problem can never take the league's
+lineups down with it, and it stays separate now that both read the same source.
 
-Scope now matches publish/cups.py: every tie in either domestic cup where we
-hold match history for both clubs, which means Premier League and Championship.
+**Both cups run on the Premier League's own API.** It carries competition 4
+(FA Cup) and 5 (EFL Cup) alongside its own, with `matchOfficials` naming the
+referee and `teamLists` carrying the elevens in exactly the shape a league
+fixture uses. So `sources.lineups.shape_detail` reads both and there is one
+implementation rather than two that drift.
+
+**The request-budget problem is gone rather than solved.** This job used to
+poll API-Football per fixture every 90 seconds: about 47 requests for the one
+hand-fed tie it was written for, and roughly 470 for a ten-tie round against a
+free cap of 100 a day, which would have died mid-round and produced no elevens
+at all. The league's API needs no key and meters no daily quota. Polling stays
+gentle anyway, at three minutes, because the source is free and somebody else
+pays to run it.
+
 The wake times come from the same weekly reschedule as the league's
-(jobs/schedule.py reads the cup slate too); the watch opens at T-70 because
-API-Football posts cup elevens less punctually than the league's T-60, and
-gives up at kickoff.
-
-**The request budget is the binding constraint, and it changed.** The free plan
-meters 100 requests a day, reset at midnight UTC with no rollover. This job used
-to poll per fixture every 90 seconds, which cost about 47 requests for the one
-hand-fed tie it was written for. An FA Cup third round can leave ten qualifying
-ties on one afternoon, and ten fixtures at that cadence is 470 requests: the
-watch would die four fifths of the way through and we would get no elevens at
-all, which is worse than getting them for one tie.
-
-So one request now covers every tie in the window rather than one each
-(`fixtures?ids=` takes up to 20), and the cadence is five minutes rather than
-90 seconds. Cup elevens land 40 to 70 minutes out and nobody is betting these
-pages, so five-minute granularity costs nothing. A full 22-tie slate now costs
-about 14 requests for the whole watch.
+(jobs/schedule.py reads the cup slate too). The watch opens at T-70 because cup
+elevens are no more punctual than the league's T-60, and gives up at kickoff.
 """
 
 from __future__ import annotations
@@ -40,37 +36,27 @@ from pathlib import Path
 STATE = Path("data/state/cup_lineups_seen.json")
 
 LOOK_FROM = timedelta(minutes=70)
-POLL_SECONDS = 300
+POLL_SECONDS = 180
 MAX_RUNTIME = timedelta(hours=3)
 WITHIN = timedelta(hours=6)
-
-#: API-Football's free plan, per docs/02-data-sources. Reset at 00:00 UTC,
-#: no rollover, and the whole project's only metered source.
-DAILY_CAP = 100
-
-#: Most ids `fixtures?ids=` accepts in one request.
-BATCH = 20
-
-
-def batches(ids: list) -> list[list]:
-    """Fixture ids grouped into single requests."""
-    return [ids[i:i + BATCH] for i in range(0, len(ids), BATCH)]
-
-
-def requests_per_cycle(ties: int) -> int:
-    """Requests one poll costs. One per batch, not one per tie."""
-    return -(-ties // BATCH)
-
-
-def watch_cost(ties: int, look_from: timedelta = LOOK_FROM,
-               poll_seconds: int = POLL_SECONDS) -> int:
-    """Requests a full watch spends, for the budget tests to hold us to."""
-    cycles = int(look_from.total_seconds() // poll_seconds) + 1
-    return requests_per_cycle(ties) * cycles
 
 
 def _now() -> datetime:
     return datetime.now(timezone.utc)
+
+
+def lineups_for(fixture_id: int, label: str, api=None) -> dict:
+    """One tie's confirmed elevens, empty until the team sheets post.
+
+    Empty is the ordinary answer until roughly an hour before kickoff, and it
+    is not an error. A club outside our two divisions is skipped rather than
+    raised on, because half a cup draw is clubs we hold nothing for.
+    """
+    from foulgorithm.sources import lineups as lineup_shapes
+    from foulgorithm.sources import pulselive
+
+    api = api or pulselive
+    return lineup_shapes.shape_detail(api.fixture_detail(int(fixture_id)), label)
 
 
 def fingerprint(lineups: dict) -> dict:
@@ -87,7 +73,7 @@ def run(once: bool = False) -> int:
     for, 2 if the source failed while a fixture was still waiting.
     """
     from foulgorithm.publish import cups
-    from foulgorithm.sources import api_football, cup_slate
+    from foulgorithm.sources import cup_slate
     from foulgorithm.sources.base import SourceError
 
     started = _now()
@@ -103,17 +89,14 @@ def run(once: bool = False) -> int:
         print("no cup fixtures kicking off in the next six hours")
         return 1
 
-    # The slate now comes FROM API-Football, so every tie already carries its
-    # fixture id and the old per-tie lookup is gone. That is two fewer requests
-    # a tie before the watch even starts.
+    # The slate comes FROM the fixture source, so every tie already carries its
+    # id and the old per-tie lookup is gone.
     ids: dict[str, int] = {}
     for f in slate:
         label = f"{f['home_team_raw']} v {f['away_team_raw']}"
         ids[label] = f["fixture_id"]
         print(f"  {label}  {f['competition']}  kickoff {f['kickoff_utc']:%H:%M}  "
-              f"api-football {f['fixture_id']}")
-    print(f"  budget: about {watch_cost(len(slate))} requests for this watch, "
-          f"cap is {DAILY_CAP} a day")
+              f"fixture {f['fixture_id']}")
 
     published = False
     outstanding = {f"{f['home_team_raw']} v {f['away_team_raw']}": f for f in slate}
@@ -144,16 +127,12 @@ def run(once: bool = False) -> int:
 
         lineups: dict = {}
         try:
-            # One request per batch of twenty, never one per tie. See the
-            # module docstring: per-tie polling put a ten-tie round at 470
-            # requests against a cap of 100.
-            by_id = {ids[label]: label for label in watching}
-            for batch in batches(list(by_id)):
-                lineups.update(api_football.cup_lineups_batch(batch, by_id))
+            for label in watching:
+                lineups.update(lineups_for(ids[label], label))
             failures = 0
         except SourceError as exc:
             failures += 1
-            backoff = min(POLL_SECONDS * (2 ** (failures - 1)), 300)
+            backoff = min(POLL_SECONDS * (2 ** (failures - 1)), 600)
             print(f"  source failed, {failures} in a row, retrying in {backoff:.0f}s", file=sys.stderr)
             if once:
                 return 2

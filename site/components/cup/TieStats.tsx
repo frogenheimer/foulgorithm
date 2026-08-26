@@ -34,7 +34,7 @@ export default function TieStats({ tie }: { tie: CupTie }) {
         <Comparison key={block.title} tie={tie} block={block} />
       ))}
 
-      {tie.referee && <Referee tie={tie} />}
+      {tie.referee ? <Referee tie={tie} /> : tie.refereePending && <RefereePending />}
 
       <HeadToHead tie={tie} />
 
@@ -166,6 +166,25 @@ function Referee({ tie }: { tie: CupTie }) {
           );
         })}
       </div>
+    </Card>
+  );
+}
+
+/**
+ * No official appointed yet, said out loud.
+ *
+ * The block simply vanishing would read as "we hold nothing on this referee",
+ * which is a different claim from "nobody has been given the game yet". We
+ * hold 48 officials back to 2000/01; we just do not know which one this is.
+ */
+function RefereePending() {
+  return (
+    <Card title="The referee">
+      <p className={s.none}>
+        Not appointed yet. The official is published at kickoff rather than
+        before it, so this fills in once the game starts and stays on the page
+        afterwards.
+      </p>
     </Card>
   );
 }

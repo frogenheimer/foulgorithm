@@ -94,6 +94,8 @@ export type CupTie = {
   kickoff: string;
   kind: TieKind;
   referee: RefereeBlock | null;
+  /** True when no official has been appointed yet, which is most of the time. */
+  refereePending: boolean;
   compare: CompareBlock[];
   crossDivision: string | null;
   record: { home: SideRecord; away: SideRecord };

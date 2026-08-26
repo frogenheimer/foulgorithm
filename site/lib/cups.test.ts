@@ -27,6 +27,7 @@ const tie = (over: Partial<CupTie> = {}): CupTie => ({
   kickoff: "2026-09-01T19:00:00+00:00",
   kind: "total",
   referee: null,
+  refereePending: true,
   compare: [],
   crossDivision: null,
   record: {

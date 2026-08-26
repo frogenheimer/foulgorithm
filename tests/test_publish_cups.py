@@ -243,3 +243,27 @@ def _lineup(formation, starters):
     from types import SimpleNamespace
     return SimpleNamespace(formation=formation, starters=starters,
                            lines=[], bench=[])
+
+
+class TestRefereePending:
+    """The official is not named until kickoff, and the page must say so.
+
+    Pulselive carries `matchOfficials` on a played fixture and an empty list on
+    an upcoming one, so a cup page built before kickoff has no referee. Letting
+    the block vanish reads as "we have nothing on this official", which is a
+    different and wrong claim: we have plenty, we just do not know which one it
+    is yet.
+    """
+
+    def test_an_unnamed_official_is_reported_as_pending(self):
+        t = tie("Arsenal", "Wrexham")
+        t["referee_raw"] = None
+        t["referee_display"] = None
+        payload = cups.build([t], history(), {}, {}, now=NOW)
+        assert payload["ties"][0]["referee"] is None
+        assert payload["ties"][0]["refereePending"] is True
+
+    def test_a_named_official_is_not_pending(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {}, now=NOW)
+        assert payload["ties"][0]["referee"] is not None
+        assert payload["ties"][0]["refereePending"] is False

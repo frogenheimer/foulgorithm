@@ -95,6 +95,11 @@ def _tie(tie, matches, baselines, rates, totals, lineups, sheets) -> dict:
         # only model number allowed is the match total. See sources/cup_slate.
         "kind": kind,
         "referee": _referee(tie, matches, home, away),
+        # The league's API names the official at kickoff, not before, so most
+        # ties are published without one. Flagged rather than left to a blank
+        # space: "not appointed yet" and "nothing on this official" look the
+        # same on a page and are not the same claim.
+        "refereePending": tie.get("referee_raw") is None,
         "compare": comparison.build(hr, ar, baselines, rates),
         "crossDivision": comparison.cross_division_note(hr, ar),
         "record": {

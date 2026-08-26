@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from foulgorithm.identity.teams import from_pulselive
+from foulgorithm.identity.teams import from_pulselive, to_fixture_name
 from foulgorithm.sources import pulselive
 
 
@@ -58,48 +58,69 @@ def for_round(season_id: int | None = None, limit: int = 20) -> dict[str, Confir
         except Exception:  # noqa: BLE001 - an unmapped club must not kill the round
             continue
 
-        detail = pulselive.fixture_detail(fixture.id)
-        team_ids = {}
-        for entry in detail.get("teams") or []:
-            team = entry.get("team") or {}
-            if team.get("id") is not None:
-                team_ids[int(team["id"])] = team.get("name")
-
         label = f"{home} v {away}"
-        for team_list in detail.get("teamLists") or []:
-            club = team_ids.get(int(team_list.get("teamId", -1)))
-            if club is None:
-                continue
-            try:
-                mapped = from_pulselive(club)
-            except Exception:  # noqa: BLE001
-                continue
-            raw_formation = team_list.get("formation")
-            formation = raw_formation.get("label") if isinstance(raw_formation, dict) else raw_formation
+        out.update(shape_detail(pulselive.fixture_detail(fixture.id), label))
+    return out
 
-            eleven = team_list.get("lineup") or []
-            by_id = {int(p["id"]): p for p in eleven if p.get("id") is not None}
 
-            # The league publishes the shape as lines of player ids, goalkeeper
-            # first. Using it means a pitch is drawn from the real formation
-            # rather than guessed from position codes, which cannot tell a back
-            # three from a back four.
-            lines: list[list[Spot]] = []
-            if isinstance(raw_formation, dict):
-                for row in raw_formation.get("players") or []:
-                    spots = [_spot(by_id[int(i)]) for i in row if int(i) in by_id]
-                    if spots:
-                        lines.append(spots)
+def shape_detail(detail: dict, label: str) -> dict[str, ConfirmedLineup]:
+    """Pulselive's fixture detail to ConfirmedLineups, keyed "{team}|{fixture}".
 
-            out[f"{mapped}|{label}"] = ConfirmedLineup(
-                fixture=label,
-                team=mapped,
-                formation=formation,
-                starters=[_name(p) for p in eleven],
-                substitutes=[_name(p) for p in team_list.get("substitutes") or []],
-                lines=lines,
-                bench=[_spot(p) for p in team_list.get("substitutes") or []],
-            )
+    Shared by the league round and the cup watch. The league's API returns the
+    same `teamLists` shape for a cup tie as for a league game, so there is one
+    implementation of this and not two that drift.
+
+    A club the maps do not know is SKIPPED rather than raised on. That is wrong
+    for a league round, where all twenty resolve and a miss is a bug, and right
+    for a cup, where half the draw is clubs we hold nothing for. The caller
+    decides which situation it is in; this function refuses to guess and simply
+    returns what it could name.
+    """
+    out: dict[str, ConfirmedLineup] = {}
+    team_ids = {}
+    for entry in detail.get("teams") or []:
+        team = entry.get("team") or {}
+        if team.get("id") is not None:
+            team_ids[int(team["id"])] = team.get("name")
+
+    for team_list in detail.get("teamLists") or []:
+        # Before kickoff the source returns [null, null]: two placeholders
+        # where the elevens will go, not an empty list. Calling .get() on
+        # those is an AttributeError, and both watchers read this function.
+        if not team_list:
+            continue
+        club = team_ids.get(int(team_list.get("teamId", -1)))
+        if club is None:
+            continue
+        mapped = to_fixture_name(club)
+        if mapped is None:
+            continue
+        raw_formation = team_list.get("formation")
+        formation = raw_formation.get("label") if isinstance(raw_formation, dict) else raw_formation
+
+        eleven = team_list.get("lineup") or []
+        by_id = {int(p["id"]): p for p in eleven if p.get("id") is not None}
+
+        # The league publishes the shape as lines of player ids, goalkeeper
+        # first. Using it means a pitch is drawn from the real formation
+        # rather than guessed from position codes, which cannot tell a back
+        # three from a back four.
+        lines: list[list[Spot]] = []
+        if isinstance(raw_formation, dict):
+            for row in raw_formation.get("players") or []:
+                spots = [_spot(by_id[int(i)]) for i in row if int(i) in by_id]
+                if spots:
+                    lines.append(spots)
+
+        out[f"{mapped}|{label}"] = ConfirmedLineup(
+            fixture=label,
+            team=mapped,
+            formation=formation,
+            starters=[_name(p) for p in eleven],
+            substitutes=[_name(p) for p in team_list.get("substitutes") or []],
+            lines=lines,
+            bench=[_spot(p) for p in team_list.get("substitutes") or []],
+        )
     return out
 
 
