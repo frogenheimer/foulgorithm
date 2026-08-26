@@ -242,6 +242,36 @@ def team_prior(club: str, season: str, kind: str = COMMITTED) -> float | None:
     return league_mean(season, kind) + tier_discount(kind).beta * deviation
 
 
+def second_tier_prior(
+    club: str, season: str | None = None, kind: str = COMMITTED
+) -> float | None:
+    """A Championship club's expected fouls on the PREMIER LEAGUE scale.
+
+    `team_prior` answers this for a club that has just gone up. A cup tie needs
+    the same answer for one that has not: Wrexham are still in the Championship
+    and are about to play Arsenal, and the tie needs a number for them.
+
+    Same inference, same fitted beta, one gate removed. The rule that must not
+    break is the one this module exists for: **the club's level does not
+    travel, only its shrunk deviation does.** The two divisions' means differ by
+    almost nothing, which is exactly what makes carrying the raw rate tempting,
+    and carrying it scores 16% worse than using the league average.
+
+    None for a club with no measurable second-tier season. The caller falls
+    back to the league mean and says so, rather than inventing one.
+    """
+    season = season or current_season()
+    # The club's most recent Championship season with a real sample. This
+    # season first: a club three games in has no rate yet and the one before
+    # is the honest answer, not a reason to give up.
+    for label in (season, _previous(season)):
+        rates = _team_fouls(label, CHAMPIONSHIP, kind)
+        if club in rates:
+            deviation = rates[club] - statistics.fmean(rates.values())
+            return league_mean(season, kind) + tier_discount(kind).beta * deviation
+    return None
+
+
 def opponent_factor(club: str, season: str) -> float | None:
     """How many fouls a promoted club draws, relative to the league average.
 
