@@ -42,3 +42,9 @@ out/
 .DS_Store
 Icon?
 Thumbs.db
+
+# Ranked player sweeps and squad lists. Regenerated from the league's API on a
+# 12-hour cache, ~3 minutes cold, and they are a snapshot of a live source
+# rather than a settled season file like the football-data CSVs.
+data/raw/pulselive/ranked_*.json
+data/raw/pulselive/squads_*.json

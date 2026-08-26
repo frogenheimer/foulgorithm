@@ -155,3 +155,37 @@
   font-size: var(--t-sm);
   color: var(--ink-2);
 }
+
+/* ---------- players ---------- */
+
+/* The rotation caveat. Boxed rather than set as a quiet note, because a tidy
+   table of names is exactly what makes a reader forget it is a guess. */
+.warnBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  margin: var(--s4) var(--s5) 0;
+  padding: var(--s4);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+}
+
+.warnText {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.playerCell {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.noneInset {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+  padding: var(--s4) var(--s5);
+}

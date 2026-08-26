@@ -80,6 +80,37 @@ export type MatchTotal = {
   note: string;
 };
 
+export type CupPlayer = {
+  player: string;
+  position: string;
+  shirt: number | null;
+  appearances: number;
+  minutes: number;
+  foulsPer90: number | null;
+  foulsWonPer90: number | null;
+  tacklesPer90: number | null;
+  fouls: number;
+  foulsWon: number;
+  tackles: number;
+  yellows: number;
+  reds: number;
+  /** Under 450 minutes, so the rate is mostly noise. Shown, never hidden. */
+  thin: boolean;
+  /** "900 minutes in the Premier League, 450 in the Championship". */
+  spell: string;
+};
+
+export type CupEleven = {
+  team: string;
+  /** False until the real sheet lands, roughly an hour before kickoff. */
+  confirmed: boolean;
+  /** The rotation warning. Present on every predicted eleven, absent on a real one. */
+  note: string | null;
+  short: boolean;
+  formation: string | null;
+  players: CupPlayer[];
+};
+
 export type CupLineups = {
   home: { team: string; formation: string | null; starters: string[] } | null;
   away: { team: string; formation: string | null; starters: string[] } | null;
@@ -106,6 +137,8 @@ export type CupTie = {
     totalFouls: number | null;
   };
   total: MatchTotal | null;
+  /** Both elevens with their records. Null before any squad sweep has run. */
+  players: { home: CupEleven; away: CupEleven } | null;
   houseSheet: { groups: unknown[] } | null;
   lineups: CupLineups | null;
 };

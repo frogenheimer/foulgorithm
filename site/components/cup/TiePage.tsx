@@ -10,8 +10,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import HouseSheet from "@/components/fixture/HouseSheet";
+import TiePlayers from "@/components/cup/TiePlayers";
 import TieStats from "@/components/cup/TieStats";
-import { Note, PageHeader } from "@/components/kit";
+import TieTabs from "@/components/cup/TieTabs";
+import { Callout, Note, PageHeader } from "@/components/kit";
 import { getCupData } from "@/lib/data";
 import { cupFile, cupPath, showsHouseSheet } from "@/lib/cups";
 import type { Competition } from "@/lib/cups";
@@ -69,14 +71,27 @@ export default function TiePage({
         }
       />
 
+      {/* True of the whole tie, so it sits above the tabs rather than inside
+          one of them. A reader who opens on Players must still see it. */}
+      {tie.crossDivision && (
+        <Callout>
+          <strong>Two different scales.</strong> {tie.crossDivision}
+        </Callout>
+      )}
+
       {showsHouseSheet(tie) && <HouseSheet sheet={tie.houseSheet as never} />}
 
-      <TieStats tie={tie} />
+      <TieTabs
+        players={<TiePlayers tie={tie} />}
+        teams={<TieStats tie={tie} />}
+      />
 
       <Note>
-        Team rates come from football-data.co.uk for both divisions, so each
-        side is measured the same way by the same source. Nothing on this page
-        is recorded, graded or carried into the track record.
+        Team rates come from football-data.co.uk for both divisions and player
+        rates from the league&rsquo;s own ranked tables, so each side is
+        measured the same way by the same source. Player rates are season
+        totals over minutes: a fact about a player, not a forecast for this
+        game. Nothing here is recorded, graded or carried into the track record.
       </Note>
     </div>
   );

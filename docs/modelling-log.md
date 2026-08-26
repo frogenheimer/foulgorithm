@@ -706,7 +706,14 @@ have alerted us. Thin evidence now routes somewhere that can say it has nothing.
 **Question.** Coventry, Hull and Ipswich came up for 2026/27 with no Premier
 League history, so they took the league average. Can second-tier data do better?
 
-**What is not available.** Championship PLAYER data does not exist at any price.
+**What is not available.** ⚠️ Corrected 2026-08-26: this said Championship
+PLAYER data does not exist at any price. It does. The Premier League's own API
+carries ranked player stats for competition 12, free and unauthenticated. They
+are season totals rather than per-match rows, so they publish a rate and do not
+train a model. See `sources/player_stats.py` and docs/40. The rest of this
+entry stands.
+
+Championship PLAYER data was believed not to exist at any price.
 FBref's advanced stats cover the top five European leagues only, so there is no
 second-tier fouls-per-player table to download. Individual rates for a promoted
 club's squad stay unknown, and this fixes the TEAM prior only.

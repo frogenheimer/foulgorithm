@@ -4,11 +4,20 @@ A promoted club arrives with no Premier League history at all, so it gets the
 league mean, which is a guess wearing a number's clothes. That stopped being
 hypothetical when Coventry and Hull came up for 2026/27.
 
-**Championship player data does not exist at any price.** FBref's advanced
-stats cover the top five European leagues only, so there is no second-tier
-fouls-per-player table to download, and the individual rates stay unknown. This
-module therefore fixes the TEAM prior and nothing else, which is the honest
-limit of what the available data supports.
+**Championship PLAYER data was thought not to exist, and it does.** This module
+was written on the belief that FBref's top-five-leagues coverage was the only
+route to per-player fouls, so the second tier was unreachable. On 26 August 2026
+the Premier League's own API turned out to carry ranked player stats for
+competition 12 as well as competition 1: fouls, fouls won, tackles, cards,
+appearances and minutes, for 681 Championship players. See
+`sources/player_stats.py`.
+
+**That does not retire this module.** What the league publishes is SEASON
+TOTALS, not per-match rows, so it gives a rate to display and not the per-match
+variance a model trains on. The team-level transfer measured below is still the
+honest bridge for a promoted club, and `models/cup_totals` still depends on it.
+What changed is that a page may now show a Championship player's rate, which it
+could not before.
 
 The transfer is measured rather than assumed. Every club promoted since 2001
 has a final Championship season and a first Premier League season, which is a

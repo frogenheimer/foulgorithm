@@ -36,6 +36,7 @@ const tie = (over: Partial<CupTie> = {}): CupTie => ({
   },
   headToHead: { meetings: 0, rows: [], fouls: {}, totalFouls: null },
   total: null,
+  players: null,
   houseSheet: null,
   lineups: null,
   ...over,

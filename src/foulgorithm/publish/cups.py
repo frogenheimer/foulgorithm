@@ -31,7 +31,13 @@ from pathlib import Path
 
 from foulgorithm.identity.teams import has_player_data
 from foulgorithm.sources import cup_slate
-from foulgorithm.stats import comparison, cup_head_to_head, referee_record, team_record
+from foulgorithm.stats import (
+    comparison,
+    cup_eleven,
+    cup_head_to_head,
+    referee_record,
+    team_record,
+)
 
 OUTPUT_DIR = Path("site/public/data")
 
@@ -48,6 +54,7 @@ def build(
     totals: dict[str, dict] | None = None,
     lineups: dict[str, dict] | None = None,
     sheets: dict[str, dict] | None = None,
+    squads: dict[str, list] | None = None,
     now: datetime | None = None,
 ) -> dict:
     """One cup's payload. Pure: everything it needs is passed in."""
@@ -66,12 +73,13 @@ def build(
         # means nothing here is graded, scored or carried into the record.
         "recorded": False,
         "ties": [
-            _tie(t, matches, baselines, rates, totals, lineups, sheets) for t in ties
+            _tie(t, matches, baselines, rates, totals, lineups, sheets, squads)
+            for t in ties
         ],
     }
 
 
-def _tie(tie, matches, baselines, rates, totals, lineups, sheets) -> dict:
+def _tie(tie, matches, baselines, rates, totals, lineups, sheets, squads) -> dict:
     home, away = tie["home_team_raw"], tie["away_team_raw"]
 
     # The CLUB LIST is the authority on what may be published, never the label
@@ -110,6 +118,11 @@ def _tie(tie, matches, baselines, rates, totals, lineups, sheets) -> dict:
         "houseSheet": sheet,
         "total": totals.get(tie["slug"]),
         "lineups": _lineups(lineups, home, away),
+        # The half of these pages that was missing. Both sides carry it: the
+        # league's own API ranks competition 12 as well as competition 1, so a
+        # Championship XI shows the same columns as a top-flight one rather
+        # than names against rates.
+        "players": _players(squads, lineups, home, away),
     }
     return block
 
@@ -154,6 +167,58 @@ def _referee(tie, matches, home, away) -> dict | None:
         "note": "Observations, not a referee effect. A referee given more "
                 "derbies shows more of everything without being stricter. "
                 "Cards per foul is the column worth reading.",
+    }
+
+
+def _players(squads, lineups: dict, home: str, away: str) -> dict | None:
+    """Each side's eleven, confirmed where the sheet has landed and predicted
+    where it has not. None when no squads were passed at all, which is a
+    different thing from a club with nobody in it."""
+    if not squads:
+        return None
+    label = f"{home} v {away}"
+
+    def side(team: str) -> dict:
+        squad = squads.get(team) or []
+        sheet = lineups.get(f"{team}|{label}")
+        starters = list(getattr(sheet, "starters", []) or []) if sheet else []
+        eleven = (
+            cup_eleven.confirm(squad, starters) if starters
+            else cup_eleven.predict(squad)
+        )
+        return {
+            "team": team,
+            "confirmed": eleven.confirmed,
+            "note": eleven.note,
+            "short": eleven.short,
+            "formation": getattr(sheet, "formation", None) if sheet else None,
+            "players": [_player_row(p) for p in eleven.players],
+        }
+
+    return {"home": side(home), "away": side(away)}
+
+
+def _player_row(p) -> dict:
+    """One player, as facts. No probability appears here by design: picks live
+    in the house sheet and only a Premier League tie has one."""
+    return {
+        "player": p.player,
+        "position": p.position,
+        "shirt": p.shirt,
+        "appearances": p.appearances,
+        "minutes": int(p.minutes),
+        "foulsPer90": p.fouls_per_90,
+        "foulsWonPer90": p.fouls_won_per_90,
+        "tacklesPer90": p.tackles_per_90,
+        "fouls": p.fouls,
+        "foulsWon": p.fouls_won,
+        "tackles": p.tackles,
+        "yellows": p.yellows,
+        "reds": p.reds,
+        "thin": p.thin,
+        # Where the minutes were played, so a pooled rate can be read. Same
+        # rule as the team records: pool, and never pool silently.
+        "spell": p.spell_label(),
     }
 
 
@@ -238,18 +303,38 @@ def publish(
 
     totals = _totals(ties)
     sheets = _house_sheets([t for t in ties if t["kind"] == "full"], lineups)
+    squads = _squads(ties)
 
     out = {}
     for competition in FILES:
         payload = build(
             ties, matches, baselines, rates,
             competition=competition, totals=totals, lineups=lineups,
-            sheets=sheets, now=now,
+            sheets=sheets, squads=squads, now=now,
         )
         path = write(payload, output_dir)
         print(f"  {competition}: {len(payload['ties'])} ties -> {path}")
         out[competition] = payload
     return out
+
+
+def _squads(ties: list[dict]) -> dict[str, list]:
+    """Current squads with foul rates, for both clubs in every tie.
+
+    Both divisions, from the league's own ranked player tables. The first run
+    of the day sweeps them and caches; every run after reads the disk. A tie
+    costs nothing beyond that.
+    """
+    clubs = sorted({t[side] for t in ties for side in ("home_team_raw", "away_team_raw")})
+    if not clubs:
+        return {}
+    from foulgorithm.sources import player_stats
+
+    try:
+        return player_stats.for_clubs(clubs)
+    except Exception as exc:  # noqa: BLE001 - a squad problem must not blank the page
+        print(f"  no player stats this run: {exc}")
+        return {}
 
 
 def _division_rates(matches, premier, championship) -> dict[str, dict]:

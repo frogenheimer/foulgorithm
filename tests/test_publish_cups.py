@@ -267,3 +267,108 @@ class TestRefereePending:
         payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {}, now=NOW)
         assert payload["ties"][0]["referee"] is not None
         assert payload["ties"][0]["refereePending"] is False
+
+
+class TestPlayers:
+    """The players block, which is the half of these pages that was missing.
+
+    Both sides carry it now. The claim that Championship player data does not
+    exist was wrong: the league's own API ranks competition 12 as well as
+    competition 1, so an XI on either side of a cross-division tie shows the
+    same columns rather than one side showing names and the other rates.
+    """
+
+    SQUADS = None
+
+    @staticmethod
+    def squads():
+        from foulgorithm.sources.player_stats import PlayerStats
+
+        def p(name, club, pos="M", mins=900, fouls=10):
+            return PlayerStats(
+                player=name, player_id=abs(hash(name)) % 9999, club=club,
+                position=pos, shirt=None, appearances=10, minutes=mins,
+                fouls=fouls, fouls_won=5, tackles=7, yellows=1, reds=0,
+                fouls_per_90=round(fouls / (mins / 90), 2), fouls_won_per_90=0.5,
+                tackles_per_90=0.7, minutes_by_division={"E0": mins},
+            )
+
+        return {
+            "Arsenal": [p("Keep Arsenal", "Arsenal", "G", 2000)]
+                       + [p(f"Gunner {i}", "Arsenal", mins=1900 - i * 10) for i in range(12)],
+            "Wrexham": [p("Keep Wrexham", "Wrexham", "G", 1800)]
+                       + [p(f"Red {i}", "Wrexham", mins=1700 - i * 10) for i in range(12)],
+        }
+
+    def test_both_sides_get_an_eleven(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=self.squads(), now=NOW)
+        players = payload["ties"][0]["players"]
+        assert len(players["home"]["players"]) == 11
+        assert len(players["away"]["players"]) == 11
+
+    def test_a_championship_side_carries_the_same_columns_as_a_league_one(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=self.squads(), now=NOW)
+        home = payload["ties"][0]["players"]["home"]["players"][0]
+        away = payload["ties"][0]["players"]["away"]["players"][0]
+        assert set(home) == set(away)
+        assert away["foulsPer90"] is not None
+
+    def test_an_unconfirmed_eleven_carries_the_rotation_warning(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=self.squads(), now=NOW)
+        block = payload["ties"][0]["players"]["home"]
+        assert block["confirmed"] is False
+        assert "rotate" in block["note"].lower()
+
+    def test_a_confirmed_sheet_replaces_the_prediction_and_drops_the_warning(self):
+        from types import SimpleNamespace
+        sheets = {
+            "Arsenal|Arsenal v Wrexham": SimpleNamespace(
+                formation="4-3-3", starters=["Gunner 3", "Gunner 4"], lines=[], bench=[]),
+        }
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=self.squads(), lineups=sheets, now=NOW)
+        block = payload["ties"][0]["players"]["home"]
+        assert block["confirmed"] is True
+        assert block["note"] is None
+        assert [p["player"] for p in block["players"]] == ["Gunner 3", "Gunner 4"]
+
+    def test_one_side_confirmed_leaves_the_other_predicted(self):
+        from types import SimpleNamespace
+        sheets = {"Arsenal|Arsenal v Wrexham": SimpleNamespace(
+            formation="4-3-3", starters=["Gunner 3"], lines=[], bench=[])}
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=self.squads(), lineups=sheets, now=NOW)
+        players = payload["ties"][0]["players"]
+        assert players["home"]["confirmed"] is True
+        assert players["away"]["confirmed"] is False
+
+    def test_a_club_we_have_no_squad_for_is_honest_rather_than_empty(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads={"Arsenal": self.squads()["Arsenal"]}, now=NOW)
+        assert payload["ties"][0]["players"]["away"]["players"] == []
+
+    def test_no_squads_at_all_leaves_the_block_absent_not_broken(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {}, now=NOW)
+        assert payload["ties"][0]["players"] is None
+
+    #: The structural keys here are legitimate, so this checks the thing the
+    #: rule is actually about: a player row must carry facts, never a price or
+    #: a probability. Picks live in the house sheet and only a Premier League
+    #: tie has one.
+    NO_PRICES = ("outOf100", "fairOdds", "fair1", "probOver", "band",
+                 "expectedMinutes", "ratePer90", "star", "pick")
+
+    def test_a_player_row_carries_no_probability(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=self.squads(), now=NOW)
+        assert TestNoPlayerNumbers.carrying(
+            payload["ties"][0]["players"], self.NO_PRICES) == []
+
+    def test_that_check_would_catch_a_price(self):
+        leaky = {"players": [{"player": "X", "outOf100": 62}]}
+        assert TestNoPlayerNumbers.carrying(leaky, self.NO_PRICES) == [
+            "payload.players[0].outOf100"
+        ]
