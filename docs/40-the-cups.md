@@ -7,22 +7,26 @@ The two domestic cups have their own pages: `/league-cup` and `/fa-cup`. Every
 tie where we hold match history for both clubs, which now means Premier League
 and Championship sides, gets a page of raw record plus one model number.
 
-> 💡 **The rule that shapes everything here.** No player-level foul data exists
-> for the Championship at any price. So a tie involving one of those clubs gets
-> a team record, a referee record, a pairing history and an expected match
-> total, and it never gets a player pick. A pick built without player data is a
-> positional average wearing a probability.
+> 💡 **The rule that shapes everything here.** A tie involving a Championship
+> club gets the full record on both sides, and never a player pick. Not because
+> the data is missing (it is not, see below) but because what we hold for the
+> second tier is season totals rather than per-match rows: enough to publish a
+> rate, not enough to train the model that prices a pick.
 
 ---
 
 ## 🎯 What each tie carries
 
-| Tie | Record | Match total | Player picks |
-|---|---|---|---|
-| Premier League v Premier League | ✅ | ✅ | ✅ |
-| Premier League v Championship | ✅ | ✅ | 🚫 |
-| Championship v Championship | ✅ | ✅ | 🚫 |
-| Anything involving a lower-tier club | 🚫 dropped from the slate entirely | | |
+| Tie | Team record | Player records | Match total | Player picks |
+|---|---|---|---|---|
+| Premier League v Premier League | ✅ | ✅ | ✅ | ✅ |
+| Premier League v Championship | ✅ | ✅ | ✅ | 🚫 |
+| Championship v Championship | ✅ | ✅ | ✅ | 🚫 |
+| Anything involving a lower-tier club | 🚫 dropped from the slate entirely | | | |
+
+Pages are tabbed **Players | Teams**, Players first: the team record says how
+two clubs behave in general, the eleven says who is likely to give the fouls
+away tonight.
 
 An FA Cup third round is 64 clubs and we hold 44 of the 92 league clubs, so
 most of a round is dropped. That is the normal case, not a failure, and it
@@ -126,6 +130,59 @@ both, and both landed on one URL again.
 The fixture key is `(home, away, competition, kickoff)`, never the label.
 
 ---
+
+## 👤 The player records, and the claim that was wrong
+
+`features/promotion.py` said, and `docs/02` repeated, that **"Championship
+player data does not exist at any price"**. This whole section was built around
+that. It is false, and it was false when it was written.
+
+The Premier League's own API ranks player stats for **competition 12** as well
+as competition 1: fouls, fouls won, tackles, cards, appearances and minutes,
+for 681 Championship players. Free, unauthenticated, on a source this project
+already calls for lineups. Nobody checked the API we already depend on.
+
+⚠️ **What it does not change.** These are **season totals, not per-match rows**,
+the same shape `docs/02` already describes for the top flight. A total over
+minutes is a rate you can publish. It is not the per-match variance a model
+trains on, and calibration was fitted on per-match Premier League data. So
+player records appear on every tie and **picks stay Premier League only**.
+Whether Championship picks follow is a separate question, and the route is the
+snapshot differencing `jobs/settle.py` already uses, which works forward and
+cannot be done backwards.
+
+### 🚦 The elevens
+
+| State | When | What it carries |
+|---|---|---|
+| **Predicted XI** | Until roughly T-60 | Busiest keeper, ten busiest outfielders, and a rotation warning that is never optional |
+| **Confirmed XI** | From T-60, via `jobs/cup_watch` | The real sheet in its own order, no caveat |
+
+> ⚠️ **Cup sides rotate eight or nine players.** An XI predicted from league
+> minutes is confidently wrong for exactly the games these pages cover, and a
+> tidy table of names is what makes that easy to forget. The prediction is
+> deliberately simple, because a cleverer model here would buy nothing but a
+> better disguise for the same guess. The caveat is boxed at the top of every
+> predicted eleven.
+
+### ⚠️ Three traps in the source
+
+- **Two player id spaces**, both plausible integers. Abdul Fatawu is `id`
+  127644 and `playerId` 786120. Squad lists and team sheets key on `id`;
+  keying the stat sweep on `playerId` joins to nothing and every player comes
+  back with zero minutes, which reads as a squad that has never played.
+- **`currentTeam` is a player's LAST club**, not his present one. Reading squad
+  membership off it put Petr Cech in Arsenal's 2026/27 squad. Membership comes
+  from the squad endpoint; the ranked tables only say what people have done.
+- **A ranked table omits players on zero** rather than listing them, so an
+  absent name means zero and not unknown.
+
+A player's record follows him, not his club: Wolves came down and their squad's
+minutes are top-flight ones. Both divisions are swept and merged per player,
+with the split labelled, exactly as the team records handle spells.
+
+Sweeps cache for 12 hours and are gitignored. Cold, both divisions cost about
+three minutes; warm, nothing.
 
 ## 🚦 The lineup watch
 
