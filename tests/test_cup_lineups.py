@@ -144,3 +144,43 @@ class TestBeforeKickoff:
         }})
         out = cup_watch.lineups_for(131352, "Nott'm Forest v Leeds", api=api)
         assert set(out) == {"Nott'm Forest|Nott'm Forest v Leeds"}
+
+
+class TestSpots:
+    """Starters keep their positions even when no formation was published.
+
+    West Brom's League Cup sheet on 26 August 2026 carried eleven names and no
+    shape. `lines` is built from the formation, so it came back empty, and the
+    fallback to bare names threw away every player's position. Five of them had
+    no Championship minutes either, so they had no position from the stat
+    tables to fall back on, and the pitch drew a back three behind a seven.
+    """
+
+    def test_spots_are_populated_even_with_no_formation(self):
+        api = FakeApi({131352: {
+            "id": 131352.0,
+            "teams": [{"team": {"id": 9.0, "name": "West Bromwich Albion"}}],
+            "teamLists": [{
+                "teamId": 9.0,
+                "formation": None,
+                "lineup": [
+                    {"name": {"display": "C.Townsend"}, "matchPosition": "D",
+                     "matchShirtNumber": 3, "info": {"position": "D"}},
+                    {"name": {"display": "T.Price"}, "matchPosition": "M",
+                     "matchShirtNumber": 8, "info": {"position": "M"}},
+                ],
+                "substitutes": [],
+            }],
+        }})
+        out = cup_watch.lineups_for(131352, "Newcastle v West Brom", api=api)
+        sheet = out["West Brom|Newcastle v West Brom"]
+        assert sheet.formation is None
+        assert sheet.lines == []
+        assert [s.position for s in sheet.spots] == ["D", "M"]
+        assert [s.shirt for s in sheet.spots] == [3, 8]
+
+    def test_spots_are_populated_with_a_formation_too(self):
+        api = FakeApi({131355: detail()})
+        sheet = cup_watch.lineups_for(131355, "Nott'm Forest v Leeds",
+                                      api=api)["Nott'm Forest|Nott'm Forest v Leeds"]
+        assert len(sheet.spots) == len(sheet.starters)

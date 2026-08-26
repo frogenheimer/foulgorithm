@@ -181,7 +181,12 @@ def _players(squads, lineups: dict, home: str, away: str) -> dict | None:
     def side(team: str) -> dict:
         squad = squads.get(team) or []
         sheet = lineups.get(f"{team}|{label}")
-        starters = list(getattr(sheet, "starters", []) or []) if sheet else []
+        # The source's own spots, which carry position and shirt. Bare names
+        # lose both, and a player we hold no record for then has no position at
+        # all. `spots` is populated whether or not a formation was published;
+        # `lines` is not. See sources/lineups.ConfirmedLineup.
+        spots = list(getattr(sheet, "spots", []) or []) if sheet else []
+        starters = spots or (list(getattr(sheet, "starters", []) or []) if sheet else [])
         if starters:
             # The club's own lines when it published them, so the pitch draws
             # the real shape rather than one grouped from position codes.
@@ -208,11 +213,26 @@ def _players(squads, lineups: dict, home: str, away: str) -> dict | None:
             # five, and printing it as a formation invents a shape.
             "grouping": shape.grouping,
             "lines": [[_player_row(p) for p in line] for line in shape.lines],
-            "bench": [_player_row(p) for p in shape.bench[:9]],
+            # The WHOLE squad, not the bench and not the eleven. The eleven
+            # answers who is playing; the squad answers who could come on and
+            # what happens if he does. The pitch derives its own bench from
+            # this, and the table sorts across all of it.
+            "squad": [_player_row(p) for p in _full_squad(squad, eleven)],
             "players": [_player_row(p) for p in eleven.players],
         }
 
     return {"home": side(home), "away": side(away)}
+
+
+def _full_squad(squad: list, eleven) -> list:
+    """Everyone we hold, plus anyone the team sheet named that we do not.
+
+    A youth debutant is on the pitch and in no stat table. If he is missing
+    from this list the pitch cannot place him, so he is added with blanks.
+    """
+    known = {p.player for p in squad}
+    extra = [p for p in eleven.players if p.player not in known]
+    return sorted(squad + extra, key=lambda p: (-p.minutes, p.player))
 
 
 def _player_row(p) -> dict:

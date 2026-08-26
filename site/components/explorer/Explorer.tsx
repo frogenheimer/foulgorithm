@@ -90,7 +90,7 @@ export default function Explorer({
     const p = (r: ExplorerRow) => r[market][line][modelIndex];
     const by: Record<Sort, (a: ExplorerRow, b: ExplorerRow) => number> = {
       prob: (a, b) => p(b) - p(a),
-      expected: (a, b) => b.expected[market] - a.expected[market],
+      expected: (a, b) => (b.expected?.[market] ?? 0) - (a.expected?.[market] ?? 0),
       minutes: (a, b) => b.minutes - a.minutes,
       name: (a, b) => a.fullName.localeCompare(b.fullName),
     };
@@ -274,7 +274,7 @@ export default function Explorer({
             head: "Expected",
             numeric: true,
             sort: () => 0,
-            cell: (r) => r.expected[market].toFixed(2),
+            cell: (r) => (r.expected?.[market] ?? 0).toFixed(2),
           },
           {
             key: "prob",

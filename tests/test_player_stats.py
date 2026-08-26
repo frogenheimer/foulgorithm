@@ -38,12 +38,18 @@ def entry(player_id, name, club, value, position="M", shirt=8, other_id=None):
 class FakeApi:
     """Stands in for pulselive, which reaches the network."""
 
-    def __init__(self, pages, rosters=None):
+    def __init__(self, pages, rosters=None, staff=None, teams=None,
+                 seasons=None, loose=None):
         self.pages = pages          # {(comp, stat): [[entry, ...], ...]}
         # {comp: {club: [player_id]}}. Defaults to "whoever appears in the
         # ranked tables", which is what the old currentTeam route assumed.
         self.rosters = rosters
+        self.staff = staff or {}    # {team_id: [name]}, the club's own list
+        self.teams = teams or {}    # {comp: [team dict]}
+        self.seasons = seasons or {}
+        self.loose = loose or {}    # the endpoint that included departed players
         self.calls = []
+        self.calls_raw = []
 
     def squad_ids(self, competition):
         if self.rosters is not None:
@@ -61,6 +67,25 @@ class FakeApi:
         return {k: sorted(v) for k, v in out.items()}
 
     def _get(self, path):
+        self.calls_raw.append(path)
+        if path.startswith("competitions/"):
+            comp = int(path.split("competitions/")[1].split("/")[0])
+            return {"content": [{"id": float(self.seasons.get(comp, 1))}]}
+        if path.startswith("teams/") and "staff" in path:
+            tid = int(path.split("teams/")[1].split("/")[0])
+            return {"players": [
+                {"id": float(i + 1), "name": {"display": n}}
+                for i, n in enumerate(self.staff.get(tid, []))
+            ]}
+        if path.startswith("teams?"):
+            comp = int(path.split("comps=")[1].split("&")[0])
+            return {"content": self.teams.get(comp, [])}
+        if path.startswith("players?"):
+            tid = int(path.split("teams=")[1].split("&")[0])
+            return {"content": [
+                {"id": float(i + 1), "name": {"display": n}}
+                for i, n in enumerate(self.loose.get(tid, []))
+            ]}
         comp = int(path.split("comps=")[1].split("&")[0])
         stat = path.split("ranked/players/")[1].split("?")[0]
         page = int(path.split("page=")[1])
@@ -342,3 +367,42 @@ class TestIdSpace:
         api = FakeApi(pages, rosters={1: {"Arsenal": [127644]}, 12: {}})
         out = player_stats.for_clubs(["Arsenal"], api=api, cache_root=tmp_path)
         assert out["Arsenal"][0].minutes == 90
+
+
+class TestSquadMembership:
+    """Nobody who has left the club may ever appear in its squad.
+
+    Three sources look like a squad and two of them are not:
+
+      - `currentTeam` on a ranked row is a player's LAST club, so it puts
+        retired players in a current squad. Petr Cech, Arsenal, 2026/27.
+      - `players?teams={id}&compSeasons={id}` is everyone registered to the
+        club at any point that season: loanees, U21s, and players who have
+        since been sold. It put Andy Robertson, Martin Dubravka and Randal
+        Kolo Muani in Tottenham's squad.
+      - `teams/{id}/compseasons/{id}/staff` is the club's own current list.
+        This is the one.
+
+    A wrong name in a squad is worse than a missing one: it prints a real
+    player's foul rate under a shirt he will not be wearing.
+    """
+
+    def api(self):
+        return FakeApi({}, staff={
+            21: ["Kinsky", "Udogie", "Porro"],
+        }, teams={1: [{"id": 21.0, "name": "Tottenham Hotspur"}]},
+           seasons={1: 841},
+           # The looser endpoint, which must NOT be the one consulted.
+           loose={21: ["Kinsky", "Udogie", "Porro", "Andy Robertson", "Kolo Muani"]})
+
+    def test_membership_comes_from_the_clubs_own_list(self, tmp_path):
+        out = player_stats.squad_ids(1, api=self.api(), cache_root=tmp_path)
+        assert out["Tottenham Hotspur"] == [1, 2, 3]
+
+    def test_a_departed_player_never_appears(self, tmp_path):
+        api = self.api()
+        player_stats.squad_ids(1, api=api, cache_root=tmp_path)
+        asked = " ".join(api.calls_raw)
+        assert "staff" in asked
+        # The loose endpoint is the one that carried the departed players.
+        assert "players?pageSize" not in asked

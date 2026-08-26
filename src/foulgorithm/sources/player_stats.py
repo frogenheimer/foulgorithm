@@ -196,11 +196,24 @@ def _write(path: Path, rows: dict[int, dict]) -> None:
 
 def squad_ids(competition: int, api=pulselive, cache_root: Path | None = None,
               force: bool = False) -> dict[str, list[int]]:
-    """Who is actually in each club's squad this season, by player id.
+    """Who is in each club's squad NOW, by player id.
 
-    Membership has to come from here and not from the ranked tables. A ranked
-    row's `currentTeam` is the player's LAST club, so reading membership off it
-    put Petr Cech in Arsenal's 2026/27 squad seven years after he retired.
+    **Three endpoints look like a squad and two of them are not.** Both wrong
+    ones were shipped before this comment existed:
+
+      - A ranked row's `currentTeam` is the player's LAST club, so reading
+        membership off it puts retired players in a current squad. Petr Cech,
+        Arsenal, 2026/27.
+      - `players?teams={id}&compSeasons={id}` is everyone registered to the
+        club at ANY point that season: players out on loan, U21s, and players
+        since sold. It put Andy Robertson, Martin Dubravka and Randal Kolo
+        Muani in Tottenham's squad, which is 40 wrong names out of 66.
+      - `teams/{id}/compseasons/{id}/staff` is the club's own current list, and
+        it is the only one of the three that is a squad. Spurs: 33 names, all
+        of them theirs.
+
+    A wrong name is worse than a missing one. It prints a real player's foul
+    rate under a shirt he will not be wearing.
 
     One request for the competition's clubs, then one per club. Cached, so a
     site build spends nothing.
@@ -231,11 +244,11 @@ def _fetch_squads(competition: int, api, cached: Path) -> dict[str, list[int]]:
         name = team.get("name")
         if tid is None or not name:
             continue
-        squad = api._get(
-            f"players?pageSize=80&teams={int(tid)}&compSeasons={season}&page=0"
-        )
+        # The club's own list. NOT players?teams=, which is every registration
+        # that season and carries loanees and departed players with it.
+        squad = api._get(f"teams/{int(tid)}/compseasons/{season}/staff")
         ids = [
-            int(p["id"]) for p in (squad.get("content") or []) if p.get("id") is not None
+            int(p["id"]) for p in (squad.get("players") or []) if p.get("id") is not None
         ]
         if ids:
             out[name] = ids

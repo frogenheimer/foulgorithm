@@ -209,3 +209,48 @@ class TestShape:
     def test_the_bench_is_ordered_by_minutes(self):
         bench = cup_eleven.predict(squad()).shape().bench
         assert bench == sorted(bench, key=lambda p: -p.minutes)
+
+
+class TestSheetPositions:
+    """A team sheet knows a player's position even when we know nothing else.
+
+    Five West Brom players came off a real sheet with position "?" because they
+    have no Championship minutes and so no row in the ranked tables. Grouping
+    dropped all of them into midfield and drew a 3-7. The sheet said D, M and F
+    all along; we just were not reading it.
+    """
+
+    def spot(self, name, position="D", shirt=4, detail="Centre Central Defender"):
+        from types import SimpleNamespace
+        return SimpleNamespace(name=name, position=position, shirt=shirt,
+                               detail=detail, captain=False)
+
+    def test_a_player_we_hold_nothing_on_takes_his_position_from_the_sheet(self):
+        xi = cup_eleven.confirm(squad(), [self.spot("Youth Debutant", "D")])
+        assert xi.players[0].position == "D"
+        assert xi.players[0].minutes == 0
+
+    def test_he_takes_his_shirt_number_too(self):
+        xi = cup_eleven.confirm(squad(), [self.spot("Youth Debutant", "D", shirt=42)])
+        assert xi.players[0].shirt == 42
+
+    def test_a_player_we_do_hold_keeps_his_own_record(self):
+        xi = cup_eleven.confirm(squad(), [self.spot("Player 1", "D")])
+        assert xi.players[0].minutes > 0
+
+    def test_the_sheets_position_wins_over_the_stat_tables(self):
+        # He is playing where the sheet says tonight, whatever he usually does.
+        xi = cup_eleven.confirm(squad(), [self.spot("Player 1", "F")])
+        assert xi.players[0].position == "F"
+
+    def test_bare_names_still_work(self):
+        xi = cup_eleven.confirm(squad(), ["Player 1"])
+        assert xi.players[0].player == "Player 1"
+
+    def test_an_unknown_eleven_off_a_sheet_groups_sensibly(self):
+        spots = ([self.spot("K", "G")]
+                 + [self.spot(f"D{i}", "D") for i in range(4)]
+                 + [self.spot(f"M{i}", "M") for i in range(4)]
+                 + [self.spot(f"F{i}", "F") for i in range(2)])
+        shape = cup_eleven.confirm([], spots).shape()
+        assert [len(l) for l in shape.lines] == [1, 4, 4, 2]

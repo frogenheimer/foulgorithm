@@ -568,3 +568,16 @@
   border-color: var(--accent);
   color: var(--on-accent);
 }
+
+/* The name as a label rather than a control, on a read-only pitch. Matches
+   .nameButton's box so a slot is the same height either way. */
+.nameStatic {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  max-width: 100%;
+  /* audit-ignore B2: mirrors .nameButton above, which needs 1px to keep its
+     hover target off the name in the line behind it. */
+  padding: 1px var(--s1);
+  color: var(--on-turf-2);
+}

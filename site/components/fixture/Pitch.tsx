@@ -57,7 +57,7 @@ export const BASIS_LABEL: Record<Basis, string> = {
 export function valueFor(row: ExplorerRow | undefined, market: Market, basis: Basis) {
   if (!row) return null;
   if (basis === "career") return row.career?.[market] ?? null;
-  return row.expected[market];
+  return row.expected?.[market] ?? null;
 }
 
 export type Side = {
@@ -79,6 +79,8 @@ export default function Pitch({
   onMarket,
   basis,
   onBasis,
+  readOnly = false,
+  bases = ["match", "career"],
 }: {
   home: Side;
   away: Side;
@@ -89,6 +91,18 @@ export default function Pitch({
   onMarket: (m: Market) => void;
   basis: Basis;
   onBasis: (b: Basis) => void;
+  /**
+   * No swapping, no dragging, no reset.
+   *
+   * The cup pages use this. Swapping recomputes a house sheet from whoever is
+   * standing there, and a cup tie involving a Championship club has no model
+   * behind it to recompute, so the control would promise something it cannot
+   * do. Same pitch, same styles, one capability withheld.
+   */
+  readOnly?: boolean;
+  /** Which readings to offer. Cup rows have no "expected", so they pass
+   *  ["career"] and the toggle collapses to a label. */
+  bases?: Basis[];
 }) {
   const [dragging, setDragging] = useState<{ club: string; key: string } | null>(null);
   const swaps = Object.keys(selected).length;
@@ -111,7 +125,7 @@ export default function Pitch({
         </span>
       </div>
 
-      {swaps > 0 && (
+      {swaps > 0 && !readOnly && (
         <div className={s.changed}>
           <span>
             <strong>Not the {confirmed ? "confirmed" : "predicted"} eleven.</strong> You have
@@ -134,15 +148,14 @@ export default function Pitch({
             label: MARKET_LABEL[m],
           }))}
         />
-        <Toggle
-          value={basis}
-          onChange={onBasis}
-          label="Which reading to show"
-          options={(Object.keys(BASIS_LABEL) as Basis[]).map((b) => ({
-            value: b,
-            label: BASIS_LABEL[b],
-          }))}
-        />
+        {bases.length > 1 && (
+          <Toggle
+            value={basis}
+            onChange={onBasis}
+            label="Which reading to show"
+            options={bases.map((b) => ({ value: b, label: BASIS_LABEL[b] }))}
+          />
+        )}
         <span className={s.marketNote}>
           {basis === "match"
             ? "what the model expects here, allowing for minutes and opponent"
@@ -150,7 +163,7 @@ export default function Pitch({
         </span>
       </div>
 
-      <PitchKey />
+      <PitchKey readOnly={readOnly} />
 
       <div className={s.sideToggle} role="tablist" aria-label="Which team to show">
         {([["home", home.club], ["away", away.club]] as const).map(([key, club]) => (
@@ -171,6 +184,7 @@ export default function Pitch({
         <div className={s.homeSide}>
         <Bench
           side={home}
+          readOnly={readOnly}
           selected={selected}
           market={market}
           basis={basis}
@@ -188,6 +202,7 @@ export default function Pitch({
           </div>
           <Half
             className={s.homeSide}
+            readOnly={readOnly}
             side={home}
             selected={selected}
             onChange={onChange}
@@ -199,6 +214,7 @@ export default function Pitch({
           />
           <Half
             className={s.awaySide}
+            readOnly={readOnly}
             side={away}
             selected={selected}
             onChange={onChange}
@@ -214,6 +230,7 @@ export default function Pitch({
         <div className={s.awaySide}>
         <Bench
           side={away}
+          readOnly={readOnly}
           selected={selected}
           market={market}
           basis={basis}
@@ -232,6 +249,7 @@ export default function Pitch({
 
 function Bench({
   side,
+  readOnly = false,
   selected,
   market,
   basis,
@@ -240,6 +258,7 @@ function Bench({
   onDragEnd,
 }: {
   side: Side;
+  readOnly?: boolean;
   selected: Selected;
   market: Market;
   basis: Basis;
@@ -265,13 +284,17 @@ function Bench({
             <button
               key={r.fullName}
               type="button"
-              draggable
-              onDragStart={() => onDragStart(key)}
+              draggable={!readOnly}
+              onDragStart={() => !readOnly && onDragStart(key)}
               onDragEnd={onDragEnd}
               className={
                 dragging?.key === key ? `${s.benchPlayer} ${s.dragging}` : s.benchPlayer
               }
-              title={`${r.fullName} · drag onto the pitch`}
+              title={
+                readOnly
+                  ? r.fullName
+                  : `${r.fullName} \u00b7 drag onto the pitch`
+              }
             >
               <span>{r.player}</span>
               <span className={s.benchPos}>
@@ -296,9 +319,11 @@ function Half({
   onDragStart,
   mirrored = false,
   className = "",
+  readOnly = false,
 }: {
   side: Side;
   className?: string;
+  readOnly?: boolean;
   selected: Selected;
   onChange: (next: Selected) => void;
   market: Market;
@@ -350,7 +375,7 @@ function Half({
             const swapped = Boolean(selected[o.key]);
             const misplaced = outOfPosition(o.row, o.spot);
             const isOpen = open === o.key;
-            const receiving = Boolean(dragging && dragging.club === side.club);
+            const receiving = !readOnly && Boolean(dragging && dragging.club === side.club);
             return (
               <div
                 key={o.key}
@@ -383,7 +408,7 @@ function Half({
                 <span className={s.marker}>
                   <span
                     className={s.shirt}
-                    draggable
+                    draggable={!readOnly}
                     onDragStart={() => onDragStart(o.key)}
                     title={
                       o.vacant
@@ -402,6 +427,11 @@ function Half({
                   )}
                 </span>
                 <div className={s.picker}>
+                  {readOnly ? (
+                    <span className={s.nameStatic} title={o.row?.fullName ?? o.name}>
+                      <span className={s.name}>{o.name}</span>
+                    </span>
+                  ) : (
                   <Combobox
                     value={o.name}
                     options={optionsFor(byName, o.spot, market, basis, benched)}
@@ -426,6 +456,7 @@ function Half({
                       </button>
                     )}
                   />
+                  )}
                 </div>
                 <span className={s.rate}>
                   {valueFor(o.row, market, basis)?.toFixed(2) ?? "—"}
@@ -486,7 +517,7 @@ function optionsFor(
  * so an orange ring and a pale marker both read as "something is odd with this
  * player" without saying what.
  */
-function PitchKey() {
+function PitchKey({ readOnly = false }: { readOnly?: boolean }) {
   return (
     <ul className={s.key}>
       <li className={s.keyItem}>
@@ -498,12 +529,14 @@ function PitchKey() {
         <span className={`${s.keyDot} ${s.keyMisplaced}`} aria-hidden />
         Out of position for this slot
       </li>
-      <li className={s.keyItem}>
-        <span className={`${s.keyDot} ${s.keySwapped}`} aria-hidden>
-          &#8646;
-        </span>
-        Changed by you
-      </li>
+      {!readOnly && (
+        <li className={s.keyItem}>
+          <span className={`${s.keyDot} ${s.keySwapped}`} aria-hidden>
+            &#8646;
+          </span>
+          Changed by you
+        </li>
+      )}
     </ul>
   );
 }

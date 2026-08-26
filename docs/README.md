@@ -46,6 +46,7 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [37-display-decisions.md](37-display-decisions.md) | The ratification round: what stayed, what moved, what came back |
 | [38-the-contract.md](38-the-contract.md) | **Three bets per model per game. The plan of record; supersedes 36 and 37 on the bets** |
 | [39-instrument-grade.md](39-instrument-grade.md) | **The visual redesign: dark-first modules, the chart vocabulary, the temper-ring badges** |
+| [41-primitives.md](41-primitives.md) | **What already exists. Read before writing a component, a table or a pitch** |
 | [40-the-cups.md](40-the-cups.md) | **Both domestic cups, the Championship, and why those ties get a match total and never a player pick** |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
 | [ideas.md](ideas.md) | Ideas not committed to. Nothing here is being built |

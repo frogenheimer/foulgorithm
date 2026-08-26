@@ -36,9 +36,16 @@ class ConfirmedLineup:
     substitutes: list[str]
     # The formation as LINES, goalkeeper first, each holding the players in it.
     # The league publishes this directly, so a pitch can be drawn from the real
-    # shape rather than inferred from position codes.
+    # shape rather than inferred from position codes. EMPTY when the source
+    # published no formation, which happens: West Brom's League Cup sheet on
+    # 26 Aug 2026 had eleven names and no shape.
     lines: list[list[Spot]] = field(default_factory=list)
     bench: list[Spot] = field(default_factory=list)
+    # Every starter as a Spot, with or without a formation. `starters` is bare
+    # names and `lines` is empty when no shape was published, so without this
+    # a sheet with no formation loses each man's position entirely: five West
+    # Brom players ended up in midfield and drew a back three behind a seven.
+    spots: list[Spot] = field(default_factory=list)
 
 
 def for_round(season_id: int | None = None, limit: int = 20) -> dict[str, ConfirmedLineup]:
@@ -117,6 +124,7 @@ def shape_detail(detail: dict, label: str) -> dict[str, ConfirmedLineup]:
             team=mapped,
             formation=formation,
             starters=[_name(p) for p in eleven],
+            spots=[_spot(p) for p in eleven],
             substitutes=[_name(p) for p in team_list.get("substitutes") or []],
             lines=lines,
             bench=[_spot(p) for p in team_list.get("substitutes") or []],

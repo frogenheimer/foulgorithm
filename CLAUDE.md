@@ -18,6 +18,12 @@ The global rules file at `~/.claude/CLAUDE.md` loads in every session on this ma
 - **Work directly on `main`.** No feature branches for now, by Oliver's request, for simplicity. Keep `main` deployable, since it is what Vercel builds.
 - Writing style: no em dashes, no oxford commas, active voice, plain English, specific over vague.
 - Write tests before implementations. Run tests before committing.
+- **Never rebuild something that already exists.** Read
+  [docs/41-primitives.md](docs/41-primitives.md) before writing any component,
+  table, pitch, card or stat block. If a primitive nearly fits, add a prop to
+  it; do not fork it. The cup pages grew a second pitch beside the fixture
+  pages' one and the copy silently lost the position badges, the
+  out-of-position ring, the bench values and the key.
 - Share SQL in chat so it can be applied by hand.
 
 **Rules that DO NOT apply here:**

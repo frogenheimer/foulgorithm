@@ -18,7 +18,7 @@ over. A confirmed eleven carries no caveat, because it is no longer a guess.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 from foulgorithm.sources.player_stats import PlayerStats
 
@@ -171,21 +171,39 @@ def predict(squad: list[PlayerStats]) -> Eleven:
 
 def confirm(
     squad: list[PlayerStats],
-    names: list[str],
+    sheet: list,
     formation: str | None = None,
     lines: list[list[str]] | None = None,
 ) -> Eleven:
     """The real eleven, in the order the team sheet gave it.
 
+    `sheet` is either bare names or the source's own spots, which carry a
+    position and a shirt number. Prefer the spots: a sheet knows where a man is
+    playing even when we hold no record of him at all, and reading only the
+    names is how five West Brom players with no Championship minutes all landed
+    in midfield and drew a back three with a seven-man middle.
+
+    The sheet's position also WINS over the stat tables, because it says where
+    he is standing tonight rather than where he usually does.
+
     Order is kept rather than re-sorted: a team sheet runs goalkeeper first and
-    that is information. A name we hold no record for still takes its place on
-    the pitch with blanks beside it, because a youth debutant is playing
-    whether or not we have ever seen him.
+    that is information. A man we hold nothing on still takes his place, because
+    a youth debutant is playing whether or not we have ever seen him.
     """
     players: list[PlayerStats] = []
-    for name in names:
+    for entry in sheet:
+        name = getattr(entry, "name", None) or str(entry)
+        position = getattr(entry, "position", None)
+        shirt = getattr(entry, "shirt", None)
         found = next((p for p in squad if _matches(p.player, name)), None)
-        players.append(found or _unknown(name))
+        base = found or _unknown(name)
+        if position or shirt is not None:
+            base = replace(
+                base,
+                position=position or base.position,
+                shirt=shirt if shirt is not None else base.shirt,
+            )
+        players.append(base)
     return Eleven(
         players=players,
         confirmed=True,

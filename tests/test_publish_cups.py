@@ -407,9 +407,51 @@ class TestPitchShape:
         assert block["grouping"] is None
         assert [len(l) for l in block["lines"]][:2] == [1, 4]
 
-    def test_the_bench_holds_nobody_who_is_on_the_pitch(self):
+    def test_the_squad_is_a_superset_of_the_pitch(self):
+        # There is no separate bench list any more: the pitch works its own
+        # bench out from the squad, which is what the league's pitch does.
         payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
                              squads=TestPlayers.squads(), now=NOW)
         block = payload["ties"][0]["players"]["home"]
         on = {p["player"] for line in block["lines"] for p in line}
-        assert all(p["player"] not in on for p in block["bench"])
+        squad = {p["player"] for p in block["squad"]}
+        assert on <= squad and len(squad) > len(on)
+
+
+class TestFullSquad:
+    """The whole squad, not just the eleven.
+
+    The eleven answers "who is playing"; the squad answers "who could come on,
+    and what happens to the game if he does". A bench that only exists as nine
+    names cannot be sorted, compared or read, and the pitch needs the full list
+    anyway to work out who is not on it.
+    """
+
+    def test_the_full_squad_is_published(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=TestPlayers.squads(), now=NOW)
+        block = payload["ties"][0]["players"]["home"]
+        assert len(block["squad"]) == len(TestPlayers.squads()["Arsenal"])
+        assert len(block["squad"]) > len(block["lines"][0])
+
+    def test_everyone_on_the_pitch_is_in_the_squad(self):
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=TestPlayers.squads(), now=NOW)
+        block = payload["ties"][0]["players"]["home"]
+        squad = {p["player"] for p in block["squad"]}
+        on = {p["player"] for line in block["lines"] for p in line}
+        assert on <= squad
+
+    def test_a_confirmed_starter_we_hold_nothing_on_joins_the_squad(self):
+        # A youth debutant is not in the ranked tables and is on the pitch.
+        # He has to reach the squad list too or the pitch cannot place him.
+        from types import SimpleNamespace
+        spot = lambda n, pos: SimpleNamespace(name=n, position=pos, shirt=None,
+                                              detail="", captain=False)
+        sheets = {"Arsenal|Arsenal v Wrexham": SimpleNamespace(
+            formation=None, starters=["Youth Debutant"],
+            spots=[spot("Youth Debutant", "M")], lines=[], bench=[])}
+        payload = cups.build([tie("Arsenal", "Wrexham")], history(), {}, {},
+                             squads=TestPlayers.squads(), lineups=sheets, now=NOW)
+        block = payload["ties"][0]["players"]["home"]
+        assert "Youth Debutant" in {p["player"] for p in block["squad"]}

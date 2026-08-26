@@ -114,7 +114,8 @@ export type CupEleven = {
   grouping: string | null;
   /** Goalkeeper first, then each line up the pitch. */
   lines: CupPlayer[][];
-  bench: CupPlayer[];
+  /** The WHOLE squad, not the eleven and not a bench. */
+  squad: CupPlayer[];
   players: CupPlayer[];
 };
 

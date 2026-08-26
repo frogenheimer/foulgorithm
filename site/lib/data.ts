@@ -120,8 +120,17 @@ export type ExplorerRow = {
   startProbability: number | null;
   confirmed: boolean;
   thin: boolean;
-  /** What the model expects in THIS match. Not an average of anything. */
-  expected: { committed: number; drawn: number; involvements: number };
+  /**
+   * What the model expects in THIS match. Not an average of anything.
+   *
+   * Optional, because a cup tie involving a Championship club has no model
+   * behind it and never will: we hold season totals for those players, not the
+   * per-match rows a prediction is built from. Those rows carry `career` and
+   * nothing else, and the pitch they render on offers no "expected" reading.
+   * Absent is the honest state; a copy of `career` wearing the word "expected"
+   * would not be.
+   */
+  expected?: { committed: number; drawn: number; involvements: number };
   /**
    * Where the number mostly comes from.
    *

@@ -55,7 +55,7 @@ export default function GameSheet({
     outcomes?.[`${r.fullName}|${market}|0.5`]?.observed ?? null;
 
   const value = (r: ExplorerRow, market: "committed" | "drawn" | "involvements") => {
-    if (mode === "expected") return r.expected[market].toFixed(2);
+    if (mode === "expected") return (r.expected?.[market] ?? 0).toFixed(2);
     if (played) {
       // What actually happened in THIS match, from the graded record.
       if (market === "involvements") {
