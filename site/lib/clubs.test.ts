@@ -31,8 +31,10 @@ describe("clubIdentity", () => {
   });
 
   it("an unknown club gets a neutral badge and a derived code, not a crash", () => {
-    const c = clubIdentity("Wrexham");
-    expect(c.code).toBe("WRE");
+    // Salford are League Two. Wrexham used to be the example and can no
+    // longer be: they are in the Championship, which the cup pages hold.
+    const c = clubIdentity("Salford");
+    expect(c.code).toBe("SAL");
     expect(c.primary).toBe("#6b7075");
   });
 
@@ -62,5 +64,31 @@ describe("rankFraction", () => {
   it("nonsense ranks fill nothing", () => {
     expect(rankFraction(0, 20)).toBe(0);
     expect(rankFraction(3, 0)).toBe(0);
+  });
+});
+
+describe("Championship clubs", () => {
+  it("every club in the second tier has a real badge, not the fallback", () => {
+    // Twenty-four grey badges would look broken on an FA Cup page. The set
+    // mirrors identity/teams.py CHAMPIONSHIP_CLUBS.
+    const CHAMPIONSHIP = [
+      "Birmingham", "Blackburn", "Bolton", "Bristol City", "Burnley", "Cardiff",
+      "Charlton", "Derby", "Lincoln", "Middlesbrough", "Millwall", "Norwich",
+      "Portsmouth", "Preston", "QPR", "Sheffield United", "Southampton",
+      "Stoke", "Swansea", "Watford", "West Brom", "West Ham", "Wolves", "Wrexham",
+    ];
+    // The derived-code fallback also returns three letters, so checking the
+    // code proves nothing. The neutral grey is what gives a fallback away.
+    const fallback = clubIdentity("Nowhere United").primary;
+    for (const club of CHAMPIONSHIP) {
+      const id = clubIdentity(club);
+      expect(id.primary, `${club} fell back to the neutral badge`).not.toBe(fallback);
+    }
+  });
+
+  it("still falls back safely for a club we hold nothing for", () => {
+    // Salford in a third-round draw. Never a crash.
+    const id = clubIdentity("Salford");
+    expect(id.code).toBe("SAL");
   });
 });

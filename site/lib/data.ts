@@ -7,6 +7,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import type { CupData } from "./cups";
+
 /* ---------- historical overview ---------- */
 
 export type SeasonRow = {
@@ -498,11 +500,16 @@ export const fixtureSlug = (label: string) =>
 
 export const getPlayers = () => read<PlayersData>("players.json");
 
-/** The hand-fed cup slate, or null before the first cup publish. Exhibition
- *  only: nothing in it is recorded or scored. See publish/cup.py. */
-export function getCup(): PlayersData | null {
+/**
+ * One cup's slate, or null before its first publish.
+ *
+ * Exhibition only: nothing in it is recorded, graded or scored. The two cups
+ * are separate files on purpose, because the same two clubs can meet in both
+ * and the old shared file put them on one page. See publish/cups.py.
+ */
+export function getCupData(file: string): CupData | null {
   try {
-    return read<PlayersData>("cup.json");
+    return read<CupData>(file);
   } catch {
     return null;
   }

@@ -1,0 +1,83 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--s4);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  min-width: 0;
+  padding: var(--s5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  color: inherit;
+  transition: border-color var(--d-fast) var(--ease);
+}
+
+.card:hover {
+  border-color: var(--accent-object);
+  text-decoration: none;
+}
+
+.day {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+}
+
+.clubs { display: flex; gap: var(--s2); }
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--t-lg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Two columns, because the comparison is the point of the card. */
+.sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}
+
+.side { display: flex; flex-direction: column; gap: var(--s1); min-width: 0; }
+
+.sideName {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sideValue {
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The division rank. Never dropped: a bare rate invites the reader to compare
+   a Championship number with a Premier League one as though they were one
+   scale, which is the mistake the whole page is built to prevent. */
+.sideNote { font-size: var(--t-xs); color: var(--ink-3); }
+
+.note { font-size: var(--t-sm); color: var(--ink-2); }
+
+.foot {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+}
