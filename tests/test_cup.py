@@ -89,7 +89,9 @@ class TestToFixtureName:
 
     def test_an_unknown_club_is_none_not_a_guess(self):
         from foulgorithm.identity.teams import to_fixture_name
-        assert to_fixture_name("Wrexham") is None
+        # Salford are League Two. Wrexham used to be the example here and can
+        # no longer be: they are in the Championship, which we now hold.
+        assert to_fixture_name("Salford City") is None
 
 
 class TestShapeLineups:
@@ -137,8 +139,8 @@ class TestShapeLineups:
     def test_a_team_we_cannot_name_raises(self):
         from foulgorithm.sources import api_football
         from foulgorithm.sources.base import SourceError
-        broken = [{"team": {"name": "Wrexham"}, "formation": None, "startXI": [], "substitutes": []}]
-        with pytest.raises(SourceError, match="Wrexham"):
+        broken = [{"team": {"name": "Salford City"}, "formation": None, "startXI": [], "substitutes": []}]
+        with pytest.raises(SourceError, match="Salford City"):
             api_football.shape_lineups(broken, "Nott'm Forest v Leeds")
 
 
