@@ -22,6 +22,7 @@ Legend: **Built** · **Next** · **Planned** · **Deferred** · **Dropped**
 | Current-season league leaders | **Built** | The context rail |
 | Referee appointments | **Built** | Carried on the fixture list |
 | Championship data for promoted clubs | **Built** | Team priors only, shrunk at beta 0.373. Player-level data does not exist for the second tier at any price |
+| Championship clubs on the cup pages | **Built** | Team record and match totals, never a player pick. Same beta 0.373 bridge, one gate removed. See [40-the-cups.md](40-the-cups.md) |
 | Possession, take-ons, progressive carries | **Dropped** | Lived on FBref, deleted in the January 2026 Opta termination |
 | Pitch location of fouls | **Dropped** | Needs event data, free only for 2015/16 |
 | Bookmaker odds | **Deferred** | No archive exists for fouls or tackles at any price |

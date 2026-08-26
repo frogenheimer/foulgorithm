@@ -52,6 +52,9 @@ site-data: ## Regenerate the JSON the site reads
 predict: ## Predict the next round of fixtures
 	$(PY) -m foulgorithm.publish.predict_round
 
+cups: ## Pull both domestic cups and publish their pages
+	$(PY) -m foulgorithm.publish.cups
+
 audit: ## Report exactly what data we hold and whether it is enough
 	$(PY) -m foulgorithm.store.audit
 
