@@ -23,7 +23,8 @@ describe("the contract, said once", () => {
   });
 
   it("always speaks of the eleven, never the five", () => {
-    expect(contractCopy(PRICED).bets).not.toMatch(/\bfive\b/);
-    expect(contractCopy(SHAPES).bets).not.toMatch(/\bfive\b/);
+    // "the five" as in the characters; a count of five foul events is fine.
+    expect(contractCopy(PRICED).bets).not.toMatch(/\bthe five\b/);
+    expect(contractCopy(SHAPES).bets).not.toMatch(/\bthe five\b/);
   });
 });
