@@ -175,7 +175,9 @@ class TestSpots:
         out = cup_watch.lineups_for(131352, "Newcastle v West Brom", api=api)
         sheet = out["West Brom|Newcastle v West Brom"]
         assert sheet.formation is None
-        assert sheet.lines == []
+        # No formation from the league: the eleven is drawn by position instead
+        # (28 August 2026, Palace v City), so the lines are never empty.
+        assert [len(line) for line in sheet.lines] == [1, 1]
         assert [s.position for s in sheet.spots] == ["D", "M"]
         assert [s.shirt for s in sheet.spots] == [3, 8]
 

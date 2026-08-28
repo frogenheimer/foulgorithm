@@ -104,7 +104,15 @@ def fetch(now: datetime | None = None) -> list[dict]:
     from foulgorithm.identity.teams import from_pulselive
     from foulgorithm.sources import football_data
 
-    enrichment = football_data.fetch_fixtures()
+    # football-data only DECORATES the round with referees and odds. Between
+    # rounds its file is empty and the adapter raises; that must never stop
+    # the league's own list deciding the round, least of all at T-60 on a
+    # matchday with the confirmed elevens waiting to be published.
+    try:
+        enrichment = football_data.fetch_fixtures()
+    except Exception as exc:  # noqa: BLE001 - reported, never fatal
+        print(f"  football-data unavailable, referees and odds left unknown: {exc}")
+        enrichment = []
 
     try:
         from foulgorithm.sources import pulselive

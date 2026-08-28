@@ -133,3 +133,28 @@ class TestAFixtureWithNoRefereeSurvivesSerialisation:
         from foulgorithm.publish.player_round import _or_none
 
         assert _or_none("M Oliver") == "M Oliver"
+
+
+class TestSurvivingFootballData:
+    def test_a_dead_fixtures_file_does_not_stop_the_round(self, monkeypatch):
+        """Between rounds football-data's file is empty and its adapter raises.
+        On 25 August 2026 that killed a league publish outright; at T-60 on a
+        matchday it would have cost the confirmed elevens. The league's own
+        list decides the round; football-data only decorates it."""
+        from foulgorithm.sources import football_data, pulselive
+        from foulgorithm.sources.base import SourceError
+
+        def dead():
+            raise SourceError("no E0 fixtures found. The season may be between rounds.")
+
+        monkeypatch.setattr(football_data, "fetch_fixtures", dead)
+        monkeypatch.setattr(
+            pulselive,
+            "fixtures",
+            lambda season_id=None: [
+                type("F", (), {"home": "Fulham", "away": "Chelsea", "kickoff_utc": at(2), "complete": False})()
+            ],
+        )
+        chosen = next_round.fetch(now=at(0))
+        assert [f["home_team_raw"] for f in chosen] == ["Fulham"]
+        assert chosen[0]["referee_raw"] is None

@@ -277,6 +277,16 @@ def run(dry_run: bool = False) -> int:
     except Exception as exc:
         print(f"fixture archive not marked: {exc}", file=sys.stderr)
 
+    # The one question the lineup machinery exists to answer, asked of the
+    # record after every matchday. See jobs/lineup_audit.py.
+    try:
+        from foulgorithm.jobs import lineup_audit
+
+        line = lineup_audit.report(claims, sorted(settled))
+        print(line, file=sys.stderr if "MISSING" in line else sys.stdout)
+    except Exception as exc:  # noqa: BLE001 - an audit must never fail a settle
+        print(f"lineup audit skipped: {exc}", file=sys.stderr)
+
     # The league table lives in players.json, which only a full publish
     # rewrote, so Saturday's grading did not reach The five until the next
     # lineups wake and Monday's round-closing grade waited until Friday.
