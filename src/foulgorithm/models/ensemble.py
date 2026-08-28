@@ -70,29 +70,33 @@ SLATES: tuple[Slate, ...] = (
 
 
 @dataclass(frozen=True)
-class Band:
-    """A fixed PRICE every character must hit, by the house's number (docs/42).
+class Tier:
+    """A fixed count of FOUL EVENTS every slip must need (docs/45).
 
-    The shape inside is free: two to six legs, any mix of lines and markets.
-    Difficulty is what is held constant now, not the leg count.
+    A leg's events are its line: 1+ is one, 2+ two, 3+ three; a slip's legs
+    sum to the count exactly. Layout is free inside it. 3+ legs are reserved
+    for the rogue slip, and only for a player the house prices at
+    ROGUE_3PLUS_FLOOR or better there, because 3+ is wild.
     """
 
     key: str
     label: str
-    target: float
-    low: float
-    high: float
+    units: int
+    allows_three: bool
 
 
-BANDS: tuple[Band, ...] = (
-    Band("banker", "Banker", 0.15, 0.12, 0.20),
-    Band("value", "Value", 0.06, 0.04, 0.08),
-    Band("long", "Long shot", 0.025, 0.015, 0.04),
+TIERS: tuple[Tier, ...] = (
+    Tier("safe", "Safe", 4, False),
+    Tier("optimistic", "Optimistic", 5, False),
+    Tier("rogue", "Rogue", 6, True),
 )
 
-#: Games kicking off from here are bet at the bands. Earlier games keep the
-#: shapes and are scored under them: matchweek 2 was committed under the old
-#: contract and the record does not rewrite history (docs/42).
+#: The house's 3+ price a player needs before a rogue slip may carry him at 3+.
+ROGUE_3PLUS_FLOOR = 0.20
+
+#: Games kicking off from here are bet by foul events (docs/45). Earlier games
+#: keep the shapes and are scored under them: matchweek 2 was committed under
+#: the old contract and the record does not rewrite history.
 PRICED_FROM = "2026-09-04"
 
 

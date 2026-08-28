@@ -597,6 +597,12 @@ def publish(
     standings = _standings(character_ids)
     leader = standings[0]["id"] if standings and standings[0]["played"] > 0 else None
     slates = league.build_slates(candidates, character_ids, context={"leader": leader})
+    # The house's own three slips per game (docs/45), beside the eleven's.
+    house_by_game = league.house_slips(candidates)
+    for fixture_block in board:
+        fixture_block["houseSlips"] = house_by_game.get(
+            f"{fixture_block['home']} v {fixture_block['away']}"
+        )
 
     top = sorted(all_rows, key=lambda r: -r["committed"]["p1plus"])[:12]
 
@@ -718,12 +724,9 @@ def publish(
 
 
 def _shapes_for(board: list[dict]) -> list[dict]:
-    """The bets' shapes for this board: bands from docs/42's date, shapes before."""
+    """The bets' shapes for this board: foul-event tiers from docs/45's date, shapes before."""
     if board and all(ensemble.priced(f["kickoff"]) for f in board):
-        return [
-            {"key": b.key, "label": b.label, "target": b.target, "low": b.low, "high": b.high}
-            for b in ensemble.BANDS
-        ]
+        return [{"key": t.key, "label": t.label, "units": t.units} for t in ensemble.TIERS]
     return [{"key": sl.key, "label": sl.label, "legs": sl.legs} for sl in ensemble.SLATES]
 
 

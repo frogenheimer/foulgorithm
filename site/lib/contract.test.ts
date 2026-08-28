@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { contractCopy } from "./contract";
 
-const PRICED = [{ key: "banker", label: "Banker", target: 0.15 }];
+const PRICED = [{ key: "safe", label: "Safe", units: 4 }];
 const SHAPES = [{ key: "six-ones", label: "Six at 1+", legs: 6 }];
 
 describe("the contract, said once", () => {
@@ -10,9 +10,9 @@ describe("the contract, said once", () => {
     expect(contractCopy(PRICED).priced).toBe(true);
   });
 
-  it("describes the priced bands and the fouls-based draw from matchweek 3", () => {
+  it("describes the foul-event slips and the fouls-based draw from matchweek 3", () => {
     const c = contractCopy(PRICED);
-    expect(c.bets).toMatch(/banker/);
+    expect(c.bets).toMatch(/four foul events/);
     expect(c.scoring).toMatch(/one foul short/);
   });
 

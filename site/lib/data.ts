@@ -352,6 +352,8 @@ export type FixtureBoard = {
   competition?: string | null;
   /** The house model's shouts for this game. See publish/player_round.py. */
   houseSheet?: HouseSheet | null;
+  /** The house's own three slips (docs/45), keyed safe / optimistic / rogue. */
+  houseSlips?: Record<string, Bet> | null;
   lineupConfirmed?: boolean;
   teams: Record<string, PlayerRow[]>;
   tickets?: Record<string, Ticket[]>;
@@ -685,15 +687,14 @@ export type Standing = {
   winBoldness?: number;
 };
 
-/** A bet shape. Under the fixed shapes `legs` is set; under the priced bands
- *  (docs/42) `target`, `low` and `high` are, and the leg count is free. */
+/** A bet shape. Under the fixed shapes `legs` is set; under the foul-event
+ *  tiers (docs/45) `units` is, and the leg count is free. */
 export type SlateShape = {
   key: string;
   label: string;
   legs?: number;
+  units?: number;
   target?: number;
-  low?: number;
-  high?: number;
 };
 
 /** One committed bet: a shape filled with legs, or null where the character
@@ -701,8 +702,9 @@ export type SlateShape = {
 export type Bet = {
   legs: SlipLeg[];
   label: string;
-  /** Priced bets only (docs/42): the band and the house's price for the bet. */
-  band?: string;
+  /** Foul-event slips only (docs/45): the tier, its count, the house's price. */
+  tier?: string;
+  units?: number;
   housePrice?: number;
 } | null;
 
@@ -742,6 +744,7 @@ export type ArchivedFixture = {
   referee: string | null;
   competition?: string | null;
   houseSheet?: HouseSheet | null;
+  houseSlips?: Record<string, Bet> | null;
   characters: { id: string; name: string; generation?: number }[];
   ladder: Record<string, Slip[]>;
   /** This game's fifteen bets (character id -> slate key -> bet), when the

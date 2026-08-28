@@ -139,76 +139,57 @@ def _house_price(row: dict) -> float:
     return house_probability(row, list(probs))
 
 
-def _priced_bet(cid: str, ranked: list[dict], band, context: dict | None) -> dict | None:
-    """One bet inside a band, by the house's price, in this character's order.
+def _events(row: dict) -> int:
+    """A leg's foul events: its line rounded up. 1+ is one, 2+ two, 3+ three."""
+    return int(row["line"] + 0.5)
 
-    Legs join in the character's own preference order until the house prices
-    the bet inside the band. Two rules keep that reachable. A leg that would
-    drop the bet BELOW the band is skipped for a milder one further down. And
-    a leg only joins as a filler if the band is still reachable after it
-    within six legs, using the smallest prices left in the pool; otherwise
-    the builder reaches for a bigger leg now. Whenever one remaining leg
-    would land the bet in the band outright, the most-preferred such leg
-    closes it. Two to six legs; None when the pool cannot make the price.
+
+def _admissible(row: dict, tier) -> bool:
+    """3+ is wild: rogue only, and only for a genuine high-foul player."""
+    if _events(row) < 3:
+        return True
+    return tier.allows_three and _house_price(row) >= ensemble.ROGUE_3PLUS_FLOOR
+
+
+def _unit_slip(cid: str, ranked: list[dict], tier, context: dict | None) -> dict | None:
+    """One slip needing exactly `tier.units` foul events, in this character's order.
+
+    Legs join in the given order while the count is not exceeded; a leg whose
+    events equal the remainder closes the slip; a leg that would overshoot is
+    skipped for one further down. Two legs at least, six at most, a player at
+    most once. None when the pool cannot make the count, which is rare and
+    honest (docs/45).
     """
     from foulgorithm.publish.player_round import HOT_TAKE_MARGIN, MAX_LEGS_PER_TIER
 
-    rows = [r for r in ranked if cid in r.get("probs", {}) and _house_price(r) > 0]
+    rows = [
+        r
+        for r in ranked
+        if cid in r.get("probs", {}) and _house_price(r) > 0 and _admissible(r, tier)
+    ]
     chosen: list[dict] = []
     used: set[str] = set()
-    combined = 1.0
-
-    def smallest_per_player(excluding: str) -> list[float]:
-        best: dict[str, float] = {}
-        for r in rows:
-            name = r["fullName"]
-            if name in used or name == excluding:
-                continue
-            p = _house_price(r)
-            if name not in best or p < best[name]:
-                best[name] = p
-        return sorted(best.values())
-
-    def reachable(after: float, excluding: str) -> bool:
-        slots = MAX_LEGS_PER_TIER - len(chosen) - 1
-        return after * math.prod(smallest_per_player(excluding)[:slots]) <= band.high
-
-    while len(chosen) < MAX_LEGS_PER_TIER:
-        # The character's next preference, so long as it neither drops the
-        # bet below the band nor leaves the band unreachable in the legs that
-        # remain. That is what lets a cautious character reach a price with
-        # five small legs and a bold one with two big ones.
+    total = 0
+    while total < tier.units and len(chosen) < MAX_LEGS_PER_TIER:
+        remaining = tier.units - total
         pick = next(
             (
                 r
                 for r in rows
                 if r["fullName"] not in used
-                and combined * _house_price(r) >= band.low
-                and reachable(combined * _house_price(r), r["fullName"])
+                and _events(r) <= remaining
+                # A closer must leave the slip with at least two legs.
+                and not (_events(r) == remaining and len(chosen) == 0)
             ),
             None,
         )
         if pick is None:
-            # Nothing preferred fits: the last resort is any leg that lands
-            # the bet in the band outright.
-            pick = next(
-                (
-                    r
-                    for r in rows
-                    if r["fullName"] not in used
-                    and band.low <= combined * _house_price(r) <= band.high
-                ),
-                None,
-            )
-            if pick is None:
-                return None
+            return None
         chosen.append(pick)
         used.add(pick["fullName"])
-        combined *= _house_price(pick)
-        if combined <= band.high and len(chosen) >= 2:
-            break
+        total += _events(pick)
 
-    if len(chosen) < 2 or not (band.low <= combined <= band.high):
+    if total != tier.units or len(chosen) < 2:
         return None
 
     legs = []
@@ -218,23 +199,92 @@ def _priced_bet(cid: str, ranked: list[dict], band, context: dict | None) -> dic
         legs.append(leg)
     return {
         "legs": legs,
-        "label": band.label,
-        "band": band.key,
-        "housePrice": round(combined, 4),
-        "target": band.target,
+        "label": tier.label,
+        "tier": tier.key,
+        "units": tier.units,
+        "housePrice": round(math.prod(leg["houseProb"] for leg in legs), 4),
     }
 
 
-def _in_band(bet: dict | None) -> bool:
+def _in_count(bet: dict | None) -> bool:
     if not bet:
         return True
-    band = next((b for b in ensemble.BANDS if b.key == bet.get("band")), None)
-    if band is None:
-        return True
-    price = 1.0
-    for leg in bet["legs"]:
-        price *= leg.get("houseProb", 1.0)
-    return band.low <= price <= band.high
+    return sum(leg["fouls"] for leg in bet["legs"]) == bet.get("units")
+
+
+#: The house's layout per tier (docs/45): events per leg, filled with the
+#: best-priced admissible player at each line. Ranking by price alone stacked
+#: the same 1+ legs three times over, so "rogue" was six 1+ legs at 15/100;
+#: the tiers have to escalate in SHAPE, not just in length.
+HOUSE_RECIPES: dict[str, tuple[tuple[int, ...], ...]] = {
+    "safe": ((1, 1, 1, 1),),
+    "optimistic": ((2, 1, 1, 1),),
+    # A 3+ when somebody clears the floor, else two 2+ legs.
+    "rogue": ((3, 2, 1), (2, 2, 1, 1)),
+}
+
+
+def _house_recipe_slip(pool: list[dict], tier, recipe: tuple[int, ...]) -> dict | None:
+    """Fill a recipe's slots with the best-priced unused player at each line."""
+    from foulgorithm.publish.player_round import HOUSE_MODEL
+
+    by_line = {
+        events: sorted(
+            (r for r in pool if _events(r) == events and _admissible(r, tier)),
+            key=lambda r: -_house_price(r),
+        )
+        for events in set(recipe)
+    }
+    chosen: list[dict] = []
+    used: set[str] = set()
+    for events in recipe:
+        pick = next((r for r in by_line[events] if r["fullName"] not in used), None)
+        if pick is None:
+            return None
+        chosen.append(pick)
+        used.add(pick["fullName"])
+    legs = []
+    for row in chosen:
+        leg = _leg_from_row(row, HOUSE_MODEL)
+        leg["houseProb"] = round(_house_price(row), 4)
+        leg["prob"] = leg["houseProb"]
+        leg["outOf100"] = round(leg["houseProb"] * 100)
+        legs.append(leg)
+    return {
+        "legs": legs,
+        "label": tier.label,
+        "tier": tier.key,
+        "units": tier.units,
+        "housePrice": round(math.prod(leg["houseProb"] for leg in legs), 4),
+    }
+
+
+def house_slips(candidates: list[dict]) -> dict[str, dict]:
+    """The house's own three slips per game, from its own numbers (docs/45).
+
+    No temperament and no hot-take floor: the house is not a competitor, it
+    is the ruler. Each tier follows its recipe so the three escalate in shape:
+    safe is four 1+ calls, optimistic leads with a 2+, rogue with a 3+ where a
+    player clears the floor. Shown in the eleven's receipt format and graded
+    like theirs; never in the league.
+    """
+    by_game: dict[str, list[dict]] = {}
+    for row in candidates:
+        by_game.setdefault(row["fixture"], []).append(row)
+    out: dict[str, dict] = {}
+    for label, pool in by_game.items():
+        if not pool or not ensemble.priced(pool[0]["kickoff"]):
+            continue
+        own = {}
+        for tier in ensemble.TIERS:
+            slip = None
+            for recipe in HOUSE_RECIPES[tier.key]:
+                slip = _house_recipe_slip(pool, tier, recipe)
+                if slip:
+                    break
+            own[tier.key] = slip
+        out[label] = own
+    return out
 
 
 def build_slates(
@@ -267,7 +317,7 @@ def build_slates(
             own: dict[str, dict | None] = {}
 
             if ensemble.priced(pool[0]["kickoff"]):
-                # docs/42: three bets at three house-priced bands, shape free.
+                # docs/45: three slips needing four, five and six foul events.
                 # Ranked by EDGE over the house, not by raw probability: a
                 # character hunts the legs it believes the house underprices,
                 # which is where a 2+ shout it is bullish on outranks a 1+ it
@@ -281,15 +331,19 @@ def build_slates(
                         -_preference(cid, r, context),
                     ),
                 )
-                for band in ensemble.BANDS:
-                    own[band.key] = _priced_bet(cid, hunted, band, context)
+                for tier in ensemble.TIERS:
+                    own[tier.key] = _unit_slip(cid, hunted, tier, context)
                 before = {k: (dict(v, legs=list(v["legs"])) if v else None) for k, v in own.items()}
                 _hot_take_floor(cid, own, pool, context)
-                # The floor swaps a leg at the same line, which can move the
-                # house price out of the band. A bet the floor pushed out of
-                # its band goes back to how it was: the price is the contract.
+                # The floor swaps a leg at the same line, so the count holds;
+                # a swap that broke it, or smuggled a 3+ past the reservation,
+                # is reverted. The count is the contract.
                 for key, bet in own.items():
-                    if not _in_band(bet):
+                    tier = next(t for t in ensemble.TIERS if t.key == key)
+                    if not _in_count(bet) or (
+                        bet
+                        and any(leg["fouls"] >= 3 and not tier.allows_three for leg in bet["legs"])
+                    ):
                         own[key] = before[key]
                     elif bet:
                         bet["housePrice"] = round(
@@ -558,7 +612,7 @@ def table(graded: list[dict], character_ids: list[str], since: str = SEASON_STAR
             expected[key] = int(extra["expected"])
 
     shape_legs = {sl.key: sl.legs for sl in ensemble.SLATES}
-    band_keys = {b.key for b in ensemble.BANDS}
+    band_keys = {t.key for t in ensemble.TIERS}
 
     rows = []
     for cid in character_ids:

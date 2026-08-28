@@ -1,5 +1,5 @@
 /**
- * The contract, said once (docs/38, docs/42).
+ * The contract, said once (docs/38, docs/45).
  *
  * The table's subtitle, the fixture page's bets note and the methodology page
  * all describe how the eleven bet and how the league scores them. They used
@@ -12,13 +12,13 @@
 import type { SlateShape } from "./data";
 
 export function isPriced(shapes: SlateShape[] | undefined): boolean {
-  return (shapes ?? []).some((sh) => sh.target != null);
+  return (shapes ?? []).some((sh) => sh.units != null || sh.target != null);
 }
 
 /** How the eleven bet, one sentence, for any surface. */
 export function betsCopy(priced: boolean): string {
   return priced
-    ? "On every game, every one of the eleven makes three bets at three fixed prices set by the house model: a banker, a value bet and a long shot, any shape they like inside the price."
+    ? "On every game, every one of the eleven makes three slips: safe needs four foul events to land, optimistic five, rogue six, any layout inside the count, with the house's price printed on each."
     : "On every game, every one of the eleven commits to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two.";
 }
 
