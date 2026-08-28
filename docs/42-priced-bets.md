@@ -1,7 +1,7 @@
 # The contract, amended: three bets per game, priced by the house
 
-**Status: Decided 2026-08-28, Oliver's sign-off; built the same day, gated on
-kickoff date. Effective matchweek 3 (4 to 6 September 2026).** Amends [38](38-the-contract.md): three bets per
+**Status: Superseded 2026-08-29 by [45](45-foul-events.md), before it ever ran. The
+builder, the era gate and the fouls-based draw survive under 45; the bands do not.** Amends [38](38-the-contract.md): three bets per
 model per game stays, the fixed shapes go. Matchweek 2's bets are binding
 under the old shapes and settle under them.
 

@@ -46,9 +46,11 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [37-display-decisions.md](37-display-decisions.md) | The ratification round: what stayed, what moved, what came back |
 | [38-the-contract.md](38-the-contract.md) | **Three bets per model per game. The plan of record; supersedes 36 and 37 on the bets** |
 | [39-instrument-grade.md](39-instrument-grade.md) | **The visual redesign: dark-first modules, the chart vocabulary, the temper-ring badges** |
+| [46-match-table.md](46-match-table.md) | **The fixture page's one player table: sortable, XI-aware, house-badged, phone-friendly** |
+| [45-foul-events.md](45-foul-events.md) | **The contract, amended again: safe, optimistic and rogue slips needing four, five and six foul events; the house makes the same three** |
 | [44-displays.md](44-displays.md) | **Six displays that are lacking or under-used, planned and ordered** |
 | [43-the-clock.md](43-the-clock.md) | **A scheduler that fires on time: a Cloudflare Worker presses GitHub's button. Setup steps and cost guards** |
-| [42-priced-bets.md](42-priced-bets.md) | **The contract amended: three bets per game at three house-priced bands, layout free, from matchweek 3** |
+| [42-priced-bets.md](42-priced-bets.md) | Superseded by 45 before it ran: three bets at three house-priced bands |
 | [41-primitives.md](41-primitives.md) | **What already exists. Read before writing a component, a table or a pitch** |
 | [40-the-cups.md](40-the-cups.md) | **Both domestic cups, the Championship, and why those ties get a match total and never a player pick** |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
