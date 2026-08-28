@@ -188,6 +188,40 @@ class TestNoDepartedPlayerReachesTheSite:
         named = {p["player"] for club in data["table"] for p in club["players"]}
         assert not (named & gone), f"departed players in squad tables: {named & gone}"
 
+    def test_the_cup_squads_list_nobody_who_left(self):
+        """The same rule on the cup pages, checked against a DIFFERENT source.
+
+        Cup squads come from the league's own `teams/{id}/compseasons/{id}/staff`
+        list; departures here come from FPL. Two independent sources agreeing is
+        worth more than either one checking itself.
+
+        Two wrong sources shipped before this existed. `currentTeam` on a ranked
+        row is a player's LAST club, which put a retired goalkeeper in a current
+        squad. `players?teams=&compSeasons=` is every registration that season,
+        which put eight loanees, the U21s and a player since sold to Juventus in
+        Tottenham's 66-man "squad". The club's own list is 33 and correct.
+        """
+        import json
+        from pathlib import Path as P
+
+        gone = self.departed_names()
+        checked = 0
+        for name in ("league-cup.json", "fa-cup.json"):
+            path = P("site/public/data") / name
+            if not path.exists():
+                continue
+            data = json.loads(path.read_text())
+            named = {
+                p["player"]
+                for tie in data.get("ties", [])
+                for side in ("home", "away")
+                for p in (tie.get("players") or {}).get(side, {}).get("squad", [])
+            }
+            checked += len(named)
+            assert not (named & gone), f"departed players in {name}: {named & gone}"
+        if not checked:
+            pytest.skip("no cup squads published in this checkout")
+
     def test_history_still_holds_them(self):
         """The other half of the split. Dropping them from training would be the
         opposite mistake, and a worse one: their minutes are real evidence."""
