@@ -24,7 +24,7 @@ import { fixtureSlug } from "@/lib/slug";
 import { cardKind } from "@/lib/timeline";
 
 /** One starred pick off the house sheet, flattened for the card back. */
-type HouseStar = { player: string; outOf100: number; line: number; market: string };
+type HouseStar = { player: string; outOf100: number; line: number; market: string; tier?: string | null };
 import ClubChip from "@/components/kit/ClubChip";
 import { Combobox } from "@/components/kit";
 import s from "./timeline.module.css";
@@ -408,6 +408,7 @@ function Game({
               <span className={s.backPlayer}>{l.player}</span>
               <span className={s.backWhat}>
                 {l.line}+ {l.market === "drawn" ? "won" : "fouls"}
+                {l.tier ? ` · ${l.tier}` : ""}
               </span>
               <span className={s.backProb}>{l.outOf100}</span>
             </li>

@@ -335,8 +335,11 @@ export type HousePick = {
   player: string;
   fullName: string;
   outOf100: number;
-  /** The sheet's best. A player stars at most once, at his rarest line. */
+  /** True when the pick carries a tier. Kept for older payloads. */
   star: boolean;
+  /** The pick's tier, one per line: 1+ safe, 2+ optimistic, 3+ rogue. A
+   *  player carries at most one tier on the sheet. */
+  tier?: "safe" | "optimistic" | "rogue" | null;
 };
 
 export type HouseSheet = {

@@ -1,7 +1,7 @@
 /**
  * The client-side port of the pipeline's `_house_sheet`, exercised on the
  * same cases as tests/test_house_sheet.py so the two can never drift: same
- * top-three ranking, same 3+ floor, same one-star-per-player rule.
+ * top-three ranking, same 3+ floor, same safest-first tiers, a player badged once.
  */
 
 import { describe, expect, it } from "vitest";
@@ -68,16 +68,19 @@ describe("houseSheetFrom", () => {
     expect(lines).not.toContain("drawn3");
   });
 
-  it("stars a player once, at his rarest line", () => {
+  it("badges three tiers safest first, a player at most once", () => {
     const sheet = houseSheetFrom(EXPLORER, "A v B", ON_PITCH);
-    const starred = sheet.groups.flatMap((g) =>
-      g.picks.filter((p) => p.star).map((p) => [g.market, g.line, p.player] as const)
-    );
-    const names = starred.map(([, , n]) => n);
+    const tier = (market: string, line: number) =>
+      sheet.groups.find((g) => g.market === market && g.line === line)?.picks.find((p) => p.tier);
+    expect(tier("committed", 1)?.player).toBe("Sangare");
+    expect(tier("committed", 1)?.tier).toBe("safe");
+    expect(tier("drawn", 1)?.player).toBe("Tanaka");
+    expect(tier("committed", 2)?.player).toBe("Anderson");
+    expect(tier("committed", 2)?.tier).toBe("optimistic");
+    expect(tier("drawn", 2)?.player).toBe("Aina");
+    expect(tier("committed", 3)).toBeUndefined();
+    const names = sheet.groups.flatMap((g) => g.picks.filter((p) => p.tier).map((p) => p.player));
     expect(new Set(names).size).toBe(names.length);
-    expect(starred).toContainEqual(["committed", 3, "Sangare"]);
-    expect(starred).toContainEqual(["committed", 2, "Anderson"]);
-    expect(starred).toContainEqual(["committed", 1, "Tanaka"]);
   });
 
   it("only reads players who are on the pitch", () => {

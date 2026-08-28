@@ -1,5 +1,6 @@
 import { Callout, Card, SectionHead } from "@/components/kit";
-import { getRound } from "@/lib/data";
+import { getPlayers, getRound } from "@/lib/data";
+import { contractCopy } from "@/lib/contract";
 import { count } from "@/lib/format";
 import styles from "../round.module.css";
 import prose from "./methodology.module.css";
@@ -8,6 +9,7 @@ export const metadata = { title: "Methodology · Foulgorithm" };
 
 export default function Methodology() {
   const round = getRound();
+  const contract = contractCopy(getPlayers().slates.shapes);
 
   return (
     <div className="stack">
@@ -57,12 +59,10 @@ export default function Methodology() {
             the rest are published exactly as the model says them.
           </p>
           <p>
-            Then five characters read the same evidence and disagree on purpose: different memory
-            lengths, different trust in thin samples, different faith in the matchup. Their numbers
-            are opinions by design, which is why the house figure, the five blended, is shown
-            beside every pick. Each gameweek all five commit to the same fixed slates and are
-            scored like a league: every leg lands is a win, all but one a draw, anything worse a
-            loss.
+            Then eleven characters read the same evidence and disagree on purpose: different
+            memory lengths, different trust in thin samples, different faith in the matchup. Their
+            numbers are opinions by design, which is why the house figure is shown beside every
+            pick. {contract.bets} They are scored like a league: {contract.scoring}
           </p>
           <p>
             Match totals work the same way at team level: committed and drawn rates per club,

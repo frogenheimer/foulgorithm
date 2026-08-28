@@ -1,3 +1,4 @@
+import { betsCopy, isPriced, scoringCopy } from "@/lib/contract";
 import Link from "next/link";
 import Signature from "@/components/characters/Signature";
 import type { Settings } from "@/components/characters/Signature";
@@ -68,7 +69,7 @@ export default function Characters() {
       </Callout>
 
       <Standings standings={players.standings ?? []} names={names}
-          priced={(players.slates.shapes ?? []).some((sh) => sh.target != null)}
+          priced={isPriced(players.slates.shapes)}
         />
 
       {printer.length > 0 && <Vidiprinter lines={printer} />}
@@ -76,7 +77,7 @@ export default function Characters() {
       <section>
         <SectionHead
           title="This week's bets"
-          note="Three bets per character on every game: six players at 1+, three at 2+, and a two-and-two. Identical shapes, so the league measures which players they pick and not how hard a bet they chose. A game marked * has no confirmed eleven yet: those bets regenerate automatically when the team sheets land, an hour before kickoff, and each bet's last version before its own kickoff is the one that scores."
+          note={`${betsCopy(isPriced(players.slates.shapes))} ${scoringCopy(isPriced(players.slates.shapes))} Hot is a leg where a character parts company with the pack.`}
         />
         {games.length ? (
           <div className={c.betGames}>

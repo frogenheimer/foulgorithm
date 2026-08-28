@@ -49,7 +49,7 @@ export default function Today() {
         (f.houseSheet?.groups ?? []).flatMap((g) =>
           g.picks
             .filter((p) => p.star)
-            .map((p) => ({ player: p.player, outOf100: p.outOf100, line: g.line, market: g.market }))
+            .map((p) => ({ player: p.player, outOf100: p.outOf100, line: g.line, market: g.market, tier: p.tier ?? null }))
         ),
       ])
       .filter(([, stars]) => (stars as unknown[]).length > 0)

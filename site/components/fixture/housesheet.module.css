@@ -97,14 +97,35 @@
   white-space: nowrap;
 }
 
-/* The star: the medal-chip language from the rail, gold with chip ink, so
-   "the best" reads identically everywhere. */
-.star {
+/* The tiers: three chips in the mono voice, escalating heat. Safe is the
+   object yellow, filled; optimistic the same yellow as an outline; rogue the
+   amber warn tone, filled. Same chip geometry as the league medals. */
+.tier {
   padding: 0 var(--s2);
-  background: var(--gold);
-  color: var(--accent-object-ink);
+  font-family: var(--font-mono);
   font-size: var(--t-xs);
-  line-height: 1.5;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  border: 1px solid transparent;
+}
+
+.safe {
+  background: var(--accent-object);
+  border-color: var(--accent-object);
+  color: var(--accent-object-ink);
+}
+
+.optimistic {
+  border-color: var(--accent-object);
+  color: var(--accent-object);
+}
+
+.rogue {
+  background: var(--warn);
+  border-color: var(--warn);
+  color: var(--accent-object-ink);
 }
 
 .price {

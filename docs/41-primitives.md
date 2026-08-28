@@ -114,3 +114,21 @@ Kept as a list because each one cost a rebuild.
 - [ ] If genuinely new: does it belong in `kit`?
 - [ ] Added a row here if so
 - [ ] `scripts/audit-ui.sh` passes without raising a baseline
+
+---
+
+## 🛑 Rendering rules that must never drift
+
+Added 28 August 2026, after an evening on which the pitch vanished when the
+lineup was confirmed, the house sheet's headline went to the longest shots,
+and the methodology page still described five characters on fixed slates.
+Each rule below is pinned by a test named beside it.
+
+| Rule | Where it holds | Pinned by |
+|---|---|---|
+| **An eleven always draws a pitch.** No formation from the league means lines by position, keeper first, header "by position". Never a hidden pitch | `sources/lineups.py` `shape_detail` | `tests/test_lineup_shape.py` |
+| **The house sheet has three tiers, one per line, safest first.** 1+ is `safe`, 2+ `optimistic`, 3+ `rogue`; badged in that order; a player carries at most one tier on the whole sheet; a 3+ group exists only above 20/100 | `publish/player_round.py` `_house_sheet`, ported in `lib/housesheet.ts` | `tests/test_house_sheet.py`, `lib/housesheet.test.ts` (mirrored cases) |
+| **The contract is said once.** How the eleven bet and how they score comes from `lib/contract.ts`, era read off the payload's shapes. No page carries its own sentence | table subtitle, fixture bets note, methodology | `lib/contract.test.ts`, `lib/primitives.test.ts` |
+| **One implementation per role.** Pitch, house sheet, slip rail and card, standings, game sheet, club chip, data table. A file whose name claims a role outside the registry fails the build | `components/` | `lib/primitives.test.ts` |
+| **Slips render the payload's shapes.** Labels, bands and prices come from `slates.shapes` and each bet; nothing is hard-coded on the page, so matchweek 3 flips the whole site by data | `five/Bets.tsx`, `five/SlipRail.tsx` | `test_league.py` `TestPricedBets` on the payload side |
+| **Contract copy and bet shapes switch by era together.** `isPriced(shapes)` is the only switch | everywhere above | `lib/contract.test.ts` |

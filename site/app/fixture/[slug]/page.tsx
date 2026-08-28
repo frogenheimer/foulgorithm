@@ -7,6 +7,7 @@ import { PageHeader, SectionHead } from "@/components/kit";
 import ClubChip from "@/components/kit/ClubChip";
 import type { Bet, Explorer as ExplorerData, Formations, HouseSheet as Sheet, MatchdayFixture } from "@/lib/data";
 import type { Outcomes } from "@/lib/graded";
+import { isPriced } from "@/lib/contract";
 import {
   fixtureSlug,
   getArchivedFixtures,
@@ -125,7 +126,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
   const weSaid = data.expectedTotals?.[v.label]?.expected;
   const confirmedSet = new Set(data.slates.confirmedFixtures ?? []);
   // docs/42: from matchweek 3 the bets are priced bands, not fixed shapes.
-  const priced = (data.slates.shapes ?? []).some((sh) => sh.target != null);
+  const priced = isPriced(data.slates.shapes);
   const medals = Object.fromEntries(
     (data.standings ?? [])
       .filter((r) => r.played > 0)

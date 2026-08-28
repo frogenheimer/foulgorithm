@@ -1083,6 +1083,8 @@ def _league_leaders() -> dict:
 
 #: The house sheet shows this many players per line group.
 HOUSE_SHEET_PICKS = 3
+#: The three tiers of the house sheet, badged in this order (docs/41).
+HOUSE_SHEET_TIERS = ((1, "safe"), (2, "optimistic"), (3, "rogue"))
 #: A 3+ group appears only when its best price clears this. Below it the
 #: group is a list of longshots pretending to be shouts.
 HOUSE_SHEET_3PLUS_FLOOR = 0.20
@@ -1112,6 +1114,7 @@ def _house_sheet(fixture: dict) -> dict:
                     "fullName": p.get("fullName") or p["player"],
                     "outOf100": round((p[market].get(f"p{line}plus") or 0.0) * 100),
                     "star": False,
+                    "tier": None,
                 }
                 for p in ranked
                 if (p[market].get(f"p{line}plus") or 0.0) > 0
@@ -1123,13 +1126,22 @@ def _house_sheet(fixture: dict) -> dict:
             if picks:
                 groups.append({"market": market, "line": line, "picks": picks})
 
-    starred: set[str] = set()
-    for group in sorted(groups, key=lambda g: (g["market"] != "committed", -g["line"])):
-        for pick in group["picks"]:
-            if pick["player"] not in starred:
-                pick["star"] = True
-                starred.add(pick["player"])
-                break
+    # Three tiers, one per line, badged safest first: the 1+ shouts are the
+    # SAFE tier, 2+ OPTIMISTIC, 3+ ROGUE. Rarest-first badging (28 August
+    # 2026) put the sheet's headline on the longest shots; a reader wants
+    # the safe call anchored by the best name and the rogue call falling to
+    # the next. A player carries at most ONE tier on the whole sheet.
+    badged: set[str] = set()
+    for tier_line, tier in HOUSE_SHEET_TIERS:
+        for group in groups:
+            if group["line"] != tier_line:
+                continue
+            for pick in group["picks"]:
+                if pick["player"] not in badged:
+                    pick["tier"] = tier
+                    pick["star"] = True
+                    badged.add(pick["player"])
+                    break
 
     return {"groups": groups}
 
