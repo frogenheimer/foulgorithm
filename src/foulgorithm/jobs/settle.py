@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 # Committed, not cached. See lineup_watch.STATE for why. It matters more here:
@@ -135,7 +135,7 @@ def pending_fixtures(fixtures, now=None) -> list:
     """
     from foulgorithm.store.players import STATS_DELAY
 
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     return [
         f
         for f in fixtures
@@ -143,16 +143,30 @@ def pending_fixtures(fixtures, now=None) -> list:
     ]
 
 
-def _settled_fixtures() -> set[str]:
-    """Fixtures that have finished, named the way predictions record them."""
-    from foulgorithm.identity.teams import from_pulselive
-    from foulgorithm.sources import pulselive
+def settled_fixtures(fixtures, since: str | None) -> set[str]:
+    """Fixtures this snapshot window settles, named as predictions record them.
 
+    Complete, AND kicked off after the previous snapshot was taken. The gate
+    used to be every completed game this season, and on 28 August 2026 the
+    evening settle graded 141 of the previous round's still-open claims with
+    that night's diffs: a player unused last week whose first outcome arrived
+    tonight settled last week's claim about him. A diff can only speak for
+    the games inside its own window.
+    """
+    from foulgorithm.identity.teams import from_pulselive
+
+    floor = datetime.fromisoformat(since.replace("Z", "+00:00")) if since else None
     return {
         f"{from_pulselive(f.home)} v {from_pulselive(f.away)}"
-        for f in pulselive.fixtures()
-        if f.complete
+        for f in fixtures
+        if f.complete and (floor is None or f.kickoff_utc > floor)
     }
+
+
+def _settled_fixtures(since: str | None = None) -> set[str]:
+    from foulgorithm.sources import pulselive
+
+    return settled_fixtures(pulselive.fixtures(), since)
 
 
 PLAYERS = Path("site/public/data/players.json")
@@ -226,7 +240,7 @@ def run(dry_run: bool = False) -> int:
     # and market with no fixture in the key. A player's Saturday appearance
     # would settle a claim about his Tuesday match. That would not fail
     # loudly; it would quietly produce a track record that looks real.
-    settled = _settled_fixtures()
+    settled = _settled_fixtures(since=previous.get("takenAt"))
     if not settled:
         print("no completed fixtures to settle against")
         return 1
@@ -313,7 +327,7 @@ def run(dry_run: bool = False) -> int:
     TRACK_RECORD.write_text(
         json.dumps(
             {
-                "generatedAt": datetime.now(timezone.utc).isoformat(),
+                "generatedAt": datetime.now(UTC).isoformat(),
                 "settledPlayers": len(matches),
                 "gradedClaims": result["graded"],
                 "withoutOutcome": result["missing_outcome"],
@@ -323,7 +337,7 @@ def run(dry_run: bool = False) -> int:
         )
         + "\n"
     )
-    taken_at = datetime.now(timezone.utc).isoformat()
+    taken_at = datetime.now(UTC).isoformat()
     kept = persist_matches(matches, previous.get("takenAt"), taken_at)
     if kept:
         print(f"kept {kept} per-match rows for training")
