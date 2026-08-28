@@ -124,6 +124,8 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
   const outcomes = v.outcomes ?? undefined;
   const weSaid = data.expectedTotals?.[v.label]?.expected;
   const confirmedSet = new Set(data.slates.confirmedFixtures ?? []);
+  // docs/42: from matchweek 3 the bets are priced bands, not fixed shapes.
+  const priced = (data.slates.shapes ?? []).some((sh) => sh.target != null);
   const medals = Object.fromEntries(
     (data.standings ?? [])
       .filter((r) => r.played > 0)
@@ -255,7 +257,9 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
                   ? "Three bets from every competitor, exactly as committed before kickoff. A tick landed, a cross did not, and a struck-through leg is void: its player had no graded outcome, so the bet settled on its remaining legs."
                   : v.competition
                     ? "Exhibition. The same three bets from every competitor, published for the ride: nothing here is recorded, graded or scored in the league table. The team-sheet feed is league-only, so these are built from predicted elevens."
-                    : "Three bets from every competitor, the five and the challengers alike, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet\u2019s last version before kickoff is the one that counts."
+                    : priced
+                      ? "Three bets from every competitor at three fixed prices, banker, value and long shot, set by the house model: shape is free, difficulty is not. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet’s last version before kickoff is the one that counts."
+                      : "Three bets from every competitor, the five and the challengers alike, the ones the league table scores. * means the eleven is not confirmed yet: these regenerate automatically when the team sheets land, an hour before kickoff, and each bet\u2019s last version before kickoff is the one that counts."
               }
             />
             <SlipRail

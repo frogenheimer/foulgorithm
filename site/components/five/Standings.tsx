@@ -15,8 +15,11 @@ import { modelName } from "@/lib/names";
 export default function Standings({
   standings,
   names,
+  priced = false,
 }: {
   standings: Standing[];
+  /** True once the bets are the priced bands of docs/42. */
+  priced?: boolean;
   /** id -> name as written, so the table never capitalises ids in CSS. */
   names?: Record<string, string>;
 }) {
@@ -25,7 +28,11 @@ export default function Standings({
   return (
     <Card
       title="The table"
-      subtitle="On every game, every competitor commits to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Every leg lands is a win, all but one is a draw. FD is foul difference: a landed leg counts +1, a miss counts how far it missed by. Bold is how rare their picks are by the house's own price, averaged over everything they have committed; WB banks that rarity only when a pick lands, and it breaks ties behind FD."
+      subtitle={
+        priced
+          ? "On every game, every competitor makes three bets at three fixed prices set by the house model: a banker, a value bet and a long shot, any shape they like inside the price. Every leg lands is a win, one foul short in total is a draw. FD is foul difference: a landed leg counts +1, a miss counts how far it missed by. Bold is how rare their picks are by the house's own price; WB banks that rarity only when a pick lands, and it breaks ties behind FD."
+          : "On every game, every competitor commits to the same three bets: six players at 1+, three at 2+, and a mixed two-and-two. Every leg lands is a win, all but one is a draw. FD is foul difference: a landed leg counts +1, a miss counts how far it missed by. Bold is how rare their picks are by the house's own price, averaged over everything they have committed; WB banks that rarity only when a pick lands, and it breaks ties behind FD."
+      }
       flush
     >
       <DataTable

@@ -579,3 +579,131 @@ class TestBoldness:
     def test_a_character_with_nothing_committed_reads_zero(self):
         held = league.boldness([], [], self.PREDICTIONS, ["alan"])
         assert held["alan"] == {"boldness": 0.0, "winBoldness": 0.0}
+
+
+# ---------------------------------------------------------------------------
+# docs/42: from matchweek 3, three bets per game at three house-priced bands.
+# ---------------------------------------------------------------------------
+
+import copy
+
+
+def priced_pool(n=20):
+    """A September game: the old pool plus 3+ rows, so every band is reachable."""
+    out = []
+    for row in pool(n):
+        row = copy.deepcopy(row)
+        row["kickoff"] = "2026-09-05T14:00:00+00:00"
+        out.append(row)
+    for i in range(n):
+        base = 0.28 - i * 0.01
+        out.append(
+            candidate(
+                f"P{i}",
+                {c: max(0.03, base + (0.02 if c == "alan" else 0)) for c in FIVE},
+                line=2.5,
+            )
+        )
+        out[-1]["kickoff"] = "2026-09-05T14:00:00+00:00"
+    return out
+
+
+def house_price(bet):
+    price = 1.0
+    for leg in bet["legs"]:
+        price *= leg["houseProb"]
+    return price
+
+
+class TestPricedBets:
+    def test_before_the_effective_date_the_old_shapes_still_build(self):
+        built = league.build_slates(pool(), FIVE)
+        assert set(built["A v B"]["alan"]) == {sl.key for sl in ensemble.SLATES}
+
+    def test_from_matchweek_three_every_character_gets_the_three_bands(self):
+        built = league.build_slates(priced_pool(), FIVE)
+        for cid in FIVE:
+            assert set(built["A v B"][cid]) == {b.key for b in ensemble.BANDS}
+            for band in ensemble.BANDS:
+                bet = built["A v B"][cid][band.key]
+                assert bet is not None, (cid, band.key)
+                assert band.low <= house_price(bet) <= band.high, (cid, band.key, house_price(bet))
+                assert bet["band"] == band.key
+                assert abs(bet["housePrice"] - house_price(bet)) < 1e-3  # legs carry 4dp prices
+
+    def test_a_bet_has_between_two_and_six_legs(self):
+        built = league.build_slates(priced_pool(), FIVE)
+        for cid in FIVE:
+            for bet in built["A v B"][cid].values():
+                assert 2 <= len(bet["legs"]) <= 6
+
+    def test_a_player_appears_at_most_once_in_a_bet(self):
+        built = league.build_slates(priced_pool(), FIVE)
+        for cid in FIVE:
+            for bet in built["A v B"][cid].values():
+                names = [leg["fullName"] for leg in bet["legs"]]
+                assert len(names) == len(set(names))
+
+    def test_layouts_are_free_so_bands_do_not_all_share_a_leg_count(self):
+        built = league.build_slates(priced_pool(), FIVE)
+        counts = {len(built["A v B"]["alan"][b.key]["legs"]) for b in ensemble.BANDS}
+        assert len(counts) > 1
+
+    def test_the_house_prices_and_the_character_chooses(self):
+        # The band is judged by the HOUSE's number, so a bet can sit in the
+        # band while the character believes it is better than that.
+        built = league.build_slates(priced_pool(), FIVE)
+        bet = built["A v B"]["alan"]["banker"]
+        own = 1.0
+        for leg in bet["legs"]:
+            own *= leg["prob"]
+        assert own >= house_price(bet)
+
+
+def priced_graded(cid, slate, pairs, fixture="A v B", round_key="mw03"):
+    """Graded legs for one priced bet: (landed, deficit) per leg."""
+    return [
+        {
+            "key": f"{fixture}|{cid}|{slate}|{i}",
+            "model_id": cid,
+            "landed": landed,
+            "deficit": deficit,
+            "extra": {"slate": slate, "round": round_key, "fixture": fixture, "expected": len(pairs)},
+        }
+        for i, (landed, deficit) in enumerate(pairs)
+    ]
+
+
+class TestScoringPricedBets:
+    def test_every_leg_landing_is_a_win(self):
+        rows = league.table(priced_graded("alan", "banker", [(True, 0), (True, 0), (True, 0)]), ["alan"])
+        assert (rows[0]["won"], rows[0]["points"]) == (1, 3)
+
+    def test_one_foul_short_in_total_is_a_draw(self):
+        rows = league.table(priced_graded("alan", "value", [(True, 0), (False, 1), (True, 0)]), ["alan"])
+        assert (rows[0]["drawn"], rows[0]["points"]) == (1, 1)
+
+    def test_two_fouls_short_is_a_loss_even_across_one_leg(self):
+        # A 3+ shout that got one foul is two short: a loss, not a near miss.
+        rows = league.table(priced_graded("alan", "long", [(True, 0), (False, 2)]), ["alan"])
+        assert (rows[0]["lost"], rows[0]["points"]) == (1, 0)
+
+    def test_two_legs_each_one_short_is_a_loss(self):
+        rows = league.table(priced_graded("alan", "banker", [(False, 1), (False, 1), (True, 0)]), ["alan"])
+        assert rows[0]["lost"] == 1
+
+    def test_a_bet_voided_below_two_legs_is_not_a_result(self):
+        rows = league.table(priced_graded("alan", "banker", [(True, 0)]), ["alan"])
+        assert rows[0]["played"] == 0
+
+    def test_old_shapes_keep_the_old_rule(self):
+        # Under the shapes, "all but one leg" is the draw whatever the deficit.
+        graded = [
+            {
+                "key": f"k{i}", "model_id": "alan", "landed": landed, "deficit": deficit,
+                "extra": {"slate": "three-twos", "round": "mw02", "fixture": "A v B", "expected": 3},
+            }
+            for i, (landed, deficit) in enumerate([(True, 0), (True, 0), (False, 2)])
+        ]
+        rows = league.table(graded, ["alan"])
+        assert rows[0]["drawn"] == 1

@@ -682,11 +682,26 @@ export type Standing = {
   winBoldness?: number;
 };
 
-export type SlateShape = { key: string; label: string; legs: number };
+/** A bet shape. Under the fixed shapes `legs` is set; under the priced bands
+ *  (docs/42) `target`, `low` and `high` are, and the leg count is free. */
+export type SlateShape = {
+  key: string;
+  label: string;
+  legs?: number;
+  target?: number;
+  low?: number;
+  high?: number;
+};
 
 /** One committed bet: a shape filled with legs, or null where the character
  *  passed because the game's pool could not fill it. */
-export type Bet = { legs: SlipLeg[]; label: string } | null;
+export type Bet = {
+  legs: SlipLeg[];
+  label: string;
+  /** Priced bets only (docs/42): the band and the house's price for the bet. */
+  band?: string;
+  housePrice?: number;
+} | null;
 
 export type Slates = {
   shapes: SlateShape[];

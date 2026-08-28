@@ -668,10 +668,7 @@ def publish(
         # store/published_picks.py for why it is the last version before kickoff.
         "settledCards": _settled_cards(),
         "slates": {
-            "shapes": [
-                {"key": sl.key, "label": sl.label, "legs": sl.legs}
-                for sl in ensemble.SLATES
-            ],
+            "shapes": _shapes_for(board),
             "byGame": slates,
             "confirmedFixtures": sorted(confirmed_fixtures),
             "note": "Identical shapes for all five on every game, so the table "
@@ -714,6 +711,16 @@ def publish(
             "note": "exhibition: nothing enters the record",
         }
     return payload
+
+
+def _shapes_for(board: list[dict]) -> list[dict]:
+    """The bets' shapes for this board: bands from docs/42's date, shapes before."""
+    if board and all(ensemble.priced(f["kickoff"]) for f in board):
+        return [
+            {"key": b.key, "label": b.label, "target": b.target, "low": b.low, "high": b.high}
+            for b in ensemble.BANDS
+        ]
+    return [{"key": sl.key, "label": sl.label, "legs": sl.legs} for sl in ensemble.SLATES]
 
 
 def _commit_slates(slates: dict, published: str) -> dict:

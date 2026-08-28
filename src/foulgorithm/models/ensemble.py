@@ -71,6 +71,64 @@ SLATES: tuple[Slate, ...] = (
 )
 
 
+@dataclass(frozen=True)
+class Band:
+    """A fixed PRICE every character must hit, by the house's number (docs/42).
+
+    The shape inside is free: two to six legs, any mix of lines and markets.
+    Difficulty is what is held constant now, not the leg count.
+    """
+
+    key: str
+    label: str
+    target: float
+    low: float
+    high: float
+
+
+BANDS: tuple[Band, ...] = (
+    Band("banker", "Banker", 0.15, 0.12, 0.20),
+    Band("value", "Value", 0.06, 0.04, 0.08),
+    Band("long", "Long shot", 0.025, 0.015, 0.04),
+)
+
+#: Games kicking off from here are bet at the bands. Earlier games keep the
+#: shapes and are scored under them: matchweek 2 was committed under the old
+#: contract and the record does not rewrite history (docs/42).
+PRICED_FROM = "2026-09-04"
+
+
+def priced(kickoff_iso: str) -> bool:
+    return str(kickoff_iso)[:10] >= PRICED_FROM
+
+
+def score_priced(pairs: list[tuple[bool, int]]) -> dict:
+    """Points for one priced bet, from (landed, deficit) per leg.
+
+    Bets no longer share a leg count, so the near miss is measured in fouls:
+    every leg landing is a win, the bet falling exactly ONE foul short in
+    total is a draw, anything else is a loss. Same points as the shapes.
+    """
+    if not pairs:
+        return {"points": 0, "result": "void", "landed": 0, "missed": 0, "difference": 0}
+    landed = sum(1 for ok, _ in pairs if ok)
+    missed = len(pairs) - landed
+    short = sum(deficit for ok, deficit in pairs if not ok)
+    if missed == 0:
+        points, result = 3, "won"
+    elif short == 1:
+        points, result = 1, "drawn"
+    else:
+        points, result = 0, "lost"
+    return {
+        "points": points,
+        "result": result,
+        "landed": landed,
+        "missed": missed,
+        "difference": landed - short,
+    }
+
+
 def score_slate(legs: list[bool]) -> dict:
     """Points and difference for one slate, read as a football result.
 

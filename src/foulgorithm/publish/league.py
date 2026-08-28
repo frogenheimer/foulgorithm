@@ -22,6 +22,8 @@ leg counts +1. A near miss and a nowhere miss stop looking the same.
 
 from __future__ import annotations
 
+import math
+
 from foulgorithm.models import ensemble
 
 
@@ -112,7 +114,10 @@ def _hot_take_floor(cid: str, own: dict, pool: list[dict], context: dict | None)
                 if _row_for(built["legs"][i], pool, cid)
                 else 0.0,
             )
-            built["legs"][weakest] = _leg_from_row(row, cid, hot=True)
+            swapped = _leg_from_row(row, cid, hot=True)
+            if "houseProb" in built["legs"][weakest]:
+                swapped["houseProb"] = round(_house_price(row), 4)
+            built["legs"][weakest] = swapped
             return
 
 
@@ -125,6 +130,110 @@ def _row_for(leg: dict, pool: list[dict], cid: str) -> dict | None:
         ):
             return row
     return None
+
+
+def _house_price(row: dict) -> float:
+    """The house's own number for one leg: the ruler every band is measured by."""
+    from foulgorithm.publish.player_round import HOUSE_MODEL
+
+    probs = row.get("probs") or {}
+    if HOUSE_MODEL in probs:
+        return float(probs[HOUSE_MODEL])
+    return house_probability(row, list(probs))
+
+
+def _priced_bet(cid: str, ranked: list[dict], band, context: dict | None) -> dict | None:
+    """One bet inside a band, by the house's price, in this character's order.
+
+    Legs join in the character's own preference order until the house prices
+    the bet inside the band. Two rules keep that reachable. A leg that would
+    drop the bet BELOW the band is skipped for a milder one further down. And
+    a leg only joins as a filler if the band is still reachable after it
+    within six legs, using the smallest prices left in the pool; otherwise
+    the builder reaches for a bigger leg now. Whenever one remaining leg
+    would land the bet in the band outright, the most-preferred such leg
+    closes it. Two to six legs; None when the pool cannot make the price.
+    """
+    from foulgorithm.publish.player_round import HOT_TAKE_MARGIN, MAX_LEGS_PER_TIER
+
+    rows = [r for r in ranked if cid in r.get("probs", {}) and _house_price(r) > 0]
+    chosen: list[dict] = []
+    used: set[str] = set()
+    combined = 1.0
+
+    def smallest_per_player(excluding: str) -> list[float]:
+        best: dict[str, float] = {}
+        for r in rows:
+            name = r["fullName"]
+            if name in used or name == excluding:
+                continue
+            p = _house_price(r)
+            if name not in best or p < best[name]:
+                best[name] = p
+        return sorted(best.values())
+
+    while len(chosen) < MAX_LEGS_PER_TIER:
+        closer = next(
+            (
+                r
+                for r in rows
+                if r["fullName"] not in used
+                and len(chosen) + 1 >= 2
+                and band.low <= combined * _house_price(r) <= band.high
+            ),
+            None,
+        )
+        if closer is not None:
+            chosen.append(closer)
+            used.add(closer["fullName"])
+            combined *= _house_price(closer)
+            break
+
+        filler = None
+        slots = MAX_LEGS_PER_TIER - len(chosen) - 1
+        for r in rows:
+            if r["fullName"] in used:
+                continue
+            after = combined * _house_price(r)
+            if after < band.low:
+                continue
+            floor = after * math.prod(smallest_per_player(r["fullName"])[:slots])
+            if floor <= band.high:
+                filler = r
+                break
+        if filler is None:
+            return None
+        chosen.append(filler)
+        used.add(filler["fullName"])
+        combined *= _house_price(filler)
+
+    if len(chosen) < 2 or not (band.low <= combined <= band.high):
+        return None
+
+    legs = []
+    for row in chosen:
+        leg = _leg_from_row(row, cid, hot=_edge(cid, row) >= HOT_TAKE_MARGIN)
+        leg["houseProb"] = round(_house_price(row), 4)
+        legs.append(leg)
+    return {
+        "legs": legs,
+        "label": band.label,
+        "band": band.key,
+        "housePrice": round(combined, 4),
+        "target": band.target,
+    }
+
+
+def _in_band(bet: dict | None) -> bool:
+    if not bet:
+        return True
+    band = next((b for b in ensemble.BANDS if b.key == bet.get("band")), None)
+    if band is None:
+        return True
+    price = 1.0
+    for leg in bet["legs"]:
+        price *= leg.get("houseProb", 1.0)
+    return band.low <= price <= band.high
 
 
 def build_slates(
@@ -155,6 +264,25 @@ def build_slates(
         for cid in character_ids:
             ranked = sorted(pool, key=lambda r: -_preference(cid, r, context))
             own: dict[str, dict | None] = {}
+
+            if ensemble.priced(pool[0]["kickoff"]):
+                # docs/42: three bets at three house-priced bands, shape free.
+                for band in ensemble.BANDS:
+                    own[band.key] = _priced_bet(cid, ranked, band, context)
+                before = {k: (dict(v, legs=list(v["legs"])) if v else None) for k, v in own.items()}
+                _hot_take_floor(cid, own, pool, context)
+                # The floor swaps a leg at the same line, which can move the
+                # house price out of the band. A bet the floor pushed out of
+                # its band goes back to how it was: the price is the contract.
+                for key, bet in own.items():
+                    if not _in_band(bet):
+                        own[key] = before[key]
+                    elif bet:
+                        bet["housePrice"] = round(
+                            math.prod(leg.get("houseProb", 1.0) for leg in bet["legs"]), 4
+                        )
+                out[label][cid] = own
+                continue
 
             for slate in ensemble.SLATES:
                 legs: list[dict] = []
@@ -420,6 +548,7 @@ def table(
             expected[key] = int(extra["expected"])
 
     shape_legs = {sl.key: sl.legs for sl in ensemble.SLATES}
+    band_keys = {b.key for b in ensemble.BANDS}
 
     rows = []
     for cid in character_ids:
@@ -430,11 +559,18 @@ def table(
             round_key, _fixture, owner, slate_key = key
             if owner != cid:
                 continue
-            need = expected.get(key, shape_legs.get(slate_key, 0))
+            priced_bet = slate_key in band_keys
+            need = expected.get(key, 0 if priced_bet else shape_legs.get(slate_key, 0))
             if not pairs or need == 0 or len(pairs) != need:
                 continue  # not every leg has settled, so it is not a result yet
+            if priced_bet and need < 2:
+                continue  # voided below two legs: void whole, not a result (docs/42)
 
-            score = ensemble.score_slate([landed for landed, _ in pairs])
+            score = (
+                ensemble.score_priced(pairs)
+                if priced_bet
+                else ensemble.score_slate([landed for landed, _ in pairs])
+            )
             played += 1
             points += score["points"]
             # Foul difference: +1 per landed leg, minus the size of each

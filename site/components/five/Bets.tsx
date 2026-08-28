@@ -72,7 +72,11 @@ export function SlipCard({
                 </ul>
                 {price != null && (
                   <div className={s.total}>
-                    <span className={s.totalLabel}>we make it</span>
+                    <span className={s.totalLabel}>
+                      {bet.housePrice != null
+                        ? `house ${Math.max(1, Math.round(bet.housePrice * 100))}, we make it`
+                        : "we make it"}
+                    </span>
                     <span className={s.dots} aria-hidden />
                     <span className={s.price}>
                       {price < 1 ? "<1" : price}/100

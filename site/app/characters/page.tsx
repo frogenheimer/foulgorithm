@@ -67,7 +67,9 @@ export default function Characters() {
         that helps.
       </Callout>
 
-      <Standings standings={players.standings ?? []} names={names} />
+      <Standings standings={players.standings ?? []} names={names}
+          priced={(players.slates.shapes ?? []).some((sh) => sh.target != null)}
+        />
 
       {printer.length > 0 && <Vidiprinter lines={printer} />}
 
