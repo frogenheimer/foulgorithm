@@ -60,7 +60,9 @@ export default function Timeline({
   /** fixture label -> the house sheet's starred picks, for the card back. */
   sheets?: Record<string, HouseStar[]>;
 }) {
-  const [week, setWeek] = useState<number | "all">("all");
+  // Opens on the current matchweek, and (below) on today's day within it:
+  // a reader arriving on a Saturday wants Saturday, not the season.
+  const [week, setWeek] = useState<number | "all">(currentMatchweek ?? "all");
 
   // Rendered before the clock is known, so everything starts as upcoming and
   // settles on mount. Deciding on the server would bake the deploy's clock into
@@ -107,6 +109,26 @@ export default function Timeline({
           month: "long",
         });
 
+  // Land on today once the clock is known: today's day if it has games,
+  // else the next day with something still to play, else the last day.
+  // Once only, so a reader who scrolls away is never dragged back.
+  const dayRefs = useRef(new Map<string, HTMLElement>());
+  const anchored = useRef(false);
+  useEffect(() => {
+    if (now === null || anchored.current || days.size === 0) return;
+    const keys = [...days.keys()];
+    const anchor =
+      (days.has(today) && today) ||
+      keys.find((k) => (days.get(k) ?? []).some((f) => stateOf(f) !== "past")) ||
+      keys[keys.length - 1];
+    const el = dayRefs.current.get(anchor);
+    if (!el) return;
+    anchored.current = true;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ block: "start", behavior: reduced ? "auto" : "smooth" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [now, days, today]);
+
   return (
     <div>
       {/* A dropdown, not a scrolling row of thirty-eight buttons. The row put
@@ -149,7 +171,13 @@ export default function Timeline({
           const live = games.filter((g) => stateOf(g) === "live").length;
           const done = games.filter((g) => stateOf(g) === "past").length;
           return (
-            <section key={day} className={day === today ? `${s.day} ${s.today}` : s.day}>
+            <section
+              key={day}
+              ref={(el) => {
+                if (el) dayRefs.current.set(day, el);
+              }}
+              className={day === today ? `${s.day} ${s.today}` : s.day}
+            >
               <h3 className={s.dayLabel}>
                 {day}
                 <span className={s.dayMeta}>

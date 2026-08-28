@@ -19,6 +19,8 @@
 }
 
 .day {
+  /* Room above the day label when the page lands on it. */
+  scroll-margin-top: var(--s6);
   position: relative;
   display: grid;
   gap: var(--s3);
