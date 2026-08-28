@@ -21,9 +21,13 @@ from pathlib import Path
 
 WORKFLOW = Path(".github/workflows/lineups.yml")
 
-# Fire before the watcher's own T-75 window, leaving room for GitHub's
-# scheduler to run late, which it does under load.
-LEAD = timedelta(minutes=100)
+# Fire well before the watcher's own T-65 window. GitHub's scheduler ran
+# this repo's wakes about two hours late on every scheduled run from 23 to
+# 25 August 2026 (17:20 crons starting at 19:17), and on 28 August the T-100
+# wake had not fired at T-20, so the confirmed elevens were published by
+# hand. Four hours of lead absorbs that; the watcher sleeps until the
+# window opens, so an early start costs nothing but a runner minute.
+LEAD = timedelta(hours=4)
 
 # GitHub rejects a workflow with too many schedule entries and throttles heavy
 # users. A fortnight is plenty: this reruns weekly.
