@@ -12,8 +12,6 @@ came from so the next person can tell whether it is stale.
 
 import json
 
-import pytest
-
 from foulgorithm.sources import league_seasons as ls
 
 
@@ -110,9 +108,7 @@ class TestPagination:
     def test_every_page_is_read(self, monkeypatch):
         from foulgorithm.sources import pulselive
 
-        _get, calls = self.fake_get(
-            [[("A", 900.0), ("B", 800.0)], [("C", 700.0)]]
-        )
+        _get, calls = self.fake_get([[("A", 900.0), ("B", 800.0)], [("C", 700.0)]])
         monkeypatch.setattr(pulselive, "_get", _get)
         got = ls.fetch_stat("mins_played", 418)
         assert got == {"A": 900.0, "B": 800.0, "C": 700.0}
@@ -137,7 +133,9 @@ class TestRepairingTruncatedStats:
         players = {}
         for stat, count in stat_counts.items():
             for i in range(count):
-                players.setdefault(f"P{i}", {"player": f"P{i}", "season": "2021/22", "seasonId": 418})
+                players.setdefault(
+                    f"P{i}", {"player": f"P{i}", "season": "2021/22", "seasonId": 418}
+                )
                 players[f"P{i}"][stat] = float(i)
         rows = list(players.values())
         for row in rows:

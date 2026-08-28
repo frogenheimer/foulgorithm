@@ -9,8 +9,6 @@ Normalising to first-initial-plus-surname is what football-data already uses,
 so it is the target format rather than a new one.
 """
 
-import pytest
-
 from foulgorithm.identity import referees
 
 

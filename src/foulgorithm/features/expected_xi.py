@@ -49,7 +49,9 @@ def last_eleven(history: pd.DataFrame, team: str, as_of) -> set[str]:
     return set(rows[rows["kickoff_utc"] == latest]["player"].head(11))
 
 
-def assemble(last: list[str], fallback: list[str], unavailable: set[str], size: int = 11) -> list[str]:
+def assemble(
+    last: list[str], fallback: list[str], unavailable: set[str], size: int = 11
+) -> list[str]:
     """The last eleven, minus anyone ruled out, topped up from the fallback.
 
     Order matters: the last eleven leads because it is the better predictor, and

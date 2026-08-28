@@ -18,15 +18,15 @@ from __future__ import annotations
 
 import json
 import statistics
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pandas as pd
 
 OUTPUT = Path("site/public/data/matchday.json")
 
-WINDOW = 5           # matches shown as dots
-FORM_SEASONS = 2     # how far back the averages look
+WINDOW = 5  # matches shown as dots
+FORM_SEASONS = 2  # how far back the averages look
 TOP_PLAYERS = 6
 
 # Real playing time, not appearances. Three appearances of nine minutes is a
@@ -111,9 +111,7 @@ def _league_ranks(matches: pd.DataFrame, clubs: list[str] | None = None) -> dict
     the current league: the match window spans two seasons, and without the
     restriction relegated clubs pad the field to "18 of 23".
     """
-    pool = sorted(
-        set(matches["home_team_raw"].dropna()) | set(matches["away_team_raw"].dropna())
-    )
+    pool = sorted(set(matches["home_team_raw"].dropna()) | set(matches["away_team_raw"].dropna()))
     clubs = sorted(set(clubs) & set(pool)) if clubs is not None else pool
     means: dict[str, dict[str, float]] = {}
     for club in clubs:
@@ -266,7 +264,11 @@ def _players(
     if stats.empty:
         return {"defensive": [], "offensive": []}
 
-    for column, source in (("foulsPer90", "fouls"), ("wonPer90", "won"), ("tacklesPer90", "tackles")):
+    for column, source in (
+        ("foulsPer90", "fouls"),
+        ("wonPer90", "won"),
+        ("tacklesPer90", "tackles"),
+    ):
         stats[column] = stats[source] / stats["nineties"]
 
     def per_player_hits(player: str, column: str, line: float) -> dict:
@@ -346,6 +348,7 @@ def build(seasons: int = FORM_SEASONS) -> dict:
     from foulgorithm.publish.site_export import season_labels
     from foulgorithm.sources import football_data
     from foulgorithm.store.players import load_player_matches
+
     labels = season_labels()[-seasons:]
     frames = []
     for label in labels:
@@ -358,7 +361,9 @@ def build(seasons: int = FORM_SEASONS) -> dict:
     second = []
     for label in labels:
         try:
-            second.append(pd.DataFrame(football_data.parse(football_data.fetch(label, division="E1"))))
+            second.append(
+                pd.DataFrame(football_data.parse(football_data.fetch(label, division="E1")))
+            )
         except Exception:
             continue
     championship = pd.concat(second, ignore_index=True) if second else pd.DataFrame()
@@ -417,7 +422,7 @@ def build(seasons: int = FORM_SEASONS) -> dict:
         )
 
     return {
-        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "generatedAt": datetime.now(UTC).isoformat(),
         "window": WINDOW,
         "seasons": labels,
         "note": (
@@ -440,13 +445,17 @@ if __name__ == "__main__":
     print(f"{len(result['fixtures'])} fixtures, seasons {', '.join(result['seasons'])}")
     for f in result["fixtures"][:3]:
         ref = f["referee"]
-        print(f"\n{f['home']} v {f['away']}   ref {ref['name']} "
-              f"({ref['foulsPerMatch']} fouls, {ref['yellowsPerMatch']} cards over {ref['matches']})")
+        print(
+            f"\n{f['home']} v {f['away']}   ref {ref['name']} "
+            f"({ref['foulsPerMatch']} fouls, {ref['yellowsPerMatch']} cards over {ref['matches']})"
+        )
         for side in (f["home"], f["away"]):
             a = f["teams"][side]["averages"]
             form = f["teams"][side]["form"]["foulsFor"]
             dots = "".join("O" if h else "." for h in form["hits"]) if form else ""
             div = f["teams"][side]["division"]
             tag = "" if div == "Premier League" else f"  [{div}]"
-            print(f"  {side:<16}fouls {a['foulsFor']['value']}  won {a['foulsAgainst']['value']}  "
-                  f"cards {a['cardsFor']['value']}   over {form['line'] if form else '?'}: {dots}{tag}")
+            print(
+                f"  {side:<16}fouls {a['foulsFor']['value']}  won {a['foulsAgainst']['value']}  "
+                f"cards {a['cardsFor']['value']}   over {form['line'] if form else '?'}: {dots}{tag}"
+            )

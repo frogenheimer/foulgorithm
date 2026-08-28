@@ -24,7 +24,7 @@ ROOT = Path("site/public/data/fixtures")
 
 
 def fixture_slug(label: str) -> str:
-    """"Arsenal v Coventry" -> "arsenal-v-coventry". Must match site/lib/slug.ts."""
+    """ "Arsenal v Coventry" -> "arsenal-v-coventry". Must match site/lib/slug.ts."""
     return re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
 
 
@@ -55,11 +55,7 @@ def slice_payload(payload: dict, label: str) -> dict | None:
         return None
 
     board = next(
-        (
-            f
-            for f in payload.get("board") or []
-            if f"{f.get('home')} v {f.get('away')}" == label
-        ),
+        (f for f in payload.get("board") or [] if f"{f.get('home')} v {f.get('away')}" == label),
         {},
     )
     explorer = payload.get("explorer") or {}
@@ -133,9 +129,7 @@ def write_round(payload: dict, root: Path = ROOT, matchday: dict | None = None) 
     """
     if matchday is None:
         matchday_path = Path("site/public/data/matchday.json")
-        matchday = (
-            json.loads(matchday_path.read_text()) if matchday_path.exists() else None
-        )
+        matchday = json.loads(matchday_path.read_text()) if matchday_path.exists() else None
 
     written = 0
     for label in payload.get("fixtureSlips") or {}:
@@ -201,15 +195,11 @@ def mark_all(
     if season_fixtures is None:
         season_path = Path("site/public/data/season.json")
         season_fixtures = (
-            json.loads(season_path.read_text()).get("fixtures", [])
-            if season_path.exists()
-            else []
+            json.loads(season_path.read_text()).get("fixtures", []) if season_path.exists() else []
         )
 
     results = {
-        f"{f.get('home')} v {f.get('away')}": f
-        for f in season_fixtures
-        if f.get("status") == "C"
+        f"{f.get('home')} v {f.get('away')}": f for f in season_fixtures if f.get("status") == "C"
     }
 
     marked = 0

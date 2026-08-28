@@ -26,7 +26,7 @@ is not quietly a fourth bet in it.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from foulgorithm.identity.teams import has_player_data
@@ -58,7 +58,7 @@ def build(
     now: datetime | None = None,
 ) -> dict:
     """One cup's payload. Pure: everything it needs is passed in."""
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     totals = totals or {}
     lineups = lineups or {}
     sheets = sheets or {}
@@ -72,10 +72,7 @@ def build(
         # Said out loud in the payload, not just in a docstring. Exhibition
         # means nothing here is graded, scored or carried into the record.
         "recorded": False,
-        "ties": [
-            _tie(t, matches, baselines, rates, totals, lineups, sheets, squads)
-            for t in ties
-        ],
+        "ties": [_tie(t, matches, baselines, rates, totals, lineups, sheets, squads) for t in ties],
     }
 
 
@@ -165,8 +162,8 @@ def _referee(tie, matches, home, away) -> dict | None:
         # match is not a referee effect: one handed more derbies shows more of
         # everything without being any stricter.
         "note": "Observations, not a referee effect. A referee given more "
-                "derbies shows more of everything without being stricter. "
-                "Cards per foul is the column worth reading.",
+        "derbies shows more of everything without being stricter. "
+        "Cards per foul is the column worth reading.",
     }
 
 
@@ -190,11 +187,10 @@ def _players(squads, lineups: dict, home: str, away: str) -> dict | None:
         if starters:
             # The club's own lines when it published them, so the pitch draws
             # the real shape rather than one grouped from position codes.
-            published = [
-                [spot.name for spot in line] for line in getattr(sheet, "lines", []) or []
-            ]
+            published = [[spot.name for spot in line] for line in getattr(sheet, "lines", []) or []]
             eleven = cup_eleven.confirm(
-                squad, starters,
+                squad,
+                starters,
                 formation=getattr(sheet, "formation", None),
                 lines=published or None,
             )
@@ -319,12 +315,11 @@ def publish(
     page that says "no ties on the slate" is honest, and a stale file from
     three weeks ago is not.
     """
-    from foulgorithm.features import promotion
     from foulgorithm.identity.teams import CHAMPIONSHIP_CLUBS, PREMIER_LEAGUE_CLUBS
     from foulgorithm.stats import history as stats_history
     from foulgorithm.stats import league_baseline
 
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
 
     try:
         ties = cup_slate.fetch(now=now)
@@ -345,9 +340,16 @@ def publish(
     out = {}
     for competition in FILES:
         payload = build(
-            ties, matches, baselines, rates,
-            competition=competition, totals=totals, lineups=lineups,
-            sheets=sheets, squads=squads, now=now,
+            ties,
+            matches,
+            baselines,
+            rates,
+            competition=competition,
+            totals=totals,
+            lineups=lineups,
+            sheets=sheets,
+            squads=squads,
+            now=now,
         )
         path = write(payload, output_dir)
         print(f"  {competition}: {len(payload['ties'])} ties -> {path}")
@@ -421,16 +423,20 @@ def _totals(ties: list[dict]) -> dict[str, dict]:
         print(f"  no match totals this run: {exc}")
         return {}
 
-    frame = pd.DataFrame([
-        {
-            "home_team_raw": t["home_team_raw"],
-            "away_team_raw": t["away_team_raw"],
-            "kickoff_utc": pd.Timestamp(t["kickoff_utc"]),
-            "referee_raw": t["referee_raw"],
-            "odds_home": None, "odds_draw": None, "odds_away": None,
-        }
-        for t in ties
-    ])
+    frame = pd.DataFrame(
+        [
+            {
+                "home_team_raw": t["home_team_raw"],
+                "away_team_raw": t["away_team_raw"],
+                "kickoff_utc": pd.Timestamp(t["kickoff_utc"]),
+                "referee_raw": t["referee_raw"],
+                "odds_home": None,
+                "odds_draw": None,
+                "odds_away": None,
+            }
+            for t in ties
+        ]
+    )
 
     spec = markets.get("match_total_fouls")
     out = {}
@@ -452,8 +458,8 @@ def _totals(ties: list[dict]) -> dict[str, dict]:
             "unpriced": unpriced,
             "crossDivision": tie["kind"] == "total",
             "note": "Cup elevens are rotated, so this is the clubs' league "
-                    "behaviour applied to a game they may not pick a league "
-                    "side for.",
+            "behaviour applied to a game they may not pick a league "
+            "side for.",
         }
     return out
 
@@ -483,10 +489,7 @@ def _house_sheets(full_ties: list[dict], lineups: dict | None) -> dict[str, dict
         print(f"  no house sheets this run: {exc}")
         return {}
 
-    by_label = {
-        f"{f['home']} v {f['away']}": f.get("houseSheet")
-        for f in payload.get("board", [])
-    }
+    by_label = {f"{f['home']} v {f['away']}": f.get("houseSheet") for f in payload.get("board", [])}
     return {
         t["slug"]: sheet
         for t in full_ties

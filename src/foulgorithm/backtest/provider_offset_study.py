@@ -21,7 +21,7 @@ Run with:
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -59,7 +59,10 @@ def pair(api: pd.DataFrame, archive: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     arch = archive.groupby(["player", "season"], as_index=False).agg(
         arch_minutes=("minutes", "sum"),
         arch_fouls=("fouls_committed", "sum"),
-        position=("position", lambda s: s.dropna().astype(str).mode().iloc[0] if s.notna().any() else ""),
+        position=(
+            "position",
+            lambda s: s.dropna().astype(str).mode().iloc[0] if s.notna().any() else "",
+        ),
     )
 
     overlap_seasons = set(arch["season"].unique())
@@ -185,14 +188,12 @@ def write_reference(matched: pd.DataFrame, report: dict, path: Path = REFERENCE)
     fit = form_fit(matched)
     table = league_table(matched)
     held = {
-        "measuredAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "measuredAt": datetime.now(UTC).isoformat(timespec="seconds"),
         "global": {"ratio": round(_ratio(matched[matched["comparable"]]), 4)},
         "form": fit["form"],
         "multiplicative_ratio": fit["multiplicative_ratio"],
         "additive_per_90": fit["additive_per_90"],
-        "seasons": {
-            season_label(int(row["season"])): row["ratio"] for _, row in table.iterrows()
-        },
+        "seasons": {season_label(int(row["season"])): row["ratio"] for _, row in table.iterrows()},
         "pairs": report["pairs"],
         "unmatched_api": report["unmatched_api"],
         "minutes_disagree": report["minutes_disagree"],
@@ -224,8 +225,10 @@ def main() -> None:
     archive = _complete_archive_seasons(load_player_matches())
 
     matched, report = pair(api, archive)
-    print(f"pairs: {report['pairs']}  unmatched: {report['unmatched_api']}  "
-          f"ambiguous: {report['ambiguous_api']}  minutes disagree: {report['minutes_disagree']}\n")
+    print(
+        f"pairs: {report['pairs']}  unmatched: {report['unmatched_api']}  "
+        f"ambiguous: {report['ambiguous_api']}  minutes disagree: {report['minutes_disagree']}\n"
+    )
     print(league_table(matched).to_string(index=False), "\n")
     print(form_fit(matched), "\n")
     print("by volume quintile:")

@@ -10,8 +10,6 @@ A claim made before kickoff has to outlive the round it was made in, so it is
 recorded once and never revised.
 """
 
-import pytest
-
 from foulgorithm.store import expected_totals as store
 
 
@@ -28,9 +26,7 @@ class TestRecording:
         assert store.load(tmp_path)["Arsenal v Coventry"]["expected"] == 22.4
 
     def test_several_fixtures_coexist(self, tmp_path):
-        store.record(
-            {"A v B": 21.0, "C v D": 24.0}, "2026-08-21T20:00:00+00:00", tmp_path
-        )
+        store.record({"A v B": 21.0, "C v D": 24.0}, "2026-08-21T20:00:00+00:00", tmp_path)
         assert len(store.load(tmp_path)) == 2
 
     def test_it_keeps_when_the_claim_was_made(self, tmp_path):

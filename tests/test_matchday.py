@@ -101,15 +101,43 @@ class TestRefereeContext:
         return pd.DataFrame(
             [
                 # Oliver's two matches run hot: 30 fouls a game, 6 cards.
-                {"referee_raw": "Oliver", "home_fouls": 16, "away_fouls": 14,
-                 "home_yellows": 3, "away_yellows": 2, "home_reds": 1, "away_reds": 0},
-                {"referee_raw": "Oliver", "home_fouls": 15, "away_fouls": 15,
-                 "home_yellows": 3, "away_yellows": 3, "home_reds": 0, "away_reds": 0},
+                {
+                    "referee_raw": "Oliver",
+                    "home_fouls": 16,
+                    "away_fouls": 14,
+                    "home_yellows": 3,
+                    "away_yellows": 2,
+                    "home_reds": 1,
+                    "away_reds": 0,
+                },
+                {
+                    "referee_raw": "Oliver",
+                    "home_fouls": 15,
+                    "away_fouls": 15,
+                    "home_yellows": 3,
+                    "away_yellows": 3,
+                    "home_reds": 0,
+                    "away_reds": 0,
+                },
                 # The rest of the league sits at 20.
-                {"referee_raw": "Kavanagh", "home_fouls": 10, "away_fouls": 10,
-                 "home_yellows": 1, "away_yellows": 1, "home_reds": 0, "away_reds": 0},
-                {"referee_raw": "Kavanagh", "home_fouls": 10, "away_fouls": 10,
-                 "home_yellows": 1, "away_yellows": 0, "home_reds": 0, "away_reds": 0},
+                {
+                    "referee_raw": "Kavanagh",
+                    "home_fouls": 10,
+                    "away_fouls": 10,
+                    "home_yellows": 1,
+                    "away_yellows": 1,
+                    "home_reds": 0,
+                    "away_reds": 0,
+                },
+                {
+                    "referee_raw": "Kavanagh",
+                    "home_fouls": 10,
+                    "away_fouls": 10,
+                    "home_yellows": 1,
+                    "away_yellows": 0,
+                    "home_reds": 0,
+                    "away_reds": 0,
+                },
             ]
         )
 
@@ -139,10 +167,21 @@ class TestLeagueRanks:
             [("A", "B", 16, 8), ("B", "C", 9, 12), ("C", "A", 11, 15)]
         ):
             rows.append(
-                {"home_team_raw": home, "away_team_raw": away,
-                 "kickoff_utc": f"2026-08-0{i + 1}", "home_fouls": hf, "away_fouls": af,
-                 "home_yellows": 1, "away_yellows": 1, "home_reds": 0, "away_reds": 0,
-                 "home_shots": 10, "away_shots": 10, "home_corners": 5, "away_corners": 5}
+                {
+                    "home_team_raw": home,
+                    "away_team_raw": away,
+                    "kickoff_utc": f"2026-08-0{i + 1}",
+                    "home_fouls": hf,
+                    "away_fouls": af,
+                    "home_yellows": 1,
+                    "away_yellows": 1,
+                    "home_reds": 0,
+                    "away_reds": 0,
+                    "home_shots": 10,
+                    "away_shots": 10,
+                    "home_corners": 5,
+                    "away_corners": 5,
+                }
             )
         return pd.DataFrame(rows)
 

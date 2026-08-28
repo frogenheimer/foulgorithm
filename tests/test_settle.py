@@ -12,14 +12,17 @@ snapshots. Two appearances and the difference is a sum, which cannot be split.
 Those are left ungraded, deliberately.
 """
 
+from datetime import UTC
+
 import pytest
 
 from foulgorithm.jobs import settle
 
 
 def _snap(**players):
-    return {name: {"fouls": f, "was_fouled": w, "appearances": a}
-            for name, (f, w, a) in players.items()}
+    return {
+        name: {"fouls": f, "was_fouled": w, "appearances": a} for name, (f, w, a) in players.items()
+    }
 
 
 class TestDiff:
@@ -110,10 +113,12 @@ class TestRetention:
 
     def test_a_second_round_appends_rather_than_overwrites(self, tmp_path):
         path = tmp_path / "rows.jsonl"
-        settle.persist_matches({"a": {"fouls_committed": 1, "fouls_drawn": 0, "minutes": 90}},
-                               "w1", "w2", path)
-        settle.persist_matches({"b": {"fouls_committed": 0, "fouls_drawn": 2, "minutes": 45}},
-                               "w2", "w3", path)
+        settle.persist_matches(
+            {"a": {"fouls_committed": 1, "fouls_drawn": 0, "minutes": 90}}, "w1", "w2", path
+        )
+        settle.persist_matches(
+            {"b": {"fouls_committed": 0, "fouls_drawn": 2, "minutes": 45}}, "w2", "w3", path
+        )
         assert len(path.read_text().splitlines()) == 2
 
     def test_the_same_window_is_not_written_twice(self, tmp_path):
@@ -139,10 +144,10 @@ class TestWaitingForTheStatsToPost:
     """
 
     def fixture(self, hours_ago, complete=True):
-        from datetime import datetime, timedelta, timezone
+        from datetime import datetime, timedelta
 
         class F:
-            kickoff_utc = datetime.now(timezone.utc) - timedelta(hours=hours_ago)
+            kickoff_utc = datetime.now(UTC) - timedelta(hours=hours_ago)
 
         F.complete = complete
         return F()

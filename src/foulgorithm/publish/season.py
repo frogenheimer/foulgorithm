@@ -15,7 +15,7 @@ because a finished match does not change.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 OUTPUT = Path("site/public/data/season.json")
@@ -112,7 +112,7 @@ def build() -> dict:
             "matchweek": int(gw),
             "home": home,
             "away": away,
-            "kickoff": datetime.fromtimestamp(kickoff / 1000, tz=timezone.utc).isoformat(),
+            "kickoff": datetime.fromtimestamp(kickoff / 1000, tz=UTC).isoformat(),
             "status": status,
             "referee": None,
         }
@@ -125,7 +125,7 @@ def build() -> dict:
                 ids = [str(int(t.get("team", {}).get("id", -1))) for t in teams]
                 row["result"] = {
                     side: stats.get(tid)
-                    for side, tid in zip(("home", "away"), ids)
+                    for side, tid in zip(("home", "away"), ids, strict=False)
                     if stats.get(tid)
                 }
         fixtures.append(row)
@@ -153,7 +153,7 @@ def build() -> dict:
     current = max((f["matchweek"] for f in played), default=weeks[0] if weeks else 1)
 
     return {
-        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "generatedAt": datetime.now(UTC).isoformat(),
         "matchweeks": weeks,
         "currentMatchweek": current,
         "fixtures": fixtures,
@@ -174,5 +174,7 @@ if __name__ == "__main__":
     print(f"current matchweek {r['currentMatchweek']}, {len(played)} with results\n")
     for f in played[:5]:
         h, a = f["result"].get("home", {}), f["result"].get("away", {})
-        print(f"  MW{f['matchweek']} {f['home']} {f['score'][0]:.0f}-{f['score'][1]:.0f} {f['away']}"
-              f"   fouls {h.get('fouls')}-{a.get('fouls')}  cards {h.get('cards')}-{a.get('cards')}")
+        print(
+            f"  MW{f['matchweek']} {f['home']} {f['score'][0]:.0f}-{f['score'][1]:.0f} {f['away']}"
+            f"   fouls {h.get('fouls')}-{a.get('fouls')}  cards {h.get('cards')}-{a.get('cards')}"
+        )

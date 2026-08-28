@@ -38,16 +38,15 @@ def entry(player_id, name, club, value, position="M", shirt=8, other_id=None):
 class FakeApi:
     """Stands in for pulselive, which reaches the network."""
 
-    def __init__(self, pages, rosters=None, staff=None, teams=None,
-                 seasons=None, loose=None):
-        self.pages = pages          # {(comp, stat): [[entry, ...], ...]}
+    def __init__(self, pages, rosters=None, staff=None, teams=None, seasons=None, loose=None):
+        self.pages = pages  # {(comp, stat): [[entry, ...], ...]}
         # {comp: {club: [player_id]}}. Defaults to "whoever appears in the
         # ranked tables", which is what the old currentTeam route assumed.
         self.rosters = rosters
-        self.staff = staff or {}    # {team_id: [name]}, the club's own list
-        self.teams = teams or {}    # {comp: [team dict]}
+        self.staff = staff or {}  # {team_id: [name]}, the club's own list
+        self.teams = teams or {}  # {comp: [team dict]}
         self.seasons = seasons or {}
-        self.loose = loose or {}    # the endpoint that included departed players
+        self.loose = loose or {}  # the endpoint that included departed players
         self.calls = []
         self.calls_raw = []
 
@@ -73,33 +72,37 @@ class FakeApi:
             return {"content": [{"id": float(self.seasons.get(comp, 1))}]}
         if path.startswith("teams/") and "staff" in path:
             tid = int(path.split("teams/")[1].split("/")[0])
-            return {"players": [
-                {"id": float(i + 1), "name": {"display": n}}
-                for i, n in enumerate(self.staff.get(tid, []))
-            ]}
+            return {
+                "players": [
+                    {"id": float(i + 1), "name": {"display": n}}
+                    for i, n in enumerate(self.staff.get(tid, []))
+                ]
+            }
         if path.startswith("teams?"):
             comp = int(path.split("comps=")[1].split("&")[0])
             return {"content": self.teams.get(comp, [])}
         if path.startswith("players?"):
             tid = int(path.split("teams=")[1].split("&")[0])
-            return {"content": [
-                {"id": float(i + 1), "name": {"display": n}}
-                for i, n in enumerate(self.loose.get(tid, []))
-            ]}
+            return {
+                "content": [
+                    {"id": float(i + 1), "name": {"display": n}}
+                    for i, n in enumerate(self.loose.get(tid, []))
+                ]
+            }
         comp = int(path.split("comps=")[1].split("&")[0])
         stat = path.split("ranked/players/")[1].split("?")[0]
         page = int(path.split("page=")[1])
         self.calls.append((comp, stat, page))
         pages = self.pages.get((comp, stat), [])
         content = pages[page] if page < len(pages) else []
-        return {"stats": {"content": content,
-                          "pageInfo": {"numPages": len(pages) or 1}}}
+        return {"stats": {"content": content, "pageInfo": {"numPages": len(pages) or 1}}}
 
 
 class TestSweep:
     def test_it_pages_until_the_source_runs_out(self, tmp_path):
-        api = FakeApi({(12, "fouls"): [[entry(1, "A", "Wrexham", 10)],
-                                       [entry(2, "B", "Wrexham", 5)]]})
+        api = FakeApi(
+            {(12, "fouls"): [[entry(1, "A", "Wrexham", 10)], [entry(2, "B", "Wrexham", 5)]]}
+        )
         out = player_stats.sweep(12, "fouls", api=api, cache_root=tmp_path)
         assert set(out) == {1, 2}
         assert [c[2] for c in api.calls] == [0, 1]
@@ -107,8 +110,16 @@ class TestSweep:
     def test_values_are_keyed_by_player_id_not_name(self, tmp_path):
         # Two players can share a display name; ids cannot collide, and the
         # team sheets we join against carry ids.
-        api = FakeApi({(12, "fouls"): [[entry(1, "Reece James", "Wrexham", 10),
-                                        entry(2, "Reece James", "Sheffield Weds", 4)]]})
+        api = FakeApi(
+            {
+                (12, "fouls"): [
+                    [
+                        entry(1, "Reece James", "Wrexham", 10),
+                        entry(2, "Reece James", "Sheffield Weds", 4),
+                    ]
+                ]
+            }
+        )
         out = player_stats.sweep(12, "fouls", api=api, cache_root=tmp_path)
         assert out[1]["value"] == 10 and out[2]["value"] == 4
 
@@ -125,14 +136,15 @@ class TestSquads:
 
     def build(self):
         pages = {}
-        for stat, values in (("fouls", {1: 28, 2: 5}),
-                             ("was_fouled", {1: 17, 2: 9}),
-                             ("total_tackle", {1: 42, 2: 3}),
-                             ("yellow_card", {1: 5}),
-                             ("appearances", {1: 48, 2: 12}),
-                             ("mins_played", {1: 1373, 2: 400})):
-            pages[(12, stat)] = [[entry(pid, f"P{pid}", "Wrexham", v)
-                                  for pid, v in values.items()]]
+        for stat, values in (
+            ("fouls", {1: 28, 2: 5}),
+            ("was_fouled", {1: 17, 2: 9}),
+            ("total_tackle", {1: 42, 2: 3}),
+            ("yellow_card", {1: 5}),
+            ("appearances", {1: 48, 2: 12}),
+            ("mins_played", {1: 1373, 2: 400}),
+        ):
+            pages[(12, stat)] = [[entry(pid, f"P{pid}", "Wrexham", v) for pid, v in values.items()]]
         return FakeApi(pages)
 
     def test_a_club_comes_back_with_its_players(self, tmp_path):
@@ -165,8 +177,8 @@ class TestSquads:
         squads = player_stats.squads("E1", api=self.build(), cache_root=tmp_path)
         p2 = next(p for p in squads["Wrexham"] if p.player == "P2")
         p1 = next(p for p in squads["Wrexham"] if p.player == "P1")
-        assert p2.thin is True      # 400 minutes
-        assert p1.thin is False     # 1373 minutes
+        assert p2.thin is True  # 400 minutes
+        assert p1.thin is False  # 1373 minutes
 
     def test_players_come_back_busiest_first(self, tmp_path):
         squads = player_stats.squads("E1", api=self.build(), cache_root=tmp_path)
@@ -257,10 +269,15 @@ class TestAcrossDivisions:
         pages = {}
         # Same player id in both divisions: 900 minutes up top, 450 below.
         for comp, mins, fouls in ((1, 900, 18), (12, 450, 12)):
-            for stat, val in (("fouls", fouls), ("mins_played", mins),
-                              ("appearances", 10), ("was_fouled", 5),
-                              ("total_tackle", 7), ("yellow_card", 2),
-                              ("red_card", 0)):
+            for stat, val in (
+                ("fouls", fouls),
+                ("mins_played", mins),
+                ("appearances", 10),
+                ("was_fouled", 5),
+                ("total_tackle", 7),
+                ("yellow_card", 2),
+                ("red_card", 0),
+            ):
                 pages[(comp, stat)] = [[entry(1, "Traveller", "Burnley", val)]]
         return FakeApi(pages)
 
@@ -323,8 +340,9 @@ class TestRoster:
     def api(self):
         pages = {}
         for stat in player_stats.STATS:
-            pages[(1, stat)] = [[entry(1, "Current Player", "Arsenal", 90),
-                                 entry(99, "Petr Cech", "Arsenal", 90)]]
+            pages[(1, stat)] = [
+                [entry(1, "Current Player", "Arsenal", 90), entry(99, "Petr Cech", "Arsenal", 90)]
+            ]
         # The real squad holds only the current player.
         return FakeApi(pages, rosters={1: {"Arsenal": [1]}, 12: {}})
 
@@ -335,9 +353,11 @@ class TestRoster:
     def test_a_squad_member_with_no_record_still_appears(self, tmp_path):
         # A summer signing with no minutes is in the squad and has nothing to
         # show. That is a real state and must not silently drop him from the XI.
-        pages = {stat: None for stat in ()}
-        api = FakeApi({(1, s): [[entry(1, "Played", "Arsenal", 90)]] for s in player_stats.STATS},
-                      rosters={1: {"Arsenal": [1, 2]}, 12: {}})
+        {stat: None for stat in ()}
+        api = FakeApi(
+            {(1, s): [[entry(1, "Played", "Arsenal", 90)]] for s in player_stats.STATS},
+            rosters={1: {"Arsenal": [1, 2]}, 12: {}},
+        )
         out = player_stats.for_clubs(["Arsenal"], api=api, cache_root=tmp_path)
         assert len(out["Arsenal"]) == 2
         blank = next(p for p in out["Arsenal"] if p.player_id == 2)
@@ -355,15 +375,18 @@ class TestIdSpace:
     """
 
     def test_the_sweep_keys_on_the_id_that_squads_use(self, tmp_path):
-        api = FakeApi({(12, "fouls"): [[entry(127644, "Abdul Fatawu", "Ipswich", 10,
-                                              other_id=786120)]]})
+        api = FakeApi(
+            {(12, "fouls"): [[entry(127644, "Abdul Fatawu", "Ipswich", 10, other_id=786120)]]}
+        )
         out = player_stats.sweep(12, "fouls", api=api, cache_root=tmp_path)
         assert 127644 in out
         assert 786120 not in out
 
     def test_a_squad_joins_to_its_stats(self, tmp_path):
-        pages = {(1, s): [[entry(127644, "Abdul Fatawu", "Arsenal", 90, other_id=786120)]]
-                 for s in player_stats.STATS}
+        pages = {
+            (1, s): [[entry(127644, "Abdul Fatawu", "Arsenal", 90, other_id=786120)]]
+            for s in player_stats.STATS
+        }
         api = FakeApi(pages, rosters={1: {"Arsenal": [127644]}, 12: {}})
         out = player_stats.for_clubs(["Arsenal"], api=api, cache_root=tmp_path)
         assert out["Arsenal"][0].minutes == 90
@@ -388,12 +411,16 @@ class TestSquadMembership:
     """
 
     def api(self):
-        return FakeApi({}, staff={
-            21: ["Kinsky", "Udogie", "Porro"],
-        }, teams={1: [{"id": 21.0, "name": "Tottenham Hotspur"}]},
-           seasons={1: 841},
-           # The looser endpoint, which must NOT be the one consulted.
-           loose={21: ["Kinsky", "Udogie", "Porro", "Andy Robertson", "Kolo Muani"]})
+        return FakeApi(
+            {},
+            staff={
+                21: ["Kinsky", "Udogie", "Porro"],
+            },
+            teams={1: [{"id": 21.0, "name": "Tottenham Hotspur"}]},
+            seasons={1: 841},
+            # The looser endpoint, which must NOT be the one consulted.
+            loose={21: ["Kinsky", "Udogie", "Porro", "Andy Robertson", "Kolo Muani"]},
+        )
 
     def test_membership_comes_from_the_clubs_own_list(self, tmp_path):
         out = player_stats.squad_ids(1, api=self.api(), cache_root=tmp_path)

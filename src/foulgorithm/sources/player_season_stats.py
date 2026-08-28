@@ -49,7 +49,4 @@ def season_totals(season_id: int | None = None) -> dict[str, dict[str, float]]:
     season_id = season_id or pulselive.current_season_id()
     tables = {stat: _ranked(stat, season_id) for stat in STATS}
     players = set().union(*tables.values())
-    return {
-        name: {stat: tables[stat].get(name, 0.0) for stat in STATS}
-        for name in sorted(players)
-    }
+    return {name: {stat: tables[stat].get(name, 0.0) for stat in STATS} for name in sorted(players)}

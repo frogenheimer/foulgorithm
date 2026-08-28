@@ -16,7 +16,7 @@ lineup we would miss.
 from __future__ import annotations
 
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 WORKFLOW = Path(".github/workflows/lineups.yml")
@@ -39,7 +39,7 @@ END = "    # END generated"
 
 def windows(fixtures, horizon_days: int = HORIZON_DAYS) -> list[datetime]:
     """One wake-up per distinct kickoff, earliest first, bundled and de-duplicated."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     limit = now + timedelta(days=horizon_days)
     times = {
         (f.kickoff_utc - LEAD).replace(second=0, microsecond=0)
@@ -85,7 +85,7 @@ def settle_windows(fixtures, horizon_days: int = HORIZON_DAYS) -> list[datetime]
     snapshots, the fewer players feature twice inside one, and a player who
     featured twice is unattributable and skipped forever.
     """
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     limit = now + timedelta(days=horizon_days)
     upcoming = [f.kickoff_utc for f in fixtures if now < f.kickoff_utc <= limit]
 
@@ -96,8 +96,7 @@ def settle_windows(fixtures, horizon_days: int = HORIZON_DAYS) -> list[datetime]
             last_per_day[day] = kickoff
 
     return sorted(
-        (kickoff + SETTLE_LAG).replace(second=0, microsecond=0)
-        for kickoff in last_per_day.values()
+        (kickoff + SETTLE_LAG).replace(second=0, microsecond=0) for kickoff in last_per_day.values()
     )
 
 

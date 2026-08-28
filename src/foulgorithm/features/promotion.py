@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import statistics
 from dataclasses import dataclass
+from datetime import UTC
 from functools import lru_cache
 
 from foulgorithm.sources import football_data
@@ -56,8 +57,8 @@ class Discount:
     transfers untouched, and it does not.
     """
 
-    beta: float           # fraction of a club's Championship deviation that carries
-    ratio: float          # mean level ratio, kept because it is worth showing as a trap
+    beta: float  # fraction of a club's Championship deviation that carries
+    ratio: float  # mean level ratio, kept because it is worth showing as a trap
     spread: float
     observations: int
 
@@ -113,9 +114,7 @@ def _teams_in(season: str, division: str) -> set[str]:
 def _team_fouls(season: str, division: str, kind: str = COMMITTED) -> dict[str, float]:
     """Fouls per match per club, both venues pooled. Needs a real sample."""
     return {
-        t: statistics.fmean(v)
-        for t, v in _totals(season, division, kind).items()
-        if len(v) >= 10
+        t: statistics.fmean(v) for t, v in _totals(season, division, kind).items() if len(v) >= 10
     }
 
 
@@ -130,9 +129,9 @@ def current_season() -> str:
     A season starting in August of year Y is labelled Y-(Y+1). Never hard-coded:
     the 2025 version needed editing every August to survive.
     """
-    from datetime import datetime, timezone
+    from datetime import datetime
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     start = now.year if now.month >= 8 else now.year - 1
     return f"{start}-{(start + 1) % 100:02d}"
 
@@ -251,9 +250,7 @@ def team_prior(club: str, season: str, kind: str = COMMITTED) -> float | None:
     return league_mean(season, kind) + tier_discount(kind).beta * deviation
 
 
-def second_tier_prior(
-    club: str, season: str | None = None, kind: str = COMMITTED
-) -> float | None:
+def second_tier_prior(club: str, season: str | None = None, kind: str = COMMITTED) -> float | None:
     """A Championship club's expected fouls on the PREMIER LEAGUE scale.
 
     `team_prior` answers this for a club that has just gone up. A cup tie needs

@@ -9,10 +9,7 @@ value carries its OWN division's context. Never a shared one, and never a
 number adjusted toward the other side.
 """
 
-import pytest
-
-from foulgorithm.stats import comparison
-from foulgorithm.stats import team_record
+from foulgorithm.stats import comparison, team_record
 from tests.test_team_record import match
 
 
@@ -24,8 +21,21 @@ def records(home_rows, away_rows, home="Arsenal", away="Wrexham"):
 
 
 HOME = [match("Arsenal", "Chelsea", hf=10, af=12, hy=2, ay=1, hs=15, hc=6, hg=2)]
-AWAY = [match("Wrexham", "Burnley", hf=14, af=9, hy=3, ay=2, hs=9, hc=4, hg=1,
-              season="2026-27", division="E1")]
+AWAY = [
+    match(
+        "Wrexham",
+        "Burnley",
+        hf=14,
+        af=9,
+        hy=3,
+        ay=2,
+        hs=9,
+        hc=4,
+        hg=1,
+        season="2026-27",
+        division="E1",
+    )
+]
 BASE = {
     "E0": {"foulsPerMatch": 10.9, "yellowsPerMatch": 1.7, "shotsPerMatch": 12.5},
     "E1": {"foulsPerMatch": 10.8, "yellowsPerMatch": 1.9, "shotsPerMatch": 11.5},

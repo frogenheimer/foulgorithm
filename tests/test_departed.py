@@ -116,9 +116,14 @@ class TestSquadTables:
         return pd.DataFrame(
             [
                 {
-                    "player": name, "team": "Tottenham", "minutes": mins,
-                    "fouls_committed": f, "fouls_drawn": 1, "yellows": 0,
-                    "tackles_won": 1, "position": "DF",
+                    "player": name,
+                    "team": "Tottenham",
+                    "minutes": mins,
+                    "fouls_committed": f,
+                    "fouls_drawn": 1,
+                    "yellows": 0,
+                    "tackles_won": 1,
+                    "position": "DF",
                 }
                 for name, mins, f in rows
             ]

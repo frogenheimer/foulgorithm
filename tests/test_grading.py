@@ -51,8 +51,12 @@ class TestSummary:
         # The column that matters: a model saying 90% while 50% happens is
         # overconfident, and a hit-rate table alone would hide it.
         preds = [pred(f"P{i}", p=0.9, key=f"k{i}") for i in range(4)]
-        outcomes = {("P0", "player_fouls_committed"): 1.0, ("P1", "player_fouls_committed"): 1.0,
-                    ("P2", "player_fouls_committed"): 0.0, ("P3", "player_fouls_committed"): 0.0}
+        outcomes = {
+            ("P0", "player_fouls_committed"): 1.0,
+            ("P1", "player_fouls_committed"): 1.0,
+            ("P2", "player_fouls_committed"): 0.0,
+            ("P3", "player_fouls_committed"): 0.0,
+        }
         res = g.grade(outcomes, preds, tmp_path)
         s = g.summarise(res["results"])["house"]
         assert s["claimed"] == pytest.approx(0.9)

@@ -102,9 +102,7 @@ def run(
 
     results = []
     for variant in VARIANTS:
-        model = (
-            pm.PlayerFoulModel() if stat == "fouls_committed" else pm.PlayerFouledModel()
-        )
+        model = pm.PlayerFoulModel() if stat == "fouls_committed" else pm.PlayerFouledModel()
         errors: list[float] = []
         line_losses: dict[float, list[float]] = {line: [] for line in lines}
         calib: list[tuple[float, bool]] = []
@@ -179,9 +177,7 @@ def run_frozen(
 
     results = []
     for variant in ("frozen-archive", "frozen-rate-live-context"):
-        model = (
-            pm.PlayerFoulModel() if stat == "fouls_committed" else pm.PlayerFouledModel()
-        )
+        model = pm.PlayerFoulModel() if stat == "fouls_committed" else pm.PlayerFouledModel()
         model.fit(frozen)
         if variant != "frozen-archive":
             model.use_match_context(source)

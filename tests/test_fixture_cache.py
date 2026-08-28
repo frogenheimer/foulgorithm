@@ -10,8 +10,6 @@ exists to notice kickoff moves and referee appointments, so it is exactly the
 process that must not be.
 """
 
-import pytest
-
 from foulgorithm.sources import pulselive
 
 

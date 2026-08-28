@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import statistics
 from collections import defaultdict
+from datetime import UTC
 from pathlib import Path
 
 from foulgorithm.sources import football_data
@@ -31,9 +32,9 @@ def season_labels(first: int = FIRST_SEASON, last: int | None = None) -> list[st
 
 def _latest_settled_season() -> int:
     """The most recent season whose file exists. A season in progress is fine."""
-    from datetime import datetime, timezone
+    from datetime import datetime
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     # A season starting in August of year Y is labelled Y-(Y+1).
     return now.year - 1 if now.month < 8 else now.year
 
@@ -174,7 +175,8 @@ def _referees(matches: list[dict], minimum: int = 20) -> list[dict]:
         # card column as zero would read as "never books anyone", so those
         # matches are excluded from the card figures rather than folded in.
         carded = [
-            r for r in rows
+            r
+            for r in rows
             if r.get("home_yellows") is not None and r.get("away_yellows") is not None
         ]
         cards = [(r["home_yellows"] or 0) + (r["away_yellows"] or 0) for r in carded]
@@ -243,9 +245,9 @@ def _shift(label: str, years: int) -> str:
 
 
 def _now_iso() -> str:
-    from datetime import datetime, timezone
+    from datetime import datetime
 
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    return datetime.now(UTC).replace(microsecond=0).isoformat()
 
 
 def export(output: Path = DEFAULT_OUTPUT) -> Path:
@@ -258,8 +260,10 @@ def export(output: Path = DEFAULT_OUTPUT) -> Path:
     output.write_text(json.dumps(payload, indent=2))
     c = payload["coverage"]
     print(f"\nWrote {output}")
-    print(f"  {c['matches']} matches across {c['seasons']} seasons "
-          f"({c['firstSeason']} to {c['lastSeason']})")
+    print(
+        f"  {c['matches']} matches across {c['seasons']} seasons "
+        f"({c['firstSeason']} to {c['lastSeason']})"
+    )
     return output
 
 

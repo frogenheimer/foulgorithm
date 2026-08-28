@@ -69,12 +69,13 @@ def build(referee: str | None, matches: list[dict]) -> RefereeRecord | None:
     totals = [m["home_fouls"] + m["away_fouls"] for m in his]
 
     carded = [
-        m for m in his
-        if m.get("home_yellows") is not None and m.get("away_yellows") is not None
+        m for m in his if m.get("home_yellows") is not None and m.get("away_yellows") is not None
     ]
     cards = [
-        (m["home_yellows"] or 0) + (m["away_yellows"] or 0)
-        + (m.get("home_reds") or 0) + (m.get("away_reds") or 0)
+        (m["home_yellows"] or 0)
+        + (m["away_yellows"] or 0)
+        + (m.get("home_reds") or 0)
+        + (m.get("away_reds") or 0)
         for m in carded
     ]
     carded_fouls = sum(m["home_fouls"] + m["away_fouls"] for m in carded)

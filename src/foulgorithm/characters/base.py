@@ -218,8 +218,7 @@ MABEL = Character(
         "she doubles her appetite for the volatile."
     ),
     weakness=(
-        "Most of the chaos is just chaos. Mabel pays the variance tax weekly "
-        "and calls it tuition."
+        "Most of the chaos is just chaos. Mabel pays the variance tax weekly and calls it tuition."
     ),
     edge="Genuine breakouts, role changes and new signings, caught first.",
     generation=2,
@@ -262,10 +261,7 @@ DELE = Character(
         "memory for repeat offenders and shrugs at context, because the "
         "career recidivist does not need a reason."
     ),
-    on_losing=(
-        "Blames the referee for going soft and backs the same names again, "
-        "harder."
-    ),
+    on_losing=("Blames the referee for going soft and backs the same names again, harder."),
     weakness=(
         "Reputation outlives behaviour. A reformed midfielder stays on "
         "Dele's list a season too long."
@@ -301,8 +297,17 @@ IAN = Character(
 )
 
 ALL: tuple[Character, ...] = (
-    ALAN, LILY, VALENTINA, TAYLER, BDOG,
-    PAX, JUSTINE, MABEL, DOTTIE, DELE, IAN,
+    ALAN,
+    LILY,
+    VALENTINA,
+    TAYLER,
+    BDOG,
+    PAX,
+    JUSTINE,
+    MABEL,
+    DOTTIE,
+    DELE,
+    IAN,
 )
 BY_ID: dict[str, Character] = {c.id: c for c in ALL}
 

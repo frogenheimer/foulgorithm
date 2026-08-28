@@ -26,7 +26,7 @@ Run with:
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -181,7 +181,7 @@ def write_reference(
     held = {
         "_meta": {
             "version": 2,
-            "fittedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "fittedAt": datetime.now(UTC).isoformat(timespec="seconds"),
             "fitWindow": list(fit_window),
             "modelConfiguration": "house, season evidence attached, match-store opponent factors",
         },
@@ -213,8 +213,10 @@ def main() -> None:
 
         payload[market] = {}
         print(f"\n== {market} ==")
-        print(f"{'line':>5}{'old shrink':>12}{'new shrink':>12}{'n fit':>8}"
-              f"{'  held-out logloss raw/old/new':>32}{'ECE raw/old/new':>24}{'verdict':>10}")
+        print(
+            f"{'line':>5}{'old shrink':>12}{'new shrink':>12}{'n fit':>8}"
+            f"{'  held-out logloss raw/old/new':>32}{'ECE raw/old/new':>24}{'verdict':>10}"
+        )
         for line in LINES:
             fitted = fit_line(fit_pairs[line])
             old_entry = (old_table.get(market) or {}).get(str(line))

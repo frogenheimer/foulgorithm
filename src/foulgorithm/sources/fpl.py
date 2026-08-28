@@ -19,7 +19,7 @@ import json
 import unicodedata
 import urllib.request
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import UTC, timedelta
 from pathlib import Path
 
 from foulgorithm.sources.base import SourceError, utcnow
@@ -96,9 +96,9 @@ def _fetch(url: str, cache_name: str) -> dict:
 
 
 def _mtime(path: Path):
-    from datetime import datetime, timezone
+    from datetime import datetime
 
-    return datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
+    return datetime.fromtimestamp(path.stat().st_mtime, tz=UTC)
 
 
 def current_squads() -> dict[str, list[SquadPlayer]]:

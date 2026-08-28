@@ -19,7 +19,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-import numpy as np
 import pandas as pd
 
 from foulgorithm.models import calibration
@@ -73,9 +72,7 @@ def _candidates(models, batch, as_of, history):
             mean = max(rate * (row.minutes / 90.0) * opp, 0.02)
             dist = pm.negbin_pmf(mean, mean * max(model.dispersion, 1.02))
             for line in (0.5, 1.5, 2.5):
-                p = calibration.correct(
-                    dist.prob_over(line), "player_fouls_committed", line
-                )
+                p = calibration.correct(dist.prob_over(line), "player_fouls_committed", line)
                 probs_by_line.setdefault(line, {})[cid] = p
         for line, probs in probs_by_line.items():
             rows.append(
@@ -92,6 +89,7 @@ def _candidates(models, batch, as_of, history):
 
 def _pick(cid: str, candidates: list[dict]) -> list[dict]:
     """Five legs, in temperament, constrained to the target combined band."""
+
     def preference(row):
         own = row["probs"][cid]
         others = [p for c, p in row["probs"].items() if c != cid]

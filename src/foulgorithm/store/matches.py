@@ -84,16 +84,16 @@ def _attach_odds(df: pd.DataFrame, seasons: list[str]) -> pd.DataFrame:
             continue
         reader = csv.DictReader(io.StringIO(raw.text()))
         cols = set(reader.fieldnames or [])
-        mapping = wanted if wanted.keys() <= cols else (fallback if fallback.keys() <= cols else None)
+        mapping = (
+            wanted if wanted.keys() <= cols else (fallback if fallback.keys() <= cols else None)
+        )
         if mapping is None:
             continue
         for rec in reader:
             key = (label, (rec.get("HomeTeam") or "").strip(), (rec.get("AwayTeam") or "").strip())
             if not key[1]:
                 continue
-            lookup[key] = {
-                target: _as_float(rec.get(source)) for source, target in mapping.items()
-            }
+            lookup[key] = {target: _as_float(rec.get(source)) for source, target in mapping.items()}
 
     for target in ("odds_home", "odds_draw", "odds_away"):
         df[target] = [

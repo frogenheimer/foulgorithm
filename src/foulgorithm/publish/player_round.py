@@ -8,22 +8,22 @@ Two outputs in one file:
 from __future__ import annotations
 
 import json
-from functools import lru_cache
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+from functools import lru_cache
 from pathlib import Path
 
 import pandas as pd
 
 from foulgorithm.characters import base as characters
-from foulgorithm.models import ensemble
-from foulgorithm.publish import league
 from foulgorithm.characters import reasons as character_reasons
-from foulgorithm.publish import combinations as combos
 from foulgorithm.identity import players as identity
 from foulgorithm.identity.teams import history_name, to_fpl
 from foulgorithm.markets import odds as odds_math
-from foulgorithm.models import calibration, involvement, player_models as pm
+from foulgorithm.models import calibration, ensemble, involvement
+from foulgorithm.models import player_models as pm
+from foulgorithm.publish import combinations as combos
+from foulgorithm.publish import league
 from foulgorithm.sources import football_data, fpl, league_stats
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
 from foulgorithm.store import positions as positions_store
@@ -148,9 +148,9 @@ def band(p: float) -> str:
 class Selection:
     """A player we expect to feature, and the history we can attach to him."""
 
-    display: str          # what to show, e.g. "Saka"
-    full: str             # the squad-list name, e.g. "Bukayo Saka"
-    history: str | None   # the name his foul record is filed under, if resolved
+    display: str  # what to show, e.g. "Saka"
+    full: str  # the squad-list name, e.g. "Bukayo Saka"
+    history: str | None  # the name his foul record is filed under, if resolved
     position: str
     available: bool
     news: str
@@ -390,7 +390,9 @@ def _match_context():
     if matches.empty:
         print("  match store empty, opponent factors stay on the archive")
         return None
-    print(f"  opponent context from {len(matches):,} matches to {matches['kickoff_utc'].max():%b %Y}")
+    print(
+        f"  opponent context from {len(matches):,} matches to {matches['kickoff_utc'].max():%b %Y}"
+    )
     return MatchContextSource(matches)
 
 
@@ -423,7 +425,7 @@ def publish(
         from foulgorithm.features import next_round
 
         fixtures = pd.DataFrame(next_round.fetch())
-    as_of = datetime.now(timezone.utc)
+    as_of = datetime.now(UTC)
     if fixtures.empty:
         print("  no upcoming fixtures, nothing to predict")
 
@@ -516,14 +518,20 @@ def publish(
             ),
             "teams": {},
         }
-        for team, opponent in ((fx.home_team_raw, fx.away_team_raw), (fx.away_team_raw, fx.home_team_raw)):
+        for team, opponent in (
+            (fx.home_team_raw, fx.away_team_raw),
+            (fx.away_team_raw, fx.home_team_raw),
+        ):
             players = []
             label = f"{fx.home_team_raw} v {fx.away_team_raw}"
             selections = []
             for sel in squad(
-                squads, resolution, team,
+                squads,
+                resolution,
+                team,
                 lineup=lineups.get(f"{team}|{label}"),
-                history=history, as_of=as_of,
+                history=history,
+                as_of=as_of,
             ):
                 # A confirmed starter is a certainty, not a probability. Say so,
                 # and the minutes mixture drops its unused branch entirely.
@@ -557,9 +565,7 @@ def publish(
                 if shape:
                     predicted_shapes.setdefault(label, {})[team] = shape
 
-            fixture_block["teams"][team] = sorted(
-                players, key=lambda r: -r["committed"]["p1plus"]
-            )
+            fixture_block["teams"][team] = sorted(players, key=lambda r: -r["committed"]["p1plus"])
         fixture_block["compare"] = _compare(history, fixture_block, as_of)
         fixture_block["summary"] = _summary(fixture_block)
         fixture_block["houseSheet"] = _house_sheet(fixture_block)
@@ -567,9 +573,7 @@ def publish(
             market: {
                 team: [
                     {"player": r["player"], "value": round(r[market]["why"]["ratePer90"], 2)}
-                    for r in sorted(
-                        rows, key=lambda x: -x[market]["why"]["ratePer90"]
-                    )[:8]
+                    for r in sorted(rows, key=lambda x: -x[market]["why"]["ratePer90"])[:8]
                 ]
                 for team, rows in fixture_block["teams"].items()
             }
@@ -640,8 +644,8 @@ def publish(
                 for line in (0.5, 1.5, 2.5)
             },
             "note": "Probabilities are corrected only where a correction "
-                    "measurably helps held-out predictions. A missing factor "
-                    "means that line is published as the model says it.",
+            "measurably helps held-out predictions. A missing factor "
+            "means that line is published as the model says it.",
         },
         "squads": {
             "source": "Fantasy Premier League API",
@@ -653,7 +657,7 @@ def publish(
             "source": lineups_source or "Premier League API",
             "confirmed": len(lineups),
             "note": "Confirmed elevens appear about an hour before kickoff. "
-                    "Until then these are predicted from current squads.",
+            "Until then these are predicted from current squads.",
         },
         "topFoulers": top,
         # What we say each of these fixtures will produce, kept permanently so a
@@ -672,8 +676,8 @@ def publish(
             "byGame": slates,
             "confirmedFixtures": sorted(confirmed_fixtures),
             "note": "Identical shapes for all five on every game, so the table "
-                    "measures which players they pick rather than how hard a "
-                    "bet they chose.",
+            "measures which players they pick rather than how hard a "
+            "bet they chose.",
         },
         "standings": standings,
         # Confirmed shapes win; a predicted one fills a fixture the league has
@@ -788,9 +792,7 @@ def _commit_slates(slates: dict, published: str) -> dict:
                 committed.append(
                     slate_store.Committed(
                         published_at=published,
-                        round=slate_store.round_of(
-                            first_kickoff or built["legs"][0]["kickoff"]
-                        ),
+                        round=slate_store.round_of(first_kickoff or built["legs"][0]["kickoff"]),
                         character=cid,
                         slate=slate_key,
                         claim_keys=keys,
@@ -883,8 +885,10 @@ def _keep_expected_totals(board: list[dict], as_of) -> dict:
         if fixture.get("competition"):
             label = f"{label} ({fixture['competition']})"
         totals[label] = sum(
-            sum((p.get("committed", {}).get("why", {}).get("expected_fouls") or 0)
-                for p in squad[:11])
+            sum(
+                (p.get("committed", {}).get("why", {}).get("expected_fouls") or 0)
+                for p in squad[:11]
+            )
             for squad in fixture["teams"].values()
         )
 
@@ -1119,9 +1123,7 @@ def _house_sheet(fixture: dict) -> dict:
                 for p in ranked
                 if (p[market].get(f"p{line}plus") or 0.0) > 0
             ]
-            if line == 3 and (
-                not picks or picks[0]["outOf100"] < HOUSE_SHEET_3PLUS_FLOOR * 100
-            ):
+            if line == 3 and (not picks or picks[0]["outOf100"] < HOUSE_SHEET_3PLUS_FLOOR * 100):
                 continue
             if picks:
                 groups.append({"market": market, "line": line, "picks": picks})
@@ -1209,7 +1211,7 @@ def _compare(history: pd.DataFrame, fixture: dict, as_of) -> dict:
     rows = []
     hf, af = _team_form(history, home, as_of), _team_form(history, away, as_of)
 
-    for key, label, better in (
+    for key, label, _better in (
         ("foulsPerMatch", "Fouls committed per match", "high"),
         ("foulsWonPerMatch", "Fouls won per match", "high"),
         ("yellowsPerMatch", "Yellow cards per match", "high"),
@@ -1236,7 +1238,9 @@ def _compare(history: pd.DataFrame, fixture: dict, as_of) -> dict:
         vals = {}
         for team, rowset in players.items():
             vals[team] = round(
-                sum(r[market]["why"]["ratePer90"] * r["expectedMinutes"] / 90.0 for r in rowset[:11]),
+                sum(
+                    r[market]["why"]["ratePer90"] * r["expectedMinutes"] / 90.0 for r in rowset[:11]
+                ),
                 2,
             )
         if home in vals and away in vals:
@@ -1293,8 +1297,13 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
         ):
             label = f"{fx.home_team_raw} v {fx.away_team_raw}"
             for sel in squad(
-                squads, resolution, team, 14, lineups.get(f"{team}|{label}"),
-                history=history, as_of=as_of,
+                squads,
+                resolution,
+                team,
+                14,
+                lineups.get(f"{team}|{label}"),
+                history=history,
+                as_of=as_of,
             ):
                 by_market = {}
                 for market, models in (("committed", committed), ("drawn", drawn)):
@@ -1302,7 +1311,9 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                     whys = {}
                     for cid, model in models.items():
                         dists[cid], whys[cid] = model.predict_one(
-                            sel.lookup, opponent, as_of,
+                            sel.lookup,
+                            opponent,
+                            as_of,
                             confirmed="start" if sel.confirmed else None,
                             team=team,
                         )
@@ -1335,10 +1346,12 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
 
                 explorer.append(
                     _explorer_row(
-                        sel, team, opponent, fx, by_market,
-                        career=_career_rates(
-                            {"committed": committed, "drawn": drawn}, sel, as_of
-                        ),
+                        sel,
+                        team,
+                        opponent,
+                        fx,
+                        by_market,
+                        career=_career_rates({"committed": committed, "drawn": drawn}, sel, as_of),
                     )
                 )
     return rows, explorer
@@ -1361,9 +1374,7 @@ def _career_rates(models: dict, sel, as_of) -> dict | None:
         "committed": round(committed, 2) if committed is not None else None,
         "drawn": round(drawn, 2) if drawn is not None else None,
         "involvements": (
-            round(committed + drawn, 2)
-            if committed is not None and drawn is not None
-            else None
+            round(committed + drawn, 2) if committed is not None and drawn is not None else None
         ),
         "nineties": round(nineties, 1),
     }
@@ -1712,9 +1723,14 @@ def _leg(row: dict, cid: str) -> dict:
         "reason": character_reasons.reason(
             cid,
             {
-                "player": row["player"], "market": row["market"], "line": row["line"],
-                "fouls": int(row["line"] + 0.5), "prob": p, "packProb": pack,
-                "edge": p - pack, "thin": why["effectiveMatches"] < THIN_EVIDENCE,
+                "player": row["player"],
+                "market": row["market"],
+                "line": row["line"],
+                "fouls": int(row["line"] + 0.5),
+                "prob": p,
+                "packProb": pack,
+                "edge": p - pack,
+                "thin": why["effectiveMatches"] < THIN_EVIDENCE,
             },
             why,
         ),
@@ -1754,8 +1770,12 @@ def _character_picks(cid, candidates) -> dict:
                 "reason": character_reasons.reason(
                     cid,
                     {
-                        "player": row["player"], "market": row["market"], "line": row["line"],
-                        "fouls": int(row["line"] + 0.5), "prob": p, "packProb": pack,
+                        "player": row["player"],
+                        "market": row["market"],
+                        "line": row["line"],
+                        "fouls": int(row["line"] + 0.5),
+                        "prob": p,
+                        "packProb": pack,
                         "edge": p - pack,
                         "thin": why["effectiveMatches"] < THIN_EVIDENCE
                         or not row.get("hasHistory", True),
@@ -1781,8 +1801,7 @@ def _character_picks(cid, candidates) -> dict:
         "averageEdge": round(sum(p["edge"] for p in picks) / len(picks), 4) if picks else 0,
         "inBand": in_band,
         "tiers": [
-            t for t in (_slip_at_odds(cid, candidates, target) for target in ODDS_TIERS)
-            if t
+            t for t in (_slip_at_odds(cid, candidates, target) for target in ODDS_TIERS) if t
         ],
     }
 
@@ -1848,9 +1867,7 @@ def _predicted_shape(selections: list, roles: dict | None = None) -> dict | None
 
     overflow = len(lines["D"]) - MAX_PREDICTED_DEFENDERS
     if overflow > 0:
-        ranked = sorted(
-            enumerate(lines["D"]), key=lambda pair: (promotion_rank(pair[1]), -pair[0])
-        )
+        ranked = sorted(enumerate(lines["D"]), key=lambda pair: (promotion_rank(pair[1]), -pair[0]))
         moving = {index for index, _ in ranked[:overflow]}
         lines["M"].extend(sel for i, sel in enumerate(lines["D"]) if i in moving)
         lines["D"] = [sel for i, sel in enumerate(lines["D"]) if i not in moving]
@@ -1885,7 +1902,7 @@ def _formations(lineups: dict) -> dict:
     A back three and a back four are indistinguishable from codes alone.
     """
     out: dict[str, dict] = {}
-    for key, lu in lineups.items():
+    for _key, lu in lineups.items():
         if not lu.lines:
             continue
         out.setdefault(lu.fixture, {})[lu.team] = {
@@ -1951,7 +1968,7 @@ def _fixture_options(slates: dict, candidates: list[dict], limit: int = 5) -> di
     by_fixture: dict[str, dict[tuple, dict]] = {}
     for label, by_character in (slates or {}).items():
         legs = by_fixture.setdefault(label, {})
-        for cid, built_shapes in (by_character or {}).items():
+        for _cid, built_shapes in (by_character or {}).items():
             seen: set[tuple] = set()
             for built in (built_shapes or {}).values():
                 for l in (built or {}).get("legs") or []:
@@ -1964,9 +1981,7 @@ def _fixture_options(slates: dict, candidates: list[dict], limit: int = 5) -> di
                         # Slate legs come from the candidate table in the same
                         # publish, so the blend is always there; the fallback to
                         # the character's own number only guards a stale caller.
-                        house = house_by_leg.get(
-                            (l["fullName"], l["market"], l["line"]), l["prob"]
-                        )
+                        house = house_by_leg.get((l["fullName"], l["market"], l["line"]), l["prob"])
                         legs[key] = {
                             "player": l["player"],
                             "fouls": l["fouls"],
@@ -2075,24 +2090,34 @@ def _fixture_slips(candidates: list[dict], fixtures) -> dict:
 if __name__ == "__main__":
     result = publish()
     t = result["trainedOn"]
-    print(f"Trained on {t['playerMatches']:,} player-matches, {t['players']:,} players "
-          f"({t['from']} to {t['to']})\n")
+    print(
+        f"Trained on {t['playerMatches']:,} player-matches, {t['players']:,} players "
+        f"({t['from']} to {t['to']})\n"
+    )
     print("TOP FOULERS THIS ROUND")
     print(f"  {'player':<24}{'fixture':<30}{'mins':>6}{'1+':>7}{'2+':>7}  band")
-    for r in result["topFouler" "s"][:10]:
+    for r in result["topFoulers"][:10]:
         c = r["committed"]
-        print(f"  {r['player']:<24}{r['fixture']:<30}{r['expectedMinutes']:>6.0f}"
-              f"{c['p1plus']:>7.0%}{c['p2plus']:>7.0%}  {c['band1']}")
+        print(
+            f"  {r['player']:<24}{r['fixture']:<30}{r['expectedMinutes']:>6.0f}"
+            f"{c['p1plus']:>7.0%}{c['p2plus']:>7.0%}  {c['band1']}"
+        )
     print("\nCHARACTER PICKS")
     for block in result["picks"]:
         flag = "" if block["inBand"] else "  [OUT OF BAND]"
-        print(f"\n  {block['name']} ({block['emotion']}) — avg {block['averageProb']:.0%}, "
-              f"combined {block['combinedFair']}/1, edge {block['averageEdge']:+.1%}{flag}")
+        print(
+            f"\n  {block['name']} ({block['emotion']}) — avg {block['averageProb']:.0%}, "
+            f"combined {block['combinedFair']}/1, edge {block['averageEdge']:+.1%}{flag}"
+        )
         for t in block["tiers"]:
             legs = " + ".join(f"{l['player']} {l['fouls']}+" for l in t["legs"])
-            print(f"    @{t['target']:>5.1f}  actual {t['actualOdds']:>6.2f}  "
-                  f"{t['outOf100']:>3}/100  {legs[:74]}")
+            print(
+                f"    @{t['target']:>5.1f}  actual {t['actualOdds']:>6.2f}  "
+                f"{t['outOf100']:>3}/100  {legs[:74]}"
+            )
         for p in block["picks"]:
             verb = "commits" if p["market"] == "committed" else "draws"
-            print(f"    {p['player']:<22} {int(p['line']+0.5)}+ {verb:<7} "
-                  f"{p['prob']:>5.0%} (pack {p['packProb']:>4.0%}) floor {p['floor']}")
+            print(
+                f"    {p['player']:<22} {int(p['line'] + 0.5)}+ {verb:<7} "
+                f"{p['prob']:>5.0%} (pack {p['packProb']:>4.0%}) floor {p['floor']}"
+            )

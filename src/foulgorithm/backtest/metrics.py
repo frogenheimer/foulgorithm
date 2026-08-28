@@ -39,9 +39,7 @@ def crps(dist: CountDistribution, observed: float) -> float:
     return float(((cdf - step) ** 2).sum())
 
 
-def calibration_buckets(
-    pairs: list[tuple[float, bool]], n_buckets: int = 10
-) -> list[dict]:
+def calibration_buckets(pairs: list[tuple[float, bool]], n_buckets: int = 10) -> list[dict]:
     """Predicted probability against observed frequency, bucketed.
 
     The chart that tells you whether a model means what it says.
@@ -69,9 +67,7 @@ def expected_calibration_error(pairs: list[tuple[float, bool]], n_buckets: int =
     total = sum(b["n"] for b in buckets)
     if not total:
         return float("nan")
-    return float(
-        sum(b["n"] * abs(b["predicted"] - b["observed"]) for b in buckets) / total
-    )
+    return float(sum(b["n"] * abs(b["predicted"] - b["observed"]) for b in buckets) / total)
 
 
 def pit(dist: CountDistribution, observed: float, rng: np.random.Generator) -> float:
@@ -90,9 +86,7 @@ def pit(dist: CountDistribution, observed: float, rng: np.random.Generator) -> f
     return float(min(max(lower + rng.uniform() * dist.pmf(k), 0.0), 1.0))
 
 
-def interval_coverage(
-    pairs: list[tuple[CountDistribution, float]], level: float = 0.9
-) -> dict:
+def interval_coverage(pairs: list[tuple[CountDistribution, float]], level: float = 0.9) -> dict:
     """Did the stated central interval hold its stated share of outcomes?
 
     Discrete support makes an exact 90% interval impossible, so the interval

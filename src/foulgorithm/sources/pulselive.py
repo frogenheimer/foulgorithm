@@ -22,11 +22,11 @@ monetisation. See docs/13-legal-and-ethics.md.
 from __future__ import annotations
 
 import json
-from functools import lru_cache
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
+from functools import lru_cache
 
 from foulgorithm.sources.base import SourceError
 
@@ -129,9 +129,7 @@ def fixtures(season_id: int | None = None, page_size: int = 100) -> list[Fixture
     lineup watcher is the one that matters.
     """
     season = season_id or current_season_id()
-    data = _get(
-        f"fixtures?comps={COMPETITION}&compSeasons={season}&pageSize={page_size}&sort=asc"
-    )
+    data = _get(f"fixtures?comps={COMPETITION}&compSeasons={season}&pageSize={page_size}&sort=asc")
     out = []
     for item in data.get("content") or []:
         teams = item.get("teams") or []
@@ -151,11 +149,9 @@ def fixtures(season_id: int | None = None, page_size: int = 100) -> list[Fixture
                 id=int(item["id"]),
                 home=teams[0].get("team", {}).get("name", ""),
                 away=teams[1].get("team", {}).get("name", ""),
-                kickoff_utc=datetime.fromtimestamp(
-                    item["kickoff"]["millis"] / 1000, tz=timezone.utc
-                )
+                kickoff_utc=datetime.fromtimestamp(item["kickoff"]["millis"] / 1000, tz=UTC)
                 if item.get("kickoff", {}).get("millis")
-                else datetime.now(timezone.utc),
+                else datetime.now(UTC),
                 status=item.get("status", ""),
                 home_score=teams[0].get("score"),
                 away_score=teams[1].get("score"),
@@ -179,9 +175,7 @@ def cup_fixtures(competition: int, page_size: int = 100, pages: int = 3) -> list
     """
     out: list[dict] = []
     for page in range(pages):
-        data = _get(
-            f"fixtures?comps={competition}&pageSize={page_size}&sort=desc&page={page}"
-        )
+        data = _get(f"fixtures?comps={competition}&pageSize={page_size}&sort=desc&page={page}")
         content = data.get("content") or []
         if not content:
             break

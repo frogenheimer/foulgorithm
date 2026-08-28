@@ -60,7 +60,7 @@ class TestThePublishedSquads:
         assert not repeats, f"same player under two names: {list(repeats.values())[:5]}"
 
     def test_a_missing_position_always_has_a_reason(self):
-        """"?" reaches the bench as a dash, so each one must be explainable.
+        """ "?" reaches the bench as a dash, so each one must be explainable.
 
         The rule, not the count. A single-word team-sheet name ("Beto",
         "Emersonn") cannot be matched to a squad safely: two words of overlap
@@ -77,12 +77,10 @@ class TestThePublishedSquads:
 
         Anything else is a real defect.
         """
-        from foulgorithm.sources import fpl
         from foulgorithm.publish.player_round import name_key
+        from foulgorithm.sources import fpl
 
-        in_fpl = {
-            name_key(p.name) for side in fpl.current_squads().values() for p in side
-        }
+        in_fpl = {name_key(p.name) for side in fpl.current_squads().values() for p in side}
         unexplained = [
             r["fullName"]
             for r in self.rows()

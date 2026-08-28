@@ -11,8 +11,6 @@ survive, and every file has to say when it was fetched.
 
 import json
 
-import pytest
-
 from foulgorithm.sources import team_match_stats as tms
 
 

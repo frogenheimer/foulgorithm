@@ -75,32 +75,34 @@ PULSELIVE_TO_FIXTURE = {
 #
 # So these clubs get team-level football-data numbers and match totals. They
 # never get a player pick, and has_player_data() below is what enforces that.
-CHAMPIONSHIP_CLUBS = frozenset({
-    "Birmingham",
-    "Blackburn",
-    "Bolton",
-    "Bristol City",
-    "Burnley",
-    "Cardiff",
-    "Charlton",
-    "Derby",
-    "Lincoln",
-    "Middlesbrough",
-    "Millwall",
-    "Norwich",
-    "Portsmouth",
-    "Preston",
-    "QPR",
-    "Sheffield United",
-    "Southampton",
-    "Stoke",
-    "Swansea",
-    "Watford",
-    "West Brom",
-    "West Ham",
-    "Wolves",
-    "Wrexham",
-})
+CHAMPIONSHIP_CLUBS = frozenset(
+    {
+        "Birmingham",
+        "Blackburn",
+        "Bolton",
+        "Bristol City",
+        "Burnley",
+        "Cardiff",
+        "Charlton",
+        "Derby",
+        "Lincoln",
+        "Middlesbrough",
+        "Millwall",
+        "Norwich",
+        "Portsmouth",
+        "Preston",
+        "QPR",
+        "Sheffield United",
+        "Southampton",
+        "Stoke",
+        "Swansea",
+        "Watford",
+        "West Brom",
+        "West Ham",
+        "Wolves",
+        "Wrexham",
+    }
+)
 
 PREMIER_LEAGUE_CLUBS = frozenset(FIXTURE_TO_FPL)
 

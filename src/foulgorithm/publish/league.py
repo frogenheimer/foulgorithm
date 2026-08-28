@@ -82,16 +82,15 @@ def _hot_take_floor(cid: str, own: dict, pool: list[dict], context: dict | None)
     """
     from foulgorithm.publish.player_round import HOT_TAKE_MARGIN
 
-    if any(
-        leg.get("hotTake")
-        for built in own.values()
-        if built
-        for leg in built["legs"]
-    ):
+    if any(leg.get("hotTake") for built in own.values() if built for leg in built["legs"]):
         return
 
     mavericks = sorted(
-        (r for r in pool if r.get("probs", {}).get(cid) is not None and _edge(cid, r) >= HOT_TAKE_MARGIN),
+        (
+            r
+            for r in pool
+            if r.get("probs", {}).get(cid) is not None and _edge(cid, r) >= HOT_TAKE_MARGIN
+        ),
         key=lambda r: -_edge(cid, r),
     )
     for row in mavericks:
@@ -101,18 +100,16 @@ def _hot_take_floor(cid: str, own: dict, pool: list[dict], context: dict | None)
             used = {leg["fullName"] for leg in built["legs"]}
             if row["fullName"] in used:
                 continue
-            replaceable = [
-                i
-                for i, leg in enumerate(built["legs"])
-                if leg["line"] == row["line"]
-            ]
+            replaceable = [i for i, leg in enumerate(built["legs"]) if leg["line"] == row["line"]]
             if not replaceable:
                 continue
             weakest = min(
                 replaceable,
-                key=lambda i: _preference(cid, _row_for(built["legs"][i], pool, cid), context)
-                if _row_for(built["legs"][i], pool, cid)
-                else 0.0,
+                key=lambda i: (
+                    _preference(cid, _row_for(built["legs"][i], pool, cid), context)
+                    if _row_for(built["legs"][i], pool, cid)
+                    else 0.0
+                ),
             )
             swapped = _leg_from_row(row, cid, hot=True)
             if "houseProb" in built["legs"][weakest]:
@@ -317,9 +314,7 @@ def build_slates(
                         break
                     for row in at_line[:count]:
                         used.add(row["fullName"])
-                        legs.append(
-                            _leg_from_row(row, cid, hot=_edge(cid, row) >= HOT_TAKE_MARGIN)
-                        )
+                        legs.append(_leg_from_row(row, cid, hot=_edge(cid, row) >= HOT_TAKE_MARGIN))
 
                 own[slate.key] = {"legs": legs, "label": slate.label} if ok else None
 
@@ -528,9 +523,7 @@ def boldness(
 SEASON_START = "2026-08-28"
 
 
-def table(
-    graded: list[dict], character_ids: list[str], since: str = SEASON_START
-) -> list[dict]:
+def table(graded: list[dict], character_ids: list[str], since: str = SEASON_START) -> list[dict]:
     """Standings from graded slate legs.
 
     A slate is only scored once EVERY leg has an outcome. Grading a half-settled

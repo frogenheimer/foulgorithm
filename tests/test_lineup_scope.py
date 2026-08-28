@@ -12,7 +12,6 @@ through kickoff.
 
 from foulgorithm.publish.player_round import scope_lineups
 
-
 LINEUPS = {
     "Arsenal|Arsenal v Coventry": ["a"],
     "Coventry|Arsenal v Coventry": ["b"],

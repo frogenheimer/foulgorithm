@@ -11,8 +11,6 @@ kept; the last one published before kickoff is the one that counts, because that
 is what a reader saw when the game started.
 """
 
-import pytest
-
 from foulgorithm.store import published_picks as store
 
 
@@ -23,10 +21,7 @@ def option(band="Short", odds=3.0, legs=(("Guiu", 2),)):
         "odds": odds,
         "outOf100": round(100 / odds),
         "totalFouls": sum(f for _, f in legs),
-        "legs": [
-            {"player": p, "fouls": f, "market": "committed", "outOf100": 40}
-            for p, f in legs
-        ],
+        "legs": [{"player": p, "fouls": f, "market": "committed", "outOf100": 40} for p, f in legs],
     }
 
 
@@ -41,14 +36,19 @@ class TestVersioning:
 
     def test_republishing_the_same_picks_does_not_add_a_version(self, tmp_path):
         for _ in range(3):
-            store.record("Fulham v Chelsea", KICKOFF, [option()], "2026-08-22T10:00:00+00:00", tmp_path)
+            store.record(
+                "Fulham v Chelsea", KICKOFF, [option()], "2026-08-22T10:00:00+00:00", tmp_path
+            )
         assert len(store.versions("Fulham v Chelsea", tmp_path)) == 1
 
     def test_changed_picks_add_a_version(self, tmp_path):
         store.record("Fulham v Chelsea", KICKOFF, [option()], "2026-08-22T10:00:00+00:00", tmp_path)
         store.record(
-            "Fulham v Chelsea", KICKOFF, [option(legs=(("Mudryk", 2),))],
-            "2026-08-23T10:00:00+00:00", tmp_path,
+            "Fulham v Chelsea",
+            KICKOFF,
+            [option(legs=(("Mudryk", 2),))],
+            "2026-08-23T10:00:00+00:00",
+            tmp_path,
         )
         versions = store.versions("Fulham v Chelsea", tmp_path)
         assert [v["version"] for v in versions] == [1, 2]
@@ -56,8 +56,11 @@ class TestVersioning:
     def test_earlier_versions_are_never_overwritten(self, tmp_path):
         store.record("Fulham v Chelsea", KICKOFF, [option()], "2026-08-22T10:00:00+00:00", tmp_path)
         store.record(
-            "Fulham v Chelsea", KICKOFF, [option(legs=(("Mudryk", 2),))],
-            "2026-08-23T10:00:00+00:00", tmp_path,
+            "Fulham v Chelsea",
+            KICKOFF,
+            [option(legs=(("Mudryk", 2),))],
+            "2026-08-23T10:00:00+00:00",
+            tmp_path,
         )
         first = store.versions("Fulham v Chelsea", tmp_path)[0]
         assert first["options"][0]["legs"][0]["player"] == "Guiu"

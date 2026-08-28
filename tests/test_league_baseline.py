@@ -9,8 +9,6 @@ No offset is applied to anything. Adjusting one side toward the other would be
 a model judgement inside a section whose whole point is that it is not one.
 """
 
-import pytest
-
 from foulgorithm.stats import league_baseline as lb
 from tests.test_team_record import match
 

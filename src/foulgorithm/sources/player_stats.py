@@ -96,7 +96,7 @@ class PlayerStats:
         return self.minutes < THIN_MINUTES
 
     def spell_label(self) -> str:
-        """"900 minutes in the Premier League, 450 in the Championship".
+        """ "900 minutes in the Premier League, 450 in the Championship".
 
         A player's record follows him rather than his club. Wolves came down
         and their squad's minutes are top-flight ones; Wrexham went up and
@@ -104,7 +104,8 @@ class PlayerStats:
         """
         by = self.minutes_by_division or {}
         parts = [
-            f"{int(by[d])} minutes in the {DIVISION_NAMES[d]}" if i == 0
+            f"{int(by[d])} minutes in the {DIVISION_NAMES[d]}"
+            if i == 0
             else f"{int(by[d])} in the {DIVISION_NAMES[d]}"
             for i, d in enumerate(d for d in ("E0", "E1") if by.get(d))
         ]
@@ -141,8 +142,7 @@ def sweep(
     try:
         while True:
             payload = api._get(
-                f"stats/ranked/players/{stat}?comps={competition}"
-                f"&pageSize={page_size}&page={page}"
+                f"stats/ranked/players/{stat}?comps={competition}&pageSize={page_size}&page={page}"
             )
             block = payload.get("stats") or {}
             for row in block.get("content") or []:
@@ -194,8 +194,9 @@ def _write(path: Path, rows: dict[int, dict]) -> None:
     path.write_text(json.dumps(rows, separators=(",", ":")))
 
 
-def squad_ids(competition: int, api=pulselive, cache_root: Path | None = None,
-              force: bool = False) -> dict[str, list[int]]:
+def squad_ids(
+    competition: int, api=pulselive, cache_root: Path | None = None, force: bool = False
+) -> dict[str, list[int]]:
     """Who is in each club's squad NOW, by player id.
 
     **Three endpoints look like a squad and two of them are not.** Both wrong
@@ -247,9 +248,7 @@ def _fetch_squads(competition: int, api, cached: Path) -> dict[str, list[int]]:
         # The club's own list. NOT players?teams=, which is every registration
         # that season and carries loanees and departed players with it.
         squad = api._get(f"teams/{int(tid)}/compseasons/{season}/staff")
-        ids = [
-            int(p["id"]) for p in (squad.get("players") or []) if p.get("id") is not None
-        ]
+        ids = [int(p["id"]) for p in (squad.get("players") or []) if p.get("id") is not None]
         if ids:
             out[name] = ids
 
@@ -292,7 +291,7 @@ def squads(
         if meta is None or not meta.get("club"):
             continue
 
-        def total(stat: str) -> float:
+        def total(stat: str, pid=pid) -> float:
             row = tables[stat].get(pid)
             return row["value"] if row else 0.0
 
@@ -362,8 +361,12 @@ def for_clubs(
             meta = next((tables[s][pid] for s in STATS if pid in tables[s]), None)
             row = merged.setdefault(
                 pid,
-                {"meta": meta, "club": club, "totals": dict.fromkeys(STATS, 0.0),
-                 "minutes_by_division": {}},
+                {
+                    "meta": meta,
+                    "club": club,
+                    "totals": dict.fromkeys(STATS, 0.0),
+                    "minutes_by_division": {},
+                },
             )
             if row["meta"] is None and meta is not None:
                 row["meta"] = meta

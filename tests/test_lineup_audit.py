@@ -7,8 +7,13 @@ from foulgorithm.jobs import lineup_audit
 
 
 def claim(fixture, published, kickoff, confirmed):
-    return {"fixture": fixture, "published_at": published, "kickoff": kickoff,
-            "lineup_confirmed": confirmed, "model_id": "house"}
+    return {
+        "fixture": fixture,
+        "published_at": published,
+        "kickoff": kickoff,
+        "lineup_confirmed": confirmed,
+        "model_id": "house",
+    }
 
 
 class TestCoverage:

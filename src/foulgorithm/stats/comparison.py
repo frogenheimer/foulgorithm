@@ -20,25 +20,34 @@ from foulgorithm.stats.team_record import DIVISION_NAMES, TeamRecord
 #: (block title, [(record attribute, baseline key, row label)]). Fouls first:
 #: it is what the site is about and what a reader came for.
 BLOCKS = (
-    ("Fouls", (
-        ("fouls_per_match", "foulsPerMatch", "Fouls committed per match"),
-        ("fouls_won_per_match", "foulsWonPerMatch", "Fouls won per match"),
-        ("fouls_home", "foulsPerMatch", "Fouls committed at home"),
-        ("fouls_away", "foulsPerMatch", "Fouls committed away"),
-        ("cards_per_foul", "cardsPerFoul", "Cards per foul"),
-    )),
-    ("Cards", (
-        ("yellows_per_match", "yellowsPerMatch", "Yellow cards per match"),
-        ("cards_per_match", None, "Cards per match"),
-        ("reds_per_match", "redsPerMatch", "Red cards per match"),
-    )),
-    ("Match shape", (
-        ("shots_per_match", "shotsPerMatch", "Shots per match"),
-        ("shots_on_target_per_match", "shotsOnTargetPerMatch", "Shots on target per match"),
-        ("corners_per_match", "cornersPerMatch", "Corners per match"),
-        ("goals_for_per_match", "goalsForPerMatch", "Goals scored per match"),
-        ("goals_against_per_match", "goalsAgainstPerMatch", "Goals conceded per match"),
-    )),
+    (
+        "Fouls",
+        (
+            ("fouls_per_match", "foulsPerMatch", "Fouls committed per match"),
+            ("fouls_won_per_match", "foulsWonPerMatch", "Fouls won per match"),
+            ("fouls_home", "foulsPerMatch", "Fouls committed at home"),
+            ("fouls_away", "foulsPerMatch", "Fouls committed away"),
+            ("cards_per_foul", "cardsPerFoul", "Cards per foul"),
+        ),
+    ),
+    (
+        "Cards",
+        (
+            ("yellows_per_match", "yellowsPerMatch", "Yellow cards per match"),
+            ("cards_per_match", None, "Cards per match"),
+            ("reds_per_match", "redsPerMatch", "Red cards per match"),
+        ),
+    ),
+    (
+        "Match shape",
+        (
+            ("shots_per_match", "shotsPerMatch", "Shots per match"),
+            ("shots_on_target_per_match", "shotsOnTargetPerMatch", "Shots on target per match"),
+            ("corners_per_match", "cornersPerMatch", "Corners per match"),
+            ("goals_for_per_match", "goalsForPerMatch", "Goals scored per match"),
+            ("goals_against_per_match", "goalsAgainstPerMatch", "Goals conceded per match"),
+        ),
+    ),
 )
 
 
@@ -55,10 +64,7 @@ def build(
     """
     out = []
     for title, fields in BLOCKS:
-        rows = [
-            _row(home, away, attr, key, label, baselines, rates)
-            for attr, key, label in fields
-        ]
+        rows = [_row(home, away, attr, key, label, baselines, rates) for attr, key, label in fields]
         rows = [r for r in rows if r["home"] is not None or r["away"] is not None]
         if rows:
             out.append({"title": title, "rows": rows})
@@ -73,9 +79,7 @@ def _row(home, away, attr, key, label, baselines, rates):
         if value is None or division is None:
             return None, None
         note = lb.marker(value, baselines.get(division, {}), key, division) if key else None
-        rank = lb.rank_label(
-            lb.rank(value, _rates_for(rates, division, attr)), division
-        )
+        rank = lb.rank_label(lb.rank(value, _rates_for(rates, division, attr)), division)
         return note, rank
 
     home_note, home_rank = context(home, h)

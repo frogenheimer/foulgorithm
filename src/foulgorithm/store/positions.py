@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import json
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 STATE = Path("data/state/positions_seen.json")
@@ -41,7 +41,7 @@ def remember(lineups: dict, path: Path = STATE) -> None:
     if not lineups:
         return
     held = _read(path)
-    seen_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    seen_at = datetime.now(UTC).replace(microsecond=0).isoformat()
     changed = False
     for lineup in lineups.values():
         for line in getattr(lineup, "lines", []) or []:
@@ -60,11 +60,7 @@ def remember(lineups: dict, path: Path = STATE) -> None:
 
 def load(path: Path = STATE) -> dict[str, str]:
     """Normalised player name -> last seen role detail."""
-    return {
-        key: row.get("detail", "")
-        for key, row in _read(path).items()
-        if isinstance(row, dict)
-    }
+    return {key: row.get("detail", "") for key, row in _read(path).items() if isinstance(row, dict)}
 
 
 def role_for(roles: dict[str, str], name: str | None) -> str:

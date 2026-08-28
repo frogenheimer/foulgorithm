@@ -28,8 +28,26 @@ _COUNTRY_SUFFIX = re.compile(r",.*$")
 #: Surname particles. These belong to the surname however they are capitalised,
 #: so "Robert Van Der Berg" keys as "R Van Der Berg". Dropping them would merge
 #: officials who share only the final word of their name.
-_PARTICLES = {"van", "von", "de", "del", "della", "der", "den", "di", "da",
-              "dos", "du", "la", "le", "mac", "mc", "st", "ter", "ten"}
+_PARTICLES = {
+    "van",
+    "von",
+    "de",
+    "del",
+    "della",
+    "der",
+    "den",
+    "di",
+    "da",
+    "dos",
+    "du",
+    "la",
+    "le",
+    "mac",
+    "mc",
+    "st",
+    "ter",
+    "ten",
+}
 
 
 def _tokens(name: str) -> list[str]:

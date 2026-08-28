@@ -22,14 +22,23 @@ class TestCast:
     def test_ids_are_unique_and_stable(self):
         ids = [c.id for c in characters.ALL]
         assert ids == [
-            "alan", "lily", "valentina", "tayler", "bdog",
-            "pax", "justine", "mabel", "dottie", "dele", "ian",
+            "alan",
+            "lily",
+            "valentina",
+            "tayler",
+            "bdog",
+            "pax",
+            "justine",
+            "mabel",
+            "dottie",
+            "dele",
+            "ian",
         ]
 
     def test_generations_split_the_five_and_the_challengers(self):
         gen1 = {c.id for c in characters.ALL if c.generation == 1}
         assert gen1 == {"alan", "lily", "valentina", "tayler", "bdog"}
-        assert characters.V2_IDS == {"pax", "justine", "mabel", "dottie", "dele", "ian"}
+        assert {"pax", "justine", "mabel", "dottie", "dele", "ian"} == characters.V2_IDS
 
     def test_every_character_declares_a_weakness(self):
         # The site states each one's blind spot. A character without a named

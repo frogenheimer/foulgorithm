@@ -8,7 +8,6 @@ property is the double-count release gate, and it is tested here as an
 equality, not a tolerance.
 """
 
-import numpy as np
 import pandas as pd
 import pytest
 
@@ -81,9 +80,7 @@ class TestBuildingEvidence:
         assert got[got["player"] == "Covered Player"].empty
 
     def test_a_partially_covered_season_contributes_the_residual(self):
-        arch = archive_rows(
-            "Half Seen", ["2023-09-02", "2023-10-07"], minutes=450.0, fouls=2.0
-        )
+        arch = archive_rows("Half Seen", ["2023-09-02", "2023-10-07"], minutes=450.0, fouls=2.0)
         api = pd.DataFrame([api_row("Half Seen", "2023/24", 1800.0, 12.0)])
         got = st.evidence(api, arch, offset=NEUTRAL)
         mine = got[got["player"] == "Half Seen"]
@@ -158,7 +155,11 @@ class TestTheBlend:
         # A league of two positions with enough minutes to clear the position
         # prior threshold, plus the player under test.
         rows = [
-            archive_rows(f"DM Filler {i}", [f"2023-{m:02d}-{d:02d}" for m in (9, 10, 11) for d in (2, 9, 16)], fouls=1.5)
+            archive_rows(
+                f"DM Filler {i}",
+                [f"2023-{m:02d}-{d:02d}" for m in (9, 10, 11) for d in (2, 9, 16)],
+                fouls=1.5,
+            )
             for i in range(30)
         ]
         return pd.concat(rows, ignore_index=True)
@@ -183,9 +184,7 @@ class TestTheBlend:
         as_of = pd.Timestamp("2026-08-24T12:00:00", tz=UTC)
         before, _ = model.player_rate("DM Filler 0", as_of)
 
-        api = pd.DataFrame(
-            [api_row("DM Filler 0", "2023/24", 9 * 90.0, 9 * 1.5)]
-        )
+        api = pd.DataFrame([api_row("DM Filler 0", "2023/24", 9 * 90.0, 9 * 1.5)])
         model.attach_season_evidence(st.evidence(api, history, offset=NEUTRAL))
         after, _ = model.player_rate("DM Filler 0", as_of)
         assert after == before

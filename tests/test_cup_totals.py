@@ -14,7 +14,6 @@ mistake. Their second-tier record is shrunk onto the top-flight scale instead,
 and where even that is missing the model says so out loud.
 """
 
-import numpy as np
 import pandas as pd
 import pytest
 
@@ -34,24 +33,38 @@ def history(n=400):
         if h == a:
             continue
         kickoff = base + pd.Timedelta(days=i)
-        rows.append({
-            "home_team_raw": h, "away_team_raw": a,
-            "home_fouls": fouls[h], "away_fouls": fouls[a],
-            "total_fouls": fouls[h] + fouls[a],
-            "kickoff_utc": kickoff, "known_at": kickoff,
-            "referee_raw": "A Kitchen",
-            "odds_home": None, "odds_draw": None, "odds_away": None,
-        })
+        rows.append(
+            {
+                "home_team_raw": h,
+                "away_team_raw": a,
+                "home_fouls": fouls[h],
+                "away_fouls": fouls[a],
+                "total_fouls": fouls[h] + fouls[a],
+                "kickoff_utc": kickoff,
+                "known_at": kickoff,
+                "referee_raw": "A Kitchen",
+                "odds_home": None,
+                "odds_draw": None,
+                "odds_away": None,
+            }
+        )
     return pd.DataFrame(rows)
 
 
 def tie(home, away, kickoff="2026-01-10"):
-    return pd.DataFrame([{
-        "home_team_raw": home, "away_team_raw": away,
-        "kickoff_utc": pd.Timestamp(kickoff, tz="UTC"),
-        "referee_raw": "A Kitchen",
-        "odds_home": None, "odds_draw": None, "odds_away": None,
-    }])
+    return pd.DataFrame(
+        [
+            {
+                "home_team_raw": home,
+                "away_team_raw": away,
+                "kickoff_utc": pd.Timestamp(kickoff, tz="UTC"),
+                "referee_raw": "A Kitchen",
+                "odds_home": None,
+                "odds_draw": None,
+                "odds_away": None,
+            }
+        ]
+    )
 
 
 class FixedPriors:
@@ -88,9 +101,14 @@ class TestAdjustment:
         model = cup_totals.CupTotal(priors=FixedPriors({"Wrexham": 13.0}))
         model.fit(history())
         row = tie("Arsenal", "Chelsea").iloc[0]
-        plain = mf.build_context(model._history, "Arsenal", "Chelsea",
-                                 "A Kitchen", row["kickoff_utc"],
-                                 half_life_days=model.half_life_days)
+        plain = mf.build_context(
+            model._history,
+            "Arsenal",
+            "Chelsea",
+            "A Kitchen",
+            row["kickoff_utc"],
+            half_life_days=model.half_life_days,
+        )
         assert model.context(row).home_commit == pytest.approx(plain.home_commit)
 
     def test_a_club_with_no_second_tier_record_falls_back_and_is_flagged(self):
@@ -132,6 +150,4 @@ class TestPrediction:
         for m in (cup, league):
             m.fit(history())
         fixture = tie("Arsenal", "Chelsea")
-        assert cup.predict(fixture)[0].mean() == pytest.approx(
-            league.predict(fixture)[0].mean()
-        )
+        assert cup.predict(fixture)[0].mean() == pytest.approx(league.predict(fixture)[0].mean())

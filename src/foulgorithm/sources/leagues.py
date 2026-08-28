@@ -21,15 +21,12 @@ import json
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from foulgorithm.sources.base import SourceError
 
-RELEASE = (
-    "https://github.com/JaseZiv/worldfootballR_data/releases/download/"
-    "fb_advanced_match_stats"
-)
+RELEASE = "https://github.com/JaseZiv/worldfootballR_data/releases/download/fb_advanced_match_stats"
 
 CACHE = Path("data/raw/worldfootballr")
 
@@ -151,7 +148,7 @@ def _record_provenance(code: str, url: str, path: Path, size: int, root: Path) -
         "url": url,
         "file": path.name,
         "bytes": size,
-        "fetchedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "fetchedAt": datetime.now(UTC).replace(microsecond=0).isoformat(),
     }
     manifest.write_text(json.dumps(held, indent=1, sort_keys=True))
 

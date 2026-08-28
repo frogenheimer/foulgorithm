@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import sys
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 # Lineups land at T-60, and in practice exactly T-60: Oliver's observation,
 # 2026-08-24, is that they are never early. So the watch opens at T-65, a
@@ -47,7 +47,7 @@ STARTUP_RETRY_SECONDS = 30
 
 
 def _now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def upcoming(within: timedelta = timedelta(hours=6)) -> list:
@@ -98,8 +98,7 @@ def run(poll_seconds: int = POLL_SECONDS, once: bool = False) -> int:
             break
         except Exception as exc:  # noqa: BLE001 - retried, then loud
             print(
-                f"fixture list unavailable (attempt {attempt + 1} of "
-                f"{STARTUP_ATTEMPTS}): {exc}",
+                f"fixture list unavailable (attempt {attempt + 1} of {STARTUP_ATTEMPTS}): {exc}",
                 file=sys.stderr,
             )
             if attempt + 1 < STARTUP_ATTEMPTS:
@@ -163,7 +162,9 @@ def run(poll_seconds: int = POLL_SECONDS, once: bool = False) -> int:
             # Which of the ones we are waiting on now have a team list.
             for key, f in list(outstanding.items()):
                 if _has_lineup(f):
-                    print(f"  {f.home} v {f.away}: lineup in, {(f.kickoff_utc - _now()).total_seconds() / 60:.0f} min before kickoff")
+                    print(
+                        f"  {f.home} v {f.away}: lineup in, {(f.kickoff_utc - _now()).total_seconds() / 60:.0f} min before kickoff"
+                    )
                     del outstanding[key]
         elif code == 2:
             failures += 1

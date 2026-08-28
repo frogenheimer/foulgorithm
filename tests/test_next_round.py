@@ -11,15 +11,13 @@ fixtures are next. football-data still supplies the referee and the odds, which
 the league's list does not carry, joined on rather than trusted for the dates.
 """
 
-from datetime import datetime, timedelta, timezone
-
-import pytest
+from datetime import UTC, datetime, timedelta
 
 from foulgorithm.features import next_round
 
 
 def at(hours):
-    return datetime(2026, 8, 23, 18, 0, tzinfo=timezone.utc) + timedelta(hours=hours)
+    return datetime(2026, 8, 23, 18, 0, tzinfo=UTC) + timedelta(hours=hours)
 
 
 def fixture(home, away, hours, referee=None):
@@ -59,7 +57,7 @@ class TestChoosingTheRound:
             live_fixtures=[
                 live("Fulham", "Chelsea", 26),
                 live("Palace", "Man City", 30),
-                live("Spurs", "Newcastle", 24 * 30),   # a month away
+                live("Spurs", "Newcastle", 24 * 30),  # a month away
             ],
             enrichment=[],
             now=at(0),
@@ -152,7 +150,11 @@ class TestSurvivingFootballData:
             pulselive,
             "fixtures",
             lambda season_id=None: [
-                type("F", (), {"home": "Fulham", "away": "Chelsea", "kickoff_utc": at(2), "complete": False})()
+                type(
+                    "F",
+                    (),
+                    {"home": "Fulham", "away": "Chelsea", "kickoff_utc": at(2), "complete": False},
+                )()
             ],
         )
         chosen = next_round.fetch(now=at(0))

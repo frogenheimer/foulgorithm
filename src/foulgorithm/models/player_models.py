@@ -18,12 +18,12 @@ minutes is a completely different proposition from one who plays 90, and the
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 import numpy as np
 import pandas as pd
 
-from dataclasses import dataclass
-
-from foulgorithm.models.base import CountDistribution, register
+from foulgorithm.models.base import CountDistribution
 from foulgorithm.models.match_models import negbin_pmf
 
 LEAGUE_PRIOR_MATCHES = 12.0
@@ -185,11 +185,11 @@ class PlayerFoulModel:
         if len(featured):
             self._default_minutes = float(featured.median())
 
-
         self._player_position = (
-            history.assign(_pos=pos).groupby("player")["_pos"].agg(
-                lambda x: x.value_counts().index[0]
-            ).to_dict()
+            history.assign(_pos=pos)
+            .groupby("player")["_pos"]
+            .agg(lambda x: x.value_counts().index[0])
+            .to_dict()
         )
 
     def dispersion_at(self, mean: float) -> float:
@@ -402,7 +402,6 @@ class PlayerFoulModel:
             mins = rows["minutes"].to_numpy(dtype=float)
             started = mins >= STARTER_MINUTES
             benched = (mins > 0) & ~started
-            unused = mins <= 0
 
             total = w.sum()
             # A weak prior toward a squad player, so one appearance does not
@@ -427,13 +426,19 @@ class PlayerFoulModel:
             )
 
         if confirmed == "start":
-            return MinutesProfile(1.0, 0.0, 0.0, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances)
+            return MinutesProfile(
+                1.0, 0.0, 0.0, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances
+            )
         if confirmed == "bench":
             # Named on the bench is not the same as playing. Roughly half of
             # named substitutes come on at all.
-            return MinutesProfile(0.0, 0.5, 0.5, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances)
+            return MinutesProfile(
+                0.0, 0.5, 0.5, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances
+            )
         if confirmed == "out":
-            return MinutesProfile(0.0, 0.0, 1.0, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances)
+            return MinutesProfile(
+                0.0, 0.0, 1.0, profile.minutes_if_start, profile.minutes_if_sub, profile.appearances
+            )
         return profile
 
     MIN_OPPONENT_ROWS = 200
@@ -454,9 +459,7 @@ class PlayerFoulModel:
 
     def opponent_factor(self, opponent: str, as_of) -> float:
         if self._context_source is not None:
-            raw, effective = self._context_source.opponent_factor(
-                opponent, as_of, self.market
-            )
+            raw, effective = self._context_source.opponent_factor(opponent, as_of, self.market)
             if effective < self.MIN_CONTEXT_MATCHES:
                 promoted = self._promoted_opponent_factor(opponent)
                 if promoted != 1.0:
@@ -516,7 +519,9 @@ class PlayerFoulModel:
         mean = max(mean, 0.02)
         return negbin_pmf(mean, mean * self.dispersion_at(mean))
 
-    def _mean_for(self, rate: float, minutes: float, opp: float, referee_factor: float, player: str) -> float:
+    def _mean_for(
+        self, rate: float, minutes: float, opp: float, referee_factor: float, player: str
+    ) -> float:
         mean = rate * (minutes / 90.0) * opp * referee_factor
         if self.amplify != 1.0:
             base = self.prior_rate(player) * (minutes / 90.0)
@@ -561,7 +566,7 @@ class PlayerFoulModel:
 
         width = max(len(x) for x in pmfs)
         stacked = np.zeros(width)
-        for weight, pmf in zip(weights, pmfs):
+        for weight, pmf in zip(weights, pmfs, strict=False):
             stacked[: len(pmf)] += weight * pmf
         dist = CountDistribution(stacked)
 
@@ -626,32 +631,58 @@ class PlayerFouledModel(PlayerFoulModel):
 #   amplify          how far they push a deviation from average
 CHARACTER_SETTINGS: dict[str, dict] = {
     # Anger: only the recent past exists, barely shrinks, exaggerates, overconfident.
-    "alan": dict(half_life_days=70, prior_matches=3, opponent_weight=1.3, dispersion=1.00, amplify=1.3),
+    "alan": dict(
+        half_life_days=70, prior_matches=3, opponent_weight=1.3, dispersion=1.00, amplify=1.3
+    ),
     # Lust: long memory for reputation, trusts the name over the matchup.
-    "lily": dict(half_life_days=1200, prior_matches=8, opponent_weight=0.5, dispersion=1.10, amplify=1.1),
+    "lily": dict(
+        half_life_days=1200, prior_matches=8, opponent_weight=0.5, dispersion=1.10, amplify=1.1
+    ),
     # Violence: reads the matchup hardest, medium memory.
-    "valentina": dict(half_life_days=400, prior_matches=6, opponent_weight=1.6, dispersion=1.05,
-                      amplify=1.15, reads_head_to_head=True),
+    "valentina": dict(
+        half_life_days=400,
+        prior_matches=6,
+        opponent_weight=1.6,
+        dispersion=1.05,
+        amplify=1.15,
+        reads_head_to_head=True,
+    ),
     # Terror: long memory, heavy shrinkage, wide distribution, never exaggerates.
-    "tayler": dict(half_life_days=1000, prior_matches=30, opponent_weight=0.4, dispersion=1.25, amplify=1.0),
+    "tayler": dict(
+        half_life_days=1000, prior_matches=30, opponent_weight=0.4, dispersion=1.25, amplify=1.0
+    ),
     # Bravery: short-to-medium memory, trusts thin evidence others shrink away.
-    "bdog": dict(half_life_days=300, prior_matches=2, opponent_weight=1.1, dispersion=1.02, amplify=1.2),
+    "bdog": dict(
+        half_life_days=300, prior_matches=2, opponent_weight=1.1, dispersion=1.02, amplify=1.2
+    ),
     # ---- generation 2, the challengers (docs/38) ----
     # Persistence: long memory, heavy evidence requirement, unmoved by form.
-    "pax": dict(half_life_days=900, prior_matches=14, opponent_weight=0.7, dispersion=1.12, amplify=1.05),
+    "pax": dict(
+        half_life_days=900, prior_matches=14, opponent_weight=0.7, dispersion=1.12, amplify=1.05
+    ),
     # Jealousy: middle of the road on purpose; her lean lives in selection,
     # where she covets whatever the league leader's numbers say.
-    "justine": dict(half_life_days=500, prior_matches=6, opponent_weight=1.0, dispersion=1.08, amplify=1.15),
+    "justine": dict(
+        half_life_days=500, prior_matches=6, opponent_weight=1.0, dispersion=1.08, amplify=1.15
+    ),
     # Madness: short memory, barely shrinks, exaggerates. The chaos is the signal.
-    "mabel": dict(half_life_days=120, prior_matches=1, opponent_weight=1.4, dispersion=0.98, amplify=1.35),
+    "mabel": dict(
+        half_life_days=120, prior_matches=1, opponent_weight=1.4, dispersion=0.98, amplify=1.35
+    ),
     # Deviance: medium memory, low shrinkage, reads the matchup, pushes deviations.
-    "dottie": dict(half_life_days=350, prior_matches=3, opponent_weight=1.2, dispersion=1.04, amplify=1.25),
+    "dottie": dict(
+        half_life_days=350, prior_matches=3, opponent_weight=1.2, dispersion=1.04, amplify=1.25
+    ),
     # Delinquency: long memory for repeat offenders, shrugs at context.
-    "dele": dict(half_life_days=950, prior_matches=4, opponent_weight=0.6, dispersion=1.02, amplify=1.3),
+    "dele": dict(
+        half_life_days=950, prior_matches=4, opponent_weight=0.6, dispersion=1.02, amplify=1.3
+    ),
     # Intelligence: a genetic algorithm. These are seed dials only; from the
     # first settle onward models/evolve.py breeds a new generation every
     # matchday and this entry is overwritten at import from his lineage.
-    "ian": dict(half_life_days=500, prior_matches=8, opponent_weight=1.0, dispersion=1.10, amplify=1.10),
+    "ian": dict(
+        half_life_days=500, prior_matches=8, opponent_weight=1.0, dispersion=1.10, amplify=1.10
+    ),
 }
 
 try:  # magicIan's dials come from his lineage once evolution has run.

@@ -8,14 +8,11 @@ they run offline in milliseconds and the orchestration is what is tested.
 """
 
 import json
-from datetime import datetime, timedelta, timezone
-
-import pytest
+from datetime import UTC, datetime, timedelta
 
 from foulgorithm.jobs import gameweek as gw
 
-
-NOW = datetime.now(timezone.utc)
+NOW = datetime.now(UTC)
 FIXTURES = [{"home_team_raw": "Arsenal"}, {"home_team_raw": "Leeds"}]
 
 
@@ -133,6 +130,7 @@ class TestOrchestration:
                 if name == "predict":
                     return [gw.Stage("predict-players", ok, "x", hard=hard)]
                 return gw.Stage(name, ok, "x", hard=hard)
+
             return _run
 
         monkeypatch.setattr(gw, "refresh_stage", overrides.get("refresh", stage("refresh")))
@@ -143,6 +141,7 @@ class TestOrchestration:
         monkeypatch.setattr(gw, "push_stage", overrides.get("push", stage("push")))
 
         import foulgorithm.features.next_round as nr
+
         monkeypatch.setattr(nr, "fetch", lambda now=None: FIXTURES)
         return calls
 
@@ -150,21 +149,18 @@ class TestOrchestration:
         def _run(*args, **kwargs):
             result = gw.Stage(name, ok, "x", hard=hard)
             return [result] if as_list else result
+
         return _run
 
     def test_a_dead_settle_source_stops_before_predict(self, monkeypatch, capsys):
-        calls = self.wire(
-            monkeypatch, settle=self.stage_named("settle", ok=False)
-        )
+        calls = self.wire(monkeypatch, settle=self.stage_named("settle", ok=False))
         assert gw.run() == 1
         assert "predict" not in calls
         assert "commit" not in calls
         assert "Nothing was committed" in capsys.readouterr().out
 
     def test_a_failed_verify_stops_before_commit(self, monkeypatch, capsys):
-        calls = self.wire(
-            monkeypatch, verify=self.stage_named("verify", ok=False)
-        )
+        calls = self.wire(monkeypatch, verify=self.stage_named("verify", ok=False))
         assert gw.run() == 1
         assert "commit" not in calls
 
@@ -252,9 +248,11 @@ class TestCommitPathsThatDoNotExistYet:
 
         def fake_run(cmd, check=False, capture_output=False, text=False):
             calls.append(cmd)
+
             class R:
                 returncode = 0
                 stdout = ""
+
             return R()
 
         monkeypatch.setattr(sp, "run", fake_run)

@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from foulgorithm.sources.lineups import for_round as confirmed_lineups
@@ -84,7 +84,7 @@ def run(force: bool = False) -> int:
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(
         json.dumps(
-            {"checkedAt": datetime.now(timezone.utc).isoformat(), "lineups": current},
+            {"checkedAt": datetime.now(UTC).isoformat(), "lineups": current},
             indent=2,
         )
         + "\n"

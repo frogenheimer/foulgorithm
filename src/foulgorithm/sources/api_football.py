@@ -104,7 +104,7 @@ def probe(season: int = 2025) -> Coverage:
     """
     status = _get("status")
     response = status.get("response") or {}
-    requests = (response.get("requests") or {})
+    requests = response.get("requests") or {}
 
     seasons = _get("leagues/seasons").get("response") or []
 
@@ -180,7 +180,7 @@ def main() -> None:
         print(f"not usable yet: {exc}")
         return
 
-    print(f"key works            yes")
+    print("key works            yes")
     print(f"seasons visible      {len(coverage.seasons)}")
     print(f"2025 fixtures        {coverage.fixtures_in_season}")
     print(f"player fouls         {'YES' if coverage.has_player_fouls else 'NO'}")
@@ -231,10 +231,13 @@ def cup_fixture_id(home: str, away: str, kickoff) -> int | None:
 
     date = kickoff.date().isoformat()
     for league_id in CUP_LEAGUES:
-        rows = _get(
-            "fixtures",
-            {"league": league_id, "season": _season_for(kickoff), "date": date},
-        ).get("response") or []
+        rows = (
+            _get(
+                "fixtures",
+                {"league": league_id, "season": _season_for(kickoff), "date": date},
+            ).get("response")
+            or []
+        )
         for row in rows:
             teams = row.get("teams") or {}
             h = to_fixture_name((teams.get("home") or {}).get("name") or "")
@@ -287,9 +290,7 @@ def shape_lineups(response: list, label: str):
                 row, col = (int(x) for x in str(grid).split(":"))
                 rows.setdefault(row, []).append((col, held))
 
-        lines = [
-            [held for _, held in sorted(rows[row])] for row in sorted(rows)
-        ]
+        lines = [[held for _, held in sorted(rows[row])] for row in sorted(rows)]
         bench = [spot(entry) for entry in side.get("substitutes") or []]
 
         out[f"{team}|{label}"] = ConfirmedLineup(

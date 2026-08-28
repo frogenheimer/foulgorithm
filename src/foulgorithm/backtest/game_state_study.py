@@ -5,14 +5,18 @@ than their own rate predicts, against a heavy underdog's 0.02. Whether that is
 worth shipping is a different question, and the match-level version of this idea
 already died on collinearity with the team rates.
 """
-import io, math
-import numpy as np, pandas as pd
-from foulgorithm.store.players import load_player_matches
-from foulgorithm.sources import football_data
+
+import io
+
+import numpy as np
+import pandas as pd
+
+from foulgorithm.backtest import metrics as mx
 from foulgorithm.identity.teams import HISTORY_TO_FIXTURE
 from foulgorithm.models import player_models as pm
-from foulgorithm.backtest import metrics as mx
 from foulgorithm.publish.site_export import season_labels
+from foulgorithm.sources import football_data
+from foulgorithm.store.players import load_player_matches
 
 hist = load_player_matches().sort_values("kickoff_utc").reset_index(drop=True)
 frames = []
@@ -32,19 +36,29 @@ m["date"] = m["kickoff_utc"].dt.date
 
 hist["short"] = hist["team"].map(lambda t: HISTORY_TO_FIXTURE.get(t, t))
 hist["date"] = hist["kickoff_utc"].dt.date
-odds = pd.concat([
-    m[["date", "home_team_raw", "p_home"]].rename(columns={"home_team_raw": "short", "p_home": "p_win"}),
-    m[["date", "away_team_raw", "p_away"]].rename(columns={"away_team_raw": "short", "p_away": "p_win"}),
-], ignore_index=True)
+odds = pd.concat(
+    [
+        m[["date", "home_team_raw", "p_home"]].rename(
+            columns={"home_team_raw": "short", "p_home": "p_win"}
+        ),
+        m[["date", "away_team_raw", "p_away"]].rename(
+            columns={"away_team_raw": "short", "p_away": "p_win"}
+        ),
+    ],
+    ignore_index=True,
+)
 d = hist.merge(odds, on=["date", "short"], how="inner")
 d = d[d["minutes"] >= 20]
 
 model = pm.build("valentina", "player_fouls_committed")
 LINES = (0.5, 1.5, 2.5)
 
+
 def run(window_start, window_end):
-    ev = d[(d["kickoff_utc"] >= pd.Timestamp(window_start, tz="UTC")) &
-           (d["kickoff_utc"] < pd.Timestamp(window_end, tz="UTC"))]
+    ev = d[
+        (d["kickoff_utc"] >= pd.Timestamp(window_start, tz="UTC"))
+        & (d["kickoff_utc"] < pd.Timestamp(window_end, tz="UTC"))
+    ]
     wk = (ev["kickoff_utc"] - ev["kickoff_utc"].min()).dt.days // 7
     out = []
     for _, b in ev.groupby(wk):
@@ -59,6 +73,7 @@ def run(window_start, window_end):
             base = max(rate * (r.minutes / 90.0) * opp, 0.02)
             out.append((r.p_win, base, float(r.fouls_committed)))
     return pd.DataFrame(out, columns=["p_win", "base", "actual"])
+
 
 fit = run("2018-01-01", "2024-06-01")
 test = run("2024-06-01", "2026-09-01")
@@ -77,8 +92,11 @@ x = (fit["p_win"] - centre).to_numpy()
 y = (fit["actual"] / fit["base"]).to_numpy()
 slope, intercept = (float(v) for v in np.polyfit(x, y, 1))
 print(f"centre = {centre:.3f}   slope = {slope:+.4f}   intercept = {intercept:.4f}")
-print(f"  heavy underdog x{intercept + slope*(0.1-centre):.3f}   "
-      f"heavy favourite x{intercept + slope*(0.9-centre):.3f}\n")
+print(
+    f"  heavy underdog x{intercept + slope * (0.1 - centre):.3f}   "
+    f"heavy favourite x{intercept + slope * (0.9 - centre):.3f}\n"
+)
+
 
 def score(df, use):
     losses, calib, biases = [], [], []
@@ -91,6 +109,7 @@ def score(df, use):
             losses.append(mx.log_loss_at_line(dist, r.actual, L))
             calib.append((dist.prob_over(L), r.actual > L))
     return np.mean(losses), mx.expected_calibration_error(calib), np.mean(biases)
+
 
 print(f"{'variant':<28}{'logloss':>10}{'ECE':>9}{'bias':>9}")
 print("-" * 56)

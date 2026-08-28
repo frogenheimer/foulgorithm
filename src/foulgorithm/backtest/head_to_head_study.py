@@ -4,14 +4,16 @@ Both are worth knowing. The method exists so she has one, because an opponent
 weight of 1.6 is not a way of reading a match. Whether it also improves her is a
 separate question and the answer is allowed to be no.
 """
-import io
-import numpy as np, pandas as pd
+
+import numpy as np
+import pandas as pd
+
+from foulgorithm.backtest import metrics as mx
+from foulgorithm.identity.teams import HISTORY_TO_FIXTURE
+from foulgorithm.models import player_models as pm
+from foulgorithm.publish.site_export import season_labels
 from foulgorithm.sources import football_data
 from foulgorithm.store.players import load_player_matches
-from foulgorithm.identity.teams import HISTORY_TO_FIXTURE, history_name
-from foulgorithm.models import player_models as pm
-from foulgorithm.backtest import metrics as mx
-from foulgorithm.publish.site_export import season_labels
 
 LINES = (0.5, 1.5, 2.5)
 
@@ -57,10 +59,14 @@ for _, b in ev.groupby(wk):
 
 factors = np.array(factors)
 print(f"n = {len(factors):,} player-matches")
-print(f"factor range {factors.min():.3f} to {factors.max():.3f}, "
-      f"sd {factors.std():.4f}, non-neutral {(factors != 1.0).mean():.0%}\n")
+print(
+    f"factor range {factors.min():.3f} to {factors.max():.3f}, "
+    f"sd {factors.std():.4f}, non-neutral {(factors != 1.0).mean():.0%}\n"
+)
 print(f"{'variant':<28}{'logloss':>10}{'ECE':>9}")
 print("-" * 47)
 for name, v in out.items():
-    print(f"{'Valentina ' + name + ' head-to-head':<28}{np.mean(v['l']):>10.4f}"
-          f"{mx.expected_calibration_error(v['c']):>9.4f}")
+    print(
+        f"{'Valentina ' + name + ' head-to-head':<28}{np.mean(v['l']):>10.4f}"
+        f"{mx.expected_calibration_error(v['c']):>9.4f}"
+    )

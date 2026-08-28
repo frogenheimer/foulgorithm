@@ -75,7 +75,9 @@ def two_leg_check(frame: pd.DataFrame, line: float = 0.5) -> dict:
     """
     over_prob = []
     for row in frame.itertuples():
-        dist = pm.negbin_pmf(row.predicted_mean, max(row.predicted_var, row.predicted_mean * 1.0001))
+        dist = pm.negbin_pmf(
+            row.predicted_mean, max(row.predicted_var, row.predicted_mean * 1.0001)
+        )
         over_prob.append(dist.prob_over(line))
     frame = frame.assign(_p=over_prob, _hit=(frame["observed"] > line))
 

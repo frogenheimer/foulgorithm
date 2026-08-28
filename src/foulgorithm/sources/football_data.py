@@ -21,7 +21,7 @@ import re
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from foulgorithm.sources.base import RawResponse, SourceError, utcnow
@@ -114,7 +114,7 @@ def fetch(
             content=cached.read_bytes(),
             content_type="text/csv",
             status_code=200,
-            fetched_at=datetime.fromtimestamp(cached.stat().st_mtime, tz=timezone.utc),
+            fetched_at=datetime.fromtimestamp(cached.stat().st_mtime, tz=UTC),
         )
 
     request = urllib.request.Request(url, headers={"User-Agent": _user_agent()})
@@ -167,7 +167,7 @@ def refresh_in_progress(
     cache_root = cache_root or Path("data/raw")
     cached = cache_root / SOURCE / f"{season_code(label)}_{division}.csv"
     if cached.exists():
-        age = today - datetime.fromtimestamp(cached.stat().st_mtime, tz=timezone.utc)
+        age = today - datetime.fromtimestamp(cached.stat().st_mtime, tz=UTC)
         if age.total_seconds() < IN_PROGRESS_MAX_AGE_HOURS * 3600:
             return []
 
@@ -314,7 +314,7 @@ def _kickoff(record: dict, url: str, line_no: int) -> datetime:
     else:
         hour, minute = _ASSUMED_LATE_KICKOFF, 0
 
-    return day.replace(hour=hour, minute=minute, tzinfo=timezone.utc)
+    return day.replace(hour=hour, minute=minute, tzinfo=UTC)
 
 
 def _required_text(record: dict, column: str, url: str, line_no: int) -> str:

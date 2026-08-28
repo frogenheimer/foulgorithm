@@ -72,22 +72,14 @@ class Eleven:
 
     def shape(self) -> Shape:
         """Lines for a pitch, plus whoever is not on it."""
-        lines = (
-            self._published()
-            if self.published_lines
-            else _grouped(self.players)
-        )
+        lines = self._published() if self.published_lines else _grouped(self.players)
         on = {p.player for p in self.players}
-        bench = sorted(
-            (p for p in self.squad if p.player not in on), key=lambda p: -p.minutes
-        )
+        bench = sorted((p for p in self.squad if p.player not in on), key=lambda p: -p.minutes)
         return Shape(
             lines=lines,
             bench=bench,
             formation=self.formation,
-            grouping=None if self.formation else "-".join(
-                str(len(line)) for line in lines[1:]
-            ),
+            grouping=None if self.formation else "-".join(str(len(line)) for line in lines[1:]),
         )
 
     def _published(self) -> list[list[PlayerStats]]:
@@ -134,7 +126,8 @@ def _matches(squad_name: str, sheet_name: str) -> bool:
         if hit is None:
             hit = next(
                 (
-                    r for r in remaining
+                    r
+                    for r in remaining
                     if (len(token) == 1 and r.startswith(token))
                     or (len(r) == 1 and token.startswith(r))
                 ),
@@ -218,10 +211,21 @@ def confirm(
 def _unknown(name: str) -> PlayerStats:
     """A player on the sheet we hold nothing on. Blanks, never zeroes."""
     return PlayerStats(
-        player=name, player_id=-1, club="", position="?", shirt=None,
-        appearances=0, minutes=0.0, fouls=0, fouls_won=0, tackles=0,
-        yellows=0, reds=0,
-        fouls_per_90=None, fouls_won_per_90=None, tackles_per_90=None,
+        player=name,
+        player_id=-1,
+        club="",
+        position="?",
+        shirt=None,
+        appearances=0,
+        minutes=0.0,
+        fouls=0,
+        fouls_won=0,
+        tackles=0,
+        yellows=0,
+        reds=0,
+        fouls_per_90=None,
+        fouls_won_per_90=None,
+        tackles_per_90=None,
         minutes_by_division={},
     )
 

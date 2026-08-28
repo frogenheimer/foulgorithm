@@ -15,8 +15,6 @@ the league average, despite the two divisions' means differing by almost
 nothing. Only the shrunk deviation travels.
 """
 
-import pytest
-
 from foulgorithm.features import promotion
 
 
@@ -35,23 +33,26 @@ class TestSecondTierPrior:
 
     def test_a_club_above_its_division_lands_above_the_league_mean(self):
         mean = promotion.league_mean()
-        rates = promotion._team_fouls(promotion._previous(promotion.current_season()),
-                                      promotion.CHAMPIONSHIP)
+        rates = promotion._team_fouls(
+            promotion._previous(promotion.current_season()), promotion.CHAMPIONSHIP
+        )
         hottest = max(rates, key=rates.get)
         prior = promotion.second_tier_prior(hottest)
         assert prior is not None and prior > mean
 
     def test_a_club_below_its_division_lands_below_the_league_mean(self):
         mean = promotion.league_mean()
-        rates = promotion._team_fouls(promotion._previous(promotion.current_season()),
-                                      promotion.CHAMPIONSHIP)
+        rates = promotion._team_fouls(
+            promotion._previous(promotion.current_season()), promotion.CHAMPIONSHIP
+        )
         coolest = min(rates, key=rates.get)
         prior = promotion.second_tier_prior(coolest)
         assert prior is not None and prior < mean
 
     def test_it_never_carries_the_raw_championship_rate(self):
-        rates = promotion._team_fouls(promotion._previous(promotion.current_season()),
-                                      promotion.CHAMPIONSHIP)
+        rates = promotion._team_fouls(
+            promotion._previous(promotion.current_season()), promotion.CHAMPIONSHIP
+        )
         hottest = max(rates, key=rates.get)
         assert promotion.second_tier_prior(hottest) < rates[hottest]
 

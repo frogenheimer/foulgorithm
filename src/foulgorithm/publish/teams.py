@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import json
 import statistics
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pandas as pd
@@ -93,9 +93,17 @@ def _table(matches: pd.DataFrame) -> list[dict]:
 
     def blank(club: str) -> dict:
         return {
-            "team": club, "played": 0, "won": 0, "drawn": 0, "lost": 0,
-            "goalsFor": 0, "goalsAgainst": 0, "points": 0,
-            "fouls": [], "foulsWon": [], "cards": [],
+            "team": club,
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "points": 0,
+            "fouls": [],
+            "foulsWon": [],
+            "cards": [],
         }
 
     for m in matches.itertuples():
@@ -114,12 +122,18 @@ def _table(matches: pd.DataFrame) -> list[dict]:
         rows[a]["goalsAgainst"] += hg
 
         if hg > ag:
-            rows[h]["won"] += 1; rows[a]["lost"] += 1; rows[h]["points"] += 3
+            rows[h]["won"] += 1
+            rows[a]["lost"] += 1
+            rows[h]["points"] += 3
         elif ag > hg:
-            rows[a]["won"] += 1; rows[h]["lost"] += 1; rows[a]["points"] += 3
+            rows[a]["won"] += 1
+            rows[h]["lost"] += 1
+            rows[a]["points"] += 3
         else:
-            rows[h]["drawn"] += 1; rows[a]["drawn"] += 1
-            rows[h]["points"] += 1; rows[a]["points"] += 1
+            rows[h]["drawn"] += 1
+            rows[a]["drawn"] += 1
+            rows[h]["points"] += 1
+            rows[a]["points"] += 1
 
         for club, own, other in ((h, "home", "away"), (a, "away", "home")):
             for key, field in (("fouls", "fouls"), ("cards", "yellows")):
@@ -131,13 +145,15 @@ def _table(matches: pd.DataFrame) -> list[dict]:
                 rows[club]["foulsWon"].append(float(theirs))
 
     out = []
-    for club, r in rows.items():
+    for _club, r in rows.items():
         out.append(
             {
                 **{k: v for k, v in r.items() if k not in ("fouls", "foulsWon", "cards")},
                 "goalDifference": r["goalsFor"] - r["goalsAgainst"],
                 "foulsPerMatch": round(statistics.fmean(r["fouls"]), 2) if r["fouls"] else None,
-                "foulsWonPerMatch": round(statistics.fmean(r["foulsWon"]), 2) if r["foulsWon"] else None,
+                "foulsWonPerMatch": round(statistics.fmean(r["foulsWon"]), 2)
+                if r["foulsWon"]
+                else None,
                 "cardsPerMatch": round(statistics.fmean(r["cards"]), 2) if r["cards"] else None,
             }
         )
@@ -260,8 +276,15 @@ def build(seasons: int = 2) -> dict:
         if club not in played:
             current.append(
                 {
-                    "team": club, "played": 0, "won": 0, "drawn": 0, "lost": 0,
-                    "goalsFor": 0, "goalsAgainst": 0, "goalDifference": 0, "points": 0,
+                    "team": club,
+                    "played": 0,
+                    "won": 0,
+                    "drawn": 0,
+                    "lost": 0,
+                    "goalsFor": 0,
+                    "goalsAgainst": 0,
+                    "goalDifference": 0,
+                    "points": 0,
                 }
             )
     current.sort(key=lambda r: (-r["points"], -r["goalDifference"], -r["goalsFor"], r["team"]))
@@ -300,7 +323,7 @@ def build(seasons: int = 2) -> dict:
             row["noHistory"] = 0
 
     return {
-        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "generatedAt": datetime.now(UTC).isoformat(),
         "seasons": labels,
         "tableSeason": table_season,
         "tablePlayed": int(current_matches.shape[0]),
@@ -320,9 +343,13 @@ if __name__ == "__main__":
     r = publish()
     print(f"{len(r['table'])} clubs, seasons {', '.join(r['seasons'])}\n")
     print(f"table: {r['tableSeason']}   rates: {r['rateSeasons']}\n")
-    print(f"{'#':<3}{'club':<18}{'pl':>4}{'pts':>5}{'fouls':>8}{'won':>7}{'cards':>7}{'players':>9}")
+    print(
+        f"{'#':<3}{'club':<18}{'pl':>4}{'pts':>5}{'fouls':>8}{'won':>7}{'cards':>7}{'players':>9}"
+    )
     print("-" * 62)
     for i, t in enumerate(r["table"][:8], 1):
-        print(f"{i:<3}{t['team']:<18}{t['played']:>4}{t['points']:>5}"
-              f"{t['foulsPerMatch'] or 0:>8}{t['foulsWonPerMatch'] or 0:>7}"
-              f"{t['cardsPerMatch'] or 0:>7}{len(t['players']):>9}")
+        print(
+            f"{i:<3}{t['team']:<18}{t['played']:>4}{t['points']:>5}"
+            f"{t['foulsPerMatch'] or 0:>8}{t['foulsWonPerMatch'] or 0:>7}"
+            f"{t['cardsPerMatch'] or 0:>7}{len(t['players']):>9}"
+        )

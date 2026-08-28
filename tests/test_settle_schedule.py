@@ -12,20 +12,20 @@ clears STATS_DELAY with room for GitHub's scheduler running late, which it
 does under load.
 """
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from foulgorithm.jobs import schedule
 
 
 def fixture(when: str):
     class F:
-        kickoff_utc = datetime.fromisoformat(when).replace(tzinfo=timezone.utc)
+        kickoff_utc = datetime.fromisoformat(when).replace(tzinfo=UTC)
 
     return F()
 
 
 def future_day(days_ahead: int, hour: int, minute: int = 0) -> str:
-    when = datetime.now(timezone.utc) + timedelta(days=days_ahead)
+    when = datetime.now(UTC) + timedelta(days=days_ahead)
     return when.replace(hour=hour, minute=minute, second=0, microsecond=0).isoformat()[:16]
 
 
@@ -69,10 +69,8 @@ class TestRewritingTheWorkflow:
 
     def test_wakes_land_between_the_markers(self, tmp_path, monkeypatch):
         path = self.workflow(tmp_path)
-        when = datetime.now(timezone.utc).replace(second=0, microsecond=0) + timedelta(days=2)
-        monkeypatch.setattr(
-            schedule, "settle_windows", lambda fixtures, horizon_days=14: [when]
-        )
+        when = datetime.now(UTC).replace(second=0, microsecond=0) + timedelta(days=2)
+        monkeypatch.setattr(schedule, "settle_windows", lambda fixtures, horizon_days=14: [when])
         assert schedule.rewrite_settle([], path) == 0
         text = path.read_text()
         assert f'- cron: "{when.minute} {when.hour} {when.day} {when.month} *"' in text
@@ -81,10 +79,8 @@ class TestRewritingTheWorkflow:
 
     def test_an_unchanged_schedule_says_so(self, tmp_path, monkeypatch):
         path = self.workflow(tmp_path)
-        when = datetime.now(timezone.utc).replace(second=0, microsecond=0) + timedelta(days=2)
-        monkeypatch.setattr(
-            schedule, "settle_windows", lambda fixtures, horizon_days=14: [when]
-        )
+        when = datetime.now(UTC).replace(second=0, microsecond=0) + timedelta(days=2)
+        monkeypatch.setattr(schedule, "settle_windows", lambda fixtures, horizon_days=14: [when])
         assert schedule.rewrite_settle([], path) == 0
         assert schedule.rewrite_settle([], path) == 1
 

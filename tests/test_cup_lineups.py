@@ -12,8 +12,6 @@ the source is free and run by somebody else, and the watch still gives up at
 kickoff rather than grinding on.
 """
 
-import pytest
-
 from foulgorithm.jobs import cup_watch
 
 
@@ -22,8 +20,12 @@ def team_list(team_id, formation, names):
         "teamId": float(team_id),
         "formation": {"label": formation},
         "lineup": [
-            {"name": {"display": n}, "matchPosition": "M", "matchShirtNumber": i + 1,
-             "info": {"position": "M"}}
+            {
+                "name": {"display": n},
+                "matchPosition": "M",
+                "matchShirtNumber": i + 1,
+                "info": {"position": "M"},
+            }
             for i, n in enumerate(names)
         ],
         "substitutes": [],
@@ -127,21 +129,33 @@ class TestBeforeKickoff:
     """
 
     def test_null_placeholders_are_skipped_not_crashed_on(self):
-        api = FakeApi({131352: {
-            "id": 131352.0,
-            "teams": [{"team": {"id": 15.0, "name": "Fulham"}},
-                      {"team": {"id": 9.0, "name": "Leeds United"}}],
-            "teamLists": [None, None],
-        }})
+        api = FakeApi(
+            {
+                131352: {
+                    "id": 131352.0,
+                    "teams": [
+                        {"team": {"id": 15.0, "name": "Fulham"}},
+                        {"team": {"id": 9.0, "name": "Leeds United"}},
+                    ],
+                    "teamLists": [None, None],
+                }
+            }
+        )
         assert cup_watch.lineups_for(131352, "Fulham v Leeds", api=api) == {}
 
     def test_one_side_named_and_one_still_null(self):
-        api = FakeApi({131352: {
-            "id": 131352.0,
-            "teams": [{"team": {"id": 15.0, "name": "Nottingham Forest"}},
-                      {"team": {"id": 9.0, "name": "Leeds United"}}],
-            "teamLists": [team_list(15, "3-4-3", ["M.Sels"]), None],
-        }})
+        api = FakeApi(
+            {
+                131352: {
+                    "id": 131352.0,
+                    "teams": [
+                        {"team": {"id": 15.0, "name": "Nottingham Forest"}},
+                        {"team": {"id": 9.0, "name": "Leeds United"}},
+                    ],
+                    "teamLists": [team_list(15, "3-4-3", ["M.Sels"]), None],
+                }
+            }
+        )
         out = cup_watch.lineups_for(131352, "Nott'm Forest v Leeds", api=api)
         assert set(out) == {"Nott'm Forest|Nott'm Forest v Leeds"}
 
@@ -157,21 +171,35 @@ class TestSpots:
     """
 
     def test_spots_are_populated_even_with_no_formation(self):
-        api = FakeApi({131352: {
-            "id": 131352.0,
-            "teams": [{"team": {"id": 9.0, "name": "West Bromwich Albion"}}],
-            "teamLists": [{
-                "teamId": 9.0,
-                "formation": None,
-                "lineup": [
-                    {"name": {"display": "C.Townsend"}, "matchPosition": "D",
-                     "matchShirtNumber": 3, "info": {"position": "D"}},
-                    {"name": {"display": "T.Price"}, "matchPosition": "M",
-                     "matchShirtNumber": 8, "info": {"position": "M"}},
-                ],
-                "substitutes": [],
-            }],
-        }})
+        api = FakeApi(
+            {
+                131352: {
+                    "id": 131352.0,
+                    "teams": [{"team": {"id": 9.0, "name": "West Bromwich Albion"}}],
+                    "teamLists": [
+                        {
+                            "teamId": 9.0,
+                            "formation": None,
+                            "lineup": [
+                                {
+                                    "name": {"display": "C.Townsend"},
+                                    "matchPosition": "D",
+                                    "matchShirtNumber": 3,
+                                    "info": {"position": "D"},
+                                },
+                                {
+                                    "name": {"display": "T.Price"},
+                                    "matchPosition": "M",
+                                    "matchShirtNumber": 8,
+                                    "info": {"position": "M"},
+                                },
+                            ],
+                            "substitutes": [],
+                        }
+                    ],
+                }
+            }
+        )
         out = cup_watch.lineups_for(131352, "Newcastle v West Brom", api=api)
         sheet = out["West Brom|Newcastle v West Brom"]
         assert sheet.formation is None
@@ -183,6 +211,7 @@ class TestSpots:
 
     def test_spots_are_populated_with_a_formation_too(self):
         api = FakeApi({131355: detail()})
-        sheet = cup_watch.lineups_for(131355, "Nott'm Forest v Leeds",
-                                      api=api)["Nott'm Forest|Nott'm Forest v Leeds"]
+        sheet = cup_watch.lineups_for(131355, "Nott'm Forest v Leeds", api=api)[
+            "Nott'm Forest|Nott'm Forest v Leeds"
+        ]
         assert len(sheet.spots) == len(sheet.starters)

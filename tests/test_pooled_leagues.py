@@ -10,9 +10,6 @@ own eight seasons. A pooled frame without a league column would overstate every
 Italian player by about a fifth, and would do it silently.
 """
 
-import pandas as pd
-import pytest
-
 from foulgorithm.store import players as store
 
 
@@ -27,8 +24,16 @@ class TestTheEnglandPathIsUntouched:
 
     def test_it_still_has_the_columns_models_expect(self):
         d = store.load_player_matches()
-        for column in ("player", "team", "opponent", "kickoff_utc", "known_at",
-                       "minutes", "fouls_committed", "fouls_drawn"):
+        for column in (
+            "player",
+            "team",
+            "opponent",
+            "kickoff_utc",
+            "known_at",
+            "minutes",
+            "fouls_committed",
+            "fouls_drawn",
+        ):
             assert column in d.columns
 
 
@@ -59,9 +64,7 @@ class TestPooling:
         for code in ("ENG", "ITA"):
             side = d[d["league"] == code]
             rates[code] = side["fouls_committed"].sum() / (side["minutes"].sum() / 90)
-        assert rates["ITA"] > rates["ENG"] * 1.1, (
-            f"Italy should sit well above England: {rates}"
-        )
+        assert rates["ITA"] > rates["ENG"] * 1.1, f"Italy should sit well above England: {rates}"
 
     def test_a_league_we_do_not_hold_is_absent_rather_than_empty_rows(self):
         d = store.load_all_leagues(codes=("ENG",))

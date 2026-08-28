@@ -39,8 +39,8 @@ class TestTeamNames:
 @pytest.mark.network
 class TestAgainstRealData:
     def test_every_club_we_predict_exists_in_the_history(self):
-        from foulgorithm.sources import pulselive
         from foulgorithm.identity.teams import from_pulselive
+        from foulgorithm.sources import pulselive
         from foulgorithm.store.players import load_player_matches
 
         known = set(load_player_matches()["opponent"].unique())
@@ -49,9 +49,7 @@ class TestAgainstRealData:
             pytest.skip("no fixtures published yet")
 
         unresolved = {
-            history_name(from_pulselive(raw))
-            for f in fixtures
-            for raw in (f.home, f.away)
+            history_name(from_pulselive(raw)) for f in fixtures for raw in (f.home, f.away)
         } - known
 
         # A promoted club legitimately has no top-flight history, and that path

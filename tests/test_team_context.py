@@ -12,12 +12,20 @@ import pandas as pd
 import pytest
 
 from foulgorithm.features.team_context import MatchContextSource, fixture_name
-from foulgorithm.models.player_models import PlayerFoulModel, PlayerFouledModel
+from foulgorithm.models.player_models import PlayerFouledModel, PlayerFoulModel
 
 
 def matches(rows):
     frame = pd.DataFrame(
-        rows, columns=["kickoff_utc", "home_team_raw", "away_team_raw", "home_fouls", "away_fouls", "referee_raw"]
+        rows,
+        columns=[
+            "kickoff_utc",
+            "home_team_raw",
+            "away_team_raw",
+            "home_fouls",
+            "away_fouls",
+            "referee_raw",
+        ],
     )
     frame["kickoff_utc"] = pd.to_datetime(frame["kickoff_utc"], utc=True)
     frame["known_at"] = frame["kickoff_utc"] + pd.Timedelta(hours=3)
@@ -28,7 +36,14 @@ def matches(rows):
 def league(n=40, fouls=10.0, referee="Common Ref"):
     """A balanced backdrop so the league average sits exactly at `fouls`."""
     return [
-        (f"2025-{1 + i % 8:02d}-{1 + i % 27:02d}", f"Filler {i % 6}", f"Filler {(i + 3) % 6}", fouls, fouls, referee)
+        (
+            f"2025-{1 + i % 8:02d}-{1 + i % 27:02d}",
+            f"Filler {i % 6}",
+            f"Filler {(i + 3) % 6}",
+            fouls,
+            fouls,
+            referee,
+        )
         for i in range(n)
     ]
 

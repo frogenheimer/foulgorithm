@@ -92,9 +92,11 @@ class CupTotal(TeamRatesReferee):
         """
         out = []
         for club in (row["home_team_raw"], row["away_team_raw"]):
-            if self._needs_bridge(club):
-                if self._priors.second_tier_prior(club, kind=promotion.COMMITTED) is None:
-                    out.append(club)
+            if (
+                self._needs_bridge(club)
+                and self._priors.second_tier_prior(club, kind=promotion.COMMITTED) is None
+            ):
+                out.append(club)
         return out
 
     def _mean(self, row: pd.Series) -> float:

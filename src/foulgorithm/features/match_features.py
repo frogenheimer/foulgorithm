@@ -158,9 +158,7 @@ def _referee_factor(
     return shrunk / league_total, effective_n
 
 
-def mismatch_from_odds(
-    home: float | None, draw: float | None, away: float | None
-) -> float:
+def mismatch_from_odds(home: float | None, draw: float | None, away: float | None) -> float:
     """How lopsided the fixture is, from 0 (even) to about 1 (walkover).
 
     Derived from the closing 1X2 prices with the bookmaker margin removed. The

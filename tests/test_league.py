@@ -7,6 +7,8 @@ than judgement. So every gameweek each of them commits to the same three slates
 and the only thing that varies is WHICH players they pick.
 """
 
+import copy
+
 import pytest
 
 from foulgorithm.models import ensemble
@@ -133,7 +135,9 @@ class TestBuildingSlates:
 
 class TestTheHouseNumber:
     def test_it_is_the_average_of_the_five(self):
-        row = candidate("X", {"alan": 0.6, "lily": 0.7, "valentina": 0.5, "tayler": 0.4, "bdog": 0.8})
+        row = candidate(
+            "X", {"alan": 0.6, "lily": 0.7, "valentina": 0.5, "tayler": 0.4, "bdog": 0.8}
+        )
         assert league.house_probability(row, FIVE) == pytest.approx(0.6)
 
     def test_it_refuses_to_invent_a_number_when_nobody_has_one(self):
@@ -145,12 +149,8 @@ class TestTheTable:
     @staticmethod
     def graded(cid, slate, landed, missed):
         return [
-            {"model_id": cid, "extra": {"slate": slate}, "landed": True}
-            for _ in range(landed)
-        ] + [
-            {"model_id": cid, "extra": {"slate": slate}, "landed": False}
-            for _ in range(missed)
-        ]
+            {"model_id": cid, "extra": {"slate": slate}, "landed": True} for _ in range(landed)
+        ] + [{"model_id": cid, "extra": {"slate": slate}, "landed": False} for _ in range(missed)]
 
     def test_a_full_slate_is_a_win(self):
         table = league.table(self.graded("alan", "three-twos", 3, 0), FIVE)
@@ -398,12 +398,14 @@ class TestBindingVersions:
         fifth under another. Same first kickoff means same round, whatever
         the label says, so the later version supersedes across labels."""
         a = self.slate(
-            "2026-08-24T19:51:00+00:00", ["a1"],
+            "2026-08-24T19:51:00+00:00",
+            ["a1"],
             first_kickoff="2026-08-28T19:00:00+00:00",
         )
         b = dict(
             self.slate(
-                "2026-08-24T19:52:00+00:00", ["b1"],
+                "2026-08-24T19:52:00+00:00",
+                ["b1"],
                 first_kickoff="2026-08-28T19:00:00+00:00",
             ),
             key="2026-08-31|alan|three-twos",
@@ -416,7 +418,8 @@ class TestBindingVersions:
     def test_the_joined_round_is_the_kickoff_date_not_the_filed_label(self):
         committed = [
             self.slate(
-                "2026-08-24T19:51:00+00:00", ["k1"],
+                "2026-08-24T19:51:00+00:00",
+                ["k1"],
                 first_kickoff="2026-08-28T19:00:00+00:00",
             )
         ]
@@ -447,8 +450,14 @@ class TestRoundsAreGameweeks:
     of duplicating it."""
 
     @staticmethod
-    def slate(published, keys, fixture="C v D", round_key="2026-08-28",
-              kickoff="2026-08-30T15:00:00+00:00", matchweek=None):
+    def slate(
+        published,
+        keys,
+        fixture="C v D",
+        round_key="2026-08-28",
+        kickoff="2026-08-30T15:00:00+00:00",
+        matchweek=None,
+    ):
         return {
             "key": f"{round_key}|alan|three-twos|{fixture}",
             "published_at": published,
@@ -502,11 +511,16 @@ class TestFoulDifference:
         assert row["lost"] == 1
 
     def test_the_join_computes_the_deficit_from_the_graded_counts(self):
-        committed = [{
-            "key": "2026-08-24|alan|three-twos", "published_at": "a",
-            "round": "2026-08-24", "character": "alan", "slate": "three-twos",
-            "claim_keys": ["k1", "k2"],
-        }]
+        committed = [
+            {
+                "key": "2026-08-24|alan|three-twos",
+                "published_at": "a",
+                "round": "2026-08-24",
+                "character": "alan",
+                "slate": "three-twos",
+                "claim_keys": ["k1", "k2"],
+            }
+        ]
         graded = [
             {"key": "k1", "won": False, "line": 1.5, "observed": 0.0},
             {"key": "k2", "won": False, "line": 1.5, "observed": 1.0},
@@ -515,11 +529,16 @@ class TestFoulDifference:
         assert [r["deficit"] for r in joined] == [2, 1]
 
     def test_a_graded_row_without_counts_falls_back_to_one(self):
-        committed = [{
-            "key": "2026-08-24|alan|three-twos", "published_at": "a",
-            "round": "2026-08-24", "character": "alan", "slate": "three-twos",
-            "claim_keys": ["k1"],
-        }]
+        committed = [
+            {
+                "key": "2026-08-24|alan|three-twos",
+                "published_at": "a",
+                "round": "2026-08-24",
+                "character": "alan",
+                "slate": "three-twos",
+                "claim_keys": ["k1"],
+            }
+        ]
         joined = league.join_slates([{"key": "k1", "won": False}], committed)
         assert joined[0]["deficit"] == 1
 
@@ -540,31 +559,61 @@ class TestBoldness:
     pick lands, and breaks ties behind foul difference."""
 
     PREDICTIONS = [
-        {"key": "h1", "model_id": "house", "fixture": "A v B", "entity": "X One",
-         "market": "player_fouls_committed", "line": 0.5, "probability": 0.30,
-         "published_at": "2026-08-28T10:00:00+00:00"},
-        {"key": "h2", "model_id": "house", "fixture": "A v B", "entity": "Y Two",
-         "market": "player_fouls_committed", "line": 0.5, "probability": 0.80,
-         "published_at": "2026-08-28T10:00:00+00:00"},
-        {"key": "c1", "model_id": "alan", "fixture": "A v B", "entity": "X One",
-         "market": "player_fouls_committed", "line": 0.5, "probability": 0.45,
-         "published_at": "2026-08-28T10:00:00+00:00"},
-        {"key": "c2", "model_id": "alan", "fixture": "A v B", "entity": "Y Two",
-         "market": "player_fouls_committed", "line": 0.5, "probability": 0.75,
-         "published_at": "2026-08-28T10:00:00+00:00"},
+        {
+            "key": "h1",
+            "model_id": "house",
+            "fixture": "A v B",
+            "entity": "X One",
+            "market": "player_fouls_committed",
+            "line": 0.5,
+            "probability": 0.30,
+            "published_at": "2026-08-28T10:00:00+00:00",
+        },
+        {
+            "key": "h2",
+            "model_id": "house",
+            "fixture": "A v B",
+            "entity": "Y Two",
+            "market": "player_fouls_committed",
+            "line": 0.5,
+            "probability": 0.80,
+            "published_at": "2026-08-28T10:00:00+00:00",
+        },
+        {
+            "key": "c1",
+            "model_id": "alan",
+            "fixture": "A v B",
+            "entity": "X One",
+            "market": "player_fouls_committed",
+            "line": 0.5,
+            "probability": 0.45,
+            "published_at": "2026-08-28T10:00:00+00:00",
+        },
+        {
+            "key": "c2",
+            "model_id": "alan",
+            "fixture": "A v B",
+            "entity": "Y Two",
+            "market": "player_fouls_committed",
+            "line": 0.5,
+            "probability": 0.75,
+            "published_at": "2026-08-28T10:00:00+00:00",
+        },
     ]
-    COMMITTED = [{
-        "key": "mw02|alan|three-twos|A v B",
-        "round": "2026-08-28",
-        "matchweek": 2,
-        "character": "alan",
-        "slate": "three-twos",
-        "fixture": "A v B",
-        "kickoff": "2026-08-28T19:00:00+00:00",
-        "first_kickoff": "2026-08-28T19:00:00+00:00",
-        "published_at": "2026-08-28T10:00:00+00:00",
-        "claim_keys": ["c1", "c2"],
-    }]
+    COMMITTED = [
+        {
+            "key": "mw02|alan|three-twos|A v B",
+            "round": "2026-08-28",
+            "matchweek": 2,
+            "character": "alan",
+            "slate": "three-twos",
+            "fixture": "A v B",
+            "kickoff": "2026-08-28T19:00:00+00:00",
+            "first_kickoff": "2026-08-28T19:00:00+00:00",
+            "published_at": "2026-08-28T10:00:00+00:00",
+            "claim_keys": ["c1", "c2"],
+        }
+    ]
 
     def test_overall_is_the_average_rarity_of_every_pick(self):
         held = league.boldness(self.COMMITTED, [], self.PREDICTIONS, ["alan"])
@@ -584,8 +633,6 @@ class TestBoldness:
 # ---------------------------------------------------------------------------
 # docs/42: from matchweek 3, three bets per game at three house-priced bands.
 # ---------------------------------------------------------------------------
-
-import copy
 
 
 def priced_pool(n=20):
@@ -646,9 +693,7 @@ class TestPricedBets:
 
     def test_layouts_are_free_so_bets_do_not_all_share_a_leg_count(self):
         built = league.build_slates(priced_pool(), FIVE)
-        counts = {
-            len(built["A v B"][cid][b.key]["legs"]) for cid in FIVE for b in ensemble.BANDS
-        }
+        counts = {len(built["A v B"][cid][b.key]["legs"]) for cid in FIVE for b in ensemble.BANDS}
         assert len(counts) > 1
 
     def test_the_house_prices_and_the_character_chooses(self):
@@ -670,7 +715,12 @@ def priced_graded(cid, slate, pairs, fixture="A v B", round_key="mw03"):
             "model_id": cid,
             "landed": landed,
             "deficit": deficit,
-            "extra": {"slate": slate, "round": round_key, "fixture": fixture, "expected": len(pairs)},
+            "extra": {
+                "slate": slate,
+                "round": round_key,
+                "fixture": fixture,
+                "expected": len(pairs),
+            },
         }
         for i, (landed, deficit) in enumerate(pairs)
     ]
@@ -678,11 +728,15 @@ def priced_graded(cid, slate, pairs, fixture="A v B", round_key="mw03"):
 
 class TestScoringPricedBets:
     def test_every_leg_landing_is_a_win(self):
-        rows = league.table(priced_graded("alan", "banker", [(True, 0), (True, 0), (True, 0)]), ["alan"])
+        rows = league.table(
+            priced_graded("alan", "banker", [(True, 0), (True, 0), (True, 0)]), ["alan"]
+        )
         assert (rows[0]["won"], rows[0]["points"]) == (1, 3)
 
     def test_one_foul_short_in_total_is_a_draw(self):
-        rows = league.table(priced_graded("alan", "value", [(True, 0), (False, 1), (True, 0)]), ["alan"])
+        rows = league.table(
+            priced_graded("alan", "value", [(True, 0), (False, 1), (True, 0)]), ["alan"]
+        )
         assert (rows[0]["drawn"], rows[0]["points"]) == (1, 1)
 
     def test_two_fouls_short_is_a_loss_even_across_one_leg(self):
@@ -691,7 +745,9 @@ class TestScoringPricedBets:
         assert (rows[0]["lost"], rows[0]["points"]) == (1, 0)
 
     def test_two_legs_each_one_short_is_a_loss(self):
-        rows = league.table(priced_graded("alan", "banker", [(False, 1), (False, 1), (True, 0)]), ["alan"])
+        rows = league.table(
+            priced_graded("alan", "banker", [(False, 1), (False, 1), (True, 0)]), ["alan"]
+        )
         assert rows[0]["lost"] == 1
 
     def test_a_bet_voided_below_two_legs_is_not_a_result(self):
@@ -702,8 +758,16 @@ class TestScoringPricedBets:
         # Under the shapes, "all but one leg" is the draw whatever the deficit.
         graded = [
             {
-                "key": f"k{i}", "model_id": "alan", "landed": landed, "deficit": deficit,
-                "extra": {"slate": "three-twos", "round": "mw02", "fixture": "A v B", "expected": 3},
+                "key": f"k{i}",
+                "model_id": "alan",
+                "landed": landed,
+                "deficit": deficit,
+                "extra": {
+                    "slate": "three-twos",
+                    "round": "mw02",
+                    "fixture": "A v B",
+                    "expected": 3,
+                },
             }
             for i, (landed, deficit) in enumerate([(True, 0), (True, 0), (False, 2)])
         ]

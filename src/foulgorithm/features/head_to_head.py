@@ -72,7 +72,6 @@ def residuals_from(matches, as_of=None) -> dict[tuple[str, str], list[float]]:
     two clubs' rates over the same window imply, so a pairing only looks hot if
     it runs hot for reasons neither club carries into its other fixtures.
     """
-    import pandas as pd
 
     if as_of is not None:
         matches = matches[matches["known_at"] <= as_of]
@@ -87,9 +86,7 @@ def residuals_from(matches, as_of=None) -> dict[tuple[str, str], list[float]]:
     league = float(matches["total_fouls"].mean())
     rate: dict[str, float] = {}
     for club in set(matches["home_team_raw"]) | set(matches["away_team_raw"]):
-        played = matches[
-            (matches["home_team_raw"] == club) | (matches["away_team_raw"] == club)
-        ]
+        played = matches[(matches["home_team_raw"] == club) | (matches["away_team_raw"] == club)]
         if len(played) >= 5:
             rate[club] = float(played["total_fouls"].mean())
 

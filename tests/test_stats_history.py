@@ -6,8 +6,6 @@ row without them would silently merge a Championship season into a Premier
 League one, which is the mistake the spell label exists to prevent.
 """
 
-import pytest
-
 from foulgorithm.stats import history
 
 
@@ -30,8 +28,7 @@ class FakeSource:
 
 
 def row(home="Arsenal", away="Chelsea"):
-    return {"home_team_raw": home, "away_team_raw": away,
-            "home_fouls": 10, "away_fouls": 12}
+    return {"home_team_raw": home, "away_team_raw": away, "home_fouls": 10, "away_fouls": 12}
 
 
 class TestLoad:
@@ -65,27 +62,33 @@ class TestWindow:
     """
 
     def test_both_division_files_are_read_for_every_season(self):
-        src = FakeSource({
-            ("2026-27", "E0"): [row()],
-            ("2026-27", "E1"): [row("Wrexham", "Burnley")],
-        })
+        src = FakeSource(
+            {
+                ("2026-27", "E0"): [row()],
+                ("2026-27", "E1"): [row("Wrexham", "Burnley")],
+            }
+        )
         history.window(["2026-27"], source=src)
         assert sorted(src.calls) == [("2026-27", "E0"), ("2026-27", "E1")]
 
     def test_it_returns_rows_keyed_by_division(self):
-        src = FakeSource({
-            ("2026-27", "E0"): [row()],
-            ("2026-27", "E1"): [row("Wrexham", "Burnley")],
-        })
+        src = FakeSource(
+            {
+                ("2026-27", "E0"): [row()],
+                ("2026-27", "E1"): [row("Wrexham", "Burnley")],
+            }
+        )
         out = history.window(["2026-27"], source=src)
         assert set(out) == {"E0", "E1"}
         assert out["E1"][0]["home_team_raw"] == "Wrexham"
 
     def test_pooled_flattens_every_division_into_one_list(self):
-        src = FakeSource({
-            ("2026-27", "E0"): [row()],
-            ("2026-27", "E1"): [row("Wrexham", "Burnley")],
-        })
+        src = FakeSource(
+            {
+                ("2026-27", "E0"): [row()],
+                ("2026-27", "E1"): [row("Wrexham", "Burnley")],
+            }
+        )
         rows = history.pooled(history.window(["2026-27"], source=src))
         assert len(rows) == 2
         assert {r["division"] for r in rows} == {"E0", "E1"}
@@ -93,12 +96,14 @@ class TestWindow:
     def test_a_relegated_club_keeps_both_of_its_seasons(self):
         from foulgorithm.stats import team_record
 
-        src = FakeSource({
-            ("2025-26", "E0"): [row("Burnley", "Arsenal")],
-            ("2025-26", "E1"): [],
-            ("2026-27", "E0"): [],
-            ("2026-27", "E1"): [row("Burnley", "Wrexham")],
-        })
+        src = FakeSource(
+            {
+                ("2025-26", "E0"): [row("Burnley", "Arsenal")],
+                ("2025-26", "E1"): [],
+                ("2026-27", "E0"): [],
+                ("2026-27", "E1"): [row("Burnley", "Wrexham")],
+            }
+        )
         rows = history.pooled(history.window(["2025-26", "2026-27"], source=src))
         rec = team_record.build("Burnley", rows)
         assert rec.matches == 2

@@ -149,7 +149,9 @@ def _alan(d: dict, why: dict) -> str:
     if d["opponent"] >= 1 + NOTABLE:
         return f"{d['rate']:.2f} a game into a fixture that drags it up. Obvious."
     if not starting:
-        return f"Only {minutes} of him, and he still {_verb(d['market'])} at {d['rate']:.2f} a game."
+        return (
+            f"Only {minutes} of him, and he still {_verb(d['market'])} at {d['rate']:.2f} a game."
+        )
     return f"{d['rate']:.2f} a game over {minutes}. That is not a phase, that is the player."
 
 
@@ -277,8 +279,7 @@ def _bdog(d: dict, why: dict) -> str:
         )
     if not starting:
         return (
-            f"{minutes} off the bench and nobody wants it. "
-            f"{d['rate']:.2f} a game says they should."
+            f"{minutes} off the bench and nobody wants it. {d['rate']:.2f} a game says they should."
         )
     return (
         f"The rest are within a point of me here, which is the least interesting "
@@ -381,7 +382,9 @@ def _dottie(d: dict, why: dict) -> str:
             f"and the disagreement is real, not manufactured."
         )
     if not starting:
-        return f"{minutes} expected, and the quiet ones at {d['rate']:.2f} a game are exactly my sort."
+        return (
+            f"{minutes} expected, and the quiet ones at {d['rate']:.2f} a game are exactly my sort."
+        )
     return (
         f"{_pct(d['prob'])}, a point or two off the pack. "
         f"Small disagreements are still disagreements."
@@ -405,7 +408,9 @@ def _dele(d: dict, why: dict) -> str:
             f"Referees learn some names for a reason."
         )
     if not starting:
-        return f"{minutes} off the bench is plenty for a man with {d['rate']:.2f} a game of previous."
+        return (
+            f"{minutes} off the bench is plenty for a man with {d['rate']:.2f} a game of previous."
+        )
     return f"{d['rate']:.2f} a game of previous. I back records, not reformations."
 
 
@@ -464,7 +469,7 @@ def summary(character_id: str, legs: list[dict]) -> str:
     A slip is a single claim: all of these, or nothing. The card should say what
     the character thinks of it as a unit before it lists the parts.
     """
-    c = BY_ID[character_id] if character_id in BY_ID else None
+    c = BY_ID.get(character_id, None)
     if c is None:
         raise KeyError(f"unknown character {character_id!r}")
     if not legs:

@@ -21,7 +21,7 @@ match in the decoration still gets predicted with the referee left unknown.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 #: How far past the first upcoming kickoff still counts as the same round.
 #: A Premier League round runs Friday night to Monday night, so four days holds
@@ -44,7 +44,7 @@ def select(live_fixtures, enrichment: list[dict], now: datetime | None = None) -
     an empty list rather than a played round when nothing is upcoming, because
     predicting yesterday is worse than predicting nothing.
     """
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
 
     upcoming = sorted(
         (f for f in live_fixtures if f.kickoff_utc > now),
@@ -59,9 +59,7 @@ def select(live_fixtures, enrichment: list[dict], now: datetime | None = None) -
 
     by_clubs: dict[tuple[str, str], list[dict]] = {}
     for row in enrichment:
-        by_clubs.setdefault(
-            _key(row["home_team_raw"], row["away_team_raw"]), []
-        ).append(row)
+        by_clubs.setdefault(_key(row["home_team_raw"], row["away_team_raw"]), []).append(row)
 
     out = []
     for fixture in round_fixtures:
@@ -84,11 +82,7 @@ def select(live_fixtures, enrichment: list[dict], now: datetime | None = None) -
 
 def _closest(candidates: list[dict], kickoff: datetime) -> dict | None:
     """The candidate nearest this kickoff, if any is near enough."""
-    near = [
-        row
-        for row in candidates
-        if abs(row["kickoff_utc"] - kickoff) <= KICKOFF_SLACK
-    ]
+    near = [row for row in candidates if abs(row["kickoff_utc"] - kickoff) <= KICKOFF_SLACK]
     if not near:
         return None
     return min(near, key=lambda row: abs(row["kickoff_utc"] - kickoff))

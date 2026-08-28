@@ -39,8 +39,8 @@ CROSSWALK = Path("data/reference/crosswalk_players.yaml")
 
 @dataclass(frozen=True)
 class Resolution:
-    matched: dict[str, str]          # FPL full name -> history name
-    unmatched: list[str]             # FPL full names with no safe match
+    matched: dict[str, str]  # FPL full name -> history name
+    unmatched: list[str]  # FPL full names with no safe match
     ambiguous: dict[str, list[str]]  # FPL full name -> the candidates we refused
 
 

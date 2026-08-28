@@ -22,8 +22,7 @@ from foulgorithm.publish import combinations as combo
 
 def legs(spec):
     return [
-        combo.Leg(player=p, team="A", market="committed", line=f - 0.5, prob=q)
-        for p, f, q in spec
+        combo.Leg(player=p, team="A", market="committed", line=f - 0.5, prob=q) for p, f, q in spec
     ]
 
 
@@ -51,11 +50,7 @@ class TestItMatchesTheExhaustiveSearch:
     def test_same_probability_on_random_pools(self, seed):
         rng = random.Random(seed)
         pool = legs(
-            [
-                (f"P{i}", f, round(rng.uniform(0.08, 0.92), 4))
-                for i in range(9)
-                for f in (1, 2, 3)
-            ]
+            [(f"P{i}", f, round(rng.uniform(0.08, 0.92), 4)) for i in range(9) for f in (1, 2, 3)]
         )
         for target in (4, 5, 6):
             mine = combo.best_combination(pool, target)

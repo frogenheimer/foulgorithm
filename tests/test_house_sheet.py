@@ -11,8 +11,8 @@ def player(name, committed, drawn):
     return {
         "player": name,
         "fullName": f"Full {name}",
-        "committed": {f"p{n}plus": p for n, p in zip((1, 2, 3), committed)},
-        "drawn": {f"p{n}plus": p for n, p in zip((1, 2, 3), drawn)},
+        "committed": {f"p{n}plus": p for n, p in zip((1, 2, 3), committed, strict=False)},
+        "drawn": {f"p{n}plus": p for n, p in zip((1, 2, 3), drawn, strict=False)},
     }
 
 
@@ -30,17 +30,15 @@ class TestHouseSheet:
 
     def test_groups_hold_the_top_three_by_the_house_price(self):
         sheet = player_round._house_sheet(fixture(self.PLAYERS))
-        one_plus = next(
-            g for g in sheet["groups"] if g["market"] == "committed" and g["line"] == 1
-        )
+        one_plus = next(g for g in sheet["groups"] if g["market"] == "committed" and g["line"] == 1)
         assert [p["player"] for p in one_plus["picks"]] == ["Sangare", "Anderson", "Tanaka"]
         assert one_plus["picks"][0]["outOf100"] == 73
 
     def test_three_plus_only_when_somebody_prices_there(self):
         sheet = player_round._house_sheet(fixture(self.PLAYERS))
         lines = {(g["market"], g["line"]) for g in sheet["groups"]}
-        assert ("committed", 3) in lines      # Sangare prices 22/100
-        assert ("drawn", 3) not in lines      # best is 8/100, below the floor
+        assert ("committed", 3) in lines  # Sangare prices 22/100
+        assert ("drawn", 3) not in lines  # best is 8/100, below the floor
 
     def test_tiers_badge_safest_first_and_a_player_once(self):
         sheet = player_round._house_sheet(fixture(self.PLAYERS))

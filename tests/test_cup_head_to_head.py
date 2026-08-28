@@ -10,8 +10,6 @@ three quarters of any observed residual is noise. Nothing here shrinks
 anything, because nothing here is a prediction. It is a table of what happened.
 """
 
-import pytest
-
 from foulgorithm.stats import cup_head_to_head as h2h
 from tests.test_team_record import match
 
@@ -61,8 +59,8 @@ class TestAverages:
             meeting("Burnley", "Arsenal", 12, 8, "2025-26"),
         ]
         out = h2h.build("Arsenal", "Burnley", rows)
-        assert out.fouls["Arsenal"] == 9.0     # 10 at home, 8 away
-        assert out.fouls["Burnley"] == 13.0    # 14 away, 12 at home
+        assert out.fouls["Arsenal"] == 9.0  # 10 at home, 8 away
+        assert out.fouls["Burnley"] == 13.0  # 14 away, 12 at home
 
     def test_the_pairing_total_is_published(self):
         rows = [meeting("Arsenal", "Burnley", 10, 14, "2025-26")]

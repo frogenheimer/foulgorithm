@@ -76,7 +76,7 @@ def combine(
     moved = mean + (k - mean) * scale
 
     out = np.zeros(len(joint) + int(np.ceil(moved.max() - k.max())) + 1)
-    for weight, position in zip(joint, moved):
+    for weight, position in zip(joint, moved, strict=False):
         if weight <= 0:
             continue
         position = max(position, 0.0)

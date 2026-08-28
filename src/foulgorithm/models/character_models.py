@@ -17,7 +17,7 @@ import pandas as pd
 from foulgorithm.characters import base as characters
 from foulgorithm.features import match_features as mf
 from foulgorithm.models.base import CountDistribution, register
-from foulgorithm.models.match_models import _MatchModel, negbin_pmf
+from foulgorithm.models.match_models import _MatchModel
 
 
 class _CharacterModel(_MatchModel):
@@ -334,7 +334,9 @@ def build_all() -> list[_CharacterModel]:
     return [cls() for cls in character_models()]
 
 
-def predict_all(history: pd.DataFrame, fixtures: pd.DataFrame) -> dict[str, list[CountDistribution]]:
+def predict_all(
+    history: pd.DataFrame, fixtures: pd.DataFrame
+) -> dict[str, list[CountDistribution]]:
     """Fit and predict every character on the same data. Equal effort, same pool."""
     out: dict[str, list[CountDistribution]] = {}
     for model in build_all():

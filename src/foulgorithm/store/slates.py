@@ -37,7 +37,7 @@ class Committed:
     """
 
     published_at: str
-    round: str                 # the date of the round's first kickoff, ISO
+    round: str  # the date of the round's first kickoff, ISO
     character: str
     slate: str
     claim_keys: list[str] = field(default_factory=list)

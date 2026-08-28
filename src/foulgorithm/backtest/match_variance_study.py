@@ -41,9 +41,9 @@ class MatchVariance:
     predicted_sd: float
     actual_sd: float
     slope: float
-    model_variance: float      # what the model thinks a total's variance is
-    residual_variance: float   # what it actually is
-    shared_sd: float           # s, the per-match multiplier's sd
+    model_variance: float  # what the model thinks a total's variance is
+    residual_variance: float  # what it actually is
+    shared_sd: float  # s, the per-match multiplier's sd
     note: str
 
 
@@ -70,7 +70,7 @@ def measure(
         match_key=[
             f"{k.isoformat()}|" + "|".join(sorted((str(t), str(o))))
             for k, t, o in zip(
-                evaluation["kickoff_utc"], evaluation["team"], evaluation["opponent"]
+                evaluation["kickoff_utc"], evaluation["team"], evaluation["opponent"], strict=False
             )
         ]
     )
@@ -118,9 +118,7 @@ def measure(
     )
 
 
-def decompose(
-    predicted: np.ndarray, variance: np.ndarray, actual: np.ndarray
-) -> MatchVariance:
+def decompose(predicted: np.ndarray, variance: np.ndarray, actual: np.ndarray) -> MatchVariance:
     """Split the error in a match total into what the model expects and what is left.
 
     Separated from the fitting so it can be tested against data whose answer is

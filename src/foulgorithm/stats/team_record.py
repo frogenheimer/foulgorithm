@@ -20,7 +20,7 @@ booked anyone", which is a claim rather than a gap.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from foulgorithm.identity.teams import CHAMPIONSHIP, PREMIER
 
@@ -81,16 +81,14 @@ class TeamRecord:
         return self.spells[-1].division if self.spells else None
 
     def spell_label(self) -> str:
-        """"38 in the Championship, 8 in the Premier League"."""
+        """ "38 in the Championship, 8 in the Premier League"."""
         totals: dict[str, int] = {}
         order: list[str] = []
         for spell in self.spells:
             if spell.division not in totals:
                 order.append(spell.division)
             totals[spell.division] = totals.get(spell.division, 0) + spell.matches
-        parts = [
-            f"{totals[d]} in the {DIVISION_NAMES.get(d, d)}" for d in order
-        ]
+        parts = [f"{totals[d]} in the {DIVISION_NAMES.get(d, d)}" for d in order]
         return ", ".join(parts)
 
 
@@ -106,10 +104,7 @@ def build(team: str, matches: list[dict]) -> TeamRecord:
     `division` added by the loader. Rows the club did not play in are ignored,
     so a whole division's matches can be passed in without filtering first.
     """
-    played = [
-        m for m in matches
-        if m["home_team_raw"] == team or m["away_team_raw"] == team
-    ]
+    played = [m for m in matches if m["home_team_raw"] == team or m["away_team_raw"] == team]
     if not played:
         return TeamRecord(team=team, matches=0)
 
@@ -130,12 +125,11 @@ def build(team: str, matches: list[dict]) -> TeamRecord:
     # Cards are counted only across matches that HAVE a card column. See the
     # module docstring: a blank is not a zero.
     carded = [
-        m for m in played
-        if mine(m, "yellows") is not None and theirs(m, "yellows") is not None
+        m for m in played if mine(m, "yellows") is not None and theirs(m, "yellows") is not None
     ]
     yellows = [mine(m, "yellows") for m in carded]
     reds = [mine(m, "reds") or 0 for m in carded]
-    cards = [y + r for y, r in zip(yellows, reds)]
+    cards = [y + r for y, r in zip(yellows, reds, strict=False)]
     carded_fouls = sum(mine(m, "fouls") for m in carded)
 
     def shape(stat: str, source=mine) -> float | None:

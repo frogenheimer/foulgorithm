@@ -24,12 +24,22 @@ def history(rows):
     return pd.DataFrame(
         [
             {
-                "player": n, "team": t, "opponent": "O", "venue": "H",
+                "player": n,
+                "team": t,
+                "opponent": "O",
+                "venue": "H",
                 "kickoff_utc": pd.Timestamp(d, tz="UTC"),
                 "known_at": pd.Timestamp(d, tz="UTC"),
-                "season": 2026, "position": p, "minutes": 90,
-                "fouls_committed": f, "fouls_drawn": 1, "yellows": 0, "reds": 0,
-                "tackles_won": 1, "interceptions": 1, "source": "test",
+                "season": 2026,
+                "position": p,
+                "minutes": 90,
+                "fouls_committed": f,
+                "fouls_drawn": 1,
+                "yellows": 0,
+                "reds": 0,
+                "tackles_won": 1,
+                "interceptions": 1,
+                "source": "test",
             }
             for n, t, d, p, f in rows
         ]

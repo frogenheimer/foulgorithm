@@ -16,9 +16,7 @@ from foulgorithm.store import positions
 
 
 def sel(display, position="DEF", full=None):
-    return SimpleNamespace(
-        display=display, full=full or f"{display} Full", position=position
-    )
+    return SimpleNamespace(display=display, full=full or f"{display} Full", position=position)
 
 
 def eleven(defenders=7, mids=2, forwards=1):
@@ -68,9 +66,7 @@ class TestRoleMemory:
         assert back == {"D0", "D2", "D3", "D4", "D5"}
 
     def test_a_known_centre_back_stays_while_anyone_else_can_go(self):
-        roles = {
-            positions.norm(f"D{i} Full"): "Centre Central Defender" for i in (5, 6)
-        }
+        roles = {positions.norm(f"D{i} Full"): "Centre Central Defender" for i in (5, 6)}
         shape = _predicted_shape(eleven(), roles=roles)
         back = {s["player"] for s in shape["lines"][1]}
         assert {"D5", "D6"} <= back

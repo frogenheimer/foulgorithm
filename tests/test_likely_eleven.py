@@ -11,7 +11,6 @@ started last week.
 """
 
 import pandas as pd
-import pytest
 
 from foulgorithm.features import expected_xi
 

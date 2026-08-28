@@ -5,7 +5,7 @@ computed from files that already contained those matchweeks, and reported a win
 rate that meant nothing. These tests exist so that cannot happen again.
 """
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import numpy as np
 import pandas as pd
@@ -15,7 +15,7 @@ from foulgorithm.backtest import harness
 from foulgorithm.features import match_features as mf
 from foulgorithm.models.base import CountDistribution
 
-BASE = datetime(2020, 1, 1, tzinfo=timezone.utc)
+BASE = datetime(2020, 1, 1, tzinfo=UTC)
 
 
 def synthetic(n: int = 900, seed: int = 3) -> pd.DataFrame:

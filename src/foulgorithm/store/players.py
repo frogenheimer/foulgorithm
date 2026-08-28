@@ -95,9 +95,7 @@ def load_all_leagues(codes: tuple[str, ...] | None = None) -> pd.DataFrame:
         frames.append(frame)
 
     if not frames:
-        raise SourceError(
-            "no league files on disk. Run `make leagues` to download them."
-        )
+        raise SourceError("no league files on disk. Run `make leagues` to download them.")
     return pd.concat(frames, ignore_index=True)
 
 
@@ -119,9 +117,7 @@ def load_player_matches(cache: Path = WFR_CACHE) -> pd.DataFrame:
     opponent = pd.Series(
         [
             away if ha.startswith("home") else home
-            for ha, home, away in zip(
-                home_away, raw["Home_Team"], raw["Away_Team"], strict=True
-            )
+            for ha, home, away in zip(home_away, raw["Home_Team"], raw["Away_Team"], strict=True)
         ]
     )
 

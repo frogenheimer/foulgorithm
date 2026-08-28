@@ -13,16 +13,25 @@ from foulgorithm.jobs import settle
 
 def test_refresh_rewrites_standings_and_settled_cards_only(tmp_path, monkeypatch):
     path = tmp_path / "players.json"
-    path.write_text(json.dumps({
-        "generatedAt": "2026-08-25T02:42:56+00:00",
-        "board": [{"home": "A", "away": "B"}],
-        "standings": [{"id": "alan", "points": 0}, {"id": "lily", "points": 0}],
-        "settledCards": {},
-    }))
+    path.write_text(
+        json.dumps(
+            {
+                "generatedAt": "2026-08-25T02:42:56+00:00",
+                "board": [{"home": "A", "away": "B"}],
+                "standings": [{"id": "alan", "points": 0}, {"id": "lily", "points": 0}],
+                "settledCards": {},
+            }
+        )
+    )
 
     from foulgorithm.publish import player_round
-    monkeypatch.setattr(player_round, "_standings", lambda ids: [{"id": i, "points": 3} for i in ids])
-    monkeypatch.setattr(player_round, "_settled_cards", lambda: {"A v B": {"version": 1, "options": []}})
+
+    monkeypatch.setattr(
+        player_round, "_standings", lambda ids: [{"id": i, "points": 3} for i in ids]
+    )
+    monkeypatch.setattr(
+        player_round, "_settled_cards", lambda: {"A v B": {"version": 1, "options": []}}
+    )
 
     assert settle.refresh_table(path) is True
     held = json.loads(path.read_text())

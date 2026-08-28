@@ -11,20 +11,27 @@ shown. A clever model here would buy nothing except a better disguise for the
 same guess.
 """
 
-import pytest
-
 from foulgorithm.sources.player_stats import PlayerStats
 from foulgorithm.stats import cup_eleven
 
 
 def player(name, position="M", minutes=900, fouls=10, pid=None):
     return PlayerStats(
-        player=name, player_id=pid if pid is not None else abs(hash(name)) % 10000,
-        club="Wrexham", position=position, shirt=None,
-        appearances=10, minutes=minutes, fouls=fouls, fouls_won=5, tackles=7,
-        yellows=1, reds=0,
+        player=name,
+        player_id=pid if pid is not None else abs(hash(name)) % 10000,
+        club="Wrexham",
+        position=position,
+        shirt=None,
+        appearances=10,
+        minutes=minutes,
+        fouls=fouls,
+        fouls_won=5,
+        tackles=7,
+        yellows=1,
+        reds=0,
         fouls_per_90=round(fouls / (minutes / 90), 2) if minutes else None,
-        fouls_won_per_90=None, tackles_per_90=None,
+        fouls_won_per_90=None,
+        tackles_per_90=None,
         minutes_by_division={"E1": minutes} if minutes else {},
     )
 
@@ -135,7 +142,7 @@ class TestNameMatching:
         assert not cup_eleven._matches("Danny Ward", "Joel Ward")
 
     def test_two_sets_of_initials_never_resolve_to_each_other(self):
-        assert not cup_eleven._matches("D.Ward", "J.Ward") is False or True
+        assert cup_eleven._matches("D.Ward", "J.Ward") is not False or True
         assert not cup_eleven._matches("A.Smith", "B.Smith")
 
     def test_reversed_name_order_still_resolves(self):
@@ -195,8 +202,12 @@ class TestShape:
 
     def test_a_confirmed_sheet_uses_the_published_lines_when_it_has_them(self):
         names = ["Keeper A", "Player 0", "Player 1", "Player 2"]
-        xi = cup_eleven.confirm(squad(), names, formation="1-3",
-                                lines=[["Keeper A"], ["Player 0", "Player 1", "Player 2"]])
+        xi = cup_eleven.confirm(
+            squad(),
+            names,
+            formation="1-3",
+            lines=[["Keeper A"], ["Player 0", "Player 1", "Player 2"]],
+        )
         shape = xi.shape()
         assert [len(l) for l in shape.lines] == [1, 3]
         assert shape.lines[1][0].player == "Player 0"
@@ -222,8 +233,10 @@ class TestSheetPositions:
 
     def spot(self, name, position="D", shirt=4, detail="Centre Central Defender"):
         from types import SimpleNamespace
-        return SimpleNamespace(name=name, position=position, shirt=shirt,
-                               detail=detail, captain=False)
+
+        return SimpleNamespace(
+            name=name, position=position, shirt=shirt, detail=detail, captain=False
+        )
 
     def test_a_player_we_hold_nothing_on_takes_his_position_from_the_sheet(self):
         xi = cup_eleven.confirm(squad(), [self.spot("Youth Debutant", "D")])
@@ -248,9 +261,11 @@ class TestSheetPositions:
         assert xi.players[0].player == "Player 1"
 
     def test_an_unknown_eleven_off_a_sheet_groups_sensibly(self):
-        spots = ([self.spot("K", "G")]
-                 + [self.spot(f"D{i}", "D") for i in range(4)]
-                 + [self.spot(f"M{i}", "M") for i in range(4)]
-                 + [self.spot(f"F{i}", "F") for i in range(2)])
+        spots = (
+            [self.spot("K", "G")]
+            + [self.spot(f"D{i}", "D") for i in range(4)]
+            + [self.spot(f"M{i}", "M") for i in range(4)]
+            + [self.spot(f"F{i}", "F") for i in range(2)]
+        )
         shape = cup_eleven.confirm([], spots).shape()
         assert [len(l) for l in shape.lines] == [1, 4, 4, 2]

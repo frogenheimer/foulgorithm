@@ -37,7 +37,7 @@ identity.teams.has_player_data, which is what enforces it.
 from __future__ import annotations
 
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from foulgorithm.identity import referees
 from foulgorithm.identity.teams import has_player_data, holds_data, to_fixture_name
@@ -64,7 +64,7 @@ def slug(home: str, away: str, competition: str, repeat: int = 1) -> str:
 
 def fetch(api=pulselive, now: datetime | None = None) -> list[dict]:
     """Upcoming ties from both cups, shaped for the publisher."""
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
 
     ties: list[dict] = []
     for competition, name in sorted(api.CUP_COMPETITIONS.items()):
@@ -95,7 +95,7 @@ def _shape(row: dict, competition: str, now: datetime) -> dict | None:
     millis = (row.get("kickoff") or {}).get("millis")
     if millis is None:
         return None
-    kickoff = datetime.fromtimestamp(millis / 1000.0, tz=timezone.utc)
+    kickoff = datetime.fromtimestamp(millis / 1000.0, tz=UTC)
     if kickoff <= now:
         return None
 

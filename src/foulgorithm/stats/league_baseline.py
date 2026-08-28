@@ -42,25 +42,23 @@ def build(matches: list[dict]) -> dict[str, float]:
 
     out: dict[str, float] = {"matches": len(matches)}
     for name, (home_col, away_col) in _STATS.items():
-        values = [
-            v
-            for m in matches
-            for v in (m.get(home_col), m.get(away_col))
-            if v is not None
-        ]
+        values = [v for m in matches for v in (m.get(home_col), m.get(away_col)) if v is not None]
         if values:
             out[name] = round(sum(values) / len(values), 2)
 
     # Cards per foul, the column worth reading. Same reasoning as
     # publish/site_export: cards per match rises with how physical a game was.
     carded = [
-        m for m in matches
+        m
+        for m in matches
         if m.get("home_yellows") is not None and m.get("away_yellows") is not None
     ]
     fouls = sum((m["home_fouls"] or 0) + (m["away_fouls"] or 0) for m in carded)
     cards = sum(
-        (m["home_yellows"] or 0) + (m["away_yellows"] or 0)
-        + (m.get("home_reds") or 0) + (m.get("away_reds") or 0)
+        (m["home_yellows"] or 0)
+        + (m["away_yellows"] or 0)
+        + (m.get("home_reds") or 0)
+        + (m.get("away_reds") or 0)
         for m in carded
     )
     if fouls:
@@ -124,7 +122,7 @@ def _ordinal(n: int) -> str:
 
 
 def rank_label(place: tuple[int, int] | None, division: str) -> str | None:
-    """"3rd most in the Championship of 24". Top and bottom get plain words."""
+    """ "3rd most in the Championship of 24". Top and bottom get plain words."""
     if place is None:
         return None
     n, of = place

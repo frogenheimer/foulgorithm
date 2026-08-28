@@ -32,8 +32,14 @@ def season_file(tmp_path, label="2024-25", players=None, **kw):
 
 
 def player(name="A. Semenyo", **kw):
-    base = {"player": name, "season": "2024/25", "seasonId": 719,
-            "fouls": 73.0, "mins_played": 3000.0, "appearances": 35.0}
+    base = {
+        "player": name,
+        "season": "2024/25",
+        "seasonId": 719,
+        "fouls": 73.0,
+        "mins_played": 3000.0,
+        "appearances": 35.0,
+    }
     base.update(kw)
     return base
 
@@ -84,7 +90,9 @@ class TestRates:
 
     def test_no_minutes_means_no_rate_rather_than_infinity(self, tmp_path):
         season_file(tmp_path, players=[player(fouls=2.0, mins_played=0.0)])
-        assert ps.load(tmp_path).iloc[0]["fouls_per_90"] != ps.load(tmp_path).iloc[0]["fouls_per_90"]
+        assert (
+            ps.load(tmp_path).iloc[0]["fouls_per_90"] != ps.load(tmp_path).iloc[0]["fouls_per_90"]
+        )
 
     def test_an_unrecorded_count_does_not_become_a_zero_rate(self, tmp_path):
         """None fouls means we were not told, not that he fouled nobody."""

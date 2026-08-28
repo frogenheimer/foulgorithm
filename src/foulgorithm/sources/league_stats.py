@@ -36,9 +36,7 @@ def leaders(stat: str, season_id: int | None = None, limit: int = 10) -> list[Le
     if stat not in STATS:
         raise SourceError(f"unknown stat {stat!r}. Known: {sorted(STATS)}")
     season = season_id or current_season_id()
-    data = _get(
-        f"stats/ranked/players/{stat}?compSeasons={season}&comps=1&pageSize={limit}"
-    )
+    data = _get(f"stats/ranked/players/{stat}?compSeasons={season}&comps=1&pageSize={limit}")
     content = (data.get("stats") or {}).get("content") or []
     out = []
     for i, row in enumerate(content, start=1):

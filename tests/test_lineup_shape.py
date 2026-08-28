@@ -21,8 +21,14 @@ def detail(formation):
         + [entry(f"F{i}", "F", 30 + i) for i in range(3)]
     )
     return {
-        "teams": [{"team": {"id": 6, "name": "Crystal Palace"}}, {"team": {"id": 11, "name": "Manchester City"}}],
-        "teamLists": [{"teamId": 6, "formation": formation, "lineup": eleven, "substitutes": []}, None],
+        "teams": [
+            {"team": {"id": 6, "name": "Crystal Palace"}},
+            {"team": {"id": 11, "name": "Manchester City"}},
+        ],
+        "teamLists": [
+            {"teamId": 6, "formation": formation, "lineup": eleven, "substitutes": []},
+            None,
+        ],
     }
 
 
@@ -35,7 +41,10 @@ class TestShapeWithoutAFormation:
         assert lu.lines[0][0].name == "Keeper"
 
     def test_a_published_formation_is_still_used_as_given(self):
-        formation = {"label": "3-4-3", "players": [[1], [10, 11, 12], [13, 20, 21, 22], [30, 31, 32]]}
+        formation = {
+            "label": "3-4-3",
+            "players": [[1], [10, 11, 12], [13, 20, 21, 22], [30, 31, 32]],
+        }
         out = lineups.shape_detail(detail(formation), "Crystal Palace v Man City")
         lu = out["Crystal Palace|Crystal Palace v Man City"]
         assert lu.formation == "3-4-3"

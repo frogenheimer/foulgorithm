@@ -33,7 +33,7 @@ def synthetic_matches(shared_sd: float, n_matches: int = 300, seed: int = 7):
     for match in range(n_matches):
         factor = float(np.exp(rng.normal(0.0, shared_sd))) if shared_sd else 1.0
         for side in ("home", "away"):
-            for player in range(9):
+            for _player in range(9):
                 mean = 1.1 * factor
                 rows.append(
                     {
@@ -76,7 +76,13 @@ class TestTheEstimator:
     def test_a_single_player_match_contributes_no_pairs(self):
         frame = pd.DataFrame(
             [
-                {"match": 0, "team": "a", "predicted_mean": 1.0, "predicted_var": 1.2, "observed": 2.0},
+                {
+                    "match": 0,
+                    "team": "a",
+                    "predicted_mean": 1.0,
+                    "predicted_var": 1.2,
+                    "observed": 2.0,
+                },
             ]
         )
         result = pds.pairwise_correlation(frame)

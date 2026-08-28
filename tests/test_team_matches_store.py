@@ -32,9 +32,14 @@ def season_file(tmp_path, label="2024-25", teams=None, **kw):
 
 def team(fixture=1, team_id="1", **kw):
     base = {
-        "fixtureId": fixture, "teamId": team_id,
-        "home": "Arsenal", "away": "Coventry", "kickoff": "21 August 2026",
-        "fk_foul_lost": 12, "fk_foul_won": 10, "touches": 900,
+        "fixtureId": fixture,
+        "teamId": team_id,
+        "home": "Arsenal",
+        "away": "Coventry",
+        "kickoff": "21 August 2026",
+        "fk_foul_lost": 12,
+        "fk_foul_won": 10,
+        "touches": 900,
     }
     base.update(kw)
     return base
@@ -70,10 +75,13 @@ class TestLoading:
 
 class TestMatchTotals:
     def test_a_match_total_sums_both_teams(self, tmp_path):
-        season_file(tmp_path, teams=[
-            team(team_id="1", fk_foul_lost=12),
-            team(team_id="5", fk_foul_lost=11),
-        ])
+        season_file(
+            tmp_path,
+            teams=[
+                team(team_id="1", fk_foul_lost=12),
+                team(team_id="5", fk_foul_lost=11),
+            ],
+        )
         totals = tm.match_totals(tm.load(tmp_path))
         assert len(totals) == 1
         assert totals.iloc[0]["fouls"] == 23

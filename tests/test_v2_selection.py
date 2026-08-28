@@ -21,8 +21,17 @@ from foulgorithm.publish.player_round import (
 )
 
 FIELD = [
-    "alan", "lily", "valentina", "tayler", "bdog",
-    "pax", "justine", "mabel", "dottie", "dele", "ian",
+    "alan",
+    "lily",
+    "valentina",
+    "tayler",
+    "bdog",
+    "pax",
+    "justine",
+    "mabel",
+    "dottie",
+    "dele",
+    "ian",
 ]
 
 
@@ -95,7 +104,9 @@ class TestBoundedForEveryone:
 
 def pool_all_consensus_plus_one_maverick(cid):
     pool = [candidate(f"C{i}", 0.85 - i * 0.01, 0.85 - i * 0.01, cid=cid) for i in range(7)]
-    pool += [candidate(f"T{i}", 0.55 - i * 0.01, 0.55 - i * 0.01, cid=cid, line=1.5) for i in range(4)]
+    pool += [
+        candidate(f"T{i}", 0.55 - i * 0.01, 0.55 - i * 0.01, cid=cid, line=1.5) for i in range(4)
+    ]
     pool.append(candidate("Maverick", 0.55, 0.55 - HOT_TAKE_MARGIN - 0.04, cid=cid))
     return pool
 
@@ -111,9 +122,9 @@ class TestTheHotTakeFloorIsUniversal:
 
     def test_a_draft_already_carrying_hot_takes_is_untouched(self):
         """The rule is a floor, not a cap: they can have more if they want."""
-        pool = [
-            candidate(f"H{i}", 0.80 - i * 0.01, 0.60, cid="dottie") for i in range(7)
-        ] + [candidate(f"T{i}", 0.55, 0.55, cid="dottie", line=1.5) for i in range(4)]
+        pool = [candidate(f"H{i}", 0.80 - i * 0.01, 0.60, cid="dottie") for i in range(7)] + [
+            candidate(f"T{i}", 0.55, 0.55, cid="dottie", line=1.5) for i in range(4)
+        ]
         built = league.build_slates(pool, FIELD)
         legs = built["A v B"]["dottie"]["six-ones"]["legs"]
         assert len([l for l in legs if l.get("hotTake")]) == 6

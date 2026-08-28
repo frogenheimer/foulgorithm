@@ -63,7 +63,7 @@ target-version = "py311"
 select = ["E", "F", "I", "UP", "B", "SIM", "PD"]
 ignore = [
     "E501",    # line length is handled by the formatter
-    "PD901",   # df as a variable name is fine
+    "E741",    # a leg is `l` in comprehensions over legs, in 27 places; not ambiguous here
 ]
 
 [tool.ruff.lint.per-file-ignores]

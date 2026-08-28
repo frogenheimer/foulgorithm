@@ -28,7 +28,7 @@ from __future__ import annotations
 import json
 import sys
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 # Committed, not cached, like lineup_watch.STATE and for the same reason: it
@@ -42,7 +42,7 @@ WITHIN = timedelta(hours=6)
 
 
 def _now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def lineups_for(fixture_id: int, label: str, api=None) -> dict:
@@ -78,10 +78,7 @@ def run(once: bool = False) -> int:
 
     started = _now()
     try:
-        slate = [
-            f for f in cup_slate.fetch(now=started)
-            if f["kickoff_utc"] <= started + WITHIN
-        ]
+        slate = [f for f in cup_slate.fetch(now=started) if f["kickoff_utc"] <= started + WITHIN]
     except SourceError as exc:
         print(f"cup slate unreadable: {exc}", file=sys.stderr)
         return 2
@@ -95,8 +92,10 @@ def run(once: bool = False) -> int:
     for f in slate:
         label = f"{f['home_team_raw']} v {f['away_team_raw']}"
         ids[label] = f["fixture_id"]
-        print(f"  {label}  {f['competition']}  kickoff {f['kickoff_utc']:%H:%M}  "
-              f"fixture {f['fixture_id']}")
+        print(
+            f"  {label}  {f['competition']}  kickoff {f['kickoff_utc']:%H:%M}  "
+            f"fixture {f['fixture_id']}"
+        )
 
     published = False
     outstanding = {f"{f['home_team_raw']} v {f['away_team_raw']}": f for f in slate}
@@ -112,9 +111,7 @@ def run(once: bool = False) -> int:
             break
 
         watching = [
-            label
-            for label, f in outstanding.items()
-            if now >= f["kickoff_utc"] - LOOK_FROM
+            label for label, f in outstanding.items() if now >= f["kickoff_utc"] - LOOK_FROM
         ]
         if not watching:
             soonest = min(f["kickoff_utc"] - LOOK_FROM for f in outstanding.values())
@@ -130,10 +127,12 @@ def run(once: bool = False) -> int:
             for label in watching:
                 lineups.update(lineups_for(ids[label], label))
             failures = 0
-        except SourceError as exc:
+        except SourceError:
             failures += 1
             backoff = min(POLL_SECONDS * (2 ** (failures - 1)), 600)
-            print(f"  source failed, {failures} in a row, retrying in {backoff:.0f}s", file=sys.stderr)
+            print(
+                f"  source failed, {failures} in a row, retrying in {backoff:.0f}s", file=sys.stderr
+            )
             if once:
                 return 2
             time.sleep(backoff)

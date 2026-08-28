@@ -8,7 +8,7 @@ one fit.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pandas as pd
@@ -86,7 +86,7 @@ def predict_round(output: Path = OUTPUT) -> dict:
         )
 
     payload = {
-        "generatedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "generatedAt": datetime.now(UTC).replace(microsecond=0).isoformat(),
         "model": {
             "id": model.id,
             "version": model.version,

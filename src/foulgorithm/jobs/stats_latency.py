@@ -27,7 +27,7 @@ from __future__ import annotations
 import json
 import sys
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 LOG = Path("data/state/stats_latency.jsonl")
@@ -60,7 +60,7 @@ def moved(baseline: dict, current: dict) -> dict:
 
 
 def _now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def _todays_fixtures() -> list:

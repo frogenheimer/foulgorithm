@@ -14,7 +14,7 @@ prediction.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 STORE = Path("data/state")
@@ -41,11 +41,7 @@ def record(totals: dict[str, float], published_at: str, root: Path = STORE) -> i
     Returns how many were new. A zero total means the board had nobody in it
     rather than that we expect a quiet match, so it is not a claim.
     """
-    fresh = {
-        label: total
-        for label, total in (totals or {}).items()
-        if total and total > 0
-    }
+    fresh = {label: total for label, total in (totals or {}).items() if total and total > 0}
     if not fresh:
         return 0
 
@@ -56,7 +52,7 @@ def record(totals: dict[str, float], published_at: str, root: Path = STORE) -> i
             continue
         held[label] = {
             "expected": round(float(total), 1),
-            "publishedAt": published_at or datetime.now(timezone.utc).isoformat(),
+            "publishedAt": published_at or datetime.now(UTC).isoformat(),
         }
         added += 1
 

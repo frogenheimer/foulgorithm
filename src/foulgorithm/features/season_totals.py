@@ -35,7 +35,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 from foulgorithm.identity.players import resolve_names
@@ -153,7 +152,11 @@ def evidence(
         fd = 0.0 if pd.isna(drawn) else float(drawn) / ratio
 
         end_year = int(label[:4]) + 1
-        covered = arch.loc[(record.resolved, end_year)] if (record.resolved, end_year) in arch.index else None
+        covered = (
+            arch.loc[(record.resolved, end_year)]
+            if (record.resolved, end_year) in arch.index
+            else None
+        )
 
         if covered is not None:
             residual_minutes = minutes - float(covered["arch_minutes"])

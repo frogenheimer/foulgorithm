@@ -31,10 +31,7 @@ class HeadToHead:
 def build(home: str, away: str, matches: list[dict]) -> HeadToHead:
     """Meetings between the pair, newest first, in either direction."""
     pair = {home, away}
-    met = [
-        m for m in matches
-        if {m["home_team_raw"], m["away_team_raw"]} == pair
-    ]
+    met = [m for m in matches if {m["home_team_raw"], m["away_team_raw"]} == pair]
     if not met:
         return HeadToHead(home=home, away=away, meetings=0)
 
@@ -59,10 +56,7 @@ def build(home: str, away: str, matches: list[dict]) -> HeadToHead:
     ]
 
     def committed(club: str) -> float:
-        values = [
-            m["home_fouls"] if m["home_team_raw"] == club else m["away_fouls"]
-            for m in met
-        ]
+        values = [m["home_fouls"] if m["home_team_raw"] == club else m["away_fouls"] for m in met]
         return round(sum(values) / len(values), 2)
 
     totals = [m["home_fouls"] + m["away_fouls"] for m in met]

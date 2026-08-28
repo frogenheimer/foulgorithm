@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 STATE = Path("data/state/fixture_state.json")
@@ -99,7 +99,7 @@ def run(quiet: bool = False) -> list[dict]:
     STATE.write_text(
         json.dumps(
             {
-                "checkedAt": datetime.now(timezone.utc).isoformat(),
+                "checkedAt": datetime.now(UTC).isoformat(),
                 "fixtures": current,
                 "lastChanges": changes,
             },

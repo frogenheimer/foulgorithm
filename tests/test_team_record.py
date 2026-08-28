@@ -17,19 +17,48 @@ import pytest
 from foulgorithm.stats import team_record as tr
 
 
-def match(home, away, *, hf, af, hy=0, ay=0, hr=0, ar=0, hs=0, ashots=0,
-          hst=0, ast=0, hc=0, ac=0, hg=0, ag=0, ref="A Kitchen", season="2026-27",
-          division="E0"):
+def match(
+    home,
+    away,
+    *,
+    hf,
+    af,
+    hy=0,
+    ay=0,
+    hr=0,
+    ar=0,
+    hs=0,
+    ashots=0,
+    hst=0,
+    ast=0,
+    hc=0,
+    ac=0,
+    hg=0,
+    ag=0,
+    ref="A Kitchen",
+    season="2026-27",
+    division="E0",
+):
     return {
-        "home_team_raw": home, "away_team_raw": away,
-        "home_fouls": hf, "away_fouls": af,
-        "home_yellows": hy, "away_yellows": ay,
-        "home_reds": hr, "away_reds": ar,
-        "home_shots": hs, "away_shots": ashots,
-        "home_shots_on_target": hst, "away_shots_on_target": ast,
-        "home_corners": hc, "away_corners": ac,
-        "home_goals": hg, "away_goals": ag,
-        "referee_raw": ref, "season": season, "division": division,
+        "home_team_raw": home,
+        "away_team_raw": away,
+        "home_fouls": hf,
+        "away_fouls": af,
+        "home_yellows": hy,
+        "away_yellows": ay,
+        "home_reds": hr,
+        "away_reds": ar,
+        "home_shots": hs,
+        "away_shots": ashots,
+        "home_shots_on_target": hst,
+        "away_shots_on_target": ast,
+        "home_corners": hc,
+        "away_corners": ac,
+        "home_goals": hg,
+        "away_goals": ag,
+        "referee_raw": ref,
+        "season": season,
+        "division": division,
     }
 
 
@@ -41,7 +70,7 @@ class TestFoulCore:
         ]
         rec = tr.build("Arsenal", rows)
         assert rec.matches == 2
-        assert rec.fouls_per_match == 13.0      # 10 home, 16 away
+        assert rec.fouls_per_match == 13.0  # 10 home, 16 away
 
     def test_fouls_won_is_the_opponents_fouls_committed(self):
         rows = [
@@ -80,15 +109,24 @@ class TestCards:
         # zero reads as "never booked", which is a claim we cannot make.
         rows = [
             match("Arsenal", "Chelsea", hf=10, af=14, hy=2, ay=1),
-            {**match("Arsenal", "Chelsea", hf=10, af=14), "home_yellows": None, "away_yellows": None},
+            {
+                **match("Arsenal", "Chelsea", hf=10, af=14),
+                "home_yellows": None,
+                "away_yellows": None,
+            },
         ]
         rec = tr.build("Arsenal", rows)
         assert rec.carded_matches == 1
         assert rec.yellows_per_match == 2.0
 
     def test_no_card_data_at_all_leaves_the_figures_absent(self):
-        rows = [{**match("Arsenal", "Chelsea", hf=10, af=14),
-                 "home_yellows": None, "away_yellows": None}]
+        rows = [
+            {
+                **match("Arsenal", "Chelsea", hf=10, af=14),
+                "home_yellows": None,
+                "away_yellows": None,
+            }
+        ]
         rec = tr.build("Arsenal", rows)
         assert rec.yellows_per_match is None
         assert rec.cards_per_foul is None
@@ -135,8 +173,22 @@ class TestSpells:
 
 class TestMatchShape:
     def test_shots_corners_and_goals_come_through(self):
-        rows = [match("Arsenal", "Chelsea", hf=10, af=14, hs=15, ashots=7,
-                      hst=6, ast=2, hc=8, ac=3, hg=3, ag=1)]
+        rows = [
+            match(
+                "Arsenal",
+                "Chelsea",
+                hf=10,
+                af=14,
+                hs=15,
+                ashots=7,
+                hst=6,
+                ast=2,
+                hc=8,
+                ac=3,
+                hg=3,
+                ag=1,
+            )
+        ]
         rec = tr.build("Arsenal", rows)
         assert rec.shots_per_match == 15.0
         assert rec.shots_on_target_per_match == 6.0

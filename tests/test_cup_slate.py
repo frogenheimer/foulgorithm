@@ -17,17 +17,23 @@ semi meets itself. A key built on the club names alone merges all of that, and
 the old '-cup' suffix merged the two cups into one page.
 """
 
-from datetime import datetime, timezone
-
-import pytest
+from datetime import UTC, datetime
 
 from foulgorithm.sources import cup_slate
 
-NOW = datetime(2026, 8, 20, 12, 0, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 20, 12, 0, tzinfo=UTC)
 
 
-def fixture(home, away, comp="EFL Cup", kickoff_millis=1788289200000, fid=131355,
-            referee="Andrew Kitchen", status="U", round_label="Second Round"):
+def fixture(
+    home,
+    away,
+    comp="EFL Cup",
+    kickoff_millis=1788289200000,
+    fid=131355,
+    referee="Andrew Kitchen",
+    status="U",
+    round_label="Second Round",
+):
     """One fixture in the shape Pulselive returns."""
     officials = [{"role": "MAIN", "name": {"display": referee}}] if referee else []
     return {
@@ -40,9 +46,11 @@ def fixture(home, away, comp="EFL Cup", kickoff_millis=1788289200000, fid=131355
             {"team": {"id": 2.0, "name": away}},
         ],
         "matchOfficials": officials,
-        "gameweek": {"gameweek": 2.0,
-                     "competitionPhase": {"label": round_label, "type": "K"},
-                     "compSeason": {"label": f"English {comp} Season 2026/2027"}},
+        "gameweek": {
+            "gameweek": 2.0,
+            "competitionPhase": {"label": round_label, "type": "K"},
+            "compSeason": {"label": f"English {comp} Season 2026/2027"},
+        },
     }
 
 
@@ -86,7 +94,7 @@ class TestQualifying:
         assert cup_slate.fetch(api=api, now=NOW) == []
 
     def test_a_kickoff_already_past_is_dropped(self):
-        past = int(datetime(2026, 8, 1, tzinfo=timezone.utc).timestamp() * 1000)
+        past = int(datetime(2026, 8, 1, tzinfo=UTC).timestamp() * 1000)
         api = FakeApi({5: [fixture("Arsenal", "Leeds United", kickoff_millis=past)]})
         assert cup_slate.fetch(api=api, now=NOW) == []
 
@@ -102,10 +110,12 @@ class TestBothCups:
         assert sorted(api.calls) == [4, 5]
 
     def test_each_tie_carries_the_cup_it_belongs_to(self):
-        api = FakeApi({
-            4: [fixture("Arsenal", "Wrexham", comp="FA Cup", fid=1)],
-            5: [fixture("Chelsea", "Burnley", comp="EFL Cup", fid=2)],
-        })
+        api = FakeApi(
+            {
+                4: [fixture("Arsenal", "Wrexham", comp="FA Cup", fid=1)],
+                5: [fixture("Chelsea", "Burnley", comp="EFL Cup", fid=2)],
+            }
+        )
         out = cup_slate.fetch(api=api, now=NOW)
         assert {t["competition"] for t in out} == {"FA Cup", "League Cup"}
 
@@ -156,6 +166,7 @@ class TestSeparation:
 
     def test_neither_collides_with_the_league_fixture(self):
         from foulgorithm.publish.archive import fixture_slug
+
         assert cup_slate.slug("Arsenal", "Chelsea", "FA Cup") != fixture_slug("Arsenal v Chelsea")
 
     def test_a_repeat_tie_in_the_same_cup_gets_its_own_slug(self):
@@ -167,10 +178,14 @@ class TestSeparation:
     def test_repeat_slugs_are_assigned_in_kickoff_order(self):
         later = 1790000000000
         earlier = 1789000000000
-        api = FakeApi({5: [
-            fixture("Arsenal", "Chelsea", kickoff_millis=later, fid=2),
-            fixture("Arsenal", "Chelsea", kickoff_millis=earlier, fid=1),
-        ]})
+        api = FakeApi(
+            {
+                5: [
+                    fixture("Arsenal", "Chelsea", kickoff_millis=later, fid=2),
+                    fixture("Arsenal", "Chelsea", kickoff_millis=earlier, fid=1),
+                ]
+            }
+        )
         out = cup_slate.fetch(api=api, now=NOW)
         assert [t["slug"] for t in out] == [
             "arsenal-v-chelsea-league-cup",
@@ -178,10 +193,12 @@ class TestSeparation:
         ]
 
     def test_the_same_pairing_in_each_cup_does_not_count_as_a_repeat(self):
-        api = FakeApi({
-            4: [fixture("Arsenal", "Chelsea", comp="FA Cup", fid=1)],
-            5: [fixture("Arsenal", "Chelsea", comp="EFL Cup", fid=2)],
-        })
+        api = FakeApi(
+            {
+                4: [fixture("Arsenal", "Chelsea", comp="FA Cup", fid=1)],
+                5: [fixture("Arsenal", "Chelsea", comp="EFL Cup", fid=2)],
+            }
+        )
         slugs = {t["slug"] for t in cup_slate.fetch(api=api, now=NOW)}
         assert slugs == {"arsenal-v-chelsea-fa-cup", "arsenal-v-chelsea-league-cup"}
 

@@ -94,7 +94,9 @@ class TestRescaling:
         out = league_pool.to_reference(frame, {"ENG": 1.0, "ITA": 1.23})
         english = out[out["league"] == "ENG"]
         original = frame[frame["league"] == "ENG"]
-        assert (english["fouls_committed"].to_numpy() == original["fouls_committed"].to_numpy()).all()
+        assert (
+            english["fouls_committed"].to_numpy() == original["fouls_committed"].to_numpy()
+        ).all()
 
     def test_a_foreign_league_is_divided_down_to_the_reference(self):
         frame = pooled(gap=1.23)

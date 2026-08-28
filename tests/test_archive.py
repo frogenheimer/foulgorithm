@@ -83,19 +83,29 @@ class TestTheSlice:
 
 class TestWriting:
     def test_a_later_pre_kickoff_publish_replaces_an_earlier_one(self, tmp_path):
-        archive.write_round(payload(generated="2026-08-24T15:00:00+00:00"), root=tmp_path, matchday={"fixtures": []})
-        archive.write_round(payload(generated="2026-08-24T17:00:00+00:00"), root=tmp_path, matchday={"fixtures": []})
+        archive.write_round(
+            payload(generated="2026-08-24T15:00:00+00:00"), root=tmp_path, matchday={"fixtures": []}
+        )
+        archive.write_round(
+            payload(generated="2026-08-24T17:00:00+00:00"), root=tmp_path, matchday={"fixtures": []}
+        )
         held = json.loads((tmp_path / "fulham-v-chelsea.json").read_text())
         assert held["publishedAt"] == "2026-08-24T17:00:00+00:00"
 
     def test_a_post_kickoff_publish_never_replaces_the_binding_one(self, tmp_path):
-        archive.write_round(payload(generated="2026-08-24T17:00:00+00:00"), root=tmp_path, matchday={"fixtures": []})
-        archive.write_round(payload(generated="2026-08-24T21:00:00+00:00"), root=tmp_path, matchday={"fixtures": []})
+        archive.write_round(
+            payload(generated="2026-08-24T17:00:00+00:00"), root=tmp_path, matchday={"fixtures": []}
+        )
+        archive.write_round(
+            payload(generated="2026-08-24T21:00:00+00:00"), root=tmp_path, matchday={"fixtures": []}
+        )
         held = json.loads((tmp_path / "fulham-v-chelsea.json").read_text())
         assert held["publishedAt"] == "2026-08-24T17:00:00+00:00"
 
     def test_a_fixture_only_ever_seen_post_kickoff_gets_no_page(self, tmp_path):
-        archive.write_round(payload(generated="2026-08-24T21:00:00+00:00"), root=tmp_path, matchday={"fixtures": []})
+        archive.write_round(
+            payload(generated="2026-08-24T21:00:00+00:00"), root=tmp_path, matchday={"fixtures": []}
+        )
         assert not (tmp_path / "fulham-v-chelsea.json").exists()
 
     def test_the_head_to_head_survives_the_sheet_rolling_on(self, tmp_path):
@@ -117,12 +127,16 @@ class TestWriting:
         assert held["matchday"]["fixture"]["home"] == "Fulham"
 
     def test_marking_survives_a_rewrite(self, tmp_path):
-        archive.write_round(payload(generated="2026-08-24T15:00:00+00:00"), root=tmp_path, matchday={"fixtures": []})
+        archive.write_round(
+            payload(generated="2026-08-24T15:00:00+00:00"), root=tmp_path, matchday={"fixtures": []}
+        )
         path = tmp_path / "fulham-v-chelsea.json"
         held = json.loads(path.read_text())
         held["outcomes"] = {"Sander Berge|committed|0.5": {"won": False, "observed": 0}}
         path.write_text(json.dumps(held))
-        archive.write_round(payload(generated="2026-08-24T17:00:00+00:00"), root=tmp_path, matchday={"fixtures": []})
+        archive.write_round(
+            payload(generated="2026-08-24T17:00:00+00:00"), root=tmp_path, matchday={"fixtures": []}
+        )
         held = json.loads(path.read_text())
         assert held["publishedAt"] == "2026-08-24T17:00:00+00:00"
         assert held["outcomes"]["Sander Berge|committed|0.5"]["won"] is False
@@ -178,9 +192,7 @@ class TestOutcomes:
 
     def test_an_unplayed_fixture_is_left_unmarked(self, tmp_path):
         archive.write_round(payload(), root=tmp_path, matchday={"fixtures": []})
-        marked = archive.mark_all(
-            graded=[], predictions=[], season_fixtures=[], root=tmp_path
-        )
+        marked = archive.mark_all(graded=[], predictions=[], season_fixtures=[], root=tmp_path)
         assert marked == 0
         held = json.loads((tmp_path / "fulham-v-chelsea.json").read_text())
         assert "outcomes" not in held or not held["outcomes"]

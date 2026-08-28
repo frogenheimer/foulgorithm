@@ -8,15 +8,24 @@ If it does not, "two midfielders who both foul a lot" is a nice thing to look at
 and not a thing that predicts anything, and it should be presented as the
 former.
 """
-import numpy as np, pandas as pd
-from foulgorithm.store.players import load_player_matches
+
+import numpy as np
+import pandas as pd
+
 from foulgorithm.models import player_models as pm
+from foulgorithm.store.players import load_player_matches
 
 h = load_player_matches().sort_values("kickoff_utc").reset_index(drop=True)
 
 # Who actually featured for each side in each match, so "the opponent's best
 # foul-winner" means someone who was on the pitch.
-h["match"] = h["kickoff_utc"].astype(str) + "|" + h[["team", "opponent"]].min(axis=1) + "|" + h[["team", "opponent"]].max(axis=1)
+h["match"] = (
+    h["kickoff_utc"].astype(str)
+    + "|"
+    + h[["team", "opponent"]].min(axis=1)
+    + "|"
+    + h[["team", "opponent"]].max(axis=1)
+)
 
 model = pm.build("valentina", "player_fouls_committed")
 ev = h[(h["kickoff_utc"] >= pd.Timestamp("2024-01-01", tz="UTC")) & (h["minutes"] >= 60)]
@@ -53,12 +62,18 @@ for _, b in ev.groupby(wk):
 
 d = pd.DataFrame(rows, columns=["best_winner", "mean_winner", "residual", "predicted"])
 print(f"n = {len(d):,} player-matches with a known opposing eleven\n")
-print(f"correlation, opponent's BEST foul-winner vs residual : {d['best_winner'].corr(d['residual']):+.4f}")
-print(f"correlation, opponent's MEAN foul-winner vs residual : {d['mean_winner'].corr(d['residual']):+.4f}")
+print(
+    f"correlation, opponent's BEST foul-winner vs residual : {d['best_winner'].corr(d['residual']):+.4f}"
+)
+print(
+    f"correlation, opponent's MEAN foul-winner vs residual : {d['mean_winner'].corr(d['residual']):+.4f}"
+)
 print()
 print(f"{'opponent best winner':<24}{'n':>7}{'predicted':>11}{'actual':>9}{'residual':>10}")
 print("-" * 62)
 d["bucket"] = pd.qcut(d["best_winner"], 5)
 for b_, g_ in d.groupby("bucket", observed=True):
-    print(f"{str(b_):<24}{len(g_):>7,}{g_['predicted'].mean():>11.3f}"
-          f"{(g_['predicted']+g_['residual']).mean():>9.3f}{g_['residual'].mean():>+10.3f}")
+    print(
+        f"{str(b_):<24}{len(g_):>7,}{g_['predicted'].mean():>11.3f}"
+        f"{(g_['predicted'] + g_['residual']).mean():>9.3f}{g_['residual'].mean():>+10.3f}"
+    )

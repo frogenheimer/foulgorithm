@@ -128,9 +128,7 @@ def report(results: list[Result]) -> str:
         )
 
     if results:
-        best, base = results[0], next(
-            (r for r in results if r.model_id == "league_mean"), None
-        )
+        best, base = results[0], next((r for r in results if r.model_id == "league_mean"), None)
         if base and best.model_id != base.model_id:
             gain = (base.log_loss - best.log_loss) / base.log_loss * 100
             lines.append("")

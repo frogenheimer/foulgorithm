@@ -31,7 +31,7 @@ import os
 import subprocess
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 PLAYERS_JSON = Path("site/public/data/players.json")
@@ -70,7 +70,7 @@ def check_file_fresh(path: Path, since: datetime) -> str | None:
     """A publish output this run did not touch is a publish that did not run."""
     if not path.exists():
         return f"{path} does not exist"
-    written = datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
+    written = datetime.fromtimestamp(path.stat().st_mtime, tz=UTC)
     if written < since:
         return f"{path} was last written {written:%Y-%m-%d %H:%M}, before this run"
     return None
@@ -115,15 +115,14 @@ def check_evidence_report(report: dict) -> list[str]:
         )
     if report.get("unresolved", 0) > MAX_UNRESOLVED_EVIDENCE:
         failures.append(
-            f"{report['unresolved']} unresolved evidence names, ceiling "
-            f"{MAX_UNRESOLVED_EVIDENCE}"
+            f"{report['unresolved']} unresolved evidence names, ceiling {MAX_UNRESOLVED_EVIDENCE}"
         )
     return failures
 
 
 def commit_message(fixtures: list[dict], skipped: list[str]) -> str:
     """Says what went out, and names what did not."""
-    when = datetime.now(timezone.utc)
+    when = datetime.now(UTC)
     head = f"Publish the round: {len(fixtures)} fixtures, {when:%d %b %Y}"
     if not skipped:
         return head
@@ -152,7 +151,8 @@ def refresh_stage() -> Stage:
         refreshed = football_data.refresh_in_progress()
     except SourceError as exc:
         return Stage(
-            "refresh", True,
+            "refresh",
+            True,
             f"upstream has no current file yet ({exc}); opponent context runs "
             "to the newest file on disk",
         )
@@ -236,7 +236,7 @@ def push_stage() -> Stage:
 def run(dry_run: bool = False, push: bool = False) -> int:
     from foulgorithm.features import next_round
 
-    run_start = datetime.now(timezone.utc)
+    run_start = datetime.now(UTC)
     stages: list[Stage] = []
 
     def halt() -> int:
@@ -271,7 +271,9 @@ def run(dry_run: bool = False, push: bool = False) -> int:
     if dry_run:
         would = subprocess.run(
             ["git", "status", "--short", "--", *COMMIT_PATHS],
-            capture_output=True, text=True, check=False,
+            capture_output=True,
+            text=True,
+            check=False,
         ).stdout
         report(stages)
         print("\nDRY RUN. Would commit:\n" + (would or "  nothing changed\n"))

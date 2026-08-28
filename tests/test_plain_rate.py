@@ -20,12 +20,22 @@ def history(rows):
     return pd.DataFrame(
         [
             {
-                "player": name, "team": "T", "opponent": "O", "venue": "H",
+                "player": name,
+                "team": "T",
+                "opponent": "O",
+                "venue": "H",
                 "kickoff_utc": pd.Timestamp(day, tz="UTC"),
                 "known_at": pd.Timestamp(day, tz="UTC"),
-                "season": "2025-26", "position": "MF", "minutes": mins,
-                "fouls_committed": fouls, "fouls_drawn": 1, "yellows": 0, "reds": 0,
-                "tackles_won": 1, "interceptions": 1, "source": "test",
+                "season": "2025-26",
+                "position": "MF",
+                "minutes": mins,
+                "fouls_committed": fouls,
+                "fouls_drawn": 1,
+                "yellows": 0,
+                "reds": 0,
+                "tackles_won": 1,
+                "interceptions": 1,
+                "source": "test",
             }
             for name, day, mins, fouls in rows
         ]
@@ -56,7 +66,7 @@ class TestThePlainRate:
         This is the number the shrunk one is meant to be compared against, so
         shrinking it too would leave nothing to compare.
         """
-        model = pm.build("tayler")   # the heaviest shrinkage of the five
+        model = pm.build("tayler")  # the heaviest shrinkage of the five
         # Other players, so the position prior is something other than his own
         # rate. With one player in the training data the prior IS his rate and
         # shrinking toward it changes nothing.
@@ -69,7 +79,7 @@ class TestThePlainRate:
 
     def test_it_does_not_decay(self):
         """Old matches count the same, which is the point of a plain average."""
-        old = pm.build("alan")       # a 70-day half-life
+        old = pm.build("alan")  # a 70-day half-life
         old.fit(history([("A", "2024-01-01", 90, 4), ("A", "2026-01-01", 90, 4)]))
         plain, _ = old.plain_rate("A", AS_OF)
         assert plain == pytest.approx(4.0)

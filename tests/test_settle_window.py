@@ -15,15 +15,21 @@ PREVIOUS = "2026-08-24T22:22:23+00:00"
 
 
 def fx(home, away, hours_before_now, complete=True):
-    return type("F", (), {
-        "home": home, "away": away, "complete": complete,
-        "kickoff_utc": NOW - timedelta(hours=hours_before_now),
-    })()
+    return type(
+        "F",
+        (),
+        {
+            "home": home,
+            "away": away,
+            "complete": complete,
+            "kickoff_utc": NOW - timedelta(hours=hours_before_now),
+        },
+    )()
 
 
 FIXTURES = [
-    fx("Crystal Palace", "Manchester City", 2),            # tonight
-    fx("Everton", "Crystal Palace", 6 * 24),               # last week, already settled
+    fx("Crystal Palace", "Manchester City", 2),  # tonight
+    fx("Everton", "Crystal Palace", 6 * 24),  # last week, already settled
     fx("Liverpool", "Nottingham Forest", -15, complete=False),  # tomorrow
 ]
 
@@ -38,5 +44,6 @@ def test_an_unfinished_game_is_never_settled():
 
 def test_without_a_previous_snapshot_every_completed_game_counts():
     assert settle.settled_fixtures(FIXTURES, since=None) == {
-        "Crystal Palace v Man City", "Everton v Crystal Palace"
+        "Crystal Palace v Man City",
+        "Everton v Crystal Palace",
     }

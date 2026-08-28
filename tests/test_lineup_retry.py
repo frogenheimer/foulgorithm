@@ -9,7 +9,7 @@ reads as a failure only when a fixture actually kicked off unpublished while
 the source was down.
 """
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from foulgorithm.jobs import lineup_watch_live as live
 
@@ -17,7 +17,7 @@ from foulgorithm.jobs import lineup_watch_live as live
 class FakeFixture:
     def __init__(self, minutes_to_kickoff: float):
         self.home, self.away = "Fulham", "Chelsea"
-        self.kickoff_utc = datetime.now(timezone.utc) + timedelta(minutes=minutes_to_kickoff)
+        self.kickoff_utc = datetime.now(UTC) + timedelta(minutes=minutes_to_kickoff)
 
 
 def wire(monkeypatch, fixtures, poll_codes):
@@ -30,7 +30,7 @@ def wire(monkeypatch, fixtures, poll_codes):
     monkeypatch.setattr(live.time, "sleep", lambda s: calls["sleeps"].append(s))
     monkeypatch.setattr(live, "_has_lineup", lambda f: True)
 
-    from foulgorithm.jobs import lineup_watch, changes
+    from foulgorithm.jobs import changes, lineup_watch
 
     monkeypatch.setattr(changes, "run", lambda quiet=True: [])
 
@@ -66,7 +66,7 @@ class TestRetrying:
     def test_a_fixture_lost_while_the_source_was_down_reads_as_failure(self, monkeypatch):
         """A fake clock, not real milliseconds: the poll fails once before
         kickoff, then the next loop iteration finds the match under way."""
-        start = datetime.now(timezone.utc)
+        start = datetime.now(UTC)
         fixture = FakeFixture(1)
         fixture.kickoff_utc = start + timedelta(minutes=1)
         wire(monkeypatch, [fixture], [2, 2, 2, 2])

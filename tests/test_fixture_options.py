@@ -91,9 +91,7 @@ class TestTheCrossover:
         legs = pr._fixture_options(slates(), CANDIDATES)[GAME][0]["legs"]
         assert legs[0]["player"] == "A"
         assert legs[0]["backers"] == 2
-        assert [l["backers"] for l in legs] == sorted(
-            [l["backers"] for l in legs], reverse=True
-        )
+        assert [l["backers"] for l in legs] == sorted([l["backers"] for l in legs], reverse=True)
 
     def test_a_character_repeating_a_leg_across_shapes_backs_it_once(self):
         """Alan holds B in two shapes. Two of his shapes is one of him."""

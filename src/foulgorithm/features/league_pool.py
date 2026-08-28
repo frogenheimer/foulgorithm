@@ -124,10 +124,14 @@ def rank_transfer(
     # Percentile within each league, so ranks are comparable across them.
     per_league["percentile"] = per_league.groupby("league")["rate"].rank(pct=True)
 
-    movers = per_league.groupby("player").filter(lambda g: g["league"].nunique() > 1)
+    movers = per_league.groupby("player").filter(lambda g: g["league"].nunique() > 1)  # noqa: PD101 - counting leagues, not testing constancy
     if movers.empty:
-        return {"movers": 0, "rank_correlation": float("nan"),
-                "raw_rate_change": float("nan"), "adjusted_rate_change": float("nan")}
+        return {
+            "movers": 0,
+            "rank_correlation": float("nan"),
+            "raw_rate_change": float("nan"),
+            "adjusted_rate_change": float("nan"),
+        }
 
     # When each spell started, computed once. Looking it up inside the loop
     # meant refiltering the whole history per mover per league, which is a
@@ -146,9 +150,7 @@ def rank_transfer(
         before.append(pct_a)
         after.append(pct_b)
         raw.append(rate_b - rate_a)
-        adjusted.append(
-            rate_b / offsets.get(league_b, 1.0) - rate_a / offsets.get(league_a, 1.0)
-        )
+        adjusted.append(rate_b / offsets.get(league_b, 1.0) - rate_a / offsets.get(league_a, 1.0))
 
     correlation = (
         float(pd.Series(before).corr(pd.Series(after))) if len(before) > 1 else float("nan")

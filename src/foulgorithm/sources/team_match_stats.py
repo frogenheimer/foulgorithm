@@ -22,7 +22,7 @@ either with the archive needs that term.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from foulgorithm.sources import pulselive
@@ -62,8 +62,7 @@ def shape(fixture_id: int, raw: dict) -> list[dict]:
 def fixtures_for(season_id: int) -> list[dict]:
     """Every fixture in one season, with ids and the two clubs."""
     payload = pulselive._get(
-        f"fixtures?comps={pulselive.COMPETITION}&compSeasons={season_id}"
-        f"&pageSize=500&sort=asc"
+        f"fixtures?comps={pulselive.COMPETITION}&compSeasons={season_id}&pageSize=500&sort=asc"
     )
     out = []
     for row in payload.get("content") or []:
@@ -92,7 +91,7 @@ def write_season(root: Path, label: str, season_id: int, rows: list[dict]) -> Pa
                 "season": label,
                 "seasonId": season_id,
                 "source": source_url(0).replace("/0", "/{fixture_id}"),
-                "fetchedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+                "fetchedAt": datetime.now(UTC).replace(microsecond=0).isoformat(),
                 "rows": len(rows),
                 "teams": rows,
             },
@@ -145,8 +144,7 @@ def main() -> None:
     result = fetch_all()
     print()
     print(
-        f"written {len(result['written'])} seasons, "
-        f"skipped {len(result['skipped'])} already held"
+        f"written {len(result['written'])} seasons, skipped {len(result['skipped'])} already held"
     )
 
 

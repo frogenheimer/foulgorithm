@@ -10,33 +10,55 @@ played for that team in the previous 30 days but did not play in this one is
 recorded as 0 minutes and 0 fouls. That over-counts, since it sweeps in the
 injured, suspended and sold, but it is the population we actually publish on.
 """
-import numpy as np, pandas as pd
-from foulgorithm.store.players import load_player_matches
-from foulgorithm.models import player_models as pm
+
+import numpy as np
+import pandas as pd
+
 from foulgorithm.backtest import metrics as mx
+from foulgorithm.models import player_models as pm
+from foulgorithm.store.players import load_player_matches
 
 d = load_player_matches().sort_values("kickoff_utc").reset_index(drop=True)
 
 # Rebuild non-appearances.
 played = d[["player", "team", "kickoff_utc"]].copy()
 teams = d[["team", "opponent", "kickoff_utc", "known_at", "season"]].drop_duplicates(
-    subset=["team", "kickoff_utc"])
+    subset=["team", "kickoff_utc"]
+)
 pos = d.groupby("player")["position"].last()
 
 rows = []
 for t in teams.itertuples():
-    recent = played[(played["team"] == t.team)
-                    & (played["kickoff_utc"] < t.kickoff_utc)
-                    & (played["kickoff_utc"] >= t.kickoff_utc - pd.Timedelta(days=30))]
+    recent = played[
+        (played["team"] == t.team)
+        & (played["kickoff_utc"] < t.kickoff_utc)
+        & (played["kickoff_utc"] >= t.kickoff_utc - pd.Timedelta(days=30))
+    ]
     squad = set(recent["player"])
-    appeared = set(played[(played["team"] == t.team)
-                          & (played["kickoff_utc"] == t.kickoff_utc)]["player"])
+    appeared = set(
+        played[(played["team"] == t.team) & (played["kickoff_utc"] == t.kickoff_utc)]["player"]
+    )
     for p in squad - appeared:
-        rows.append(dict(player=p, team=t.team, opponent=t.opponent, venue="",
-                         kickoff_utc=t.kickoff_utc, known_at=t.known_at,
-                         season=t.season, position=pos.get(p, ""), minutes=0.0,
-                         fouls_committed=0, fouls_drawn=0, yellows=0, reds=0,
-                         tackles_won=0, interceptions=0, source="reconstructed"))
+        rows.append(
+            dict(
+                player=p,
+                team=t.team,
+                opponent=t.opponent,
+                venue="",
+                kickoff_utc=t.kickoff_utc,
+                known_at=t.known_at,
+                season=t.season,
+                position=pos.get(p, ""),
+                minutes=0.0,
+                fouls_committed=0,
+                fouls_drawn=0,
+                yellows=0,
+                reds=0,
+                tackles_won=0,
+                interceptions=0,
+                source="reconstructed",
+            )
+        )
 absent = pd.DataFrame(rows)
 print(f"appearances {len(d):,}   reconstructed non-appearances {len(absent):,}")
 
@@ -77,6 +99,8 @@ print(f"\n{'variant':<22}{'n':>9}{'logloss':>10}{'ECE':>9}{'P(0) says':>12}")
 print("-" * 62)
 actual_zero = (evaluation["fouls_committed"] == 0).mean()
 for name, v in out.items():
-    print(f"{name:<22}{len(v['loss']):>9,}{np.mean(v['loss']):>10.4f}"
-          f"{mx.expected_calibration_error(v['calib']):>9.4f}{np.mean(v['p0']):>12.3f}")
+    print(
+        f"{name:<22}{len(v['loss']):>9,}{np.mean(v['loss']):>10.4f}"
+        f"{mx.expected_calibration_error(v['calib']):>9.4f}{np.mean(v['p0']):>12.3f}"
+    )
 print(f"{'actually zero':<22}{'':>9}{'':>10}{'':>9}{actual_zero:>12.3f}")

@@ -75,7 +75,9 @@ def running_total_frame(withheld: pd.DataFrame, as_of: pd.Timestamp) -> pd.DataF
     """
     visible = withheld[withheld["known_at"] <= as_of]
     if visible.empty:
-        return pd.DataFrame(columns=["player", "season", "mins_played", "fouls", "was_fouled", "fetchedAt"])
+        return pd.DataFrame(
+            columns=["player", "season", "mins_played", "fouls", "was_fouled", "fetchedAt"]
+        )
     totals = visible.groupby("player").agg(
         mins_played=("minutes", "sum"),
         fouls=("fouls_committed", "sum"),

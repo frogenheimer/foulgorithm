@@ -22,7 +22,9 @@ class TestMoved:
     def test_a_debutant_counts_as_moved(self):
         current = dict(
             self.BASELINE,
-            **{"C. New": {"fouls": 1.0, "was_fouled": 0.0, "appearances": 1.0, "mins_played": 90.0}},
+            **{
+                "C. New": {"fouls": 1.0, "was_fouled": 0.0, "appearances": 1.0, "mins_played": 90.0}
+            },
         )
         held = stats_latency.moved(self.BASELINE, current)
         assert held == {"players": 1, "appearances": 1}

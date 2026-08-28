@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import random
+from datetime import UTC
 from pathlib import Path
 
 LINEAGE = Path("data/state/magician_lineage.jsonl")
@@ -78,7 +79,9 @@ def mutate(genome: dict, rng: random.Random, scale: float = 0.25) -> dict:
 
 def crossover(a: dict, b: dict, rng: random.Random) -> dict:
     """Each gene from one parent or the other, coin per gene."""
-    return clamp({gene: (a if rng.random() < 0.5 else b).get(gene, SEED[gene]) for gene in GENE_BOUNDS})
+    return clamp(
+        {gene: (a if rng.random() < 0.5 else b).get(gene, SEED[gene]) for gene in GENE_BOUNDS}
+    )
 
 
 def _rival_settings() -> dict[str, dict]:
@@ -165,12 +168,14 @@ def step(
     window_days: int = EVAL_WINDOW_DAYS,
 ) -> dict:
     """Breed, score and crown one generation. Appends to the lineage."""
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     rows = lineage(path)
     generation = len(rows) + 1
     champion = dict(rows[-1]["settings"]) if rows else dict(SEED)
-    scorer = evaluate_fn or (lambda genome, **kw: evaluate(genome, history=history, window_days=window_days))
+    scorer = evaluate_fn or (
+        lambda genome, **kw: evaluate(genome, history=history, window_days=window_days)
+    )
 
     candidates = _population(champion, generation)
     for candidate in candidates:
@@ -188,7 +193,7 @@ def step(
         "origin": winner["origin"],
         "fitness": winner["fitness"],
         "population": candidates,
-        "evolvedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "evolvedAt": datetime.now(UTC).replace(microsecond=0).isoformat(),
     }
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a") as handle:

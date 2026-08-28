@@ -58,7 +58,9 @@ class TestNameResolutionBothWays:
         assert got.matched == {"Emmanuel Dennis": "Emmanuel Dennis"}
 
     def test_source_shorter_than_history_resolves(self):
-        got = resolve_names(["Abdul Fatawu"], ["Abdul Fatawu Issahaku", "Alex Palmer"], overrides={})
+        got = resolve_names(
+            ["Abdul Fatawu"], ["Abdul Fatawu Issahaku", "Alex Palmer"], overrides={}
+        )
         assert got.matched == {"Abdul Fatawu": "Abdul Fatawu Issahaku"}
 
     def test_source_longer_than_history_resolves(self):
@@ -70,7 +72,7 @@ class TestNameResolutionBothWays:
         assert got.matched == {"Gabriel Dos Santos Magalhaes": "Gabriel Magalhaes"}
 
     def test_a_lone_surname_never_matches(self):
-        """"Dennis" fits two people. Surname matching transplanted foul rates
+        """ "Dennis" fits two people. Surname matching transplanted foul rates
         between different players once already; it stays banned."""
         got = resolve_names(["Dennis"], ["Emmanuel Dennis", "Will Dennis"], overrides={})
         assert got.matched == {}
@@ -118,9 +120,7 @@ class TestPairing:
         """The archive starts in 2017/18. An API season from 2009/10 has
         nothing to compare against and must not fabricate a pair."""
         api, arch = planted()
-        api = pd.concat(
-            [api, api_frame([("Player 1", "2009/10", 900.0, 10.0)])], ignore_index=True
-        )
+        api = pd.concat([api, api_frame([("Player 1", "2009/10", 900.0, 10.0)])], ignore_index=True)
         matched, _ = study.pair(api, arch)
         assert len(matched) == 10
 
@@ -139,9 +139,7 @@ class TestTheLeagueTable:
         api, arch = planted(ratio=1.05)
         matched, _ = study.pair(api, arch)
         table = study.league_table(matched)
-        assert table.loc[table["season"] == 2024, "ratio"].iloc[0] == pytest.approx(
-            1.05, abs=0.001
-        )
+        assert table.loc[table["season"] == 2024, "ratio"].iloc[0] == pytest.approx(1.05, abs=0.001)
 
     def test_no_gap_reads_as_one(self):
         api, arch = planted(ratio=1.0)

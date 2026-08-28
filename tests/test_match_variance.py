@@ -68,7 +68,7 @@ class TestTheSlope:
         """Predictions squeezed toward their mean, outcomes not."""
         rng = np.random.default_rng(7)
         truth = rng.normal(21.5, 5.0, 8000).clip(5, None)
-        predicted = 21.5 + (truth - 21.5) * 0.5   # half the spread it should have
+        predicted = 21.5 + (truth - 21.5) * 0.5  # half the spread it should have
         variance = predicted * 1.25
         actual = rng.normal(truth, np.sqrt(variance))
         assert decompose(predicted, variance, actual).slope > 1.7

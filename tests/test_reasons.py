@@ -20,8 +20,17 @@ import pytest
 from foulgorithm.characters import reasons
 
 CIDS = [
-    "alan", "lily", "valentina", "tayler", "bdog",
-    "pax", "justine", "mabel", "dottie", "dele", "ian",
+    "alan",
+    "lily",
+    "valentina",
+    "tayler",
+    "bdog",
+    "pax",
+    "justine",
+    "mabel",
+    "dottie",
+    "dele",
+    "ian",
 ]
 
 
@@ -107,7 +116,11 @@ class TestItTracksTheEvidence:
     @pytest.mark.parametrize("cid", CIDS)
     def test_a_substitute_is_not_described_as_a_starter(self, cid):
         text = reasons.reason(cid, leg(), why(startProbability=0.35, expectedMinutes=28.0))
-        assert "start" not in text.lower() or "unlikely" in text.lower() or "off the bench" in text.lower()
+        assert (
+            "start" not in text.lower()
+            or "unlikely" in text.lower()
+            or "off the bench" in text.lower()
+        )
 
     @pytest.mark.parametrize("cid", CIDS)
     def test_nobody_claims_certainty(self, cid):
@@ -122,7 +135,9 @@ class TestVoicesAreDistinct:
 
     def test_terror_hedges(self):
         text = reasons.reason("tayler", leg(), why()).lower()
-        assert any(w in text for w in ("if", "but", "enough", "rather", "least", "still", "which is"))
+        assert any(
+            w in text for w in ("if", "but", "enough", "rather", "least", "still", "which is")
+        )
 
     def test_bravery_references_the_others(self):
         text = reasons.reason("bdog", leg(prob=0.70, packProb=0.52, edge=0.18), why()).lower()

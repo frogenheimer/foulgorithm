@@ -39,13 +39,11 @@ def blend(probabilities: list[float], weights: list[float] | None = None) -> flo
     if weights is None:
         return sum(probabilities) / len(probabilities)
     if len(weights) != len(probabilities):
-        raise ValueError(
-            f"{len(weights)} weights for {len(probabilities)} probabilities"
-        )
+        raise ValueError(f"{len(weights)} weights for {len(probabilities)} probabilities")
     total = sum(weights)
     if total <= 0:
         raise ValueError("weights must sum to something positive")
-    return sum(p * w for p, w in zip(probabilities, weights)) / total
+    return sum(p * w for p, w in zip(probabilities, weights, strict=False)) / total
 
 
 @dataclass(frozen=True)

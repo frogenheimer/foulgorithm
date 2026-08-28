@@ -7,8 +7,6 @@ API does not know the second tier exists. That asymmetry is the whole reason
 this module exists, so it is asserted here rather than left as a comment.
 """
 
-import pytest
-
 from foulgorithm.identity import teams
 
 

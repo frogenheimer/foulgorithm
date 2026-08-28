@@ -43,9 +43,7 @@ def per_match(before: dict, after: dict) -> dict[str, dict[str, int]]:
     for name, now in after.items():
         was = before.get(name, {})
         appearances = now.get("appearances", 0) - was.get("appearances", 0)
-        if appearances < 0 or any(
-            now.get(k, 0) < was.get(k, 0) for k in ("fouls", "was_fouled")
-        ):
+        if appearances < 0 or any(now.get(k, 0) < was.get(k, 0) for k in ("fouls", "was_fouled")):
             raise ValueError(
                 f"{name}'s season total fell between snapshots. Totals only rise, "
                 "so this is a season rollover or a change of source shape, and "
@@ -136,11 +134,7 @@ def pending_fixtures(fixtures, now=None) -> list:
     from foulgorithm.store.players import STATS_DELAY
 
     now = now or datetime.now(UTC)
-    return [
-        f
-        for f in fixtures
-        if f.kickoff_utc <= now and (now - f.kickoff_utc) < STATS_DELAY
-    ]
+    return [f for f in fixtures if f.kickoff_utc <= now and (now - f.kickoff_utc) < STATS_DELAY]
 
 
 def settled_fixtures(fixtures, since: str | None) -> set[str]:
@@ -251,8 +245,10 @@ def run(dry_run: bool = False) -> int:
 
     result = grading.grade(outcomes(matches), predictions=claims)
     summary = grading.summarise(result["results"])
-    print(f"settled {len(matches)} players, graded {result['graded']} claims, "
-          f"{result['missing_outcome']} had no outcome")
+    print(
+        f"settled {len(matches)} players, graded {result['graded']} claims, "
+        f"{result['missing_outcome']} had no outcome"
+    )
     print(grading.report(summary) if summary else "  nothing graded yet")
 
     if dry_run:
@@ -343,9 +339,7 @@ def run(dry_run: bool = False) -> int:
         print(f"kept {kept} per-match rows for training")
 
     SNAPSHOT.parent.mkdir(parents=True, exist_ok=True)
-    SNAPSHOT.write_text(
-        json.dumps({"takenAt": taken_at, "totals": current}, indent=2) + "\n"
-    )
+    SNAPSHOT.write_text(json.dumps({"takenAt": taken_at, "totals": current}, indent=2) + "\n")
     return 0
 
 

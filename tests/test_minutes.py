@@ -19,7 +19,7 @@ def _history(pattern, player="rotation guy", start="2024-01-01"):
     """Build a match log where `pattern` is that player's minutes, most recent last."""
     days = pd.date_range(start, periods=len(pattern), freq="7D")
     rows = []
-    for day, mins in zip(days, pattern):
+    for day, mins in zip(days, pattern, strict=False):
         rows.append(
             {
                 "player": player,
@@ -76,9 +76,7 @@ class TestProfileShape:
         m = PlayerFoulModel()
         m.fit(_history([90, 0, 90, 0, 90, 90, 0, 90]))
         p = m.minutes_profile("rotation guy", AS_OF)
-        assert p.mean_minutes() == pytest.approx(
-            m.expected_minutes("rotation guy", AS_OF), abs=3.0
-        )
+        assert p.mean_minutes() == pytest.approx(m.expected_minutes("rotation guy", AS_OF), abs=3.0)
 
     def test_unseen_player_gets_the_starter_prior_not_zero(self):
         # Regression guard. Returning nothing for an unseen player is how a

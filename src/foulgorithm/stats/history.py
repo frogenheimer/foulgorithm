@@ -12,7 +12,7 @@ must not take a cup page down.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from foulgorithm.identity.teams import CHAMPIONSHIP, PREMIER
 from foulgorithm.sources import football_data
@@ -29,7 +29,7 @@ def default_seasons(now_year: int | None = None, now_month: int | None = None) -
     A season starting in August of year Y is labelled Y-(Y+1), so anything
     before August still belongs to the season that started the previous year.
     """
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     year = now_year if now_year is not None else now.year
     month = now_month if now_month is not None else now.month
     current = year if month >= 8 else year - 1

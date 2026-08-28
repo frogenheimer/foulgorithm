@@ -9,7 +9,7 @@ Written before the implementation. Several of these encode traps verified on
   - English cards exclude the first yellow of a second-yellow red
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -23,13 +23,9 @@ from foulgorithm.sources.football_data import (
 )
 
 HEADER = (
-    "Div,Date,Time,HomeTeam,AwayTeam,FTHG,FTAG,FTR,Referee,HS,AS,HST,AST,"
-    "HF,AF,HC,AC,HY,AY,HR,AR"
+    "Div,Date,Time,HomeTeam,AwayTeam,FTHG,FTAG,FTR,Referee,HS,AS,HST,AST,HF,AF,HC,AC,HY,AY,HR,AR"
 )
-ROW = (
-    "E0,17/08/2024,15:00,Arsenal,Wolves,2,0,H,Michael Oliver,17,5,8,1,"
-    "17,14,9,2,2,1,0,0"
-)
+ROW = "E0,17/08/2024,15:00,Arsenal,Wolves,2,0,H,Michael Oliver,17,5,8,1,17,14,9,2,2,1,0,0"
 
 # The 2026/27 shape: HxG and AxG inserted between Referee and HS. Any parser
 # reading by column index gets xG values where it expects shots.
@@ -50,7 +46,7 @@ def raw(body: str, content_type: str = "text/csv", status: int = 200) -> RawResp
         content=body.encode(),
         content_type=content_type,
         status_code=status,
-        fetched_at=datetime(2026, 8, 21, tzinfo=timezone.utc),
+        fetched_at=datetime(2026, 8, 21, tzinfo=UTC),
     )
 
 
@@ -165,7 +161,7 @@ class TestRefreshingTheSeasonInProgress:
     def label_now(self):
         from foulgorithm.sources import football_data as fd
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         start = now.year if now.month >= 8 else now.year - 1
         return now, f"{start}-{(start + 1) % 100:02d}", fd
 
@@ -185,7 +181,9 @@ class TestRefreshingTheSeasonInProgress:
 
         fetched = []
         monkeypatch.setattr(
-            fd, "fetch", lambda season, division="E0", cache_root=None, force=False: fetched.append(season)
+            fd,
+            "fetch",
+            lambda season, division="E0", cache_root=None, force=False: fetched.append(season),
         )
         got = fd.refresh_in_progress(cache_root=tmp_path)
         assert got == [label]
@@ -228,7 +226,9 @@ class TestRefreshingTheSeasonInProgress:
         # must fetch ONLY it: the settled file stays exactly as it was.
         fetched = []
         monkeypatch.setattr(
-            fd, "fetch", lambda season, division="E0", cache_root=None, force=False: fetched.append(season)
+            fd,
+            "fetch",
+            lambda season, division="E0", cache_root=None, force=False: fetched.append(season),
         )
         got = fd.refresh_in_progress(cache_root=tmp_path)
         assert got == [label]
@@ -238,9 +238,7 @@ class TestRefreshingTheSeasonInProgress:
     def test_close_season_has_nothing_in_progress(self, tmp_path):
         from foulgorithm.sources import football_data as fd
 
-        got = fd.refresh_in_progress(
-            cache_root=tmp_path, today=datetime(2025, 7, 1, tzinfo=timezone.utc)
-        )
+        got = fd.refresh_in_progress(cache_root=tmp_path, today=datetime(2025, 7, 1, tzinfo=UTC))
         assert got == []
 
     def test_a_failed_refetch_leaves_the_stale_file_standing(self, tmp_path, monkeypatch):

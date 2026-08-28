@@ -10,9 +10,8 @@ different products and are graded separately, per docs/07-backtesting.md.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
-
 from dataclasses import dataclass, field
+from datetime import UTC, datetime, timedelta
 
 from foulgorithm.identity.teams import from_pulselive, to_fixture_name
 from foulgorithm.sources import pulselive
@@ -23,16 +22,16 @@ class Spot:
     """One player in one slot of a formation."""
 
     name: str
-    position: str         # G, D, M, F
-    detail: str           # "Right Full Back", "Centre Defensive Midfielder"
+    position: str  # G, D, M, F
+    detail: str  # "Right Full Back", "Centre Defensive Midfielder"
     shirt: int | None
     captain: bool
 
 
 @dataclass(frozen=True)
 class ConfirmedLineup:
-    fixture: str          # "Arsenal v Coventry", in fixture-source naming
-    team: str             # fixture-source club name
+    fixture: str  # "Arsenal v Coventry", in fixture-source naming
+    team: str  # fixture-source club name
     formation: str | None
     starters: list[str]
     substitutes: list[str]
@@ -65,12 +64,15 @@ def for_round(
     # T-20 and this filter, which only read live or finished games, returned
     # nothing. Read any game kicking off in the next three hours as well; a
     # sheet not yet posted comes back as [null, null] and shapes to nothing.
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     interesting = [
         f
         for f in fixtures
         if f.status in (pulselive.STATUS_LIVE, pulselive.STATUS_COMPLETE)
-        or (f.status == pulselive.STATUS_UPCOMING and now <= f.kickoff_utc <= now + timedelta(hours=3))
+        or (
+            f.status == pulselive.STATUS_UPCOMING
+            and now <= f.kickoff_utc <= now + timedelta(hours=3)
+        )
     ]
 
     interesting.sort(key=lambda f: f.kickoff_utc)

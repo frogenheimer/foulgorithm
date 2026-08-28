@@ -66,9 +66,7 @@ class PoolResult:
     losses: np.ndarray | None = None
 
 
-def paired_difference(
-    a: PoolResult, b: PoolResult, n: int = 2000, seed: int = 7
-) -> dict:
+def paired_difference(a: PoolResult, b: PoolResult, n: int = 2000, seed: int = 7) -> dict:
     """Is `b` better than `a`, on the same observations, beyond noise?
 
     Both variants score the identical rows in the identical order, so the
@@ -128,9 +126,7 @@ def run(
 
     results = []
     for variant in VARIANTS:
-        model = (
-            pm.PlayerFoulModel() if stat == "fouls_committed" else pm.PlayerFouledModel()
-        )
+        model = pm.PlayerFoulModel() if stat == "fouls_committed" else pm.PlayerFouledModel()
         errors: list[float] = []
         line_losses: dict[float, list[float]] = {line: [] for line in lines}
         calib: list[tuple[float, bool]] = []
@@ -212,9 +208,7 @@ def run_newcomers(
     qualifying: set[tuple[str, pd.Timestamp]] = set()
 
     for variant in ("england-only", "pooled-adjusted"):
-        model = (
-            pm.PlayerFoulModel() if stat == "fouls_committed" else pm.PlayerFouledModel()
-        )
+        model = pm.PlayerFoulModel() if stat == "fouls_committed" else pm.PlayerFouledModel()
         for _, batch in batches:
             as_of = batch["kickoff_utc"].min()
             visible = pool[pool["known_at"] <= as_of]
@@ -226,10 +220,7 @@ def run_newcomers(
                 counts = visible[visible["league"] == "ENG"]["player"].value_counts()
                 abroad = set(visible[visible["league"] != "ENG"]["player"].unique())
                 for row in batch.itertuples():
-                    if (
-                        counts.get(row.player, 0) <= max_english_matches
-                        and row.player in abroad
-                    ):
+                    if counts.get(row.player, 0) <= max_english_matches and row.player in abroad:
                         qualifying.add((row.player, row.kickoff_utc))
 
             for row in batch.itertuples():
@@ -290,7 +281,7 @@ def main() -> None:
         f"{transfer['rank_correlation']:+.3f}, rate change {transfer['raw_rate_change']:+.4f} "
         f"raw against {transfer['adjusted_rate_change']:+.4f} adjusted"
     )
-    print(f"offsets: {({k: round(v, 3) for k, v in sorted(transfer['offsets'].items())})}")
+    print(f"offsets: { ({k: round(v, 3) for k, v in sorted(transfer['offsets'].items())}) }")
 
     for market in ("player_fouls_committed", "player_fouls_drawn"):
         print(f"\n== {market}, scored on England only ==")

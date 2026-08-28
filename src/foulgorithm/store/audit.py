@@ -52,10 +52,14 @@ def _files() -> None:
 def _coverage(df: pd.DataFrame) -> None:
     print("\n## COVERAGE\n")
     print(f"  Matches              {len(df):,}")
-    print(f"  Seasons              {df['season'].nunique()} ({df['season'].min()} to {df['season'].max()})")
+    print(
+        f"  Seasons              {df['season'].nunique()} ({df['season'].min()} to {df['season'].max()})"
+    )
     print(f"  Teams seen           {len(set(df['home_team_raw']) | set(df['away_team_raw']))}")
     print(f"  Referees seen        {df['referee_raw'].nunique()}")
-    print(f"  Date range           {df['kickoff_utc'].min():%d %b %Y} to {df['kickoff_utc'].max():%d %b %Y}")
+    print(
+        f"  Date range           {df['kickoff_utc'].min():%d %b %Y} to {df['kickoff_utc'].max():%d %b %Y}"
+    )
     print(f"  Total fouls recorded {int(df['total_fouls'].sum()):,}")
 
 
@@ -71,9 +75,18 @@ def _completeness(df: pd.DataFrame) -> None:
         "referee_raw": "needed for the referee factor",
     }
     for col in [
-        "home_fouls", "away_fouls", "home_yellows", "away_yellows",
-        "home_reds", "away_reds", "referee_raw", "home_shots",
-        "home_corners", "odds_home", "odds_draw", "odds_away",
+        "home_fouls",
+        "away_fouls",
+        "home_yellows",
+        "away_yellows",
+        "home_reds",
+        "away_reds",
+        "referee_raw",
+        "home_shots",
+        "home_corners",
+        "odds_home",
+        "odds_draw",
+        "odds_away",
     ]:
         if col not in df.columns:
             continue
@@ -107,7 +120,9 @@ def _reliability(df: pd.DataFrame) -> None:
     recent = per_season.tail(5)
     print("  Match totals, last 5 seasons:")
     for season, row in recent.iterrows():
-        print(f"    {season}   n={int(row['count'])}   mean={row['mean']:.2f}   sd={row['std']:.2f}")
+        print(
+            f"    {season}   n={int(row['count'])}   mean={row['mean']:.2f}   sd={row['std']:.2f}"
+        )
 
     print("\n  Verdict:")
     print(f"    MATCH level   {len(df):,} matches over {df['season'].nunique()} seasons.")

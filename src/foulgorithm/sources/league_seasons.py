@@ -18,7 +18,7 @@ relied on froze for eleven months without anyone noticing.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from foulgorithm.sources import pulselive
@@ -132,7 +132,7 @@ def source_url(stat: str, season_id: int) -> str:
 
 
 def _short(label: str) -> str:
-    """"2026/2027" to "2026/27", matching how every other season is written."""
+    """ "2026/2027" to "2026/27", matching how every other season is written."""
     if "/" in label:
         start, _, end = label.partition("/")
         if len(end) == 4:
@@ -142,9 +142,7 @@ def _short(label: str) -> str:
 
 def seasons() -> list[tuple[str, int]]:
     """Every season the league exposes, newest first, label and id."""
-    payload = pulselive._get(
-        f"competitions/{pulselive.COMPETITION}/compseasons?pageSize=50"
-    )
+    payload = pulselive._get(f"competitions/{pulselive.COMPETITION}/compseasons?pageSize=50")
     out = []
     for row in payload.get("content") or []:
         label = row.get("label")
@@ -231,7 +229,7 @@ def write_season(
                 "season": label,
                 "seasonId": season_id,
                 "source": source_url(stats[0], season_id),
-                "fetchedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+                "fetchedAt": datetime.now(UTC).replace(microsecond=0).isoformat(),
                 "stats": list(stats),
                 "rows": len(rows),
                 "players": rows,
@@ -314,9 +312,7 @@ def backfill_stats(root: Path = CACHE, stats: tuple[str, ...] = STATS) -> dict:
             held["players"] = list(by_player.values())
             held["rows"] = len(held["players"])
             held["stats"] = sorted(have | set(missing))
-            held["backfilledAt"] = (
-                datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-            )
+            held["backfilledAt"] = datetime.now(UTC).replace(microsecond=0).isoformat()
             path.write_text(json.dumps(held, separators=(",", ":")))
             touched += 1
             print(f"  {held['season']:<10}+{added} stats, {held['rows']} players")
@@ -334,7 +330,7 @@ def refresh_current(root: Path = CACHE, stats: tuple[str, ...] = STATS, today=No
     """
     from datetime import date
 
-    today = today or datetime.now(timezone.utc).date()
+    today = today or datetime.now(UTC).date()
     refreshed = []
 
     for path in sorted(root.glob("*.json")):
@@ -412,13 +408,13 @@ def repair_truncated(root: Path = CACHE, page_size: int = PAGE_SIZE) -> dict:
         if fixed:
             held["players"] = list(by_player.values())
             held["rows"] = len(held["players"])
-            held["repairedAt"] = (
-                datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-            )
+            held["repairedAt"] = datetime.now(UTC).replace(microsecond=0).isoformat()
             path.write_text(json.dumps(held, separators=(",", ":")))
             repaired += 1
             refetched += fixed
-            print(f"  {held['season']:<10}refetched {fixed} truncated stats, {held['rows']} players")
+            print(
+                f"  {held['season']:<10}refetched {fixed} truncated stats, {held['rows']} players"
+            )
 
     return {"seasons_repaired": repaired, "stats_refetched": refetched}
 
@@ -434,9 +430,11 @@ def main() -> None:
         return
     result = fetch_all()
     print()
-    print(f"written {len(result['written'])} seasons, "
-          f"skipped {len(result['skipped'])} already held, "
-          f"{len(result['empty'])} with no player data")
+    print(
+        f"written {len(result['written'])} seasons, "
+        f"skipped {len(result['skipped'])} already held, "
+        f"{len(result['empty'])} with no player data"
+    )
 
 
 if __name__ == "__main__":

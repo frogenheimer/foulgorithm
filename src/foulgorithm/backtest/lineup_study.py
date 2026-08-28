@@ -8,7 +8,10 @@ Our method: rank a club's available players by starts then minutes as of the
 match date, take the top eleven. Scored against who actually played 60+ minutes,
 which is the practical definition of "started" for a foul market.
 """
-import numpy as np, pandas as pd
+
+import numpy as np
+import pandas as pd
+
 from foulgorithm.store.players import load_player_matches
 
 d = load_player_matches().sort_values("kickoff_utc").reset_index(drop=True)

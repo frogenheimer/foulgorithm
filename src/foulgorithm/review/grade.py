@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -56,7 +56,7 @@ def grade(
     rows = predictions if predictions is not None else pred_store.load_all()
     graded: list[Graded] = []
     missing = 0
-    at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    at = datetime.now(UTC).replace(microsecond=0).isoformat()
 
     for row in rows:
         key = (row["entity"], row["market"])

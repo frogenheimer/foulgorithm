@@ -30,7 +30,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 STORE = Path("data/predictions")
@@ -43,7 +43,7 @@ class Prediction:
     published_at: str
     kickoff: str
     fixture: str
-    entity: str            # player name, or the fixture for match markets
+    entity: str  # player name, or the fixture for match markets
     market: str
     line: float
     probability: float
@@ -58,8 +58,13 @@ class Prediction:
         """Stable identity, so the same claim is never stored twice."""
         raw = "|".join(
             [
-                self.fixture, self.entity, self.market, f"{self.line}",
-                self.model_id, self.model_version, str(self.lineup_confirmed),
+                self.fixture,
+                self.entity,
+                self.market,
+                f"{self.line}",
+                self.model_id,
+                self.model_version,
+                str(self.lineup_confirmed),
             ]
         )
         return hashlib.sha256(raw.encode()).hexdigest()[:16]
@@ -104,7 +109,7 @@ def append(predictions: list[Prediction], root: Path = STORE) -> dict:
             if p.key in seen:
                 skipped += 1
                 continue
-            seen.add(p.key)   # so a repeat later in this batch is caught too
+            seen.add(p.key)  # so a repeat later in this batch is caught too
             fresh.append(p)
         if not fresh:
             continue
@@ -130,4 +135,4 @@ def load_all(root: Path = STORE) -> list[dict]:
 
 
 def now_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    return datetime.now(UTC).replace(microsecond=0).isoformat()

@@ -28,7 +28,7 @@ class TestPit:
         values = [mx.pit(dist, float(y), rng) for y in sample_from(dist, 4000, rng)]
         assert np.mean(values) == pytest.approx(0.5, abs=0.02)
         assert np.std(values) == pytest.approx(np.sqrt(1 / 12), abs=0.02)
-        assert 0.0 <= min(values) and max(values) <= 1.0
+        assert min(values) >= 0.0 and max(values) <= 1.0
 
     def test_an_overconfident_model_piles_into_the_tails(self):
         """Outcomes wider than the model says push PIT mass toward 0 and 1,
@@ -36,9 +36,7 @@ class TestPit:
         rng = np.random.default_rng(7)
         narrow = negbin_pmf(1.2, 1.21)
         wide = negbin_pmf(1.2, 3.0)
-        values = np.array(
-            [mx.pit(narrow, float(y), rng) for y in sample_from(wide, 4000, rng)]
-        )
+        values = np.array([mx.pit(narrow, float(y), rng) for y in sample_from(wide, 4000, rng)])
         tails = ((values < 0.1) | (values > 0.9)).mean()
         assert tails > 0.25
 
@@ -57,9 +55,7 @@ class TestIntervalCoverage:
 
     def test_misses_are_split_by_side(self):
         dist = CountDistribution([0.05, 0.90, 0.05])
-        got = mx.interval_coverage(
-            [(dist, 0.0), (dist, 1.0), (dist, 1.0), (dist, 2.0)], level=0.9
-        )
+        got = mx.interval_coverage([(dist, 0.0), (dist, 1.0), (dist, 1.0), (dist, 2.0)], level=0.9)
         assert got["achieved"] == 0.5
         assert got["below"] == 0.25
         assert got["above"] == 0.25

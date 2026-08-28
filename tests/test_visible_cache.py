@@ -9,7 +9,6 @@ The canary in `tests/test_leakage.py` covers the model. These cover the cache.
 """
 
 import pandas as pd
-import pytest
 
 from foulgorithm.models import player_models as pm
 
@@ -21,11 +20,22 @@ def history():
         for name in ("A", "B"):
             rows.append(
                 {
-                    "player": name, "team": "T", "opponent": "O", "venue": "H",
-                    "kickoff_utc": stamp, "known_at": stamp, "season": "2025-26",
-                    "position": "MF", "minutes": 90, "fouls_committed": 2,
-                    "fouls_drawn": 1, "yellows": 0, "reds": 0,
-                    "tackles_won": 1, "interceptions": 1, "source": "test",
+                    "player": name,
+                    "team": "T",
+                    "opponent": "O",
+                    "venue": "H",
+                    "kickoff_utc": stamp,
+                    "known_at": stamp,
+                    "season": "2025-26",
+                    "position": "MF",
+                    "minutes": 90,
+                    "fouls_committed": 2,
+                    "fouls_drawn": 1,
+                    "yellows": 0,
+                    "reds": 0,
+                    "tackles_won": 1,
+                    "interceptions": 1,
+                    "source": "test",
                 }
             )
     return pd.DataFrame(rows)

@@ -8,7 +8,7 @@ character's own numbers.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -96,9 +96,7 @@ def publish(output: Path = OUTPUT) -> dict:
     # asking the site to work it out.
     disagreement = []
     for i, fx in enumerate(fixture_keys):
-        means = {
-            cid: dists[i].mean() for cid, dists in per_character.items() if len(dists) > i
-        }
+        means = {cid: dists[i].mean() for cid, dists in per_character.items() if len(dists) > i}
         values = np.array(list(means.values()))
         boldest = max(means, key=lambda k: abs(means[k] - values.mean()))
         disagreement.append(
@@ -114,7 +112,7 @@ def publish(output: Path = OUTPUT) -> dict:
         )
 
     payload = {
-        "generatedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "generatedAt": datetime.now(UTC).replace(microsecond=0).isoformat(),
         "market": spec.key,
         "trainedOn": {
             "matches": len(history),

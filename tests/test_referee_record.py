@@ -53,7 +53,7 @@ class TestUnderThisReferee:
         rec = rr.build("A Kitchen", rows)
         arsenal = rec.club("Arsenal")
         assert arsenal.matches == 2
-        assert arsenal.fouls_per_match == 12.0     # 9 at home, then 15 away
+        assert arsenal.fouls_per_match == 12.0  # 9 at home, then 15 away
 
     def test_a_club_that_never_had_him_is_honest_about_it(self):
         rows = [match("Arsenal", "Chelsea", hf=9, af=12, ref="A Kitchen")]
