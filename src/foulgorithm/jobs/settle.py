@@ -155,6 +155,30 @@ def _settled_fixtures() -> set[str]:
     }
 
 
+PLAYERS = Path("site/public/data/players.json")
+
+
+def refresh_table(path: Path = PLAYERS) -> bool:
+    """Rewrite the standings and settled cards in the live payload, in place.
+
+    Only those two blocks: the board, the picks and everything else stay
+    exactly as the last publish left them. Returns False when there is no
+    payload to refresh, which is a fresh checkout, not an error.
+    """
+    if not path.exists():
+        return False
+    from foulgorithm.publish import player_round
+
+    payload = json.loads(path.read_text())
+    ids = [row["id"] for row in payload.get("standings") or []]
+    if not ids:
+        return False
+    payload["standings"] = player_round._standings(ids)
+    payload["settledCards"] = player_round._settled_cards()
+    path.write_text(json.dumps(payload, separators=(",", ":")))
+    return True
+
+
 def run(dry_run: bool = False) -> int:
     from foulgorithm.review import grade as grading
     from foulgorithm.sources import player_season_stats
@@ -252,6 +276,15 @@ def run(dry_run: bool = False) -> int:
         archive.mark_all()
     except Exception as exc:
         print(f"fixture archive not marked: {exc}", file=sys.stderr)
+
+    # The league table lives in players.json, which only a full publish
+    # rewrote, so Saturday's grading did not reach The five until the next
+    # lineups wake and Monday's round-closing grade waited until Friday.
+    try:
+        if refresh_table():
+            print("league table refreshed")
+    except Exception as exc:  # noqa: BLE001 - reported, never fatal to a settle
+        print(f"league table not refreshed: {exc}", file=sys.stderr)
 
     # Results are selection pressure: magicIan breeds his next generation
     # from whatever the field's graded record now says works. See docs/38.
