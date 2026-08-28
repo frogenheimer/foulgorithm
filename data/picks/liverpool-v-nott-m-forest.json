@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-08-28T18:37:27+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 28.68,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Gakpo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 66,
+       "backers": 10
+      },
+      {
+       "player": "Gravenberch",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 10
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 65,
+       "backers": 9
+      },
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 37,
+       "backers": 9
+      },
+      {
+       "player": "Gakpo",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 36,
+       "backers": 8
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

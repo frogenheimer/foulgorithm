@@ -54,9 +54,22 @@ def for_round(season_id: int | None = None, limit: int = 20) -> dict[str, Confir
     Only fixtures that are live or finished carry team lists, so an upcoming
     round returns an empty dict until an hour before its first kickoff.
     """
+    from datetime import datetime, timedelta, timezone
+
     out: dict[str, ConfirmedLineup] = {}
     fixtures = pulselive.fixtures(season_id)
-    interesting = [f for f in fixtures if f.status in (pulselive.STATUS_LIVE, pulselive.STATUS_COMPLETE)]
+    # Upcoming fixtures DO carry team lists once the sheets are out: on 28
+    # August 2026 Palace v City sat at status U with both elevens posted at
+    # T-20 and this filter, which only read live or finished games, returned
+    # nothing. Read any game kicking off in the next three hours as well; a
+    # sheet not yet posted comes back as [null, null] and shapes to nothing.
+    now = datetime.now(timezone.utc)
+    interesting = [
+        f
+        for f in fixtures
+        if f.status in (pulselive.STATUS_LIVE, pulselive.STATUS_COMPLETE)
+        or (f.status == pulselive.STATUS_UPCOMING and now <= f.kickoff_utc <= now + timedelta(hours=3))
+    ]
 
     for fixture in interesting[-limit:]:
         try:

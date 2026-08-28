@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-23T14:53:17.500973+00:00",
+  "checkedAt": "2026-08-28T18:41:22.887462+00:00",
   "lineups": {
     "Arsenal|Arsenal v Coventry": {
       "formation": "4-2-3-1",
@@ -81,6 +81,22 @@
         "Yasin Ayari"
       ]
     },
+    "Chelsea|Fulham v Chelsea": {
+      "formation": "3-4-2-1",
+      "starters": [
+        "Cole Palmer",
+        "Jorrel Hato",
+        "Josh Acheampong",
+        "Jo\u00e3o Pedro",
+        "Levi Colwill",
+        "Malo Gusto",
+        "Maxence Lacroix",
+        "Morgan Rogers",
+        "Reece James",
+        "Robert S\u00e1nchez",
+        "Rom\u00e9o Lavia"
+      ]
+    },
     "Coventry|Arsenal v Coventry": {
       "formation": "4-1-4-1",
       "starters": [
@@ -95,6 +111,22 @@
         "Loum Tchaouna",
         "Matt Grimes",
         "Milan van Ewijk"
+      ]
+    },
+    "Crystal Palace|Crystal Palace v Man City": {
+      "formation": null,
+      "starters": [
+        "Adam Wharton",
+        "Anan Khalaili",
+        "Chris Richards",
+        "Daichi Kamada",
+        "Dean Henderson",
+        "Eddie Nketiah",
+        "Jaydee Canvot",
+        "J\u00f8rgen Strand Larsen",
+        "Takehiro Tomiyasu",
+        "Tyrick Mitchell",
+        "Y\u00e9remy Pino"
       ]
     },
     "Crystal Palace|Everton v Crystal Palace": {
@@ -127,6 +159,22 @@
         "Thierno Barry",
         "Tyrique George",
         "Vitalii Mykolenko"
+      ]
+    },
+    "Fulham|Fulham v Chelsea": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Alex Iwobi",
+        "Antonee Robinson",
+        "Bernd Leno",
+        "Calvin Bassey",
+        "C\u00e9sar Palacios",
+        "Gonzalo Garc\u00eda",
+        "Jorge Cuenca",
+        "Josh King",
+        "Oscar Bobb",
+        "Sander Berge",
+        "Timothy Castagne"
       ]
     },
     "Hull|Hull v Man United": {
@@ -177,6 +225,38 @@
         "Tarik Muharemovic"
       ]
     },
+    "Liverpool|Newcastle v Liverpool": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Alexander Isak",
+        "Alisson Becker",
+        "Cody Gakpo",
+        "Dominik Szoboszlai",
+        "Florian Wirtz",
+        "Jeremie Frimpong",
+        "J\u00e9r\u00e9my Jacquet",
+        "Milos Kerkez",
+        "Rio Ngumoha",
+        "Ryan Gravenberch",
+        "Virgil van Dijk"
+      ]
+    },
+    "Man City|Crystal Palace v Man City": {
+      "formation": null,
+      "starters": [
+        "Abdukodir Khusanov",
+        "Antoine Semenyo",
+        "Elliot Anderson",
+        "Erling Haaland",
+        "Gianluigi Donnarumma",
+        "Josko Gvardiol",
+        "Marc Gu\u00e9hi",
+        "Nico O'Reilly",
+        "Phil Foden",
+        "Rayan Cherki",
+        "R\u00faben Dias"
+      ]
+    },
     "Man City|Man City v Bournemouth": {
       "formation": "4-2-3-1",
       "starters": [
@@ -207,6 +287,22 @@
         "Patrick Dorgu",
         "Senne Lammens",
         "Youri Tielemans"
+      ]
+    },
+    "Newcastle|Newcastle v Liverpool": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Amar Dedic",
+        "Anthony Elanga",
+        "Harvey Barnes",
+        "Lewis Hall",
+        "Lewis Miley",
+        "Luk\u00e1s Horn\u00edcek",
+        "Malick Thiaw",
+        "Sean Steur",
+        "Sven Botman",
+        "William Osula",
+        "Yoane Wissa"
       ]
     },
     "Nott'm Forest|Nott'm Forest v Leeds": {

@@ -322,6 +322,118 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 6,
+   "publishedAt": "2026-08-28T18:37:27+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 8.97,
+     "outOf100": 11,
+     "houseOutOf100": 11,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Anderson",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 74,
+       "backers": 10
+      },
+      {
+       "player": "Semenyo",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 69,
+       "backers": 10
+      },
+      {
+       "player": "Hughes",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 68,
+       "backers": 10
+      },
+      {
+       "player": "Strand Larsen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 66,
+       "backers": 10
+      },
+      {
+       "player": "Anderson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 49,
+       "backers": 10
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 7,
+   "publishedAt": "2026-08-28T18:40:12+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 4.31,
+     "outOf100": 23,
+     "houseOutOf100": 23,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Anderson",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 84,
+       "backers": 11
+      },
+      {
+       "player": "Anderson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 57,
+       "backers": 11
+      },
+      {
+       "player": "Nketiah",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 79,
+       "backers": 10
+      },
+      {
+       "player": "Semenyo",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 78,
+       "backers": 10
+      },
+      {
+       "player": "Strand Larsen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 78,
+       "backers": 10
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

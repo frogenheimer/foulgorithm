@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-08-28T18:37:27+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 19.74,
+     "outOf100": 5,
+     "houseOutOf100": 5,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Thiago",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 65,
+       "backers": 10
+      },
+      {
+       "player": "Lewis-Potter",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 10
+      },
+      {
+       "player": "Thiago",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 41,
+       "backers": 10
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 56,
+       "backers": 6
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

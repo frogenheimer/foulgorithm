@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-08-28T18:37:27+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 7.12,
+     "outOf100": 14,
+     "houseOutOf100": 14,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Luki\u0107",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 73,
+       "backers": 10
+      },
+      {
+       "player": "Dorgu",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 10
+      },
+      {
+       "player": "Cunha",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 10
+      },
+      {
+       "player": "Tielemans",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 69,
+       "backers": 10
+      },
+      {
+       "player": "Dorgu",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 10
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }
