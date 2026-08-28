@@ -23,6 +23,11 @@ export interface Env {
 
 type Fixture = { home: string; away: string; kickoff: string };
 
+// The two runtime types the worker touches, declared here so the file
+// typechecks with plain TypeScript and needs no @cloudflare/workers-types.
+type ScheduledEvent = { cron: string; scheduledTime: number };
+type ExecutionContext = { waitUntil(promise: Promise<unknown>): void };
+
 const MIN = 60_000;
 
 export function due(fixtures: Fixture[], now: Date): { lineups: boolean; settle: boolean; reschedule: boolean } {
