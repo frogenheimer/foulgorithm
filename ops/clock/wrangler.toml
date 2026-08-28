@@ -1,0 +1,17 @@
+# The clock: a Cloudflare Worker whose only job is to tell GitHub when to
+# run our workflows. See docs/43-the-clock.md.
+#
+# Free plan only. Never attach a payment method to the Cloudflare account:
+# the Free plan cannot bill, it stops instead. This worker makes 48 runs a
+# day against a free allowance of 100,000 requests a day.
+name = "foulgorithm-clock"
+main = "src/index.ts"
+compatibility_date = "2026-08-01"
+
+[triggers]
+# Every 30 minutes. The worker decides what, if anything, is due.
+crons = ["*/30 * * * *"]
+
+[vars]
+REPO = "frogenheimer/foulgorithm"
+SEASON_URL = "https://raw.githubusercontent.com/frogenheimer/foulgorithm/main/site/public/data/season.json"
