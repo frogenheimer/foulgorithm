@@ -1,6 +1,6 @@
 # The contract: three bets per model, per game
 
-**Status: Decided 2026-08-25, Oliver's sign-off in full.** This supersedes
+**Status: Decided 2026-08-25, Oliver's sign-off in full. Amended 2026-08-28 by [42](42-priced-bets.md): from matchweek 3 the three fixed shapes become three house-priced bands with free layout.** This supersedes
 every earlier description of the five's bets, including the round-wide
 slates in [36](36-display-audit.md) and [37](37-display-decisions.md). The
 system had been building three bets per model per ROUND since the slates

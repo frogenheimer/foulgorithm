@@ -69,3 +69,4 @@ A doc that describes something we did not build is worse than no doc. Every doc 
 - **Decided** means we have committed and the code should match.
 - **Proposed** means this is the current plan but nothing is built.
 - **Superseded** means read the ADR that replaced it.
+- [42 The contract, amended](42-priced-bets.md): three bets per game at three house-priced bands, shape free, from matchweek 3.
