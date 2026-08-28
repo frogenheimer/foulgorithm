@@ -102,10 +102,18 @@ void whole.
 
 ## 🧱 Build
 
-- `publish/league.py`: `build_slates` targets the three bands via the
-  house-price builder (`_slip_at_odds`, the retired ladder's mechanism, kept
-  for exactly this), replacing the fixed shapes; `join_slates` and `table`
-  learn the fouls-based draw and the below-two-legs void.
+- `publish/league.py`: `build_slates` targets the three bands via
+  `_priced_bet`, replacing the fixed shapes. Legs are ranked by **edge over
+  the house price**, not raw probability: ranking by probability walked every
+  character down the 1+ list and made every layout the same (dry run on
+  matchweek 2's pools: 1,610 of 1,629 legs at 1+). Ranked by edge, the same
+  pools give 761 legs at 1+, 239 at 2+, 20 at 3+, shapes from two to six
+  legs, and 237 distinct bets among 330. A leg that would drop the bet below
+  its band is skipped for a milder one; a filler joins only while the band
+  stays reachable within six legs; a leg landing the bet in band outright is
+  the last resort, not the first. `table` learns the fouls-based draw and the
+  below-two-legs void. About 3% of bets come back None on real pools, which
+  is the pool failing to make the price and is shown as a pass.
 - `publish/player_round.py`: `_commit_slates` stamps the band and the house
   price on each bet; the payload's `slates.shapes` becomes the three bands.
 - Site: slip labels read Banker / Value / Long with the house price and the

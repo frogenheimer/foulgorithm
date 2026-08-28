@@ -172,40 +172,44 @@ def _priced_bet(cid: str, ranked: list[dict], band, context: dict | None) -> dic
                 best[name] = p
         return sorted(best.values())
 
+    def reachable(after: float, excluding: str) -> bool:
+        slots = MAX_LEGS_PER_TIER - len(chosen) - 1
+        return after * math.prod(smallest_per_player(excluding)[:slots]) <= band.high
+
     while len(chosen) < MAX_LEGS_PER_TIER:
-        closer = next(
+        # The character's next preference, so long as it neither drops the
+        # bet below the band nor leaves the band unreachable in the legs that
+        # remain. That is what lets a cautious character reach a price with
+        # five small legs and a bold one with two big ones.
+        pick = next(
             (
                 r
                 for r in rows
                 if r["fullName"] not in used
-                and len(chosen) + 1 >= 2
-                and band.low <= combined * _house_price(r) <= band.high
+                and combined * _house_price(r) >= band.low
+                and reachable(combined * _house_price(r), r["fullName"])
             ),
             None,
         )
-        if closer is not None:
-            chosen.append(closer)
-            used.add(closer["fullName"])
-            combined *= _house_price(closer)
+        if pick is None:
+            # Nothing preferred fits: the last resort is any leg that lands
+            # the bet in the band outright.
+            pick = next(
+                (
+                    r
+                    for r in rows
+                    if r["fullName"] not in used
+                    and band.low <= combined * _house_price(r) <= band.high
+                ),
+                None,
+            )
+            if pick is None:
+                return None
+        chosen.append(pick)
+        used.add(pick["fullName"])
+        combined *= _house_price(pick)
+        if combined <= band.high and len(chosen) >= 2:
             break
-
-        filler = None
-        slots = MAX_LEGS_PER_TIER - len(chosen) - 1
-        for r in rows:
-            if r["fullName"] in used:
-                continue
-            after = combined * _house_price(r)
-            if after < band.low:
-                continue
-            floor = after * math.prod(smallest_per_player(r["fullName"])[:slots])
-            if floor <= band.high:
-                filler = r
-                break
-        if filler is None:
-            return None
-        chosen.append(filler)
-        used.add(filler["fullName"])
-        combined *= _house_price(filler)
 
     if len(chosen) < 2 or not (band.low <= combined <= band.high):
         return None
@@ -267,8 +271,21 @@ def build_slates(
 
             if ensemble.priced(pool[0]["kickoff"]):
                 # docs/42: three bets at three house-priced bands, shape free.
+                # Ranked by EDGE over the house, not by raw probability: a
+                # character hunts the legs it believes the house underprices,
+                # which is where a 2+ shout it is bullish on outranks a 1+ it
+                # merely agrees with. Ranking by probability alone walked
+                # every character down the 1+ list and made every layout the
+                # same. Temperament rides in through the preference's lean.
+                hunted = sorted(
+                    pool,
+                    key=lambda r: (
+                        -(_preference(cid, r, context) - _house_price(r)),
+                        -_preference(cid, r, context),
+                    ),
+                )
                 for band in ensemble.BANDS:
-                    own[band.key] = _priced_bet(cid, ranked, band, context)
+                    own[band.key] = _priced_bet(cid, hunted, band, context)
                 before = {k: (dict(v, legs=list(v["legs"])) if v else None) for k, v in own.items()}
                 _hot_take_floor(cid, own, pool, context)
                 # The floor swaps a leg at the same line, which can move the

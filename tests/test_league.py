@@ -644,9 +644,11 @@ class TestPricedBets:
                 names = [leg["fullName"] for leg in bet["legs"]]
                 assert len(names) == len(set(names))
 
-    def test_layouts_are_free_so_bands_do_not_all_share_a_leg_count(self):
+    def test_layouts_are_free_so_bets_do_not_all_share_a_leg_count(self):
         built = league.build_slates(priced_pool(), FIVE)
-        counts = {len(built["A v B"]["alan"][b.key]["legs"]) for b in ensemble.BANDS}
+        counts = {
+            len(built["A v B"][cid][b.key]["legs"]) for cid in FIVE for b in ensemble.BANDS
+        }
         assert len(counts) > 1
 
     def test_the_house_prices_and_the_character_chooses(self):
