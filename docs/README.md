@@ -46,6 +46,7 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [37-display-decisions.md](37-display-decisions.md) | The ratification round: what stayed, what moved, what came back |
 | [38-the-contract.md](38-the-contract.md) | **Three bets per model per game. The plan of record; supersedes 36 and 37 on the bets** |
 | [39-instrument-grade.md](39-instrument-grade.md) | **The visual redesign: dark-first modules, the chart vocabulary, the temper-ring badges** |
+| [42-priced-bets.md](42-priced-bets.md) | **The contract amended: three bets per game at three house-priced bands, layout free, from matchweek 3** |
 | [41-primitives.md](41-primitives.md) | **What already exists. Read before writing a component, a table or a pitch** |
 | [40-the-cups.md](40-the-cups.md) | **Both domestic cups, the Championship, and why those ties get a match total and never a player pick** |
 | [glossary.md](glossary.md) | Terms, especially the ambiguous ones |
@@ -69,4 +70,3 @@ A doc that describes something we did not build is worse than no doc. Every doc 
 - **Decided** means we have committed and the code should match.
 - **Proposed** means this is the current plan but nothing is built.
 - **Superseded** means read the ADR that replaced it.
-- [42 The contract, amended](42-priced-bets.md): three bets per game at three house-priced bands, shape free, from matchweek 3.

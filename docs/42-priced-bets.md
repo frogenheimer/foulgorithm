@@ -1,7 +1,7 @@
 # The contract, amended: three bets per game, priced by the house
 
-**Status: Decided 2026-08-28, Oliver's sign-off. Effective matchweek 3
-(4 to 6 September 2026).** Amends [38](38-the-contract.md): three bets per
+**Status: Proposed 2026-08-28, Oliver's sign-off on the plan; becomes Decided
+when the build lands. Effective matchweek 3 (4 to 6 September 2026).** Amends [38](38-the-contract.md): three bets per
 model per game stays, the fixed shapes go. Matchweek 2's bets are binding
 under the old shapes and settle under them.
 
