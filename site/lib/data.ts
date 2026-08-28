@@ -391,6 +391,8 @@ export type SlipLeg = {
   edge: number;
   band: string;
   thin: boolean;
+  /** The house's own price for this leg, on foul-event slips (docs/45). */
+  houseProb?: number;
   /**
    * Why this character backed this leg, in his own voice.
    *

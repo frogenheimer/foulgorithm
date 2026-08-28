@@ -1,6 +1,5 @@
 import Link from "next/link";
 import FixtureLive from "@/components/fixture/FixtureLive";
-import HouseSlips from "@/components/fixture/HouseSlips";
 import MatchPlayers from "@/components/fixture/MatchPlayers";
 import SlipRail from "@/components/five/SlipRail";
 import GameSheet from "@/components/matchday/GameSheet";
@@ -224,26 +223,15 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         </div>
       )}
 
-      {v.houseSlips && (
-        <section>
-          <SectionHead
-            title="The house"
-            note="The model's own three slips: safe needs four foul events, optimistic five, rogue six. Priced by its own numbers, graded like the eleven's, never in the league."
-          />
-          <HouseSlips
-            slips={v.houseSlips}
-            shapes={shapesFor(v.bets, v.shapes, data.slates.shapes)}
-            outcomes={outcomes}
-            gameOver={played}
-          />
-        </section>
-      )}
-
       <FixtureLive
         fixture={v.label}
         shapes={v.formations}
         explorer={v.explorer}
         houseSheet={v.houseSlips ? null : v.houseSheet}
+        houseSlips={v.houseSlips}
+        shapes_for_slips={shapesFor(v.bets, v.shapes, data.slates.shapes)}
+        outcomes={outcomes}
+        gameOver={played}
       >
         {v.sheetFixture && (
           <section>
