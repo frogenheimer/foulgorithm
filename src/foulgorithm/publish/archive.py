@@ -76,6 +76,9 @@ def slice_payload(payload: dict, label: str) -> dict | None:
         "competition": board.get("competition"),
         "houseSheet": board.get("houseSheet"),
         "houseSlips": board.get("houseSlips"),
+        # The shapes these bets were built to, so a page from before a
+        # contract change still renders its own bets (docs/45 switch-over).
+        "shapes": (payload.get("slates") or {}).get("shapes"),
         "characters": [
             {"id": p.get("id"), "name": p.get("name"), "generation": p.get("generation")}
             for p in payload.get("picks") or []

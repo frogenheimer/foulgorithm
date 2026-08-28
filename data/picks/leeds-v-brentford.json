@@ -225,6 +225,118 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 5,
+   "publishedAt": "2026-08-28T22:11:08+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 28.41,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Thiago",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 41,
+       "backers": 8
+      },
+      {
+       "player": "Furo",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 52,
+       "backers": 6
+      },
+      {
+       "player": "Kayode",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 6
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 4
+      },
+      {
+       "player": "Anthony",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 56,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 6,
+   "publishedAt": "2026-08-28T22:34:01+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 28.65,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Kayode",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 9
+      },
+      {
+       "player": "Furo",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 52,
+       "backers": 8
+      },
+      {
+       "player": "Thiago",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 41,
+       "backers": 8
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 7
+      },
+      {
+       "player": "Ampadu",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 55,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

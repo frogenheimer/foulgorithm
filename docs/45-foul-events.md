@@ -1,8 +1,10 @@
 # The contract, amended again: three slips per game, by foul events
 
-**Status: Decided 2026-08-29, Oliver's sign-off. Supersedes the price bands of
-[42](42-priced-bets.md) before they ever ran; effective matchweek 3
-(4 to 6 September 2026). Matchweek 2 settles under the shapes of [38](38-the-contract.md).**
+**Status: Decided 2026-08-29, Oliver's sign-off, live the same night. Supersedes the
+price bands of [42](42-priced-bets.md) before they ever ran. Effective for every
+game kicking off from Saturday 29 August 2026; Friday 28 August was played and
+settled under the shapes of [38](38-the-contract.md), and a game is scored under
+the contract of its kickoff date, never both.**
 
 > 💡 **The one-line version.** Every competitor, and the house, makes three
 > slips on every game: **safe** needs four foul events to land, **optimistic**

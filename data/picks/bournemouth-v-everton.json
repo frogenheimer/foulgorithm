@@ -225,6 +225,174 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 5,
+   "publishedAt": "2026-08-28T22:11:08+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 39.13,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Dibling",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 6
+      },
+      {
+       "player": "George",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 45,
+       "backers": 6
+      },
+      {
+       "player": "Armstrong",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 6
+      },
+      {
+       "player": "Scott",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 55,
+       "backers": 4
+      },
+      {
+       "player": "Dewsbury-Hall",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 6,
+   "publishedAt": "2026-08-28T22:18:39+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 30.74,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Gannon-Doak",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 7
+      },
+      {
+       "player": "Tarkowski",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 6
+      },
+      {
+       "player": "Dibling",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 6
+      },
+      {
+       "player": "Aznou",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 5
+      },
+      {
+       "player": "Beto",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 7,
+   "publishedAt": "2026-08-28T22:23:00+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 20.14,
+     "outOf100": 5,
+     "houseOutOf100": 5,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Tarkowski",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 8
+      },
+      {
+       "player": "Gannon-Doak",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 7
+      },
+      {
+       "player": "Dibling",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 6
+      },
+      {
+       "player": "Adams",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 4
+      },
+      {
+       "player": "Christie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 60,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

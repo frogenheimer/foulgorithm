@@ -5,7 +5,8 @@ import SlipRail from "@/components/five/SlipRail";
 import GameSheet from "@/components/matchday/GameSheet";
 import { PageHeader, SectionHead } from "@/components/kit";
 import ClubChip from "@/components/kit/ClubChip";
-import type { Bet, Explorer as ExplorerData, Formations, HouseSheet as Sheet, MatchdayFixture } from "@/lib/data";
+import type { Bet, Explorer as ExplorerData, Formations, HouseSheet as Sheet, MatchdayFixture, SlateShape } from "@/lib/data";
+import { shapesFor } from "@/lib/shapes";
 import type { Outcomes } from "@/lib/graded";
 import { isPriced } from "@/lib/contract";
 import {
@@ -40,6 +41,8 @@ type FixtureView = {
   competition: string | null;
   lineupNote: string | null;
   houseSheet: Sheet | null;
+  /** The shapes the bets were built to, when the source recorded them. */
+  shapes: SlateShape[] | null;
   bets: Record<string, Record<string, Bet>> | null;
   characters: { id: string; name: string; generation?: number }[];
   explorer: ExplorerData;
@@ -66,6 +69,7 @@ function liveView(label: string): FixtureView {
       ? "XI confirmed"
       : "XI predicted from current squads",
     houseSheet: board?.houseSheet ?? null,
+    shapes: data.slates.shapes ?? null,
     bets: data.slates.byGame?.[label] ?? null,
     characters: data.picks.map((p) => ({ id: p.id, name: p.name, generation: p.generation })),
     explorer: getExplorer(),
@@ -88,6 +92,7 @@ function archivedView(slug: string): FixtureView | null {
     competition: a.competition ?? null,
     lineupNote: null,
     houseSheet: a.houseSheet ?? null,
+    shapes: a.shapes ?? null,
     bets: a.bets ?? null,
     characters: a.characters,
     explorer: a.explorer,
@@ -126,7 +131,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
   const weSaid = data.expectedTotals?.[v.label]?.expected;
   const confirmedSet = new Set(data.slates.confirmedFixtures ?? []);
   // docs/42: from matchweek 3 the bets are priced bands, not fixed shapes.
-  const priced = isPriced(data.slates.shapes);
+  const priced = isPriced(shapesFor(v.bets, v.shapes, data.slates.shapes));
   const medals = Object.fromEntries(
     (data.standings ?? [])
       .filter((r) => r.played > 0)
@@ -266,7 +271,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
             <SlipRail
               bets={v.bets}
               characters={v.characters}
-              shapes={data.slates.shapes}
+              shapes={shapesFor(v.bets, v.shapes, data.slates.shapes)}
               outcomes={outcomes}
               gameOver={played}
               medals={medals}

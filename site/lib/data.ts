@@ -745,6 +745,8 @@ export type ArchivedFixture = {
   competition?: string | null;
   houseSheet?: HouseSheet | null;
   houseSlips?: Record<string, Bet> | null;
+  /** The shapes these bets were built to; absent on slices from before it was kept. */
+  shapes?: SlateShape[] | null;
   characters: { id: string; name: string; generation?: number }[];
   ladder: Record<string, Slip[]>;
   /** This game's fifteen bets (character id -> slate key -> bet), when the

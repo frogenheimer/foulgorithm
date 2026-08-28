@@ -225,6 +225,174 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 5,
+   "publishedAt": "2026-08-28T22:11:08+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 115.38,
+     "outOf100": 1,
+     "houseOutOf100": 1,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Onyeka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 8
+      },
+      {
+       "player": "McNair",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 6
+      },
+      {
+       "player": "Dowell",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 35,
+       "backers": 6
+      },
+      {
+       "player": "Simms",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 29,
+       "backers": 5
+      },
+      {
+       "player": "Egan",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 45,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 6,
+   "publishedAt": "2026-08-28T22:18:39+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 42.46,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Belloumi",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 9
+      },
+      {
+       "player": "Crooks",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 8
+      },
+      {
+       "player": "Slater",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 8
+      },
+      {
+       "player": "McBurnie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 7
+      },
+      {
+       "player": "Tzolakis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 7
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 7,
+   "publishedAt": "2026-08-28T22:32:06+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 31.89,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Belloumi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 11
+      },
+      {
+       "player": "Crooks",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 11
+      },
+      {
+       "player": "Slater",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 11
+      },
+      {
+       "player": "McBurnie",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 9
+      },
+      {
+       "player": "Hamer",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 8
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

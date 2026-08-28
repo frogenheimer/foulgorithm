@@ -472,9 +472,16 @@ class TestRoundsAreGameweeks:
         }
 
     def test_a_mid_gameweek_republish_updates_the_bet_never_duplicates_it(self):
-        friday = self.slate("2026-08-28T17:00:00+00:00", ["fri1"], round_key="2026-08-28")
-        saturday = self.slate("2026-08-29T13:00:00+00:00", ["sat1"], round_key="2026-08-29")
-        saturday["first_kickoff"] = "2026-08-29T14:00:00+00:00"
+        # Dated before the 29 August switch-over: an old-shape slate on a
+        # later game no longer binds at all (TestOneContractPerGame).
+        kickoff = "2026-08-28T19:00:00+00:00"
+        friday = self.slate(
+            "2026-08-27T17:00:00+00:00", ["fri1"], round_key="2026-08-27", kickoff=kickoff
+        )
+        saturday = self.slate(
+            "2026-08-28T13:00:00+00:00", ["sat1"], round_key="2026-08-28", kickoff=kickoff
+        )
+        saturday["first_kickoff"] = kickoff
         binding = league.binding_versions([friday, saturday])
         assert len(binding) == 1
         assert binding[0]["claim_keys"] == ["sat1"]
@@ -704,6 +711,26 @@ class TestUnitSlips:
                         assert key == "rogue", (cid, key)
                         assert leg["houseProb"] >= ensemble.ROGUE_3PLUS_FLOOR
 
+    def test_a_character_never_bets_on_a_substitute_however_big_the_edge(self):
+        # A bench player the character rates far above the house, expected to
+        # play twenty minutes: the edge is huge and the bet is noise.
+        rows = priced_pool()
+        sub = candidate("Sub", {c: 0.05 for c in FIVE}, line=0.5)
+        sub["probs"]["alan"] = 0.9
+        sub["kickoff"] = "2026-09-05T14:00:00+00:00"
+        for c in FIVE:
+            sub["whys"][c]["expectedMinutes"] = 20.0
+        built = league.build_slates(rows + [sub], FIVE)
+        for bet in built["A v B"]["alan"].values():
+            assert "Sub Full" not in [leg["fullName"] for leg in bet["legs"]]
+
+    def test_every_leg_clears_the_shout_floor_for_its_line(self):
+        built = league.build_slates(priced_pool(), FIVE)
+        for cid in FIVE:
+            for bet in built["A v B"][cid].values():
+                for leg in bet["legs"]:
+                    assert leg["prob"] >= league.SHOUT_FLOOR[leg["fouls"]], (cid, leg)
+
     def test_the_house_makes_the_same_three_slips_from_its_own_numbers(self):
         slips = league.house_slips(priced_pool())["A v B"]
         assert set(slips) == {t.key for t in ensemble.TIERS}
@@ -798,3 +825,39 @@ class TestScoringPricedBets:
         ]
         rows = league.table(graded, ["alan"])
         assert rows[0]["drawn"] == 1
+
+
+class TestOneContractPerGame:
+    """A game is scored under the contract of its kickoff date, whichever
+    slates the record holds for it (the switch-over on 29 August 2026 left
+    both generations on file for the same games)."""
+
+    def slate(self, key, kickoff):
+        return {
+            "key": f"x|alan|{key}|A v B",
+            "round": kickoff[:10],
+            "character": "alan",
+            "slate": key,
+            "fixture": "A v B",
+            "kickoff": kickoff,
+            "published_at": "2026-08-28T10:00:00+00:00",
+            "claim_keys": ["c1", "c2"],
+        }
+
+    def test_old_shapes_do_not_bind_on_a_priced_game(self):
+        rows = league.binding_versions(
+            [
+                self.slate("six-ones", "2026-08-29T14:00:00+00:00"),
+                self.slate("safe", "2026-08-29T14:00:00+00:00"),
+            ]
+        )
+        assert [r["slate"] for r in rows] == ["safe"]
+
+    def test_tiers_do_not_bind_on_an_old_game(self):
+        rows = league.binding_versions(
+            [
+                self.slate("six-ones", "2026-08-28T19:00:00+00:00"),
+                self.slate("safe", "2026-08-28T19:00:00+00:00"),
+            ]
+        )
+        assert [r["slate"] for r in rows] == ["six-ones"]

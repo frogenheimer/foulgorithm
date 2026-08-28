@@ -95,9 +95,25 @@ TIERS: tuple[Tier, ...] = (
 ROGUE_3PLUS_FLOOR = 0.20
 
 #: Games kicking off from here are bet by foul events (docs/45). Earlier games
-#: keep the shapes and are scored under them: matchweek 2 was committed under
-#: the old contract and the record does not rewrite history.
-PRICED_FROM = "2026-09-04"
+#: keep the shapes and are scored under them: Friday 28 August was played under
+#: the old contract and the record does not rewrite history. Oliver, 28 August
+#: late: "go live now, ready for tomorrow's games."
+PRICED_FROM = "2026-08-29"
+
+TIER_KEYS = frozenset(("safe", "optimistic", "rogue"))
+
+
+def in_era(slate_key: str, kickoff_iso: str | None) -> bool:
+    """Is this slate the contract of its game's date?
+
+    A game is scored under exactly one contract, chosen by its kickoff. Games
+    from the switch-over carry both generations of slate in the record, the
+    shapes committed before the switch and the tiers after, and without this
+    a character would have six bets on one game.
+    """
+    if not kickoff_iso:
+        return slate_key not in TIER_KEYS
+    return priced(kickoff_iso) == (slate_key in TIER_KEYS)
 
 
 def priced(kickoff_iso: str) -> bool:

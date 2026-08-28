@@ -225,6 +225,174 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 5,
+   "publishedAt": "2026-08-28T22:11:08+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 45.82,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 10,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Dorgu",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 8
+      },
+      {
+       "player": "Lacey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 6
+      },
+      {
+       "player": "Tielemans",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 5
+      },
+      {
+       "player": "Dorgu",
+       "fouls": 3,
+       "market": "drawn",
+       "outOf100": 36,
+       "backers": 5
+      },
+      {
+       "player": "Luki\u0107",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 50,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 6,
+   "publishedAt": "2026-08-28T22:23:00+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 28.29,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Dorgu",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 7
+      },
+      {
+       "player": "Lacey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 6
+      },
+      {
+       "player": "Tielemans",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 6
+      },
+      {
+       "player": "Ogbene",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 58,
+       "backers": 3
+      },
+      {
+       "player": "Luki\u0107",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 50,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 7,
+   "publishedAt": "2026-08-28T22:34:01+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 39.78,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 9,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Dorgu",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 10
+      },
+      {
+       "player": "Lacey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 7
+      },
+      {
+       "player": "Tielemans",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 7
+      },
+      {
+       "player": "Dorgu",
+       "fouls": 3,
+       "market": "drawn",
+       "outOf100": 36,
+       "backers": 6
+      },
+      {
+       "player": "Ogbene",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 58,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

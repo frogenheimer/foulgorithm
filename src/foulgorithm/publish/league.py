@@ -139,6 +139,46 @@ def _house_price(row: dict) -> float:
     return house_probability(row, list(probs))
 
 
+#: A character bets only on players it expects to play at least this long.
+LIKELY_MINUTES = 60.0
+#: A leg's own probability must clear this, per foul events, to be a shout.
+SHOUT_FLOOR = {1: 0.50, 2: 0.25, 3: 0.12}
+
+
+def _expected_minutes(cid: str, row: dict) -> float:
+    """Expected minutes by the HOUSE's reckoning, whoever is betting.
+
+    Judged by each character's own minutes model, alan's likely eleven was
+    six fringe players on a uniform thin-record prior. Who plays is the
+    house's call, like the price; the character's call is who fouls.
+    """
+    from foulgorithm.publish.player_round import HOUSE_MODEL
+
+    whys = row.get("whys") or {}
+    why = whys.get(HOUSE_MODEL) or whys.get(cid) or {}
+    return float(why.get("expectedMinutes") or 0.0)
+
+
+def _hunt(cid: str, rows: list[dict], context: dict | None, by_edge: bool) -> list[dict]:
+    """A character's order of preference over candidate legs.
+
+    By edge over the house when hunting shouts: a 2+ the character is bullish
+    on outranks a 1+ it merely agrees with. By its own probability when
+    falling back, so a thin set of shouts is topped up with the best
+    plausible legs rather than the largest disagreements.
+    """
+    if by_edge:
+        return sorted(
+            rows,
+            key=lambda r: (
+                -(_preference(cid, r, context) - _house_price(r)),
+                -_preference(cid, r, context),
+            ),
+        )
+    # Thin records last: a uniform prior is not an opinion about a player.
+    return sorted(rows, key=lambda r: (bool(r.get("thin")), -_preference(cid, r, context)))
+
+
 def _events(row: dict) -> int:
     """A leg's foul events: its line rounded up. 1+ is one, 2+ two, 3+ three."""
     return int(row["line"] + 0.5)
@@ -324,17 +364,38 @@ def build_slates(
                 # merely agrees with. Ranking by probability alone walked
                 # every character down the 1+ list and made every layout the
                 # same. Temperament rides in through the preference's lean.
-                hunted = sorted(
-                    pool,
-                    key=lambda r: (
-                        -(_preference(cid, r, context) - _house_price(r)),
-                        -_preference(cid, r, context),
-                    ),
-                )
+                # From the likely eleven only. Edge on a leg the house prices
+                # near zero is not a shout, it is noise: on 28 August alan's
+                # slips were four bench players at 0/100 combined, each one a
+                # big disagreement about a man expected to play twenty
+                # minutes. A bet on a substitute is a bet on him coming on.
+                likely = [r for r in pool if _expected_minutes(cid, r) >= LIKELY_MINUTES]
+                # And a shout has to be a shout on its own before edge is
+                # counted. Ranked purely by disagreement, alan's slips were the
+                # keeper to be fouled and four full-backs at 2/100 combined:
+                # the legs where a character differs MOST from a calibrated
+                # house are odd legs. The floor is the house's own typical
+                # price for a picked player at each line.
+                shouts = [r for r in likely if r["probs"][cid] >= SHOUT_FLOOR[_events(r)]]
+
+                # Prefer shouts hunted by edge; a tier the shouts cannot fill
+                # falls back to the likely eleven, then the pool, ranked by
+                # the character's own probability rather than by edge, so the
+                # fallback fills with the best plausible legs and not with
+                # the oddest disagreements. A pass is the last resort.
                 for tier in ensemble.TIERS:
-                    own[tier.key] = _unit_slip(cid, hunted, tier, context)
+                    own[tier.key] = None
+                    for rows, by_edge in ((shouts, True), (likely, False), (pool, False)):
+                        if rows:
+                            own[tier.key] = _unit_slip(
+                                cid, _hunt(cid, rows, context, by_edge), tier, context
+                            )
+                        if own[tier.key]:
+                            break
                 before = {k: (dict(v, legs=list(v["legs"])) if v else None) for k, v in own.items()}
-                _hot_take_floor(cid, own, pool, context)
+                # The floor draws from the same shouts, never the whole pool:
+                # a hot take on a substitute is still a bet on a substitute.
+                _hot_take_floor(cid, own, shouts or likely or pool, context)
                 # The floor swaps a leg at the same line, so the count holds;
                 # a swap that broke it, or smuggled a 3+ past the reservation,
                 # is reverted. The count is the contract.
@@ -405,7 +466,7 @@ def round_before(round_key: str, since: str) -> bool:
     return bool(round_key) and round_key < since
 
 
-def binding_versions(committed: list[dict]) -> list[dict]:
+def _binding_versions_all(committed: list[dict]) -> list[dict]:
     """One row per bet: the latest version published before its own kickoff.
 
     Slates version rather than mutate, so a lineup-time re-publish appends a
@@ -440,6 +501,16 @@ def binding_versions(committed: list[dict]) -> list[dict]:
         if held is None or published > held.get("published_at", ""):
             eligible[key] = row
     return list(eligible.values())
+
+
+def binding_versions(committed: list[dict]) -> list[dict]:
+    """One row per bet: the latest version published before its own kickoff,
+    and only the slates of its game's contract (ensemble.in_era)."""
+    return [
+        s
+        for s in _binding_versions_all(committed)
+        if ensemble.in_era(s.get("slate", ""), s.get("kickoff") or s.get("first_kickoff"))
+    ]
 
 
 def join_slates(
