@@ -64,6 +64,7 @@
   --ch-dottie: #0a7fc4;
   --ch-dele: #b34a1e;
   --ch-ian: #6d4fc4;
+  --ch-house: var(--accent-object);
 
   /* ---- the hero module (docs/39): one deep panel per page, the same in
      both themes, like a dark instrument face set into any dashboard. ---- */

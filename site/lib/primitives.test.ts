@@ -18,6 +18,8 @@ const ROOT = join(__dirname, "..");
 const REGISTRY: Record<string, string> = {
   pitch: "components/fixture/Pitch.tsx",
   houseSheet: "components/fixture/HouseSheet.tsx",
+  houseSlips: "components/fixture/HouseSlips.tsx",
+  matchPlayers: "components/fixture/MatchPlayers.tsx",
   slipRail: "components/five/SlipRail.tsx",
   slipCard: "components/five/Bets.tsx",
   standings: "components/five/Standings.tsx",
@@ -35,6 +37,7 @@ const CLAIMS: [RegExp, string][] = [
   [/Slip/, "slipRail"],
   [/Standings|LeagueTable/, "standings"],
   [/GameSheet|StatTable|SideBySide/, "gameSheet"],
+  [/MatchPlayers|PlayerTable|SquadTable/, "matchPlayers"],
   [/ClubChip|Badge(?!\.)|Crest/, "clubChip"],
 ];
 

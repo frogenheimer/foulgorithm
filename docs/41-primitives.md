@@ -73,7 +73,9 @@ page is a primitive that has not been promoted yet.
 |---|---|---|
 | **`Pitch`** | `components/fixture/Pitch.tsx` | **Both elevens on a pitch.** `readOnly` drops swapping and dragging; `bases` restricts which readings are offered. The cup pages use `readOnly` with `bases={["career"]}` |
 | `ClubChip` | `components/kit/ClubChip` | A club badge. Falls back safely for a club we hold nothing for |
-| `HouseSheet` | `components/fixture/HouseSheet.tsx` | The house's picks at the top of a fixture page |
+| `HouseSlips` | `components/fixture/HouseSlips.tsx` | The house's three slips, safe to rogue, as SlipCards (docs/45) |
+| `MatchPlayers` | `components/fixture/MatchPlayers.tsx` | **The fixture page's one player table** (docs/46): sortable, XI-aware, house-badged, phone column chooser. Built on DataTable |
+| `HouseSheet` | `components/fixture/HouseSheet.tsx` | The old tiered list; renders only for pages from before the 29 August switch |
 | `Timeline` | `components/fixture/Timeline.tsx` | A match's events |
 | `HeadToHead` | `components/HeadToHead.tsx` | Mirrored comparison rows, shared centre label |
 | `CompetitionSwitcher` | `components/home` | League, League Cup, FA Cup |

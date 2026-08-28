@@ -32,12 +32,15 @@ export default function GameSheet({
   rows,
   outcomes,
   gameOver = false,
+  players = true,
 }: {
   fixture: MatchdayFixture;
   rows: ExplorerRow[];
   /** Present on a played game: per-player actuals come from the grading. */
   outcomes?: Outcomes;
   gameOver?: boolean;
+  /** False keeps the team tier only: the fixture page's player table took the rest (docs/46). */
+  players?: boolean;
 }) {
   const [mode, setMode] = useState<"expected" | "actual">("expected");
   const home = fixture.home;
@@ -169,6 +172,7 @@ export default function GameSheet({
         </div>
       )}
 
+      {players && (
       <div className={s.playerTier}>
         <div className={s.toggleRow}>
           <span className={s.tierTitle}>The players</span>
@@ -208,6 +212,7 @@ export default function GameSheet({
           </details>
         )}
       </div>
+      )}
     </div>
   );
 }

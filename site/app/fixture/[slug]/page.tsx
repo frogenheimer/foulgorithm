@@ -1,6 +1,7 @@
 import Link from "next/link";
 import FixtureLive from "@/components/fixture/FixtureLive";
-import Explorer from "@/components/explorer/Explorer";
+import HouseSlips from "@/components/fixture/HouseSlips";
+import MatchPlayers from "@/components/fixture/MatchPlayers";
 import SlipRail from "@/components/five/SlipRail";
 import GameSheet from "@/components/matchday/GameSheet";
 import { PageHeader, SectionHead } from "@/components/kit";
@@ -41,6 +42,8 @@ type FixtureView = {
   competition: string | null;
   lineupNote: string | null;
   houseSheet: Sheet | null;
+  /** The house's own three slips (docs/45); absent on pre-switch pages. */
+  houseSlips: Record<string, Bet> | null;
   /** The shapes the bets were built to, when the source recorded them. */
   shapes: SlateShape[] | null;
   bets: Record<string, Record<string, Bet>> | null;
@@ -69,6 +72,7 @@ function liveView(label: string): FixtureView {
       ? "XI confirmed"
       : "XI predicted from current squads",
     houseSheet: board?.houseSheet ?? null,
+    houseSlips: board?.houseSlips ?? null,
     shapes: data.slates.shapes ?? null,
     bets: data.slates.byGame?.[label] ?? null,
     characters: data.picks.map((p) => ({ id: p.id, name: p.name, generation: p.generation })),
@@ -92,6 +96,7 @@ function archivedView(slug: string): FixtureView | null {
     competition: a.competition ?? null,
     lineupNote: null,
     houseSheet: a.houseSheet ?? null,
+    houseSlips: a.houseSlips ?? null,
     shapes: a.shapes ?? null,
     bets: a.bets ?? null,
     characters: a.characters,
@@ -219,19 +224,35 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         </div>
       )}
 
+      {v.houseSlips && (
+        <section>
+          <SectionHead
+            title="The house"
+            note="The model's own three slips: safe needs four foul events, optimistic five, rogue six. Priced by its own numbers, graded like the eleven's, never in the league."
+          />
+          <HouseSlips
+            slips={v.houseSlips}
+            shapes={shapesFor(v.bets, v.shapes, data.slates.shapes)}
+            outcomes={outcomes}
+            gameOver={played}
+          />
+        </section>
+      )}
+
       <FixtureLive
         fixture={v.label}
         shapes={v.formations}
         explorer={v.explorer}
-        houseSheet={v.houseSheet}
+        houseSheet={v.houseSlips ? null : v.houseSheet}
       >
         {v.sheetFixture && (
           <section>
             <SectionHead
               title={played ? "The game sheet, as it stood" : "The game sheet"}
-              note="Both clubs face to face on everything we hold, with league ranks and recent form, then the players likely to be on the pitch. Actual numbers can be checked against a scoreboard; Expected ones are our model's, and the sheet says which is showing."
+              note="Both clubs face to face on everything we hold, with league ranks and recent form."
             />
             <GameSheet
+              players={false}
               fixture={v.sheetFixture}
               rows={v.explorer.rows.filter((r) => r.fixture === v.label)}
               outcomes={outcomes}
@@ -243,9 +264,16 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         <section>
           <SectionHead
             title="Every player in this game"
-            note="Fouls committed, fouls won, and both together. The most likely foulers lead; open the rest if you want the full squads. Open a row for the whole distribution behind the number."
+            note="Both squads in one table. Real per-90 figures beside what the model expects here; actuals once played. Sort any column, open a row for the prices."
           />
-          <Explorer data={v.explorer} only={v.label} collapsedTo={10} />
+          <MatchPlayers
+            label={v.label}
+            explorer={v.explorer}
+            shapes={v.formations}
+            houseSlips={v.houseSlips}
+            outcomes={outcomes}
+            played={played}
+          />
         </section>
 
         {v.bets && (

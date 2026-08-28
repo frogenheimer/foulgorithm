@@ -1,0 +1,123 @@
+.wrap {
+  display: grid;
+  gap: var(--s3);
+  min-width: 0;
+}
+
+.legend {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.player {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--s2);
+  align-items: center;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.meta {
+  grid-column: 2;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pair {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.real {
+  color: var(--ink-3);
+}
+
+.sep {
+  color: var(--ink-3);
+  padding: 0 var(--s1);
+}
+
+.expected {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.xi {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.tier {
+  padding: 0 var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid transparent;
+}
+
+.safe {
+  background: var(--accent-object);
+  border-color: var(--accent-object);
+  color: var(--accent-object-ink);
+}
+
+.optimistic {
+  border-color: var(--accent-object);
+  color: var(--accent);
+}
+
+.rogue {
+  background: var(--warn);
+  border-color: var(--warn);
+  color: var(--accent-object-ink);
+}
+
+.expanded {
+  display: grid;
+  gap: var(--s2);
+  padding: var(--s2) 0;
+}
+
+.prices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+.pricesHead {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.note {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  max-width: 70ch;
+}
+
+.bench {
+  min-width: 0;
+}
+
+.benchHead {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  padding: var(--s2) 0;
+}

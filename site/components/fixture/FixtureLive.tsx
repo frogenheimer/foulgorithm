@@ -60,7 +60,11 @@ export default function FixtureLive({
         <section>
           <SectionHead
             title="The eleven on the pitch"
-            note="Drawn from the league's own formation lines, so a back three and a back four actually look different. Swap anyone and the house sheet at the top recomputes from the eleven you chose."
+            note={
+              houseSheet
+                ? "Drawn from the league's own formation lines, so a back three and a back four actually look different. Swap anyone and the house sheet at the top recomputes from the eleven you chose."
+                : "Drawn from the league's own formation lines, so a back three and a back four actually look different. Swap anyone to see who else could hold the shirt."
+            }
           />
           <Lineups
             fixture={fixture}
