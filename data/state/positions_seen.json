@@ -47,12 +47,22 @@
  "amar dedic": {
   "detail": "Right Full Back",
   "name": "Amar Dedic",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
+ "andrew moran": {
+  "detail": "Attacking Midfielder",
+  "name": "Andrew Moran",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "andrey santos": {
   "detail": "Defensive Midfielder",
   "name": "Andrey Santos",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "andrija vukcevic": {
+  "detail": "Defender",
+  "name": "Andrija Vukcevic",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "andy robertson": {
   "detail": "Left Full Back",
@@ -82,7 +92,7 @@
  "antonin kinsky": {
   "detail": "Goalkeeper",
   "name": "Anton\u00edn Kinsky",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "antonio silva": {
   "detail": "Centre Central Defender",
@@ -92,7 +102,7 @@
  "archie gray": {
   "detail": "Central Midfielder",
   "name": "Archie Gray",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "aurele amenda": {
   "detail": "Centre Central Defender",
@@ -109,6 +119,16 @@
   "name": "Bart Verbruggen",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "bazoumana toure": {
+  "detail": "Left Winger",
+  "name": "Bazoumana Tour\u00e9",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
+ "ben davies": {
+  "detail": "Left Full Back",
+  "name": "Ben Davies",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "ben white": {
   "detail": "Centre/Right Central Defender",
   "name": "Ben White",
@@ -118,6 +138,11 @@
   "detail": "Goalkeeper",
   "name": "Bernd Leno",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "billy koumetio": {
+  "detail": "Defender",
+  "name": "Billy Koumetio",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "bobby thomas": {
   "detail": "Centre Central Defender",
@@ -209,6 +234,11 @@
   "name": "Cole Palmer",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "collins sichenje": {
+  "detail": "Defender",
+  "name": "Collins Sichenje",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "conor gallagher": {
   "detail": "Central Midfielder",
   "name": "Conor Gallagher",
@@ -269,6 +299,16 @@
   "name": "Declan Rice",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "delano burgzorg": {
+  "detail": "Forward",
+  "name": "Delano Burgzorg",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
+ "destiny udogie": {
+  "detail": "Left Full Back",
+  "name": "Destiny Udogie",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "diego gomez": {
   "detail": "Central Midfielder",
   "name": "Diego G\u00f3mez",
@@ -283,6 +323,11 @@
   "detail": "Striker",
   "name": "Dominic Calvert-Lewin",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "dominic solanke": {
+  "detail": "Striker",
+  "name": "Dominic Solanke",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "dominik szoboszlai": {
   "detail": "Left/Centre/Right Attacking Midfielder",
@@ -344,6 +389,11 @@
   "name": "Evanilson",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "ewen jaouen": {
+  "detail": "Goalkeeper",
+  "name": "Ewen Jaouen",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "florian wirtz": {
   "detail": "Left/Centre/Right Attacking Midfielder",
   "name": "Florian Wirtz",
@@ -384,6 +434,11 @@
   "name": "Granit Xhaka",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "greg docherty": {
+  "detail": "Centre Central Midfielder",
+  "name": "Greg Docherty",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "harrison armstrong": {
   "detail": "Central Midfielder",
   "name": "Harrison Armstrong",
@@ -403,6 +458,11 @@
   "detail": "Left/Right Winger",
   "name": "Harvey Barnes",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "harvey knibbs": {
+  "detail": "Midfielder",
+  "name": "Harvey Knibbs",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "hayden hackney": {
   "detail": "Centre Central Midfielder",
@@ -439,6 +499,11 @@
   "name": "Issa Diop",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "ivan mesik": {
+  "detail": "Defender",
+  "name": "Ivan Mes\u00edk",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "jack hinshelwood": {
   "detail": "Centre Defensive Midfielder",
   "name": "Jack Hinshelwood",
@@ -448,6 +513,16 @@
   "detail": "Central Defender",
   "name": "Jacob Greaves",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "jacob murphy": {
+  "detail": "Left/Right Winger",
+  "name": "Jacob Murphy",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
+ "jacob ramsey": {
+  "detail": "Left/Centre Winger",
+  "name": "Jacob Ramsey",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "jair cunha": {
   "detail": "Central Defender",
@@ -487,7 +562,7 @@
  "jan paul van hecke": {
   "detail": "Central Defender",
   "name": "Jan Paul van Hecke",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "jarrad branthwaite": {
   "detail": "Centre Central Defender",
@@ -539,6 +614,11 @@
   "name": "Joe Rodon",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "joe willock": {
+  "detail": "Centre Attacking Midfielder",
+  "name": "Joe Willock",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "john egan": {
   "detail": "Defender",
   "name": "John Egan",
@@ -553,6 +633,16 @@
   "detail": "Goalkeeper",
   "name": "Jordan Pickford",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "jordan storey": {
+  "detail": "Centre Central Defender",
+  "name": "Jordan Storey",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
+ "jordan thompson": {
+  "detail": "Midfielder",
+  "name": "Jordan Thompson",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "jorge cuenca": {
   "detail": "Centre Central Defender",
@@ -583,6 +673,11 @@
   "detail": "Centre Attacking Midfielder",
   "name": "Julio Enciso",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "jusef erabi": {
+  "detail": "Forward",
+  "name": "Jusef Erabi",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "justin kluivert": {
   "detail": "Left/Right Winger",
@@ -624,10 +719,20 @@
   "name": "Kristoffer Ajer",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "lee nicholls": {
+  "detail": "Goalkeeper",
+  "name": "Lee Nicholls",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "leif davis": {
   "detail": "Left Full Back",
   "name": "Leif Davis",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "leo leroy": {
+  "detail": "Midfielder",
+  "name": "L\u00e9o Leroy",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "levi colwill": {
   "detail": "Centre Central Defender",
@@ -649,10 +754,15 @@
   "name": "Lewis Dunk",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "lewis gibson": {
+  "detail": "Centre Central Defender",
+  "name": "Lewis Gibson",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "lewis hall": {
   "detail": "Left Full Back",
   "name": "Lewis Hall",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "lewis miley": {
   "detail": "Midfielder",
@@ -667,7 +777,7 @@
  "lucas bergvall": {
   "detail": "Central Midfielder",
   "name": "Lucas Bergvall",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "luka vuskovic": {
   "detail": "Central Defender",
@@ -692,7 +802,7 @@
  "malick thiaw": {
   "detail": "Defender",
   "name": "Malick Thiaw",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "malo gusto": {
   "detail": "Right Full Back",
@@ -734,6 +844,11 @@
   "name": "Martin \u00d8degaard",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "mateus fernandes": {
+  "detail": "Central Midfielder",
+  "name": "Mateus Fernandes",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "matheus cunha": {
   "detail": "Left/Centre Second Striker",
   "name": "Matheus Cunha",
@@ -747,7 +862,7 @@
  "mathys tel": {
   "detail": "Forward",
   "name": "Mathys Tel",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "mats wieffer": {
   "detail": "Centre Defensive Midfielder",
@@ -789,6 +904,11 @@
   "name": "Merlin R\u00f6hl",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "micah mbick": {
+  "detail": "Forward",
+  "name": "Micah Mbick",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "michael kayode": {
   "detail": "Right Full Back",
   "name": "Michael Kayode",
@@ -797,12 +917,17 @@
  "mikey moore": {
   "detail": "Left/Centre Winger",
   "name": "Mikey Moore",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "milan van ewijk": {
   "detail": "Right Full Back",
   "name": "Milan van Ewijk",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "millenic alli": {
+  "detail": "Forward",
+  "name": "Millenic Alli",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "milos kerkez": {
   "detail": "Left Full Back",
@@ -834,6 +959,11 @@
   "name": "Myles Lewis-Skelly",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "nathan asiimwe": {
+  "detail": "Right Full Back",
+  "name": "Nathan Asiimwe",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "nathan collins": {
   "detail": "Centre Central Defender",
   "name": "Nathan Collins",
@@ -843,6 +973,11 @@
   "detail": "Right Full Back",
   "name": "Neco Williams",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "nick woltemade": {
+  "detail": "Second Striker",
+  "name": "Nick Woltemade",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "nico o'reilly": {
   "detail": "Left/Centre Full Back",
@@ -914,6 +1049,11 @@
   "name": "Phil Foden",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "pol valentin": {
+  "detail": "Defender",
+  "name": "Pol Valent\u00edn",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "rayan": {
   "detail": "Left/Centre/Right Striker",
   "name": "Rayan",
@@ -954,6 +1094,11 @@
   "name": "Rio Ngumoha",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "rob apter": {
+  "detail": "Midfielder",
+  "name": "Rob Apter",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "robert sanchez": {
   "detail": "Goalkeeper",
   "name": "Robert S\u00e1nchez",
@@ -963,6 +1108,11 @@
   "detail": "Goalkeeper",
   "name": "Robin Roefs",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "rodrigo bentancur": {
+  "detail": "Centre Central Midfielder",
+  "name": "Rodrigo Bentancur",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "romeo lavia": {
   "detail": "Centre Defensive Midfielder",
@@ -1007,7 +1157,7 @@
  "sean steur": {
   "detail": "Midfielder",
   "name": "Sean Steur",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "semi ajayi": {
   "detail": "Defender",
@@ -1022,7 +1172,7 @@
  "sven botman": {
   "detail": "Central Defender",
   "name": "Sven Botman",
-  "seenAt": "2026-08-25T16:00:08+00:00"
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "tarik muharemovic": {
   "detail": "Central Defender",
@@ -1034,15 +1184,30 @@
   "name": "Thierno Barry",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "thierry small": {
+  "detail": "Defender",
+  "name": "Thierry Small",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "thomas meunier": {
   "detail": "Right Full Back",
   "name": "Thomas Meunier",
   "seenAt": "2026-08-25T16:00:08+00:00"
  },
+ "tiernan brooks": {
+  "detail": "Goalkeeper",
+  "name": "Tiernan Brooks",
+  "seenAt": "2026-08-26T18:07:21+00:00"
+ },
  "timothy castagne": {
   "detail": "Right Full Back",
   "name": "Timothy Castagne",
   "seenAt": "2026-08-25T16:00:08+00:00"
+ },
+ "timothy ouma": {
+  "detail": "Midfielder",
+  "name": "Timothy Ouma",
+  "seenAt": "2026-08-26T18:07:21+00:00"
  },
  "trai hume": {
   "detail": "Right Full Back",

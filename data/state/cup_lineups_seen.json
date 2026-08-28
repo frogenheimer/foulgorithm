@@ -1,0 +1,98 @@
+{
+  "Charlton|Tottenham v Charlton": {
+    "formation": "4-2-3-1",
+    "starters": [
+      "Billy Koumetio",
+      "Collins Sichenje",
+      "Greg Docherty",
+      "Harvey Knibbs",
+      "Ivan Mes\u00edk",
+      "Micah Mbick",
+      "Millenic Alli",
+      "Nathan Asiimwe",
+      "Rob Apter",
+      "Tiernan Brooks",
+      "Timothy Ouma"
+    ]
+  },
+  "Everton|Preston v Everton": {
+    "formation": null,
+    "starters": [
+      "Harrison Armstrong",
+      "Iliman Ndiaye",
+      "James Garner",
+      "James Tarkowski",
+      "Jordan Pickford",
+      "Kiernan Dewsbury-Hall",
+      "Merlin R\u00f6hl",
+      "Michael Keane",
+      "Thierno Barry",
+      "Tyler Dibling",
+      "Vitalii Mykolenko"
+    ]
+  },
+  "Newcastle|Newcastle v West Brom": {
+    "formation": "4-2-3-1",
+    "starters": [
+      "Amar Dedic",
+      "Bazoumana Tour\u00e9",
+      "Ewen Jaouen",
+      "Jacob Murphy",
+      "Jacob Ramsey",
+      "Joe Willock",
+      "Lewis Hall",
+      "Malick Thiaw",
+      "Nick Woltemade",
+      "Sean Steur",
+      "Sven Botman"
+    ]
+  },
+  "Preston|Preston v Everton": {
+    "formation": "4-2-3-1",
+    "starters": [
+      "Andrew Moran",
+      "Andrija Vukcevic",
+      "Delano Burgzorg",
+      "Jordan Storey",
+      "Jordan Thompson",
+      "Jusef Erabi",
+      "Lee Nicholls",
+      "Lewis Gibson",
+      "L\u00e9o Leroy",
+      "Pol Valent\u00edn",
+      "Thierry Small"
+    ]
+  },
+  "Tottenham|Tottenham v Charlton": {
+    "formation": "4-3-3",
+    "starters": [
+      "Anton\u00edn Kinsky",
+      "Archie Gray",
+      "Ben Davies",
+      "Destiny Udogie",
+      "Dominic Solanke",
+      "Jan Paul van Hecke",
+      "Lucas Bergvall",
+      "Mateus Fernandes",
+      "Mathys Tel",
+      "Mikey Moore",
+      "Rodrigo Bentancur"
+    ]
+  },
+  "West Brom|Newcastle v West Brom": {
+    "formation": null,
+    "starters": [
+      "Alex Williams",
+      "Barney Stewart",
+      "Chris Mepham",
+      "Conor Townsend",
+      "George Campbell",
+      "Harry Whitwell",
+      "Isaac Price",
+      "Jimmy-Jay Morgan",
+      "Matt Ingram",
+      "Ousmane Diakit\u00e9",
+      "Rabby Nzingoula"
+    ]
+  }
+}
