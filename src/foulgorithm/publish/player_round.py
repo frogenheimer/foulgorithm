@@ -155,6 +155,12 @@ class Selection:
     available: bool
     news: str
     confirmed: bool = False
+    #: What the team sheet says once one exists: "start", "bench" or "out".
+    #: None before the sheets land, when the minutes model guesses. Sending
+    #: only "start" left everyone else on his season start chance: Gallagher
+    #: sat on 78 minutes and a 70/100 shout after Spurs named him nowhere
+    #: (29 August 2026).
+    sheet: str | None = None
 
     @property
     def lookup(self) -> str:
@@ -204,6 +210,7 @@ def squad(
                 available=True,
                 news="",
                 confirmed=starting,
+                sheet="start" if starting else "bench",
             )
 
         # The named substitutes get predictions too. Without them the pitch can
@@ -242,6 +249,8 @@ def squad(
                     available=True,
                     news=p.news,
                     confirmed=False,
+                    # A sheet exists and he is on neither half of it.
+                    sheet="out",
                 )
             )
             seen.add(name_key(p.name))
@@ -536,7 +545,7 @@ def publish(
                 # A confirmed starter is a certainty, not a probability. Say so,
                 # and the minutes mixture drops its unused branch entirely.
                 selections.append(sel)
-                state = "start" if sel.confirmed else None
+                state = sel.sheet if sel.sheet else ("start" if sel.confirmed else None)
                 dist_c, why_c = house_c.predict_one(
                     sel.lookup, opponent, as_of, confirmed=state, team=team
                 )
@@ -1317,7 +1326,7 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                             sel.lookup,
                             opponent,
                             as_of,
-                            confirmed="start" if sel.confirmed else None,
+                            confirmed=sel.sheet if sel.sheet else ("start" if sel.confirmed else None),
                             team=team,
                         )
                     by_market[market] = (dists, whys)

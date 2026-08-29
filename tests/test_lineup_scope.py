@@ -39,3 +39,17 @@ class TestScoping:
 
     def test_an_empty_feed_is_safe(self):
         assert scope_lineups({}, {"Fulham v Chelsea"}) == {}
+
+
+class TestTheSheetsVerdictForEveryone:
+    """Once a team sheet exists, every player carries its verdict: the eleven
+    start, the named substitutes are on the bench, and everyone else is out.
+    Sending only "start" left the rest on their season start chance."""
+
+    def test_starters_bench_and_out(self):
+        from foulgorithm.publish.player_round import Selection
+
+        assert Selection("A", "A B", None, "MF", True, "", confirmed=True, sheet="start").sheet == "start"
+        assert Selection("C", "C D", None, "MF", True, "", sheet="bench").sheet == "bench"
+        assert Selection("E", "E F", None, "MF", True, "", sheet="out").sheet == "out"
+        assert Selection("G", "G H", None, "MF", True, "").sheet is None
