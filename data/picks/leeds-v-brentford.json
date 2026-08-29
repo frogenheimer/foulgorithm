@@ -337,6 +337,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 7,
+   "publishedAt": "2026-08-29T10:25:10+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 34.33,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Wilson",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 8
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 53,
+       "backers": 8
+      },
+      {
+       "player": "Bogle",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 7
+      },
+      {
+       "player": "Stach",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 6
+      },
+      {
+       "player": "Stach",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 29,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

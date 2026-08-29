@@ -393,6 +393,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 8,
+   "publishedAt": "2026-08-29T10:25:10+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 29.76,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Fofana",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 7
+      },
+      {
+       "player": "Jo\u00e3o Pedro",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 49,
+       "backers": 7
+      },
+      {
+       "player": "Costinha",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 48,
+       "backers": 6
+      },
+      {
+       "player": "Ayari",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 57,
+       "backers": 4
+      },
+      {
+       "player": "Boscagli",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 50,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

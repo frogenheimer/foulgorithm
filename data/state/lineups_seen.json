@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-28T18:41:22.887462+00:00",
+  "checkedAt": "2026-08-29T10:27:29.084213+00:00",
   "lineups": {
     "Arsenal|Arsenal v Coventry": {
       "formation": "4-2-3-1",
@@ -114,7 +114,7 @@
       ]
     },
     "Crystal Palace|Crystal Palace v Man City": {
-      "formation": null,
+      "formation": "3-4-2-1",
       "starters": [
         "Adam Wharton",
         "Anan Khalaili",
@@ -225,6 +225,22 @@
         "Tarik Muharemovic"
       ]
     },
+    "Liverpool|Liverpool v Nott'm Forest": {
+      "formation": null,
+      "starters": [
+        "Alexander Isak",
+        "Alexis Mac Allister",
+        "Alisson Becker",
+        "Cody Gakpo",
+        "Dominik Szoboszlai",
+        "Florian Wirtz",
+        "Jeremie Frimpong",
+        "J\u00e9r\u00e9my Jacquet",
+        "Milos Kerkez",
+        "Virgil van Dijk",
+        "V\u00edctor Mu\u00f1oz"
+      ]
+    },
     "Liverpool|Newcastle v Liverpool": {
       "formation": "4-2-3-1",
       "starters": [
@@ -242,7 +258,7 @@
       ]
     },
     "Man City|Crystal Palace v Man City": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Abdukodir Khusanov",
         "Antoine Semenyo",
@@ -303,6 +319,22 @@
         "Sven Botman",
         "William Osula",
         "Yoane Wissa"
+      ]
+    },
+    "Nott'm Forest|Liverpool v Nott'm Forest": {
+      "formation": null,
+      "starters": [
+        "Dan Ndoye",
+        "Igor Jesus",
+        "Jair Cunha",
+        "James McAtee",
+        "Matz Sels",
+        "Morgan Gibbs-White",
+        "Murillo",
+        "Neco Williams",
+        "Nikola Milenkovic",
+        "Ola Aina",
+        "Xaver Schlager"
       ]
     },
     "Nott'm Forest|Nott'm Forest v Leeds": {

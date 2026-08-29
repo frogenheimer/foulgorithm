@@ -393,6 +393,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 8,
+   "publishedAt": "2026-08-29T10:25:10+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 26.06,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Dibling",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 43,
+       "backers": 9
+      },
+      {
+       "player": "Ndiaye",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 7
+      },
+      {
+       "player": "Truffert",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 53,
+       "backers": 5
+      },
+      {
+       "player": "Dibling",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 68,
+       "backers": 4
+      },
+      {
+       "player": "Tarkowski",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 53,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }
