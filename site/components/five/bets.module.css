@@ -335,8 +335,8 @@
 
 .rStamp {
   position: absolute;
-  right: var(--s4);
-  top: var(--s8);
+  right: var(--s3);
+  top: var(--s2);
   transform: rotate(-12deg);
   border: 2px solid var(--ink-stamp);
   color: var(--ink-stamp);
@@ -519,11 +519,14 @@
   text-align: right;
 }
 
+.tVerdictRow {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--s2);
+}
+
 .tVerdict {
-  position: absolute;
-  right: var(--s4);
-  bottom: var(--s3);
-  transform: rotate(-8deg);
+  transform: rotate(-6deg);
   border: 2px solid var(--ink-stamp);
   color: var(--ink-stamp);
   padding: 0 var(--s2);
@@ -661,11 +664,16 @@
   justify-content: space-between;
 }
 
+/* The stamp sits in the flow between the total box and the footer, over
+   paper only: pinned to the top it landed on the first selection. */
+.sStampRow {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--s1) var(--s3) 0 0;
+}
+
 .sStamp {
-  position: absolute;
-  right: var(--s5);
-  top: var(--s8);
-  transform: rotate(9deg);
+  transform: rotate(-6deg);
   border: 3px double var(--ink-stamp);
   color: var(--ink-stamp);
   border-radius: var(--r-pill);

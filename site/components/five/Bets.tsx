@@ -341,7 +341,11 @@ function PaperSlip({
               </li>
             ))}
           </ol>
-          {verdict && <span className={s.tVerdict}>{stamp}</span>}
+          {verdict && (
+            <div className={s.tVerdictRow}>
+              <span className={s.tVerdict}>{stamp}</span>
+            </div>
+          )}
         </div>
         <div className={s.tStub}>
           <span className={s.tTier}>{tier}</span>
@@ -377,11 +381,13 @@ function PaperSlip({
         <span>{words}</span>
         <span>{price}/100</span>
       </div>
+      <div className={s.sStampRow}>
+        <span className={s.sStamp}>{stamp}</span>
+      </div>
       <div className={s.sFoot}>
         <span>{fixture}</span>
         <span>the house</span>
       </div>
-      <span className={s.sStamp}>{stamp}</span>
     </article>
   );
 }
