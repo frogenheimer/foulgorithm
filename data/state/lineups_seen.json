@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-29T13:55:35.238027+00:00",
+  "checkedAt": "2026-08-29T15:29:37.453477+00:00",
   "lineups": {
     "Arsenal|Arsenal v Coventry": {
       "formation": "4-2-3-1",
@@ -385,6 +385,22 @@
         "Yoane Wissa"
       ]
     },
+    "Newcastle|Tottenham v Newcastle": {
+      "formation": null,
+      "starters": [
+        "Amar Dedic",
+        "Anthony Elanga",
+        "Harvey Barnes",
+        "Joe Willock",
+        "Lewis Hall",
+        "Lewis Miley",
+        "Luk\u00e1s Horn\u00edcek",
+        "Malick Thiaw",
+        "Nico Gonz\u00e1lez",
+        "Sven Botman",
+        "Yoane Wissa"
+      ]
+    },
     "Nott'm Forest|Liverpool v Nott'm Forest": {
       "formation": "3-4-2-1",
       "starters": [
@@ -446,6 +462,22 @@
         "Mathys Tel",
         "Mikey Moore",
         "Richarlison",
+        "Sandro Tonali"
+      ]
+    },
+    "Tottenham|Tottenham v Newcastle": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Andy Robertson",
+        "Anton\u00edn Kinsky",
+        "Archie Gray",
+        "Jan Paul van Hecke",
+        "Mateus Fernandes",
+        "Mathys Tel",
+        "Micky van de Ven",
+        "Omar Marmoush",
+        "Pedro Porro",
+        "Rodrigo Bentancur",
         "Sandro Tonali"
       ]
     }

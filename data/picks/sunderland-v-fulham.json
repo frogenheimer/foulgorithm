@@ -393,6 +393,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 8,
+   "publishedAt": "2026-08-29T15:27:27+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 16.02,
+     "outOf100": 6,
+     "houseOutOf100": 6,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Andersen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 55,
+       "backers": 8
+      },
+      {
+       "player": "Xhaka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 55,
+       "backers": 7
+      },
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 6
+      },
+      {
+       "player": "Berge",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 6
+      },
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 6
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

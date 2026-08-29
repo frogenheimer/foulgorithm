@@ -505,6 +505,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 10,
+   "publishedAt": "2026-08-29T15:27:27+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 23.3,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Senesi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 59,
+       "backers": 5
+      },
+      {
+       "player": "Udogie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 4
+      },
+      {
+       "player": "Tonali",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 4
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 44,
+       "backers": 4
+      },
+      {
+       "player": "Fernandes",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 72,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
