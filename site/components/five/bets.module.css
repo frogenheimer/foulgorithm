@@ -482,7 +482,7 @@
 
 .tRow {
   display: grid;
-  grid-template-columns: var(--s5) minmax(0, 1fr) auto var(--s6);
+  grid-template-columns: minmax(0, 1fr) auto var(--s6);
   gap: var(--s2);
   align-items: baseline;
   padding: var(--s1) 0;
@@ -493,11 +493,10 @@
   border-top: 1px dashed var(--ticket-line);
 }
 
+/* Seat numbers were the column that made names truncate at three across.
+   The rows are ordered anyway; the number said nothing the order did not. */
 .tSeat {
-  font-family: var(--font-mono);
-  font-size: var(--t-xs);
-  font-weight: 600;
-  color: var(--on-hero-2);
+  display: none;
 }
 
 .tName {
@@ -665,7 +664,7 @@
 .sStamp {
   position: absolute;
   right: var(--s5);
-  bottom: var(--s10);
+  top: var(--s8);
   transform: rotate(9deg);
   border: 3px double var(--ink-stamp);
   color: var(--ink-stamp);
