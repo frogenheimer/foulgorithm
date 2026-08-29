@@ -46,6 +46,7 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [37-display-decisions.md](37-display-decisions.md) | The ratification round: what stayed, what moved, what came back |
 | [38-the-contract.md](38-the-contract.md) | **Three bets per model per game. The plan of record; supersedes 36 and 37 on the bets** |
 | [39-instrument-grade.md](39-instrument-grade.md) | **The visual redesign: dark-first modules, the chart vocabulary, the temper-ring badges** |
+| [48-cards.md](48-cards.md) | **Cards as a bonus area, house only: match totals and referees gated, player bookings as a risk board beside the base rate** |
 | [47-next-session.md](47-next-session.md) | **The handoff prompt: rules, state, the missed slip-card brief, and everything raised but not built** |
 | [46-match-table.md](46-match-table.md) | **The fixture page's one player table: sortable, XI-aware, house-badged, phone-friendly** |
 | [45-foul-events.md](45-foul-events.md) | **The contract, amended again: safe, optimistic and rogue slips needing four, five and six foul events; the house makes the same three** |
