@@ -108,6 +108,7 @@ jobs:
         run: |
           git config user.name "foulgorithm-bot"
           git config user.email "foulgorithm@users.noreply.github.com"
+          git config merge.ours.driver true
           git add site/public/data data/state/lineups_seen.json data/state/positions_seen.json data/predictions data/slates data/picks
           git diff --cached --quiet && exit 0
           git commit -m "Confirmed lineups for this round"
@@ -151,6 +152,7 @@ jobs:
         run: |
           git config user.name "foulgorithm-bot"
           git config user.email "foulgorithm@users.noreply.github.com"
+          git config merge.ours.driver true
           git add site/public/data/cup.json site/public/data/fixtures data/state/cup_lineups_seen.json data/state/positions_seen.json data/state/expected_totals.json
           git diff --cached --quiet && exit 0
           git commit -m "Confirmed cup lineups"

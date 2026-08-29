@@ -1,0 +1,17 @@
+# The scheduled jobs commit from parallel runners and race each other by
+# seconds (29 August 2026: the 15:00 elevens were published and then lost
+# to a rebase conflict against the Liverpool commit). The record is
+# append-only line stores, so a merge is a UNION of both sides' lines;
+# the site payload and the job state are regenerated wholesale by every
+# run, so the side being rebased keeps its own. Workflows and local clones
+# enable the ours driver with: git config merge.ours.driver true
+data/predictions/*.jsonl merge=union
+data/slates/*.jsonl merge=union
+data/picks/*.json merge=ours
+data/graded/*.jsonl merge=union
+data/settled/*.jsonl merge=union
+data/state/magician_lineage.jsonl merge=union
+data/state/stats_latency.jsonl merge=union
+data/state/*.json merge=ours
+site/public/data/*.json merge=ours
+site/public/data/fixtures/*.json merge=ours

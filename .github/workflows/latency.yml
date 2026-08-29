@@ -52,6 +52,7 @@ jobs:
         run: |
           git config user.name "foulgorithm-bot"
           git config user.email "foulgorithm@users.noreply.github.com"
+          git config merge.ours.driver true
           git add data/state/stats_latency.jsonl
           git diff --cached --quiet && exit 0
           git commit -m "Stats posting latency, measured"
