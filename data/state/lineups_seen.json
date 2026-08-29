@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-29T10:27:29.084213+00:00",
+  "checkedAt": "2026-08-29T13:55:35.238027+00:00",
   "lineups": {
     "Arsenal|Arsenal v Coventry": {
       "formation": "4-2-3-1",
@@ -31,6 +31,22 @@
         "Pau Torres",
         "Ross Barkley",
         "Victor Lindel\u00f6f"
+      ]
+    },
+    "Bournemouth|Bournemouth v Everton": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Adam Smith",
+        "Adrien Truffert",
+        "Alex Scott",
+        "Ant\u00f3nio Silva",
+        "Djordje Petrovic",
+        "Evanilson",
+        "James Hill",
+        "Justin Kluivert",
+        "Lewis Cook",
+        "Marcus Tavernier",
+        "Rayan"
       ]
     },
     "Bournemouth|Man City v Bournemouth": {
@@ -113,6 +129,22 @@
         "Milan van Ewijk"
       ]
     },
+    "Coventry|Coventry v Hull": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Aur\u00e8le Amenda",
+        "Bobby Thomas",
+        "Caleb Yirenkyi",
+        "Carl Rushworth",
+        "Ephron Mason-Clark",
+        "Jack Rudoni",
+        "Jay Dasilva",
+        "Loum Tchaouna",
+        "Matt Grimes",
+        "Milan van Ewijk",
+        "Taiwo Awoniyi"
+      ]
+    },
     "Crystal Palace|Crystal Palace v Man City": {
       "formation": "3-4-2-1",
       "starters": [
@@ -145,6 +177,22 @@
         "Tyrick Mitchell"
       ]
     },
+    "Everton|Bournemouth v Everton": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Harrison Armstrong",
+        "Iliman Ndiaye",
+        "James Garner",
+        "James Tarkowski",
+        "Jarrad Branthwaite",
+        "Jordan Pickford",
+        "Kiernan Dewsbury-Hall",
+        "Merlin R\u00f6hl",
+        "Thierno Barry",
+        "Tyrique George",
+        "Vitalii Mykolenko"
+      ]
+    },
     "Everton|Everton v Crystal Palace": {
       "formation": "4-2-3-1",
       "starters": [
@@ -175,6 +223,22 @@
         "Oscar Bobb",
         "Sander Berge",
         "Timothy Castagne"
+      ]
+    },
+    "Hull|Coventry v Hull": {
+      "formation": "5-4-1",
+      "starters": [
+        "Elliot Stroud",
+        "Hidemasa Morita",
+        "John Egan",
+        "Konstantinos Tzolakis",
+        "Lewie Coyle",
+        "Mohamed Belloumi",
+        "Nobel Mendy",
+        "Oliver McBurnie",
+        "Regan Slater",
+        "Ryan Giles",
+        "Semi Ajayi"
       ]
     },
     "Hull|Hull v Man United": {
@@ -226,7 +290,7 @@
       ]
     },
     "Liverpool|Liverpool v Nott'm Forest": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Alexander Isak",
         "Alexis Mac Allister",
@@ -322,7 +386,7 @@
       ]
     },
     "Nott'm Forest|Liverpool v Nott'm Forest": {
-      "formation": null,
+      "formation": "3-4-2-1",
       "starters": [
         "Dan Ndoye",
         "Igor Jesus",

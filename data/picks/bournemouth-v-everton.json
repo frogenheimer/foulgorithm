@@ -449,6 +449,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 9,
+   "publishedAt": "2026-08-29T13:53:56+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 14.22,
+     "outOf100": 7,
+     "houseOutOf100": 7,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Armstrong",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 60,
+       "backers": 8
+      },
+      {
+       "player": "George",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 6
+      },
+      {
+       "player": "Dewsbury-Hall",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 6
+      },
+      {
+       "player": "Tarkowski",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 5
+      },
+      {
+       "player": "R\u00f6hl",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 58,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

@@ -449,6 +449,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 9,
+   "publishedAt": "2026-08-29T13:53:56+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 32.92,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Hall",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 57,
+       "backers": 6
+      },
+      {
+       "player": "N.Gonzalez",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 35,
+       "backers": 5
+      },
+      {
+       "player": "P.M.Sarr",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 4
+      },
+      {
+       "player": "Van Hecke",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 4
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 46,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

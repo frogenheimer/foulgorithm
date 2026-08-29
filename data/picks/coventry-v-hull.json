@@ -393,6 +393,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 8,
+   "publishedAt": "2026-08-29T13:53:56+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.47,
+     "outOf100": 10,
+     "houseOutOf100": 10,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Giles",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 8
+      },
+      {
+       "player": "Slater",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 7
+      },
+      {
+       "player": "Egan",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 6
+      },
+      {
+       "player": "McBurnie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 74,
+       "backers": 5
+      },
+      {
+       "player": "Coyle",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
