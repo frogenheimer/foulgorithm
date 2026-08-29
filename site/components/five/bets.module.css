@@ -214,3 +214,467 @@
 .medal3 {
   background: var(--bronze);
 }
+
+
+/* ---------- the paper variants (docs/47) ---------- */
+
+.paper {
+  position: relative;
+  min-width: 0;
+  color: var(--paper-ink);
+}
+
+.pWon {
+  color: var(--good);
+}
+
+.pLost {
+  color: var(--paper-ink-3);
+  text-decoration: line-through;
+}
+
+.pVoid {
+  color: var(--paper-ink-3);
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* A. thermal receipt: cream paper with feed lines and serrated tear edges. */
+.receipt {
+  background: var(--paper-thermal);
+  background-image: repeating-linear-gradient(
+    0deg,
+    var(--paper-line) 0 1px,
+    transparent 1px 3px
+  );
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  padding: var(--s4) var(--s4) var(--s5);
+  margin-block: var(--s2);
+}
+
+.receipt::before,
+.receipt::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--s2);
+  background:
+    linear-gradient(135deg, transparent 50%, var(--paper-thermal) 50%) 0 0 / var(--s2) var(--s2),
+    linear-gradient(225deg, transparent 50%, var(--paper-thermal) 50%) 0 0 / var(--s2) var(--s2);
+}
+
+.receipt::before {
+  top: calc(var(--s2) * -1);
+}
+
+.receipt::after {
+  bottom: calc(var(--s2) * -1);
+  transform: rotate(180deg);
+}
+
+.rHead {
+  text-align: center;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  border-bottom: 1px dashed var(--paper-line-strong);
+  padding-bottom: var(--s2);
+  margin-bottom: var(--s2);
+}
+
+.rHead small {
+  display: block;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+  color: var(--paper-ink-2);
+}
+
+.rLegs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rLeg {
+  display: flex;
+  gap: var(--s2);
+  align-items: baseline;
+  padding: var(--s1) 0;
+}
+
+.rWhat {
+  color: var(--paper-ink-2);
+}
+
+.rDots {
+  flex: 1;
+  border-bottom: 1px dotted var(--paper-line-strong);
+}
+
+.rTotal {
+  border-top: 1px dashed var(--paper-line-strong);
+  margin-top: var(--s2);
+  padding-top: var(--s2);
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.rBar {
+  margin-top: var(--s3);
+  height: var(--s7);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--paper-ink) 0 2px,
+    transparent 2px 4px,
+    var(--paper-ink) 4px 5px,
+    transparent 5px 8px
+  );
+}
+
+.rStamp {
+  position: absolute;
+  right: var(--s4);
+  top: var(--s8);
+  transform: rotate(-12deg);
+  border: 2px solid var(--ink-stamp);
+  color: var(--ink-stamp);
+  padding: 0 var(--s2);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* B. boarding pass: a dark ticket with a tear-off stub and punched holes. */
+.ticket {
+  display: grid;
+  grid-template-columns: 1fr var(--stub);
+  --stub: calc(var(--s10) + var(--s7));
+  background: var(--ticket);
+  border: 1px solid var(--ticket-line);
+  color: var(--on-hero);
+  font-family: var(--font-display);
+  --ink-3: var(--on-hero-2);
+}
+
+/* The punched holes, either end of the perforation. */
+.ticket::before,
+.ticket::after {
+  content: "";
+  position: absolute;
+  right: calc(var(--stub) - var(--s2));
+  width: var(--s4);
+  height: var(--s4);
+  border-radius: var(--r-pill);
+  background: var(--ground);
+  border: 1px solid var(--ticket-line);
+  z-index: 1;
+}
+
+.ticket::before {
+  top: calc(var(--s2) * -1);
+}
+
+.ticket::after {
+  bottom: calc(var(--s2) * -1);
+}
+
+.tMain {
+  padding: var(--s4);
+  min-width: 0;
+  position: relative;
+  display: grid;
+  gap: var(--s3);
+}
+
+.tBand {
+  display: block;
+  height: var(--s2);
+  margin: calc(var(--s4) * -1) calc(var(--s4) * -1) 0;
+  background: var(--accent-object);
+}
+
+.band_optimistic .tBand {
+  height: 0;
+  border-top: 2px solid var(--accent-object);
+}
+
+.band_rogue .tBand {
+  background: var(--warn);
+}
+
+.tKicker {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-hero-2);
+}
+
+/* LIV -> NFO, the way a pass says LHR -> JFK. */
+.tRoute {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: baseline;
+  column-gap: var(--s3);
+}
+
+.tCode {
+  font-weight: 600;
+  font-size: var(--t-xl);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.tArrow {
+  color: var(--on-hero-2);
+  font-size: var(--t-lg);
+}
+
+.tRouteNames {
+  grid-column: 1 / -1;
+  font-size: var(--t-xs);
+  color: var(--on-hero-2);
+}
+
+.tFields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s2) var(--s3);
+  border-top: 1px solid var(--ticket-line);
+  border-bottom: 1px solid var(--ticket-line);
+  padding: var(--s2) 0;
+}
+
+.tField {
+  display: grid;
+  gap: var(--s1);
+  min-width: 0;
+}
+
+.tFieldLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--on-hero-2);
+}
+
+.tFieldValue {
+  font-weight: 600;
+  font-size: var(--t-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tRows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tRow {
+  display: grid;
+  grid-template-columns: var(--s5) minmax(0, 1fr) auto var(--s6);
+  gap: var(--s2);
+  align-items: baseline;
+  padding: var(--s1) 0;
+  font-size: var(--t-sm);
+}
+
+.tRow + .tRow {
+  border-top: 1px dashed var(--ticket-line);
+}
+
+.tSeat {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--on-hero-2);
+}
+
+.tName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tWhat {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--on-hero-2);
+  white-space: nowrap;
+}
+
+.tPrice {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-align: right;
+}
+
+.tVerdict {
+  position: absolute;
+  right: var(--s4);
+  bottom: var(--s3);
+  transform: rotate(-8deg);
+  border: 2px solid var(--ink-stamp);
+  color: var(--ink-stamp);
+  padding: 0 var(--s2);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.tStub {
+  border-left: 2px dashed var(--ticket-line);
+  padding: var(--s4) var(--s2);
+  display: grid;
+  grid-template-rows: 1fr auto auto auto;
+  justify-items: center;
+  gap: var(--s2);
+  min-width: 0;
+  background: var(--surface-sunk);
+}
+
+.tTier {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--t-sm);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-object);
+  justify-self: center;
+}
+
+.band_rogue .tTier {
+  color: var(--warn);
+}
+
+.tQr {
+  display: block;
+  width: var(--s10);
+  height: var(--s10);
+  background: var(--paper);
+  padding: var(--s1);
+  align-self: center;
+}
+
+.tQr img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tScan {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--on-hero-2);
+}
+
+.tStubPrice {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 600;
+}
+
+/* C. bookie's slip: ruled paper, biro, a printed total box, a red stamp. */
+.slipPaper {
+  background: var(--paper-slip);
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0 calc(var(--s6) - 1px),
+    var(--paper-rule) calc(var(--s6) - 1px) var(--s6)
+  );
+  padding: var(--s3) var(--s4) var(--s4);
+  font-size: var(--t-sm);
+}
+
+.sHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid var(--paper-ink);
+  padding-bottom: var(--s1);
+  margin-bottom: var(--s1);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: var(--t-xs);
+}
+
+.sRows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sRow {
+  display: grid;
+  grid-template-columns: 1fr auto var(--s8);
+  gap: var(--s2);
+  line-height: var(--s6);
+}
+
+.ink {
+  font-family: var(--font-hand);
+  font-size: var(--t-xl);
+  color: var(--ink-biro);
+}
+
+.sWhat {
+  font-size: var(--t-md);
+}
+
+.sPrice {
+  text-align: right;
+}
+
+.sTotal {
+  margin-top: var(--s2);
+  border: 1px solid var(--paper-ink);
+  padding: var(--s1) var(--s2);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-weight: 600;
+  background: var(--paper-slip);
+}
+
+.sFoot {
+  margin-top: var(--s2);
+  font-size: var(--t-xs);
+  color: var(--paper-ink-3);
+  display: flex;
+  justify-content: space-between;
+}
+
+.sStamp {
+  position: absolute;
+  right: var(--s5);
+  bottom: var(--s10);
+  transform: rotate(9deg);
+  border: 3px double var(--ink-stamp);
+  color: var(--ink-stamp);
+  border-radius: var(--r-pill);
+  padding: var(--s1) var(--s3);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--t-sm);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}

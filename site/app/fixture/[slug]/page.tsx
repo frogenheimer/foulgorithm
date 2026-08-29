@@ -5,6 +5,7 @@ import SlipRail from "@/components/five/SlipRail";
 import GameSheet from "@/components/matchday/GameSheet";
 import { PageHeader, SectionHead } from "@/components/kit";
 import ClubChip from "@/components/kit/ClubChip";
+import BouncingShort from "@/components/kit/BouncingShort";
 import type { Bet, Explorer as ExplorerData, Formations, HouseSheet as Sheet, MatchdayFixture, SlateShape } from "@/lib/data";
 import { shapesFor } from "@/lib/shapes";
 import type { Outcomes } from "@/lib/graded";
@@ -149,6 +150,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
 
   return (
     <div className="stack">
+      {(home === "Arsenal" || away === "Arsenal") && <BouncingShort />}
       <div>
         <Link href={v.competition ? "/cup" : "/"} className={s.back}>
           &larr; {v.competition ? "The cups" : "Today"}

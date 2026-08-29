@@ -83,6 +83,18 @@
   --paper-ink-3: #7a7b7d;
   --paper-line: rgba(23, 24, 26, 0.14);
   --paper-line-strong: rgba(23, 24, 26, 0.32);
+  /* The slip variants (docs/47): thermal till paper, betting-shop paper,
+     its ruled blue, the biro, the red ink stamp. Paper is theme-invariant. */
+  --paper-thermal: #f4efe4;
+  --paper-slip: #fbf7ee;
+  --paper-rule: #cfd6e6;
+  --ink-biro: #1a3fa6;
+  --ink-stamp: #b3261e;
+  --ticket: #121417;
+  --ticket-line: #2a2e33;
+  /* The floating short on Arsenal pages: a vertical video's box. */
+  --short-w: 180px;
+  --short-h: 320px;
 
   /* ---- medals, for the top of the table. Paired with the word, always. ---- */
   --gold: #d4a017;

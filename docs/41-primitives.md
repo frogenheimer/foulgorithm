@@ -73,7 +73,9 @@ page is a primitive that has not been promoted yet.
 |---|---|---|
 | **`Pitch`** | `components/fixture/Pitch.tsx` | **Both elevens on a pitch.** `readOnly` drops swapping and dragging; `bases` restricts which readings are offered. The cup pages use `readOnly` with `bases={["career"]}` |
 | `ClubChip` | `components/kit/ClubChip` | A club badge. Falls back safely for a club we hold nothing for |
-| `HouseSlips` | `components/fixture/HouseSlips.tsx` | The house's three slips, safe to rogue, as SlipCards (docs/45) |
+| `HouseSlips` | `components/fixture/HouseSlips.tsx` | The house's three slips, safe to rogue, as SlipCards (docs/45), with the reader's paper choice remembered (docs/47) |
+| `SlipCard` `variant` | `components/five/Bets.tsx` | `standard` (the rail), `slip` (bookie's, default for the house), `receipt`, `ticket` (boarding pass with the QR stub). Add a variant here, never a second card |
+| `BouncingShort` | `components/kit/BouncingShort.tsx` | The Arsenal short drifting like a DVD logo. Muted, lazy, dismissable, parked under reduced motion |
 | `MatchPlayers` | `components/fixture/MatchPlayers.tsx` | **The fixture page's one player table** (docs/46): sortable, XI-aware, house-badged, phone column chooser. Built on DataTable |
 | `HouseSheet` | `components/fixture/HouseSheet.tsx` | The old tiered list; renders only for pages from before the 29 August switch |
 | `Timeline` | `components/fixture/Timeline.tsx` | A match's events |

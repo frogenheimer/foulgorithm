@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Caveat, Inter, Space_Grotesk } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import { Nav } from "@/components/kit/Nav";
 import "./tokens.css";
@@ -31,6 +31,14 @@ const display = Space_Grotesk({
   weight: ["500", "600"],
 });
 
+/** The biro on the bookie's slip variant (docs/47). */
+const hand = Caveat({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-hand",
+  weight: ["600"],
+});
+
 export const metadata: Metadata = {
   title: "Foulgorithm",
   description:
@@ -52,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-GB"
-      className={`${inter.variable} ${GeistMono.variable} ${display.variable}`}
+      className={`${inter.variable} ${GeistMono.variable} ${display.variable} ${hand.variable}`}
       suppressHydrationWarning
     >
       <head>

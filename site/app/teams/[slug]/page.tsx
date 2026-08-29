@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Card, DataTable, Metric, MetricRow, Note, PageHeader, SectionHead, Thin, thinRow } from "@/components/kit";
+import BouncingShort from "@/components/kit/BouncingShort";
 import { getTeams } from "@/lib/data";
 import type { TeamPlayer } from "@/lib/data";
 import { fixtureSlug } from "@/lib/slug";
@@ -35,6 +36,7 @@ export default async function Team({ params }: { params: Promise<{ slug: string 
 
   return (
     <div className="stack">
+      {t.team === "Arsenal" && <BouncingShort />}
       <div>
         <Link href="/teams" className={s.back}>
           &larr; Teams

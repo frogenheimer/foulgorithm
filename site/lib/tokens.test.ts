@@ -15,7 +15,7 @@ import { describe, expect, it } from "vitest";
 const ROOT = join(__dirname, "..");
 
 /** Set by next/font at runtime, or per-element inline (the character accent). */
-const RUNTIME_TOKENS = new Set(["--font-inter", "--font-geist-mono", "--font-space", "--char"]);
+const RUNTIME_TOKENS = new Set(["--font-inter", "--font-geist-mono", "--font-space", "--font-hand", "--char"]);
 
 function walk(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {

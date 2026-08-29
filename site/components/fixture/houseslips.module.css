@@ -1,3 +1,9 @@
+.wrap {
+  display: grid;
+  gap: var(--s3);
+  min-width: 0;
+}
+
 /* Three slips in a row, safe to rogue; stacked on phones. */
 .row {
   display: grid;

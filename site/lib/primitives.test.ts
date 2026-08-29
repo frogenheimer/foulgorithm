@@ -27,6 +27,7 @@ const REGISTRY: Record<string, string> = {
   dataTable: "components/kit/index.tsx",
   clubChip: "components/kit/ClubChip.tsx",
   contractCopy: "lib/contract.ts",
+  bouncingShort: "components/kit/BouncingShort.tsx",
 };
 
 /** Filename fragments that claim a role. A new file matching one of these

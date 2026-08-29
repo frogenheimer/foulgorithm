@@ -130,7 +130,7 @@ used=$( find app components \( -name "*.css" -o -name "*.tsx" -o -name "*.ts" \)
 for t in $used; do
   # --font-* arrive from next/font; --char is set per element in TSX and the
   # scan sees the template literal truncated to its prefix.
-  case "$t" in --font-inter|--font-geist-mono|--font-space|--char|--ch-) continue;; esac
+  case "$t" in --font-inter|--font-geist-mono|--font-space|--font-hand|--char|--ch-) continue;; esac
   if ! printf '%s\n' "$defs" | grep -qx -- "$t"; then
     unresolved=$((unresolved + 1))
     UNRESOLVED_LIST="${UNRESOLVED_LIST}${t}"$'\n'
