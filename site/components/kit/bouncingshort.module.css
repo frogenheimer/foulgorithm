@@ -2,8 +2,11 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: var(--short-w);
-  height: var(--short-h);
+  /* A vertical video's box; on a phone it takes under half the width and
+     keeps its shape, so the drift reads the same. */
+  width: min(var(--short-w), 42vw);
+  aspect-ratio: 9 / 16;
+  height: auto;
   z-index: 40;
   border: 2px solid var(--accent-object);
   background: var(--ground);

@@ -152,7 +152,11 @@ printf '%-6s %-52s %7s %9s  %s\n' RULE RULE_DESCRIPTION COUNT BASELINE ""
 printf '%s\n' "--------------------------------------------------------------------------------------"
 for i in "${!IDS[@]}"; do
   id="${IDS[$i]}"; n="${COUNTS[$i]}"
-  base=$( [ -f "$BASELINE" ] && "$ROOT/.venv/bin/python" -c "
+  # Any python: CI has no .venv, and reading the baseline through one made
+  # every rule's baseline zero on the runner (29 August 2026), failing the
+  # build on a backlog that sits AT baseline locally.
+  PY="${ROOT}/.venv/bin/python"; [ -x "$PY" ] || PY="$(command -v python3)"
+  base=$( [ -f "$BASELINE" ] && "$PY" -c "
 import json,sys
 try: print(json.load(open('$BASELINE')).get('$id', 0))
 except Exception: print(0)" || echo 0 )

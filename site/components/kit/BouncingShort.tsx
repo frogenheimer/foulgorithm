@@ -7,7 +7,8 @@
  * Honest costs: the embed loads YouTube's player, and autoplay is only
  * allowed muted. So it is lazy, muted, dismissable (remembered for the
  * session), parked still in a corner for anyone who asked for reduced
- * motion, and never rendered for a viewport too narrow to fit it.
+ * motion, and scaled down on phones rather than hidden: same drift, less
+ * screen.
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -28,7 +29,6 @@ export default function BouncingShort() {
     } catch {
       /* ignore */
     }
-    if (window.innerWidth < 720) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setStill(reduced);
     setShow(true);
