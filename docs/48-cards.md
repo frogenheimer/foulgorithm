@@ -26,6 +26,34 @@ are a bonus panel and never score points or boldness.
 
 ---
 
+## 🎯 The call on 30 August
+
+Oliver asked for this and the manager regime (docs/52) to be planned side
+by side and the easier one actioned first. Cards goes first: the card
+history is on file (26 seasons of team rates, 81k player-matches, referee
+cards per match already in `matchday.json`), the gate study is specified
+below, and the settle window can carry bookings as soon as the snapshot
+asks for them. The manager regime has no data yet and a rare effect.
+
+The plan, in brief:
+
+- **House only, fixture page, bonus area.** Nothing in the league, nothing
+  graded into the table.
+- **Lead with the match.** Expected total cards and per club, from the
+  referee's rate and each club's, next to the referee strip that exists.
+- **Referee gated.** No card figure until the referee is named.
+- **Player bookings as a risk board.** Each name beside the base rate,
+  marked weak; a ranking, never a shout.
+- **Grade it from day one.** Bookings settle from the same window rows as
+  fouls, so the house card record accrues before anything is promised.
+- **A fourth house slip only if the gate passes.**
+
+Today's action is step 1 of the build order: `yellow_card` and `red_card`
+into the season-totals snapshot and the settle window, so Monday's game
+is the first with a booking outcome on file. Steps 2 to 4 follow the gate.
+
+---
+
 ## 🚦 Build, in order
 
 1. **Data first.** Add `yellow_card` and `red_card` to the season-totals
