@@ -8,6 +8,7 @@ Two outputs in one file:
 from __future__ import annotations
 
 import json
+import sys
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from functools import lru_cache
@@ -957,8 +958,19 @@ def _standings(character_ids: list[str]) -> list[dict]:
         except (OSError, json.JSONDecodeError):
             completed = set()
 
+    # docs/49: a binding version that arrived after the bot's grade is graded
+    # here, from the settled rows on file, before the table is built.
+    from foulgorithm.jobs import settle as settle_job
+
+    try:
+        if settle_job.regrade_from_windows(completed):
+            graded = grading.load_all()
+    except Exception as exc:  # noqa: BLE001 - a regrade that fails must not blank the table
+        print(f"regrade from settled rows skipped: {exc}", file=sys.stderr)
+
+    lines = {p["key"]: p.get("line") for p in pred_store.load_all() if "key" in p}
     committed = slate_store.load_all()
-    joined = league.join_slates(graded, committed, completed=completed)
+    joined = league.join_slates(graded, committed, completed=completed, lines=lines)
     rows = league.table(joined, character_ids)
 
     # Boldness: rarity by the house's own price, as columns and as the
@@ -1326,7 +1338,9 @@ def _candidate_table(squads, resolution, fixtures, committed, drawn, as_of, line
                             sel.lookup,
                             opponent,
                             as_of,
-                            confirmed=sel.sheet if sel.sheet else ("start" if sel.confirmed else None),
+                            confirmed=sel.sheet
+                            if sel.sheet
+                            else ("start" if sel.confirmed else None),
                             team=team,
                         )
                     by_market[market] = (dists, whys)

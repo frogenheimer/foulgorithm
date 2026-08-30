@@ -50,3 +50,6 @@ aliases:
   Matheus Santos Carneiro Da Cunha: Matheus Cunha
   Bruno Guimarães Rodriguez Moura: Bruno Guimarães
   Igor Julio dos Santos de Paulo: Igor
+  # The league's season totals say "Andy"; our squads and claims say "Andrew".
+  # Neither token rule can bridge a different forename, so it is settled here.
+  Andrew Robertson: Andy Robertson

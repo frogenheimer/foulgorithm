@@ -118,6 +118,36 @@ def outcomes(matches: dict[str, dict[str, int]]) -> dict[tuple[str, str], float]
     }
 
 
+def resolve_outcomes(
+    matches: dict[str, dict[str, int]], claims: list[dict], overrides: dict | None = None
+) -> dict[tuple[str, str], float]:
+    """Outcomes keyed by each claim's OWN entity, not the stats source's name.
+
+    The league's season totals abbreviate ("Nico González", "Andy Robertson")
+    where the squads and therefore the claims carry the fuller name. Graded
+    on the raw name, 29 of the 36 legs that read as no-shows on 30 August
+    were this gap, and docs/49 makes a no-show a loss, so the gap has to be
+    closed first. Resolution is identity.players' rules, both token
+    directions plus the human crosswalk, and a name they refuse stays
+    ungraded rather than guessed (ADR-007). The raw keys stay in the map so
+    a claim already on the source's spelling grades as before.
+    """
+    from foulgorithm.identity.players import resolve_names
+
+    out = outcomes(matches)
+    entities = sorted({c["entity"] for c in claims if c.get("entity")})
+    if not entities or not matches:
+        return out
+    found = resolve_names(entities, list(matches), overrides=overrides).matched
+    for entity, source_name in found.items():
+        if entity == source_name:
+            continue
+        for market in ("player_fouls_committed", "player_fouls_drawn"):
+            if (source_name, market) in out:
+                out.setdefault((entity, market), out[(source_name, market)])
+    return out
+
+
 def pending_fixtures(fixtures, now=None) -> list:
     """Fixtures that have started but whose stats may not have posted yet.
 
@@ -187,6 +217,70 @@ def refresh_table(path: Path = PLAYERS) -> bool:
     return True
 
 
+def regrade_from_windows(
+    completed: set[str],
+    claims: list[dict] | None = None,
+    rows_path: Path = SETTLED_ROWS,
+    graded_root: Path | None = None,
+) -> int:
+    """Grade any ungraded claim for a completed fixture from the rows on file.
+
+    docs/49. The settle job grades the binding version it can see at the
+    moment it runs. A version that arrives afterwards (a hand publish pushed
+    late, a rebase of two histories) used to sit ungraded all season, and
+    the table read it as unsettled or void. The per-match rows persisted at
+    settle time are enough to grade at any time, so every table refresh
+    does. Append-only and deduplicated on the claim key by the grader
+    itself, so a rerun changes nothing. Returns how many claims were graded.
+    """
+    from foulgorithm.review import grade as grading
+    from foulgorithm.store import predictions as pred_store
+
+    if not completed or not rows_path.exists():
+        return 0
+    root = graded_root if graded_root is not None else grading.GRADED
+    windows: dict[tuple[str | None, str], dict] = {}
+    for line in rows_path.read_text().splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        key = (row.get("window_start"), row["window_end"])
+        windows.setdefault(key, {})[row["player"]] = {
+            "fouls_committed": row.get("fouls_committed", 0),
+            "fouls_drawn": row.get("fouls_drawn", 0),
+        }
+    if not windows:
+        return 0
+
+    have = {g["key"] for g in grading.load_all(root)}
+    pool = claims if claims is not None else pred_store.load_all()
+    pending = [c for c in pool if c.get("fixture") in completed and c.get("key") not in have]
+    if not pending:
+        return 0
+
+    def _at(value: str | None):
+        return datetime.fromisoformat(value.replace("Z", "+00:00")) if value else None
+
+    graded = 0
+    for (start, end), matches in windows.items():
+        opened, closed = _at(start), _at(end)
+        inside = [
+            c
+            for c in pending
+            if closed is not None
+            and (kick := _at(c.get("kickoff"))) is not None
+            and kick < closed
+            and (opened is None or kick > opened)
+        ]
+        if not inside:
+            continue
+        result = grading.grade(resolve_outcomes(matches, inside), predictions=inside, root=root)
+        graded += result["graded"]
+        done = {g.key for g in result["results"]}
+        pending = [c for c in pending if c.get("key") not in done]
+    return graded
+
+
 def run(dry_run: bool = False) -> int:
     from foulgorithm.review import grade as grading
     from foulgorithm.sources import player_season_stats
@@ -243,7 +337,7 @@ def run(dry_run: bool = False) -> int:
         print(f"{len(settled)} fixtures settled, but no predictions match them")
         return 1
 
-    result = grading.grade(outcomes(matches), predictions=claims)
+    result = grading.grade(resolve_outcomes(matches, claims), predictions=claims)
     summary = grading.summarise(result["results"])
     print(
         f"settled {len(matches)} players, graded {result['graded']} claims, "

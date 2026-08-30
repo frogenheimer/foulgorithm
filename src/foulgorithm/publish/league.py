@@ -514,7 +514,10 @@ def binding_versions(committed: list[dict]) -> list[dict]:
 
 
 def join_slates(
-    graded: list[dict], committed: list[dict], completed: set[str] | None = None
+    graded: list[dict],
+    committed: list[dict],
+    completed: set[str] | None = None,
+    lines: dict[str, float] | None = None,
 ) -> list[dict]:
     """Pair graded claims with the bets that selected them.
 
@@ -549,17 +552,33 @@ def join_slates(
             deficit = 1
         outcome[row["key"]] = {"landed": landed, "deficit": deficit}
 
+    # docs/49: under the contract a void leg on a completed game is zero
+    # foul events and the bet keeps its target, so every model plays every
+    # bet. The shortfall is the leg's own line, a 2+ shout that never played
+    # being two short; a line nobody recorded falls back to one.
+    priced_keys = {t.key for t in ensemble.TIERS}
+    lines = lines or {}
+
     out = []
     for slate in binding_versions(committed):
         claim_keys = slate.get("claim_keys", [])
         fixture = slate.get("fixture")
         game_over = bool(completed) and fixture in (completed or set())
-        voided = sum(1 for k in claim_keys if k not in outcome) if game_over else 0
-        expected = len(claim_keys) - voided
+        priced = slate.get("slate") in priced_keys
+        if priced:
+            expected = len(claim_keys)
+        else:
+            voided = sum(1 for k in claim_keys if k not in outcome) if game_over else 0
+            expected = len(claim_keys) - voided
         for claim_key in claim_keys:
             if claim_key not in outcome:
-                continue  # not settled yet, and an unsettled leg is not a miss
-            graded_leg = outcome[claim_key]
+                if not (priced and game_over):
+                    continue  # not settled yet, and an unsettled leg is not a miss
+                line = lines.get(claim_key)
+                shortfall = int(float(line) + 0.5) if line is not None else 1
+                graded_leg = {"landed": False, "deficit": max(shortfall, 1)}
+            else:
+                graded_leg = outcome[claim_key]
             out.append(
                 {
                     "key": claim_key,
@@ -698,8 +717,6 @@ def table(graded: list[dict], character_ids: list[str], since: str = SEASON_STAR
             need = expected.get(key, 0 if priced_bet else shape_legs.get(slate_key, 0))
             if not pairs or need == 0 or len(pairs) != need:
                 continue  # not every leg has settled, so it is not a result yet
-            if priced_bet and need < 2:
-                continue  # voided below two legs: void whole, not a result (docs/42)
 
             score = (
                 ensemble.score_priced(pairs)

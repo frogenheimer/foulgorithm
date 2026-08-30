@@ -802,9 +802,11 @@ class TestScoringPricedBets:
         )
         assert rows[0]["lost"] == 1
 
-    def test_a_bet_voided_below_two_legs_is_not_a_result(self):
+    def test_a_bet_down_to_one_graded_leg_still_plays(self):
+        # docs/49 replaced docs/42's below-two-legs void: the join now emits
+        # the void legs as misses, so whatever reaches the table is a result.
         rows = league.table(priced_graded("alan", "safe", [(True, 0)]), ["alan"])
-        assert rows[0]["played"] == 0
+        assert (rows[0]["played"], rows[0]["won"]) == (1, 1)
 
     def test_old_shapes_keep_the_old_rule(self):
         # Under the shapes, "all but one leg" is the draw whatever the deficit.
@@ -861,3 +863,81 @@ class TestOneContractPerGame:
             ]
         )
         assert [r["slate"] for r in rows] == ["six-ones"]
+
+
+class TestAVoidLegUnderTheContract:
+    """docs/49: a leg whose player never featured is zero foul events, and
+    the bet keeps its target, so P is the same for every model on a game.
+    Old-shape bets keep docs/42's rule, a game scoring under the contract of
+    its kickoff date."""
+
+    PRICED = [
+        {
+            "character": "alan",
+            "slate": "safe",
+            "kickoff": "2026-08-29T15:30:00+00:00",
+            "claim_keys": ["aaa", "bbb", "ccc"],
+        }
+    ]
+    OLD = [
+        {
+            "character": "alan",
+            "slate": "three-twos",
+            "kickoff": "2026-08-28T19:00:00+00:00",
+            "claim_keys": ["aaa", "bbb", "ccc"],
+        }
+    ]
+    DONE = {"Tottenham v Newcastle"}
+
+    @staticmethod
+    def _graded(keys, won=True):
+        return [{"key": k, "won": won, "line": 0.5, "observed": 1 if won else 0} for k in keys]
+
+    def test_a_void_leg_is_a_miss_with_its_lines_shortfall(self):
+        slates = [dict(self.PRICED[0], fixture="Tottenham v Newcastle")]
+        joined = league.join_slates(
+            self._graded(["aaa", "bbb"]), slates, completed=self.DONE, lines={"ccc": 1.5}
+        )
+        void = next(r for r in joined if r["key"] == "ccc")
+        assert void["landed"] is False
+        assert void["deficit"] == 2
+        assert all(r["extra"]["expected"] == 3 for r in joined)
+
+    def test_the_bet_then_scores_on_its_full_target(self):
+        slates = [dict(self.PRICED[0], fixture="Tottenham v Newcastle")]
+        joined = league.join_slates(
+            self._graded(["aaa", "bbb"]), slates, completed=self.DONE, lines={"ccc": 0.5}
+        )
+        row = next(r for r in league.table(joined, FIVE) if r["id"] == "alan")
+        # Two landed, one 1+ leg never played: exactly one foul short, a draw.
+        assert (row["played"], row["drawn"], row["points"], row["difference"]) == (1, 1, 1, 1)
+
+    def test_a_bet_voided_to_one_leg_still_plays(self):
+        slates = [dict(self.PRICED[0], fixture="Tottenham v Newcastle")]
+        joined = league.join_slates(
+            self._graded(["aaa"]), slates, completed=self.DONE, lines={"bbb": 0.5, "ccc": 1.5}
+        )
+        row = next(r for r in league.table(joined, FIVE) if r["id"] == "alan")
+        assert (row["played"], row["lost"]) == (1, 1)
+
+    def test_a_void_without_a_known_line_is_one_short(self):
+        slates = [dict(self.PRICED[0], fixture="Tottenham v Newcastle")]
+        joined = league.join_slates(self._graded(["aaa", "bbb"]), slates, completed=self.DONE)
+        assert next(r for r in joined if r["key"] == "ccc")["deficit"] == 1
+
+    def test_an_open_game_still_waits(self):
+        slates = [dict(self.PRICED[0], fixture="Tottenham v Newcastle")]
+        joined = league.join_slates(self._graded(["aaa", "bbb"]), slates, completed=set())
+        assert {r["key"] for r in joined} == {"aaa", "bbb"}
+        assert league.table(joined, FIVE)[0]["played"] == 0
+
+    def test_an_old_shape_keeps_the_struck_leg_rule(self):
+        slates = [dict(self.OLD[0], fixture="Liverpool v Nott'm Forest")]
+        joined = league.join_slates(
+            self._graded(["aaa", "bbb"]),
+            slates,
+            completed={"Liverpool v Nott'm Forest"},
+            lines={"ccc": 1.5},
+        )
+        assert {r["key"] for r in joined} == {"aaa", "bbb"}
+        assert all(r["extra"]["expected"] == 2 for r in joined)
