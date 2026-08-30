@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-30T11:57:52.287039+00:00",
+  "checkedAt": "2026-08-30T14:30:07.656368+00:00",
   "lineups": {
     "Arsenal|Arsenal v Coventry": {
       "formation": "4-2-3-1",
@@ -82,7 +82,7 @@
       ]
     },
     "Brentford|Leeds v Brentford": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Caoimh\u00edn Kelleher",
         "Igor Thiago",
@@ -114,7 +114,7 @@
       ]
     },
     "Brighton|Chelsea v Brighton": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Bart Verbruggen",
         "Charalampos Kostoulas",
@@ -130,7 +130,7 @@
       ]
     },
     "Chelsea|Chelsea v Brighton": {
-      "formation": null,
+      "formation": "3-4-2-1",
       "starters": [
         "Cole Palmer",
         "Emiliano Mart\u00ednez",
@@ -337,8 +337,24 @@
         "Sasa Lukic"
       ]
     },
-    "Leeds|Leeds v Brentford": {
+    "Ipswich|Man United v Ipswich": {
       "formation": null,
+      "starters": [
+        "Abdul Fatawu",
+        "Daizen Maeda",
+        "Dara O'Shea",
+        "Emersonn",
+        "Issa Diop",
+        "Jacob Greaves",
+        "Julio Enciso",
+        "Kjell Scherpen",
+        "Leif Davis",
+        "Marcelino N\u00fa\u00f1ez",
+        "Sasa Lukic"
+      ]
+    },
+    "Leeds|Leeds v Brentford": {
+      "formation": "3-4-2-1",
       "starters": [
         "Anton Stach",
         "Brenden Aaronson",
@@ -445,6 +461,22 @@
         "Matheus Cunha",
         "Noussair Mazraoui",
         "Patrick Dorgu",
+        "Senne Lammens",
+        "Youri Tielemans"
+      ]
+    },
+    "Man United|Man United v Ipswich": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Bruno Fernandes",
+        "Bryan Mbeumo",
+        "Diogo Dalot",
+        "Harry Maguire",
+        "Kobbie Mainoo",
+        "Lisandro Mart\u00ednez",
+        "Luke Shaw",
+        "Marcus Rashford",
+        "Matheus Cunha",
         "Senne Lammens",
         "Youri Tielemans"
       ]
