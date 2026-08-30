@@ -15,7 +15,7 @@ const WORDS = ["ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "E
 
 export function vidiprinterLines(
   archived: Record<string, ArchivedFixture>,
-  cap = 18
+  cap = Infinity
 ): PrinterLine[] {
   const played = Object.values(archived)
     .filter((a) => a.result && a.bets && a.outcomes)
@@ -44,4 +44,13 @@ export function vidiprinterLines(
     }
   }
   return lines;
+}
+
+/**
+ * The order the one-line ticker plays (docs/50): every bet that landed
+ * first, then the misses, each group in the feed's own newest-first order.
+ * Nothing is dropped; the full report lists the same lines in this order.
+ */
+export function orderForTicker(lines: PrinterLine[]): PrinterLine[] {
+  return [...lines.filter((l) => l.tone === "won"), ...lines.filter((l) => l.tone !== "won")];
 }

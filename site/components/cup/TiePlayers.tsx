@@ -21,7 +21,7 @@
 import { useMemo, useState } from "react";
 import { Card, DataTable, MicroLabel, Note, Thin, thinRow } from "@/components/kit";
 import type { Column } from "@/components/kit";
-import Pitch, { type Basis, type Market } from "@/components/fixture/Pitch";
+import Pitch, { type Market } from "@/components/fixture/Pitch";
 import { toShape, toSquad } from "./toExplorer";
 import type { CupEleven, CupPlayer, CupTie } from "@/lib/cups";
 import s from "./stats.module.css";
@@ -56,10 +56,7 @@ export default function TiePlayers({ tie }: { tie: CupTie }) {
           onReset={() => {}}
           market={market}
           onMarket={setMarket}
-          basis="career"
-          onBasis={() => {}}
           readOnly
-          bases={["career"]}
         />
       </Card>
 

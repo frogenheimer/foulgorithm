@@ -42,22 +42,34 @@
 
 /* 105m by 68m is 1.54:1. Held as an aspect ratio so the shape is right at any
    width rather than a box that happens to look pitch-like. */
-.markets {
+/* The key on the left, the one market toggle on the right (docs/51). */
+.controls {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--s3);
   flex-wrap: wrap;
 }
 
-.marketNote {
+.keyFigures {
+  font-family: var(--font-mono);
   font-size: var(--t-xs);
   color: var(--ink-3);
+}
+
+.keyFigures strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .pitch {
   position: relative;
   aspect-ratio: 105 / 68;
   min-height: 420px;
+  /* The pitch measures itself (docs/51): names and rates scale with the
+     pitch's own width, never the viewport's, so a half-width window with
+     the benches beside it still fits eleven between the boxes. */
+  container-type: inline-size;
   display: flex;
   align-items: stretch;
   /* Keeps the keeper's name off the bench beside it. Without clipping to hide
@@ -259,6 +271,35 @@
   font-family: var(--font-mono);
   font-size: var(--t-sm);
   color: var(--on-turf-2);
+  white-space: nowrap;
+}
+
+/* Real per 90 in the quieter ink, expected here in the stronger one. */
+.real {
+  color: var(--on-turf-2);
+}
+
+.expected {
+  color: var(--on-turf);
+}
+
+/* A narrow pitch: one step smaller everywhere on it. The break is the
+   pitch's width, so it fires whether the pitch is narrow because the
+   window is or because the benches sit beside it. */
+@container (max-width: 720px) {
+  .name {
+    font-size: var(--t-xs);
+    max-width: 11ch;
+  }
+
+  .rate {
+    font-size: var(--t-xs);
+  }
+
+  .slot {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .benches {
@@ -310,18 +351,6 @@
   .wrap {
     overflow-x: clip;
   }
-
-  .markets {
-  display: flex;
-  align-items: center;
-  gap: var(--s3);
-  flex-wrap: wrap;
-}
-
-.marketNote {
-  font-size: var(--t-xs);
-  color: var(--ink-3);
-}
 
   .pitch {
     /* Content sizes the rotated pitch. A fixed 68/105 aspect gave eight
@@ -580,4 +609,19 @@
      hover target off the name in the line behind it. */
   padding: 1px var(--s1);
   color: var(--on-turf-2);
+}
+
+/* Between the phone map and the full desktop row, the benches drop under
+   the pitch (docs/51): the pitch takes the whole width and the two benches
+   sit side by side below it. Above 1100px the three-column row returns. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .squad {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .squad > .pitch {
+    grid-column: 1 / -1;
+    order: -1;
+    min-height: 0;
+  }
 }

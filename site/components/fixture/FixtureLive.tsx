@@ -1,13 +1,15 @@
 "use client";
 
 /**
- * The house sheet and the pitch, sharing the one piece of state that binds
- * them: which players a reader has swapped on.
+ * The house's slips, its full sheet, and the pitch, sharing the one piece of
+ * state that binds them: which players a reader has swapped on.
  *
- * The sheet at the top shows the PUBLISHED shouts verbatim until the first
- * swap; from then on it recomputes live (lib/housesheet.ts, a port of the
- * pipeline's selection that has to stay one) from whoever is standing on the
- * pitches, resolved through the same occupancy logic the pitch draws with.
+ * The slips at the top show the PUBLISHED bets verbatim until the first
+ * swap; from then on they are recomputed live (lib/houseslips.ts, a port of
+ * the pipeline's recipes that has to stay one) from whoever is standing on
+ * the pitches, resolved through the same occupancy logic the pitch draws
+ * with. The full sheet, every shout by line, sits under the slips in a
+ * disclosure (docs/51) and follows the same swaps through lib/housesheet.ts.
  * The sections in between arrive server-rendered as children and pass
  * straight through.
  */
@@ -23,6 +25,7 @@ import { onPitchWho } from "@/lib/pitch";
 import { findPlayer } from "@/lib/who";
 import HouseSheet from "./HouseSheet";
 import Lineups from "./Lineups";
+import s from "./fixturelive.module.css";
 
 export default function FixtureLive({
   fixture,
@@ -39,7 +42,7 @@ export default function FixtureLive({
   /** Absent when the league has published no formation lines for this game. */
   shapes?: Formations[string];
   explorer: Explorer;
-  /** The pipeline's published sheet, shown until a reader changes a slot. */
+  /** The pipeline's published sheet: every shout by line, under the slips. */
   houseSheet?: Sheet | null;
   /** The house's three slips (docs/45), recomputed from swaps like the sheet. */
   houseSlips?: Record<string, Bet> | null;
@@ -67,45 +70,58 @@ export default function FixtureLive({
   }, [houseSlips, onPitch, explorer, fixture]);
 
   const sheet = useMemo(() => {
-    if (!changed || !shapes) return houseSheet;
-    const clubs = fixture.split(" v ").filter((c) => shapes[c]);
-    const squads = Object.fromEntries(
-      clubs.map((club) => [
-        club,
-        explorer.rows.filter((r) => r.fixture === fixture && r.team === club),
-      ])
-    );
-    const onPitch = onPitchWho(shapes, clubs, selected, squads, findPlayer);
+    if (!houseSheet) return null;
+    if (!onPitch) return houseSheet;
     return houseSheetFrom(explorer, fixture, onPitch);
-  }, [changed, shapes, explorer, fixture, selected, houseSheet]);
+  }, [houseSheet, onPitch, explorer, fixture]);
+
+  const hasSheet = Boolean(sheet && sheet.groups.length > 0);
 
   return (
     <>
-      {slips && (
+      {(slips || hasSheet) && (
         <section>
           <SectionHead
             title={changed ? "The house · your eleven" : "The house"}
             note={
               changed
                 ? "Recomputed live from the eleven you chose on the pitch below. Reset the pitch to see the published slips again."
-                : "The model's own three slips: safe needs four foul events, optimistic five, rogue six. Priced by its own numbers, graded like the eleven's, never in the league."
+                : slips
+                  ? "The model's own three slips: safe needs four foul events, optimistic five, rogue six. Priced by its own numbers, graded like the eleven's, never in the league."
+                  : "The model's own shouts for this game, priced by its own numbers and never in the league."
             }
           />
-          <HouseSlips slips={slips} shapes={shapes_for_slips ?? []} outcomes={outcomes} gameOver={gameOver} />
+          <div className={s.stack}>
+            {slips && (
+              <HouseSlips
+                slips={slips}
+                shapes={shapes_for_slips ?? []}
+                outcomes={outcomes}
+                gameOver={gameOver}
+              />
+            )}
+            {hasSheet && sheet && (
+              <details className={s.sheet} open={!slips}>
+                <summary className={s.sheetHead}>
+                  Every shout by line
+                  <span className={s.sheetHint}>
+                    {changed ? "your eleven" : "the full sheet, 1+ to 3+"}
+                  </span>
+                </summary>
+                <div className={s.sheetBody}>
+                  <HouseSheet sheet={sheet} rebuilt={changed} />
+                </div>
+              </details>
+            )}
+          </div>
         </section>
       )}
-
-      {sheet && sheet.groups.length > 0 && <HouseSheet sheet={sheet} rebuilt={changed} />}
 
       {shapes && (
         <section>
           <SectionHead
             title="The eleven on the pitch"
-            note={
-              houseSheet
-                ? "Drawn from the league's own formation lines, so a back three and a back four actually look different. Swap anyone and the house sheet at the top recomputes from the eleven you chose."
-                : "Drawn from the league's own formation lines, so a back three and a back four actually look different. Swap anyone and the house's slips at the top are rebuilt from the eleven you chose."
-            }
+            note="Drawn from the league's own formation lines, so a back three and a back four actually look different. Swap anyone and the house's slips and sheet at the top are rebuilt from the eleven you chose."
           />
           <Lineups
             fixture={fixture}

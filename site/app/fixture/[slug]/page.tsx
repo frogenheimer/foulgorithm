@@ -229,7 +229,7 @@ export default async function Fixture({ params }: { params: Promise<{ slug: stri
         fixture={v.label}
         shapes={v.formations}
         explorer={v.explorer}
-        houseSheet={v.houseSlips ? null : v.houseSheet}
+        houseSheet={v.houseSheet}
         houseSlips={v.houseSlips}
         shapes_for_slips={shapesFor(v.bets, v.shapes, data.slates.shapes)}
         outcomes={outcomes}

@@ -46,6 +46,8 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [37-display-decisions.md](37-display-decisions.md) | The ratification round: what stayed, what moved, what came back |
 | [38-the-contract.md](38-the-contract.md) | **Three bets per model per game. The plan of record; supersedes 36 and 37 on the bets** |
 | [39-instrument-grade.md](39-instrument-grade.md) | **The visual redesign: dark-first modules, the chart vocabulary, the temper-ring badges** |
+| [51-pitch-and-house-sheet.md](51-pitch-and-house-sheet.md) | **The pitch sizes to itself, one market toggle with two figures a marker, the house sheet as a dropdown under the slips, the papers gone** |
+| [50-vidiprinter-line.md](50-vidiprinter-line.md) | **The vidiprinter as one line: successes first, each verdict in and out, the full report behind a disclosure** |
 | [49-equal-played.md](49-equal-played.md) | **Every model plays every bet: a void leg under the contract is zero events, and grading reruns from the settled rows on file** |
 | [48-cards.md](48-cards.md) | **Cards as a bonus area, house only: match totals and referees gated, player bookings as a risk board beside the base rate** |
 | [47-next-session.md](47-next-session.md) | **The handoff prompt: rules, state, the missed slip-card brief, and everything raised but not built** |

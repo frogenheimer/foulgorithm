@@ -55,10 +55,7 @@ export default function Today() {
       .filter(([, stars]) => (stars as unknown[]).length > 0)
   );
 
-  const settledLines = vidiprinterLines(getArchivedFixtures());
-  // TEMPORARY, remove next deploy: sample lines so the vidiprinter can be
-  // seen in place before the first per-game round settles this weekend.
-  const printer = settledLines.length > 0 ? settledLines : SAMPLE_PRINTER;
+  const printer = vidiprinterLines(getArchivedFixtures());
 
   return (
     <div className="stack">
@@ -178,18 +175,3 @@ export default function Today() {
     </div>
   );
 }
-
-// TEMPORARY, remove next deploy: a realistic feed so the vidiprinter is
-// visible in place before anything has settled under the contract.
-const SAMPLE_PRINTER = [
-  { text: "NFO v LEE \u00b7 MAGICIAN \u00b7 SIX AT 1+ \u00b7 ALL SIX (6) LANDED", tone: "won" as const },
-  { text: "NFO v LEE \u00b7 ALAN \u00b7 THREE AT 2+ \u00b7 NO", tone: "lost" as const },
-  { text: "NFO v LEE \u00b7 JUSTINE \u00b7 TWO AND TWO \u00b7 CAME IN", tone: "won" as const },
-  { text: "ARS v CHE \u00b7 BDOG \u00b7 SIX AT 1+ \u00b7 NO", tone: "lost" as const },
-  { text: "ARS v CHE \u00b7 LILY \u00b7 TWO AND TWO \u00b7 CAME IN", tone: "won" as const },
-  { text: "ARS v CHE \u00b7 MABEL \u00b7 THREE AT 2+ \u00b7 CAME IN", tone: "won" as const },
-  { text: "LIV v EVE \u00b7 TAYLER \u00b7 SIX AT 1+ \u00b7 ALL SIX (6) LANDED", tone: "won" as const },
-  { text: "LIV v EVE \u00b7 DOTTIE \u00b7 THREE AT 2+ \u00b7 NO", tone: "lost" as const },
-  { text: "MCI v NEW \u00b7 PAX \u00b7 SIX AT 1+ \u00b7 CAME IN", tone: "won" as const },
-  { text: "MCI v NEW \u00b7 DELE \u00b7 TWO AND TWO \u00b7 NO", tone: "lost" as const },
-];

@@ -38,26 +38,37 @@ export type { Market } from "@/lib/markets";
 export { MARKET_LABEL } from "@/lib/markets";
 
 /**
- * Which number to draw on a shirt.
- *
- * "Expected" was the only option and it was not labelled as anything, so a
- * reader could not tell whether it was a forecast for this match or an average
- * of past ones. It is the former. This makes the latter available beside it,
- * because where the two disagree the gap is the model's opinion: a substitute
+ * Two figures on every marker (docs/51): his real rate per 90 across every
+ * match we hold, then what the model expects here allowing for minutes and
+ * opponent. Where they disagree the gap is the model's opinion: a substitute
  * averaging 1.37 fouls per 90 is expected to give away 0.59 in a match he is
- * likely to watch most of.
+ * likely to watch most of. Cup rows carry no "expected" and show the one
+ * figure they have.
  */
-export type Basis = "match" | "career";
+export function figuresFor(
+  row: ExplorerRow | undefined,
+  market: Market
+): { real: number | null; expected: number | null } {
+  if (!row) return { real: null, expected: null };
+  return { real: row.career?.[market] ?? null, expected: row.expected?.[market] ?? null };
+}
 
-export const BASIS_LABEL: Record<Basis, string> = {
-  match: "Expected this match",
-  career: "Career per 90",
-};
+/** The one number to sort or rank by: expected here, else the real rate. */
+export function valueFor(row: ExplorerRow | undefined, market: Market) {
+  const f = figuresFor(row, market);
+  return f.expected ?? f.real;
+}
 
-export function valueFor(row: ExplorerRow | undefined, market: Market, basis: Basis) {
-  if (!row) return null;
-  if (basis === "career") return row.career?.[market] ?? null;
-  return row.expected?.[market] ?? null;
+function Figures({ row, market }: { row: ExplorerRow | undefined; market: Market }) {
+  const f = figuresFor(row, market);
+  if (f.real == null && f.expected == null) return <>—</>;
+  if (f.expected == null) return <>{f.real!.toFixed(2)}</>;
+  return (
+    <>
+      {f.real != null && <span className={s.real}>{f.real.toFixed(2)} / </span>}
+      <span className={s.expected}>{f.expected.toFixed(2)}</span>
+    </>
+  );
 }
 
 export type Side = {
@@ -77,10 +88,7 @@ export default function Pitch({
   onReset,
   market,
   onMarket,
-  basis,
-  onBasis,
   readOnly = false,
-  bases = ["match", "career"],
 }: {
   home: Side;
   away: Side;
@@ -89,8 +97,6 @@ export default function Pitch({
   onReset: () => void;
   market: Market;
   onMarket: (m: Market) => void;
-  basis: Basis;
-  onBasis: (b: Basis) => void;
   /**
    * No swapping, no dragging, no reset.
    *
@@ -100,9 +106,6 @@ export default function Pitch({
    * do. Same pitch, same styles, one capability withheld.
    */
   readOnly?: boolean;
-  /** Which readings to offer. Cup rows have no "expected", so they pass
-   *  ["career"] and the toggle collapses to a label. */
-  bases?: Basis[];
 }) {
   const [dragging, setDragging] = useState<{ club: string; key: string } | null>(null);
   const swaps = Object.keys(selected).length;
@@ -138,7 +141,8 @@ export default function Pitch({
         </div>
       )}
 
-      <div className={s.markets}>
+      <div className={s.controls}>
+        <PitchKey readOnly={readOnly} />
         <Toggle
           value={market}
           onChange={onMarket}
@@ -148,22 +152,7 @@ export default function Pitch({
             label: MARKET_LABEL[m],
           }))}
         />
-        {bases.length > 1 && (
-          <Toggle
-            value={basis}
-            onChange={onBasis}
-            label="Which reading to show"
-            options={bases.map((b) => ({ value: b, label: BASIS_LABEL[b] }))}
-          />
-        )}
-        <span className={s.marketNote}>
-          {basis === "match"
-            ? "what the model expects here, allowing for minutes and opponent"
-            : "his own rate per 90 across every match we hold, unadjusted"}
-        </span>
       </div>
-
-      <PitchKey readOnly={readOnly} />
 
       <div className={s.sideToggle} role="tablist" aria-label="Which team to show">
         {([["home", home.club], ["away", away.club]] as const).map(([key, club]) => (
@@ -187,7 +176,6 @@ export default function Pitch({
           readOnly={readOnly}
           selected={selected}
           market={market}
-          basis={basis}
           dragging={dragging}
           onDragStart={(key) => setDragging({ club: home.club, key })}
           onDragEnd={() => setDragging(null)}
@@ -207,7 +195,6 @@ export default function Pitch({
             selected={selected}
             onChange={onChange}
             market={market}
-            basis={basis}
             dragging={dragging}
             onDrop={() => setDragging(null)}
             onDragStart={(key) => setDragging({ club: home.club, key })}
@@ -219,7 +206,6 @@ export default function Pitch({
             selected={selected}
             onChange={onChange}
             market={market}
-            basis={basis}
             dragging={dragging}
             onDrop={() => setDragging(null)}
             onDragStart={(key) => setDragging({ club: away.club, key })}
@@ -233,7 +219,6 @@ export default function Pitch({
           readOnly={readOnly}
           selected={selected}
           market={market}
-          basis={basis}
           dragging={dragging}
           onDragStart={(key) => setDragging({ club: away.club, key })}
           onDragEnd={() => setDragging(null)}
@@ -252,7 +237,6 @@ function Bench({
   readOnly = false,
   selected,
   market,
-  basis,
   dragging,
   onDragStart,
   onDragEnd,
@@ -261,7 +245,6 @@ function Bench({
   readOnly?: boolean;
   selected: Selected;
   market: Market;
-  basis: Basis;
   dragging: { club: string; key: string } | null;
   onDragStart: (key: string) => void;
   onDragEnd: () => void;
@@ -298,7 +281,7 @@ function Bench({
             >
               <span>{r.player}</span>
               <span className={s.benchPos}>
-                {shortPosition(r.position)} {valueFor(r, market, basis)?.toFixed(2) ?? "—"}
+                {shortPosition(r.position)} <Figures row={r} market={market} />
               </span>
             </button>
           );
@@ -313,7 +296,6 @@ function Half({
   selected,
   onChange,
   market,
-  basis,
   dragging,
   onDrop,
   onDragStart,
@@ -327,7 +309,6 @@ function Half({
   selected: Selected;
   onChange: (next: Selected) => void;
   market: Market;
-  basis: Basis;
   dragging: { club: string; key: string } | null;
   onDrop: () => void;
   onDragStart: (key: string) => void;
@@ -434,7 +415,7 @@ function Half({
                   ) : (
                   <Combobox
                     value={o.name}
-                    options={optionsFor(byName, o.spot, market, basis, benched)}
+                    options={optionsFor(byName, o.spot, market, benched)}
                     onChange={(v) => {
                       place(o.key, v);
                       setOpen(null);
@@ -459,7 +440,7 @@ function Half({
                   )}
                 </div>
                 <span className={s.rate}>
-                  {valueFor(o.row, market, basis)?.toFixed(2) ?? "—"}
+                  <Figures row={o.row} market={market} />
                 </span>
               </div>
             );
@@ -480,7 +461,7 @@ function Half({
  * which is a different act and now says so.
  */
 function optionsFor(
-  rows: ExplorerRow[], spot: Spot, market: Market, basis: Basis, bench: Set<string>
+  rows: ExplorerRow[], spot: Spot, market: Market, bench: Set<string>
 ): Option[] {
   const ranked = [...rows].sort((a, b) => {
     const onBench = Number(bench.has(who(b.fullName))) - Number(bench.has(who(a.fullName)));
@@ -498,7 +479,7 @@ function optionsFor(
     return {
       value: who(row.fullName),
       label: row.player,
-      meta: `${shortPosition(row.position)} · ${valueFor(row, market, basis)?.toFixed(2) ?? "—"}`,
+      meta: `${shortPosition(row.position)} · ${valueFor(row, market)?.toFixed(2) ?? "—"}`,
       group: isBenched
         ? fits
           ? `On the bench, plays ${positionName(spot.position)}`
@@ -524,6 +505,12 @@ function PitchKey({ readOnly = false }: { readOnly?: boolean }) {
         <span className={`${s.keyDot} ${s.keyHome}`} aria-hidden />
         <span className={`${s.keyDot} ${s.keyAway}`} aria-hidden />
         Home and away
+      </li>
+      <li className={s.keyItem}>
+        <span className={s.keyFigures} aria-hidden>
+          0.9 / <strong>1.1</strong>
+        </span>
+        Real per 90, then expected here
       </li>
       <li className={s.keyItem}>
         <span className={`${s.keyDot} ${s.keyMisplaced}`} aria-hidden />

@@ -1,0 +1,51 @@
+/* The house block on a fixture page (docs/51): the three slips, then the
+   full sheet folded under them. */
+
+.stack {
+  display: grid;
+  gap: var(--s3);
+  min-width: 0;
+}
+
+.sheet {
+  min-width: 0;
+}
+
+.sheetHead {
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  padding: var(--s2) 0;
+  list-style: none;
+}
+
+.sheetHead::-webkit-details-marker {
+  display: none;
+}
+
+.sheetHead::before {
+  content: "\25B8";
+  color: var(--accent-object);
+}
+
+.sheet[open] .sheetHead::before {
+  content: "\25BE";
+}
+
+.sheetHint {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
+
+.sheetBody {
+  padding-top: var(--s2);
+}

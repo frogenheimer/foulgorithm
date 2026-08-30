@@ -1,54 +1,83 @@
 "use client";
 
 /**
- * The teletype. Lines arrive character by character, the way scores used to
- * on a Saturday afternoon; a reader who asked for reduced motion gets the
- * finished feed instantly. The words carry the verdicts; the tint only makes
- * them findable.
+ * The vidiprinter as one line (docs/50).
+ *
+ * One row that changes: every bet that landed, newest game first, then the
+ * misses, each sliding up into the row, holding, and sliding out as the next
+ * arrives. A disclosure at the end of the row opens the whole feed in the
+ * same order. A reader who asked for reduced motion gets the line changing
+ * on the same clock without the slide.
  */
 
 import { useEffect, useState } from "react";
-import type { PrinterLine } from "@/lib/vidiprinter";
+import { orderForTicker, type PrinterLine } from "@/lib/vidiprinter";
 import s from "./vidiprinter.module.css";
 
-const CHARS_PER_TICK = 2;
-const TICK_MS = 24;
+/** How long a verdict holds before the next one comes in. */
+const HOLD_MS = 4000;
+/** The slide out, matched to the keyframes in the stylesheet. */
+const LEAVE_MS = 380;
 
 export default function Vidiprinter({ lines }: { lines: PrinterLine[] }) {
-  const total = lines.reduce((n, l) => n + l.text.length, 0);
-  const [shown, setShown] = useState(0);
+  const ordered = orderForTicker(lines);
+  const [at, setAt] = useState(0);
+  const [leaving, setLeaving] = useState(false);
+  const [still, setStill] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setShown(total);
-      return;
-    }
-    const timer = setInterval(() => {
-      setShown((n) => {
-        if (n >= total) {
-          clearInterval(timer);
-          return n;
-        }
-        return n + CHARS_PER_TICK;
-      });
-    }, TICK_MS);
-    return () => clearInterval(timer);
-  }, [total]);
+    setStill(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
 
-  let budget = shown;
+  useEffect(() => {
+    if (ordered.length < 2) return;
+    let leave: ReturnType<typeof setTimeout> | undefined;
+    const hold = setInterval(() => {
+      if (still) {
+        setAt((n) => (n + 1) % ordered.length);
+        return;
+      }
+      setLeaving(true);
+      leave = setTimeout(() => {
+        setAt((n) => (n + 1) % ordered.length);
+        setLeaving(false);
+      }, LEAVE_MS);
+    }, HOLD_MS);
+    return () => {
+      clearInterval(hold);
+      if (leave) clearTimeout(leave);
+    };
+  }, [ordered.length, still]);
+
+  if (ordered.length === 0) return null;
+  const current = ordered[at % ordered.length];
+  const motion = still ? "" : leaving ? s.leaving : s.entering;
+
   return (
-    <div className={s.printer} role="log" aria-label="Settled bets">
-      {lines.map((line, i) => {
-        const take = Math.max(0, Math.min(line.text.length, budget));
-        budget -= line.text.length;
-        if (take === 0) return null;
-        return (
-          <div key={i} className={line.tone === "won" ? s.won : s.lost}>
-            {line.text.slice(0, take)}
-            {take < line.text.length && <span className={s.cursor} aria-hidden />}
-          </div>
-        );
-      })}
+    <div className={s.printer}>
+      <div className={s.row} role="status" aria-live="polite" aria-label="Vidiprinter">
+        <span className={s.kicker} aria-hidden>
+          Vidiprinter
+        </span>
+        <span className={s.stage}>
+          <span
+            key={`${at}-${current.text}`}
+            className={`${s.line} ${current.tone === "won" ? s.won : s.lost} ${motion}`}
+          >
+            {current.text}
+          </span>
+        </span>
+        <details className={s.report}>
+          <summary className={s.reportHead}>Full report · {ordered.length}</summary>
+          <ol className={s.reportList} aria-label="Every settled bet">
+            {ordered.map((line, i) => (
+              <li key={i} className={line.tone === "won" ? s.won : s.lost}>
+                {line.text}
+              </li>
+            ))}
+          </ol>
+        </details>
+      </div>
     </div>
   );
 }

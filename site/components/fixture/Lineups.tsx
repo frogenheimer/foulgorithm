@@ -16,7 +16,6 @@
 import { useMemo, useState } from "react";
 import type { Explorer, ExplorerRow, Formations } from "@/lib/data";
 import { Callout } from "@/components/kit";
-import type { Basis } from "./Pitch";
 import Pitch from "./Pitch";
 import type { Market } from "./Pitch";
 
@@ -35,7 +34,6 @@ export default function Lineups({
   onChange: (next: Record<string, string>) => void;
 }) {
   const [market, setMarket] = useState<Market>("committed");
-  const [basis, setBasis] = useState<Basis>("match");
   // Narrow screens show one side at a time; both fit side by side above 900px.
 
   // Home first, away second, matching the fixture label rather than object order.
@@ -62,8 +60,6 @@ export default function Lineups({
         onReset={() => onChange({})}
         market={market}
         onMarket={setMarket}
-        basis={basis}
-        onBasis={setBasis}
       />
 
       {changed && (
