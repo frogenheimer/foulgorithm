@@ -279,7 +279,7 @@ function Bench({
                   : `${r.fullName} \u00b7 drag onto the pitch`
               }
             >
-              <span>{r.player}</span>
+              <span className={s.benchName}>{r.player}</span>
               <span className={s.benchPos}>
                 {shortPosition(r.position)} <Figures row={r} market={market} />
               </span>

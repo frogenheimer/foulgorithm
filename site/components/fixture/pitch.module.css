@@ -269,7 +269,9 @@
 
 .rate {
   font-family: var(--font-mono);
-  font-size: var(--t-sm);
+  /* Two figures a marker: a step smaller than one, or two neighbouring
+     lines run their figures together (Fernandes and Cunha, 30 August). */
+  font-size: var(--t-xs);
   color: var(--on-turf-2);
   white-space: nowrap;
 }
@@ -444,7 +446,9 @@
   /* The benches were 200px each and the pitch took what was left, which was not
      enough for eleven names across four lines. The pitch is the thing people
      came for, so it gets the room and the benches give it up. */
-  grid-template-columns: minmax(128px, 160px) minmax(0, 1fr) minmax(128px, 160px);
+  /* Wide enough for a name, a position and two figures on one line; the
+     pitch is a size container now and scales to what is left. */
+  grid-template-columns: minmax(176px, 216px) minmax(0, 1fr) minmax(176px, 216px);
   gap: var(--s3);
   align-items: start;
 }
@@ -496,6 +500,26 @@
 .benchPos {
   font-family: var(--font-mono);
   color: var(--ink-3);
+  /* One line per bench player: the figures never wrap, the name gives way. */
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.benchName {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The two figures on a light card: the turf inks are for the pitch. */
+.benchPos .real {
+  color: var(--ink-3);
+}
+
+.benchPos .expected {
+  color: var(--ink);
 }
 
 .dragging {
