@@ -1,17 +1,17 @@
 {
-  "takenAt": "2026-08-29T20:24:30.765185+00:00",
+  "takenAt": "2026-08-30T19:25:02.773220+00:00",
   "totals": {
     "Aaron Hickey": {
       "fouls": 2.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 14.0
+      "appearances": 2.0,
+      "mins_played": 16.0
     },
     "Abdoul Ouattara": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 10.0
+      "appearances": 2.0,
+      "mins_played": 27.0
     },
     "Abdukodir Khusanov": {
       "fouls": 0.0,
@@ -20,10 +20,10 @@
       "mins_played": 179.0
     },
     "Abdul Fatawu": {
-      "fouls": 1.0,
+      "fouls": 2.0,
       "was_fouled": 3.0,
-      "appearances": 1.0,
-      "mins_played": 66.0
+      "appearances": 2.0,
+      "mins_played": 149.0
     },
     "Adam Smith": {
       "fouls": 2.0,
@@ -56,10 +56,10 @@
       "mins_played": 4.0
     },
     "Alex Iwobi": {
-      "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Alex Scott": {
       "fouls": 2.0,
@@ -110,10 +110,10 @@
       "mins_played": 110.0
     },
     "Andrey Santos": {
-      "fouls": 1.0,
+      "fouls": 2.0,
       "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 67.0
+      "appearances": 2.0,
+      "mins_played": 77.0
     },
     "Andy Robertson": {
       "fouls": 0.0,
@@ -135,15 +135,15 @@
     },
     "Anton Stach": {
       "fouls": 2.0,
-      "was_fouled": 4.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "was_fouled": 6.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Antonee Robinson": {
       "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 82.0
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 172.0
     },
     "Anton\u00edn Kinsky": {
       "fouls": 0.0,
@@ -156,6 +156,12 @@
       "was_fouled": 0.0,
       "appearances": 2.0,
       "mins_played": 180.0
+    },
+    "Ao Tanaka": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 45.0
     },
     "Archie Gray": {
       "fouls": 1.0,
@@ -196,8 +202,8 @@
     "Bart Verbruggen": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Bazoumana Tour\u00e9": {
       "fouls": 0.0,
@@ -220,14 +226,14 @@
     "Benjamin Sesko": {
       "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 23.0
+      "appearances": 2.0,
+      "mins_played": 33.0
     },
     "Bernd Leno": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Beto": {
       "fouls": 0.0,
@@ -255,9 +261,9 @@
     },
     "Brenden Aaronson": {
       "fouls": 0.0,
-      "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 82.0
+      "was_fouled": 3.0,
+      "appearances": 2.0,
+      "mins_played": 127.0
     },
     "Brennan Johnson": {
       "fouls": 2.0,
@@ -266,22 +272,22 @@
       "mins_played": 34.0
     },
     "Brian Brobbey": {
-      "fouls": 2.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 67.0
+      "fouls": 3.0,
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 131.0
     },
     "Bruno Fernandes": {
-      "fouls": 0.0,
+      "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Bryan Mbeumo": {
-      "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Bukayo Saka": {
       "fouls": 0.0,
@@ -304,20 +310,20 @@
     "Callum Wilson": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 7.0
+      "appearances": 2.0,
+      "mins_played": 9.0
     },
     "Calvin Bassey": {
       "fouls": 1.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "was_fouled": 3.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Caoimh\u00edn Kelleher": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Carl Rushworth": {
       "fouls": 0.0,
@@ -332,16 +338,16 @@
       "mins_played": 72.0
     },
     "Charalampos Kostoulas": {
-      "fouls": 0.0,
+      "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 26.0
+      "appearances": 2.0,
+      "mins_played": 106.0
     },
     "Charly Alcaraz": {
       "fouls": 1.0,
       "was_fouled": 0.0,
       "appearances": 2.0,
-      "mins_played": 4.0
+      "mins_played": 5.0
     },
     "Chemsdine Talbi": {
       "fouls": 1.0,
@@ -358,8 +364,8 @@
     "Chris Rigg": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 10.0
+      "appearances": 2.0,
+      "mins_played": 17.0
     },
     "Chris Wood": {
       "fouls": 0.0,
@@ -375,9 +381,9 @@
     },
     "Chuba Akpom": {
       "fouls": 1.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 24.0
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 69.0
     },
     "Cody Drameh": {
       "fouls": 1.0,
@@ -392,10 +398,10 @@
       "mins_played": 161.0
     },
     "Cole Palmer": {
-      "fouls": 0.0,
+      "fouls": 1.0,
       "was_fouled": 3.0,
-      "appearances": 1.0,
-      "mins_played": 83.0
+      "appearances": 2.0,
+      "mins_played": 173.0
     },
     "Conor Gallagher": {
       "fouls": 1.0,
@@ -404,10 +410,10 @@
       "mins_played": 45.0
     },
     "Costinha": {
-      "fouls": 0.0,
+      "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 26.0
+      "appearances": 2.0,
+      "mins_played": 36.0
     },
     "Cristhian Mosquera": {
       "fouls": 1.0,
@@ -416,10 +422,10 @@
       "mins_played": 90.0
     },
     "C\u00e9sar Palacios": {
-      "fouls": 2.0,
+      "fouls": 4.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 73.0
+      "appearances": 2.0,
+      "mins_played": 149.0
     },
     "Daichi Kamada": {
       "fouls": 1.0,
@@ -428,16 +434,16 @@
       "mins_played": 180.0
     },
     "Daizen Maeda": {
-      "fouls": 2.0,
+      "fouls": 3.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 80.0
+      "appearances": 2.0,
+      "mins_played": 153.0
     },
     "Dan Ballard": {
-      "fouls": 2.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 3.0,
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Dan Ndoye": {
       "fouls": 3.0,
@@ -448,8 +454,14 @@
     "Dango Ouattara": {
       "fouls": 3.0,
       "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 96.0
+    },
+    "Daniel James": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
       "appearances": 1.0,
-      "mins_played": 67.0
+      "mins_played": 22.0
     },
     "Daniel Jebbison": {
       "fouls": 0.0,
@@ -464,10 +476,16 @@
       "mins_played": 55.0
     },
     "Dara O'Shea": {
-      "fouls": 0.0,
+      "fouls": 3.0,
       "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
+    },
+    "Darnell Furlong": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
       "appearances": 1.0,
-      "mins_played": 90.0
+      "mins_played": 17.0
     },
     "David Brooks": {
       "fouls": 1.0,
@@ -500,16 +518,16 @@
       "mins_played": 26.0
     },
     "Diego G\u00f3mez": {
-      "fouls": 0.0,
+      "fouls": 2.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 86.0
+      "appearances": 2.0,
+      "mins_played": 176.0
     },
     "Diogo Dalot": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 10.0
+      "appearances": 2.0,
+      "mins_played": 84.0
     },
     "Djordje Petrovic": {
       "fouls": 0.0,
@@ -518,10 +536,10 @@
       "mins_played": 180.0
     },
     "Dominic Calvert-Lewin": {
-      "fouls": 2.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 4.0,
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Dominic Solanke": {
       "fouls": 0.0,
@@ -553,6 +571,12 @@
       "appearances": 2.0,
       "mins_played": 123.0
     },
+    "El Hadji Malick Diouf": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 0.0,
+      "mins_played": 0.0
+    },
     "Elliot Anderson": {
       "fouls": 4.0,
       "was_fouled": 3.0,
@@ -572,16 +596,28 @@
       "mins_played": 70.0
     },
     "Emersonn": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 111.0
+    },
+    "Emile Smith Rowe": {
       "fouls": 0.0,
-      "was_fouled": 1.0,
+      "was_fouled": 0.0,
       "appearances": 1.0,
-      "mins_played": 66.0
+      "mins_played": 14.0
     },
     "Emiliano Buend\u00eda": {
       "fouls": 3.0,
       "was_fouled": 2.0,
       "appearances": 1.0,
       "mins_played": 86.0
+    },
+    "Emiliano Mart\u00ednez": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0,
+      "mins_played": 90.0
     },
     "Enzo Fern\u00e1ndez": {
       "fouls": 0.0,
@@ -590,10 +626,10 @@
       "mins_played": 25.0
     },
     "Enzo Le F\u00e9e": {
-      "fouls": 0.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 80.0
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 2.0,
+      "mins_played": 169.0
     },
     "Ephron Mason-Clark": {
       "fouls": 2.0,
@@ -614,10 +650,10 @@
       "mins_played": 7.0
     },
     "Ethan Ampadu": {
-      "fouls": 2.0,
+      "fouls": 3.0,
       "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Ethan Pinnock": {
       "fouls": 0.0,
@@ -637,11 +673,23 @@
       "appearances": 2.0,
       "mins_played": 54.0
     },
+    "Exequiel Palacios": {
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0,
+      "mins_played": 28.0
+    },
     "Fabian Sch\u00e4r": {
       "fouls": 0.0,
       "was_fouled": 0.0,
       "appearances": 1.0,
       "mins_played": 1.0
+    },
+    "Ferdi Kadioglu": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
+      "appearances": 1.0,
+      "mins_played": 90.0
     },
     "Florian Wirtz": {
       "fouls": 1.0,
@@ -686,16 +734,16 @@
       "mins_played": 180.0
     },
     "Gonzalo Garc\u00eda": {
-      "fouls": 2.0,
+      "fouls": 4.0,
       "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Granit Xhaka": {
       "fouls": 1.0,
-      "was_fouled": 4.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "was_fouled": 7.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Gustavo Hamer": {
       "fouls": 1.0,
@@ -704,28 +752,28 @@
       "mins_played": 27.0
     },
     "Habib Diarra": {
-      "fouls": 0.0,
+      "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 10.0
+      "appearances": 2.0,
+      "mins_played": 28.0
     },
     "Harrison Armstrong": {
       "fouls": 5.0,
       "was_fouled": 2.0,
       "appearances": 2.0,
-      "mins_played": 177.0
+      "mins_played": 176.0
     },
     "Harry Maguire": {
-      "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 2.0,
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Harry Wilson": {
       "fouls": 1.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 66.0
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 111.0
     },
     "Harvey Barnes": {
       "fouls": 2.0,
@@ -754,8 +802,8 @@
     "Ibrahim Osman": {
       "fouls": 0.0,
       "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 12.0
+      "appearances": 2.0,
+      "mins_played": 28.0
     },
     "Ibrahim Sangar\u00e9": {
       "fouls": 2.0,
@@ -770,10 +818,10 @@
       "mins_played": 179.0
     },
     "Igor Thiago": {
-      "fouls": 0.0,
+      "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 83.0
+      "appearances": 2.0,
+      "mins_played": 173.0
     },
     "Iliman Ndiaye": {
       "fouls": 2.0,
@@ -782,10 +830,10 @@
       "mins_played": 180.0
     },
     "Issa Diop": {
-      "fouls": 2.0,
+      "fouls": 3.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Jack Clarke": {
       "fouls": 0.0,
@@ -812,10 +860,10 @@
       "mins_played": 91.0
     },
     "Jacob Greaves": {
-      "fouls": 1.0,
-      "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 2.0,
+      "was_fouled": 4.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Jacob Murphy": {
       "fouls": 1.0,
@@ -830,10 +878,10 @@
       "mins_played": 42.0
     },
     "Jaidon Anthony": {
-      "fouls": 1.0,
+      "fouls": 3.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 23.0
+      "appearances": 2.0,
+      "mins_played": 84.0
     },
     "Jair Cunha": {
       "fouls": 2.0,
@@ -844,8 +892,8 @@
     "Jaka Bijol": {
       "fouls": 1.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 135.0
     },
     "James Garner": {
       "fouls": 2.0,
@@ -862,8 +910,8 @@
     "James Justin": {
       "fouls": 1.0,
       "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "James Maddison": {
       "fouls": 0.0,
@@ -886,8 +934,8 @@
     "James Trafford": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Jan Paul van Hecke": {
       "fouls": 3.0,
@@ -914,10 +962,10 @@
       "mins_played": 180.0
     },
     "Jayden Bogle": {
-      "fouls": 1.0,
-      "was_fouled": 3.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 2.0,
+      "was_fouled": 5.0,
+      "appearances": 2.0,
+      "mins_played": 158.0
     },
     "Jean-Philippe Mateta": {
       "fouls": 2.0,
@@ -931,11 +979,17 @@
       "appearances": 2.0,
       "mins_played": 161.0
     },
-    "Joe Rodon": {
-      "fouls": 2.0,
+    "Joachim Andersen": {
+      "fouls": 3.0,
       "was_fouled": 1.0,
       "appearances": 1.0,
       "mins_played": 90.0
+    },
+    "Joe Rodon": {
+      "fouls": 3.0,
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 124.0
     },
     "Joe Willock": {
       "fouls": 5.0,
@@ -970,20 +1024,20 @@
     "Jorrel Hato": {
       "fouls": 0.0,
       "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 65.0
+      "appearances": 2.0,
+      "mins_played": 155.0
     },
     "Josh Acheampong": {
       "fouls": 0.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 112.0
     },
     "Josh King": {
-      "fouls": 2.0,
+      "fouls": 3.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Josko Gvardiol": {
       "fouls": 2.0,
@@ -998,16 +1052,16 @@
       "mins_played": 40.0
     },
     "Jo\u00e3o Pedro": {
-      "fouls": 1.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 2.0,
+      "was_fouled": 5.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Julio Enciso": {
       "fouls": 1.0,
-      "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 71.0
+      "was_fouled": 4.0,
+      "appearances": 2.0,
+      "mins_played": 161.0
     },
     "Justin Kluivert": {
       "fouls": 2.0,
@@ -1042,26 +1096,26 @@
     "Kasey McAteer": {
       "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 24.0
+      "appearances": 2.0,
+      "mins_played": 31.0
     },
     "Keane Lewis-Potter": {
-      "fouls": 1.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
-    },
-    "Kevin": {
       "fouls": 2.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 17.0
+      "appearances": 2.0,
+      "mins_played": 178.0
+    },
+    "Kevin": {
+      "fouls": 3.0,
+      "was_fouled": 0.0,
+      "appearances": 2.0,
+      "mins_played": 24.0
     },
     "Kevin Schade": {
-      "fouls": 0.0,
-      "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 1.0,
+      "was_fouled": 4.0,
+      "appearances": 2.0,
+      "mins_played": 178.0
     },
     "Kiernan Dewsbury-Hall": {
       "fouls": 1.0,
@@ -1072,14 +1126,14 @@
     "Kjell Scherpen": {
       "fouls": 0.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Kobbie Mainoo": {
       "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 23.0
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 103.0
     },
     "Konstantinos Tzolakis": {
       "fouls": 0.0,
@@ -1094,10 +1148,10 @@
       "mins_played": 19.0
     },
     "Kristoffer Ajer": {
-      "fouls": 1.0,
+      "fouls": 2.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Lamare Bogarde": {
       "fouls": 0.0,
@@ -1108,14 +1162,20 @@
     "Leif Davis": {
       "fouls": 0.0,
       "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
+    },
+    "Leny Yoro": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
       "appearances": 1.0,
-      "mins_played": 90.0
+      "mins_played": 16.0
     },
     "Levi Colwill": {
       "fouls": 1.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 162.0
     },
     "Lewie Coyle": {
       "fouls": 2.0,
@@ -1130,10 +1190,10 @@
       "mins_played": 144.0
     },
     "Lewis Dunk": {
-      "fouls": 2.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 3.0,
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Lewis Hall": {
       "fouls": 3.0,
@@ -1164,6 +1224,12 @@
       "was_fouled": 1.0,
       "appearances": 2.0,
       "mins_played": 50.0
+    },
+    "Lisandro Mart\u00ednez": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 90.0
     },
     "Loum Tchaouna": {
       "fouls": 1.0,
@@ -1196,10 +1262,16 @@
       "mins_played": 57.0
     },
     "Luka Vuskovic": {
-      "fouls": 1.0,
+      "fouls": 2.0,
       "was_fouled": 0.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
+    },
+    "Lukas Nmecha": {
+      "fouls": 0.0,
+      "was_fouled": 1.0,
       "appearances": 1.0,
-      "mins_played": 90.0
+      "mins_played": 21.0
     },
     "Luke O'Nien": {
       "fouls": 2.0,
@@ -1209,9 +1281,9 @@
     },
     "Luke Shaw": {
       "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 163.0
     },
     "Luk\u00e1s Horn\u00edcek": {
       "fouls": 0.0,
@@ -1228,20 +1300,20 @@
     "Malick Yalcouy\u00e9": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 4.0
+      "appearances": 2.0,
+      "mins_played": 78.0
     },
     "Malo Gusto": {
       "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 76.0
+      "appearances": 2.0,
+      "mins_played": 166.0
     },
     "Mamadou Sangar\u00e9": {
-      "fouls": 1.0,
+      "fouls": 3.0,
       "was_fouled": 3.0,
-      "appearances": 1.0,
-      "mins_played": 76.0
+      "appearances": 2.0,
+      "mins_played": 166.0
     },
     "Marc Gu\u00e9hi": {
       "fouls": 2.0,
@@ -1252,8 +1324,8 @@
     "Marcelino N\u00fa\u00f1ez": {
       "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 80.0
+      "appearances": 2.0,
+      "mins_played": 142.0
     },
     "Marco Bizot": {
       "fouls": 0.0,
@@ -1269,9 +1341,9 @@
     },
     "Marcus Rashford": {
       "fouls": 0.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 45.0
+      "was_fouled": 3.0,
+      "appearances": 2.0,
+      "mins_played": 125.0
     },
     "Marcus Tavernier": {
       "fouls": 1.0,
@@ -1304,10 +1376,10 @@
       "mins_played": 135.0
     },
     "Matheus Cunha": {
-      "fouls": 0.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 80.0
+      "fouls": 1.0,
+      "was_fouled": 3.0,
+      "appearances": 2.0,
+      "mins_played": 160.0
     },
     "Matheus Nunes": {
       "fouls": 0.0,
@@ -1329,9 +1401,9 @@
     },
     "Mats Wieffer": {
       "fouls": 1.0,
-      "was_fouled": 3.0,
-      "appearances": 1.0,
-      "mins_played": 78.0
+      "was_fouled": 4.0,
+      "appearances": 2.0,
+      "mins_played": 158.0
     },
     "Matt Crooks": {
       "fouls": 2.0,
@@ -1372,26 +1444,26 @@
     "Maxence Lacroix": {
       "fouls": 1.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Maxim De Cuyper": {
       "fouls": 4.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 78.0
+      "appearances": 2.0,
+      "mins_played": 168.0
     },
     "Merlin R\u00f6hl": {
       "fouls": 1.0,
       "was_fouled": 1.0,
       "appearances": 2.0,
-      "mins_played": 177.0
+      "mins_played": 176.0
     },
     "Michael Kayode": {
-      "fouls": 0.0,
-      "was_fouled": 3.0,
-      "appearances": 1.0,
-      "mins_played": 76.0
+      "fouls": 2.0,
+      "was_fouled": 4.0,
+      "appearances": 2.0,
+      "mins_played": 164.0
     },
     "Micky van de Ven": {
       "fouls": 2.0,
@@ -1414,8 +1486,8 @@
     "Mikkel Damsgaard": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 14.0
+      "appearances": 2.0,
+      "mins_played": 83.0
     },
     "Milan van Ewijk": {
       "fouls": 2.0,
@@ -1447,6 +1519,12 @@
       "appearances": 1.0,
       "mins_played": 22.0
     },
+    "Mois\u00e9s Caicedo": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 14.0
+    },
     "Morgan Gibbs-White": {
       "fouls": 2.0,
       "was_fouled": 3.0,
@@ -1454,10 +1532,10 @@
       "mins_played": 180.0
     },
     "Morgan Rogers": {
-      "fouls": 1.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 82.0
+      "fouls": 3.0,
+      "was_fouled": 3.0,
+      "appearances": 2.0,
+      "mins_played": 172.0
     },
     "Murillo": {
       "fouls": 1.0,
@@ -1472,10 +1550,10 @@
       "mins_played": 90.0
     },
     "Nathan Collins": {
-      "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 2.0,
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Neco Williams": {
       "fouls": 1.0,
@@ -1488,6 +1566,12 @@
       "was_fouled": 2.0,
       "appearances": 1.0,
       "mins_played": 19.0
+    },
+    "Nico Elvedi": {
+      "fouls": 0.0,
+      "was_fouled": 2.0,
+      "appearances": 1.0,
+      "mins_played": 56.0
     },
     "Nico Gonz\u00e1lez": {
       "fouls": 2.0,
@@ -1514,22 +1598,22 @@
       "mins_played": 180.0
     },
     "Nilson Angulo": {
-      "fouls": 0.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 59.0
+      "fouls": 2.0,
+      "was_fouled": 4.0,
+      "appearances": 2.0,
+      "mins_played": 124.0
     },
     "Noah Okafor": {
       "fouls": 1.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 24.0
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 93.0
     },
     "Noah Sadiki": {
       "fouls": 1.0,
-      "was_fouled": 3.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "was_fouled": 4.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Nobel Mendy": {
       "fouls": 1.0,
@@ -1543,11 +1627,17 @@
       "appearances": 1.0,
       "mins_played": 22.0
     },
+    "Nordi Mukiele": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 90.0
+    },
     "Noussair Mazraoui": {
       "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 80.0
+      "appearances": 2.0,
+      "mins_played": 97.0
     },
     "Ola Aina": {
       "fouls": 3.0,
@@ -1562,10 +1652,10 @@
       "mins_played": 180.0
     },
     "Olivier Boscagli": {
-      "fouls": 0.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 4.0,
+      "was_fouled": 3.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Omar Alderete": {
       "fouls": 0.0,
@@ -1580,10 +1670,10 @@
       "mins_played": 90.0
     },
     "Oscar Bobb": {
-      "fouls": 1.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 67.0
+      "fouls": 2.0,
+      "was_fouled": 3.0,
+      "appearances": 2.0,
+      "mins_played": 135.0
     },
     "Paddy McNair": {
       "fouls": 0.0,
@@ -1592,16 +1682,16 @@
       "mins_played": 26.0
     },
     "Pascal Gro\u00df": {
-      "fouls": 1.0,
+      "fouls": 3.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Patrick Dorgu": {
       "fouls": 4.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 45.0
+      "appearances": 2.0,
+      "mins_played": 55.0
     },
     "Pau Torres": {
       "fouls": 1.0,
@@ -1610,10 +1700,10 @@
       "mins_played": 74.0
     },
     "Pedro Neto": {
-      "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 14.0
+      "fouls": 1.0,
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 82.0
     },
     "Pedro Porro": {
       "fouls": 1.0,
@@ -1624,8 +1714,8 @@
     "Pep Chavarr\u00eda": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 25.0
+      "appearances": 2.0,
+      "mins_played": 43.0
     },
     "Phil Foden": {
       "fouls": 3.0,
@@ -1638,6 +1728,12 @@
       "was_fouled": 0.0,
       "appearances": 1.0,
       "mins_played": 9.0
+    },
+    "Promise David": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 10.0
     },
     "Rayan": {
       "fouls": 0.0,
@@ -1654,8 +1750,8 @@
     "Reece James": {
       "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 112.0
     },
     "Regan Slater": {
       "fouls": 3.0,
@@ -1664,10 +1760,10 @@
       "mins_played": 180.0
     },
     "Reinildo Mandava": {
-      "fouls": 2.0,
-      "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 5.0,
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Riccardo Calafiori": {
       "fouls": 0.0,
@@ -1680,6 +1776,12 @@
       "was_fouled": 1.0,
       "appearances": 1.0,
       "mins_played": 68.0
+    },
+    "Rico Henry": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 2.0
     },
     "Rico Lewis": {
       "fouls": 1.0,
@@ -1702,8 +1804,8 @@
     "Robin Roefs": {
       "fouls": 0.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Rodrigo Bentancur": {
       "fouls": 6.0,
@@ -1717,11 +1819,17 @@
       "appearances": 1.0,
       "mins_played": 8.0
     },
-    "Rom\u00e9o Lavia": {
-      "fouls": 1.0,
+    "Romaine Mundle": {
+      "fouls": 0.0,
       "was_fouled": 0.0,
       "appearances": 1.0,
-      "mins_played": 65.0
+      "mins_played": 1.0
+    },
+    "Rom\u00e9o Lavia": {
+      "fouls": 1.0,
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 133.0
     },
     "Ronald Araujo": {
       "fouls": 2.0,
@@ -1762,8 +1870,8 @@
     "Ryan Sessegnon": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 17.0
+      "appearances": 2.0,
+      "mins_played": 39.0
     },
     "R\u00faben Dias": {
       "fouls": 0.0,
@@ -1772,10 +1880,10 @@
       "mins_played": 180.0
     },
     "Sander Berge": {
-      "fouls": 0.0,
+      "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 73.0
+      "appearances": 2.0,
+      "mins_played": 156.0
     },
     "Sandro Tonali": {
       "fouls": 1.0,
@@ -1784,10 +1892,10 @@
       "mins_played": 165.0
     },
     "Sasa Lukic": {
-      "fouls": 1.0,
+      "fouls": 4.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 163.0
     },
     "Sean Longstaff": {
       "fouls": 0.0,
@@ -1810,14 +1918,14 @@
     "Senne Lammens": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Shea Charles": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 23.0
+      "appearances": 2.0,
+      "mins_played": 45.0
     },
     "Shea Lacey": {
       "fouls": 0.0,
@@ -1851,9 +1959,9 @@
     },
     "Tarik Muharemovic": {
       "fouls": 1.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Tatsuhiro Sakamoto": {
       "fouls": 0.0,
@@ -1870,26 +1978,26 @@
     "Thomas Meunier": {
       "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Tim Iroegbunam": {
       "fouls": 1.0,
       "was_fouled": 0.0,
       "appearances": 1.0,
-      "mins_played": 3.0
+      "mins_played": 4.0
     },
     "Timothy Castagne": {
-      "fouls": 2.0,
-      "was_fouled": 2.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "fouls": 5.0,
+      "was_fouled": 4.0,
+      "appearances": 2.0,
+      "mins_played": 158.0
     },
     "Trai Hume": {
-      "fouls": 2.0,
+      "fouls": 3.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 80.0
+      "appearances": 2.0,
+      "mins_played": 170.0
     },
     "Trey Nyoni": {
       "fouls": 0.0,
@@ -1921,6 +2029,12 @@
       "appearances": 1.0,
       "mins_played": 16.0
     },
+    "Valent\u00edn Barco": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 8.0
+    },
     "Victor Lindel\u00f6f": {
       "fouls": 0.0,
       "was_fouled": 0.0,
@@ -1946,10 +2060,10 @@
       "mins_played": 180.0
     },
     "Vitaly Janelt": {
-      "fouls": 4.0,
+      "fouls": 5.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 90.0
+      "appearances": 2.0,
+      "mins_played": 180.0
     },
     "Vitor Reis": {
       "fouls": 0.0,
@@ -1963,6 +2077,12 @@
       "appearances": 2.0,
       "mins_played": 117.0
     },
+    "Wesley Fofana": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 68.0
+    },
     "William Osula": {
       "fouls": 0.0,
       "was_fouled": 0.0,
@@ -1971,9 +2091,9 @@
     },
     "Wilson Isidor": {
       "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 23.0
+      "was_fouled": 2.0,
+      "appearances": 2.0,
+      "mins_played": 49.0
     },
     "Xaver Schlager": {
       "fouls": 0.0,
@@ -1990,8 +2110,8 @@
     "Yehor Yarmoliuk": {
       "fouls": 1.0,
       "was_fouled": 1.0,
-      "appearances": 1.0,
-      "mins_played": 23.0
+      "appearances": 2.0,
+      "mins_played": 44.0
     },
     "Yoane Wissa": {
       "fouls": 3.0,
@@ -2001,9 +2121,9 @@
     },
     "Youri Tielemans": {
       "fouls": 1.0,
-      "was_fouled": 3.0,
-      "appearances": 1.0,
-      "mins_played": 67.0
+      "was_fouled": 6.0,
+      "appearances": 2.0,
+      "mins_played": 157.0
     },
     "Y\u00e9remy Pino": {
       "fouls": 3.0,
