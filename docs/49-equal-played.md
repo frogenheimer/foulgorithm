@@ -71,6 +71,36 @@ Nothing on the record is rewritten. The 15:29 grades stay on file as grades
 of claims that were never binding; the join has always taken only the
 binding version's claims.
 
+**Names resolve before grading.** The league's season totals abbreviate
+("Nico González", "Andy Robertson") where the squads and the claims carry
+the fuller name, and the grader compared raw strings. 29 of the 36 legs
+that read as no-shows on 30 August were that gap, across all five games,
+and 307 more claims graded once `settle.resolve_outcomes` ran the names
+through `identity.players` (both token directions plus the crosswalk,
+which gains `Andrew Robertson: Andy Robertson`). A name the rules refuse
+stays ungraded rather than guessed. Dibling and Gannon-Doak were the only
+true no-shows of the weekend.
+
+---
+
+## ⚠️ The archive slice has the same race
+
+The fixture page and the vidiprinter read the frozen slice in
+`site/public/data/fixtures/`, written at each pre-kickoff publish. The bot
+wrote Spurs at 15:27; the 16:19 hand publish rewrote it locally; the merge
+driver (`merge=ours` on payloads) then kept the bot's copy when the two
+histories met, so the page showed the 15:29 bets, marked, while the table
+scored the 16:19 ones. Alan's safe read "came in" on the page and lost in
+the table. The slice was re-frozen by hand from the 16:19 payload and every
+slice re-marked from the regraded record (five files).
+
+The durable fix is for the slice's bets to be rebuilt from the record
+(binding slate versions plus the claims they name) rather than kept from a
+payload, so no merge can leave a page on a non-binding version. Not built
+yet; raised here so it is not forgotten. Until then, a hand publish inside
+the last hour must be pushed before the bot's next run, or the archive is
+checked after the merge.
+
 ---
 
 ## 🧱 Build
