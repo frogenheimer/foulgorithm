@@ -561,6 +561,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 11,
+   "publishedAt": "2026-08-30T11:55:20+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.31,
+     "outOf100": 10,
+     "houseOutOf100": 10,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Fofana",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 66,
+       "backers": 8
+      },
+      {
+       "player": "Jo\u00e3o Pedro",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 59,
+       "backers": 7
+      },
+      {
+       "player": "De Cuyper",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 6
+      },
+      {
+       "player": "Kadioglu",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 62,
+       "backers": 5
+      },
+      {
+       "player": "Gomez",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

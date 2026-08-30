@@ -505,6 +505,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 10,
+   "publishedAt": "2026-08-30T11:55:20+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 13.95,
+     "outOf100": 7,
+     "houseOutOf100": 7,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Rodon",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 7
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 67,
+       "backers": 5
+      },
+      {
+       "player": "Ajer",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 5
+      },
+      {
+       "player": "Collins",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 5
+      },
+      {
+       "player": "Stach",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 71,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

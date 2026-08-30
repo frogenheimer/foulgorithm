@@ -449,6 +449,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 9,
+   "publishedAt": "2026-08-30T11:55:20+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 9.07,
+     "outOf100": 11,
+     "houseOutOf100": 11,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 68,
+       "backers": 8
+      },
+      {
+       "player": "Bassey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 8
+      },
+      {
+       "player": "Andersen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 7
+      },
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 5
+      },
+      {
+       "player": "Bobb",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 77,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

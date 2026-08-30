@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-29T15:29:37.453477+00:00",
+  "checkedAt": "2026-08-30T11:57:52.287039+00:00",
   "lineups": {
     "Arsenal|Arsenal v Coventry": {
       "formation": "4-2-3-1",
@@ -81,6 +81,22 @@
         "Vitaly Janelt"
       ]
     },
+    "Brentford|Leeds v Brentford": {
+      "formation": null,
+      "starters": [
+        "Caoimh\u00edn Kelleher",
+        "Igor Thiago",
+        "Jaidon Anthony",
+        "Keane Lewis-Potter",
+        "Kevin Schade",
+        "Kristoffer Ajer",
+        "Mamadou Sangar\u00e9",
+        "Michael Kayode",
+        "Mikkel Damsgaard",
+        "Nathan Collins",
+        "Vitaly Janelt"
+      ]
+    },
     "Brighton|Brighton v Aston Villa": {
       "formation": "4-2-3-1",
       "starters": [
@@ -95,6 +111,38 @@
         "Olivier Boscagli",
         "Pascal Gro\u00df",
         "Yasin Ayari"
+      ]
+    },
+    "Brighton|Chelsea v Brighton": {
+      "formation": null,
+      "starters": [
+        "Bart Verbruggen",
+        "Charalampos Kostoulas",
+        "Diego G\u00f3mez",
+        "Ferdi Kadioglu",
+        "Lewis Dunk",
+        "Luka Vuskovic",
+        "Malick Yalcouy\u00e9",
+        "Mats Wieffer",
+        "Maxim De Cuyper",
+        "Olivier Boscagli",
+        "Pascal Gro\u00df"
+      ]
+    },
+    "Chelsea|Chelsea v Brighton": {
+      "formation": null,
+      "starters": [
+        "Cole Palmer",
+        "Emiliano Mart\u00ednez",
+        "Jorrel Hato",
+        "Jo\u00e3o Pedro",
+        "Levi Colwill",
+        "Malo Gusto",
+        "Maxence Lacroix",
+        "Morgan Rogers",
+        "Pedro Neto",
+        "Rom\u00e9o Lavia",
+        "Wesley Fofana"
       ]
     },
     "Chelsea|Fulham v Chelsea": {
@@ -225,6 +273,22 @@
         "Timothy Castagne"
       ]
     },
+    "Fulham|Sunderland v Fulham": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Alex Iwobi",
+        "Antonee Robinson",
+        "Bernd Leno",
+        "Calvin Bassey",
+        "C\u00e9sar Palacios",
+        "Gonzalo Garc\u00eda",
+        "Joachim Andersen",
+        "Josh King",
+        "Oscar Bobb",
+        "Sander Berge",
+        "Timothy Castagne"
+      ]
+    },
     "Hull|Coventry v Hull": {
       "formation": "5-4-1",
       "starters": [
@@ -271,6 +335,22 @@
         "Leif Davis",
         "Marcelino N\u00fa\u00f1ez",
         "Sasa Lukic"
+      ]
+    },
+    "Leeds|Leeds v Brentford": {
+      "formation": null,
+      "starters": [
+        "Anton Stach",
+        "Brenden Aaronson",
+        "Dominic Calvert-Lewin",
+        "Ethan Ampadu",
+        "Jaka Bijol",
+        "James Justin",
+        "James Trafford",
+        "Jayden Bogle",
+        "Joe Rodon",
+        "Noah Okafor",
+        "Tarik Muharemovic"
       ]
     },
     "Leeds|Nott'm Forest v Leeds": {
@@ -386,7 +466,7 @@
       ]
     },
     "Newcastle|Tottenham v Newcastle": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Amar Dedic",
         "Anthony Elanga",
@@ -443,6 +523,22 @@
         "Luke O'Nien",
         "Nilson Angulo",
         "Noah Sadiki",
+        "Reinildo Mandava",
+        "Robin Roefs",
+        "Thomas Meunier",
+        "Trai Hume"
+      ]
+    },
+    "Sunderland|Sunderland v Fulham": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Brian Brobbey",
+        "Dan Ballard",
+        "Enzo Le F\u00e9e",
+        "Granit Xhaka",
+        "Nilson Angulo",
+        "Noah Sadiki",
+        "Nordi Mukiele",
         "Reinildo Mandava",
         "Robin Roefs",
         "Thomas Meunier",
