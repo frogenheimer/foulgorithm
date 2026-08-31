@@ -785,6 +785,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 15,
+   "publishedAt": "2026-08-31T17:55:15+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 22.55,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Calafiori",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 69,
+       "backers": 6
+      },
+      {
+       "player": "Havertz",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 5
+      },
+      {
+       "player": "Lewis-Skelly",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 5
+      },
+      {
+       "player": "McGinn",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 4
+      },
+      {
+       "player": "Tzolis",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

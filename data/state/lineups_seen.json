@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-30T14:30:07.656368+00:00",
+  "checkedAt": "2026-08-31T17:57:18.559871+00:00",
   "lineups": {
     "Arsenal|Arsenal v Coventry": {
       "formation": "4-2-3-1",
@@ -15,6 +15,38 @@
         "Martin \u00d8degaard",
         "Myles Lewis-Skelly",
         "Riccardo Calafiori"
+      ]
+    },
+    "Arsenal|Aston Villa v Arsenal": {
+      "formation": null,
+      "starters": [
+        "Ben White",
+        "Bukayo Saka",
+        "Christos Tzolis",
+        "Cristhian Mosquera",
+        "David Raya",
+        "Declan Rice",
+        "Gabriel Magalh\u00e3es",
+        "Kai Havertz",
+        "Martin \u00d8degaard",
+        "Myles Lewis-Skelly",
+        "Riccardo Calafiori"
+      ]
+    },
+    "Aston Villa|Aston Villa v Arsenal": {
+      "formation": null,
+      "starters": [
+        "Boubacar Kamara",
+        "Emiliano Buend\u00eda",
+        "George Hemmings",
+        "Ian Maatsen",
+        "John McGinn",
+        "Matty Cash",
+        "Nicolas Jackson",
+        "Pau Torres",
+        "Ross Barkley",
+        "Victor Lindel\u00f6f",
+        "Zion Suzuki"
       ]
     },
     "Aston Villa|Brighton v Aston Villa": {
@@ -338,7 +370,7 @@
       ]
     },
     "Ipswich|Man United v Ipswich": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Abdul Fatawu",
         "Daizen Maeda",
