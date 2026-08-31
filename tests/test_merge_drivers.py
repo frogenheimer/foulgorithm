@@ -17,7 +17,11 @@ def test_append_only_stores_merge_as_a_union():
 
 
 def test_regenerated_payloads_keep_their_own_side():
-    for pattern in ("site/public/data/*.json", "site/public/data/fixtures/*.json", "data/state/*.json"):
+    for pattern in (
+        "site/public/data/*.json",
+        "site/public/data/fixtures/*.json",
+        "data/state/*.json",
+    ):
         assert f"{pattern} merge=ours" in ATTRS, pattern
 
 

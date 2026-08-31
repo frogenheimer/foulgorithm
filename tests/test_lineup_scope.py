@@ -49,7 +49,10 @@ class TestTheSheetsVerdictForEveryone:
     def test_starters_bench_and_out(self):
         from foulgorithm.publish.player_round import Selection
 
-        assert Selection("A", "A B", None, "MF", True, "", confirmed=True, sheet="start").sheet == "start"
+        assert (
+            Selection("A", "A B", None, "MF", True, "", confirmed=True, sheet="start").sheet
+            == "start"
+        )
         assert Selection("C", "C D", None, "MF", True, "", sheet="bench").sheet == "bench"
         assert Selection("E", "E F", None, "MF", True, "", sheet="out").sheet == "out"
         assert Selection("G", "G H", None, "MF", True, "").sheet is None
