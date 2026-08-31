@@ -354,10 +354,30 @@ class TestWaitingForTheStatsToPost:
         assert len(pending) == 1
 
     def test_a_match_just_inside_the_delay_is_still_pending(self):
-        """STATS_DELAY is three hours and described as conservative. Just
-        inside it counts as pending, because the cost of waiting one run is a
-        delay and the cost of not waiting is data destroyed permanently."""
-        assert len(settle.pending_fixtures([self.fixture(hours_ago=2.5)])) == 1
+        """Just inside the guard counts as pending, because the cost of
+        waiting one run is a delay and the cost of not waiting is data
+        destroyed permanently."""
+        assert len(settle.pending_fixtures([self.fixture(hours_ago=2.0)])) == 1
+
+    def test_a_match_past_the_measured_latency_is_ready(self):
+        assert settle.pending_fixtures([self.fixture(hours_ago=2.75)]) == []
+
+    def test_the_guard_clears_the_measured_posting_latency(self):
+        """docs/53: five kickoff slots over 28 to 30 August, worst case
+        2h05 from kickoff to the totals going still, on ten-minute polls.
+        The guard has to sit clear of that with room for the granularity,
+        because a snapshot taken early loses those fouls for good."""
+        from datetime import timedelta
+
+        assert timedelta(hours=2, minutes=5) + timedelta(minutes=20) <= settle.STATS_DELAY
+
+    def test_the_guard_is_not_the_archives_delay(self):
+        """One constant was doing two jobs. The archive stamps known_at on
+        historical rows from a feed this was never measured against, so it
+        keeps its own number."""
+        from foulgorithm.store.players import STATS_DELAY as ARCHIVE_DELAY
+
+        assert settle.STATS_DELAY is not ARCHIVE_DELAY
 
     def test_a_match_that_has_not_kicked_off_is_not_pending(self):
         assert settle.pending_fixtures([self.fixture(hours_ago=-24, complete=False)]) == []

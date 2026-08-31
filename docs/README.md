@@ -46,6 +46,7 @@ These docs are the source of truth for how Foulgorithm works and why. Chat histo
 | [37-display-decisions.md](37-display-decisions.md) | The ratification round: what stayed, what moved, what came back |
 | [38-the-contract.md](38-the-contract.md) | **Three bets per model per game. The plan of record; supersedes 36 and 37 on the bets** |
 | [39-instrument-grade.md](39-instrument-grade.md) | **The visual redesign: dark-first modules, the chart vocabulary, the temper-ring badges** |
+| [53-posting-latency.md](53-posting-latency.md) | **The league posts player stats in play: measured latency, the settle guard cut to 2h30, the probe retired** |
 | [52-manager-regime.md](52-manager-regime.md) | **The manager as a regime break in the club's foul rate, not a rating: tenure table, reset, study, gate; cards go first** |
 | [51-pitch-and-house-sheet.md](51-pitch-and-house-sheet.md) | **The pitch sizes to itself, one market toggle with two figures a marker, the house sheet as a dropdown under the slips, the papers gone** |
 | [50-vidiprinter-line.md](50-vidiprinter-line.md) | **The vidiprinter as one line: successes first, each verdict in and out, the full report behind a disclosure** |

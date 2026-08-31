@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 # Committed, not cached. See lineup_watch.STATE for why. It matters more here:
@@ -31,6 +31,18 @@ SNAPSHOT = Path("data/state/player_season_totals.json")
 TRACK_RECORD = Path("site/public/data/track-record.json")
 
 MARKETS = {"fouls": "player_fouls_committed", "was_fouled": "player_fouls_drawn"}
+
+# How long after a kickoff the league's player totals can still be moving.
+#
+# MEASURED, not guessed: docs/53-posting-latency.md. Five kickoff slots over
+# the 28 to 30 August matchdays, polled every ten minutes. The tables climb
+# from about twenty minutes into a match and go still within ten minutes of
+# full time; the worst slot took 2h05 from kickoff. This sits 25 minutes
+# clear of that, which is 15 clear once the poll granularity is allowed for.
+#
+# Not shared with `store.players.STATS_DELAY`, which stamps `known_at` on
+# historical archive rows from a different feed that this never measured.
+STATS_DELAY = timedelta(hours=2, minutes=30)
 
 
 def per_match(before: dict, after: dict) -> dict[str, dict[str, int]]:
@@ -172,11 +184,11 @@ def pending_fixtures(fixtures, now=None) -> list:
     them permanently. Three fixtures graded near zero this way on 22 August,
     all from the same 14:00 slot.
 
-    `STATS_DELAY` is shared with the history loader, which already calls three
-    hours conservative for the same publishing lag.
+    The league posts in play, so this is not belt and braces: appearance
+    counts rise mid-match alongside the fouls, which means a snapshot taken
+    while a game is on records a valid-looking one-appearance diff carrying
+    only part of that player's fouls. See `STATS_DELAY` above.
     """
-    from foulgorithm.store.players import STATS_DELAY
-
     now = now or datetime.now(UTC)
     return [f for f in fixtures if f.kickoff_utc <= now and (now - f.kickoff_utc) < STATS_DELAY]
 

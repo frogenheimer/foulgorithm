@@ -26,7 +26,7 @@ def test_regenerated_payloads_keep_their_own_side():
 
 
 def test_every_committing_workflow_enables_the_ours_driver():
-    for name in ("lineups.yml", "settle.yml", "reschedule.yml", "latency.yml"):
+    for name in ("lineups.yml", "settle.yml", "reschedule.yml"):
         text = (ROOT / ".github" / "workflows" / name).read_text()
         if "git commit" in text:
             assert "git config merge.ours.driver true" in text, name

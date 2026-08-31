@@ -133,13 +133,15 @@ and the standard card rendered three times. Do it properly:
 - The gap year: Sportmonks trial (verify fouls committed AND won per player
   per match for 2025/26 PL), then one paid month to backfill legitimately, or
   the permission email to Sports Reference.
-- Settle timing from evidence: Friday's totals posted within 2h05 of kickoff
-  against a 3h guard; the latency probe (`jobs/stats_latency.py`,
-  `latency.yml`) was to log the weekend; read it, cut `STATS_DELAY` and
-  `SETTLE_LAG`, decide per-slot vs per-day settle, delete the temporary
-  workflow, re-anchor the weekly reschedule to the matchweek's final whistle,
-  consider auto-opening each round after settle so `make gameweek` stops
-  being the one manual step.
+- ~~Settle timing from evidence.~~ **Done 31 August, docs/53.** The probe
+  logged the weekend, `STATS_DELAY` is 2h30 and `SETTLE_LAG` 3h15, the
+  temporary workflow is deleted. Per-slot settle was considered and
+  rejected: Saturday's slots are 2h30 apart, so a snapshot for the early
+  game always catches the next one in play. Still open from that item: a
+  status-aware guard instead of a clock (docs/53's last section, worth an
+  extra hour and a half on a Saturday), re-anchoring the weekly reschedule
+  to the matchweek's final whistle, and auto-opening each round after
+  settle so `make gameweek` stops being the one manual step.
 - The clock: Oliver creates the fine-grained token (Actions read/write, this
   repo only) and a Cloudflare account with no card; deploy per `docs/43`.
 - Fixture congestion is measured null (modelling log, 26 Aug); a player-level

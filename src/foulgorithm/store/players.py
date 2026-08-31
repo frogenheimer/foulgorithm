@@ -27,7 +27,11 @@ WFR_URL = (
 )
 WFR_CACHE = Path("data/raw/worldfootballr/eng_misc_player_match.csv")
 
-# Full-time stats publish shortly after the whistle. Three hours is conservative.
+# When a historical row became knowable, for stamping `known_at` so a
+# walk-forward backtest cannot train on a result before it existed. This is the
+# worldfootballR archive's lag and it has never been measured; three hours is
+# conservative. NOT the settle guard, which measured its own against the
+# league's live feed and lives in jobs/settle.py (docs/53).
 STATS_DELAY = timedelta(hours=3)
 
 COLUMNS = [

@@ -46,10 +46,13 @@ class TestSettleWindows:
 
     def test_the_lag_clears_the_stats_delay(self):
         """A wake inside STATS_DELAY would meet its own deferral guard and
-        the whole matchday would wait for the backstop cron."""
-        from foulgorithm.store.players import STATS_DELAY
+        the whole matchday would wait for the backstop cron. The two risks
+        are not symmetric, so the margin is a generous one."""
+        from datetime import timedelta
 
-        assert schedule.SETTLE_LAG > STATS_DELAY
+        from foulgorithm.jobs.settle import STATS_DELAY
+
+        assert STATS_DELAY + timedelta(minutes=45) <= schedule.SETTLE_LAG
 
     def test_past_and_far_future_fixtures_are_ignored(self):
         fixtures = [fixture("2020-01-01T15:00"), fixture(future_day(40, 15))]
