@@ -43,7 +43,10 @@ def per_match(before: dict, after: dict) -> dict[str, dict[str, int]]:
     for name, now in after.items():
         was = before.get(name, {})
         appearances = now.get("appearances", 0) - was.get("appearances", 0)
-        if appearances < 0 or any(now.get(k, 0) < was.get(k, 0) for k in ("fouls", "was_fouled")):
+        if appearances < 0 or any(
+            now.get(k, 0) < was.get(k, 0)
+            for k in ("fouls", "was_fouled", "yellow_card", "red_card")
+        ):
             raise ValueError(
                 f"{name}'s season total fell between snapshots. Totals only rise, "
                 "so this is a season rollover or a change of source shape, and "
@@ -51,22 +54,33 @@ def per_match(before: dict, after: dict) -> dict[str, dict[str, int]]:
             )
         if appearances != 1:
             continue
-        # Minutes only when BOTH snapshots carry them, or the player is a
-        # debutant absent from the earlier one entirely. The old snapshot
-        # format predates the stat, and a zero there would say he played no
-        # minutes and fouled twice, which is a lie with a straight face.
-        if "mins_played" in now and "mins_played" in was:
-            minutes = int(now["mins_played"] - was["mins_played"])
-        elif "mins_played" in now and not was:
-            minutes = int(now["mins_played"])
-        else:
-            minutes = None
         out[name] = {
             "fouls_committed": int(now.get("fouls", 0) - was.get("fouls", 0)),
             "fouls_drawn": int(now.get("was_fouled", 0) - was.get("was_fouled", 0)),
-            "minutes": minutes,
+            "minutes": _rider("mins_played", now, was),
+            # docs/48 step 1: the house's card record starts accruing before
+            # a single card figure is published, so the study that decides
+            # whether any of it is publishable has this season's rows to run on.
+            "yellows": _rider("yellow_card", now, was),
+            "reds": _rider("red_card", now, was),
         }
     return out
+
+
+def _rider(stat: str, now: dict, was: dict) -> int | None:
+    """A stat that joined the snapshot after it started: differenced, or unknown.
+
+    Only when BOTH snapshots carry it, or the player is a debutant absent
+    from the earlier one entirely. Every snapshot format predates the stat
+    that joined it last, and a zero there would say a player finished last
+    week on no bookings and was booked tonight, which is a lie with a
+    straight face. The same rule minutes have needed since docs/35.
+    """
+    if stat in now and stat in was:
+        return int(now[stat] - was[stat])
+    if stat in now and not was:
+        return int(now[stat])
+    return None
 
 
 SETTLED_ROWS = Path("data/settled/player_matches.jsonl")

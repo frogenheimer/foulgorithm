@@ -21,7 +21,13 @@ from foulgorithm.sources import pulselive
 # to a single match. `mins_played` makes a settled match a full training row
 # rather than half of one; these rows are the only per-match player data this
 # season will ever have.
-STATS = ("fouls", "was_fouled", "appearances", "mins_played")
+#
+# Cards ride along from docs/48: the card study needs this season's bookings
+# per match, and a booking not snapshotted the week it happened is not
+# recoverable later, because the league only ever publishes running totals.
+# Fetching them costs two more paginated reads a settle run and commits us to
+# nothing: nothing is graded or published on a card until the gate passes.
+STATS = ("fouls", "was_fouled", "appearances", "mins_played", "yellow_card", "red_card")
 
 
 def _ranked(stat: str, season_id: int, page_size: int = 100) -> dict[str, float]:
@@ -44,9 +50,39 @@ def _ranked(stat: str, season_id: int, page_size: int = 100) -> dict[str, float]
             return out
 
 
+#: Without these a difference cannot be attributed to a match at all, so an
+#: empty table for one of them is a dead source and stops the run.
+REQUIRED = ("fouls", "was_fouled", "appearances")
+
+
+class SourceShapeError(RuntimeError):
+    """A stat table the whole job depends on came back empty."""
+
+
 def season_totals(season_id: int | None = None) -> dict[str, dict[str, float]]:
-    """Every player with a non-zero total, keyed by display name."""
+    """Every player with a non-zero total, keyed by display name.
+
+    A stat whose table comes back EMPTY is omitted rather than written as
+    zero for everybody. Players on zero are absent from a populated table,
+    so "absent" normally means zero, but a table with nobody in it means the
+    endpoint moved. Written as zeros that would say "nobody was booked"
+    every week, quietly and forever, since nothing is published on a card
+    yet to make it visible. Omitted, it reads as unknown (see
+    `settle._rider`), which is the honest answer and self-healing: the week
+    the table returns, the stat resumes.
+
+    An empty REQUIRED table is not survivable and raises.
+    """
     season_id = season_id or pulselive.current_season_id()
     tables = {stat: _ranked(stat, season_id) for stat in STATS}
+    empty = [stat for stat, table in tables.items() if not table]
+    dead = [stat for stat in empty if stat in REQUIRED]
+    if dead and any(tables.values()):
+        raise SourceShapeError(
+            f"{', '.join(dead)} came back with no players while other tables have some. "
+            "That is a changed endpoint, not a quiet week, and settling against it "
+            "would grade a whole round as zero."
+        )
+    live = [stat for stat in STATS if stat not in empty]
     players = set().union(*tables.values())
-    return {name: {stat: tables[stat].get(name, 0.0) for stat in STATS} for name in sorted(players)}
+    return {name: {stat: tables[stat].get(name, 0.0) for stat in live} for name in sorted(players)}

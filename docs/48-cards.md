@@ -49,8 +49,26 @@ The plan, in brief:
 - **A fourth house slip only if the gate passes.**
 
 Today's action is step 1 of the build order: `yellow_card` and `red_card`
-into the season-totals snapshot and the settle window, so Monday's game
-is the first with a booking outcome on file. Steps 2 to 4 follow the gate.
+into the season-totals snapshot and the settle window. Steps 2 to 4 follow
+the gate.
+
+**Step 1 shipped 31 August.** Two things worth knowing about the first
+rounds:
+
+- **Cards start unknown, not zero.** Bookings ride along exactly as
+  minutes do (`settle._rider`): a stat is differenced only when BOTH
+  snapshots carry it, or the player is absent from the earlier one
+  entirely. The snapshot on file predates the stat, so tonight's settle
+  records `null` bookings for every player already in it and real ones only
+  for debutants. The first window with cards known for everyone is the one
+  after tonight's, next weekend. A zero there would have said a player
+  finished last week on no bookings and was booked tonight.
+- **An empty stat table is refused.** A card table that comes back with
+  nobody in it means the endpoint moved, not that nobody was booked, and
+  written as zeros it would say "no bookings" every week, quietly, since
+  nothing is published on a card yet to make it visible. The stat is
+  omitted, which reads as unknown and self-heals. An empty `fouls`,
+  `was_fouled` or `appearances` table raises instead: those are the job.
 
 ---
 
