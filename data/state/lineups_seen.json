@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-04T17:57:52.882867+00:00",
+  "checkedAt": "2026-09-04T18:22:40.737016+00:00",
   "lineups": {
     "Arsenal|Aston Villa v Arsenal": {
       "formation": "4-2-3-1",
@@ -322,7 +322,7 @@
       ]
     },
     "Ipswich|Ipswich v Liverpool": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Abdul Fatawu",
         "Daizen Maeda",
