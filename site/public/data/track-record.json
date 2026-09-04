@@ -1,634 +1,536 @@
 {
-  "generatedAt": "2026-08-31T22:49:05.533565+00:00",
-  "settledPlayers": 31,
-  "gradedClaims": 794,
-  "withoutOutcome": 460,
+  "generatedAt": "2026-09-04T22:25:49.555272+00:00",
+  "settledPlayers": 30,
+  "gradedClaims": 872,
+  "withoutOutcome": 538,
   "models": {
     "house": {
-      "n": 540,
-      "claimed": 0.2226,
-      "actual": 0.2222,
-      "gap": -0.0004,
-      "logLoss": 0.4293,
-      "brier": 0.1361,
-      "ece": 0.0265,
+      "n": 684,
+      "claimed": 0.2404,
+      "actual": 0.1959,
+      "gap": -0.0445,
+      "logLoss": 0.3868,
+      "brier": 0.123,
+      "ece": 0.049,
       "calibration": [
         {
           "lo": 0.0,
           "hi": 0.1,
-          "n": 205,
-          "predicted": 0.045,
-          "observed": 0.0488
+          "n": 240,
+          "predicted": 0.0557,
+          "observed": 0.0333
         },
         {
           "lo": 0.1,
           "hi": 0.2,
-          "n": 107,
-          "predicted": 0.1433,
-          "observed": 0.1402
+          "n": 136,
+          "predicted": 0.152,
+          "observed": 0.0882
         },
         {
           "lo": 0.2,
           "hi": 0.3,
-          "n": 77,
-          "predicted": 0.2499,
-          "observed": 0.2468
+          "n": 92,
+          "predicted": 0.2516,
+          "observed": 0.2174
         },
         {
           "lo": 0.3,
           "hi": 0.4,
-          "n": 33,
-          "predicted": 0.3448,
-          "observed": 0.4242
+          "n": 46,
+          "predicted": 0.3478,
+          "observed": 0.2609
         },
         {
           "lo": 0.4,
           "hi": 0.5,
-          "n": 39,
-          "predicted": 0.454,
-          "observed": 0.4872
+          "n": 64,
+          "predicted": 0.4471,
+          "observed": 0.3438
         },
         {
           "lo": 0.5,
           "hi": 0.6,
-          "n": 48,
-          "predicted": 0.5562,
-          "observed": 0.4167
+          "n": 72,
+          "predicted": 0.5572,
+          "observed": 0.5278
         },
         {
           "lo": 0.6,
           "hi": 0.7,
-          "n": 23,
-          "predicted": 0.6351,
-          "observed": 0.6522
+          "n": 28,
+          "predicted": 0.6446,
+          "observed": 0.5714
         },
         {
           "lo": 0.7,
           "hi": 0.8,
-          "n": 8,
-          "predicted": 0.7525,
+          "n": 6,
+          "predicted": 0.7413,
           "observed": 1.0
         }
       ]
     },
     "lily": {
-      "n": 20,
-      "claimed": 0.5804,
-      "actual": 0.65,
-      "gap": 0.0696,
-      "logLoss": 0.589,
-      "brier": 0.2007,
-      "ece": 0.1254,
+      "n": 12,
+      "claimed": 0.6643,
+      "actual": 0.6667,
+      "gap": 0.0024,
+      "logLoss": 0.5737,
+      "brier": 0.1987,
+      "ece": 0.4055,
       "calibration": [
-        {
-          "lo": 0.3,
-          "hi": 0.4,
-          "n": 2,
-          "predicted": 0.3669,
-          "observed": 0.5
-        },
         {
           "lo": 0.4,
           "hi": 0.5,
-          "n": 5,
-          "predicted": 0.4431,
-          "observed": 0.4
+          "n": 2,
+          "predicted": 0.4526,
+          "observed": 1.0
         },
         {
           "lo": 0.5,
           "hi": 0.6,
-          "n": 3,
-          "predicted": 0.5375,
-          "observed": 0.6667
+          "n": 2,
+          "predicted": 0.5409,
+          "observed": 0.0
         },
         {
           "lo": 0.6,
           "hi": 0.7,
-          "n": 5,
+          "n": 2,
           "predicted": 0.6685,
-          "observed": 0.6
+          "observed": 0.0
         },
         {
           "lo": 0.7,
           "hi": 0.8,
-          "n": 5,
-          "predicted": 0.7407,
+          "n": 6,
+          "predicted": 0.7746,
           "observed": 1.0
         }
       ]
     },
     "valentina": {
       "n": 18,
-      "claimed": 0.5646,
-      "actual": 0.4444,
-      "gap": -0.1202,
-      "logLoss": 0.6635,
-      "brier": 0.2383,
-      "ece": 0.3313,
+      "claimed": 0.6316,
+      "actual": 0.6667,
+      "gap": 0.035,
+      "logLoss": 0.6515,
+      "brier": 0.2336,
+      "ece": 0.3701,
       "calibration": [
-        {
-          "lo": 0.2,
-          "hi": 0.3,
-          "n": 1,
-          "predicted": 0.2932,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.3,
-          "hi": 0.4,
-          "n": 3,
-          "predicted": 0.3421,
-          "observed": 0.6667
-        },
         {
           "lo": 0.4,
           "hi": 0.5,
-          "n": 3,
-          "predicted": 0.4748,
-          "observed": 0.0
+          "n": 2,
+          "predicted": 0.4456,
+          "observed": 1.0
         },
         {
           "lo": 0.5,
           "hi": 0.6,
-          "n": 3,
-          "predicted": 0.5716,
-          "observed": 0.3333
+          "n": 4,
+          "predicted": 0.5778,
+          "observed": 1.0
         },
         {
           "lo": 0.6,
           "hi": 0.7,
-          "n": 4,
-          "predicted": 0.6577,
+          "n": 8,
+          "predicted": 0.6269,
           "observed": 0.25
         },
         {
           "lo": 0.7,
           "hi": 0.8,
           "n": 2,
-          "predicted": 0.7203,
+          "predicted": 0.7313,
           "observed": 1.0
         },
         {
           "lo": 0.8,
           "hi": 0.9,
           "n": 2,
-          "predicted": 0.8168,
+          "predicted": 0.8446,
           "observed": 1.0
         }
       ]
     },
     "tayler": {
-      "n": 31,
-      "claimed": 0.5002,
-      "actual": 0.6452,
-      "gap": 0.145,
-      "logLoss": 0.7413,
-      "brier": 0.2717,
-      "ece": 0.2231,
+      "n": 20,
+      "claimed": 0.52,
+      "actual": 0.4,
+      "gap": -0.12,
+      "logLoss": 0.5606,
+      "brier": 0.188,
+      "ece": 0.12,
       "calibration": [
-        {
-          "lo": 0.1,
-          "hi": 0.2,
-          "n": 1,
-          "predicted": 0.19,
-          "observed": 0.0
-        },
         {
           "lo": 0.2,
           "hi": 0.3,
           "n": 4,
-          "predicted": 0.2571,
-          "observed": 1.0
+          "predicted": 0.2749,
+          "observed": 0.0
         },
         {
           "lo": 0.3,
           "hi": 0.4,
+          "n": 2,
+          "predicted": 0.3208,
+          "observed": 0.0
+        },
+        {
+          "lo": 0.5,
+          "hi": 0.6,
           "n": 4,
-          "predicted": 0.3497,
+          "predicted": 0.5401,
           "observed": 0.5
-        },
-        {
-          "lo": 0.4,
-          "hi": 0.5,
-          "n": 3,
-          "predicted": 0.4169,
-          "observed": 0.6667
-        },
-        {
-          "lo": 0.5,
-          "hi": 0.6,
-          "n": 9,
-          "predicted": 0.5578,
-          "observed": 0.4444
-        },
-        {
-          "lo": 0.6,
-          "hi": 0.7,
-          "n": 8,
-          "predicted": 0.6517,
-          "observed": 0.75
-        },
-        {
-          "lo": 0.7,
-          "hi": 0.8,
-          "n": 2,
-          "predicted": 0.7017,
-          "observed": 1.0
-        }
-      ]
-    },
-    "alan": {
-      "n": 24,
-      "claimed": 0.5544,
-      "actual": 0.1667,
-      "gap": -0.3877,
-      "logLoss": 0.8212,
-      "brier": 0.3069,
-      "ece": 0.3877,
-      "calibration": [
-        {
-          "lo": 0.1,
-          "hi": 0.2,
-          "n": 1,
-          "predicted": 0.1694,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.2,
-          "hi": 0.3,
-          "n": 2,
-          "predicted": 0.2794,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.3,
-          "hi": 0.4,
-          "n": 4,
-          "predicted": 0.3522,
-          "observed": 0.25
-        },
-        {
-          "lo": 0.4,
-          "hi": 0.5,
-          "n": 1,
-          "predicted": 0.4141,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.5,
-          "hi": 0.6,
-          "n": 2,
-          "predicted": 0.5187,
-          "observed": 0.0
         },
         {
           "lo": 0.6,
           "hi": 0.7,
           "n": 10,
-          "predicted": 0.6632,
-          "observed": 0.3
+          "predicted": 0.6499,
+          "observed": 0.6
+        }
+      ]
+    },
+    "pax": {
+      "n": 14,
+      "claimed": 0.6054,
+      "actual": 0.7143,
+      "gap": 0.1089,
+      "logLoss": 0.5997,
+      "brier": 0.2067,
+      "ece": 0.2011,
+      "calibration": [
+        {
+          "lo": 0.4,
+          "hi": 0.5,
+          "n": 4,
+          "predicted": 0.4568,
+          "observed": 0.5
+        },
+        {
+          "lo": 0.5,
+          "hi": 0.6,
+          "n": 2,
+          "predicted": 0.5435,
+          "observed": 1.0
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.7,
+          "n": 4,
+          "predicted": 0.6613,
+          "observed": 0.5
         },
         {
           "lo": 0.7,
           "hi": 0.8,
+          "n": 4,
+          "predicted": 0.7288,
+          "observed": 1.0
+        }
+      ]
+    },
+    "justine": {
+      "n": 16,
+      "claimed": 0.654,
+      "actual": 0.75,
+      "gap": 0.096,
+      "logLoss": 0.5746,
+      "brier": 0.1956,
+      "ece": 0.1237,
+      "calibration": [
+        {
+          "lo": 0.4,
+          "hi": 0.5,
           "n": 2,
-          "predicted": 0.7364,
+          "predicted": 0.4444,
+          "observed": 1.0
+        },
+        {
+          "lo": 0.5,
+          "hi": 0.6,
+          "n": 4,
+          "predicted": 0.5394,
+          "observed": 0.5
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.7,
+          "n": 2,
+          "predicted": 0.6764,
+          "observed": 1.0
+        },
+        {
+          "lo": 0.7,
+          "hi": 0.8,
+          "n": 8,
+          "predicted": 0.758,
+          "observed": 0.75
+        }
+      ]
+    },
+    "dottie": {
+      "n": 16,
+      "claimed": 0.636,
+      "actual": 0.75,
+      "gap": 0.114,
+      "logLoss": 0.451,
+      "brier": 0.1397,
+      "ece": 0.2407,
+      "calibration": [
+        {
+          "lo": 0.3,
+          "hi": 0.4,
+          "n": 2,
+          "predicted": 0.3935,
           "observed": 0.0
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.5,
+          "n": 2,
+          "predicted": 0.4624,
+          "observed": 1.0
+        },
+        {
+          "lo": 0.5,
+          "hi": 0.6,
+          "n": 4,
+          "predicted": 0.5566,
+          "observed": 0.5
+        },
+        {
+          "lo": 0.7,
+          "hi": 0.8,
+          "n": 6,
+          "predicted": 0.767,
+          "observed": 1.0
         },
         {
           "lo": 0.8,
           "hi": 0.9,
           "n": 2,
-          "predicted": 0.8057,
-          "observed": 0.0
-        }
-      ]
-    },
-    "bdog": {
-      "n": 29,
-      "claimed": 0.5421,
-      "actual": 0.3448,
-      "gap": -0.1972,
-      "logLoss": 0.7149,
-      "brier": 0.2591,
-      "ece": 0.2078,
-      "calibration": [
-        {
-          "lo": 0.2,
-          "hi": 0.3,
-          "n": 1,
-          "predicted": 0.2443,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.3,
-          "hi": 0.4,
-          "n": 5,
-          "predicted": 0.3693,
-          "observed": 0.4
-        },
-        {
-          "lo": 0.4,
-          "hi": 0.5,
-          "n": 6,
-          "predicted": 0.442,
-          "observed": 0.1667
-        },
-        {
-          "lo": 0.5,
-          "hi": 0.6,
-          "n": 5,
-          "predicted": 0.5653,
-          "observed": 0.2
-        },
-        {
-          "lo": 0.6,
-          "hi": 0.7,
-          "n": 8,
-          "predicted": 0.6503,
-          "observed": 0.5
-        },
-        {
-          "lo": 0.7,
-          "hi": 0.8,
-          "n": 4,
-          "predicted": 0.7369,
-          "observed": 0.5
-        }
-      ]
-    },
-    "pax": {
-      "n": 19,
-      "claimed": 0.568,
-      "actual": 0.6842,
-      "gap": 0.1162,
-      "logLoss": 0.5745,
-      "brier": 0.1929,
-      "ece": 0.1926,
-      "calibration": [
-        {
-          "lo": 0.3,
-          "hi": 0.4,
-          "n": 2,
-          "predicted": 0.3627,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.4,
-          "hi": 0.5,
-          "n": 3,
-          "predicted": 0.4432,
-          "observed": 0.6667
-        },
-        {
-          "lo": 0.5,
-          "hi": 0.6,
-          "n": 7,
-          "predicted": 0.5731,
-          "observed": 0.7143
-        },
-        {
-          "lo": 0.6,
-          "hi": 0.7,
-          "n": 4,
-          "predicted": 0.6454,
-          "observed": 0.75
-        },
-        {
-          "lo": 0.7,
-          "hi": 0.8,
-          "n": 3,
-          "predicted": 0.7145,
-          "observed": 1.0
-        }
-      ]
-    },
-    "mabel": {
-      "n": 23,
-      "claimed": 0.5842,
-      "actual": 0.3913,
-      "gap": -0.1929,
-      "logLoss": 0.767,
-      "brier": 0.2829,
-      "ece": 0.2641,
-      "calibration": [
-        {
-          "lo": 0.3,
-          "hi": 0.4,
-          "n": 3,
-          "predicted": 0.3792,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.4,
-          "hi": 0.5,
-          "n": 3,
-          "predicted": 0.4664,
-          "observed": 0.3333
-        },
-        {
-          "lo": 0.5,
-          "hi": 0.6,
-          "n": 4,
-          "predicted": 0.5453,
-          "observed": 0.75
-        },
-        {
-          "lo": 0.6,
-          "hi": 0.7,
-          "n": 10,
-          "predicted": 0.6521,
-          "observed": 0.4
-        },
-        {
-          "lo": 0.7,
-          "hi": 0.8,
-          "n": 3,
-          "predicted": 0.7326,
-          "observed": 0.3333
-        }
-      ]
-    },
-    "justine": {
-      "n": 21,
-      "claimed": 0.601,
-      "actual": 0.6667,
-      "gap": 0.0657,
-      "logLoss": 0.579,
-      "brier": 0.1958,
-      "ece": 0.15,
-      "calibration": [
-        {
-          "lo": 0.3,
-          "hi": 0.4,
-          "n": 1,
-          "predicted": 0.3761,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.4,
-          "hi": 0.5,
-          "n": 4,
-          "predicted": 0.4476,
-          "observed": 0.5
-        },
-        {
-          "lo": 0.5,
-          "hi": 0.6,
-          "n": 4,
-          "predicted": 0.571,
-          "observed": 0.75
-        },
-        {
-          "lo": 0.6,
-          "hi": 0.7,
-          "n": 7,
-          "predicted": 0.6442,
-          "observed": 0.5714
-        },
-        {
-          "lo": 0.7,
-          "hi": 0.8,
-          "n": 5,
-          "predicted": 0.7321,
-          "observed": 1.0
-        }
-      ]
-    },
-    "dottie": {
-      "n": 24,
-      "claimed": 0.5505,
-      "actual": 0.4167,
-      "gap": -0.1339,
-      "logLoss": 0.6329,
-      "brier": 0.2209,
-      "ece": 0.2305,
-      "calibration": [
-        {
-          "lo": 0.3,
-          "hi": 0.4,
-          "n": 2,
-          "predicted": 0.3698,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.4,
-          "hi": 0.5,
-          "n": 7,
-          "predicted": 0.4446,
-          "observed": 0.1429
-        },
-        {
-          "lo": 0.5,
-          "hi": 0.6,
-          "n": 5,
-          "predicted": 0.5369,
-          "observed": 0.6
-        },
-        {
-          "lo": 0.6,
-          "hi": 0.7,
-          "n": 7,
-          "predicted": 0.6458,
-          "observed": 0.4286
-        },
-        {
-          "lo": 0.7,
-          "hi": 0.8,
-          "n": 3,
-          "predicted": 0.7188,
+          "predicted": 0.818,
           "observed": 1.0
         }
       ]
     },
     "dele": {
-      "n": 16,
-      "claimed": 0.6232,
-      "actual": 0.625,
-      "gap": 0.0018,
-      "logLoss": 0.6093,
-      "brier": 0.2096,
-      "ece": 0.1849,
+      "n": 12,
+      "claimed": 0.7042,
+      "actual": 0.6667,
+      "gap": -0.0375,
+      "logLoss": 0.5781,
+      "brier": 0.203,
+      "ece": 0.3286,
       "calibration": [
         {
           "lo": 0.4,
           "hi": 0.5,
-          "n": 4,
-          "predicted": 0.4745,
-          "observed": 0.25
+          "n": 2,
+          "predicted": 0.4967,
+          "observed": 1.0
         },
         {
           "lo": 0.5,
           "hi": 0.6,
           "n": 2,
-          "predicted": 0.5616,
+          "predicted": 0.5976,
+          "observed": 0.0
+        },
+        {
+          "lo": 0.7,
+          "hi": 0.8,
+          "n": 4,
+          "predicted": 0.7503,
           "observed": 0.5
+        },
+        {
+          "lo": 0.8,
+          "hi": 0.9,
+          "n": 4,
+          "predicted": 0.815,
+          "observed": 1.0
+        }
+      ]
+    },
+    "ian": {
+      "n": 14,
+      "claimed": 0.6601,
+      "actual": 0.7143,
+      "gap": 0.0542,
+      "logLoss": 0.5567,
+      "brier": 0.1894,
+      "ece": 0.2954,
+      "calibration": [
+        {
+          "lo": 0.4,
+          "hi": 0.5,
+          "n": 2,
+          "predicted": 0.4526,
+          "observed": 1.0
+        },
+        {
+          "lo": 0.5,
+          "hi": 0.6,
+          "n": 2,
+          "predicted": 0.5409,
+          "observed": 0.0
         },
         {
           "lo": 0.6,
           "hi": 0.7,
           "n": 4,
-          "predicted": 0.6266,
-          "observed": 1.0
+          "predicted": 0.6516,
+          "observed": 0.5
         },
         {
           "lo": 0.7,
           "hi": 0.8,
           "n": 6,
-          "predicted": 0.7405,
-          "observed": 0.6667
+          "predicted": 0.7746,
+          "observed": 1.0
         }
       ]
     },
-    "ian": {
-      "n": 29,
-      "claimed": 0.5596,
-      "actual": 0.5517,
-      "gap": -0.0078,
-      "logLoss": 0.5556,
-      "brier": 0.1854,
-      "ece": 0.1787,
+    "alan": {
+      "n": 26,
+      "claimed": 0.5728,
+      "actual": 0.3846,
+      "gap": -0.1882,
+      "logLoss": 0.6838,
+      "brier": 0.2455,
+      "ece": 0.1881,
       "calibration": [
-        {
-          "lo": 0.2,
-          "hi": 0.3,
-          "n": 1,
-          "predicted": 0.2578,
-          "observed": 0.0
-        },
-        {
-          "lo": 0.3,
-          "hi": 0.4,
-          "n": 3,
-          "predicted": 0.3792,
-          "observed": 0.0
-        },
         {
           "lo": 0.4,
           "hi": 0.5,
-          "n": 8,
-          "predicted": 0.4471,
-          "observed": 0.5
+          "n": 12,
+          "predicted": 0.4775,
+          "observed": 0.3333
         },
         {
           "lo": 0.5,
           "hi": 0.6,
+          "n": 4,
+          "predicted": 0.5163,
+          "observed": 0.0
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.7,
+          "n": 4,
+          "predicted": 0.6827,
+          "observed": 0.5
+        },
+        {
+          "lo": 0.7,
+          "hi": 0.8,
           "n": 6,
-          "predicted": 0.5404,
+          "predicted": 0.7276,
+          "observed": 0.6667
+        }
+      ]
+    },
+    "bdog": {
+      "n": 18,
+      "claimed": 0.6395,
+      "actual": 0.5556,
+      "gap": -0.0839,
+      "logLoss": 0.4562,
+      "brier": 0.1449,
+      "ece": 0.2475,
+      "calibration": [
+        {
+          "lo": 0.3,
+          "hi": 0.4,
+          "n": 4,
+          "predicted": 0.3738,
+          "observed": 0.0
+        },
+        {
+          "lo": 0.5,
+          "hi": 0.6,
+          "n": 4,
+          "predicted": 0.5563,
           "observed": 0.5
         },
         {
           "lo": 0.6,
           "hi": 0.7,
-          "n": 3,
-          "predicted": 0.6889,
-          "observed": 0.3333
+          "n": 2,
+          "predicted": 0.6314,
+          "observed": 0.0
         },
         {
           "lo": 0.7,
           "hi": 0.8,
-          "n": 8,
-          "predicted": 0.7432,
+          "n": 4,
+          "predicted": 0.7818,
+          "observed": 1.0
+        },
+        {
+          "lo": 0.8,
+          "hi": 0.9,
+          "n": 4,
+          "predicted": 0.8501,
+          "observed": 1.0
+        }
+      ]
+    },
+    "mabel": {
+      "n": 22,
+      "claimed": 0.6171,
+      "actual": 0.7273,
+      "gap": 0.1102,
+      "logLoss": 0.4563,
+      "brier": 0.1433,
+      "ece": 0.2074,
+      "calibration": [
+        {
+          "lo": 0.2,
+          "hi": 0.3,
+          "n": 2,
+          "predicted": 0.2639,
+          "observed": 0.0
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.5,
+          "n": 4,
+          "predicted": 0.4203,
+          "observed": 0.5
+        },
+        {
+          "lo": 0.5,
+          "hi": 0.6,
+          "n": 2,
+          "predicted": 0.5115,
+          "observed": 1.0
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.7,
+          "n": 4,
+          "predicted": 0.6354,
+          "observed": 0.5
+        },
+        {
+          "lo": 0.7,
+          "hi": 0.8,
+          "n": 6,
+          "predicted": 0.7355,
+          "observed": 1.0
+        },
+        {
+          "lo": 0.8,
+          "hi": 0.9,
+          "n": 4,
+          "predicted": 0.8473,
           "observed": 1.0
         }
       ]
