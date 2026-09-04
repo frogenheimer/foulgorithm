@@ -1,0 +1,62 @@
+{
+ "fixture": "Nott'm Forest v Tottenham",
+ "kickoff": "2026-09-05T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-04T17:55:19+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 59.51,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Udogie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 7
+      },
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 37,
+       "backers": 6
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 37,
+       "backers": 5
+      },
+      {
+       "player": "Senesi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 58,
+       "backers": 4
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 39,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

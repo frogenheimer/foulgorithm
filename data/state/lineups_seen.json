@@ -1,24 +1,8 @@
 {
-  "checkedAt": "2026-08-31T18:13:02.484012+00:00",
+  "checkedAt": "2026-09-04T17:57:52.882867+00:00",
   "lineups": {
-    "Arsenal|Arsenal v Coventry": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Ben White",
-        "Bukayo Saka",
-        "Christos Tzolis",
-        "Cristhian Mosquera",
-        "David Raya",
-        "Declan Rice",
-        "Gabriel Magalh\u00e3es",
-        "Kai Havertz",
-        "Martin \u00d8degaard",
-        "Myles Lewis-Skelly",
-        "Riccardo Calafiori"
-      ]
-    },
     "Arsenal|Aston Villa v Arsenal": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Ben White",
         "Bukayo Saka",
@@ -193,22 +177,6 @@
         "Rom\u00e9o Lavia"
       ]
     },
-    "Coventry|Arsenal v Coventry": {
-      "formation": "4-1-4-1",
-      "starters": [
-        "Aur\u00e8le Amenda",
-        "Bobby Thomas",
-        "Brandon Thomas-Asante",
-        "Caleb Yirenkyi",
-        "Carl Rushworth",
-        "Ellis Simms",
-        "Frank Onyeka",
-        "Jay Dasilva",
-        "Loum Tchaouna",
-        "Matt Grimes",
-        "Milan van Ewijk"
-      ]
-    },
     "Coventry|Coventry v Hull": {
       "formation": "4-2-3-1",
       "starters": [
@@ -353,6 +321,22 @@
         "Semi Ajayi"
       ]
     },
+    "Ipswich|Ipswich v Liverpool": {
+      "formation": null,
+      "starters": [
+        "Abdul Fatawu",
+        "Daizen Maeda",
+        "Dara O'Shea",
+        "Emersonn",
+        "Exequiel Palacios",
+        "Issa Diop",
+        "Jacob Greaves",
+        "Julio Enciso",
+        "Kjell Scherpen",
+        "Leif Davis",
+        "Sasa Lukic"
+      ]
+    },
     "Ipswich|Ipswich v Sunderland": {
       "formation": "4-2-3-1",
       "starters": [
@@ -415,6 +399,22 @@
         "Jayden Bogle",
         "Joe Rodon",
         "Tarik Muharemovic"
+      ]
+    },
+    "Liverpool|Ipswich v Liverpool": {
+      "formation": null,
+      "starters": [
+        "Alexander Isak",
+        "Alexis Mac Allister",
+        "Alisson Becker",
+        "Cody Gakpo",
+        "Dominik Szoboszlai",
+        "Florian Wirtz",
+        "J\u00e9r\u00e9my Jacquet",
+        "Milos Kerkez",
+        "Ronald Araujo",
+        "Virgil van Dijk",
+        "V\u00edctor Mu\u00f1oz"
       ]
     },
     "Liverpool|Liverpool v Nott'm Forest": {

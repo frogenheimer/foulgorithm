@@ -1,0 +1,62 @@
+{
+ "fixture": "Newcastle v Bournemouth",
+ "kickoff": "2026-09-05T11:30:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-04T17:55:19+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 24.22,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Wissa",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 7
+      },
+      {
+       "player": "Truffert",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 5
+      },
+      {
+       "player": "Adams",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 4
+      },
+      {
+       "player": "Christie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 56,
+       "backers": 4
+      },
+      {
+       "player": "Horn\u00ed\u010dek",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 49,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

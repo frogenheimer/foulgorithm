@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-09-04T17:55:19+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 9.91,
+     "outOf100": 10,
+     "houseOutOf100": 10,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Luki\u0107",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 8
+      },
+      {
+       "player": "Kerkez",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 64,
+       "backers": 7
+      },
+      {
+       "player": "Gakpo",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 49,
+       "backers": 7
+      },
+      {
+       "player": "Mac Allister",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 71,
+       "backers": 6
+      },
+      {
+       "player": "Enciso",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 76,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

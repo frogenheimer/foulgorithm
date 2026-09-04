@@ -1,0 +1,62 @@
+{
+ "fixture": "Everton v Man United",
+ "kickoff": "2026-09-06T13:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-04T17:55:19+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 42.96,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Cunha",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 42,
+       "backers": 8
+      },
+      {
+       "player": "Dibling",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 37,
+       "backers": 7
+      },
+      {
+       "player": "Dorgu",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 35,
+       "backers": 7
+      },
+      {
+       "player": "Cunha",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 69,
+       "backers": 6
+      },
+      {
+       "player": "Tielemans",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}
