@@ -659,12 +659,25 @@ def boldness(
     }
 
 
-#: The league's first round: the first one played under the three-bets-per-
-#: game contract (docs/38). Everything committed before exists on file and
-#: stays graded in the raw record, but it was a different shape of bet
-#: (round-wide slates), and a table mixing the two would mean nothing.
-#: Oliver's call, 2026-08-25.
-SEASON_START = "2026-08-28"
+#: The league's first round: the first one played under the foul-events
+#: contract (docs/45). Everything committed before exists on file and stays
+#: graded in the raw record, but it was a different shape of bet, and a table
+#: mixing shapes would mean nothing. Oliver's call, 2026-08-25.
+#:
+#: Moved from 2026-08-28 on 5 September. Starting the day bets went per game
+#: (docs/38) sounded right and was not: the original five had ALSO filed
+#: round-wide slates for that round, and the six challengers, who joined
+#: afterwards, never had the chance to. So the five played 28 August twice
+#: over and the table read P35 against P33, which is the unequal table
+#: docs/49 set out to end.
+#:
+#: What this actually drops is the round-wide slates, whose ids are dates and
+#: so fall before the line. The 28 August game's PER-GAME bets keep their
+#: gameweek id and still count, which is the right outcome and worth stating
+#: rather than leaving to luck: all eleven made those three on equal terms.
+#: The test of a bet belonging in this table is that every entrant could have
+#: made it, in the same shape.
+SEASON_START = ensemble.PRICED_FROM
 
 
 def table(graded: list[dict], character_ids: list[str], since: str = SEASON_START) -> list[dict]:

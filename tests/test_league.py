@@ -506,7 +506,9 @@ class TestFoulDifference:
     def leg(landed, deficit=0):
         return {
             "model_id": "alan",
-            "extra": {"slate": "three-twos", "round": "2026-08-28"},
+            # Inside the season: SEASON_START moved to the contract on
+            # 5 September. These tests are about difference maths, not dates.
+            "extra": {"slate": "three-twos", "round": "2026-08-29"},
             "landed": landed,
             "deficit": deficit,
         }
@@ -941,3 +943,42 @@ class TestAVoidLegUnderTheContract:
         )
         assert {r["key"] for r in joined} == {"aaa", "bbb"}
         assert all(r["extra"]["expected"] == 2 for r in joined)
+
+
+class TestTheLeagueStartsAtItsContract:
+    """The table scores ONE contract, so every entry faced the same task.
+
+    The season began on 28 August, when bets went per game (docs/38). But
+    only the original five had also filed round-wide slates for that round,
+    the six challengers having joined afterwards, so the five played it
+    twice over and the table read P35 against P33. A round-wide bet and a
+    per-game bet are different shapes, and one is a shape six of the eleven
+    never had the chance to bet. So the league opens with the foul-events
+    contract instead (docs/45), the first thing all eleven bet on the same
+    terms.
+    """
+
+    def test_the_season_opens_with_the_foul_events_contract(self):
+        from foulgorithm.models import ensemble
+
+        assert league.SEASON_START == ensemble.PRICED_FROM
+
+    @staticmethod
+    def _rows(cid, slate, round_key, landed):
+        return [
+            {
+                "model_id": cid,
+                "landed": True,
+                "deficit": 0,
+                "extra": {"slate": slate, "round": round_key, "fixture": "A v B", "expected": 2},
+            }
+            for _ in range(landed)
+        ]
+
+    def test_a_bet_from_before_the_contract_does_not_count(self):
+        rows = self._rows("alan", "three-twos", "2026-08-28", 2)
+        assert next(r for r in league.table(rows, FIVE) if r["id"] == "alan")["played"] == 0
+
+    def test_a_contract_bet_counts(self):
+        rows = self._rows("alan", "safe", "mw02", 2)
+        assert next(r for r in league.table(rows, FIVE) if r["id"] == "alan")["played"] == 1

@@ -149,15 +149,39 @@ def build() -> dict:
         pass
 
     weeks = sorted({f["matchweek"] for f in fixtures if f["matchweek"]})
-    played = [f for f in fixtures if f["status"] == pulselive.STATUS_COMPLETE]
-    current = max((f["matchweek"] for f in played), default=weeks[0] if weeks else 1)
 
     return {
         "generatedAt": datetime.now(UTC).isoformat(),
         "matchweeks": weeks,
-        "currentMatchweek": current,
+        "currentMatchweek": current_matchweek(fixtures),
         "fixtures": fixtures,
     }
+
+
+def current_matchweek(fixtures: list[dict]) -> int:
+    """The round being played, or the next one up.
+
+    The lowest matchweek that still has a fixture to play. This was the
+    HIGHEST week with a completed game, which named the round that had just
+    finished: from the Tuesday to the Friday of a matchweek the homepage
+    opened on last week, every game of it over, while the board beside it
+    carried picks for the round coming. The site publishes for the round
+    ahead, so this has to name the same one.
+
+    Falls back to the last week of the season once every game is played, and
+    to week one before a ball is kicked.
+    """
+    from foulgorithm.sources import pulselive
+
+    weeks = sorted({f["matchweek"] for f in fixtures if f.get("matchweek")})
+    if not weeks:
+        return 1
+    unplayed = [
+        f["matchweek"]
+        for f in fixtures
+        if f.get("matchweek") and f.get("status") != pulselive.STATUS_COMPLETE
+    ]
+    return min(unplayed) if unplayed else weeks[-1]
 
 
 def publish(output: Path = OUTPUT) -> dict:
