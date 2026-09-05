@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-09-05T10:25:12+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 25.29,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Hill",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 67,
+       "backers": 7
+      },
+      {
+       "player": "Kluivert",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 46,
+       "backers": 6
+      },
+      {
+       "player": "Scott",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 5
+      },
+      {
+       "player": "Truffert",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 70,
+       "backers": 3
+      },
+      {
+       "player": "Evanilson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 46,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

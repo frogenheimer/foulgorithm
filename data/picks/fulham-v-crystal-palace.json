@@ -113,6 +113,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-09-05T10:25:12+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 23.55,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Andersen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 53,
+       "backers": 8
+      },
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 6
+      },
+      {
+       "player": "Wharton",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 6
+      },
+      {
+       "player": "Hughes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 40,
+       "backers": 6
+      },
+      {
+       "player": "Berge",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

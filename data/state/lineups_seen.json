@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-04T18:22:40.737016+00:00",
+  "checkedAt": "2026-09-05T10:27:37.829956+00:00",
   "lineups": {
     "Arsenal|Aston Villa v Arsenal": {
       "formation": "4-2-3-1",
@@ -79,6 +79,22 @@
         "Lewis Cook",
         "Marcus Tavernier",
         "Rayan"
+      ]
+    },
+    "Bournemouth|Newcastle v Bournemouth": {
+      "formation": null,
+      "starters": [
+        "Adam Smith",
+        "Adrien Truffert",
+        "Alex Scott",
+        "Ant\u00f3nio Silva",
+        "Djordje Petrovic",
+        "Evanilson",
+        "James Hill",
+        "Justin Kluivert",
+        "Marcus Tavernier",
+        "Rayan",
+        "Tyler Adams"
       ]
     },
     "Brentford|Brentford v Tottenham": {
@@ -305,22 +321,6 @@
         "Semi Ajayi"
       ]
     },
-    "Hull|Hull v Man United": {
-      "formation": "5-4-1",
-      "starters": [
-        "Elliot Stroud",
-        "John Egan",
-        "Konstantinos Tzolakis",
-        "Lewie Coyle",
-        "Matt Crooks",
-        "Mohamed Belloumi",
-        "Nobel Mendy",
-        "Oliver McBurnie",
-        "Regan Slater",
-        "Ryan Giles",
-        "Semi Ajayi"
-      ]
-    },
     "Ipswich|Ipswich v Liverpool": {
       "formation": "4-2-3-1",
       "starters": [
@@ -402,7 +402,7 @@
       ]
     },
     "Liverpool|Ipswich v Liverpool": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Alexander Isak",
         "Alexis Mac Allister",
@@ -481,22 +481,6 @@
         "R\u00faben Dias"
       ]
     },
-    "Man United|Hull v Man United": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Andrey Santos",
-        "Ayden Heaven",
-        "Bruno Fernandes",
-        "Bryan Mbeumo",
-        "Harry Maguire",
-        "Luke Shaw",
-        "Matheus Cunha",
-        "Noussair Mazraoui",
-        "Patrick Dorgu",
-        "Senne Lammens",
-        "Youri Tielemans"
-      ]
-    },
     "Man United|Man United v Ipswich": {
       "formation": "4-2-3-1",
       "starters": [
@@ -511,6 +495,22 @@
         "Matheus Cunha",
         "Senne Lammens",
         "Youri Tielemans"
+      ]
+    },
+    "Newcastle|Newcastle v Bournemouth": {
+      "formation": null,
+      "starters": [
+        "Amar Dedic",
+        "Anthony Elanga",
+        "Harvey Barnes",
+        "Joe Willock",
+        "Lewis Hall",
+        "Lewis Miley",
+        "Luk\u00e1s Horn\u00edcek",
+        "Malick Thiaw",
+        "Nico Gonz\u00e1lez",
+        "Sven Botman",
+        "Yoane Wissa"
       ]
     },
     "Newcastle|Newcastle v Liverpool": {

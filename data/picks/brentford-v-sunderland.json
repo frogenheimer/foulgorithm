@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-09-05T10:25:12+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 26.83,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 9
+      },
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 7
+      },
+      {
+       "player": "Damsgaard",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 7
+      },
+      {
+       "player": "Xhaka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 6
+      },
+      {
+       "player": "O.Dango",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

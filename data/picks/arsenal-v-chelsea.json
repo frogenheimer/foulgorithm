@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-09-05T10:25:12+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 58.17,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Calafiori",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 8
+      },
+      {
+       "player": "Konsa",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 36,
+       "backers": 7
+      },
+      {
+       "player": "Fofana",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 49,
+       "backers": 6
+      },
+      {
+       "player": "Zubimendi",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 37,
+       "backers": 5
+      },
+      {
+       "player": "Hincapie",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 50,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }
