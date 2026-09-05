@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-05T10:27:37.829956+00:00",
+  "checkedAt": "2026-09-05T15:25:57.491826+00:00",
   "lineups": {
     "Arsenal|Aston Villa v Arsenal": {
       "formation": "4-2-3-1",
@@ -49,6 +49,22 @@
         "Victor Lindel\u00f6f"
       ]
     },
+    "Aston Villa|Hull v Aston Villa": {
+      "formation": null,
+      "starters": [
+        "Boubacar Kamara",
+        "Emiliano Buend\u00eda",
+        "George Hemmings",
+        "Ian Maatsen",
+        "John McGinn",
+        "Matty Cash",
+        "Nicolas Jackson",
+        "Ross Barkley",
+        "Tyrone Mings",
+        "Victor Lindel\u00f6f",
+        "Zion Suzuki"
+      ]
+    },
     "Bournemouth|Bournemouth v Everton": {
       "formation": "4-2-3-1",
       "starters": [
@@ -82,7 +98,7 @@
       ]
     },
     "Bournemouth|Newcastle v Bournemouth": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Adam Smith",
         "Adrien Truffert",
@@ -225,44 +241,12 @@
         "Y\u00e9remy Pino"
       ]
     },
-    "Crystal Palace|Everton v Crystal Palace": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Adam Wharton",
-        "Chadi Riad",
-        "Chris Richards",
-        "Daichi Kamada",
-        "Daniel Mu\u00f1oz",
-        "Dean Henderson",
-        "Dwight McNeil",
-        "Eddie Nketiah",
-        "Jaydee Canvot",
-        "Jean-Philippe Mateta",
-        "Tyrick Mitchell"
-      ]
-    },
     "Everton|Bournemouth v Everton": {
       "formation": "4-2-3-1",
       "starters": [
         "Harrison Armstrong",
         "Iliman Ndiaye",
         "James Garner",
-        "James Tarkowski",
-        "Jarrad Branthwaite",
-        "Jordan Pickford",
-        "Kiernan Dewsbury-Hall",
-        "Merlin R\u00f6hl",
-        "Thierno Barry",
-        "Tyrique George",
-        "Vitalii Mykolenko"
-      ]
-    },
-    "Everton|Everton v Crystal Palace": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Harrison Armstrong",
-        "Hayden Hackney",
-        "Iliman Ndiaye",
         "James Tarkowski",
         "Jarrad Branthwaite",
         "Jordan Pickford",
@@ -313,6 +297,22 @@
         "John Egan",
         "Konstantinos Tzolakis",
         "Lewie Coyle",
+        "Mohamed Belloumi",
+        "Nobel Mendy",
+        "Oliver McBurnie",
+        "Regan Slater",
+        "Ryan Giles",
+        "Semi Ajayi"
+      ]
+    },
+    "Hull|Hull v Aston Villa": {
+      "formation": null,
+      "starters": [
+        "Elliot Stroud",
+        "John Egan",
+        "Konstantinos Tzolakis",
+        "Lewie Coyle",
+        "Lucas Gourna-Douath",
         "Mohamed Belloumi",
         "Nobel Mendy",
         "Oliver McBurnie",
@@ -498,7 +498,7 @@
       ]
     },
     "Newcastle|Newcastle v Bournemouth": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Amar Dedic",
         "Anthony Elanga",

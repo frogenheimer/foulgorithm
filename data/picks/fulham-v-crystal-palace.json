@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-09-05T12:58:08+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 15.96,
+     "outOf100": 6,
+     "houseOutOf100": 6,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Bassey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 8
+      },
+      {
+       "player": "Bobb",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 77,
+       "backers": 6
+      },
+      {
+       "player": "Wharton",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 67,
+       "backers": 5
+      },
+      {
+       "player": "Nketiah",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 5
+      },
+      {
+       "player": "Bobb",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-09-05T12:58:08+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 19.4,
+     "outOf100": 5,
+     "houseOutOf100": 5,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 50,
+       "backers": 7
+      },
+      {
+       "player": "Udogie",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 6
+      },
+      {
+       "player": "Udogie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 73,
+       "backers": 5
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 75,
+       "backers": 4
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

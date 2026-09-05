@@ -113,6 +113,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-09-05T12:58:08+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 7.83,
+     "outOf100": 13,
+     "houseOutOf100": 13,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "De Cuyper",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 8
+      },
+      {
+       "player": "Ayari",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 70,
+       "backers": 6
+      },
+      {
+       "player": "Justin",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 69,
+       "backers": 6
+      },
+      {
+       "player": "Kadioglu",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 6
+      },
+      {
+       "player": "Stach",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 73,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
