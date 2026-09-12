@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-12T17:55:47.842713+00:00",
+  "checkedAt": "2026-09-12T18:22:03.508708+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -34,7 +34,7 @@
       ]
     },
     "Arsenal|Sunderland v Arsenal": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Ben White",
         "Bukayo Saka",
@@ -161,22 +161,6 @@
         "Vitaly Janelt"
       ]
     },
-    "Brentford|Leeds v Brentford": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Caoimh\u00edn Kelleher",
-        "Igor Thiago",
-        "Jaidon Anthony",
-        "Keane Lewis-Potter",
-        "Kevin Schade",
-        "Kristoffer Ajer",
-        "Mamadou Sangar\u00e9",
-        "Michael Kayode",
-        "Mikkel Damsgaard",
-        "Nathan Collins",
-        "Vitaly Janelt"
-      ]
-    },
     "Brighton|Brighton v Leeds": {
       "formation": "4-2-3-1",
       "starters": [
@@ -284,6 +268,22 @@
         "Jordan Pickford",
         "Kiernan Dewsbury-Hall",
         "Merlin R\u00f6hl",
+        "Thierno Barry",
+        "Tyrique George",
+        "Vitalii Mykolenko"
+      ]
+    },
+    "Everton|Tottenham v Everton": {
+      "formation": "4-1-4-1",
+      "starters": [
+        "Ainsley Maitland-Niles",
+        "Brennan Johnson",
+        "Harrison Armstrong",
+        "James Garner",
+        "James Tarkowski",
+        "Jarrad Branthwaite",
+        "Jordan Pickford",
+        "Kiernan Dewsbury-Hall",
         "Thierno Barry",
         "Tyrique George",
         "Vitalii Mykolenko"
@@ -433,22 +433,6 @@
         "Tarik Muharemovic"
       ]
     },
-    "Leeds|Leeds v Brentford": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Anton Stach",
-        "Brenden Aaronson",
-        "Dominic Calvert-Lewin",
-        "Ethan Ampadu",
-        "Jaka Bijol",
-        "James Justin",
-        "James Trafford",
-        "Jayden Bogle",
-        "Joe Rodon",
-        "Noah Okafor",
-        "Tarik Muharemovic"
-      ]
-    },
     "Liverpool|Ipswich v Liverpool": {
       "formation": "4-2-3-1",
       "starters": [
@@ -594,7 +578,7 @@
       ]
     },
     "Sunderland|Sunderland v Arsenal": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Brian Brobbey",
         "Dan Ballard",
@@ -636,6 +620,22 @@
         "Micky van de Ven",
         "Omar Marmoush",
         "Pedro Porro",
+        "Rodrigo Bentancur",
+        "Sandro Tonali",
+        "S\u00e1vio"
+      ]
+    },
+    "Tottenham|Tottenham v Everton": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Andy Robertson",
+        "Anton\u00edn Kinsky",
+        "Archie Gray",
+        "Dominic Solanke",
+        "Jan Paul van Hecke",
+        "Mateus Fernandes",
+        "Micky van de Ven",
+        "Omar Marmoush",
         "Rodrigo Bentancur",
         "Sandro Tonali",
         "S\u00e1vio"
