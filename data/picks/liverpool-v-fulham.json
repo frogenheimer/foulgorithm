@@ -1,0 +1,62 @@
+{
+ "fixture": "Liverpool v Fulham",
+ "kickoff": "2026-09-12T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-12T12:55:16+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 9.51,
+     "outOf100": 11,
+     "houseOutOf100": 11,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Gravenberch",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 67,
+       "backers": 8
+      },
+      {
+       "player": "Bassey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 8
+      },
+      {
+       "player": "Szoboszlai",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 66,
+       "backers": 7
+      },
+      {
+       "player": "Tsimikas",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 59,
+       "backers": 7
+      },
+      {
+       "player": "Bobb",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 76,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

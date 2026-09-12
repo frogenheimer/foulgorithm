@@ -1,0 +1,62 @@
+{
+ "fixture": "Aston Villa v Nott'm Forest",
+ "kickoff": "2026-09-12T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-12T12:55:16+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 12.98,
+     "outOf100": 8,
+     "houseOutOf100": 8,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 55,
+       "backers": 8
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 70,
+       "backers": 7
+      },
+      {
+       "player": "Mu\u00f1oz",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 6
+      },
+      {
+       "player": "McGinn",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 56,
+       "backers": 5
+      },
+      {
+       "player": "Kamara",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 74,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "fixture": "Coventry v Brighton",
+ "kickoff": "2026-09-13T13:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-12T12:55:16+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 15.49,
+     "outOf100": 6,
+     "houseOutOf100": 6,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Costinha",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 9
+      },
+      {
+       "player": "Hamer",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 59,
+       "backers": 8
+      },
+      {
+       "player": "Ayari",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 58,
+       "backers": 8
+      },
+      {
+       "player": "Gro\u00df",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 49,
+       "backers": 7
+      },
+      {
+       "player": "Costinha",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 75,
+       "backers": 6
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

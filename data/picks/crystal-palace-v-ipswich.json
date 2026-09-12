@@ -1,0 +1,62 @@
+{
+ "fixture": "Crystal Palace v Ipswich",
+ "kickoff": "2026-09-12T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-12T12:55:16+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.67,
+     "outOf100": 9,
+     "houseOutOf100": 9,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Luki\u0107",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 9
+      },
+      {
+       "player": "Davis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 60,
+       "backers": 7
+      },
+      {
+       "player": "Clarke",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 6
+      },
+      {
+       "player": "Kamada",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 5
+      },
+      {
+       "player": "Strand Larsen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 72,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

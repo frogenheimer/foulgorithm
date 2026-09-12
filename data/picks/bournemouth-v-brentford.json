@@ -1,0 +1,62 @@
+{
+ "fixture": "Bournemouth v Brentford",
+ "kickoff": "2026-09-12T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-12T12:55:16+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 21.94,
+     "outOf100": 5,
+     "houseOutOf100": 5,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Hill",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 5
+      },
+      {
+       "player": "Scott",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 39,
+       "backers": 5
+      },
+      {
+       "player": "Anthony",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 4
+      },
+      {
+       "player": "Hickey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 71,
+       "backers": 4
+      },
+      {
+       "player": "Hickey",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 38,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}
