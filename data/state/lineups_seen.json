@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-12T12:58:05.217840+00:00",
+  "checkedAt": "2026-09-12T17:55:47.842713+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -33,6 +33,22 @@
         "Riccardo Calafiori"
       ]
     },
+    "Arsenal|Sunderland v Arsenal": {
+      "formation": null,
+      "starters": [
+        "Ben White",
+        "Bukayo Saka",
+        "Christos Tzolis",
+        "David Raya",
+        "Declan Rice",
+        "Ezri Konsa",
+        "Gabriel Magalh\u00e3es",
+        "Kai Havertz",
+        "Martin \u00d8degaard",
+        "Myles Lewis-Skelly",
+        "Riccardo Calafiori"
+      ]
+    },
     "Aston Villa|Aston Villa v Arsenal": {
       "formation": "4-2-3-1",
       "starters": [
@@ -50,7 +66,7 @@
       ]
     },
     "Aston Villa|Aston Villa v Nott'm Forest": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Aaron Wan-Bissaka",
         "Boubacar Kamara",
@@ -82,7 +98,7 @@
       ]
     },
     "Bournemouth|Bournemouth v Brentford": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Adam Smith",
         "Adrien Truffert",
@@ -114,7 +130,7 @@
       ]
     },
     "Brentford|Bournemouth v Brentford": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Aaron Hickey",
         "Caoimh\u00edn Kelleher",
@@ -177,22 +193,6 @@
         "Yasin Ayari"
       ]
     },
-    "Brighton|Chelsea v Brighton": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Bart Verbruggen",
-        "Charalampos Kostoulas",
-        "Diego G\u00f3mez",
-        "Ferdi Kadioglu",
-        "Lewis Dunk",
-        "Luka Vuskovic",
-        "Malick Yalcouy\u00e9",
-        "Mats Wieffer",
-        "Maxim De Cuyper",
-        "Olivier Boscagli",
-        "Pascal Gro\u00df"
-      ]
-    },
     "Chelsea|Arsenal v Chelsea": {
       "formation": "3-4-2-1",
       "starters": [
@@ -209,24 +209,8 @@
         "Wesley Fofana"
       ]
     },
-    "Chelsea|Chelsea v Brighton": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Cole Palmer",
-        "Emiliano Mart\u00ednez",
-        "Jorrel Hato",
-        "Jo\u00e3o Pedro",
-        "Levi Colwill",
-        "Malo Gusto",
-        "Maxence Lacroix",
-        "Morgan Rogers",
-        "Pedro Neto",
-        "Rom\u00e9o Lavia",
-        "Wesley Fofana"
-      ]
-    },
     "Chelsea|Chelsea v Hull": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Cole Palmer",
         "Emiliano Mart\u00ednez",
@@ -258,7 +242,7 @@
       ]
     },
     "Crystal Palace|Crystal Palace v Ipswich": {
-      "formation": null,
+      "formation": "3-4-2-1",
       "starters": [
         "Adam Wharton",
         "Anan Khalaili",
@@ -322,7 +306,7 @@
       ]
     },
     "Fulham|Liverpool v Fulham": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Alex Iwobi",
         "Antonee Robinson",
@@ -354,7 +338,7 @@
       ]
     },
     "Hull|Chelsea v Hull": {
-      "formation": null,
+      "formation": "5-4-1",
       "starters": [
         "Elliot Stroud",
         "John Egan",
@@ -386,7 +370,7 @@
       ]
     },
     "Ipswich|Crystal Palace v Ipswich": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Abdul Fatawu",
         "Dara O'Shea",
@@ -482,7 +466,7 @@
       ]
     },
     "Liverpool|Liverpool v Fulham": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Alexander Isak",
         "Alisson Becker",
@@ -562,7 +546,7 @@
       ]
     },
     "Nott'm Forest|Aston Villa v Nott'm Forest": {
-      "formation": null,
+      "formation": "3-4-2-1",
       "starters": [
         "Dan Ndoye",
         "Daniel Mu\u00f1oz",
@@ -595,6 +579,22 @@
     },
     "Sunderland|Brentford v Sunderland": {
       "formation": "4-2-3-1",
+      "starters": [
+        "Brian Brobbey",
+        "Dan Ballard",
+        "Enzo Le F\u00e9e",
+        "Granit Xhaka",
+        "Kevin Danso",
+        "Nilson Angulo",
+        "Noah Sadiki",
+        "Nordi Mukiele",
+        "Reinildo Mandava",
+        "Robin Roefs",
+        "Thomas Meunier"
+      ]
+    },
+    "Sunderland|Sunderland v Arsenal": {
+      "formation": null,
       "starters": [
         "Brian Brobbey",
         "Dan Ballard",
