@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-12T18:22:03.508708+00:00",
+  "checkedAt": "2026-09-13T11:57:30.205439+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -177,6 +177,22 @@
         "Yasin Ayari"
       ]
     },
+    "Brighton|Coventry v Brighton": {
+      "formation": null,
+      "starters": [
+        "Bart Verbruggen",
+        "Charalampos Kostoulas",
+        "Diego G\u00f3mez",
+        "Ferdi Kadioglu",
+        "Lewis Dunk",
+        "Luka Vuskovic",
+        "Malick Yalcouy\u00e9",
+        "Maxim De Cuyper",
+        "Olivier Boscagli",
+        "Pascal Gro\u00df",
+        "Yasin Ayari"
+      ]
+    },
     "Chelsea|Arsenal v Chelsea": {
       "formation": "3-4-2-1",
       "starters": [
@@ -207,6 +223,22 @@
         "Reece James",
         "Rom\u00e9o Lavia",
         "Wesley Fofana"
+      ]
+    },
+    "Coventry|Coventry v Brighton": {
+      "formation": null,
+      "starters": [
+        "Aur\u00e8le Amenda",
+        "Bobby Thomas",
+        "Carl Rushworth",
+        "Ephron Mason-Clark",
+        "Ethan Pinnock",
+        "Frank Onyeka",
+        "Jack Rudoni",
+        "Jay Dasilva",
+        "Matt Grimes",
+        "Milan van Ewijk",
+        "Taiwo Awoniyi"
       ]
     },
     "Coventry|Man City v Coventry": {
@@ -318,22 +350,6 @@
         "Oscar Bobb",
         "Sander Berge",
         "Shea Charles",
-        "Timothy Castagne"
-      ]
-    },
-    "Fulham|Sunderland v Fulham": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Alex Iwobi",
-        "Antonee Robinson",
-        "Bernd Leno",
-        "Calvin Bassey",
-        "C\u00e9sar Palacios",
-        "Gonzalo Garc\u00eda",
-        "Joachim Andersen",
-        "Josh King",
-        "Oscar Bobb",
-        "Sander Berge",
         "Timothy Castagne"
       ]
     },
@@ -591,22 +607,6 @@
         "Reinildo Mandava",
         "Robin Roefs",
         "Thomas Meunier"
-      ]
-    },
-    "Sunderland|Sunderland v Fulham": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Brian Brobbey",
-        "Dan Ballard",
-        "Enzo Le F\u00e9e",
-        "Granit Xhaka",
-        "Nilson Angulo",
-        "Noah Sadiki",
-        "Nordi Mukiele",
-        "Reinildo Mandava",
-        "Robin Roefs",
-        "Thomas Meunier",
-        "Trai Hume"
       ]
     },
     "Tottenham|Nott'm Forest v Tottenham": {
