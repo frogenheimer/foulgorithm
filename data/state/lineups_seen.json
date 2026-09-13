@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-13T11:57:30.205439+00:00",
+  "checkedAt": "2026-09-13T14:31:25.504391+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -178,7 +178,7 @@
       ]
     },
     "Brighton|Coventry v Brighton": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Bart Verbruggen",
         "Charalampos Kostoulas",
@@ -226,7 +226,7 @@
       ]
     },
     "Coventry|Coventry v Brighton": {
-      "formation": null,
+      "formation": "3-4-2-1",
       "starters": [
         "Aur\u00e8le Amenda",
         "Bobby Thomas",
@@ -417,22 +417,6 @@
         "Sasa Lukic"
       ]
     },
-    "Ipswich|Man United v Ipswich": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Abdul Fatawu",
-        "Daizen Maeda",
-        "Dara O'Shea",
-        "Emersonn",
-        "Issa Diop",
-        "Jacob Greaves",
-        "Julio Enciso",
-        "Kjell Scherpen",
-        "Leif Davis",
-        "Marcelino N\u00fa\u00f1ez",
-        "Sasa Lukic"
-      ]
-    },
     "Leeds|Brighton v Leeds": {
       "formation": "3-5-2",
       "starters": [
@@ -497,6 +481,22 @@
         "R\u00faben Dias"
       ]
     },
+    "Man City|Man United v Man City": {
+      "formation": null,
+      "starters": [
+        "Antoine Semenyo",
+        "Elliot Anderson",
+        "Enzo Fern\u00e1ndez",
+        "Erling Haaland",
+        "Gianluigi Donnarumma",
+        "Josko Gvardiol",
+        "Marc Gu\u00e9hi",
+        "Matheus Nunes",
+        "Phil Foden",
+        "Rayan Cherki",
+        "R\u00faben Dias"
+      ]
+    },
     "Man United|Everton v Man United": {
       "formation": "4-2-3-1",
       "starters": [
@@ -513,7 +513,7 @@
         "Youri Tielemans"
       ]
     },
-    "Man United|Man United v Ipswich": {
+    "Man United|Man United v Man City": {
       "formation": "4-2-3-1",
       "starters": [
         "Bruno Fernandes",
@@ -522,9 +522,9 @@
         "Harry Maguire",
         "Kobbie Mainoo",
         "Lisandro Mart\u00ednez",
-        "Luke Shaw",
         "Marcus Rashford",
         "Matheus Cunha",
+        "Patrick Dorgu",
         "Senne Lammens",
         "Youri Tielemans"
       ]
