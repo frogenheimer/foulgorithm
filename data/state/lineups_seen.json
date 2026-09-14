@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-13T14:31:25.504391+00:00",
+  "checkedAt": "2026-09-14T17:57:05.948768+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -10,22 +10,6 @@
         "David Raya",
         "Declan Rice",
         "Ezri Konsa",
-        "Gabriel Magalh\u00e3es",
-        "Kai Havertz",
-        "Martin \u00d8degaard",
-        "Myles Lewis-Skelly",
-        "Riccardo Calafiori"
-      ]
-    },
-    "Arsenal|Aston Villa v Arsenal": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Ben White",
-        "Bukayo Saka",
-        "Christos Tzolis",
-        "Cristhian Mosquera",
-        "David Raya",
-        "Declan Rice",
         "Gabriel Magalh\u00e3es",
         "Kai Havertz",
         "Martin \u00d8degaard",
@@ -47,22 +31,6 @@
         "Martin \u00d8degaard",
         "Myles Lewis-Skelly",
         "Riccardo Calafiori"
-      ]
-    },
-    "Aston Villa|Aston Villa v Arsenal": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Boubacar Kamara",
-        "Emiliano Buend\u00eda",
-        "George Hemmings",
-        "Ian Maatsen",
-        "John McGinn",
-        "Matty Cash",
-        "Nicolas Jackson",
-        "Pau Torres",
-        "Ross Barkley",
-        "Victor Lindel\u00f6f",
-        "Zion Suzuki"
       ]
     },
     "Aston Villa|Aston Villa v Nott'm Forest": {
@@ -433,6 +401,22 @@
         "Tarik Muharemovic"
       ]
     },
+    "Leeds|Leeds v Newcastle": {
+      "formation": null,
+      "starters": [
+        "Anton Stach",
+        "Ao Tanaka",
+        "Dominic Calvert-Lewin",
+        "Ethan Ampadu",
+        "Gabriel Gudmundsson",
+        "James Justin",
+        "James Trafford",
+        "Jayden Bogle",
+        "Nico Elvedi",
+        "Noah Okafor",
+        "Tarik Muharemovic"
+      ]
+    },
     "Liverpool|Ipswich v Liverpool": {
       "formation": "4-2-3-1",
       "starters": [
@@ -482,7 +466,7 @@
       ]
     },
     "Man City|Man United v Man City": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Antoine Semenyo",
         "Elliot Anderson",
@@ -527,6 +511,22 @@
         "Patrick Dorgu",
         "Senne Lammens",
         "Youri Tielemans"
+      ]
+    },
+    "Newcastle|Leeds v Newcastle": {
+      "formation": null,
+      "starters": [
+        "Amar Dedic",
+        "Harvey Barnes",
+        "Jacob Murphy",
+        "Lewis Hall",
+        "Lewis Miley",
+        "Luk\u00e1s Horn\u00edcek",
+        "Malick Thiaw",
+        "Matias Fernandez-Pardo",
+        "Nico Gonz\u00e1lez",
+        "Sven Botman",
+        "Yoane Wissa"
       ]
     },
     "Newcastle|Newcastle v Bournemouth": {

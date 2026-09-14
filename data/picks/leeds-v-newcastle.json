@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-09-14T17:55:22+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.79,
+     "outOf100": 9,
+     "houseOutOf100": 9,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Stach",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 46,
+       "backers": 8
+      },
+      {
+       "player": "Okafor",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 59,
+       "backers": 7
+      },
+      {
+       "player": "Bogle",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 70,
+       "backers": 6
+      },
+      {
+       "player": "Justin",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 65,
+       "backers": 5
+      },
+      {
+       "player": "Wissa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 75,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
