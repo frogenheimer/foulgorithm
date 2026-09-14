@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-14T17:57:05.948768+00:00",
+  "checkedAt": "2026-09-14T18:23:20.297443+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -402,7 +402,7 @@
       ]
     },
     "Leeds|Leeds v Newcastle": {
-      "formation": null,
+      "formation": "3-5-2",
       "starters": [
         "Anton Stach",
         "Ao Tanaka",
@@ -514,7 +514,7 @@
       ]
     },
     "Newcastle|Leeds v Newcastle": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Amar Dedic",
         "Harvey Barnes",
