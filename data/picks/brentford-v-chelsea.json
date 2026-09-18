@@ -113,6 +113,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-09-18T18:20:48+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 11.01,
+     "outOf100": 9,
+     "houseOutOf100": 9,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 70,
+       "backers": 9
+      },
+      {
+       "player": "Fofana",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 7
+      },
+      {
+       "player": "Lacroix",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 58,
+       "backers": 6
+      },
+      {
+       "player": "Barco",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 57,
+       "backers": 6
+      },
+      {
+       "player": "Kayode",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-18T17:57:01.728531+00:00",
+  "checkedAt": "2026-09-18T18:24:41.593051+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -114,7 +114,7 @@
       ]
     },
     "Brentford|Brentford v Chelsea": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Caoimh\u00edn Kelleher",
         "Igor Thiago",

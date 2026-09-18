@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-09-18T18:20:48+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 62.84,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 36,
+       "backers": 8
+      },
+      {
+       "player": "Mu\u00f1oz",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 36,
+       "backers": 8
+      },
+      {
+       "player": "Aina",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 55,
+       "backers": 6
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 35,
+       "backers": 6
+      },
+      {
+       "player": "Mu\u00f1oz",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }
