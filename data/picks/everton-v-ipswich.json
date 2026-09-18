@@ -1,0 +1,62 @@
+{
+ "fixture": "Everton v Ipswich",
+ "kickoff": "2026-09-19T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-18T17:55:15+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 28.19,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Luki\u0107",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 50,
+       "backers": 10
+      },
+      {
+       "player": "Dibling",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 39,
+       "backers": 9
+      },
+      {
+       "player": "Tarkowski",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 7
+      },
+      {
+       "player": "Davis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 6
+      },
+      {
+       "player": "Dibling",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 66,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

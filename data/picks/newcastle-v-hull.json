@@ -1,0 +1,62 @@
+{
+ "fixture": "Newcastle v Hull",
+ "kickoff": "2026-09-19T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-18T17:55:15+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 26.35,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Slater",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 49,
+       "backers": 10
+      },
+      {
+       "player": "Tzolakis",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 49,
+       "backers": 10
+      },
+      {
+       "player": "Giles",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 49,
+       "backers": 9
+      },
+      {
+       "player": "Wissa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 64,
+       "backers": 6
+      },
+      {
+       "player": "McBurnie",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 49,
+       "backers": 6
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

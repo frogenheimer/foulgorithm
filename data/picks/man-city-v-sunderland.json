@@ -1,0 +1,62 @@
+{
+ "fixture": "Man City v Sunderland",
+ "kickoff": "2026-09-20T13:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-09-18T17:55:15+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 31.81,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Semenyo",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 45,
+       "backers": 8
+      },
+      {
+       "player": "Lewis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 7
+      },
+      {
+       "player": "Anderson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 7
+      },
+      {
+       "player": "Anderson",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 68,
+       "backers": 5
+      },
+      {
+       "player": "Gu\u00e9hi",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 49,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

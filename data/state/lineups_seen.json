@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-14T18:23:20.297443+00:00",
+  "checkedAt": "2026-09-18T17:57:01.728531+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -113,6 +113,22 @@
         "Yehor Yarmoliuk"
       ]
     },
+    "Brentford|Brentford v Chelsea": {
+      "formation": null,
+      "starters": [
+        "Caoimh\u00edn Kelleher",
+        "Igor Thiago",
+        "Jaidon Anthony",
+        "Jannik Schuster",
+        "Keane Lewis-Potter",
+        "Kevin Schade",
+        "Kristoffer Ajer",
+        "Michael Kayode",
+        "Mikkel Damsgaard",
+        "Vitaly Janelt",
+        "Yehor Yarmoliuk"
+      ]
+    },
     "Brentford|Brentford v Sunderland": {
       "formation": "4-2-3-1",
       "starters": [
@@ -174,6 +190,22 @@
         "Pedro Neto",
         "Reece James",
         "Rom\u00e9o Lavia",
+        "Wesley Fofana"
+      ]
+    },
+    "Chelsea|Brentford v Chelsea": {
+      "formation": null,
+      "starters": [
+        "Cole Palmer",
+        "Danny Welbeck",
+        "Emiliano Mart\u00ednez",
+        "Jordan Henderson",
+        "Levi Colwill",
+        "Maxence Lacroix",
+        "Morgan Rogers",
+        "Pedro Neto",
+        "Pep Chavarr\u00eda",
+        "Valent\u00edn Barco",
         "Wesley Fofana"
       ]
     },
@@ -369,22 +401,6 @@
         "Sasa Lukic"
       ]
     },
-    "Ipswich|Ipswich v Liverpool": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Abdul Fatawu",
-        "Daizen Maeda",
-        "Dara O'Shea",
-        "Emersonn",
-        "Exequiel Palacios",
-        "Issa Diop",
-        "Jacob Greaves",
-        "Julio Enciso",
-        "Kjell Scherpen",
-        "Leif Davis",
-        "Sasa Lukic"
-      ]
-    },
     "Leeds|Brighton v Leeds": {
       "formation": "3-5-2",
       "starters": [
@@ -415,22 +431,6 @@
         "Nico Elvedi",
         "Noah Okafor",
         "Tarik Muharemovic"
-      ]
-    },
-    "Liverpool|Ipswich v Liverpool": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Alexander Isak",
-        "Alexis Mac Allister",
-        "Alisson Becker",
-        "Cody Gakpo",
-        "Dominik Szoboszlai",
-        "Florian Wirtz",
-        "J\u00e9r\u00e9my Jacquet",
-        "Milos Kerkez",
-        "Ronald Araujo",
-        "Virgil van Dijk",
-        "V\u00edctor Mu\u00f1oz"
       ]
     },
     "Liverpool|Liverpool v Fulham": {
