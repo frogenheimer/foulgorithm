@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-19T10:28:13.745349+00:00",
+  "checkedAt": "2026-09-19T15:25:57.008094+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -66,7 +66,7 @@
       ]
     },
     "Aston Villa|Tottenham v Aston Villa": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Aaron Wan-Bissaka",
         "Boubacar Kamara",
@@ -127,22 +127,6 @@
         "Mikkel Damsgaard",
         "Vitaly Janelt",
         "Yehor Yarmoliuk"
-      ]
-    },
-    "Brentford|Brentford v Sunderland": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Caoimh\u00edn Kelleher",
-        "Dango Ouattara",
-        "Igor Thiago",
-        "Keane Lewis-Potter",
-        "Kevin Schade",
-        "Kristoffer Ajer",
-        "Mamadou Sangar\u00e9",
-        "Michael Kayode",
-        "Mikkel Damsgaard",
-        "Nathan Collins",
-        "Vitaly Janelt"
       ]
     },
     "Brighton|Brighton v Leeds": {
@@ -255,6 +239,22 @@
         "Matt Grimes",
         "Milan van Ewijk",
         "Taiwo Awoniyi"
+      ]
+    },
+    "Coventry|Nott'm Forest v Coventry": {
+      "formation": null,
+      "starters": [
+        "Bobby Thomas",
+        "Brandon Thomas-Asante",
+        "Caleb Yirenkyi",
+        "Carl Rushworth",
+        "Ephron Mason-Clark",
+        "Ethan Pinnock",
+        "Frank Onyeka",
+        "Jack Rudoni",
+        "Jay Dasilva",
+        "Matt Grimes",
+        "Stephen Mfuni"
       ]
     },
     "Crystal Palace|Crystal Palace v Ipswich": {
@@ -545,6 +545,22 @@
         "Xaver Schlager"
       ]
     },
+    "Nott'm Forest|Nott'm Forest v Coventry": {
+      "formation": null,
+      "starters": [
+        "Dan Ndoye",
+        "Daniel Mu\u00f1oz",
+        "Jair Cunha",
+        "James McAtee",
+        "Liam Delap",
+        "Matz Sels",
+        "Morgan Gibbs-White",
+        "Murillo",
+        "Neco Williams",
+        "Ousmane Diomande",
+        "Xaver Schlager"
+      ]
+    },
     "Nott'm Forest|Nott'm Forest v Tottenham": {
       "formation": "3-4-2-1",
       "starters": [
@@ -559,22 +575,6 @@
         "Nikola Milenkovic",
         "Ola Aina",
         "Xaver Schlager"
-      ]
-    },
-    "Sunderland|Brentford v Sunderland": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Brian Brobbey",
-        "Dan Ballard",
-        "Enzo Le F\u00e9e",
-        "Granit Xhaka",
-        "Kevin Danso",
-        "Nilson Angulo",
-        "Noah Sadiki",
-        "Nordi Mukiele",
-        "Reinildo Mandava",
-        "Robin Roefs",
-        "Thomas Meunier"
       ]
     },
     "Sunderland|Sunderland v Arsenal": {
@@ -610,7 +610,7 @@
       ]
     },
     "Tottenham|Tottenham v Aston Villa": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Andy Robertson",
         "Anton\u00edn Kinsky",

@@ -113,6 +113,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-09-19T13:01:57+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 16.86,
+     "outOf100": 6,
+     "houseOutOf100": 6,
+     "totalFouls": 9,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Bruno G.",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 74,
+       "backers": 8
+      },
+      {
+       "player": "Konsa",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 42,
+       "backers": 8
+      },
+      {
+       "player": "Bruno G.",
+       "fouls": 3,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 7
+      },
+      {
+       "player": "De Cuyper",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 60,
+       "backers": 4
+      },
+      {
+       "player": "Gro\u00df",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

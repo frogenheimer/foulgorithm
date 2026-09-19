@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-09-19T13:01:57+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 8.89,
+     "outOf100": 11,
+     "houseOutOf100": 11,
+     "totalFouls": 9,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Luki\u0107",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 62,
+       "backers": 9
+      },
+      {
+       "player": "Grealish",
+       "fouls": 3,
+       "market": "drawn",
+       "outOf100": 57,
+       "backers": 8
+      },
+      {
+       "player": "Grealish",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 78,
+       "backers": 7
+      },
+      {
+       "player": "Clarke",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 4
+      },
+      {
+       "player": "Dewsbury-Hall",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
