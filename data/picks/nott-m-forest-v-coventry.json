@@ -281,6 +281,62 @@
      "lineupsConfirmed": true
     }
    ]
+  },
+  {
+   "version": 6,
+   "publishedAt": "2026-09-19T16:18:17+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 19.82,
+     "outOf100": 5,
+     "houseOutOf100": 5,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 8
+      },
+      {
+       "player": "Onyeka",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 7
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 73,
+       "backers": 6
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 6
+      },
+      {
+       "player": "Delap",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 78,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

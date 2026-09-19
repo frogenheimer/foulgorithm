@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-19T15:25:57.008094+00:00",
+  "checkedAt": "2026-09-19T16:24:36.798402+00:00",
   "lineups": {
     "Arsenal|Arsenal v Chelsea": {
       "formation": "4-2-3-1",
@@ -14,6 +14,22 @@
         "Kai Havertz",
         "Martin \u00d8degaard",
         "Myles Lewis-Skelly",
+        "Riccardo Calafiori"
+      ]
+    },
+    "Arsenal|Brighton v Arsenal": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Bruno Guimar\u00e3es",
+        "Bukayo Saka",
+        "Christos Tzolis",
+        "David Raya",
+        "Declan Rice",
+        "Ezri Konsa",
+        "Gabriel Magalh\u00e3es",
+        "Jurri\u00ebn Timber",
+        "Kai Havertz",
+        "Martin \u00d8degaard",
         "Riccardo Calafiori"
       ]
     },
@@ -129,19 +145,19 @@
         "Yehor Yarmoliuk"
       ]
     },
-    "Brighton|Brighton v Leeds": {
+    "Brighton|Brighton v Arsenal": {
       "formation": "4-2-3-1",
       "starters": [
         "Bart Verbruggen",
         "Charalampos Kostoulas",
+        "Chema Andr\u00e9s",
         "Diego G\u00f3mez",
         "Ferdi Kadioglu",
-        "Lewis Dunk",
         "Luka Vuskovic",
-        "Malick Yalcouy\u00e9",
         "Maxim De Cuyper",
         "Olivier Boscagli",
         "Pascal Gro\u00df",
+        "Pascal Struijk",
         "Yasin Ayari"
       ]
     },
@@ -225,24 +241,8 @@
         "Taiwo Awoniyi"
       ]
     },
-    "Coventry|Man City v Coventry": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Aur\u00e8le Amenda",
-        "Bobby Thomas",
-        "Carl Rushworth",
-        "Ephron Mason-Clark",
-        "Ethan Pinnock",
-        "Frank Onyeka",
-        "Jack Rudoni",
-        "Jay Dasilva",
-        "Matt Grimes",
-        "Milan van Ewijk",
-        "Taiwo Awoniyi"
-      ]
-    },
     "Coventry|Nott'm Forest v Coventry": {
-      "formation": null,
+      "formation": "3-4-2-1",
       "starters": [
         "Bobby Thomas",
         "Brandon Thomas-Asante",
@@ -273,20 +273,20 @@
         "Y\u00e9remy Pino"
       ]
     },
-    "Crystal Palace|Fulham v Crystal Palace": {
-      "formation": "3-4-2-1",
+    "Everton|Everton v Ipswich": {
+      "formation": "4-2-3-1",
       "starters": [
-        "Adam Wharton",
-        "Anan Khalaili",
-        "Axel Disasi",
-        "Chris Richards",
-        "Daichi Kamada",
-        "Dean Henderson",
-        "Eddie Nketiah",
-        "Jaydee Canvot",
-        "Quinten Timber",
-        "Tyrick Mitchell",
-        "Y\u00e9remy Pino"
+        "Ainsley Maitland-Niles",
+        "Brennan Johnson",
+        "Harrison Armstrong",
+        "Jack Grealish",
+        "James Garner",
+        "James Tarkowski",
+        "Jarrad Branthwaite",
+        "Jordan Pickford",
+        "Kiernan Dewsbury-Hall",
+        "Thierno Barry",
+        "Vitalii Mykolenko"
       ]
     },
     "Everton|Everton v Man United": {
@@ -319,22 +319,6 @@
         "Thierno Barry",
         "Tyrique George",
         "Vitalii Mykolenko"
-      ]
-    },
-    "Fulham|Fulham v Crystal Palace": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Alex Iwobi",
-        "Antonee Robinson",
-        "Bernd Leno",
-        "Calvin Bassey",
-        "C\u00e9sar Palacios",
-        "Gonzalo Garc\u00eda",
-        "Joachim Andersen",
-        "Josh King",
-        "Oscar Bobb",
-        "Shea Charles",
-        "Timothy Castagne"
       ]
     },
     "Fulham|Liverpool v Fulham": {
@@ -385,6 +369,22 @@
         "Semi Ajayi"
       ]
     },
+    "Hull|Newcastle v Hull": {
+      "formation": "5-4-1",
+      "starters": [
+        "John Egan",
+        "Konstantinos Tzolakis",
+        "Lewie Coyle",
+        "Lucas Herrington",
+        "Matt Crooks",
+        "Mohamed Belloumi",
+        "Oliver McBurnie",
+        "Regan Slater",
+        "Ryan Giles",
+        "Semi Ajayi",
+        "Sorba Thomas"
+      ]
+    },
     "Ipswich|Crystal Palace v Ipswich": {
       "formation": "4-2-3-1",
       "starters": [
@@ -401,20 +401,20 @@
         "Sasa Lukic"
       ]
     },
-    "Leeds|Brighton v Leeds": {
-      "formation": "3-5-2",
+    "Ipswich|Everton v Ipswich": {
+      "formation": "4-2-3-1",
       "starters": [
-        "Anton Stach",
-        "Ao Tanaka",
-        "Dominic Calvert-Lewin",
-        "Ethan Ampadu",
-        "Gabriel Gudmundsson",
-        "James Justin",
-        "James Trafford",
-        "Jayden Bogle",
-        "Nico Elvedi",
-        "Noah Okafor",
-        "Tarik Muharemovic"
+        "Abdoul Ouattara",
+        "Abdul Fatawu",
+        "Christian Walton",
+        "Dara O'Shea",
+        "Emersonn",
+        "Exequiel Palacios",
+        "Issa Diop",
+        "Jack Clarke",
+        "Julio Enciso",
+        "Leif Davis",
+        "Sasa Lukic"
       ]
     },
     "Leeds|Leeds v Newcastle": {
@@ -447,22 +447,6 @@
         "Ryan Gravenberch",
         "Virgil van Dijk",
         "V\u00edctor Mu\u00f1oz"
-      ]
-    },
-    "Man City|Man City v Coventry": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Abdukodir Khusanov",
-        "Antoine Semenyo",
-        "Elliot Anderson",
-        "Enzo Fern\u00e1ndez",
-        "Erling Haaland",
-        "Gianluigi Donnarumma",
-        "Iliman Ndiaye",
-        "Josko Gvardiol",
-        "Marc Gu\u00e9hi",
-        "Rayan Cherki",
-        "R\u00faben Dias"
       ]
     },
     "Man City|Man United v Man City": {
@@ -529,6 +513,22 @@
         "Yoane Wissa"
       ]
     },
+    "Newcastle|Newcastle v Hull": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Harvey Barnes",
+        "Jacob Murphy",
+        "Joe Willock",
+        "Lewis Hall",
+        "Lewis Miley",
+        "Luk\u00e1s Horn\u00edcek",
+        "Malick Thiaw",
+        "Matias Fernandez-Pardo",
+        "Sean Steur",
+        "Sven Botman",
+        "Yoane Wissa"
+      ]
+    },
     "Nott'm Forest|Aston Villa v Nott'm Forest": {
       "formation": "3-4-2-1",
       "starters": [
@@ -546,7 +546,7 @@
       ]
     },
     "Nott'm Forest|Nott'm Forest v Coventry": {
-      "formation": null,
+      "formation": "3-4-2-1",
       "starters": [
         "Dan Ndoye",
         "Daniel Mu\u00f1oz",
