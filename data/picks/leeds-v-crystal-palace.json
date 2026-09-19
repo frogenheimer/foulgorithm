@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-09-19T10:25:16+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 37.4,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Hughes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 44,
+       "backers": 9
+      },
+      {
+       "player": "Strand Larsen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 62,
+       "backers": 7
+      },
+      {
+       "player": "Justin",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 6
+      },
+      {
+       "player": "Stach",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 59,
+       "backers": 4
+      },
+      {
+       "player": "Stach",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 31,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

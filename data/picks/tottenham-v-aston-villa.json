@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-09-19T10:25:16+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 14.44,
+     "outOf100": 7,
+     "houseOutOf100": 7,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "McGinn",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 60,
+       "backers": 8
+      },
+      {
+       "player": "Gomes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 7
+      },
+      {
+       "player": "Kamara",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 77,
+       "backers": 6
+      },
+      {
+       "player": "Kamara",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 4
+      },
+      {
+       "player": "Van de Ven",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 55,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
