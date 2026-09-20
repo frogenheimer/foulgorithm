@@ -281,6 +281,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 6,
+   "publishedAt": "2026-09-20T14:27:40+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.17,
+     "outOf100": 10,
+     "houseOutOf100": 10,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Cunha",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 8
+      },
+      {
+       "player": "Tielemans",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 7
+      },
+      {
+       "player": "Bassey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 7
+      },
+      {
+       "player": "Bobb",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 76,
+       "backers": 6
+      },
+      {
+       "player": "Shaw",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 65,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
