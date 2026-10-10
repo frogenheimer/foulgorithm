@@ -1,0 +1,118 @@
+{
+ "fixture": "Liverpool v Man City",
+ "kickoff": "2026-10-11T15:30:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-10T12:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 27.79,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Anderson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 9
+      },
+      {
+       "player": "Lewis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 8
+      },
+      {
+       "player": "Gu\u00e9hi",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 48,
+       "backers": 5
+      },
+      {
+       "player": "Mac Allister",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 4
+      },
+      {
+       "player": "Matheus N.",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 57,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-10T15:25:11+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 27.8,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Anderson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 9
+      },
+      {
+       "player": "Lewis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 8
+      },
+      {
+       "player": "Gu\u00e9hi",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 48,
+       "backers": 5
+      },
+      {
+       "player": "Mac Allister",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 4
+      },
+      {
+       "player": "Matheus N.",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 57,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

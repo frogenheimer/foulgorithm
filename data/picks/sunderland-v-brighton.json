@@ -1,0 +1,62 @@
+{
+ "fixture": "Sunderland v Brighton",
+ "kickoff": "2026-10-10T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-10T12:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 8.56,
+     "outOf100": 12,
+     "houseOutOf100": 12,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 69,
+       "backers": 8
+      },
+      {
+       "player": "De Cuyper",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 8
+      },
+      {
+       "player": "Kadioglu",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 8
+      },
+      {
+       "player": "Ayari",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 71,
+       "backers": 7
+      },
+      {
+       "player": "Gomez",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 7
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "fixture": "Aston Villa v Brentford",
+ "kickoff": "2026-10-10T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-10T12:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 9.78,
+     "outOf100": 10,
+     "houseOutOf100": 10,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Gomes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 52,
+       "backers": 7
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 71,
+       "backers": 6
+      },
+      {
+       "player": "Kamara",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 71,
+       "backers": 6
+      },
+      {
+       "player": "Kayode",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 66,
+       "backers": 5
+      },
+      {
+       "player": "Ajer",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 58,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "fixture": "Ipswich v Fulham",
+ "kickoff": "2026-10-10T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-10T12:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 15.45,
+     "outOf100": 6,
+     "houseOutOf100": 6,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Sessegnon",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 64,
+       "backers": 7
+      },
+      {
+       "player": "Luki\u0107",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 7
+      },
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 6
+      },
+      {
+       "player": "Bassey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 6
+      },
+      {
+       "player": "Bobb",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 46,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

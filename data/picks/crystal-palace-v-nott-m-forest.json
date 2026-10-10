@@ -1,0 +1,118 @@
+{
+ "fixture": "Crystal Palace v Nott'm Forest",
+ "kickoff": "2026-10-11T13:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-10T12:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 47.6,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Hughes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 44,
+       "backers": 9
+      },
+      {
+       "player": "Mu\u00f1oz",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 7
+      },
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 34,
+       "backers": 7
+      },
+      {
+       "player": "Aina",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 4
+      },
+      {
+       "player": "Sarr",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 42,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-10T15:25:11+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 47.61,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Hughes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 44,
+       "backers": 9
+      },
+      {
+       "player": "Mu\u00f1oz",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 7
+      },
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 34,
+       "backers": 7
+      },
+      {
+       "player": "Aina",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 4
+      },
+      {
+       "player": "Sarr",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 42,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}
