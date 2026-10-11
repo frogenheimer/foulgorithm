@@ -113,6 +113,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-10-11T12:38:05+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 8.01,
+     "outOf100": 12,
+     "houseOutOf100": 12,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Grealish",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 75,
+       "backers": 7
+      },
+      {
+       "player": "Grealish",
+       "fouls": 3,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 7
+      },
+      {
+       "player": "Tarkowski",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 6
+      },
+      {
+       "player": "McBurnie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 73,
+       "backers": 5
+      },
+      {
+       "player": "Dewsbury-Hall",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 70,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-11T12:38:05+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 26.21,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Wissa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 66,
+       "backers": 9
+      },
+      {
+       "player": "Hamer",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 62,
+       "backers": 9
+      },
+      {
+       "player": "Sch\u00e4r",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 52,
+       "backers": 9
+      },
+      {
+       "player": "Rushworth",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 7
+      },
+      {
+       "player": "Wissa",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 37,
+       "backers": 7
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }
