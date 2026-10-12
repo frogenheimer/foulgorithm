@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-11T14:25:35.336226+00:00",
+  "checkedAt": "2026-10-12T17:57:55.105451+00:00",
   "lineups": {
     "Arsenal|Arsenal v Leeds": {
       "formation": "4-2-3-1",
@@ -145,22 +145,6 @@
         "Yasin Ayari"
       ]
     },
-    "Brighton|Coventry v Brighton": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Bart Verbruggen",
-        "Charalampos Kostoulas",
-        "Diego G\u00f3mez",
-        "Ferdi Kadioglu",
-        "Lewis Dunk",
-        "Luka Vuskovic",
-        "Malick Yalcouy\u00e9",
-        "Maxim De Cuyper",
-        "Olivier Boscagli",
-        "Pascal Gro\u00df",
-        "Yasin Ayari"
-      ]
-    },
     "Brighton|Sunderland v Brighton": {
       "formation": "4-2-3-1",
       "starters": [
@@ -209,20 +193,20 @@
         "Pep Chavarr\u00eda"
       ]
     },
-    "Coventry|Coventry v Brighton": {
-      "formation": "3-4-2-1",
+    "Coventry|Coventry v Newcastle": {
+      "formation": null,
       "starters": [
-        "Aur\u00e8le Amenda",
         "Bobby Thomas",
+        "Brandon Thomas-Asante",
+        "Caleb Yirenkyi",
         "Carl Rushworth",
         "Ephron Mason-Clark",
         "Ethan Pinnock",
-        "Frank Onyeka",
         "Jack Rudoni",
         "Jay Dasilva",
         "Matt Grimes",
         "Milan van Ewijk",
-        "Taiwo Awoniyi"
+        "Sidiki Cherif"
       ]
     },
     "Coventry|Nott'm Forest v Coventry": {
@@ -239,6 +223,22 @@
         "Jay Dasilva",
         "Matt Grimes",
         "Stephen Mfuni"
+      ]
+    },
+    "Crystal Palace|Crystal Palace v Nott'm Forest": {
+      "formation": "3-4-2-1",
+      "starters": [
+        "Adam Wharton",
+        "Anan Khalaili",
+        "Chris Richards",
+        "Daichi Kamada",
+        "Jaydee Canvot",
+        "Jefferson Lerma",
+        "J\u00f8rgen Strand Larsen",
+        "Quinten Timber",
+        "Tyrick Mitchell",
+        "Walter Ben\u00edtez",
+        "Y\u00e9remy Pino"
       ]
     },
     "Crystal Palace|Leeds v Crystal Palace": {
@@ -273,6 +273,22 @@
         "Vitalii Mykolenko"
       ]
     },
+    "Everton|Hull v Everton": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Ainsley Maitland-Niles",
+        "Brennan Johnson",
+        "Harrison Armstrong",
+        "Jack Grealish",
+        "James Garner",
+        "James Tarkowski",
+        "Jarrad Branthwaite",
+        "Jordan Pickford",
+        "Kiernan Dewsbury-Hall",
+        "Michael Keane",
+        "Thierno Barry"
+      ]
+    },
     "Fulham|Fulham v Man United": {
       "formation": "4-2-3-1",
       "starters": [
@@ -303,6 +319,22 @@
         "Ryan Sessegnon",
         "Sander Berge",
         "Shea Charles"
+      ]
+    },
+    "Hull|Hull v Everton": {
+      "formation": "5-4-1",
+      "starters": [
+        "Joe Gelhardt",
+        "John Egan",
+        "Konstantinos Tzolakis",
+        "Lewie Coyle",
+        "Matt Crooks",
+        "Nobel Mendy",
+        "Oliver McBurnie",
+        "Regan Slater",
+        "Ryan Giles",
+        "Semi Ajayi",
+        "Sorba Thomas"
       ]
     },
     "Hull|Newcastle v Hull": {
@@ -385,22 +417,6 @@
         "Tarik Muharemovic"
       ]
     },
-    "Leeds|Leeds v Newcastle": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Anton Stach",
-        "Ao Tanaka",
-        "Dominic Calvert-Lewin",
-        "Ethan Ampadu",
-        "Gabriel Gudmundsson",
-        "James Justin",
-        "James Trafford",
-        "Jayden Bogle",
-        "Nico Elvedi",
-        "Noah Okafor",
-        "Tarik Muharemovic"
-      ]
-    },
     "Liverpool|Bournemouth v Liverpool": {
       "formation": "4-2-3-1",
       "starters": [
@@ -418,7 +434,7 @@
       ]
     },
     "Liverpool|Liverpool v Man City": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Alexis Mac Allister",
         "Alisson Becker",
@@ -434,7 +450,7 @@
       ]
     },
     "Man City|Liverpool v Man City": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Antoine Semenyo",
         "Elliot Anderson",
@@ -465,22 +481,6 @@
         "R\u00faben Dias"
       ]
     },
-    "Man City|Man United v Man City": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Antoine Semenyo",
-        "Elliot Anderson",
-        "Enzo Fern\u00e1ndez",
-        "Erling Haaland",
-        "Gianluigi Donnarumma",
-        "Josko Gvardiol",
-        "Marc Gu\u00e9hi",
-        "Matheus Nunes",
-        "Phil Foden",
-        "Rayan Cherki",
-        "R\u00faben Dias"
-      ]
-    },
     "Man United|Fulham v Man United": {
       "formation": "4-2-3-1",
       "starters": [
@@ -493,22 +493,6 @@
         "Luke Shaw",
         "Marcus Rashford",
         "Matheus Cunha",
-        "Senne Lammens",
-        "Youri Tielemans"
-      ]
-    },
-    "Man United|Man United v Man City": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Bruno Fernandes",
-        "Bryan Mbeumo",
-        "Diogo Dalot",
-        "Harry Maguire",
-        "Kobbie Mainoo",
-        "Lisandro Mart\u00ednez",
-        "Marcus Rashford",
-        "Matheus Cunha",
-        "Patrick Dorgu",
         "Senne Lammens",
         "Youri Tielemans"
       ]
@@ -529,12 +513,12 @@
         "Youri Tielemans"
       ]
     },
-    "Newcastle|Leeds v Newcastle": {
-      "formation": "4-2-3-1",
+    "Newcastle|Coventry v Newcastle": {
+      "formation": null,
       "starters": [
-        "Amar Dedic",
         "Harvey Barnes",
         "Jacob Murphy",
+        "Joe Willock",
         "Lewis Hall",
         "Lewis Miley",
         "Luk\u00e1s Horn\u00edcek",
@@ -559,6 +543,22 @@
         "Sean Steur",
         "Sven Botman",
         "Yoane Wissa"
+      ]
+    },
+    "Nott'm Forest|Crystal Palace v Nott'm Forest": {
+      "formation": "3-4-2-1",
+      "starters": [
+        "Dan Ndoye",
+        "Daniel Mu\u00f1oz",
+        "James McAtee",
+        "Liam Delap",
+        "Matz Sels",
+        "Morgan Gibbs-White",
+        "Murillo",
+        "Neco Williams",
+        "Ola Aina",
+        "Ousmane Diomande",
+        "Xaver Schlager"
       ]
     },
     "Nott'm Forest|Nott'm Forest v Coventry": {
