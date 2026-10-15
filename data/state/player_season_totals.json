@@ -1,5 +1,5 @@
 {
-  "takenAt": "2026-10-12T18:32:58.566501+00:00",
+  "takenAt": "2026-10-15T14:06:18.684079+00:00",
   "totals": {
     "Aaron Hickey": {
       "fouls": 4.0,
@@ -164,8 +164,8 @@
     "Amar Dedic": {
       "fouls": 6.0,
       "was_fouled": 4.0,
-      "appearances": 4.0,
-      "mins_played": 328.0,
+      "appearances": 5.0,
+      "mins_played": 359.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -308,8 +308,8 @@
     "Bazoumana Tour\u00e9": {
       "fouls": 1.0,
       "was_fouled": 1.0,
-      "appearances": 3.0,
-      "mins_played": 50.0,
+      "appearances": 4.0,
+      "mins_played": 80.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -365,7 +365,7 @@
       "fouls": 5.0,
       "was_fouled": 8.0,
       "appearances": 6.0,
-      "mins_played": 438.0,
+      "mins_played": 528.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -387,9 +387,9 @@
     },
     "Brandon Thomas-Asante": {
       "fouls": 0.0,
-      "was_fouled": 9.0,
+      "was_fouled": 11.0,
       "appearances": 6.0,
-      "mins_played": 228.0,
+      "mins_played": 318.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -459,9 +459,9 @@
     },
     "Caleb Yirenkyi": {
       "fouls": 9.0,
-      "was_fouled": 4.0,
+      "was_fouled": 6.0,
       "appearances": 6.0,
-      "mins_played": 266.0,
+      "mins_played": 344.0,
       "yellow_card": 1.0,
       "red_card": 0.0
     },
@@ -501,7 +501,7 @@
       "fouls": 0.0,
       "was_fouled": 1.0,
       "appearances": 6.0,
-      "mins_played": 450.0,
+      "mins_played": 540.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -679,6 +679,14 @@
       "appearances": 5.0,
       "mins_played": 450.0,
       "yellow_card": 2.0,
+      "red_card": 0.0
+    },
+    "Dan Burn": {
+      "fouls": 0.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 1.0,
+      "yellow_card": 0.0,
       "red_card": 0.0
     },
     "Dan Ndoye": {
@@ -908,8 +916,8 @@
     "Ellis Simms": {
       "fouls": 2.0,
       "was_fouled": 1.0,
-      "appearances": 3.0,
-      "mins_played": 105.0,
+      "appearances": 4.0,
+      "mins_played": 117.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -965,7 +973,7 @@
       "fouls": 7.0,
       "was_fouled": 4.0,
       "appearances": 5.0,
-      "mins_played": 234.0,
+      "mins_played": 295.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -997,7 +1005,7 @@
       "fouls": 1.0,
       "was_fouled": 0.0,
       "appearances": 5.0,
-      "mins_played": 282.0,
+      "mins_played": 372.0,
       "yellow_card": 1.0,
       "red_card": 0.0
     },
@@ -1076,8 +1084,8 @@
     "Frank Onyeka": {
       "fouls": 7.0,
       "was_fouled": 6.0,
-      "appearances": 4.0,
-      "mins_played": 316.0,
+      "appearances": 5.0,
+      "mins_played": 328.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -1195,9 +1203,9 @@
     },
     "Harvey Barnes": {
       "fouls": 5.0,
-      "was_fouled": 10.0,
+      "was_fouled": 11.0,
       "appearances": 6.0,
-      "mins_played": 449.0,
+      "mins_played": 539.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -1331,9 +1339,9 @@
     },
     "Jack Rudoni": {
       "fouls": 5.0,
-      "was_fouled": 5.0,
+      "was_fouled": 8.0,
       "appearances": 6.0,
-      "mins_played": 301.0,
+      "mins_played": 384.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -1346,10 +1354,10 @@
       "red_card": 0.0
     },
     "Jacob Murphy": {
-      "fouls": 2.0,
-      "was_fouled": 5.0,
+      "fouls": 3.0,
+      "was_fouled": 6.0,
       "appearances": 6.0,
-      "mins_played": 182.0,
+      "mins_played": 241.0,
       "yellow_card": 3.0,
       "red_card": 0.0
     },
@@ -1493,7 +1501,7 @@
       "fouls": 2.0,
       "was_fouled": 0.0,
       "appearances": 6.0,
-      "mins_played": 445.0,
+      "mins_played": 535.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -1594,10 +1602,10 @@
       "red_card": 0.0
     },
     "Joe Willock": {
-      "fouls": 5.0,
+      "fouls": 7.0,
       "was_fouled": 6.0,
       "appearances": 6.0,
-      "mins_played": 287.0,
+      "mins_played": 346.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -1607,6 +1615,14 @@
       "appearances": 1.0,
       "mins_played": 1.0,
       "yellow_card": 0.0,
+      "red_card": 0.0
+    },
+    "Joelinton": {
+      "fouls": 1.0,
+      "was_fouled": 0.0,
+      "appearances": 1.0,
+      "mins_played": 31.0,
+      "yellow_card": 1.0,
       "red_card": 0.0
     },
     "Johan Manzambi": {
@@ -1955,9 +1971,9 @@
     },
     "Lewis Hall": {
       "fouls": 4.0,
-      "was_fouled": 6.0,
+      "was_fouled": 7.0,
       "appearances": 6.0,
-      "mins_played": 449.0,
+      "mins_played": 539.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -1973,7 +1989,7 @@
       "fouls": 2.0,
       "was_fouled": 2.0,
       "appearances": 6.0,
-      "mins_played": 399.0,
+      "mins_played": 458.0,
       "yellow_card": 1.0,
       "red_card": 0.0
     },
@@ -2074,10 +2090,10 @@
       "red_card": 0.0
     },
     "Luk\u00e1s Horn\u00edcek": {
-      "fouls": 0.0,
+      "fouls": 1.0,
       "was_fouled": 0.0,
       "appearances": 6.0,
-      "mins_played": 450.0,
+      "mins_played": 540.0,
       "yellow_card": 1.0,
       "red_card": 0.0
     },
@@ -2101,7 +2117,7 @@
       "fouls": 4.0,
       "was_fouled": 3.0,
       "appearances": 6.0,
-      "mins_played": 450.0,
+      "mins_played": 540.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -2266,10 +2282,10 @@
       "red_card": 0.0
     },
     "Matias Fernandez-Pardo": {
-      "fouls": 2.0,
+      "fouls": 3.0,
       "was_fouled": 2.0,
       "appearances": 4.0,
-      "mins_played": 159.0,
+      "mins_played": 249.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -2290,10 +2306,10 @@
       "red_card": 0.0
     },
     "Matt Grimes": {
-      "fouls": 3.0,
+      "fouls": 5.0,
       "was_fouled": 5.0,
       "appearances": 6.0,
-      "mins_played": 444.0,
+      "mins_played": 527.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -2434,11 +2450,11 @@
       "red_card": 0.0
     },
     "Milan van Ewijk": {
-      "fouls": 4.0,
-      "was_fouled": 2.0,
+      "fouls": 5.0,
+      "was_fouled": 3.0,
       "appearances": 5.0,
-      "mins_played": 360.0,
-      "yellow_card": 1.0,
+      "mins_played": 450.0,
+      "yellow_card": 2.0,
       "red_card": 0.0
     },
     "Milos Kerkez": {
@@ -2554,10 +2570,10 @@
       "red_card": 0.0
     },
     "Nico Gonz\u00e1lez": {
-      "fouls": 8.0,
+      "fouls": 10.0,
       "was_fouled": 3.0,
       "appearances": 4.0,
-      "mins_played": 167.0,
+      "mins_played": 257.0,
       "yellow_card": 1.0,
       "red_card": 0.0
     },
@@ -3075,9 +3091,9 @@
     },
     "Sidiki Cherif": {
       "fouls": 0.0,
-      "was_fouled": 1.0,
+      "was_fouled": 2.0,
       "appearances": 2.0,
-      "mins_played": 30.0,
+      "mins_played": 108.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -3100,8 +3116,8 @@
     "Stephen Mfuni": {
       "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 90.0,
+      "appearances": 2.0,
+      "mins_played": 97.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -3109,7 +3125,7 @@
       "fouls": 2.0,
       "was_fouled": 4.0,
       "appearances": 6.0,
-      "mins_played": 450.0,
+      "mins_played": 540.0,
       "yellow_card": 1.0,
       "red_card": 0.0
     },
@@ -3155,9 +3171,9 @@
     },
     "Tatsuhiro Sakamoto": {
       "fouls": 0.0,
-      "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 31.0,
+      "was_fouled": 1.0,
+      "appearances": 2.0,
+      "mins_played": 60.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -3284,8 +3300,8 @@
     "Victor Torp": {
       "fouls": 1.0,
       "was_fouled": 0.0,
-      "appearances": 3.0,
-      "mins_played": 53.0,
+      "appearances": 4.0,
+      "mins_played": 60.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -3364,8 +3380,8 @@
     "William Osula": {
       "fouls": 0.0,
       "was_fouled": 0.0,
-      "appearances": 1.0,
-      "mins_played": 56.0,
+      "appearances": 2.0,
+      "mins_played": 68.0,
       "yellow_card": 0.0,
       "red_card": 0.0
     },
@@ -3402,10 +3418,10 @@
       "red_card": 0.0
     },
     "Yoane Wissa": {
-      "fouls": 10.0,
+      "fouls": 12.0,
       "was_fouled": 12.0,
       "appearances": 6.0,
-      "mins_played": 441.0,
+      "mins_played": 519.0,
       "yellow_card": 2.0,
       "red_card": 0.0
     },
