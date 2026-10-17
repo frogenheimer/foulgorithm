@@ -1,0 +1,118 @@
+{
+ "fixture": "Fulham v Hull",
+ "kickoff": "2026-10-17T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-17T10:32:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 30.16,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 9
+      },
+      {
+       "player": "Berge",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 9
+      },
+      {
+       "player": "Andersen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 48,
+       "backers": 8
+      },
+      {
+       "player": "Bassey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 8
+      },
+      {
+       "player": "Tzolakis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 46,
+       "backers": 7
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-17T12:55:10+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 9.91,
+     "outOf100": 10,
+     "houseOutOf100": 10,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "McBurnie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 73,
+       "backers": 8
+      },
+      {
+       "player": "Bassey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 8
+      },
+      {
+       "player": "Gonzalo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59,
+       "backers": 6
+      },
+      {
+       "player": "Bobb",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 76,
+       "backers": 5
+      },
+      {
+       "player": "Affengruber",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

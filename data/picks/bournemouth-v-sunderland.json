@@ -1,0 +1,118 @@
+{
+ "fixture": "Bournemouth v Sunderland",
+ "kickoff": "2026-10-18T13:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-17T10:32:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 14.53,
+     "outOf100": 7,
+     "houseOutOf100": 7,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Adams",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 6
+      },
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 57,
+       "backers": 6
+      },
+      {
+       "player": "Christie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 58,
+       "backers": 5
+      },
+      {
+       "player": "Xhaka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59,
+       "backers": 4
+      },
+      {
+       "player": "Cook",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-17T15:25:10+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 14.54,
+     "outOf100": 7,
+     "houseOutOf100": 7,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Adams",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 6
+      },
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 57,
+       "backers": 6
+      },
+      {
+       "player": "Christie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 58,
+       "backers": 5
+      },
+      {
+       "player": "Xhaka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59,
+       "backers": 4
+      },
+      {
+       "player": "Cook",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

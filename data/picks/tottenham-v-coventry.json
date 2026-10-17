@@ -1,0 +1,118 @@
+{
+ "fixture": "Tottenham v Coventry",
+ "kickoff": "2026-10-19T19:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-17T10:32:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 52.4,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Senesi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 9
+      },
+      {
+       "player": "Udogie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 8
+      },
+      {
+       "player": "Tonali",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 7
+      },
+      {
+       "player": "Kudus",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 43,
+       "backers": 6
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 37,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-17T12:55:10+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 52.41,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Senesi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 9
+      },
+      {
+       "player": "Udogie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 8
+      },
+      {
+       "player": "Tonali",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 7
+      },
+      {
+       "player": "Kudus",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 43,
+       "backers": 6
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 37,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

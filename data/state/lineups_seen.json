@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-12T17:57:55.105451+00:00",
+  "checkedAt": "2026-10-17T15:25:46.027036+00:00",
   "lineups": {
     "Arsenal|Arsenal v Leeds": {
       "formation": "4-2-3-1",
@@ -42,6 +42,22 @@
         "John McGinn",
         "Jo\u00e3o Gomes",
         "Matteo Ruggeri",
+        "Matty Cash",
+        "Nicolas Jackson",
+        "Tyrone Mings",
+        "Victor Lindel\u00f6f",
+        "Zion Suzuki"
+      ]
+    },
+    "Aston Villa|Newcastle v Aston Villa": {
+      "formation": null,
+      "starters": [
+        "Aaron Wan-Bissaka",
+        "Alysson",
+        "Boubacar Kamara",
+        "Emiliano Buend\u00eda",
+        "Johan Manzambi",
+        "Jo\u00e3o Gomes",
         "Matty Cash",
         "Nicolas Jackson",
         "Tyrone Mings",
@@ -113,22 +129,6 @@
         "Yehor Yarmoliuk"
       ]
     },
-    "Brentford|Brentford v Chelsea": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Caoimh\u00edn Kelleher",
-        "Igor Thiago",
-        "Jaidon Anthony",
-        "Jannik Schuster",
-        "Keane Lewis-Potter",
-        "Kevin Schade",
-        "Kristoffer Ajer",
-        "Michael Kayode",
-        "Mikkel Damsgaard",
-        "Vitaly Janelt",
-        "Yehor Yarmoliuk"
-      ]
-    },
     "Brighton|Brighton v Arsenal": {
       "formation": "4-2-3-1",
       "starters": [
@@ -161,22 +161,6 @@
         "Yasin Ayari"
       ]
     },
-    "Chelsea|Brentford v Chelsea": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Cole Palmer",
-        "Danny Welbeck",
-        "Emiliano Mart\u00ednez",
-        "Jordan Henderson",
-        "Levi Colwill",
-        "Maxence Lacroix",
-        "Morgan Rogers",
-        "Pedro Neto",
-        "Pep Chavarr\u00eda",
-        "Valent\u00edn Barco",
-        "Wesley Fofana"
-      ]
-    },
     "Chelsea|Chelsea v Bournemouth": {
       "formation": "3-4-2-1",
       "starters": [
@@ -194,7 +178,7 @@
       ]
     },
     "Coventry|Coventry v Newcastle": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Bobby Thomas",
         "Brandon Thomas-Asante",
@@ -514,11 +498,27 @@
       ]
     },
     "Newcastle|Coventry v Newcastle": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Harvey Barnes",
         "Jacob Murphy",
         "Joe Willock",
+        "Lewis Hall",
+        "Lewis Miley",
+        "Luk\u00e1s Horn\u00edcek",
+        "Malick Thiaw",
+        "Matias Fernandez-Pardo",
+        "Nico Gonz\u00e1lez",
+        "Sven Botman",
+        "Yoane Wissa"
+      ]
+    },
+    "Newcastle|Newcastle v Aston Villa": {
+      "formation": null,
+      "starters": [
+        "Harvey Barnes",
+        "Joe Willock",
+        "Joelinton",
         "Lewis Hall",
         "Lewis Miley",
         "Luk\u00e1s Horn\u00edcek",

@@ -1,0 +1,118 @@
+{
+ "fixture": "Newcastle v Aston Villa",
+ "kickoff": "2026-10-17T16:30:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-17T10:32:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 23.39,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Gomes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 52,
+       "backers": 8
+      },
+      {
+       "player": "Harwood-Bellis",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 55,
+       "backers": 6
+      },
+      {
+       "player": "Horn\u00ed\u010dek",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 51,
+       "backers": 6
+      },
+      {
+       "player": "Sch\u00e4r",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 5
+      },
+      {
+       "player": "Dedi\u0107",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 51,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-17T15:25:10+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 11.71,
+     "outOf100": 9,
+     "houseOutOf100": 9,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Gomes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 9
+      },
+      {
+       "player": "Joelinton",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 51,
+       "backers": 8
+      },
+      {
+       "player": "Willock",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 66,
+       "backers": 7
+      },
+      {
+       "player": "Kamara",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 4
+      },
+      {
+       "player": "L.Miley",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

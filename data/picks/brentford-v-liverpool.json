@@ -1,0 +1,118 @@
+{
+ "fixture": "Brentford v Liverpool",
+ "kickoff": "2026-10-17T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-17T10:32:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 23.0,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Wirtz",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 10
+      },
+      {
+       "player": "Kerkez",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 10
+      },
+      {
+       "player": "Lewis-Potter",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 9
+      },
+      {
+       "player": "Mac Allister",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59,
+       "backers": 8
+      },
+      {
+       "player": "O.Dango",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 8
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-17T12:55:10+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.84,
+     "outOf100": 9,
+     "houseOutOf100": 9,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Kerkez",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 8
+      },
+      {
+       "player": "Szoboszlai",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 65,
+       "backers": 7
+      },
+      {
+       "player": "Ajer",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 51,
+       "backers": 7
+      },
+      {
+       "player": "Mac Allister",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 67,
+       "backers": 6
+      },
+      {
+       "player": "Anthony",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 68,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}
