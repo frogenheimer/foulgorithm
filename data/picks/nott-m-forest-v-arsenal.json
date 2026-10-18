@@ -169,6 +169,118 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-10-18T11:55:21+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 49.12,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 10,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Bruno G.",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 8
+      },
+      {
+       "player": "Bruno G.",
+       "fouls": 3,
+       "market": "drawn",
+       "outOf100": 43,
+       "backers": 8
+      },
+      {
+       "player": "Konsa",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 35,
+       "backers": 5
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 60,
+       "backers": 4
+      },
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 36,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 5,
+   "publishedAt": "2026-10-18T14:25:15+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 11.31,
+     "outOf100": 9,
+     "houseOutOf100": 9,
+     "totalFouls": 9,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Bruno G.",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 8
+      },
+      {
+       "player": "Bruno G.",
+       "fouls": 3,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 7
+      },
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 49,
+       "backers": 7
+      },
+      {
+       "player": "Konsa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 6
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 69,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

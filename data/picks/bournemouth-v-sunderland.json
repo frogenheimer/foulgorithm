@@ -113,6 +113,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-10-18T11:55:21+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 12.07,
+     "outOf100": 8,
+     "houseOutOf100": 8,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Hill",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 66,
+       "backers": 8
+      },
+      {
+       "player": "Truffert",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 69,
+       "backers": 7
+      },
+      {
+       "player": "Mukiele",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 6
+      },
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 71,
+       "backers": 5
+      },
+      {
+       "player": "Evanilson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 49,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
