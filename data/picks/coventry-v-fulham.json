@@ -1,0 +1,62 @@
+{
+ "fixture": "Coventry v Fulham",
+ "kickoff": "2026-10-24T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-23T17:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 19.96,
+     "outOf100": 5,
+     "houseOutOf100": 5,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Andersen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 10
+      },
+      {
+       "player": "Berge",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 9
+      },
+      {
+       "player": "Hamer",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 9
+      },
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 8
+      },
+      {
+       "player": "Bassey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 7
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "fixture": "Crystal Palace v Newcastle",
+ "kickoff": "2026-10-25T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-23T17:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 21.99,
+     "outOf100": 5,
+     "houseOutOf100": 5,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Hughes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 46,
+       "backers": 8
+      },
+      {
+       "player": "Wissa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 64,
+       "backers": 6
+      },
+      {
+       "player": "Wharton",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 6
+      },
+      {
+       "player": "Sch\u00e4r",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 51,
+       "backers": 5
+      },
+      {
+       "player": "Mateta",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

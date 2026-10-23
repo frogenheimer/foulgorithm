@@ -1,0 +1,62 @@
+{
+ "fixture": "Liverpool v Brighton",
+ "kickoff": "2026-10-25T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-23T17:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 25.21,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Gakpo",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 44,
+       "backers": 10
+      },
+      {
+       "player": "Ayari",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 56,
+       "backers": 7
+      },
+      {
+       "player": "Costinha",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 48,
+       "backers": 7
+      },
+      {
+       "player": "Kerkez",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 5
+      },
+      {
+       "player": "Mac Allister",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 62,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "fixture": "Man United v Bournemouth",
+ "kickoff": "2026-10-25T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-23T17:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 51.87,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Cunha",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 46,
+       "backers": 8
+      },
+      {
+       "player": "Tielemans",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 65,
+       "backers": 6
+      },
+      {
+       "player": "Baleba",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 35,
+       "backers": 5
+      },
+      {
+       "player": "Truffert",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 52,
+       "backers": 4
+      },
+      {
+       "player": "Tielemans",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 36,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

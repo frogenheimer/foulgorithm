@@ -1,0 +1,62 @@
+{
+ "fixture": "Ipswich v Nott'm Forest",
+ "kickoff": "2026-10-23T19:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-23T17:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.14,
+     "outOf100": 10,
+     "houseOutOf100": 10,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Delap",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 45,
+       "backers": 7
+      },
+      {
+       "player": "Mu\u00f1oz",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 71,
+       "backers": 6
+      },
+      {
+       "player": "N.Williams",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 72,
+       "backers": 5
+      },
+      {
+       "player": "Davis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 5
+      },
+      {
+       "player": "Gibbs-White",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 70,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

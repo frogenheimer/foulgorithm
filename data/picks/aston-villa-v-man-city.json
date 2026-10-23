@@ -1,0 +1,62 @@
+{
+ "fixture": "Aston Villa v Man City",
+ "kickoff": "2026-10-24T11:30:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-23T17:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 41.82,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Lewis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 7
+      },
+      {
+       "player": "Gomes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 50,
+       "backers": 7
+      },
+      {
+       "player": "Harwood-Bellis",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 53,
+       "backers": 5
+      },
+      {
+       "player": "Anderson",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 35,
+       "backers": 5
+      },
+      {
+       "player": "Bouaddi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 51,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

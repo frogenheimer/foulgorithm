@@ -1,0 +1,62 @@
+{
+ "fixture": "Arsenal v Everton",
+ "kickoff": "2026-10-24T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-23T17:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 37.38,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 9,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Bruno G.",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 8
+      },
+      {
+       "player": "Bruno G.",
+       "fouls": 3,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 7
+      },
+      {
+       "player": "Konsa",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 33,
+       "backers": 5
+      },
+      {
+       "player": "Dibling",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 53,
+       "backers": 4
+      },
+      {
+       "player": "N\u00f8rgaard",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 2
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}
