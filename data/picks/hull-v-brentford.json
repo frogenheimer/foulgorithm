@@ -57,6 +57,118 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-24T10:47:01+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 31.71,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Damsgaard",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 10
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 9
+      },
+      {
+       "player": "Lewis-Potter",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 9
+      },
+      {
+       "player": "O.Dango",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 8
+      },
+      {
+       "player": "Collins",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 8
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-10-24T15:25:11+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 31.72,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Damsgaard",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 10
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 9
+      },
+      {
+       "player": "Lewis-Potter",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 9
+      },
+      {
+       "player": "O.Dango",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 8
+      },
+      {
+       "player": "Collins",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 8
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }
