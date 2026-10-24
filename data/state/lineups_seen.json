@@ -1,6 +1,22 @@
 {
-  "checkedAt": "2026-10-24T15:25:46.456289+00:00",
+  "checkedAt": "2026-10-24T15:52:01.138767+00:00",
   "lineups": {
+    "Arsenal|Arsenal v Everton": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Ben White",
+        "David Raya",
+        "Declan Rice",
+        "Eberechi Eze",
+        "Ezri Konsa",
+        "Gabriel Magalh\u00e3es",
+        "Martin \u00d8degaard",
+        "Mikel Merino",
+        "Myles Lewis-Skelly",
+        "Noni Madueke",
+        "Viktor Gy\u00f6keres"
+      ]
+    },
     "Arsenal|Nott'm Forest v Arsenal": {
       "formation": "4-2-3-1",
       "starters": [
@@ -15,6 +31,22 @@
         "Kai Havertz",
         "Martin \u00d8degaard",
         "Riccardo Calafiori"
+      ]
+    },
+    "Aston Villa|Aston Villa v Man City": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Alysson",
+        "Boubacar Kamara",
+        "Ian Maatsen",
+        "Johan Manzambi",
+        "John McGinn",
+        "Jo\u00e3o Gomes",
+        "Matty Cash",
+        "Nicolas Jackson",
+        "Pau Torres",
+        "Victor Lindel\u00f6f",
+        "Zion Suzuki"
       ]
     },
     "Aston Villa|Newcastle v Aston Villa": {
@@ -43,22 +75,6 @@
         "Evanilson",
         "James Hill",
         "Lewis Cook",
-        "Marcus Tavernier",
-        "Rayan",
-        "Ryan Christie",
-        "Tyler Adams"
-      ]
-    },
-    "Bournemouth|Chelsea v Bournemouth": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Adam Smith",
-        "Adrien Truffert",
-        "Ant\u00f3nio Silva",
-        "David Brooks",
-        "Djordje Petrovic",
-        "Evanilson",
-        "James Hill",
         "Marcus Tavernier",
         "Rayan",
         "Ryan Christie",
@@ -97,40 +113,8 @@
         "Yasin Ayari"
       ]
     },
-    "Brighton|Sunderland v Brighton": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Bart Verbruggen",
-        "Charalampos Kostoulas",
-        "Chema Andr\u00e9s",
-        "Diego G\u00f3mez",
-        "Ferdi Kadioglu",
-        "Luka Vuskovic",
-        "Maxim De Cuyper",
-        "Olivier Boscagli",
-        "Pascal Gro\u00df",
-        "Pascal Struijk",
-        "Yasin Ayari"
-      ]
-    },
-    "Chelsea|Chelsea v Bournemouth": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Cole Palmer",
-        "Emiliano Mart\u00ednez",
-        "Jordan Henderson",
-        "Josh Acheampong",
-        "Jo\u00e3o Pedro",
-        "Levi Colwill",
-        "Maxence Lacroix",
-        "Mois\u00e9s Caicedo",
-        "Morgan Rogers",
-        "Pedro Neto",
-        "Pep Chavarr\u00eda"
-      ]
-    },
     "Chelsea|Chelsea v Tottenham": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Cole Palmer",
         "Geovany Quenda",
@@ -159,6 +143,22 @@
         "Mois\u00e9s Caicedo",
         "Morgan Rogers",
         "Pedro Neto"
+      ]
+    },
+    "Coventry|Coventry v Fulham": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Bobby Thomas",
+        "Brandon Thomas-Asante",
+        "Caleb Yirenkyi",
+        "Carl Rushworth",
+        "Ethan Pinnock",
+        "Jack Rudoni",
+        "Jay Dasilva",
+        "Matt Grimes",
+        "Milan van Ewijk",
+        "Sidiki Cherif",
+        "Tatsuhiro Sakamoto"
       ]
     },
     "Coventry|Coventry v Newcastle": {
@@ -225,6 +225,22 @@
         "Y\u00e9remy Pino"
       ]
     },
+    "Everton|Arsenal v Everton": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Brennan Johnson",
+        "Harrison Armstrong",
+        "Jake O'Brien",
+        "James Garner",
+        "James Tarkowski",
+        "Jordan Pickford",
+        "Kiernan Dewsbury-Hall",
+        "Merlin R\u00f6hl",
+        "Thierno Barry",
+        "Tyrique George",
+        "Vitalii Mykolenko"
+      ]
+    },
     "Everton|Everton v Chelsea": {
       "formation": "4-2-3-1",
       "starters": [
@@ -257,6 +273,22 @@
         "Thierno Barry"
       ]
     },
+    "Fulham|Coventry v Fulham": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Alex Iwobi",
+        "Antonee Robinson",
+        "Bernd Leno",
+        "Calvin Bassey",
+        "David Affengruber",
+        "Gonzalo Garc\u00eda",
+        "Hugo Larsson",
+        "Josh King",
+        "Oscar Bobb",
+        "Shea Charles",
+        "Timothy Castagne"
+      ]
+    },
     "Fulham|Fulham v Hull": {
       "formation": "4-2-3-1",
       "starters": [
@@ -271,22 +303,6 @@
         "Sander Berge",
         "Shea Charles",
         "Timothy Castagne"
-      ]
-    },
-    "Fulham|Ipswich v Fulham": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Alex Iwobi",
-        "Bernd Leno",
-        "Calvin Bassey",
-        "David Affengruber",
-        "Gonzalo Garc\u00eda",
-        "Josh King",
-        "Kenny Tete",
-        "Oscar Bobb",
-        "Ryan Sessegnon",
-        "Sander Berge",
-        "Shea Charles"
       ]
     },
     "Hull|Fulham v Hull": {
@@ -319,22 +335,6 @@
         "Ryan Giles",
         "Semi Ajayi",
         "Sorba Thomas"
-      ]
-    },
-    "Ipswich|Ipswich v Fulham": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Abdoul Ouattara",
-        "Christian Walton",
-        "Daizen Maeda",
-        "Dara O'Shea",
-        "Emersonn",
-        "Florentino",
-        "Issa Diop",
-        "Jaden Philogene",
-        "Julio Enciso",
-        "Leif Davis",
-        "Sasa Lukic"
       ]
     },
     "Ipswich|Ipswich v Nott'm Forest": {
@@ -415,6 +415,22 @@
         "Ryan Gravenberch",
         "Virgil van Dijk",
         "V\u00edctor Mu\u00f1oz"
+      ]
+    },
+    "Man City|Aston Villa v Man City": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Abdukodir Khusanov",
+        "Elliot Anderson",
+        "Enzo Fern\u00e1ndez",
+        "Erling Haaland",
+        "Gianluigi Donnarumma",
+        "Iliman Ndiaye",
+        "Josko Gvardiol",
+        "J\u00e9r\u00e9my Doku",
+        "Marc Gu\u00e9hi",
+        "Rayan Cherki",
+        "R\u00faben Dias"
       ]
     },
     "Man City|Liverpool v Man City": {
@@ -577,24 +593,8 @@
         "Tymur Tutierov"
       ]
     },
-    "Sunderland|Sunderland v Brighton": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Enzo Le F\u00e9e",
-        "Granit Xhaka",
-        "Kevin Danso",
-        "Nilson Angulo",
-        "Noah Sadiki",
-        "Nordi Mukiele",
-        "Reinildo Mandava",
-        "Robin Roefs",
-        "Thomas Meunier",
-        "Trai Hume",
-        "Wilson Isidor"
-      ]
-    },
     "Tottenham|Chelsea v Tottenham": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Andy Robertson",
         "Anton\u00edn Kinsky",
