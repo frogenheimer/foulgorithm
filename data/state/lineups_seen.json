@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-24T15:52:01.138767+00:00",
+  "checkedAt": "2026-10-25T15:25:40.650659+00:00",
   "lineups": {
     "Arsenal|Arsenal v Everton": {
       "formation": "4-2-3-1",
@@ -385,6 +385,22 @@
         "Tarik Muharemovic"
       ]
     },
+    "Leeds|Sunderland v Leeds": {
+      "formation": null,
+      "starters": [
+        "Ao Tanaka",
+        "Brenden Aaronson",
+        "Dominic Calvert-Lewin",
+        "Ethan Ampadu",
+        "Gabriel Gudmundsson",
+        "Harry Wilson",
+        "Jaka Bijol",
+        "James Justin",
+        "James Trafford",
+        "Jayden Bogle",
+        "Tarik Muharemovic"
+      ]
+    },
     "Liverpool|Brentford v Liverpool": {
       "formation": "4-2-3-1",
       "starters": [
@@ -477,22 +493,6 @@
         "Harry Maguire",
         "Leny Yoro",
         "Lisandro Mart\u00ednez",
-        "Senne Lammens",
-        "Youri Tielemans"
-      ]
-    },
-    "Man United|Man United v Tottenham": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Amad Diallo",
-        "Bruno Fernandes",
-        "Bryan Mbeumo",
-        "Harry Maguire",
-        "Kobbie Mainoo",
-        "Leny Yoro",
-        "Lisandro Mart\u00ednez",
-        "Luke Shaw",
-        "Matheus Cunha",
         "Senne Lammens",
         "Youri Tielemans"
       ]
@@ -593,6 +593,22 @@
         "Tymur Tutierov"
       ]
     },
+    "Sunderland|Sunderland v Leeds": {
+      "formation": null,
+      "starters": [
+        "Brian Brobbey",
+        "Chris Rigg",
+        "Enzo Le F\u00e9e",
+        "Granit Xhaka",
+        "Luke O'Nien",
+        "Nilson Angulo",
+        "Noah Sadiki",
+        "Nordi Mukiele",
+        "Reinildo Mandava",
+        "Robin Roefs",
+        "Trai Hume"
+      ]
+    },
     "Tottenham|Chelsea v Tottenham": {
       "formation": "4-2-3-1",
       "starters": [
@@ -607,22 +623,6 @@
         "Mohammed Kudus",
         "Omar Marmoush",
         "Sandro Tonali"
-      ]
-    },
-    "Tottenham|Man United v Tottenham": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Anton\u00edn Kinsky",
-        "Archie Gray",
-        "Conor Gallagher",
-        "Destiny Udogie",
-        "Dominic Solanke",
-        "Jan Paul van Hecke",
-        "Lucas Bergvall",
-        "Marcos Senesi",
-        "Mohammed Kudus",
-        "Sandro Tonali",
-        "S\u00e1vio"
       ]
     },
     "Tottenham|Tottenham v Coventry": {

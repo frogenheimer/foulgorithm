@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-10-25T12:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.04,
+     "outOf100": 10,
+     "houseOutOf100": 10,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Hickey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 66,
+       "backers": 8
+      },
+      {
+       "player": "McBurnie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 71,
+       "backers": 7
+      },
+      {
+       "player": "Thiago",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59,
+       "backers": 6
+      },
+      {
+       "player": "Schade",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 5
+      },
+      {
+       "player": "M.Sangar\u00e9",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

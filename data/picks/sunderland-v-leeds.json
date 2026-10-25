@@ -169,6 +169,118 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-10-25T12:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 31.23,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Bogle",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 60,
+       "backers": 6
+      },
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 6
+      },
+      {
+       "player": "Justin",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 6
+      },
+      {
+       "player": "Wilson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 38,
+       "backers": 6
+      },
+      {
+       "player": "Muharemovi\u0107",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 49,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 5,
+   "publishedAt": "2026-10-25T15:25:10+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 7.88,
+     "outOf100": 13,
+     "houseOutOf100": 13,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 67,
+       "backers": 7
+      },
+      {
+       "player": "Wilson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 55,
+       "backers": 7
+      },
+      {
+       "player": "Bogle",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 70,
+       "backers": 6
+      },
+      {
+       "player": "Justin",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 66,
+       "backers": 5
+      },
+      {
+       "player": "Aaronson",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 74,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

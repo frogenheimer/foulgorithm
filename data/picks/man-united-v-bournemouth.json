@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-10-25T12:55:13+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 45.07,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 9,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Baleba",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 46,
+       "backers": 7
+      },
+      {
+       "player": "Evanilson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 46,
+       "backers": 6
+      },
+      {
+       "player": "Hill",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 5
+      },
+      {
+       "player": "Tielemans",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 45,
+       "backers": 3
+      },
+      {
+       "player": "Kluivert",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 39,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
