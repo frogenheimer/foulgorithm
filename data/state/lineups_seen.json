@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-25T15:25:40.650659+00:00",
+  "checkedAt": "2026-10-25T16:02:16.917354+00:00",
   "lineups": {
     "Arsenal|Arsenal v Everton": {
       "formation": "4-2-3-1",
@@ -81,6 +81,22 @@
         "Tyler Adams"
       ]
     },
+    "Bournemouth|Man United v Bournemouth": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Adam Smith",
+        "Adrien Truffert",
+        "Ant\u00f3nio Silva",
+        "Djordje Petrovic",
+        "Evanilson",
+        "James Hill",
+        "Justin Kluivert",
+        "Lewis Cook",
+        "Marcus Tavernier",
+        "Rayan",
+        "Tyler Adams"
+      ]
+    },
     "Brentford|Brentford v Liverpool": {
       "formation": "4-2-3-1",
       "starters": [
@@ -97,7 +113,39 @@
         "Yehor Yarmoliuk"
       ]
     },
+    "Brentford|Hull v Brentford": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Aaron Hickey",
+        "Caoimh\u00edn Kelleher",
+        "Dango Ouattara",
+        "Igor Thiago",
+        "Keane Lewis-Potter",
+        "Kevin Schade",
+        "Kristoffer Ajer",
+        "Mamadou Sangar\u00e9",
+        "Mathias Jensen",
+        "Michael Kayode",
+        "Sepp van den Berg"
+      ]
+    },
     "Brighton|Brighton v Crystal Palace": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Bart Verbruggen",
+        "Charalampos Kostoulas",
+        "Chema Andr\u00e9s",
+        "Diego G\u00f3mez",
+        "Ferdi Kadioglu",
+        "Lewis Dunk",
+        "Luka Vuskovic",
+        "Maxim De Cuyper",
+        "Olivier Boscagli",
+        "Pascal Gro\u00df",
+        "Yasin Ayari"
+      ]
+    },
+    "Brighton|Liverpool v Brighton": {
       "formation": "4-2-3-1",
       "starters": [
         "Bart Verbruggen",
@@ -161,22 +209,6 @@
         "Tatsuhiro Sakamoto"
       ]
     },
-    "Coventry|Coventry v Newcastle": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Bobby Thomas",
-        "Brandon Thomas-Asante",
-        "Caleb Yirenkyi",
-        "Carl Rushworth",
-        "Ephron Mason-Clark",
-        "Ethan Pinnock",
-        "Jack Rudoni",
-        "Jay Dasilva",
-        "Matt Grimes",
-        "Milan van Ewijk",
-        "Sidiki Cherif"
-      ]
-    },
     "Coventry|Tottenham v Coventry": {
       "formation": "4-2-3-1",
       "starters": [
@@ -209,17 +241,17 @@
         "Y\u00e9remy Pino"
       ]
     },
-    "Crystal Palace|Crystal Palace v Nott'm Forest": {
+    "Crystal Palace|Crystal Palace v Newcastle": {
       "formation": "3-4-2-1",
       "starters": [
         "Adam Wharton",
         "Anan Khalaili",
+        "Axel Disasi",
         "Chris Richards",
         "Daichi Kamada",
+        "Dwight McNeil",
         "Jaydee Canvot",
-        "Jefferson Lerma",
-        "J\u00f8rgen Strand Larsen",
-        "Quinten Timber",
+        "Jean-Philippe Mateta",
         "Tyrick Mitchell",
         "Walter Ben\u00edtez",
         "Y\u00e9remy Pino"
@@ -255,22 +287,6 @@
         "Merlin R\u00f6hl",
         "Thierno Barry",
         "Vitalii Mykolenko"
-      ]
-    },
-    "Everton|Hull v Everton": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Ainsley Maitland-Niles",
-        "Brennan Johnson",
-        "Harrison Armstrong",
-        "Jack Grealish",
-        "James Garner",
-        "James Tarkowski",
-        "Jarrad Branthwaite",
-        "Jordan Pickford",
-        "Kiernan Dewsbury-Hall",
-        "Michael Keane",
-        "Thierno Barry"
       ]
     },
     "Fulham|Coventry v Fulham": {
@@ -321,20 +337,20 @@
         "Sorba Thomas"
       ]
     },
-    "Hull|Hull v Everton": {
+    "Hull|Hull v Brentford": {
       "formation": "5-4-1",
       "starters": [
-        "Joe Gelhardt",
+        "Elliot Stroud",
         "John Egan",
         "Konstantinos Tzolakis",
         "Lewie Coyle",
-        "Matt Crooks",
-        "Nobel Mendy",
+        "Lucas Herrington",
+        "Mohamed Belloumi",
         "Oliver McBurnie",
         "Regan Slater",
         "Ryan Giles",
         "Semi Ajayi",
-        "Sorba Thomas"
+        "Tim Iroegbunam"
       ]
     },
     "Ipswich|Ipswich v Nott'm Forest": {
@@ -417,20 +433,20 @@
         "V\u00edctor Mu\u00f1oz"
       ]
     },
-    "Liverpool|Liverpool v Man City": {
+    "Liverpool|Liverpool v Brighton": {
       "formation": "4-2-3-1",
       "starters": [
+        "Alexander Isak",
         "Alexis Mac Allister",
         "Alisson Becker",
         "Bradley Barcola",
+        "Cody Gakpo",
         "Florian Wirtz",
         "J\u00e9r\u00e9my Jacquet",
-        "Lewis Koumas",
         "Milos Kerkez",
         "Ronald Araujo",
         "Ryan Gravenberch",
-        "Virgil van Dijk",
-        "V\u00edctor Mu\u00f1oz"
+        "Virgil van Dijk"
       ]
     },
     "Man City|Aston Villa v Man City": {
@@ -445,22 +461,6 @@
         "Josko Gvardiol",
         "J\u00e9r\u00e9my Doku",
         "Marc Gu\u00e9hi",
-        "Rayan Cherki",
-        "R\u00faben Dias"
-      ]
-    },
-    "Man City|Liverpool v Man City": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Antoine Semenyo",
-        "Elliot Anderson",
-        "Enzo Fern\u00e1ndez",
-        "Erling Haaland",
-        "Gianluigi Donnarumma",
-        "Iliman Ndiaye",
-        "Marc Gu\u00e9hi",
-        "Matheus Nunes",
-        "Nico O'Reilly",
         "Rayan Cherki",
         "R\u00faben Dias"
       ]
@@ -497,20 +497,36 @@
         "Youri Tielemans"
       ]
     },
-    "Newcastle|Coventry v Newcastle": {
+    "Man United|Man United v Bournemouth": {
       "formation": "4-2-3-1",
       "starters": [
+        "Amad Diallo",
+        "Andrey Santos",
+        "Ayden Heaven",
+        "Bryan Mbeumo",
+        "Carlos Baleba",
+        "Diogo Dalot",
+        "Harry Maguire",
+        "Leny Yoro",
+        "Mason Mount",
+        "Senne Lammens",
+        "Youri Tielemans"
+      ]
+    },
+    "Newcastle|Crystal Palace v Newcastle": {
+      "formation": "4-2-3-1",
+      "starters": [
+        "Amar Dedic",
+        "Dan Burn",
+        "Fabian Sch\u00e4r",
         "Harvey Barnes",
         "Jacob Murphy",
         "Joe Willock",
+        "Joelinton",
         "Lewis Hall",
-        "Lewis Miley",
         "Luk\u00e1s Horn\u00edcek",
-        "Malick Thiaw",
-        "Matias Fernandez-Pardo",
         "Nico Gonz\u00e1lez",
-        "Sven Botman",
-        "Yoane Wissa"
+        "William Osula"
       ]
     },
     "Newcastle|Newcastle v Aston Villa": {
@@ -527,22 +543,6 @@
         "Nico Gonz\u00e1lez",
         "Sven Botman",
         "Yoane Wissa"
-      ]
-    },
-    "Nott'm Forest|Crystal Palace v Nott'm Forest": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Dan Ndoye",
-        "Daniel Mu\u00f1oz",
-        "James McAtee",
-        "Liam Delap",
-        "Matz Sels",
-        "Morgan Gibbs-White",
-        "Murillo",
-        "Neco Williams",
-        "Ola Aina",
-        "Ousmane Diomande",
-        "Xaver Schlager"
       ]
     },
     "Nott'm Forest|Ipswich v Nott'm Forest": {
@@ -594,7 +594,7 @@
       ]
     },
     "Sunderland|Sunderland v Leeds": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Brian Brobbey",
         "Chris Rigg",
