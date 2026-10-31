@@ -1,0 +1,118 @@
+{
+ "fixture": "Hull v Ipswich",
+ "kickoff": "2026-10-31T15:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-31T12:10:55+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 40.53,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Davis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 9
+      },
+      {
+       "player": "Tzolakis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 7
+      },
+      {
+       "player": "McBurnie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 7
+      },
+      {
+       "player": "Slater",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 7
+      },
+      {
+       "player": "Coyle",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 6
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-31T13:55:16+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 7.52,
+     "outOf100": 13,
+     "houseOutOf100": 13,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "McBurnie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 74,
+       "backers": 8
+      },
+      {
+       "player": "Davis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 60,
+       "backers": 7
+      },
+      {
+       "player": "Mendy",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 61,
+       "backers": 5
+      },
+      {
+       "player": "Enciso",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 76,
+       "backers": 4
+      },
+      {
+       "player": "Iroegbunam",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 66,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}

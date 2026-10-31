@@ -1,0 +1,174 @@
+{
+ "fixture": "Tottenham v Crystal Palace",
+ "kickoff": "2026-10-31T17:30:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-10-31T12:10:55+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 49.96,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Udogie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 7
+      },
+      {
+       "player": "Hughes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 45,
+       "backers": 6
+      },
+      {
+       "player": "Senesi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 5
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 38,
+       "backers": 5
+      },
+      {
+       "player": "Tonali",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-10-31T13:55:16+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 49.97,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Udogie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 7
+      },
+      {
+       "player": "Hughes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 45,
+       "backers": 6
+      },
+      {
+       "player": "Senesi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 5
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 38,
+       "backers": 5
+      },
+      {
+       "player": "Tonali",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-10-31T16:25:17+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 12.51,
+     "outOf100": 8,
+     "houseOutOf100": 8,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Wharton",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 69,
+       "backers": 6
+      },
+      {
+       "player": "Kudus",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 51,
+       "backers": 6
+      },
+      {
+       "player": "Tonali",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 47,
+       "backers": 6
+      },
+      {
+       "player": "Kamada",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 66,
+       "backers": 5
+      },
+      {
+       "player": "Marmoush",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 73,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
+  }
+ ]
+}
