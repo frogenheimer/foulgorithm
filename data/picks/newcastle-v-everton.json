@@ -113,6 +113,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 3,
+   "publishedAt": "2026-11-01T15:25:14+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 24.13,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Tarkowski",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 56,
+       "backers": 9
+      },
+      {
+       "player": "N\u00f8rgaard",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 63,
+       "backers": 8
+      },
+      {
+       "player": "Sch\u00e4r",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 51,
+       "backers": 8
+      },
+      {
+       "player": "Wissa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 63,
+       "backers": 6
+      },
+      {
+       "player": "Dibling",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 36,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }

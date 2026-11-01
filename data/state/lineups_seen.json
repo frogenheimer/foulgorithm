@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-31T18:56:55.935206+00:00",
+  "checkedAt": "2026-11-01T15:26:50.084164+00:00",
   "lineups": {
     "Arsenal|Arsenal v Everton": {
       "formation": "4-2-3-1",
@@ -17,24 +17,24 @@
         "Viktor Gy\u00f6keres"
       ]
     },
-    "Arsenal|Nott'm Forest v Arsenal": {
-      "formation": "4-2-3-1",
+    "Arsenal|Liverpool v Arsenal": {
+      "formation": null,
       "starters": [
-        "Ben White",
         "Bruno Guimar\u00e3es",
-        "Bukayo Saka",
+        "Christos Tzolis",
         "David Raya",
         "Declan Rice",
-        "Eberechi Eze",
         "Ezri Konsa",
         "Gabriel Magalh\u00e3es",
+        "Jurri\u00ebn Timber",
         "Kai Havertz",
         "Martin \u00d8degaard",
+        "Noni Madueke",
         "Riccardo Calafiori"
       ]
     },
     "Aston Villa|Aston Villa v Fulham": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Alysson",
         "Boubacar Kamara",
@@ -290,7 +290,7 @@
       ]
     },
     "Fulham|Aston Villa v Fulham": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Alex Iwobi",
         "Antonee Robinson",
@@ -415,6 +415,22 @@
         "James Trafford",
         "Jayden Bogle",
         "Tarik Muharemovic"
+      ]
+    },
+    "Liverpool|Liverpool v Arsenal": {
+      "formation": null,
+      "starters": [
+        "Alexander Isak",
+        "Alexis Mac Allister",
+        "Alisson Becker",
+        "Bradley Barcola",
+        "Cody Gakpo",
+        "Florian Wirtz",
+        "J\u00e9r\u00e9my Jacquet",
+        "Milos Kerkez",
+        "Ronald Araujo",
+        "Trey Nyoni",
+        "Virgil van Dijk"
       ]
     },
     "Liverpool|Liverpool v Brighton": {
@@ -542,22 +558,6 @@
         "Murillo",
         "Neco Williams",
         "Nikola Milenkovic",
-        "Xaver Schlager"
-      ]
-    },
-    "Nott'm Forest|Nott'm Forest v Arsenal": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Dan Ndoye",
-        "Daniel Mu\u00f1oz",
-        "Jair Cunha",
-        "James McAtee",
-        "Liam Delap",
-        "Matz Sels",
-        "Murillo",
-        "Neco Williams",
-        "Nicol\u00e1s Dom\u00ednguez",
-        "Ousmane Diomande",
         "Xaver Schlager"
       ]
     },
