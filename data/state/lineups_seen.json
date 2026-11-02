@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-01T15:26:50.084164+00:00",
+  "checkedAt": "2026-11-02T18:58:12.017988+00:00",
   "lineups": {
     "Arsenal|Arsenal v Everton": {
       "formation": "4-2-3-1",
@@ -18,7 +18,7 @@
       ]
     },
     "Arsenal|Liverpool v Arsenal": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Bruno Guimar\u00e3es",
         "Christos Tzolis",
@@ -225,22 +225,6 @@
         "Yann Gboho"
       ]
     },
-    "Coventry|Tottenham v Coventry": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Bobby Thomas",
-        "Brandon Thomas-Asante",
-        "Caleb Yirenkyi",
-        "Carl Rushworth",
-        "Ethan Pinnock",
-        "Jack Rudoni",
-        "Jay Dasilva",
-        "Matt Grimes",
-        "Milan van Ewijk",
-        "Sidiki Cherif",
-        "Tatsuhiro Sakamoto"
-      ]
-    },
     "Crystal Palace|Crystal Palace v Newcastle": {
       "formation": "3-4-2-1",
       "starters": [
@@ -281,6 +265,22 @@
         "Jake O'Brien",
         "James Garner",
         "James Tarkowski",
+        "Jordan Pickford",
+        "Kiernan Dewsbury-Hall",
+        "Merlin R\u00f6hl",
+        "Thierno Barry",
+        "Tyrique George",
+        "Vitalii Mykolenko"
+      ]
+    },
+    "Everton|Newcastle v Everton": {
+      "formation": null,
+      "starters": [
+        "Harrison Armstrong",
+        "Jake O'Brien",
+        "James Garner",
+        "James Tarkowski",
+        "Jarrad Branthwaite",
         "Jordan Pickford",
         "Kiernan Dewsbury-Hall",
         "Merlin R\u00f6hl",
@@ -418,7 +418,7 @@
       ]
     },
     "Liverpool|Liverpool v Arsenal": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Alexander Isak",
         "Alexis Mac Allister",
@@ -529,6 +529,22 @@
         "William Osula"
       ]
     },
+    "Newcastle|Newcastle v Everton": {
+      "formation": null,
+      "starters": [
+        "Amar Dedic",
+        "Anthony Elanga",
+        "Dan Burn",
+        "Fabian Sch\u00e4r",
+        "Harvey Barnes",
+        "Joe Willock",
+        "Joelinton",
+        "Lewis Hall",
+        "Luk\u00e1s Horn\u00edcek",
+        "Nico Gonz\u00e1lez",
+        "William Osula"
+      ]
+    },
     "Nott'm Forest|Brentford v Nott'm Forest": {
       "formation": "3-4-2-1",
       "starters": [
@@ -607,22 +623,6 @@
         "Mohammed Kudus",
         "Omar Marmoush",
         "Sandro Tonali"
-      ]
-    },
-    "Tottenham|Tottenham v Coventry": {
-      "formation": "3-1-4-2",
-      "starters": [
-        "Andy Robertson",
-        "Anton\u00edn Kinsky",
-        "Archie Gray",
-        "Dominic Solanke",
-        "James Maddison",
-        "Jan Paul van Hecke",
-        "Micky van de Ven",
-        "Mohammed Kudus",
-        "Omar Marmoush",
-        "Sandro Tonali",
-        "Tosin Adarabioyo"
       ]
     },
     "Tottenham|Tottenham v Crystal Palace": {

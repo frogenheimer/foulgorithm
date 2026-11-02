@@ -169,6 +169,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 4,
+   "publishedAt": "2026-11-02T18:55:21+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 195.8,
+     "outOf100": 1,
+     "houseOutOf100": 1,
+     "totalFouls": 9,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Osula",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 52,
+       "backers": 7
+      },
+      {
+       "player": "George",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 39,
+       "backers": 7
+      },
+      {
+       "player": "Joelinton",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 43,
+       "backers": 6
+      },
+      {
+       "player": "Dewsbury-Hall",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 25,
+       "backers": 4
+      },
+      {
+       "player": "R\u00f6hl",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 23,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }
