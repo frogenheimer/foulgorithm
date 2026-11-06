@@ -1,0 +1,62 @@
+{
+ "fixture": "Ipswich v Bournemouth",
+ "kickoff": "2026-11-08T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-11-06T18:55:18+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 24.34,
+     "outOf100": 4,
+     "houseOutOf100": 4,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Davis",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 55,
+       "backers": 7
+      },
+      {
+       "player": "Luki\u0107",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 49,
+       "backers": 7
+      },
+      {
+       "player": "Truffert",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 52,
+       "backers": 6
+      },
+      {
+       "player": "Christie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 58,
+       "backers": 5
+      },
+      {
+       "player": "Emersonn",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "fixture": "Crystal Palace v Liverpool",
+ "kickoff": "2026-11-08T14:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-11-06T18:55:18+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 34.85,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 7,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Gakpo",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 40,
+       "backers": 8
+      },
+      {
+       "player": "Hughes",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 39,
+       "backers": 7
+      },
+      {
+       "player": "Mac Allister",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 60,
+       "backers": 6
+      },
+      {
+       "player": "Kerkez",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 52,
+       "backers": 6
+      },
+      {
+       "player": "Hughes",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 59,
+       "backers": 3
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

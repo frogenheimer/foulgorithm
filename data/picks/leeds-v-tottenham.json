@@ -1,0 +1,62 @@
+{
+ "fixture": "Leeds v Tottenham",
+ "kickoff": "2026-11-07T12:30:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-11-06T18:55:18+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 48.97,
+     "outOf100": 2,
+     "houseOutOf100": 2,
+     "totalFouls": 8,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Udogie",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 54,
+       "backers": 8
+      },
+      {
+       "player": "Senesi",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 57,
+       "backers": 5
+      },
+      {
+       "player": "Tonali",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 4
+      },
+      {
+       "player": "Wilson",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 41,
+       "backers": 4
+      },
+      {
+       "player": "Gallagher",
+       "fouls": 2,
+       "market": "drawn",
+       "outOf100": 39,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

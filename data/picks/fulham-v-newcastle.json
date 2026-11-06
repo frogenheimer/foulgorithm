@@ -1,0 +1,62 @@
+{
+ "fixture": "Fulham v Newcastle",
+ "kickoff": "2026-11-07T15:00:00+00:00",
+ "versions": [
+  {
+   "version": 1,
+   "publishedAt": "2026-11-06T18:55:18+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 14.36,
+     "outOf100": 7,
+     "houseOutOf100": 7,
+     "totalFouls": 5,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Andersen",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 55,
+       "backers": 9
+      },
+      {
+       "player": "Wissa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 64,
+       "backers": 7
+      },
+      {
+       "player": "Berge",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 61,
+       "backers": 7
+      },
+      {
+       "player": "Tete",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 60,
+       "backers": 7
+      },
+      {
+       "player": "Elanga",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-02T18:58:12.017988+00:00",
+  "checkedAt": "2026-11-06T18:58:35.730325+00:00",
   "lineups": {
     "Arsenal|Arsenal v Everton": {
       "formation": "4-2-3-1",
@@ -225,6 +225,22 @@
         "Yann Gboho"
       ]
     },
+    "Coventry|Everton v Coventry": {
+      "formation": null,
+      "starters": [
+        "Caleb Yirenkyi",
+        "Carl Rushworth",
+        "Ethan Pinnock",
+        "Jack Rudoni",
+        "Jay Dasilva",
+        "Milan van Ewijk",
+        "Stephen Mfuni",
+        "Taiwo Awoniyi",
+        "Tatsuhiro Sakamoto",
+        "Victor Torp",
+        "Yann Gboho"
+      ]
+    },
     "Crystal Palace|Crystal Palace v Newcastle": {
       "formation": "3-4-2-1",
       "starters": [
@@ -273,8 +289,24 @@
         "Vitalii Mykolenko"
       ]
     },
-    "Everton|Newcastle v Everton": {
+    "Everton|Everton v Coventry": {
       "formation": null,
+      "starters": [
+        "Harrison Armstrong",
+        "James Garner",
+        "James Tarkowski",
+        "Jarrad Branthwaite",
+        "Jordan Pickford",
+        "Kiernan Dewsbury-Hall",
+        "Merlin R\u00f6hl",
+        "Thierno Barry",
+        "Tyler Dibling",
+        "Tyrique George",
+        "Vitalii Mykolenko"
+      ]
+    },
+    "Everton|Newcastle v Everton": {
+      "formation": "4-2-3-1",
       "starters": [
         "Harrison Armstrong",
         "Jake O'Brien",
@@ -354,22 +386,6 @@
       ]
     },
     "Ipswich|Hull v Ipswich": {
-      "formation": "4-2-3-1",
-      "starters": [
-        "Abdoul Ouattara",
-        "Abdul Fatawu",
-        "Christian Walton",
-        "Dara O'Shea",
-        "Emersonn",
-        "Exequiel Palacios",
-        "Florentino",
-        "Issa Diop",
-        "Jaden Philogene",
-        "Julio Enciso",
-        "Leif Davis"
-      ]
-    },
-    "Ipswich|Ipswich v Nott'm Forest": {
       "formation": "4-2-3-1",
       "starters": [
         "Abdoul Ouattara",
@@ -530,7 +546,7 @@
       ]
     },
     "Newcastle|Newcastle v Everton": {
-      "formation": null,
+      "formation": "4-2-3-1",
       "starters": [
         "Amar Dedic",
         "Anthony Elanga",
@@ -558,22 +574,6 @@
         "Neco Williams",
         "Nikola Milenkovic",
         "Ola Aina",
-        "Xaver Schlager"
-      ]
-    },
-    "Nott'm Forest|Ipswich v Nott'm Forest": {
-      "formation": "3-4-2-1",
-      "starters": [
-        "Dan Ndoye",
-        "Daniel Mu\u00f1oz",
-        "Jair Cunha",
-        "James McAtee",
-        "Liam Delap",
-        "Matz Sels",
-        "Morgan Gibbs-White",
-        "Murillo",
-        "Neco Williams",
-        "Nikola Milenkovic",
         "Xaver Schlager"
       ]
     },
