@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-11-07T13:55:18+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 10.62,
+     "outOf100": 9,
+     "houseOutOf100": 9,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Bobb",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 75,
+       "backers": 6
+      },
+      {
+       "player": "Bassey",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 50,
+       "backers": 6
+      },
+      {
+       "player": "Osula",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 47,
+       "backers": 6
+      },
+      {
+       "player": "Wissa",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 75,
+       "backers": 5
+      },
+      {
+       "player": "Berge",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 71,
+       "backers": 5
+      }
+     ],
+     "lineupsConfirmed": true
+    }
+   ]
   }
  ]
 }

@@ -57,6 +57,62 @@
      "lineupsConfirmed": false
     }
    ]
+  },
+  {
+   "version": 2,
+   "publishedAt": "2026-11-07T13:55:18+00:00",
+   "options": [
+    {
+     "band": "Consensus",
+     "character": "consensus",
+     "characterName": "The five",
+     "tier": "",
+     "odds": 35.97,
+     "outOf100": 3,
+     "houseOutOf100": 3,
+     "totalFouls": 6,
+     "gap": 0.0,
+     "backers": 11,
+     "legs": [
+      {
+       "player": "Colwill",
+       "fouls": 1,
+       "market": "committed",
+       "outOf100": 54,
+       "backers": 9
+      },
+      {
+       "player": "Fofana",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 49,
+       "backers": 7
+      },
+      {
+       "player": "Rogers",
+       "fouls": 2,
+       "market": "committed",
+       "outOf100": 36,
+       "backers": 6
+      },
+      {
+       "player": "Reinildo",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 53,
+       "backers": 5
+      },
+      {
+       "player": "Xhaka",
+       "fouls": 1,
+       "market": "drawn",
+       "outOf100": 56,
+       "backers": 4
+      }
+     ],
+     "lineupsConfirmed": false
+    }
+   ]
   }
  ]
 }
